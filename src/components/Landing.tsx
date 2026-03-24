@@ -149,8 +149,8 @@ export default function Landing() {
   return (
     <main className="font-reddit overflow-x-hidden">
 
-      {/* ═══ HERO BANNER — compact, gradient, interactive bg ═══ */}
-      <section className="relative overflow-hidden" style={{ height: '50vh', minHeight: 300 }}>
+      {/* ═══ HERO BANNER — compact, bottom edge meets arrow tips ═══ */}
+      <section className="relative overflow-hidden" style={{ height: '35vh', minHeight: 220 }}>
         <InteractiveBg />
         <div className="relative z-10 h-full flex items-center justify-center">
           <Reveal from="top" delay={0.2}>
@@ -170,17 +170,17 @@ export default function Landing() {
         <div className="max-w-[960px] mx-auto px-6 relative" style={{ paddingBottom: 40 }}>
           {/* Grid: Arrow 1 left + Arrow 2 right */}
           <div className="grid grid-cols-2 gap-x-4 items-start">
-            {/* Arrow 1 — left, pulled up into banner */}
+            {/* Arrow 1 — left, tip reaches into banner */}
             <Reveal from="bottom" delay={0.3}>
-              <div style={{ marginTop: -80 }}>
+              <div style={{ marginTop: -120 }}>
                 <Image src="/images/1.svg" alt="Testimonial - Anup Singh"
                   width={400} height={510} className="w-full h-auto" />
               </div>
             </Reveal>
 
-            {/* Arrow 2 — right, pulled up less, overlapping Arrow 1 */}
+            {/* Arrow 2 — right, tip reaches into banner, overlapping Arrow 1 */}
             <Reveal from="bottom" delay={0.7}>
-              <div style={{ marginTop: 20 }}>
+              <div style={{ marginTop: -40 }}>
                 <Image src="/images/2.svg" alt="Testimonial - Dr. Sherman Tran"
                   width={400} height={520} className="w-full h-auto" />
               </div>
