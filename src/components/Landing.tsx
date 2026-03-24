@@ -19,8 +19,8 @@ function useReveal(threshold = 0.2) {
   return [ref, v] as const
 }
 
-function Reveal({ children, delay = 0, from = 'bottom', className = '' }: {
-  children: React.ReactNode; delay?: number; from?: string; className?: string
+function Reveal({ children, delay = 0, from = 'bottom', className = '', style = {} }: {
+  children: React.ReactNode; delay?: number; from?: string; className?: string; style?: React.CSSProperties
 }) {
   const [ref, v] = useReveal()
   const t: Record<string, string> = {
@@ -29,6 +29,7 @@ function Reveal({ children, delay = 0, from = 'bottom', className = '' }: {
   }
   return (
     <div ref={ref} className={className} style={{
+      ...style,
       opacity: v ? 1 : 0, transform: v ? 'none' : t[from] || t.bottom,
       transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${delay}s`,
     }}>{children}</div>
