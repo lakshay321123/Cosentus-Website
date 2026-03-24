@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 
+/* ─── Reveal ─── */
 function useReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null)
   const [v, setV] = useState(false)
@@ -52,59 +53,165 @@ function Counter({ end, suffix }: { end: number; suffix: string }) {
   return <span ref={ref}>{c}{suffix}</span>
 }
 
+/* ─── Interactive 3D Background ─── */
+function InteractiveBg() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mouseRef = useRef({ x: 0.5, y: 0.5 })
+  const imgRef = useRef<HTMLImageElement | null>(null)
+  const frameRef = useRef<number>(0)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const img = new window.Image()
+    img.crossOrigin = 'anonymous'
+    img.src = '/images/hero-bg.jpg'
+    imgRef.current = img
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * Math.min(window.devicePixelRatio, 2)
+      canvas.height = canvas.offsetHeight * Math.min(window.devicePixelRatio, 2)
+    }
+
+    const handleMouse = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseRef.current = {
+        x: (e.clientX - rect.left) / rect.width,
+        y: (e.clientY - rect.top) / rect.height,
+      }
+    }
+
+    let time = 0
+    const draw = () => {
+      if (!ctx || !imgRef.current?.complete) {
+        frameRef.current = requestAnimationFrame(draw)
+        return
+      }
+      time += 0.008
+      const w = canvas.width
+      const h = canvas.height
+      const mx = mouseRef.current.x
+      const my = mouseRef.current.y
+
+      // Draw base image with slight offset based on mouse
+      const offsetX = (mx - 0.5) * 40
+      const offsetY = (my - 0.5) * 30
+      ctx.drawImage(imgRef.current, -20 + offsetX, -20 + offsetY, w + 40, h + 40)
+
+      // Radial glow that follows mouse
+      const gx = mx * w
+      const gy = my * h
+      const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, w * 0.45)
+      grad.addColorStop(0, 'rgba(0, 220, 240, 0.12)')
+      grad.addColorStop(0.4, 'rgba(0, 181, 214, 0.06)')
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+      ctx.fillStyle = grad
+      ctx.fillRect(0, 0, w, h)
+
+      // Subtle animated wave overlay
+      ctx.save()
+      ctx.globalAlpha = 0.04
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath()
+        const phase = time * (1 + i * 0.3) + mx * 2
+        for (let x = 0; x <= w; x += 4) {
+          const y = h * 0.5 + Math.sin(x * 0.003 + phase) * (50 + i * 20) + (my - 0.5) * 60
+          if (x === 0) ctx.moveTo(x, y)
+          else ctx.lineTo(x, y)
+        }
+        ctx.lineTo(w, h)
+        ctx.lineTo(0, h)
+        ctx.closePath()
+        ctx.fillStyle = i === 0 ? '#00B5D6' : i === 1 ? '#36C2DE' : '#68D1E6'
+        ctx.fill()
+      }
+      ctx.restore()
+
+      frameRef.current = requestAnimationFrame(draw)
+    }
+
+    img.onload = () => {
+      resize()
+      draw()
+    }
+
+    window.addEventListener('resize', resize)
+    canvas.addEventListener('mousemove', handleMouse)
+    resize()
+
+    return () => {
+      cancelAnimationFrame(frameRef.current)
+      window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', handleMouse)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full"
+      style={{ display: 'block' }}
+    />
+  )
+}
+
+/* ═══ MAIN ═══ */
 export default function Landing() {
   return (
     <main className="font-reddit overflow-x-hidden">
 
-      {/* ═══ HERO + TESTIMONIALS — ONE continuous section on gradient bg ═══ */}
-      <section className="relative overflow-hidden">
-        {/* Gradient background covering entire section */}
-        <div className="absolute inset-0">
-          <Image src="/images/hero-bg.jpg" alt="" fill className="object-cover object-top" priority />
-        </div>
-
-        <div className="relative z-10">
-          {/* THINK GROWTH */}
+      {/* ═══ HERO — compact ~50vh with interactive 3D bg ═══ */}
+      <section className="relative overflow-hidden" style={{ height: '50vh', minHeight: 320 }}>
+        <InteractiveBg />
+        <div className="relative z-10 h-full flex items-center justify-center">
           <Reveal from="top" delay={0.2}>
-            <h1 className="text-center" style={{
-              padding: '56px 40px 16px',
+            <h1 style={{
               fontWeight: 800, fontStyle: 'italic',
               fontSize: 42, color: '#FFFFFF',
-              letterSpacing: -1, lineHeight: 1,
+              letterSpacing: -1, lineHeight: 1, textAlign: 'center',
             }}>
               THINK GROWTH
             </h1>
           </Reveal>
+        </div>
+      </section>
 
-          {/* All 3 testimonials — tight, overlapping, on the gradient bg */}
-          <div className="max-w-[960px] mx-auto px-6 relative" style={{ paddingBottom: 40 }}>
-            {/* Row: Testimonial 1 (left ~38%) + Testimonial 2 (right ~38%, offset down) */}
-            <div className="grid grid-cols-2 gap-x-6 items-start">
-              {/* Testimonial 1 — left */}
-              <Reveal from="bottom" delay={0.5}>
-                <div style={{ width: '90%' }}>
-                  <Image src="/images/1.svg" alt="Testimonial - Anup Singh"
-                    width={400} height={510} className="w-full h-auto" />
-                </div>
-              </Reveal>
+      {/* ═══ TESTIMONIALS — overlapping arrows on gradient bg ═══ */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/hero-bg.jpg" alt="" fill className="object-cover" />
+        </div>
 
-              {/* Testimonial 2 — right, offset down */}
-              <Reveal from="bottom" delay={0.9}>
-                <div style={{ width: '90%', marginLeft: 'auto', marginTop: 80 }}>
-                  <Image src="/images/2.svg" alt="Testimonial - Dr. Sherman Tran"
-                    width={400} height={520} className="w-full h-auto" />
-                </div>
-              </Reveal>
-            </div>
+        <div className="relative z-10 max-w-[960px] mx-auto px-6" style={{ paddingTop: 20, paddingBottom: 40 }}>
+          {/* Row: Arrow 1 left + Arrow 2 right, overlapping */}
+          <div className="relative">
+            {/* Testimonial 1 — left, ~40% width */}
+            <Reveal from="bottom" delay={0.3}>
+              <div style={{ width: '42%', position: 'relative', zIndex: 2 }}>
+                <Image src="/images/1.svg" alt="Testimonial - Anup Singh"
+                  width={400} height={510} className="w-full h-auto" />
+              </div>
+            </Reveal>
 
-            {/* Testimonial 3 — overlapping, center-left */}
-            <Reveal from="bottom" delay={1.2}>
-              <div style={{ width: '42%', marginLeft: '10%', marginTop: -60 }}>
-                <Image src="/images/3.svg" alt="Testimonial - Dr. Murakami"
-                  width={380} height={440} className="w-full h-auto" />
+            {/* Testimonial 2 — right, overlapping, offset up */}
+            <Reveal from="bottom" delay={0.6}>
+              <div style={{ width: '42%', marginLeft: 'auto', marginTop: -280, position: 'relative', zIndex: 1 }}>
+                <Image src="/images/2.svg" alt="Testimonial - Dr. Sherman Tran"
+                  width={400} height={520} className="w-full h-auto" />
               </div>
             </Reveal>
           </div>
+
+          {/* Testimonial 3 — center-left, overlapping both */}
+          <Reveal from="bottom" delay={0.9}>
+            <div style={{ width: '40%', marginLeft: '12%', marginTop: -180, position: 'relative', zIndex: 3 }}>
+              <Image src="/images/3.svg" alt="Testimonial - Dr. Murakami"
+                width={380} height={440} className="w-full h-auto" />
+            </div>
+          </Reveal>
         </div>
       </section>
 
