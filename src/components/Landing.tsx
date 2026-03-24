@@ -150,7 +150,7 @@ export default function Landing() {
     <main className="font-reddit overflow-x-hidden">
 
       {/* ═══ HERO BANNER — gradient extends down to arrow tips ═══ */}
-      <section className="relative overflow-hidden" style={{ height: '55vh', minHeight: 380 }}>
+      <section className="relative overflow-hidden" style={{ height: '70vh', minHeight: 480 }}>
         <InteractiveBg />
         <div className="relative z-10 h-full flex items-center justify-center">
           <Reveal from="top" delay={0.2}>
