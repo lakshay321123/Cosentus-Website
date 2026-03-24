@@ -126,12 +126,11 @@ function InteractiveBg() {
 }
 
 /*
-  Layout from editor JSON (canvas 800px wide, scaled 1.2x to 960px content):
-  - Hero bg: y=0..250 → 0..300px
-  - Arrow 1: x=15.1%, y=157px, w=37.5%, h=456px
-  - Arrow 2: x=48.1%, y=320px, w=37.5%, h=456px
-  - Arrow 3: x=15.5%, y=536px, w=35%, h=408px
-  - Total hero+testimonials container: ~950px
+  Layout matched to CorelDRAW PDF:
+  - Gradient bg top ~300px, white below
+  - 3 overlapping arrows: 1 front z=30, 2 middle z=20, 3 back z=10
+  - Arrows cascade top-left → center-right → bottom-left
+  - Arrow tips touch the gradient/white boundary
 */
 
 export default function Landing() {
@@ -141,49 +140,49 @@ export default function Landing() {
     <main className="font-reddit overflow-x-hidden">
 
       {/* ═══ HERO + TESTIMONIALS as one positioned container ═══ */}
-      <section className="relative" style={{ height: 787 * S }}>
-        {/* Gradient background — only covers top 300px */}
-        <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ height: 250 * S }}>
+      <section className="relative" style={{ height: 820 * S }}>
+        {/* Gradient background — covers top ~300px */}
+        <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ height: 260 * S }}>
           <InteractiveBg />
         </div>
 
         {/* White background — covers the rest */}
-        <div className="absolute left-0 right-0 bg-white" style={{ top: 250 * S, bottom: 0 }} />
+        <div className="absolute left-0 right-0 bg-white" style={{ top: 260 * S, bottom: 0 }} />
 
-        {/* Content positioned absolutely using editor coordinates */}
+        {/* Content positioned absolutely matching PDF layout */}
         <div className="relative z-10 max-w-[960px] mx-auto" style={{ height: '100%' }}>
           {/* THINK GROWTH */}
           <Reveal from="top" delay={0.2}>
-            <div className="absolute" style={{ left: '25.25%', top: 70 * S, width: '50%', height: 60 * S }}>
+            <div className="absolute" style={{ left: '20%', top: 55 * S, width: '60%' }}>
               <h1 className="text-center w-full" style={{
                 fontWeight: 800, fontStyle: 'italic',
-                fontSize: 42, color: '#FFFFFF',
-                letterSpacing: -1, lineHeight: 1,
+                fontSize: 48, color: '#FFFFFF',
+                letterSpacing: -1.5, lineHeight: 1,
               }}>
                 THINK GROWTH
               </h1>
             </div>
           </Reveal>
 
-          {/* Arrow 1 (Anup Singh) */}
+          {/* Arrow 1 (Anup Singh) — FRONT, top-left */}
           <Reveal from="bottom" delay={0.5}>
-            <div className="absolute" style={{ left: '15.1%', top: 131 * S, width: '37.5%' }}>
+            <div className="absolute" style={{ left: '5%', top: 115 * S, width: '40%', zIndex: 30 }}>
               <Image src="/images/1.svg" alt="Testimonial - Anup Singh"
                 width={300} height={380} className="w-full h-auto" />
             </div>
           </Reveal>
 
-          {/* Arrow 2 (Dr. Sherman Tran) */}
+          {/* Arrow 2 (Dr. Sherman Tran) — MIDDLE, center-right */}
           <Reveal from="bottom" delay={0.8}>
-            <div className="absolute" style={{ left: '48.1%', top: 267 * S, width: '37.5%' }}>
+            <div className="absolute" style={{ left: '45%', top: 240 * S, width: '40%', zIndex: 20 }}>
               <Image src="/images/2.svg" alt="Testimonial - Dr. Sherman Tran"
                 width={300} height={380} className="w-full h-auto" />
             </div>
           </Reveal>
 
-          {/* Arrow 3 (Dr. Murakami) */}
+          {/* Arrow 3 (Dr. Murakami) — BACK, bottom-left */}
           <Reveal from="bottom" delay={1.1}>
-            <div className="absolute" style={{ left: '15.5%', top: 447 * S, width: '35%' }}>
+            <div className="absolute" style={{ left: '8%', top: 420 * S, width: '38%', zIndex: 10 }}>
               <Image src="/images/3.svg" alt="Testimonial - Dr. Murakami"
                 width={280} height={340} className="w-full h-auto" />
             </div>
@@ -192,24 +191,24 @@ export default function Landing() {
       </section>
 
       {/* ═══ DNA + ROLES ═══ */}
-      <section className="flex" style={{ background: '#00B5D6', height: 340 * S }}>
-        <Reveal from="left" delay={0.2} className="relative" style={{ width: '45%', minHeight: 340 * S }}>
+      <section className="flex" style={{ background: '#00B5D6', minHeight: 380 * S }}>
+        <Reveal from="left" delay={0.2} className="relative" style={{ width: '42%', minHeight: 380 * S }}>
           <Image src="/images/dna-helix.jpg" alt="DNA Helix" fill className="object-cover" />
         </Reveal>
-        <div className="flex flex-col justify-center" style={{ width: '55%', padding: `${20 * S}px ${48}px` }}>
+        <div className="flex flex-col justify-center" style={{ width: '58%', padding: `${28 * S}px ${48}px` }}>
           <Reveal from="right" delay={0.4}>
             <p className="text-white" style={{
-              fontSize: 22, fontWeight: 400, fontStyle: 'italic',
-              lineHeight: 1.45, marginBottom: 36,
+              fontSize: 21, fontWeight: 400, fontStyle: 'italic',
+              lineHeight: 1.5, marginBottom: 32,
             }}>
-              Running a practice on your own, you take on many hats beyond clinical care - from strategy to operations - you do it all.
+              Running a practice on your own, you take on many hats beyond clinical care &ndash; from strategy to operations &ndash; you do it all.
             </p>
           </Reveal>
           {['Book Keeper', 'Marketing Guru', 'Strategic Thinker', 'Tech Expert', 'Billing Expert', 'Office Admin', 'People Manager'].map((r, i) => (
             <Reveal key={r} from="right" delay={0.55 + i * 0.1}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-2 h-2 rounded-full bg-white shrink-0" />
-                <span className="text-white" style={{ fontSize: 16, fontWeight: 400 }}>{r}</span>
+              <div className="flex items-center gap-3" style={{ marginBottom: 14 }}>
+                <div className="shrink-0" style={{ width: 8, height: 8, borderRadius: '50%', background: '#FFFFFF' }} />
+                <span className="text-white" style={{ fontSize: 17, fontWeight: 400 }}>{r}</span>
               </div>
             </Reveal>
           ))}
@@ -225,46 +224,46 @@ export default function Landing() {
       </div>
 
       {/* ═══ RESULTS ═══ */}
-      <section className="bg-white" style={{ padding: `${15 * S}px 60px ${44}px` }}>
+      <section className="bg-white" style={{ padding: `${20 * S}px 60px ${48}px` }}>
         <Reveal from="scale">
-          <h2 className="text-center" style={{ fontSize: 22, fontWeight: 500, color: '#000000', marginBottom: 32 }}>
+          <h2 className="text-center" style={{ fontSize: 22, fontWeight: 600, color: '#000000', marginBottom: 36 }}>
             Results you have never seen before!
           </h2>
         </Reveal>
 
-        <div className="max-w-[600px] mx-auto">
+        <div className="max-w-[560px] mx-auto">
           <Reveal from="bottom" delay={0.1}>
-            <div className="flex items-center justify-between mb-5">
-              <div style={{ flex: '0 0 48%' }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
+              <div style={{ flex: '0 0 50%' }}>
                 <Image src="/images/4a.svg" alt="98.5% Coding Accuracy" width={280} height={114} className="w-full h-auto" />
               </div>
-              <div style={{ flex: '0 0 38%' }}>
+              <div style={{ flex: '0 0 40%' }}>
                 <Image src="/images/4b.svg" alt="Patient Satisfaction" width={240} height={91} className="w-full h-auto" />
               </div>
             </div>
           </Reveal>
 
           <Reveal from="bottom" delay={0.25}>
-            <div className="flex items-center justify-between mb-5">
-              <div style={{ flex: '0 0 48%' }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
+              <div style={{ flex: '0 0 50%' }}>
                 <Image src="/images/5a.svg" alt="98% Net Collection Rate" width={280} height={97} className="w-full h-auto" />
               </div>
-              <div style={{ flex: '0 0 38%' }}>
+              <div style={{ flex: '0 0 40%' }}>
                 <Image src="/images/5b.svg" alt="Higher Collections" width={240} height={91} className="w-full h-auto" />
               </div>
             </div>
           </Reveal>
 
           <Reveal from="bottom" delay={0.4}>
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
               <div>
                 <div style={{ fontSize: 12, color: '#616161', fontWeight: 300 }}>Upto</div>
-                <div style={{ fontSize: 40, fontWeight: 800, color: '#000000', lineHeight: 1 }}>
+                <div style={{ fontSize: 42, fontWeight: 800, color: '#000000', lineHeight: 1 }}>
                   <Counter end={38} suffix="%" />
                 </div>
-                <div style={{ fontSize: 12, color: '#616161', fontWeight: 300, marginTop: 2 }}>Increased Revenue</div>
+                <div style={{ fontSize: 12, color: '#616161', fontWeight: 300, marginTop: 4 }}>Increased Revenue</div>
               </div>
-              <svg viewBox="0 0 180 72" width="130" height="52">
+              <svg viewBox="0 0 180 72" width="140" height="56">
                 <polygon points="90,0 180,72 0,72" fill="#00B5D6" />
                 <text x="90" y="44" textAnchor="middle" fill="#FFFFFF" fontSize="15" fontWeight="700" fontFamily="Reddit Sans,sans-serif">Improved</text>
                 <text x="90" y="62" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="400" fontFamily="Reddit Sans,sans-serif">Revenue</text>
@@ -274,11 +273,11 @@ export default function Landing() {
         </div>
 
         <Reveal from="bottom" delay={0.2}>
-          <div className="text-center" style={{ marginTop: 24 }}>
-            <p style={{ fontSize: 15, fontWeight: 400, color: '#000000', marginBottom: 12 }}>
+          <div className="text-center" style={{ marginTop: 28 }}>
+            <p style={{ fontSize: 15, fontWeight: 400, color: '#000000', marginBottom: 14 }}>
               Try our Collections Calculator to find out.
             </p>
-            <Image src="/images/6.svg" alt="Calculator" width={40} height={50} className="mx-auto" />
+            <Image src="/images/6.svg" alt="Calculator" width={48} height={56} className="mx-auto" />
           </div>
         </Reveal>
       </section>
@@ -291,18 +290,18 @@ export default function Landing() {
       </div>
 
       {/* ═══ ABOUT + SERVICES ═══ */}
-      <section className="text-center" style={{ background: '#00B5D6', padding: `${24}px 48px ${56}px` }}>
+      <section className="text-center" style={{ background: '#00B5D6', padding: `${28}px 48px ${60}px` }}>
         <Reveal from="bottom">
-          <p className="text-white mx-auto" style={{ fontSize: 12, lineHeight: 1.8, maxWidth: 600, marginBottom: 32 }}>
-            Cosentus pioneers in transforming Practice Management & Revenue Cycle Management with a comprehensive suite of solutions, including EHR and Practice Management Software. Emphasizing a technology-first approach, we ensure seamless integration for operational efficiency, enabling practitioners to focus on delivering exceptional healthcare.
+          <p className="text-white mx-auto" style={{ fontSize: 12, lineHeight: 1.85, maxWidth: 580, marginBottom: 36 }}>
+            Cosentus pioneers in transforming Practice Management &amp; Revenue Cycle Management with a comprehensive suite of solutions, including EHR and Practice Management Software. Emphasizing a technology-first approach, we ensure seamless integration for operational efficiency, enabling practitioners to focus on delivering exceptional healthcare.
           </p>
         </Reveal>
 
         <Reveal from="bottom" delay={0.1}>
-          <h2 className="text-white" style={{ fontSize: 17, fontWeight: 600, marginBottom: 32 }}>Our Services</h2>
+          <h2 className="text-white" style={{ fontSize: 18, fontWeight: 600, marginBottom: 36 }}>Our Services</h2>
         </Reveal>
 
-        <div className="flex justify-center" style={{ gap: 56 }}>
+        <div className="flex justify-center" style={{ gap: 64 }}>
           {[
             { label: 'Revenue Cycle\nManagement', img: '7a.svg' },
             { label: 'EHR & Practice\nManagement Software', img: '7b.svg' },
@@ -311,10 +310,10 @@ export default function Landing() {
             <Reveal key={i} from="bottom" delay={0.15 + i * 0.1}>
               <div className="text-center">
                 <div className="mx-auto mb-3 rounded-full border-[2px] border-white flex items-center justify-center overflow-hidden"
-                  style={{ width: 96, height: 96, background: '#00B5D6' }}>
-                  <Image src={`/images/${s.img}`} alt={s.label} width={60} height={60} />
+                  style={{ width: 100, height: 100, background: '#00B5D6' }}>
+                  <Image src={`/images/${s.img}`} alt={s.label} width={64} height={64} />
                 </div>
-                <p className="text-white whitespace-pre-line" style={{ fontSize: 11, fontWeight: 500, lineHeight: 1.35 }}>{s.label}</p>
+                <p className="text-white whitespace-pre-line" style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.4 }}>{s.label}</p>
               </div>
             </Reveal>
           ))}
@@ -322,14 +321,14 @@ export default function Landing() {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="relative text-center" style={{ height: 250 * S }}>
+      <section className="relative text-center" style={{ height: 280 * S }}>
         <Image src="/images/crowd-arrow.jpg" alt="" fill className="object-cover" style={{ objectPosition: 'center 55%' }} />
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-10">
           <Reveal from="bottom" delay={0.15}>
             <p className="mx-auto" style={{
               fontSize: 20, fontWeight: 500, color: '#000000',
-              lineHeight: 1.35, fontStyle: 'italic', maxWidth: 460, marginBottom: 24,
-              textShadow: '0 1px 6px rgba(255,255,255,0.8)',
+              lineHeight: 1.4, fontStyle: 'italic', maxWidth: 440, marginBottom: 24,
+              textShadow: '0 1px 8px rgba(255,255,255,0.85)',
             }}>
               Are you ready to grow your practice alike thousands of our successful clients?
             </p>
@@ -337,7 +336,7 @@ export default function Landing() {
           <Reveal from="scale" delay={0.35}>
             <a href="https://cosentus.com/contact-us/" target="_blank" rel="noopener noreferrer"
               className="inline-block text-white font-semibold"
-              style={{ background: '#00B5D6', padding: '12px 36px', borderRadius: 3, fontSize: 14 }}>
+              style={{ background: '#00B5D6', padding: '14px 40px', borderRadius: 3, fontSize: 14 }}>
               Get a Free Audit
             </a>
           </Reveal>
