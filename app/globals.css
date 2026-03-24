@@ -3,14 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Reddit Sans', sans-serif; background: #FFFFFF; color: #000000; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Reddit Sans', sans-serif;
+  background: #FFFFFF;
+  color: #000000;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-@keyframes shimmer { 0% { filter: brightness(1) hue-rotate(0deg); } 50% { filter: brightness(1.08) hue-rotate(5deg); } 100% { filter: brightness(1) hue-rotate(0deg); } }
-@keyframes bgPan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes walkDrift { 0% { background-position: center 60%; } 100% { background-position: center 55%; } }
-
-.hero-bg { animation: shimmer 8s ease-in-out infinite, bgPan 20s ease-in-out infinite; background-size: 120% 120%; }
-.crowd-bg { animation: walkDrift 12s ease-in-out infinite alternate; }
-.float-anim { animation: float 3s ease-in-out infinite; }
+img { max-width: 100%; height: auto; }
