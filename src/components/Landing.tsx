@@ -215,12 +215,13 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ═══ U-SHAPED WAVE — white curves UP into teal like a bowl ═══ */}
-      <div style={{ background: '#00B5D6' }}>
-        <svg viewBox="0 0 1440 240" preserveAspectRatio="none" className="w-full block" style={{ height: 160 }}>
-          {/* Teal fills top + sides, white U-shape cuts up from bottom center */}
-          <path d="M0,0 L1440,0 L1440,240 C1080,40 360,40 0,240 Z" fill="#00B5D6" />
-          <path d="M0,240 C360,40 1080,40 1440,240 Z" fill="#FFFFFF" />
+      {/* ═══ U-SHAPED WAVE — deep bowl: teal on sides, white scoops up from center ═══ */}
+      <div style={{ background: '#00B5D6', position: 'relative' }}>
+        <svg viewBox="0 0 1440 300" preserveAspectRatio="none" className="w-full block" style={{ height: 200 }}>
+          {/* Teal fills entire area */}
+          <rect x="0" y="0" width="1440" height="300" fill="#00B5D6" />
+          {/* White scoops up from bottom creating deep U/bowl */}
+          <path d="M0,300 L0,280 C0,280 200,60 720,60 C1240,60 1440,280 1440,280 L1440,300 Z" fill="#FFFFFF" />
         </svg>
       </div>
 
