@@ -141,13 +141,13 @@ export default function Landing() {
 
       {/* ═══ HERO + TESTIMONIALS as one positioned container ═══ */}
       <section className="relative" style={{ height: 820 * S }}>
-        {/* Gradient background — covers top ~300px */}
-        <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ height: 260 * S }}>
+        {/* Gradient background — covers top area */}
+        <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ height: 300 * S }}>
           <InteractiveBg />
         </div>
 
         {/* White background — covers the rest */}
-        <div className="absolute left-0 right-0 bg-white" style={{ top: 260 * S, bottom: 0 }} />
+        <div className="absolute left-0 right-0 bg-white" style={{ top: 300 * S, bottom: 0 }} />
 
         {/* Content positioned absolutely matching PDF layout */}
         <div className="relative z-10 max-w-[960px] mx-auto" style={{ height: '100%' }}>
@@ -191,11 +191,11 @@ export default function Landing() {
       </section>
 
       {/* ═══ DNA + ROLES ═══ */}
-      <section className="flex" style={{ background: '#00B5D6', minHeight: 380 * S }}>
-        <Reveal from="left" delay={0.2} className="relative" style={{ width: '42%', minHeight: 380 * S }}>
+      <section className="flex" style={{ background: '#00B5D6', minHeight: 600 }}>
+        <Reveal from="left" delay={0.2} className="relative" style={{ width: '42%', minHeight: 600 }}>
           <Image src="/images/dna-helix.jpg" alt="DNA Helix" fill className="object-cover" />
         </Reveal>
-        <div className="flex flex-col justify-center" style={{ width: '58%', padding: `${28 * S}px ${48}px` }}>
+        <div className="flex flex-col justify-center" style={{ width: '58%', padding: '60px 48px' }}>
           <Reveal from="right" delay={0.4}>
             <p className="text-white" style={{
               fontSize: 21, fontWeight: 400, fontStyle: 'italic',
@@ -215,11 +215,12 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ═══ U-SHAPED WAVE ═══ */}
+      {/* ═══ U-SHAPED WAVE — white curves UP into teal like a bowl ═══ */}
       <div style={{ background: '#00B5D6' }}>
-        <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="w-full block" style={{ height: 80 * S }}>
-          <path d="M0,0 L0,40 C360,200 1080,200 1440,40 L1440,0 Z" fill="#00B5D6" />
-          <path d="M0,40 C360,200 1080,200 1440,40 L1440,200 L0,200 Z" fill="#FFFFFF" />
+        <svg viewBox="0 0 1440 240" preserveAspectRatio="none" className="w-full block" style={{ height: 160 }}>
+          {/* Teal fills top + sides, white U-shape cuts up from bottom center */}
+          <path d="M0,0 L1440,0 L1440,240 C1080,40 360,40 0,240 Z" fill="#00B5D6" />
+          <path d="M0,240 C360,40 1080,40 1440,240 Z" fill="#FFFFFF" />
         </svg>
       </div>
 
