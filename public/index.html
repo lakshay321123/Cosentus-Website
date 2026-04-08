@@ -110,12 +110,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .nav.scrolled {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   padding: 10px 0;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
 }
 
 .nav-inner {
@@ -164,7 +164,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative;
 }
 
-.nav.scrolled .nav-links a { color: var(--gray-700); }
+.nav.scrolled .nav-links a { color: #000000; }
 .nav-links a:hover { color: var(--primary); }
 
 .nav-links a::after {
@@ -194,7 +194,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: none;
 }
 
-.nav.scrolled .nav-cta { color: var(--gray-700); }
+.nav.scrolled .nav-cta { color: #000000; }
 .nav-cta:hover { color: var(--primary); }
 
 /* Dropdown nav */
@@ -270,7 +270,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: var(--transition-base);
 }
 
-.nav.scrolled .nav-toggle span { background: var(--gray-700); }
+.nav.scrolled .nav-toggle span { background: #000000; }
 
 /* ===== HERO ===== */
 .hero {
@@ -879,9 +879,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .result-item:last-child { border-right: none; }
 
 .result-arrow {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 12px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
 }
 
 .result-number {
@@ -1508,33 +1508,33 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
     <div class="results-grid">
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag1" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="rgba(255,255,255,0.4)"/></linearGradient></defs><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)" rx="6"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-label" style="margin-bottom:4px;">Up to</div>
         <div class="result-number"><span class="counter" data-target="30" data-suffix="%">0</span></div>
         <div class="result-label">Revenue Growth</div>
       </div>
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><use href="#ag1"/><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-number"><span class="counter" data-target="98" data-prefix=">" data-suffix="%">0</span></div>
         <div class="result-label">Net Collection</div>
       </div>
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><use href="#ag1"/><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-number"><span class="counter" data-target="99" data-prefix=">" data-suffix="%">0</span></div>
         <div class="result-label">Clean Claim Rate</div>
       </div>
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><use href="#ag1"/><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-number"><span class="counter" data-target="98.5" data-suffix="%" data-decimals="1">0</span></div>
         <div class="result-label">Coding Accuracy</div>
       </div>
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><use href="#ag1"/><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-number"><span class="counter" data-target="15" data-suffix="%" data-prefix="< ">0</span></div>
         <div class="result-label">AR > 120 Days</div>
       </div>
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><use href="#ag1"/><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)"/></svg>
+        <img class="result-arrow" src="/growth-arrow.png" alt="Growth arrow">
         <div class="result-number"><span class="counter" data-target="80" data-suffix="%+">0</span></div>
         <div class="result-label">Patient Collection</div>
       </div>
@@ -1692,7 +1692,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         <p>Cut the noise. RCM that delivers. Independently owned with 25+ years of focused revenue cycle management experience.</p>
         <p style="margin-top:12px;font-size:14px;color:var(--white);">(877) 806-2286 &nbsp;|&nbsp; <a href="mailto:sales@cosentus.com">sales@cosentus.com</a></p>
         <div style="margin-top:20px;">
-          <img id="accoladesImg" src="" alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024" style="max-width:360px;width:100%;height:auto;">
+          <img id="accoladesImg" src="/accolades.png" alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024" style="max-width:360px;width:100%;height:auto;">
         </div>
       </div>
       <div class="footer-col">
@@ -1763,9 +1763,11 @@ document.querySelectorAll('.hero .reveal').forEach(el => {
 
 // ===== NAV SCROLL =====
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+function updateNav() {
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+}
+window.addEventListener('scroll', updateNav);
+updateNav(); // fire immediately in case page loads scrolled
 
 // ===== MOBILE TOGGLE =====
 document.getElementById('navToggle').addEventListener('click', () => {
