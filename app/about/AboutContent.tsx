@@ -290,16 +290,16 @@ export default function AboutContent() {
                   style={{
                     display: 'block',
                     padding: '24px',
-                    background: i === 0 ? '#00B5D6' : 'var(--white)',
-                    color: i === 0 ? 'white' : 'var(--gray-700)',
+                    background: 'var(--white)',
+                    color: 'var(--gray-700)',
                     borderRadius: 12,
-                    border: `1px solid ${i === 0 ? '#00B5D6' : 'var(--gray-200)'}`,
+                    border: '1px solid var(--gray-200)',
                     textDecoration: 'none',
                     transition: 'all 0.3s ease',
                     height: '100%',
                   }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}
+                  onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 8px 24px rgba(0,181,214,0.2)'; el.style.background = '#00B5D6'; el.style.color = 'white'; el.style.borderColor = '#00B5D6' }}
+                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}
                 >
                   <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
                   <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
