@@ -134,8 +134,8 @@ export default function RAPageContent() {
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
                   >
-                    <div style={{ height: 200, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      <img src={`/images/${agent.name.toLowerCase()}.png`} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                    <div style={{ height: 240, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <img src={`/images/${agent.name.toLowerCase()}.png`} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
                     </div>
                     <div style={{ background: '#00B5D6', padding: '14px 16px', textAlign: 'center' }}>
                       <div style={{ fontSize: 14, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{agent.name}</div>
