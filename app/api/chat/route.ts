@@ -50,8 +50,56 @@ Post Service: Chris (claim follow up with payers), Michael (payment reconciliati
 
 Processing about 3,000 calls per day. 24/7 coverage. 50+ languages.
 
-MEDCLOUD:
-Cosentus's purpose built cloud EHR and practice management platform. Specialty templates, native billing integration, real time analytics. AI integrated for contextual patient and payer interactions. Optional for clients. We're EHR agnostic first. Works with Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD and more.
+MEDCLOUD — AI NATIVE RCM AND EHR PLATFORM (A Cosentus Division):
+MedCloud is not a bolt on. It is built AI native from day one. We acquired an existing platform and are rebuilding every function with AI embedded into the architecture. Not added on top. Not retrofitted. Built in.
+
+Why this matters: Epic, Cerner, and Athenahealth run on architectures designed decades ago. Retrofitting AI onto legacy systems does not work. 80% of health data is unstructured and trapped in formats legacy EHRs cannot analyze. 60 to 70% of IT budgets go to just keeping legacy systems running, leaving as little as 19% for innovation. Only 22 to 29% of healthcare orgs have deployed AI because fragmented EHR infrastructure is the number one blocker.
+
+MedCloud Platform Architecture:
+CLIENT PORTAL/EHR: Front Desk Panel (scheduling, tasks, patient management, scan and submit, messages) plus Doctor Panel (AI Scribe, chart visit, quick notes, plus all front desk features)
+COSENTUS PORTAL: AI Medical Coding, Claims Management, Payment Posting, Denial and Appeals, AR Management, Credentialing, Analytics, EDI Transactions, Eligibility, Documents/Storage, Voice AI, Onboarding
+
+23 modules. 15 AI features. Every step of the revenue cycle has a dedicated AI function. 45+ medical specialties covered.
+
+AI POWERED MODULES IN MEDCLOUD:
+1. AI Medical Coding: Eight step pipeline. Clinical note goes in, CPT and ICD 10 codes come out with confidence scores. Pipeline: Ingestion then Doc Classification then Extraction then Specialty Detection then Coding Rules Engine then Code Intelligence (NCCI/MUE/HCPCS + AMA) then Code Generation then Coder Review
+2. Coding Rules Engine: Payer specific coding rules. Example: Medicare requires G2212 for prolonged services, not 99417
+3. Code Intelligence: Reference data from 6 sources, few shot specialty configs, AI learning and auto improve
+4. AI Scribe: Real time audio converted to structured clinical note
+5. Document Intelligence: Textract OCR plus LLM classification and routing
+6. AI Appeal Generation: AI drafted appeal letters with clinical evidence and prefeed templates
+7. Denial Analysis: Root cause classification via CARC/RARC codes
+8. Eligibility Verification: AI powered/Availity API/RPA real time insurance checks
+9. Prior Authorization: Automated pre cert workflows plus payer rules
+10. Payment Posting: 835 ERA parser plus EOB AI extraction and scrubbing
+11. AR Management: AI ranked queues by recovery likelihood, aging analysis, timely filing alerts
+12. AI Credentialing: AI reads uploaded credentials via Textract, auto fills provider profiles. DEA auto validation with expiry alerts. OIG and LEIE screening of 82K+ exclusion records, blocks billing if flagged. API integrations with NPPES, OIG/LEIE, CAQH ProView, SAM.gov
+13. Contract Manager: Contract upload then AI matching for underpayment detection
+14. Claims Centre: 50+ rule engine with NCCI edits, E/M validation, timely filing, payer rules plus manual checklist
+15. Chart Visit Multi Specialty: Auto E/M coding, drug allergy and interaction alerts, SmartPhrases, screening tools, medication reconciliation
+
+Human in the loop at every critical step. No black boxes.
+
+MEDCLOUD PRODUCTIVITY GAINS:
+Medical Coder: 10 to 15 min per chart drops to 2 to 3 min review. Roughly 5 to 6 times faster.
+Eligibility Staff: 20 min per inquiry drops to near zero time with MedCloud Browser.
+AR Caller: 1 call at a time becomes AI batch outbound with unlimited parallel calls.
+Front Desk: Manual document sorting becomes AI classification and routing. Instant.
+Result: 3 to 5 times more claims processed per coder per day. 10 times more eligibility checks per staff member. 60 to 70% of time freed per role from manual tasks. Infinite AR calls via Voice AI in parallel.
+We chose to scale up. Grow revenue. Keep our experts. Not fire them.
+
+MEDCLOUD INFRASTRUCTURE AND HIPAA:
+Backend: AWS Aurora PostgreSQL. Files: S3. Frontend: Vercel (app shell only, zero patient data). Auth: AWS Cognito plus JWT. LLM: AWS Bedrock via VPC endpoint, private AWS network.
+AES 256 encryption at rest (same standard as US government classified data). TLS 1.2+ encryption in transit. No plaintext ever. 10 role based access control (Admin, Supervisor, Manager, Coder, Biller, AR Specialist, Provider, Front Office, Patient, Auditor). JWT token enforced on every request at the backend. 15 min inactivity timeout. Immutable audit log on every PHI access with 7 year retention. No one can delete entries. All Bedrock calls go through VPC endpoint. PHI never travels over public internet. Bedrock does not store prompts or train on customer data. Inference only. No PHI outside AWS ever. BAA with AWS covers Aurora, S3, Lambda, Cognito, Bedrock, Textract.
+
+MEDCLOUD KPIs vs INDUSTRY:
+Clean Claim Rate: Industry 90 to 95%, our target over 98% by month 2
+AI Coding Accuracy: Industry 85 to 90% (human coder), our target 90% AI first pass, 99% post review at launch
+Denial Rate: Industry 6 to 12%, our target under 5% by month 3
+Coding Time per Chart: Industry 10 to 15 min, our target 2 to 3 min at launch
+Days in AR: Industry 35 to 50 days, our target under 30 by month 4
+Appeal Success Rate: Industry 50 to 55%, our target over 65% AI drafted by month 3
+Net Collection Rate: Industry about 95%, our target over 98% by month 3
 
 RESULTS:
 Up to 30% revenue growth. Over 98% net collection rate. Over 99% clean claim rate. 98.5% coding accuracy. AR over 120 days under 15%. Patient collection rate over 80%. 48 hour charge lag. 95%+ appeal success rate.
