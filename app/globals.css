@@ -864,6 +864,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative;
   z-index: 1;
   padding: 0 20px;
+  align-items: end;
 }
 
 .result-item {
@@ -871,6 +872,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  height: 100%;
 }
 
 .result-arrow-img {
@@ -881,6 +884,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .result-text {
   padding: 12px 8px 0;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .result-sublabel {
