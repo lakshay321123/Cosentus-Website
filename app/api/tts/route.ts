@@ -6,10 +6,14 @@ export async function POST(req: NextRequest) {
     if (!text) return NextResponse.json({ error: 'No text' }, { status: 400 })
 
     const apiKey = process.env.ELEVENLABS_API_KEY
-    if (!apiKey) return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 })
+    if (!apiKey) {
+      console.error('ELEVENLABS_API_KEY not set')
+      return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 })
+    }
 
     const voiceId = '4qGY1svUBZLI7l8Ei9WW'
 
+    // Try text-to-speech with the selected voice
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
@@ -18,30 +22,51 @@ export async function POST(req: NextRequest) {
         'Accept': 'audio/mpeg',
       },
       body: JSON.stringify({
-        text,
-        model_id: 'eleven_multilingual_v2',
+        text: text.substring(0, 500), // Limit text length to avoid timeouts
+        model_id: 'eleven_turbo_v2_5', // Faster model for real-time voice
         voice_settings: {
           stability: 0.5,
           similarity_boost: 0.75,
-          style: 0.4,
-          use_speaker_boost: true,
+          style: 0.3,
         },
       }),
     })
 
     if (!response.ok) {
-      const err = await response.text()
-      console.error('ElevenLabs error:', err)
-      return NextResponse.json({ error: 'TTS failed' }, { status: 500 })
+      const errText = await response.text()
+      console.error('ElevenLabs error:', response.status, errText)
+      
+      // If voice not found, try with a default voice
+      if (response.status === 404 || errText.includes('voice_not_found')) {
+        console.log('Voice not found, trying default voice Rachel...')
+        const fallbackRes = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM`, {
+          method: 'POST',
+          headers: {
+            'xi-api-key': apiKey,
+            'Content-Type': 'application/json',
+            'Accept': 'audio/mpeg',
+          },
+          body: JSON.stringify({
+            text: text.substring(0, 500),
+            model_id: 'eleven_turbo_v2_5',
+            voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+          }),
+        })
+        
+        if (fallbackRes.ok) {
+          const audioBuffer = await fallbackRes.arrayBuffer()
+          return new NextResponse(audioBuffer, {
+            headers: { 'Content-Type': 'audio/mpeg' },
+          })
+        }
+      }
+      
+      return NextResponse.json({ error: 'TTS failed', detail: errText }, { status: 500 })
     }
 
     const audioBuffer = await response.arrayBuffer()
-
     return new NextResponse(audioBuffer, {
-      headers: {
-        'Content-Type': 'audio/mpeg',
-        'Content-Length': String(audioBuffer.byteLength),
-      },
+      headers: { 'Content-Type': 'audio/mpeg' },
     })
   } catch (e) {
     console.error('TTS error:', e)
