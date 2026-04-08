@@ -1641,3 +1641,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* Solution card hover */
+.solution-card {
+  transition: all 0.3s ease;
+}
+.solution-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,181,214,0.12);
+  border-color: #00B5D6 !important;
+}
