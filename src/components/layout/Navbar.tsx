@@ -43,7 +43,9 @@ const navItems = [
     children: [
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },
-      { label: 'News & Events', href: '/news-events' },
+      { label: 'News', href: '/news' },
+      { label: 'Events', href: '/events' },
+      { label: 'Partnership', href: '/partnership' },
     ],
   },
 ]
