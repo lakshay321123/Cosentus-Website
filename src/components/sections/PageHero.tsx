@@ -12,12 +12,6 @@ interface PageHeroProps {
 export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: PageHeroProps) {
   return (
     <section className="hero" style={{ minHeight: '50vh' }}>
-      <div className="hero-bg">
-        <div className="gradient-orb orb-1" />
-        <div className="gradient-orb orb-2" />
-        <div className="gradient-orb orb-3" />
-      </div>
-
       <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60 }}>
         {label && (
           <RevealOnScroll>

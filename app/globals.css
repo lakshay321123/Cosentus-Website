@@ -269,7 +269,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #003545 0%, #00596E 30%, #00B5D6 100%);
+  background: #00B5D6;
 }
 
 .hero-bg {
