@@ -134,7 +134,7 @@ function AIPanel() {
           {/* Blue header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#00B5D6', flexShrink: 0 }}>
             <div>
-              <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', margin: 0 }}>Cosentus.ai</h4>
+              <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', margin: 0 }}>COSE AI</h4>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
             <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>

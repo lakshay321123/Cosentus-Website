@@ -1613,8 +1613,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ===== AI CHAT INPUT PLACEHOLDERS (blue backgrounds only) ===== */
-#ra input::placeholder,
-.chat-widget input::placeholder {
+/* removed - inputs now on light bg */
+/* #ra input::placeholder,
+.chat-widget-DISABLED input::placeholder {
   color: white !important;
   opacity: 1 !important;
 }

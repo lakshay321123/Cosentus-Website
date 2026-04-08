@@ -60,7 +60,7 @@ export default function ChatWidget() {
           {/* Blue header */}
           <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#00B5D6' }}>
             <div>
-              <h4 style={{ fontSize: 16, fontWeight: 600, color: 'white', margin: 0 }}>Cosentus.ai</h4>
+              <h4 style={{ fontSize: 16, fontWeight: 600, color: 'white', margin: 0 }}>COSE AI</h4>
               <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
             <button onClick={() => setIsOpen(false)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 13 }}>✕</button>
@@ -70,7 +70,7 @@ export default function ChatWidget() {
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, background: 'white' }}>
             {/* Welcome — bot style */}
             <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
-              Hey! I&apos;m COSE AI. How can I help you today?
+              Hey! I'm COSE AI. How can I help you today?
             </div>
             {messages.map((msg, i) => (
               <div key={i} style={{
