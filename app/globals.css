@@ -872,10 +872,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 8px 24px;
+  padding: 0 8px 20px;
   position: relative;
-  height: 256px;
-  background: url('/images/growth-arrow.png') center / contain no-repeat;
+  height: 280px;
+  background: url('/images/growth-arrow.png') center bottom / 100% auto no-repeat;
 }
 
 .result-item:last-child { border-right: none; }
