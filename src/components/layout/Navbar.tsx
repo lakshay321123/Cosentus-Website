@@ -42,7 +42,7 @@ const navItems = [
     href: '/resources',
     children: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Case Studies', href: '/resources' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
       { label: 'Partnership', href: '/partnership' },
