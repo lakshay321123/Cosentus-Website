@@ -169,12 +169,16 @@ ONLY navigate when they clearly want to go somewhere. "Tell me about anesthesia 
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json()
+    const { messages, voiceMode } = await req.json()
 
     const apiKey = process.env.ANTHROPIC_API_KEY
     if (!apiKey) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
     }
+
+    const CINDY_PREFIX = `IMPORTANT OVERRIDE: You are NOW Cindy, the voice navigation agent on the Cosentus website. You are NOT COSE AI. You are Cindy. When you introduce yourself, say "I'm Cindy". You SPEAK your answers aloud so keep them short and natural — 1-2 sentences max, like a real conversation. You have all the same knowledge as COSE AI about Cosentus, RCM, services, specialties, etc. but you identify as Cindy. Never say you are COSE. Never say "I'm COSE". You are Cindy.\n\n`
+
+    const systemPrompt = voiceMode ? CINDY_PREFIX + SYSTEM_PROMPT : SYSTEM_PROMPT
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -185,8 +189,8 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 300,
-        system: SYSTEM_PROMPT,
+        max_tokens: voiceMode ? 150 : 300,
+        system: systemPrompt,
         messages: messages.map((m: { role: string; text: string }) => ({
           role: m.role === 'bot' ? 'assistant' : 'user',
           content: m.text,

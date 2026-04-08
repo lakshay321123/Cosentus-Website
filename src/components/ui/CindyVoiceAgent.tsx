@@ -136,7 +136,7 @@ export default function CindyVoiceAgent() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: messagesRef.current }),
+        body: JSON.stringify({ messages: messagesRef.current, voiceMode: true }),
       })
       const data = await res.json()
       const aiText = data.text || "Sorry, could you say that again?"
