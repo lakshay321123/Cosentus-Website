@@ -871,11 +871,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding: 0 8px 20px;
-  position: relative;
-  height: 280px;
-  background: url('/images/growth-arrow.png') center bottom / 100% auto no-repeat;
+}
+
+.result-arrow-img {
+  width: 100%;
+  height: 160px;
+  background: url('/images/growth-arrow.png') center bottom / contain no-repeat;
+}
+
+.result-text {
+  padding: 12px 8px 0;
+}
+
+.result-sublabel {
+  font-size: 13px;
+  color: #00B5D6;
+  font-weight: 400;
+  margin-bottom: 2px;
 }
 
 .result-item:last-child { border-right: none; }
@@ -886,20 +898,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .result-number {
   font-family: var(--font-display);
-  font-size: clamp(36px, 4vw, 56px);
-  font-weight: 300;
-  color: #FFFFFF;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400;
+  color: #00B5D6;
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .result-label {
   font-family: var(--font-display);
   font-size: 12px;
   font-weight: 400;
-  color: rgba(255,255,255,0.8);
+  color: var(--gray-500);
   line-height: 1.3;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* ===== ADVANTAGE SECTION ===== */
@@ -1248,7 +1261,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-cases { grid-template-columns: repeat(2, 1fr); }
   .results-grid { grid-template-columns: repeat(3, 1fr); }
   .results-grid { grid-template-columns: repeat(3, 1fr); }
-  .result-item { height: 240px; }
+  .result-arrow-img { height: 130px; }
   .result-item:nth-child(3) { }
   .result-item:nth-child(4) { }
   .advantage-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1265,7 +1278,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .results-grid { grid-template-columns: repeat(2, 1fr); }
   .results-grid { grid-template-columns: repeat(2, 1fr); }
-  .result-item { height: 200px; border-right: none; border-bottom: none; }
+  .result-arrow-img { height: 100px; }
   .advantage-grid { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; gap: 32px; }

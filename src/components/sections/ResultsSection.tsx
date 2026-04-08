@@ -58,11 +58,14 @@ export default function ResultsSection() {
           {stats.map((stat, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.25}>
               <div className="result-item">
-                {stat.sublabel && <div className="result-label" style={{ marginBottom: 4 }}>{stat.sublabel}</div>}
-                <div className="result-number">
-                  <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+                <div className="result-arrow-img" />
+                <div className="result-text">
+                  {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+                  <div className="result-number">
+                    <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+                  </div>
+                  <div className="result-label">{stat.label}</div>
                 </div>
-                <div className="result-label">{stat.label}</div>
               </div>
             </RevealOnScroll>
           ))}
