@@ -39,7 +39,7 @@ const leadership = [
   { name: 'Viktor Alvarado', title: 'Chief Financial Officer', photo: '/images/Viktor-Alvarado.jpg', bio: '25+ years of corporate finance experience. Joined Cosentus in October 2024. Oversees all financial operations, planning, and strategy for the organization.' },
   { name: 'Stephen Williamson', title: 'Chief Growth Officer', photo: '/images/Stephen Williamson.jpg', bio: 'Leads business development and growth strategy across all Cosentus divisions. Focused on expanding the company footprint through strategic partnerships and market development.' },
   { name: 'Allen Ranjan', title: 'Chief Revenue Officer', photo: '/images/ALLEN RANJAN.jpg', bio: 'Has been with Cosentus since its founding. Leads all revenue generation activities, client acquisition, and strategic sales initiatives across the organization.' },
-  { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '', bio: '14 years of experience in RCM and medical billing. Started as a client services liaison for a DME company, then served as Director of Client Relations at AllianceMed for 10+ years. After the merger with Cosentus in 2023, manages operations and client services for offices in Phoenix, Napa, and Salt Lake City.' },
+  { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '/images/Andrew-Clougherty.jpg', bio: '14 years of experience in RCM and medical billing. Started as a client services liaison for a DME company, then served as Director of Client Relations at AllianceMed for 10+ years. After the merger with Cosentus in 2023, manages operations and client services for offices in Phoenix, Napa, and Salt Lake City.' },
   { name: 'David Langsam', title: 'Board Advisor', photo: '/images/David Langsam Board Advisor.jpg', bio: 'Senior board advisor providing strategic guidance on corporate growth, governance, and market positioning for Cosentus.' },
   { name: 'Raja Inder Bhalla', title: 'Managing Director', photo: '/images/Inder.jpg', bio: 'Managing Director overseeing strategic initiatives and business operations. Plays a key role in driving organizational growth and international expansion.' },
   { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Leads global branding, marketing strategy, and communications for Cosentus. Responsible for brand positioning, digital presence, and marketing campaigns.' },
@@ -49,12 +49,13 @@ const leadership = [
 ]
 
 const offices = [
-  'Irvine, California (HQ)',
-  'Phoenix, AZ',
-  'Mission, TX',
-  'Napa, CA',
-  'Dallas, TX',
-  'Olathe, KS',
+  { city: 'Irvine, CA', label: 'Headquarters', address: '300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618', phone: '(949) 216-4280', maps: 'https://maps.google.com/?q=300+Spectrum+Center+Dr+Suite+1450+Irvine+CA+92618' },
+  { city: 'Phoenix, AZ', label: 'Regional Office', address: 'Phoenix, AZ', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Phoenix+AZ' },
+  { city: 'Mission, TX', label: 'Regional Office', address: 'Mission, TX', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Mission+TX' },
+  { city: 'Napa, CA', label: 'Regional Office', address: '550 Gateway Dr #100, Napa, CA 94558', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=550+Gateway+Dr+100+Napa+CA+94558' },
+  { city: 'Dallas, TX', label: 'Regional Office', address: 'Dallas, TX', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Dallas+TX' },
+  { city: 'Salt Lake City, UT', label: 'Regional Office', address: 'Utah', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Utah' },
+  { city: 'Olathe, KS', label: 'Regional Office', address: 'Olathe, KS', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Olathe+KS' },
 ]
 
 export default function AboutContent() {
@@ -279,20 +280,35 @@ export default function AboutContent() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">Where We Are</div>
           </RevealOnScroll>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 36 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
             {offices.map((office, i) => (
               <RevealOnScroll key={i}>
-                <div style={{
-                  padding: '14px 28px',
-                  background: i === 0 ? 'var(--primary)' : 'var(--white)',
-                  color: i === 0 ? 'white' : 'var(--gray-700)',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: 15,
-                  border: `1px solid ${i === 0 ? 'var(--primary)' : 'var(--gray-200)'}`,
-                  fontWeight: i === 0 ? 500 : 400,
-                }}>
-                  {office}
-                </div>
+                <a
+                  href={office.maps}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block',
+                    padding: '24px',
+                    background: i === 0 ? '#00B5D6' : 'var(--white)',
+                    color: i === 0 ? 'white' : 'var(--gray-700)',
+                    borderRadius: 12,
+                    border: `1px solid ${i === 0 ? '#00B5D6' : 'var(--gray-200)'}`,
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease',
+                    height: '100%',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}
+                >
+                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
+                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
+                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>
+                    View on Maps →
+                  </div>
+                </a>
               </RevealOnScroll>
             ))}
           </div>
