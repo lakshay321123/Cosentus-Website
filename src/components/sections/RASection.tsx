@@ -5,9 +5,9 @@ import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const features = [
-  { icon: '⚡', title: 'Scalable AI Built for Growth', desc: 'Enterprise-scale capacity that grows with your practice — processing ~3,000 calls daily.' },
-  { icon: '🎙', title: 'Specialized AI Voice Agents', desc: 'Automate eligibility, claims, prior authorizations, scheduling, and patient billing.' },
-  { icon: '📈', title: 'Up to 30% Revenue Growth', desc: 'Real results, not just reports. AI-powered insights that drive measurable financial improvement.' },
+  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, title: 'Scalable AI Built for Growth', desc: 'Enterprise-scale capacity that grows with your practice — processing ~3,000 calls daily.' },
+  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>, title: 'Specialized AI Voice Agents', desc: 'Automate eligibility, claims, prior authorizations, scheduling, and patient billing.' },
+  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>, title: 'Up to 30% Revenue Growth', desc: 'Real results, not just reports. AI-powered insights that drive measurable financial improvement.' },
 ]
 
 const placeholders = [
