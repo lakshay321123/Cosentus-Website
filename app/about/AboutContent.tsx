@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const beliefs = [
@@ -160,17 +159,14 @@ export default function AboutContent() {
               SOC 2 · HIPAA Compliant · HBMA Member · Inc. 5000 — four consecutive years · Great Place to Work — three consecutive years
             </p>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Image
-                src="/accolades.png"
-                alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024"
-                width={600}
-                height={170}
-                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
-              />
-            </div>
-          </RevealOnScroll>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/accolades.png"
+              alt="Cosentus Accolades"
+              style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
+            />
+          </div>
         </div>
       </section>
 
