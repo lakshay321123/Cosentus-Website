@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import ChatWidget from '@/components/ui/ChatWidget'
 
 export const metadata: Metadata = {
   title: 'Cosentus — Think Growth | Healthcare Revenue Cycle Management',
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         {children}
         <Footer />
+        <ChatWidget />
       </body>
     </html>
   )
