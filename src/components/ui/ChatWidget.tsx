@@ -51,26 +51,31 @@ export default function ChatWidget() {
       {isOpen && (
         <div className="chat-widget" style={{
           position: 'fixed', bottom: 28, right: 28, zIndex: 9999,
-          width: 380, height: 520, borderRadius: 16, background: '#00B5D6',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.25)', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+          width: 400, height: 540, borderRadius: 16, background: 'white',
+          border: '2px solid #00B5D6',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,181,214,0.1)',
+          display: 'flex', flexDirection: 'column', overflow: 'hidden',
           animation: 'chatOpen 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}>
-          <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+          {/* Blue header */}
+          <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#00B5D6' }}>
             <div>
-              <h4 style={{ fontSize: 16, fontWeight: 500, color: 'white', margin: 0 }}>Cosentus.ai</h4>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)', margin: 0 }}>Revenue Intelligence Assistant</p>
+              <h4 style={{ fontSize: 16, fontWeight: 600, color: 'white', margin: 0 }}>Cosentus.ai</h4>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
             <button onClick={() => setIsOpen(false)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 13 }}>✕</button>
           </div>
 
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
-              Hi! I&apos;m Cosentus.ai. How can I help your practice today?
+          {/* White message area */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, background: 'white' }}>
+            {/* Welcome — bot style */}
+            <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
+              Hey! I&apos;m COSE AI. How can I help you today?
             </div>
             {messages.map((msg, i) => (
               <div key={i} style={{
-                background: msg.role === 'user' ? 'white' : '#36C2DE',
-                color: msg.role === 'user' ? '#00B5D6' : 'white',
+                background: msg.role === 'user' ? '#F0F0F0' : '#00B5D6',
+                color: msg.role === 'user' ? '#1a1a1a' : 'white',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                 padding: '12px 16px', fontSize: 13, lineHeight: 1.6, maxWidth: '88%',
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
@@ -82,7 +87,7 @@ export default function ChatWidget() {
               </div>
             ))}
             {isLoading && (
-              <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0s' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} />
@@ -91,16 +96,17 @@ export default function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-            <div style={{ display: 'flex', gap: 8, background: '#36C2DE', borderRadius: 10, padding: '10px 14px' }}>
+          {/* Input area with blue accent */}
+          <div style={{ padding: '12px 16px', borderTop: '1px solid #E6E6E6', background: 'white' }}>
+            <div style={{ display: 'flex', gap: 8, background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', border: '1px solid #E6E6E6' }}>
               <input
                 ref={inputRef}
                 type="text" value={input} onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSend()}
                 placeholder="Type your question..."
-                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 13, fontFamily: 'var(--font-body)' }}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 13, fontFamily: 'var(--font-body)' }}
               />
-              <button onClick={handleSend} style={{ background: 'white', border: 'none', borderRadius: 8, padding: '6px 16px', color: '#00B5D6', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
+              <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '6px 16px', color: 'white', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
             </div>
           </div>
         </div>

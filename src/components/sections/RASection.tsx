@@ -71,14 +71,15 @@ function AIPanel() {
 
   return (
     <div style={{
-      background: '#00B5D6',
+      background: expanded ? 'white' : '#00B5D6',
       borderRadius: 'var(--radius-lg)',
       padding: expanded ? '28px' : '56px 40px',
-      color: 'white',
+      color: expanded ? '#1a1a1a' : 'white',
       transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       minHeight: expanded ? 480 : 'auto',
       display: 'flex',
       flexDirection: 'column',
+      border: expanded ? '2px solid #00B5D6' : 'none',
     }}>
       {!expanded ? (
         <>
@@ -129,22 +130,24 @@ function AIPanel() {
         </>
       ) : (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          {/* Blue header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#00B5D6', borderRadius: '12px 12px 0 0', margin: '-28px -28px 16px -28px' }}>
             <div>
-              <h4 style={{ fontSize: 18, fontWeight: 500, color: 'white' }}>Cosentus.ai</h4>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>Revenue Intelligence Assistant</p>
+              <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', margin: 0 }}>Cosentus.ai</h4>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
             <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>
           </div>
 
-          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16, minHeight: 300 }}>
-            <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
-              Hi! I&apos;m Cosentus.ai. Ask me anything about revenue cycle management, our services, or how R+A can help your practice grow.
+          {/* White message area */}
+          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16, minHeight: 300, background: 'white', borderRadius: 8, padding: 16 }}>
+            <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
+              Hey! I&apos;m COSE AI. How can I help you today?
             </div>
             {messages.map((msg, i) => (
               <div key={i} style={{
-                background: msg.role === 'user' ? 'white' : '#36C2DE',
-                color: msg.role === 'user' ? '#00B5D6' : 'white',
+                background: msg.role === 'user' ? '#F0F0F0' : '#00B5D6',
+                color: msg.role === 'user' ? '#1a1a1a' : 'white',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                 padding: '14px 18px', fontSize: 14, lineHeight: 1.6, maxWidth: '85%',
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
@@ -156,7 +159,7 @@ function AIPanel() {
               </div>
             ))}
             {isLoading && (
-              <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0s' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} />
@@ -164,15 +167,16 @@ function AIPanel() {
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: 8, background: 'rgba(255,255,255,0.15)', borderRadius: 'var(--radius-md)', padding: '10px 14px' }}>
+          {/* Input area */}
+          <div style={{ display: 'flex', gap: 8, background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', border: '1px solid #E6E6E6' }}>
             <input
               autoFocus
               type="text" value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSend()}
               placeholder="Type your question..."
-              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 14, fontFamily: 'var(--font-body)' }}
+              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 14, fontFamily: 'var(--font-body)' }}
             />
-            <button onClick={handleSend} style={{ background: 'white', border: 'none', borderRadius: 'var(--radius-sm)', padding: '8px 20px', color: '#00B5D6', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
+            <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '8px 20px', color: 'white', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
           </div>
         </>
       )}
