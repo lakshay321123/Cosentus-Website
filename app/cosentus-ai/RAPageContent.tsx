@@ -43,69 +43,6 @@ export default function RAPageContent() {
   }
   return (
     <>
-      {/* The Problem */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE PROBLEM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">{problem.title}</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 20, lineHeight: 1.8, fontWeight: 400 }}>
-              {problem.desc}
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
-
-      {/* How R+A Works — 5-Step Process */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">HOW R+A WORKS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">The 5-Step Process</div>
-          </RevealOnScroll>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 48, maxWidth: 800 }}>
-            {steps.map((step, i) => (
-              <RevealOnScroll key={i}>
-                <div style={{
-                  display: 'flex',
-                  gap: 24,
-                  padding: 32,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  alignItems: 'flex-start',
-                }}>
-                  <div style={{
-                    flexShrink: 0,
-                    width: 52,
-                    height: 52,
-                    borderRadius: '50%',
-                    background: 'var(--primary)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 22,
-                    fontWeight: 600,
-                  }}>{step.num}</div>
-                  <div>
-                    <h4 style={{ fontSize: 18, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{step.title}</h4>
-                    <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--gray-600)' }}>{step.desc}</p>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* The 8 AI Voice Agents */}
       <section className="section">
         <div className="container">
@@ -181,6 +118,72 @@ export default function RAPageContent() {
           )}
         </div>
       </section>
+
+
+      {/* The Problem */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 800 }}>
+          <RevealOnScroll>
+            <div className="section-label">THE PROBLEM</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">{problem.title}</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.2}>
+            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 20, lineHeight: 1.8, fontWeight: 400 }}>
+              {problem.desc}
+            </p>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+
+      {/* How R+A Works — 5-Step Process */}
+      <section className="section section-alt">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">HOW R+A WORKS</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">The 5-Step Process</div>
+          </RevealOnScroll>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 48, maxWidth: 800 }}>
+            {steps.map((step, i) => (
+              <RevealOnScroll key={i}>
+                <div style={{
+                  display: 'flex',
+                  gap: 24,
+                  padding: 32,
+                  background: 'var(--white)',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--gray-200)',
+                  alignItems: 'flex-start',
+                }}>
+                  <div style={{
+                    flexShrink: 0,
+                    width: 52,
+                    height: 52,
+                    borderRadius: '50%',
+                    background: 'var(--primary)',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 22,
+                    fontWeight: 600,
+                  }}>{step.num}</div>
+                  <div>
+                    <h4 style={{ fontSize: 18, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{step.title}</h4>
+                    <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--gray-600)' }}>{step.desc}</p>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Why R+A Can't Be Replicated */}
       <section className="section section-alt">
