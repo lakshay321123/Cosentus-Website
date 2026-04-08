@@ -28,7 +28,7 @@ export default function RCMContent() {
     <>
       {/* The Challenge */}
       <section className="section">
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+        <div className="container" style={{ maxWidth: 800 }}>
           <div>
             <RevealOnScroll>
               <div className="section-label">THE CHALLENGE</div>
@@ -48,7 +48,6 @@ export default function RCMContent() {
             <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', aspectRatio: '4/3' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80"
                 alt="Healthcare technology"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
