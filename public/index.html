@@ -18,25 +18,25 @@
 /* ===== DESIGN SYSTEM ===== */
 :root {
   --primary: #00B5D6;
-  --primary-dark: #000000;
-  --primary-deeper: #000000;
-  --primary-mid: #00B5D6;
-  --primary-light: #00B5D6;
-  --primary-lighter: #00B5D6;
-  --primary-pale: #00B5D6;
-  --primary-wash: #FFFFFF;
-  --primary-ghost: #FFFFFF;
+  --primary-dark: #36C2DE;
+  --primary-deeper: #36C2DE;
+  --primary-mid: #68D1E6;
+  --primary-light: #68D1E6;
+  --primary-lighter: #A1DEED;
+  --primary-pale: #D6EBF2;
+  --primary-wash: #D6EBF2;
+  --primary-ghost: #D6EBF2;
 
   --gray-900: #000000;
   --gray-800: #000000;
-  --gray-700: #000000;
-  --gray-600: #000000;
-  --gray-500: #000000;
-  --gray-400: #000000;
-  --gray-300: #000000;
-  --gray-200: #FFFFFF;
-  --gray-100: #FFFFFF;
-  --gray-50: #FFFFFF;
+  --gray-700: #616161;
+  --gray-600: #616161;
+  --gray-500: #616161;
+  --gray-400: #CCCCCC;
+  --gray-300: #CCCCCC;
+  --gray-200: #E6E6E6;
+  --gray-100: #F5F5F5;
+  --gray-50: #FAFAFA;
 
   --white: #FFFFFF;
   --black: #000000;
@@ -279,7 +279,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #000000;
+  background: linear-gradient(135deg, #003545 0%, #00596E 30%, #00B5D6 100%);
 }
 
 .hero-bg {
@@ -336,8 +336,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -663,7 +663,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* AI visual panel */
 .ra-visual {
   position: relative;
-  background: #000000;
+  background: #00596E;
   border-radius: var(--radius-lg);
   padding: 48px;
   min-height: 500px;
@@ -679,8 +679,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 40px 40px;
   border-radius: inherit;
 }
@@ -782,7 +782,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   min-height: 500px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #000000;
+  background: #00596E;
   box-shadow: var(--shadow-xl);
 }
 
@@ -828,7 +828,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ===== RESULTS BAR ===== */
 .results-section {
-  background: #000000;
+  background: #00B5D6;
   padding: 80px 0;
   position: relative;
   overflow: hidden;
@@ -839,8 +839,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -888,7 +888,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--font-display);
   font-size: clamp(32px, 3.5vw, 48px);
   font-weight: 300;
-  color: var(--primary-lighter);
+  color: #FFFFFF;
   line-height: 1;
   margin-bottom: 8px;
 }
@@ -1047,7 +1047,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cta-box {
   text-align: center;
   padding: 80px 60px;
-  background: #000000;
+  background: #00B5D6;
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
@@ -1058,8 +1058,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -1074,7 +1074,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: -0.02em;
 }
 
-.cta-box .btn-primary {
+.cta-box .btn-primary { background: #FFFFFF; color: #00B5D6; box-shadow: 0 4px 24px rgba(0,0,0,0.2);
   position: relative;
   z-index: 1;
   font-size: 16px;
@@ -1107,7 +1107,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--font-display);
   font-size: 13px;
   font-weight: 300;
-  color: var(--primary-dark);
+  color: rgba(255,255,255,0.7);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 20px;
@@ -1121,7 +1121,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: var(--transition-fast);
 }
 
-.footer-col a:hover { color: var(--primary-dark); }
+.footer-col a:hover { color: rgba(255,255,255,0.6); }
 
 .footer-accolades {
   display: flex;
@@ -1144,7 +1144,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .footer-bottom a { color: var(--white); transition: var(--transition-fast); }
-.footer-bottom a:hover { color: var(--primary-dark); }
+.footer-bottom a:hover { color: rgba(255,255,255,0.6); }
 
 .footer-legal {
   display: flex;
@@ -1508,7 +1508,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
     <div class="results-grid">
       <div class="result-item reveal">
-        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag1" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#00B5D6"/><stop offset="100%" stop-color="#000000"/></linearGradient></defs><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)" rx="6"/></svg>
+        <svg class="result-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag1" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="rgba(255,255,255,0.4)"/></linearGradient></defs><path d="M50 5 L85 45 L65 45 L65 90 C65 93 63 95 60 95 L40 95 C37 95 35 93 35 90 L35 45 L15 45 Z" fill="url(#ag1)" rx="6"/></svg>
         <div class="result-label" style="margin-bottom:4px;">Up to</div>
         <div class="result-number"><span class="counter" data-target="30" data-suffix="%">0</span></div>
         <div class="result-label">Revenue Growth</div>
@@ -1550,25 +1550,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <p class="section-desc reveal reveal-delay-2">Real outcomes from real practices. Every figure is documented with full methodology.</p>
 
     <div class="hero-cases" style="margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
-      <div class="hero-case reveal" style="background:rgba(0,0,0,0.06);border:1px solid var(--primary-wash);backdrop-filter:none;">
-        <div class="hero-case-tag" style="color:var(--primary);">Anesthesia</div>
-        <div class="hero-case-title" style="color:var(--gray-800);">A 50+ site anesthesia group eliminated revenue leakage, achieved sub-48-hour turnaround, and drove significant cash flow improvement.</div>
-        <a href="/case-studies/anesthesia" class="hero-case-link" style="color:var(--primary);">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+      <div class="hero-case reveal" style="background:#00B5D6;border:1px solid rgba(255,255,255,0.15);backdrop-filter:none;">
+        <div class="hero-case-tag" style="color:rgba(255,255,255,0.8);">Anesthesia</div>
+        <div class="hero-case-title" style="color:#FFFFFF;">A 50+ site anesthesia group eliminated revenue leakage, achieved sub-48-hour turnaround, and drove significant cash flow improvement.</div>
+        <a href="/case-studies/anesthesia" class="hero-case-link" style="color:#FFFFFF;">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
       </div>
-      <div class="hero-case reveal reveal-delay-1" style="background:rgba(0,0,0,0.06);border:1px solid var(--primary-wash);backdrop-filter:none;">
-        <div class="hero-case-tag" style="color:var(--primary);">Behavioral Health</div>
-        <div class="hero-case-title" style="color:var(--gray-800);">Hope Services grew revenue from $2M to $16M serving 3,500+ individuals with developmental disabilities.</div>
-        <a href="/case-studies/behavioral-health" class="hero-case-link" style="color:var(--primary);">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+      <div class="hero-case reveal reveal-delay-1" style="background:#00B5D6;border:1px solid rgba(255,255,255,0.15);backdrop-filter:none;">
+        <div class="hero-case-tag" style="color:rgba(255,255,255,0.8);">Behavioral Health</div>
+        <div class="hero-case-title" style="color:#FFFFFF;">Hope Services grew revenue from $2M to $16M serving 3,500+ individuals with developmental disabilities.</div>
+        <a href="/case-studies/behavioral-health" class="hero-case-link" style="color:#FFFFFF;">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
       </div>
-      <div class="hero-case reveal reveal-delay-2" style="background:rgba(0,0,0,0.06);border:1px solid var(--primary-wash);backdrop-filter:none;">
-        <div class="hero-case-tag" style="color:var(--primary);">Orthopedic</div>
-        <div class="hero-case-title" style="color:var(--gray-800);">A multi-physician orthopedic practice grew revenue 46% — from $1.5M to $2.2M — while cutting Workers' Comp turnaround from 45 to 28 days.</div>
-        <a href="/case-studies/orthopedic" class="hero-case-link" style="color:var(--primary);">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+      <div class="hero-case reveal reveal-delay-2" style="background:#00B5D6;border:1px solid rgba(255,255,255,0.15);backdrop-filter:none;">
+        <div class="hero-case-tag" style="color:rgba(255,255,255,0.8);">Orthopedic</div>
+        <div class="hero-case-title" style="color:#FFFFFF;">A multi-physician orthopedic practice grew revenue 46% — from $1.5M to $2.2M — while cutting Workers' Comp turnaround from 45 to 28 days.</div>
+        <a href="/case-studies/orthopedic" class="hero-case-link" style="color:#FFFFFF;">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
       </div>
-      <div class="hero-case reveal reveal-delay-3" style="background:rgba(0,0,0,0.06);border:1px solid var(--primary-wash);backdrop-filter:none;">
-        <div class="hero-case-tag" style="color:var(--primary);">DME</div>
-        <div class="hero-case-title" style="color:var(--gray-800);">A high-volume DME provider doubled sales from $82M to $165M, reduced DSO by 56%, and cut denial rates 31%.</div>
-        <a href="/case-studies/dme" class="hero-case-link" style="color:var(--primary);">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+      <div class="hero-case reveal reveal-delay-3" style="background:#00B5D6;border:1px solid rgba(255,255,255,0.15);backdrop-filter:none;">
+        <div class="hero-case-tag" style="color:rgba(255,255,255,0.8);">DME</div>
+        <div class="hero-case-title" style="color:#FFFFFF;">A high-volume DME provider doubled sales from $82M to $165M, reduced DSO by 56%, and cut denial rates 31%.</div>
+        <a href="/case-studies/dme" class="hero-case-link" style="color:#FFFFFF;">Read Case Study <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
       </div>
     </div>
   </div>
