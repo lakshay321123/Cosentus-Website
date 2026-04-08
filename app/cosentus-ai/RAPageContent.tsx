@@ -134,10 +134,8 @@ export default function RAPageContent() {
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
                   >
-                    <div style={{ height: 180, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <div style={{ width: 100, height: 100, borderRadius: '50%', background: avatarColors[agent.name], display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 32, fontWeight: 600, boxShadow: '0 4px 16px rgba(0,181,214,0.3)' }}>
-                        {agent.name[0]}
-                      </div>
+                    <div style={{ height: 200, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <img src={`/images/${agent.name.toLowerCase()}.png`} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                     </div>
                     <div style={{ background: '#00B5D6', padding: '14px 16px', textAlign: 'center' }}>
                       <div style={{ fontSize: 14, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{agent.name}</div>
@@ -155,7 +153,9 @@ export default function RAPageContent() {
               <div style={{ background: 'white', borderRadius: 16, border: '2px solid #00B5D6', maxWidth: 600, width: '100%', overflow: 'hidden', position: 'relative' }} onClick={e => e.stopPropagation()}>
                 <button onClick={() => setSelectedAgent(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'var(--gray-100)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 16, zIndex: 1 }}>✕</button>
                 <div style={{ padding: '32px 32px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
-                  <div style={{ width: 72, height: 72, borderRadius: '50%', background: avatarColors[selectedAgent.name], display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600, flexShrink: 0 }}>{selectedAgent.name[0]}</div>
+                  <div style={{ width: 72, height: 72, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '3px solid #00B5D6' }}>
+                    <img src={`/images/${selectedAgent.name.toLowerCase()}.png`} alt={selectedAgent.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
                   <div>
                     <h3 style={{ fontSize: 24, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{selectedAgent.name}</h3>
                     <p style={{ fontSize: 14, color: 'var(--gray-500)', margin: 0 }}>{selectedAgent.role}</p>
