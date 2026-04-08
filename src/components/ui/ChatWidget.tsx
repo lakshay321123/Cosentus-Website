@@ -74,19 +74,19 @@ export default function ChatWidget() {
           <div style={{ padding: '18px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
             <div>
               <h4 style={{ fontSize: 16, fontWeight: 500, color: 'white', margin: 0 }}>Cosentus.ai</h4>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', margin: 0 }}>Revenue Intelligence Assistant</p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
-            <button onClick={() => { setOpen(false); setMessages([]); setInput('') }} style={{ background: 'rgba(0,0,0,0.15)', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 13 }}>✕</button>
+            <button onClick={() => { setOpen(false); setMessages([]); setInput('') }} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 13 }}>✕</button>
           </div>
 
           {/* Messages */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px 16px 8px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ background: 'rgba(0,0,0,0.12)', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
+            <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
               Hi! I&apos;m Cosentus.ai. How can I help your practice today?
             </div>
             {messages.map((msg, i) => (
               <div key={i} style={{
-                background: msg.role === 'user' ? 'white' : 'rgba(0,0,0,0.12)',
+                background: msg.role === 'user' ? 'white' : '#36C2DE',
                 color: msg.role === 'user' ? '#00B5D6' : 'white',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                 padding: '12px 16px', fontSize: 13, lineHeight: 1.6, maxWidth: '88%',
@@ -100,7 +100,7 @@ export default function ChatWidget() {
 
           {/* Input */}
           <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-            <div style={{ display: 'flex', gap: 8, background: 'rgba(0,0,0,0.12)', borderRadius: 10, padding: '10px 14px' }}>
+            <div style={{ display: 'flex', gap: 8, background: 'rgba(255,255,255,0.15)', borderRadius: 10, padding: '10px 14px' }}>
               <input
                 ref={inputRef}
                 type="text" value={input} onChange={e => setInput(e.target.value)}

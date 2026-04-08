@@ -135,18 +135,18 @@ function AIPanel() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
               <h4 style={{ fontSize: 18, fontWeight: 500, color: 'white' }}>Cosentus.ai</h4>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>Revenue Intelligence Assistant</p>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>Revenue Intelligence Assistant</p>
             </div>
-            <button onClick={handleClose} style={{ background: 'rgba(0,0,0,0.15)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>
+            <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>
           </div>
 
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16, minHeight: 300 }}>
-            <div style={{ background: 'rgba(0,0,0,0.12)', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
+            <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
               Hi! I&apos;m Cosentus.ai. Ask me anything about revenue cycle management, our services, or how R+A can help your practice grow.
             </div>
             {messages.map((msg, i) => (
               <div key={i} style={{
-                background: msg.role === 'user' ? 'white' : 'rgba(0,0,0,0.12)',
+                background: msg.role === 'user' ? 'white' : '#36C2DE',
                 color: msg.role === 'user' ? '#00B5D6' : 'white',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                 padding: '14px 18px', fontSize: 14, lineHeight: 1.6, maxWidth: '85%',
@@ -158,7 +158,7 @@ function AIPanel() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: 8, background: 'rgba(0,0,0,0.12)', borderRadius: 'var(--radius-md)', padding: '10px 14px' }}>
+          <div style={{ display: 'flex', gap: 8, background: 'rgba(255,255,255,0.15)', borderRadius: 'var(--radius-md)', padding: '10px 14px' }}>
             <input
               autoFocus
               type="text" value={input} onChange={e => setInput(e.target.value)}
