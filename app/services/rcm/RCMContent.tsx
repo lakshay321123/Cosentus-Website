@@ -93,8 +93,8 @@ export default function RCMContent() {
                   {/* Step number with icon */}
                   <div style={{
                     flexShrink: 0, width: 44, height: 44, borderRadius: 10,
-                    background: step.agent ? '#00B5D6' : 'var(--gray-100)',
-                    color: step.agent ? 'white' : 'var(--gray-500)',
+                    background: '#00B5D6',
+                    color: 'white',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     {step.icon}
