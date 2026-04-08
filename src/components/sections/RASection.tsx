@@ -102,7 +102,7 @@ export default function RASection() {
           {/* Right side — dark AI panel */}
           <RevealOnScroll direction="right" delay={0.3}>
             <div style={{
-              background: 'linear-gradient(135deg, #004D5E 0%, #00748C 50%, #00B5D6 100%)',
+              background: 'linear-gradient(135deg, #003B5C 0%, #005F8A 40%, #00B5D6 100%)',
               borderRadius: 'var(--radius-lg)',
               padding: '56px 40px',
               color: 'white',
