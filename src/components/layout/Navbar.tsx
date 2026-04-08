@@ -72,7 +72,12 @@ export default function Navbar() {
             alt="Cosentus"
             width={200}
             height={38}
-            style={{ height: scrolled ? 32 : 38, width: 'auto' }}
+            style={{
+              height: scrolled ? 32 : 38,
+              width: 'auto',
+              filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+              transition: 'all 0.3s ease',
+            }}
             priority
           />
         </Link>

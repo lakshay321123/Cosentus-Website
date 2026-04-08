@@ -427,6 +427,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .btn-primary:hover svg { transform: translateX(3px); }
 
+/* Buttons on blue hero backgrounds — white bg, blue text */
+.hero .btn-primary {
+  background: #FFFFFF;
+  color: #00B5D6;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.hero .btn-primary:hover {
+  background: #FFFFFF;
+  color: #00B5D6;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+.hero .btn-primary::before {
+  background: linear-gradient(90deg, transparent, rgba(0,181,214,0.1), transparent);
+}
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
