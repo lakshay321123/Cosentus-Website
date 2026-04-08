@@ -1322,6 +1322,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </button>
   </div>
 </nav>
+<script>
+// Nav scroll handler - independent of GSAP, runs immediately
+(function() {
+  var nav = document.getElementById('nav');
+  if (!nav) return;
+  function updateNav() {
+    if (window.scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  document.addEventListener('DOMContentLoaded', updateNav);
+  updateNav();
+})();
+</script>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
@@ -1761,13 +1778,7 @@ document.querySelectorAll('.hero .reveal').forEach(el => {
   setTimeout(() => el.classList.add('visible'), 200);
 });
 
-// ===== NAV SCROLL =====
-const nav = document.getElementById('nav');
-function updateNav() {
-  if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
-}
-window.addEventListener('scroll', updateNav);
-updateNav(); // fire immediately in case page loads scrolled
+// ===== NAV SCROLL ===== (moved to right after nav element for reliability)
 
 // ===== MOBILE TOGGLE =====
 document.getElementById('navToggle').addEventListener('click', () => {
