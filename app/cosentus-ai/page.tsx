@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
-import RASection from '@/components/sections/RASection'
+import RAPageContent from './RAPageContent'
 
 export const metadata: Metadata = {
   title: 'R+A: Real + Artificial Intelligence | How Cosentus Delivers Up to 30% Revenue Growth',
-  description: '8 agents. Zero excuses. Infinite follow-ups. Real + Artificial Intelligence pairs deep frontline revenue experience with AI voice agents.',
+  description: '8 agents. Zero excuses. Infinite follow-ups. R+A pairs deep frontline revenue experience with AI voice agents that automate high-volume workflows.',
 }
 
 export default function CosentusAIPage() {
@@ -14,11 +14,11 @@ export default function CosentusAIPage() {
       <PageHero
         label="REAL + ARTIFICIAL INTELLIGENCE"
         title="8 Agents. Zero Excuses. Infinite Follow-Ups."
-        subtitle="R+A pairs deep frontline revenue experience with eight AI voice agents that automate high-volume workflows, while named human teams retain accountability for coding, denials, and payer negotiation."
+        subtitle="R+A pairs deep frontline revenue experience with eight AI voice agents that automate high-volume workflows, while named human teams retain accountability for coding, denials, and payer negotiation. Most clients see measurable improvement in 3–6 months and up to 30% revenue growth within 12 months."
         ctaText="Get Your Free Revenue Analysis"
         ctaHref="/contact"
       />
-      <RASection />
+      <RAPageContent />
       <CTASection />
     </main>
   )

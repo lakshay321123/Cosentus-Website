@@ -12,7 +12,7 @@ const navItems = [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
-      { label: 'WeCare', href: '/about#wecare' },
+      { label: 'WeCare', href: '/wecare' },
       { label: 'Careers', href: '/careers' },
     ],
   },
