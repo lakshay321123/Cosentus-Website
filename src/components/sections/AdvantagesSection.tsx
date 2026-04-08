@@ -22,7 +22,7 @@ export default function AdvantagesSection() {
 
         <div className="advantage-grid">
           {advantages.map((adv, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={i * 0.1}>
+            <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.2}>
               <div className="advantage-card">
                 <div className="advantage-icon">{adv.icon}</div>
                 <h4>{adv.title}</h4>

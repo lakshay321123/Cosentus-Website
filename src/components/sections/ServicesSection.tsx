@@ -27,7 +27,7 @@ export default function ServicesSection() {
 
         <div className="services-grid">
           {services.map((svc, i) => (
-            <RevealOnScroll key={i} delay={i * 0.12}>
+            <RevealOnScroll key={i} delay={0.2 + i * 0.25}>
               <div className="service-card">
                 <div className="service-icon">{svc.icon}</div>
                 <h4>{svc.title}</h4>

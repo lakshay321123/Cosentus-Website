@@ -56,7 +56,7 @@ export default function ResultsSection() {
         </RevealOnScroll>
         <div className="results-grid">
           {stats.map((stat, i) => (
-            <RevealOnScroll key={i} delay={i * 0.1}>
+            <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.25}>
               <div className="result-item">
                 {stat.sublabel && <div className="result-label" style={{ marginBottom: 4 }}>{stat.sublabel}</div>}
                 <div className="result-number">
@@ -67,7 +67,7 @@ export default function ResultsSection() {
             </RevealOnScroll>
           ))}
         </div>
-        <RevealOnScroll delay={0.6}>
+        <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
             Verified client results. Every figure is documented and linked to case studies with full methodology.
           </p>

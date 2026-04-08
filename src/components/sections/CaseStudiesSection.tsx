@@ -24,7 +24,7 @@ export default function CaseStudiesSection() {
 
         <div className="hero-cases" style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
           {caseStudies.map((cs, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
+            <RevealOnScroll key={i} direction="scale" delay={0.3 + i * 0.25}>
               <div className="hero-case" style={{ background: '#00B5D6', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'none' }}>
                 <div className="hero-case-tag" style={{ color: 'rgba(255,255,255,0.8)' }}>{cs.tag}</div>
                 <div className="hero-case-title" style={{ color: '#FFFFFF' }}>{cs.title}</div>
