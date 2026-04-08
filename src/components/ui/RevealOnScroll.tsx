@@ -6,9 +6,10 @@ interface RevealProps {
   children: ReactNode
   className?: string
   delay?: number
+  direction?: 'up' | 'left' | 'right' | 'scale'
 }
 
-export default function RevealOnScroll({ children, className = '', delay = 0 }: RevealProps) {
+export default function RevealOnScroll({ children, className = '', delay = 0, direction = 'up' }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -22,19 +23,22 @@ export default function RevealOnScroll({ children, className = '', delay = 0 }: 
           observer.unobserve(el)
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
     )
 
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
-  const delayClass = delay > 0 ? `reveal-delay-${Math.round(delay * 10)}` : ''
+  const baseClass = direction === 'left' ? 'reveal-left'
+    : direction === 'right' ? 'reveal-right'
+    : direction === 'scale' ? 'reveal-scale'
+    : 'reveal'
 
   return (
     <div
       ref={ref}
-      className={`reveal ${delayClass} ${className}`}
+      className={`${baseClass} ${className}`}
       style={delay > 0 ? { transitionDelay: `${delay}s` } : undefined}
     >
       {children}
