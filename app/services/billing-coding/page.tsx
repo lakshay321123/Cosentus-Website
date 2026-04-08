@@ -81,23 +81,18 @@ export default function BillingCodingPage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
+      <section style={{ padding: '48px 0', overflow: 'hidden' }}>
+        <div className="container" style={{ marginBottom: 24 }}>
           <RevealOnScroll>
             <div className="section-label">SPECIALTIES WE SERVE</div>
           </RevealOnScroll>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 24 }}>
-            {specialties.map((s, i) => (
-              <RevealOnScroll key={i}>
-                <span style={{
-                  padding: '10px 20px',
-                  background: 'var(--primary-ghost)',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: 14,
-                  color: 'var(--gray-700)',
-                  border: '1px solid var(--gray-200)',
-                }}>{s}</span>
-              </RevealOnScroll>
+        </div>
+        <div style={{ position: 'relative', width: '100%', overflow: 'hidden', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+          <div style={{ display: 'flex', animation: 'scrollTicker 25s linear infinite', width: 'max-content' }}>
+            {[...specialties, ...specialties].map((s, i) => (
+              <span key={i} style={{ whiteSpace: 'nowrap', padding: '0 24px', fontSize: 18, fontWeight: 300, color: 'var(--gray-600)', fontFamily: 'var(--font-display)' }}>
+                {s} <span style={{ color: '#00B5D6', margin: '0 8px' }}>·</span>
+              </span>
             ))}
           </div>
         </div>
