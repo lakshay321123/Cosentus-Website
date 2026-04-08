@@ -17,14 +17,6 @@ const companyStats = [
   { value: '30%', label: 'Up to Revenue Growth' },
 ]
 
-const recognition = [
-  'SOC 2',
-  'HIPAA Compliant',
-  'HBMA Member',
-  'Inc. 5000 — four consecutive years',
-  'Great Place to Work — three consecutive years',
-]
-
 const leadership = [
   { name: 'GS Bhalla', title: 'Chief Executive Officer' },
   { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer' },
@@ -143,38 +135,39 @@ export default function AboutContent() {
       </section>
 
       {/* Recognition & Compliance */}
-      <section className="section">
-        <div className="container">
+      <section style={{
+        background: 'var(--primary)',
+        padding: '80px 0',
+      }}>
+        <div className="container" style={{ textAlign: 'center' }}>
           <RevealOnScroll>
-            <div className="section-label">RECOGNITION</div>
+            <h3 style={{
+              fontSize: 14,
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.7)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              marginBottom: 16,
+            }}>RECOGNITION & COMPLIANCE</h3>
+            <p style={{
+              fontSize: 16,
+              color: 'rgba(255,255,255,0.6)',
+              marginBottom: 40,
+              maxWidth: 500,
+              margin: '0 auto 40px',
+              lineHeight: 1.6,
+            }}>
+              SOC 2 · HIPAA Compliant · HBMA Member · Inc. 5000 — four consecutive years · Great Place to Work — three consecutive years
+            </p>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <div className="section-title">Recognition & Compliance</div>
-          </RevealOnScroll>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 36 }}>
-            {recognition.map((item, i) => (
-              <RevealOnScroll key={i}>
-                <div style={{
-                  padding: '12px 24px',
-                  background: 'var(--primary-ghost)',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: 15,
-                  color: 'var(--gray-700)',
-                  border: '1px solid var(--gray-200)',
-                }}>
-                  {item}
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <RevealOnScroll delay={0.3}>
-            <div style={{ marginTop: 40 }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Image
                 src="/accolades.png"
-                alt="Cosentus Accolades"
-                width={500}
-                height={140}
-                style={{ width: '100%', maxWidth: 500, height: 'auto' }}
+                alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024"
+                width={600}
+                height={170}
+                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
               />
             </div>
           </RevealOnScroll>
