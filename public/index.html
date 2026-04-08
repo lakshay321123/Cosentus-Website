@@ -1243,9 +1243,31 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     transition-duration: 0.01ms !important;
   }
 }
+/* Force-reveal fallback after 2s in case JS fails */
+@keyframes force-reveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  animation: force-reveal 0.7s ease 2s forwards;
+}
+.reveal.visible {
+  animation: none;
+}
 </style>
 </head>
 <body>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}/* Force-reveal fallback after 2s in case JS fails */
+@keyframes force-reveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  animation: force-reveal 0.7s ease 2s forwards;
+}
+.reveal.visible {
+  animation: none;
+}
+</style></noscript>
+<script>document.documentElement.classList.add("js-loaded");</script>
 
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav" id="nav">
