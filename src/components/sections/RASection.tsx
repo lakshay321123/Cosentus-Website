@@ -88,7 +88,7 @@ function AIPanel() {
           <h3 style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 300, lineHeight: 1.3, marginBottom: 16 }}>
             Ask Anything About<br />Your Revenue Cycle
           </h3>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 32 }}>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 32 }}>
             Cosentus.ai — your always-on revenue intelligence assistant, powered by Real&nbsp;+&nbsp;Artificial Intelligence.
           </p>
 
