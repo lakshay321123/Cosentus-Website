@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const problem = {
@@ -15,21 +16,31 @@ const steps = [
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate — when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
 
-const preServiceAgents = [
-  { name: 'Harper', role: 'Eligibility & Benefits Verification', desc: 'Eliminates eligibility denials by verifying coverage before appointments.' },
-  { name: 'Olivia', role: 'Prior Authorization Follow-Up', desc: 'Tracks and closes pending authorizations to prevent authorization-related denials and OR delays.' },
-  { name: 'Emily', role: 'Pre-Service Payment Collection', desc: 'Contacts patients 3–7 days prior with verified cost estimates. Industry data shows pre-service collection rates are 30–40% higher than post-service.' },
-  { name: 'Sarah', role: 'Medical Scheduling', desc: 'Reduces no-shows and scheduling friction with inbound/outbound scheduling and confirmations.' },
-]
-
-const postServiceAgents = [
-  { name: 'Chris', role: 'Claim Follow-Up', desc: 'Proactively contacts payers to resolve pending claims and processing delays.' },
-  { name: 'Michael', role: 'Payment Reconciliation', desc: 'Investigates missing or underpayments, reconciles expected versus received payments.' },
-  { name: 'Cindy', role: 'Patient Payment & Collections', desc: 'Multilingual patient balance collection (50+ languages), offers payment plans, and processes payments in real time. As employer-sponsored plans shift more responsibility to patients, patient AR is skyrocketing — Cindy tackles this directly at scale.', highlight: true },
-  { name: 'Allison', role: 'Customer Service & Overflow', desc: 'After-hours support and overflow to guarantee no patient call goes unanswered.' },
+const allAgents = [
+  { name: 'Cindy', shortRole: 'Patient Support', role: 'Payment & Balance Specialist', type: 'patient', desc: 'Cindy is multilingual and can handle over 20 phone calls at once. She specializes in helping patients understand their outstanding balances and payment options with clear, empathetic assistance.', capabilities: ['Real time balance inquiries and payment history', 'Secure credit card payment processing', 'Balance breakdown by date of service', 'Insurance coverage explanations'], highlight: true },
+  { name: 'Chris', shortRole: 'Claims Follow-Up', role: 'Insurance Claim Specialist', type: 'payer', desc: 'Chris conducts outbound claim status follow ups with insurance carriers. He resolves pending claims, escalates processing delays, and supports denial resolution with persistence.', capabilities: ['Claim status verification with carriers', 'Denial resolution and resubmission support', 'Timely filing tracking and alerts', 'Batch outbound calling to payers'] },
+  { name: 'Emily', shortRole: 'Payment Solutions', role: 'Pre-Service Cost Estimates', type: 'patient', desc: 'Emily contacts patients 3 to 7 days before procedures with verified cost estimates. Pre service collection rates are 30 to 40% higher than post service.', capabilities: ['Anesthesia and procedure cost estimates', 'Provider specific payment structures', 'Pre service payment collection', 'Financial responsibility communication'] },
+  { name: 'Sarah', shortRole: 'Appt. Scheduling', role: 'Medical Scheduling Specialist', type: 'patient', desc: 'Sarah reduces no shows and scheduling friction with inbound and outbound scheduling, confirmations, and follow ups. Available 24/7 for patient convenience.', capabilities: ['Inbound and outbound scheduling', 'Appointment confirmations and reminders', 'Rescheduling and waitlist management', 'Follow up appointment coordination'] },
+  { name: 'Allison', shortRole: 'Customer Support', role: 'General Support & Overflow', type: 'patient', desc: 'Allison handles after hours support, routing, and overflow to guarantee no patient call goes unanswered. She ensures every caller reaches the right department.', capabilities: ['After hours patient support', 'Intelligent call routing', 'Message taking and follow up triggers', 'Overflow handling during peak hours'] },
+  { name: 'Harper', shortRole: 'Eligibility Verification', role: 'Eligibility & Benefits Specialist', type: 'payer', desc: 'Harper verifies insurance eligibility, benefits, deductibles, and network status before every appointment. She eliminates eligibility denials at the source.', capabilities: ['Real time insurance verification', 'Benefits and deductible confirmation', 'Network status validation', 'Pre visit eligibility screening'] },
+  { name: 'Olivia', shortRole: 'Prior Authorization', role: 'Prior Auth Tracking Specialist', type: 'payer', desc: 'Olivia tracks every open authorization, follows up on pending cases, and escalates urgent requests to prevent procedural delays and timely filing lapses.', capabilities: ['Authorization status tracking', 'Pending case follow up with payers', 'Urgency escalation protocols', 'OR schedule coordination'] },
+  { name: 'Michael', shortRole: 'Payment Recovery', role: 'Payment Reconciliation Specialist', type: 'payer', desc: 'Michael investigates missing or underpayments, reconciles expected versus received amounts, and identifies discrepancies in EOBs and ERA files.', capabilities: ['Expected vs received payment analysis', 'Underpayment identification and recovery', 'EOB and ERA reconciliation', 'Contract rate variance detection'] },
 ]
 
 export default function RAPageContent() {
+  const [selectedAgent, setSelectedAgent] = useState<typeof allAgents[0] | null>(null)
+  
+  // Avatar gradient colors per agent
+  const avatarColors: Record<string, string> = {
+    Cindy: 'linear-gradient(135deg, #00B5D6, #36C2DE)',
+    Chris: 'linear-gradient(135deg, #0084A0, #00B5D6)',
+    Emily: 'linear-gradient(135deg, #36C2DE, #68D1E6)',
+    Sarah: 'linear-gradient(135deg, #A1DEED, #68D1E6)',
+    Allison: 'linear-gradient(135deg, #00B5D6, #0084A0)',
+    Harper: 'linear-gradient(135deg, #68D1E6, #00B5D6)',
+    Olivia: 'linear-gradient(135deg, #36C2DE, #0084A0)',
+    Michael: 'linear-gradient(135deg, #0084A0, #36C2DE)',
+  }
   return (
     <>
       {/* The Problem */}
@@ -101,80 +112,73 @@ export default function RAPageContent() {
           <RevealOnScroll>
             <div className="section-label">THE 8 AI VOICE AGENTS</div>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Meet the Agents</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc">
-              Each agent automates a specific high-volume workflow. Automation handles volume; human specialists handle judgment.
-              Every interaction surfaces to your dashboard — no automation runs in a silo.
-            </p>
-          </RevealOnScroll>
+          {/* AI Agents Section */}
 
-          {/* Pre-Service */}
+          {/* AI Agents Grid — cosentus.com style */}
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
-              <h3 style={{
-                fontSize: 14,
-                fontWeight: 500,
-                color: 'var(--primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 24,
-              }}>Pre-Service</h3>
+              <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
+                COSENTUS AI Agents
+              </h2>
+              <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 15, marginBottom: 40, fontStyle: 'italic' }}>
+                Click any agent to learn more
+              </p>
             </RevealOnScroll>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
-              {preServiceAgents.map((agent, i) => (
-                <RevealOnScroll key={i}>
-                  <div style={{
-                    padding: 28,
-                    background: 'var(--primary-ghost)',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--gray-200)',
-                    height: '100%',
-                  }}>
-                    <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--primary)', marginBottom: 4 }}>{agent.name}</div>
-                    <div style={{ fontSize: 13, fontWeight: 400, color: 'var(--gray-600)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{agent.role}</div>
-                    <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-700)' }}>{agent.desc}</p>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
 
-          {/* Post-Service */}
-          <div style={{ marginTop: 48 }}>
-            <RevealOnScroll>
-              <h3 style={{
-                fontSize: 14,
-                fontWeight: 500,
-                color: 'var(--primary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 24,
-              }}>Post-Service</h3>
-            </RevealOnScroll>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
-              {postServiceAgents.map((agent, i) => (
-                <RevealOnScroll key={i}>
-                  <div style={{
-                    padding: 28,
-                    background: agent.highlight ? 'var(--primary)' : 'var(--primary-ghost)',
-                    borderRadius: 'var(--radius-md)',
-                    border: agent.highlight ? '1px solid var(--primary)' : '1px solid var(--gray-200)',
-                    height: '100%',
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <span style={{ fontSize: 22, fontWeight: 500, color: agent.highlight ? 'white' : 'var(--primary)' }}>{agent.name}</span>
-                      {agent.highlight && <span style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(255,255,255,0.2)', borderRadius: 'var(--radius-sm)', color: 'white', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>High Impact</span>}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+              {allAgents.map((agent, i) => (
+                <RevealOnScroll key={i} delay={i * 0.08}>
+                  <div
+                    onClick={() => setSelectedAgent(agent)}
+                    style={{ cursor: 'pointer', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.3s ease', height: '100%' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
+                  >
+                    <div style={{ height: 180, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ width: 100, height: 100, borderRadius: '50%', background: avatarColors[agent.name], display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 32, fontWeight: 600, boxShadow: '0 4px 16px rgba(0,181,214,0.3)' }}>
+                        {agent.name[0]}
+                      </div>
                     </div>
-                    <div style={{ fontSize: 13, fontWeight: 400, color: agent.highlight ? 'rgba(255,255,255,0.7)' : 'var(--gray-600)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{agent.role}</div>
-                    <p style={{ fontSize: 14, lineHeight: 1.6, color: agent.highlight ? 'rgba(255,255,255,0.9)' : 'var(--gray-700)' }}>{agent.desc}</p>
+                    <div style={{ background: '#00B5D6', padding: '14px 16px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{agent.name}</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>{agent.shortRole}</div>
+                    </div>
                   </div>
                 </RevealOnScroll>
               ))}
             </div>
           </div>
+
+          {/* Agent Detail Modal */}
+          {selectedAgent && (
+            <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.5)', padding: 20 }} onClick={() => setSelectedAgent(null)}>
+              <div style={{ background: 'white', borderRadius: 16, border: '2px solid #00B5D6', maxWidth: 600, width: '100%', overflow: 'hidden', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                <button onClick={() => setSelectedAgent(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'var(--gray-100)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 16, zIndex: 1 }}>✕</button>
+                <div style={{ padding: '32px 32px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{ width: 72, height: 72, borderRadius: '50%', background: avatarColors[selectedAgent.name], display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600, flexShrink: 0 }}>{selectedAgent.name[0]}</div>
+                  <div>
+                    <h3 style={{ fontSize: 24, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{selectedAgent.name}</h3>
+                    <p style={{ fontSize: 14, color: 'var(--gray-500)', margin: 0 }}>{selectedAgent.role}</p>
+                    <div style={{ width: 40, height: 3, background: '#00B5D6', borderRadius: 2, marginTop: 8 }} />
+                  </div>
+                </div>
+                <div style={{ padding: '0 32px 24px' }}>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-700)' }}>{selectedAgent.desc}</p>
+                </div>
+                <div style={{ padding: '0 32px 32px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  {selectedAgent.capabilities.map((cap, j) => (
+                    <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'var(--gray-600)' }}>
+                      <div style={{ width: 3, minHeight: 16, background: '#00B5D6', borderRadius: 2, flexShrink: 0 }} />
+                      {cap}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ padding: '16px 32px 24px', display: 'flex', justifyContent: 'center' }}>
+                  <button style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 8, padding: '12px 32px', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Begin Conversation</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
