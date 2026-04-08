@@ -11,8 +11,33 @@ interface PageHeroProps {
 
 export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: PageHeroProps) {
   return (
-    <section className="hero" style={{ minHeight: '50vh' }}>
-      <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60 }}>
+    <section style={{ position: 'relative', minHeight: '50vh', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+      {/* Video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      >
+        <source src="/videos/hero-banner.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay for readability */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(135deg, rgba(0,30,50,0.75) 0%, rgba(0,80,100,0.6) 50%, rgba(0,40,60,0.7) 100%)',
+        zIndex: 1,
+      }} />
+
+      {/* Content */}
+      <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
         {label && (
           <RevealOnScroll>
             <div className="hero-badge">
@@ -23,12 +48,12 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: P
         )}
 
         <RevealOnScroll delay={0.1}>
-          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)' }}>{title}</h1>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', color: 'white' }}>{title}</h1>
         </RevealOnScroll>
 
         {subtitle && (
           <RevealOnScroll delay={0.2}>
-            <p className="hero-sub" style={{ maxWidth: 680 }}>{subtitle}</p>
+            <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
           </RevealOnScroll>
         )}
 
