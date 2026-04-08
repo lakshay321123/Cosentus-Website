@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { useChat } from '@/components/ui/ChatContext'
+import { BotMessage } from '@/components/ui/ChatMessage'
 
 const features = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, title: 'Scalable AI Built for Growth', desc: 'Enterprise-scale capacity that grows with your practice — processing ~3,000 calls daily.' },
@@ -149,7 +150,9 @@ function AIPanel() {
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 fontWeight: msg.role === 'user' ? 500 : 400,
               }}>
-                {msg.text}
+                {msg.role === 'bot' ? (
+                  <BotMessage text={msg.text} animate={i === messages.length - 1} />
+                ) : msg.text}
               </div>
             ))}
             {isLoading && (

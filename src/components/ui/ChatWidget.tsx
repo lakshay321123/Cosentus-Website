@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { useChat } from './ChatContext'
+import { BotMessage } from './ChatMessage'
 
 export default function ChatWidget() {
   const { messages, sendMessage, isOpen, setIsOpen, isLoading } = useChat()
@@ -75,7 +76,9 @@ export default function ChatWidget() {
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 fontWeight: msg.role === 'user' ? 500 : 400,
               }}>
-                {msg.text}
+                {msg.role === 'bot' ? (
+                  <BotMessage text={msg.text} animate={i === messages.length - 1} />
+                ) : msg.text}
               </div>
             ))}
             {isLoading && (

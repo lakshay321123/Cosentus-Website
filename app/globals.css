@@ -1624,3 +1624,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
   40% { transform: translateY(-6px); opacity: 1; }
 }
+
+/* ===== TYPEWRITER CURSOR BLINK ===== */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
