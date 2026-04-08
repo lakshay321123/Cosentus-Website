@@ -20,7 +20,7 @@ const process = [
 const specialties = [
   'Anesthesia', 'Orthopedics', 'Pain Management', 'ASCs', 'Behavioral Health',
   'Urgent Care', 'OBGYN', 'Ophthalmology', 'Endoscopy', 'General Surgery',
-  'ENT', 'Dermatology', 'and more',
+  'ENT', 'Dermatology',
 ]
 
 export default function BillingCodingPage() {
@@ -90,8 +90,11 @@ export default function BillingCodingPage() {
         <div style={{ position: 'relative', width: '100%', overflow: 'hidden', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
           <div style={{ display: 'flex', animation: 'scrollTicker 25s linear infinite', width: 'max-content' }}>
             {[...specialties, ...specialties].map((s, i) => (
-              <span key={i} style={{ whiteSpace: 'nowrap', padding: '0 24px', fontSize: 18, fontWeight: 300, color: 'var(--gray-600)', fontFamily: 'var(--font-display)' }}>
-                {s} <span style={{ color: '#00B5D6', margin: '0 8px' }}>·</span>
+              <span key={i} style={{ whiteSpace: 'nowrap', padding: '0 32px', fontSize: 18, fontWeight: 300, color: 'var(--gray-700)', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+                  <path d="M7 0v14M0 7h14" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                {s}
               </span>
             ))}
           </div>
