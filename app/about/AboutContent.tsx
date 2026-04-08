@@ -167,7 +167,7 @@ export default function AboutContent() {
                 alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024"
                 width={600}
                 height={170}
-                style={{ maxWidth: 600, width: '100%', height: 'auto' }}
+                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
               />
             </div>
           </RevealOnScroll>
