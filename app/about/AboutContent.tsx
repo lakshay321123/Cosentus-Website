@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, ReactNode } from 'react'
+import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 function FadeOnly({ children }: { children: ReactNode }) {
@@ -32,16 +33,19 @@ const companyStats = [
 ]
 
 const leadership = [
-  { name: 'GS Bhalla', title: 'Chief Executive Officer' },
-  { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer' },
-  { name: 'Manisha Bhalla', title: 'Chief People Officer' },
-  { name: 'Viktor Alvarado', title: 'Chief Financial Officer' },
-  { name: 'Allen Ranjan', title: 'Chief Revenue Officer' },
-  { name: 'Raja Inder Bhalla', title: 'Managing Director' },
-  { name: 'Ashwin Pajpal', title: 'Global Brand Director' },
-  { name: 'Wayne Wertz', title: 'Sr. Director of HR & Corporate Operations' },
-  { name: 'Ajay Kumar', title: 'Chief Operating Officer - RCM' },
-  { name: 'Aman Bhasin', title: 'Sr. VP & Head of Global Operations (Non-US)' },
+  { name: 'GS Bhalla', title: 'Chief Executive Officer', photo: '/images/3-GS.jpg', bio: 'Founder and CEO of Cosentus with over 20 years of healthcare revenue cycle management experience. YPO member and Harvard Business School alumni. Built Cosentus from the ground up into one of the largest non PE backed RCM companies in the country.' },
+  { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer', photo: '/images/JR THOMPSON.jpg', bio: '37+ years of healthcare management experience. Former equity partner at abeo Management Corporation. Oversees all operational functions across Cosentus, driving efficiency and client outcomes.' },
+  { name: 'Manisha Bhalla', title: 'Chief People Officer', photo: '/images/1Manisha.jpg', bio: 'Executive Director and Chief People Officer. Has been with Cosentus since Day One. Leads all human resources, talent acquisition, and organizational culture initiatives across the company.' },
+  { name: 'Viktor Alvarado', title: 'Chief Financial Officer', photo: '/images/Viktor-Alvarado.jpg', bio: '25+ years of corporate finance experience. Joined Cosentus in October 2024. Oversees all financial operations, planning, and strategy for the organization.' },
+  { name: 'Stephen Williamson', title: 'Chief Growth Officer', photo: '/images/Stephen Williamson.jpg', bio: 'Leads business development and growth strategy across all Cosentus divisions. Focused on expanding the company footprint through strategic partnerships and market development.' },
+  { name: 'Allen Ranjan', title: 'Chief Revenue Officer', photo: '/images/ALLEN RANJAN.jpg', bio: 'Has been with Cosentus since its founding. Leads all revenue generation activities, client acquisition, and strategic sales initiatives across the organization.' },
+  { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '', bio: '14 years of experience in RCM and medical billing. Started as a client services liaison for a DME company, then served as Director of Client Relations at AllianceMed for 10+ years. After the merger with Cosentus in 2023, manages operations and client services for offices in Phoenix, Napa, and Salt Lake City.' },
+  { name: 'David Langsam', title: 'Board Advisor', photo: '/images/David Langsam Board Advisor.jpg', bio: 'Senior board advisor providing strategic guidance on corporate growth, governance, and market positioning for Cosentus.' },
+  { name: 'Raja Inder Bhalla', title: 'Managing Director', photo: '/images/Inder.jpg', bio: 'Managing Director overseeing strategic initiatives and business operations. Plays a key role in driving organizational growth and international expansion.' },
+  { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Leads global branding, marketing strategy, and communications for Cosentus. Responsible for brand positioning, digital presence, and marketing campaigns.' },
+  { name: 'Wayne Wertz', title: 'Sr. Director of HR & Corporate Operations', photo: '/images/Wayne.jpg', bio: 'Senior Director overseeing human resources and corporate operations. Manages organizational development, compliance, and operational efficiency.' },
+  { name: 'Ajay Kumar', title: 'Chief Operating Officer - RCM', photo: '/images/AJAY KUMAR.jpg', bio: 'Chief Operating Officer for RCM operations. Oversees the day to day execution of revenue cycle management services across all client accounts.' },
+  { name: 'Aman Bhasin', title: 'Sr. VP & Head of Global Operations (Non-US)', photo: '/images/AMAN BHASIN.jpg', bio: 'Senior Vice President leading all global operations outside the United States. Manages international teams and ensures consistent service delivery across geographies.' },
 ]
 
 const offices = [
@@ -54,6 +58,7 @@ const offices = [
 ]
 
 export default function AboutContent() {
+  const [selectedPerson, setSelectedPerson] = useState<typeof leadership[0] | null>(null)
   return (
     <>
       {/* About Description */}
@@ -200,42 +205,68 @@ export default function AboutContent() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
             gap: 20,
             marginTop: 48,
           }}>
             {leadership.map((person, i) => (
               <RevealOnScroll key={i}>
-                <div style={{
-                  padding: 28,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  transition: 'all var(--transition-base)',
-                }}>
-                  <div style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    background: 'var(--primary-ghost)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 20,
-                    fontWeight: 500,
-                    color: 'var(--primary)',
-                    marginBottom: 16,
-                  }}>
-                    {person.name.split(' ').map(n => n[0]).join('')}
+                <div
+                  onClick={() => setSelectedPerson(person)}
+                  style={{
+                    background: 'var(--white)',
+                    borderRadius: 12,
+                    border: '1px solid var(--gray-200)',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    height: '100%',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
+                >
+                  <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    {person.photo ? (
+                      <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
+                    ) : (
+                      <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600 }}>
+                        {person.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                    )}
                   </div>
-                  <h4 style={{ fontSize: 16, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>
-                    {person.name}
-                  </h4>
-                  <p style={{ fontSize: 13, color: 'var(--gray-600)' }}>{person.title}</p>
+                  <div style={{ padding: '14px 16px', textAlign: 'center' }}>
+                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{person.name}</h4>
+                    <p style={{ fontSize: 12, color: 'var(--gray-500)' }}>{person.title}</p>
+                  </div>
                 </div>
               </RevealOnScroll>
             ))}
           </div>
+
+          {/* Bio Modal */}
+          {selectedPerson && (
+            <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.5)', padding: 20 }} onClick={() => setSelectedPerson(null)}>
+              <div style={{ background: 'white', borderRadius: 16, border: '2px solid #00B5D6', maxWidth: 520, width: '100%', overflow: 'hidden' }} onClick={e => e.stopPropagation()}>
+                <button onClick={() => setSelectedPerson(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'var(--gray-100)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 16, zIndex: 1 }}>✕</button>
+                <div style={{ padding: '28px 28px 20px', display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '3px solid #00B5D6', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {selectedPerson.photo ? (
+                      <img src={selectedPerson.photo} alt={selectedPerson.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <span style={{ fontSize: 28, fontWeight: 600, color: '#00B5D6' }}>{selectedPerson.name.split(' ').map(n => n[0]).join('')}</span>
+                    )}
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: 22, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{selectedPerson.name}</h3>
+                    <p style={{ fontSize: 14, color: '#00B5D6', margin: 0, fontWeight: 500 }}>{selectedPerson.title}</p>
+                  </div>
+                </div>
+                <div style={{ padding: '0 28px 28px' }}>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-700)' }}>{selectedPerson.bio}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
