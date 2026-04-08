@@ -180,7 +180,8 @@ export default function AboutContent() {
               <img
                 src="/accolades.png"
                 alt="Cosentus Accolades"
-                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
+                onLoad={(e) => { (e.target as HTMLImageElement).style.opacity = '1' }}
+                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto', opacity: 0, transition: 'opacity 0.5s ease' }}
               />
             </div>
           </FadeOnly>
