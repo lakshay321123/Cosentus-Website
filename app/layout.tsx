@@ -3,6 +3,7 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import CindyVoiceAgent from '@/components/ui/CindyVoiceAgent'
+import ChatWidget from '@/components/ui/ChatWidget'
 import { ChatProvider } from '@/components/ui/ChatContext'
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Footer />
           <CindyVoiceAgent />
+          <ChatWidget />
         </ChatProvider>
       </body>
     </html>

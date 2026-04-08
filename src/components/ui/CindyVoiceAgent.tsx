@@ -254,14 +254,14 @@ export default function CindyVoiceAgent() {
       {showMiniAvatar && (
         <button onClick={() => { setDismissed(false); setShowPopup(true); setState('idle') }}
           aria-label="Talk to Cindy"
-          style={{ position: 'fixed', bottom: 28, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+          style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
       {showPopup && !dismissed && (
-        <div style={{ position: 'fixed', bottom: 28, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25), 0 8px 32px rgba(0,0,0,0.1)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+        <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25), 0 8px 32px rgba(0,0,0,0.1)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
           <button onClick={dismissCindy} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
           <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
