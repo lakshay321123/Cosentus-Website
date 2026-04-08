@@ -1258,15 +1258,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     transition-duration: 0.01ms !important;
   }
 }
-/* Force-reveal fallback after 3s in case JS fails */
-@keyframes force-reveal {
-  to { opacity: 1; transform: none; filter: none; }
-}
-.reveal, .reveal-left, .reveal-right, .reveal-scale {
-  animation: force-reveal 0.7s ease 3s forwards;
-}
-.reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
-  animation: none;
+/* No-JS fallback — only applies when JavaScript is disabled */
+@media (scripting: none) {
+  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* ===== FUTURISTIC BUTTON EFFECTS ===== */
