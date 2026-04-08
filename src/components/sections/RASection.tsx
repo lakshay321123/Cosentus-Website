@@ -113,6 +113,7 @@ function AIPanel() {
               onFocus={handleFocus}
               onKeyDown={e => { if (e.key === 'Enter') { handleFocus(); setTimeout(() => handleSend(), 100) } }}
               placeholder={placeholder || 'Ask anything...'}
+              className="ra-search-input"
               style={{
                 flex: 1, background: 'transparent', border: 'none', outline: 'none',
                 color: 'white', fontSize: 15, fontFamily: 'var(--font-body)',
