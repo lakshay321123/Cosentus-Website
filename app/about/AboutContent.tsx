@@ -1,22 +1,7 @@
 'use client'
 
-import { useEffect, useRef, ReactNode } from 'react'
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-
-function FadeOnly({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { el.style.opacity = '1'; obs.unobserve(el) }
-    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return <div ref={ref} style={{ opacity: 0, transition: 'opacity 1s ease' }}>{children}</div>
-}
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -151,46 +136,6 @@ export default function AboutContent() {
               not quarterly investor returns. Our stability shows: 80% of our founding team remains with the company.
             </p>
           </RevealOnScroll>
-        </div>
-      </section>
-
-      {/* Recognition & Compliance */}
-      <section style={{
-        background: 'var(--primary)',
-        padding: '80px 0',
-      }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
-            <h3 style={{
-              fontSize: 14,
-              fontWeight: 400,
-              color: 'rgba(255,255,255,0.7)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              marginBottom: 16,
-            }}>RECOGNITION & COMPLIANCE</h3>
-            <p style={{
-              fontSize: 16,
-              color: 'rgba(255,255,255,0.6)',
-              marginBottom: 40,
-              maxWidth: 500,
-              margin: '0 auto 40px',
-              lineHeight: 1.6,
-            }}>
-              SOC 2 · HIPAA Compliant · HBMA Member · Inc. 5000 — four consecutive years · Great Place to Work — three consecutive years
-            </p>
-          </RevealOnScroll>
-          <FadeOnly>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/accolades.png"
-                alt="Cosentus Accolades"
-                onLoad={(e) => { (e.target as HTMLImageElement).style.opacity = '1' }}
-                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto', opacity: 0, transition: 'opacity 0.5s ease' }}
-              />
-            </div>
-          </FadeOnly>
         </div>
       </section>
 
