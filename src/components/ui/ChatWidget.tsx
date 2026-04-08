@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useChat } from './ChatContext'
 
 export default function ChatWidget() {
-  const { messages, addMessage, isOpen, setIsOpen } = useChat()
+  const { messages, sendMessage, isOpen, setIsOpen, isLoading } = useChat()
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -18,12 +18,9 @@ export default function ChatWidget() {
   }, [isOpen])
 
   const handleSend = () => {
-    if (!input.trim()) return
-    addMessage({ role: 'user', text: input })
+    if (!input.trim() || isLoading) return
+    sendMessage(input)
     setInput('')
-    setTimeout(() => {
-      addMessage({ role: 'bot', text: "Thanks for your question! Our team will connect with you shortly. Schedule a free revenue analysis for detailed insights about your practice." })
-    }, 800)
   }
 
   return (
@@ -81,6 +78,13 @@ export default function ChatWidget() {
                 {msg.text}
               </div>
             ))}
+            {isLoading && (
+              <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0s' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} />
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 

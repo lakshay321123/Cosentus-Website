@@ -19,7 +19,7 @@ const placeholders = [
 ]
 
 function AIPanel() {
-  const { messages, addMessage, setIsOpen } = useChat()
+  const { messages, sendMessage, setIsOpen, isLoading } = useChat()
   const [expanded, setExpanded] = useState(false)
   const [input, setInput] = useState('')
   const [placeholder, setPlaceholder] = useState('')
@@ -55,13 +55,9 @@ function AIPanel() {
   }
 
   const handleSend = () => {
-    if (!input.trim()) return
-    const q = input
-    addMessage({ role: 'user', text: q })
+    if (!input.trim() || isLoading) return
+    sendMessage(input)
     setInput('')
-    setTimeout(() => {
-      addMessage({ role: 'bot', text: "Thanks for your question! Our team will connect with you shortly. Schedule a free revenue analysis for detailed insights about your practice." })
-    }, 800)
   }
 
   const handleClose = () => {
@@ -156,6 +152,13 @@ function AIPanel() {
                 {msg.text}
               </div>
             ))}
+            {isLoading && (
+              <div style={{ background: '#36C2DE', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0s' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} />
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: 8, background: 'rgba(255,255,255,0.15)', borderRadius: 'var(--radius-md)', padding: '10px 14px' }}>
