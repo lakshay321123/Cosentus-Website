@@ -73,13 +73,14 @@ function AIPanel() {
     <div style={{
       background: expanded ? 'white' : '#00B5D6',
       borderRadius: 'var(--radius-lg)',
-      padding: expanded ? '28px' : '56px 40px',
+      padding: expanded ? '0' : '56px 40px',
       color: expanded ? '#1a1a1a' : 'white',
       transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-      minHeight: expanded ? 480 : 'auto',
+      height: 520,
       display: 'flex',
       flexDirection: 'column',
       border: expanded ? '2px solid #00B5D6' : 'none',
+      overflow: 'hidden',
     }}>
       {!expanded ? (
         <>
@@ -131,7 +132,7 @@ function AIPanel() {
       ) : (
         <>
           {/* Blue header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#00B5D6', borderRadius: '12px 12px 0 0', margin: '-28px -28px 16px -28px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#00B5D6', flexShrink: 0 }}>
             <div>
               <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', margin: 0 }}>Cosentus.ai</h4>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
@@ -139,8 +140,8 @@ function AIPanel() {
             <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>
           </div>
 
-          {/* White message area */}
-          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16, minHeight: 300, background: 'white', borderRadius: 8, padding: 16 }}>
+          {/* White message area — scrollable */}
+          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, padding: 16, background: 'white' }}>
             <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
               Hey! I&apos;m COSE AI. How can I help you today?
             </div>
@@ -167,8 +168,9 @@ function AIPanel() {
             )}
           </div>
 
-          {/* Input area */}
-          <div style={{ display: 'flex', gap: 8, background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', border: '1px solid #E6E6E6' }}>
+          {/* Input area — pinned to bottom */}
+          <div style={{ padding: '12px 16px', borderTop: '1px solid #E6E6E6', background: 'white', flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 8, background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', border: '1px solid #E6E6E6' }}>
             <input
               autoFocus
               type="text" value={input} onChange={e => setInput(e.target.value)}
@@ -177,6 +179,7 @@ function AIPanel() {
               style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 14, fontFamily: 'var(--font-body)' }}
             />
             <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '8px 20px', color: 'white', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
+            </div>
           </div>
         </>
       )}
