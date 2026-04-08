@@ -1,6 +1,21 @@
 'use client'
 
+import { useEffect, useRef, ReactNode } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+
+function FadeOnly({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { el.style.opacity = '1'; obs.unobserve(el) }
+    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return <div ref={ref} style={{ opacity: 0, transition: 'opacity 1s ease' }}>{children}</div>
+}
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -159,14 +174,16 @@ export default function AboutContent() {
               SOC 2 · HIPAA Compliant · HBMA Member · Inc. 5000 — four consecutive years · Great Place to Work — three consecutive years
             </p>
           </RevealOnScroll>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/accolades.png"
-              alt="Cosentus Accolades"
-              style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
-            />
-          </div>
+          <FadeOnly>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/accolades.png"
+                alt="Cosentus Accolades"
+                style={{ mixBlendMode: 'screen', maxWidth: 600, width: '100%', height: 'auto' }}
+              />
+            </div>
+          </FadeOnly>
         </div>
       </section>
 
