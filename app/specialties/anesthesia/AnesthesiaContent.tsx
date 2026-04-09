@@ -149,7 +149,7 @@ export default function AnesthesiaContent() {
       {/* Pre-Service Collection — Emily */}
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
                 <div className="section-label">AI AGENT SPOTLIGHT</div>
@@ -236,7 +236,7 @@ export default function AnesthesiaContent() {
           <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
           <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 32, marginTop: 48 }}>
+          <div className="testimonials-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
             {testimonials.map((t, i) => (
               <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
                 <div className="testimonial-card" style={{

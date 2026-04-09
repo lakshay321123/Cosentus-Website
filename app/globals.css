@@ -1725,6 +1725,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     width: 220px !important;
   }
 }
+
+/* Anesthesia page mobile fixes */
+@media (max-width: 900px) {
+  /* Emily spotlight: stack vertically */
+  .emily-spotlight-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  /* Testimonials: allow smaller cards */
+  .testimonials-responsive {
+    grid-template-columns: 1fr !important;
+  }
+}
 /* ==========================================================================
    MOBILE STYLESHEET — All mobile-specific rules in one place
    Everything below only applies at ≤768px viewport width.
