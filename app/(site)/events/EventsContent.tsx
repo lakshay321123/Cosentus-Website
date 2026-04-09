@@ -459,11 +459,12 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .events-stat-label {
-          font-size: 13px;
-          color: var(--gray-500);
-          margin-top: 8px;
+          font-size: 14px;
+          color: var(--gray-700);
+          margin-top: 10px;
           text-transform: uppercase;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.05em;
+          font-weight: 500;
         }
 
         /* Film Reel */
