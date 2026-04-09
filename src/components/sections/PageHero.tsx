@@ -48,7 +48,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: P
         )}
 
         <RevealOnScroll delay={0.1}>
-          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', color: 'white' }}>{title}</h1>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white' }}>{title}</h1>
         </RevealOnScroll>
 
         {subtitle && (
