@@ -62,7 +62,7 @@ export default function HeroSection() {
         </div>
 
         {/* Mobile testimonials carousel */}
-        <div className="hero-cases-mobile">
+        <div className="hero-cases-mobile" style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
           <MobileCarousel autoScrollInterval={4000} darkMode>
             {testimonials.map((t, i) => (
               <div key={i} className="hero-case" style={{ height: 'auto' }}>

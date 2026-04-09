@@ -41,7 +41,7 @@ export default function AdvantagesSection() {
         </div>
 
         {/* Mobile */}
-        <div className="advantages-mobile" style={{ marginTop: 32 }}>
+        <div className="advantages-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
           <MobileCarousel autoScrollInterval={4500}>
             {advantages.map((adv, i) => (
               <AdvantageCard key={i} adv={adv} />

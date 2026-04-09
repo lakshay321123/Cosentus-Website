@@ -46,7 +46,7 @@ export default function CaseStudiesSection() {
         </div>
 
         {/* Mobile */}
-        <div className="cases-mobile" style={{ marginTop: 32 }}>
+        <div className="cases-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
           <MobileCarousel autoScrollInterval={5000}>
             {caseStudies.map((cs, i) => (
               <CaseCard key={i} cs={cs} />

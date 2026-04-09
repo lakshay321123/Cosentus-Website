@@ -83,7 +83,7 @@ export default function MobileCarousel({
   }
 
   return (
-    <div className={`mobile-carousel ${className}`}>
+    <div className={`mobile-carousel ${className}`} style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
       <div
         ref={containerRef}
         className="mobile-carousel-track"
@@ -94,6 +94,7 @@ export default function MobileCarousel({
           display: 'flex',
           transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
           transform: `translateX(-${current * 100}%)`,
+          width: '100%',
         }}
       >
         {children.map((child, i) => (
@@ -101,10 +102,13 @@ export default function MobileCarousel({
             key={i}
             className="mobile-carousel-slide"
             style={{
+              width: '100%',
               minWidth: '100%',
+              maxWidth: '100%',
               flexShrink: 0,
-              padding: '0 4px',
+              padding: '0 8px',
               boxSizing: 'border-box',
+              overflow: 'hidden',
             }}
           >
             {child}

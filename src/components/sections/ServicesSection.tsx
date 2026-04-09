@@ -49,7 +49,7 @@ export default function ServicesSection() {
         </div>
 
         {/* Mobile */}
-        <div className="services-mobile" style={{ marginTop: 32 }}>
+        <div className="services-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
           <MobileCarousel autoScrollInterval={5000}>
             {services.map((svc, i) => (
               <ServiceCard key={i} svc={svc} />

@@ -81,7 +81,7 @@ export default function ResultsSection() {
         </div>
 
         {/* Mobile: carousel */}
-        <div className="results-mobile">
+        <div className="results-mobile" style={{ overflow: "hidden", width: "100%" }}>
           <MobileCarousel autoScrollInterval={3500}>
             {stats.map((stat, i) => (
               <StatCard key={i} stat={stat} />
