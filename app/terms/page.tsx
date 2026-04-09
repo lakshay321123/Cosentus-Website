@@ -84,7 +84,7 @@ export default function TermsPage() {
               300 Spectrum Center Drive, Suite 1450<br />
               Irvine, CA 92618<br />
               (949) 506-4185<br />
-              <a href="mailto:wecare@cosentus.com" style={{ color: 'var(--primary)' }}>wecare@cosentus.com</a>
+              <a href="mailto:sales@cosentus.com" style={{ color: 'var(--primary)' }}>sales@cosentus.com</a>
             </div>
           </div>
         </div>

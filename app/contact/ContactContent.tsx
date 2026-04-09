@@ -203,8 +203,8 @@ export default function ContactContent() {
                 <div style={{ marginBottom: 40 }}>
                   <h3 style={{ fontSize: 20, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 24 }}>Contact Details</h3>
                   {[
-                    { label: 'Phone', value: '(877) 806-2286', href: 'tel:8778062286' },
-                    { label: 'Email', value: 'wecare@cosentus.com', href: 'mailto:wecare@cosentus.com' },
+                    { label: 'Phone', value: '(877) 266-9040', href: 'tel:8772669040' },
+                    { label: 'Email', value: 'sales@cosentus.com', href: 'mailto:sales@cosentus.com' },
                     { label: 'Headquarters', value: 'Irvine, California', href: null },
                     { label: 'Hours', value: 'Monday–Friday, 9am–5pm (all time zones)', href: null },
                   ].map((item, i) => (
