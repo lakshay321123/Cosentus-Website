@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -26,6 +26,16 @@ const allAgents = [
 export default function RAPageContent() {
   const [selectedAgent, setSelectedAgent] = useState<typeof allAgents[0] | null>(null)
   const [activeStep, setActiveStep] = useState(0)
+  const [stepPaused, setStepPaused] = useState(false)
+
+  // Auto-advance steps every 5 seconds, loop back to 1
+  useEffect(() => {
+    if (stepPaused) return
+    const timer = setInterval(() => {
+      setActiveStep(prev => (prev >= steps.length - 1 ? 0 : prev + 1))
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [stepPaused, activeStep])
   
   // Avatar gradient colors per agent
   const avatarColors: Record<string, string> = {
@@ -231,7 +241,7 @@ export default function RAPageContent() {
 
 
       {/* How R+A Works — Interactive 5-Step Timeline */}
-      <section className="section section-alt" style={{ overflow: 'hidden' }}>
+      <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
             <div className="section-label">HOW R+A WORKS</div>
