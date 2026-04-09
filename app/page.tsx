@@ -4,6 +4,7 @@ import ResultsSection from '@/components/sections/ResultsSection'
 import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
 import AdvantagesSection from '@/components/sections/AdvantagesSection'
 import ServicesSection from '@/components/sections/ServicesSection'
+import PartnersSection from '@/components/sections/PartnersSection'
 import CTASection from '@/components/sections/CTASection'
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <CaseStudiesSection />
       <AdvantagesSection />
       <ServicesSection />
+      <PartnersSection />
       <CTASection />
     </main>
   )
