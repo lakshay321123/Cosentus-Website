@@ -442,7 +442,8 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           display: flex;
           justify-content: center;
           gap: 48px;
-          padding: 8px 0;
+          padding: 0;
+          align-items: center;
           flex-wrap: wrap;
         }
 
@@ -451,7 +452,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .events-stat-number {
-          font-size: clamp(22px, 3vw, 30px);
+          font-size: clamp(36px, 5vw, 56px);
           font-weight: 300;
           color: var(--primary);
           line-height: 1;
@@ -459,9 +460,9 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .events-stat-label {
-          font-size: 11px;
+          font-size: 13px;
           color: var(--gray-500);
-          margin-top: 4px;
+          margin-top: 6px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           font-weight: 500;
@@ -734,7 +735,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       `}</style>
 
       {/* Stats */}
-      <section style={{ padding: '24px 0' }}>
+      <section style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 0' }}>
         <div className="container">
             <div className="events-stats">
               <div className="events-stat">
