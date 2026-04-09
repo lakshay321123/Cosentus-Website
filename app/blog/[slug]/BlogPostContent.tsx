@@ -12,6 +12,45 @@ function ArrowLeftIcon() {
   )
 }
 
+// Split a FAQ paragraph that contains multiple Q&A pairs concatenated together
+// e.g. "What is X? X is... How does Y? Y works by..." → [{question, answer}, ...]
+function splitFaqText(text: string): { question: string; answer: string }[] {
+  const pairs: { question: string; answer: string }[] = []
+
+  // Match questions that start with common question words and end with ?
+  // Must be preceded by start-of-string or sentence boundary (. or ? followed by space)
+  const qWords = 'What|When|Who|Which|How|Why|Where|Can|Do|Does|Should|Is|Are'
+  const regex = new RegExp(`(?:^|[.?]\\s+)((?:${qWords})\\b[^?]*\\?)`, 'g')
+  const questions: { q: string; start: number; end: number }[] = []
+  let match
+
+  while ((match = regex.exec(text)) !== null) {
+    const qStart = text.indexOf(match[1], match.index)
+    questions.push({ q: match[1].trim(), start: qStart, end: qStart + match[1].length })
+  }
+
+  if (questions.length === 0) {
+    // Fallback: try simple first-question-mark split
+    const firstQ = text.indexOf('?')
+    if (firstQ > 0 && firstQ < text.length - 1) {
+      return [{ question: text.slice(0, firstQ + 1).trim(), answer: text.slice(firstQ + 1).trim() }]
+    }
+    return []
+  }
+
+  for (let i = 0; i < questions.length; i++) {
+    const answerStart = questions[i].end
+    const answerEnd = i + 1 < questions.length ? questions[i + 1].start : text.length
+    const answer = text.slice(answerStart, answerEnd).trim()
+
+    if (answer) {
+      pairs.push({ question: questions[i].q, answer })
+    }
+  }
+
+  return pairs
+}
+
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const [activeId, setActiveId] = useState<string>('')
   const [tocOpen, setTocOpen] = useState(true)
@@ -218,29 +257,32 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   )}
 
                   {section.content.map((text, j) => {
-                    // Detect FAQ Q&A patterns
+                    // Detect FAQ Q&A patterns — split multi-QA paragraphs
                     if (section.heading.toLowerCase().includes("faq")) {
-                      // Check if text contains a question followed by answer
-                      const qaMatch = text.match(/^(.+\?)\s+(.+)$/)
-                      if (qaMatch) {
+                      const qaPairs = splitFaqText(text)
+                      if (qaPairs.length > 0) {
                         return (
-                          <div key={j} style={{
-                            marginBottom: 20, padding: '20px 24px',
-                            background: 'var(--gray-50)',
-                            borderRadius: 'var(--radius-md)',
-                            border: '1px solid var(--gray-200)',
-                          }}>
-                            <p style={{
-                              fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
-                              marginBottom: 8, lineHeight: 1.5,
-                            }}>
-                              {qaMatch[1]}
-                            </p>
-                            <p style={{
-                              fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
-                            }}>
-                              {qaMatch[2]}
-                            </p>
+                          <div key={j}>
+                            {qaPairs.map((qa, qi) => (
+                              <div key={qi} style={{
+                                marginBottom: 20, padding: '20px 24px',
+                                background: 'var(--gray-50)',
+                                borderRadius: 'var(--radius-md)',
+                                border: '1px solid var(--gray-200)',
+                              }}>
+                                <p style={{
+                                  fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+                                  marginBottom: 10, lineHeight: 1.5,
+                                }}>
+                                  {qa.question}
+                                </p>
+                                <p style={{
+                                  fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+                                }}>
+                                  {qa.answer}
+                                </p>
+                              </div>
+                            ))}
                           </div>
                         )
                       }
