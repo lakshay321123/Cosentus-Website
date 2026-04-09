@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { ConversationProvider, useConversation } from '@elevenlabs/react'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
@@ -10,7 +11,9 @@ function CindyInner() {
   const [dismissed, setDismissed] = useState(false)
   const [blinking, setBlinking] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
+  const [navMessage, setNavMessage] = useState('')
   const mouthRef = useRef<NodeJS.Timeout | null>(null)
+  const router = useRouter()
 
   const conversation = useConversation({
     onConnect: () => console.log('Cindy connected'),
@@ -18,6 +21,20 @@ function CindyInner() {
     onError: (error: string) => console.error('Cindy error:', error),
     onMessage: (msg: { source: string; message: string }) => {
       console.log('Message:', msg.source, msg.message)
+    },
+    clientTools: {
+      // This tool gets called when the AI decides to navigate
+      navigate: (params: { path: string; section?: string }) => {
+        console.log('Cindy navigating to:', params.path, params.section)
+        setNavMessage(`Navigating to ${params.path}...`)
+        router.push(params.path)
+        if (params.section) {
+          setTimeout(() => {
+            document.getElementById(params.section!)?.scrollIntoView({ behavior: 'smooth' })
+          }, 1000)
+        }
+        return `Navigated to ${params.path}`
+      },
     },
   })
 
