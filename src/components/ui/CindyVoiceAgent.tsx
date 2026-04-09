@@ -147,6 +147,28 @@ export default function CindyVoiceAgent() {
       setResponse(aiText)
 
       let spoken = false
+      let interrupted = false
+
+      // Start background speech detection for auto-interrupt
+      let interruptRecognition: any = null
+      try {
+        const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+        if (SR) {
+          interruptRecognition = new SR()
+          interruptRecognition.continuous = false
+          interruptRecognition.interimResults = true
+          interruptRecognition.lang = 'en-US'
+          interruptRecognition.onresult = () => {
+            // User started speaking — interrupt Cindy!
+            interrupted = true
+            if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
+            speechSynthesis.cancel()
+            try { interruptRecognition.stop() } catch {}
+          }
+          interruptRecognition.onerror = () => {} // Ignore errors
+          interruptRecognition.start()
+        }
+      } catch {}
 
       // Try ElevenLabs
       try {
@@ -156,7 +178,7 @@ export default function CindyVoiceAgent() {
           body: JSON.stringify({ text: aiText }),
         })
 
-        if (ttsRes.ok) {
+        if (ttsRes.ok && !interrupted) {
           const blob = await ttsRes.blob()
           const url = URL.createObjectURL(blob)
           const audio = new Audio(url)
@@ -165,6 +187,7 @@ export default function CindyVoiceAgent() {
           await new Promise<void>((resolve) => {
             audio.onended = () => { URL.revokeObjectURL(url); resolve() }
             audio.onerror = () => { URL.revokeObjectURL(url); resolve() }
+            audio.onpause = () => { URL.revokeObjectURL(url); resolve() } // Handle interrupt pause
             audio.play().catch(() => resolve())
           })
           spoken = true
@@ -174,10 +197,10 @@ export default function CindyVoiceAgent() {
       }
 
       // Fallback: browser TTS
-      if (!spoken) {
+      if (!spoken && !interrupted) {
         await new Promise<void>((resolve) => {
           const utterance = new SpeechSynthesisUtterance(aiText)
-          utterance.rate = 1.0
+          utterance.rate = 0.95
           utterance.pitch = 1.05
           const voices = speechSynthesis.getVoices()
           const female = voices.find(v => v.name.includes('Samantha') || v.name.includes('Google UK English Female'))
@@ -188,9 +211,19 @@ export default function CindyVoiceAgent() {
         })
       }
 
+      // Clean up interrupt recognition
+      try { interruptRecognition?.stop() } catch {}
+
       // Handle navigation AFTER speaking
-      if (data.navigate) {
+      if (data.navigate && !interrupted) {
         navigate(data.navigate.route, data.navigate.scroll)
+      }
+
+      // If interrupted, go straight to listening
+      if (interrupted) {
+        setState('idle')
+        setTimeout(() => startListening(), 200)
+        return
       }
 
       // Auto-restart listening if conversation is active
@@ -309,7 +342,7 @@ export default function CindyVoiceAgent() {
                   <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
                   </svg>
-                  {state === 'listening' ? 'Tap to Stop' : state === 'speaking' ? 'Tap to Interrupt' : 'Tap to Talk'}
+                  {state === 'listening' ? 'Tap to Stop' : state === 'speaking' ? 'Speaking...' : 'Tap to Talk'}
                 </button>
               </>
             )}
