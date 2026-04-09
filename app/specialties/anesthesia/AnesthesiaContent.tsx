@@ -213,26 +213,30 @@ export default function AnesthesiaContent() {
 
           <RevealOnScroll delay={0.3}>
             <div>
-              {/* Photo cards grid — 6 at a time */}
+              {/* Compact headshot cards — 6 at a time */}
               <div key={leaderPage} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                 {visibleLeaders.map((leader, i) => (
                   <div key={i} className="leader-photo-card" style={{
-                    borderRadius: 14, overflow: 'hidden', border: '1px solid var(--gray-200)',
+                    borderRadius: 14, border: '1px solid var(--gray-200)', padding: '32px 20px 24px',
                     background: 'var(--white)', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
                   }}>
-                    <div style={{ height: 220, overflow: 'hidden', background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{
+                      width: 96, height: 96, borderRadius: '50%', overflow: 'hidden',
+                      border: '3px solid var(--gray-200)', marginBottom: 16, flexShrink: 0,
+                      background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'border-color 0.3s ease',
+                    }}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
+                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
                       ) : (
-                        <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 500, color: 'white' }}>
+                        <div style={{ fontSize: 28, fontWeight: 500, color: 'var(--primary)' }}>
                           {leader.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                         </div>
                       )}
                     </div>
-                    <div style={{ padding: '16px 20px', textAlign: 'center' }}>
-                      <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>{leader.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)', lineHeight: 1.4 }}>{leader.role}</div>
-                    </div>
+                    <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>{leader.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)', lineHeight: 1.4 }}>{leader.role}</div>
                   </div>
                 ))}
               </div>
