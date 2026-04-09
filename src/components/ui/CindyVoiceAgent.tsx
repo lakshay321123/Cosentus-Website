@@ -155,15 +155,66 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // PAGE AWARENESS: Tell Cindy which page the user is on
+  // REAL-TIME PAGE CONTENT: Scrape actual text from the page and send to Cindy
   useEffect(() => {
-    if (isConnected && pathname) {
+    if (!isConnected || !pathname) return
+
+    // Wait for page to render before scraping
+    const timer = setTimeout(() => {
       try {
-        conversation.sendContextualUpdate(
-          `The user is now on page: ${pathname}. Adapt your responses to this page's content. You can scroll to show them different sections on this page.`
+        const main = document.querySelector('main')
+        if (!main) return
+
+        // Build structured content from the page
+        const sections: string[] = []
+        let currentSection = ''
+
+        const els = main.querySelectorAll(
+          'h1, h2, h3, h4, .section-label, .section-title, .section-desc, ' +
+          'p, li, .hero-sub, .hero-case-title, .hero-case-tag, ' +
+          '.advantage-card h4, .advantage-card p, .service-card h4, .service-card p, ' +
+          '.result-number span, .result-label, ' +
+          'label, option, a.service-link, a.hero-case-link'
         )
-      } catch { /* may not be available during disconnect */ }
-    }
+
+        for (const el of Array.from(els)) {
+          const tag = el.tagName.toLowerCase()
+          const cls = el.className || ''
+          const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
+          if (!text || text.length < 2) continue
+
+          // Skip nav/footer/cindy panel content
+          if (el.closest('nav, footer, [style*="position: fixed"]')) continue
+
+          if (tag === 'h1' || tag === 'h2' || cls.includes('section-title')) {
+            if (currentSection) sections.push(currentSection)
+            currentSection = `\n## ${text}\n`
+          } else if (tag === 'h3' || tag === 'h4' || cls.includes('section-label')) {
+            currentSection += `\n### ${text}\n`
+          } else if (cls.includes('result-number')) {
+            currentSection += `${text} `
+          } else if (cls.includes('result-label')) {
+            currentSection += `${text}\n`
+          } else {
+            currentSection += `${text}\n`
+          }
+        }
+        if (currentSection) sections.push(currentSection)
+
+        const pageContent = sections.join('').substring(0, 4000)
+
+        conversation.sendContextualUpdate(
+          `PAGE: ${pathname}\n` +
+          `The user is viewing this page right now. Here is the ACTUAL content on screen:\n` +
+          `---\n${pageContent}\n---\n` +
+          `Use this content to answer questions. You can reference specific text, numbers, names, and sections that are on this page. ` +
+          `When the user says "scroll down" or "show me more", use the scroll_to tool with section_id="down". ` +
+          `You can also scroll to any heading or section you see in the content above.`
+        )
+      } catch { /* ignore errors during page transitions */ }
+    }, 800) // Wait for render
+
+    return () => clearTimeout(timer)
   }, [pathname, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Blink (PR fix: cleanup nested timeout to prevent memory leak)
