@@ -442,7 +442,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           display: flex;
           justify-content: center;
           gap: 48px;
-          padding: 40px 0;
+          padding: 8px 0;
           flex-wrap: wrap;
         }
 
@@ -451,7 +451,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .events-stat-number {
-          font-size: clamp(32px, 4vw, 48px);
+          font-size: clamp(22px, 3vw, 30px);
           font-weight: 300;
           color: var(--primary);
           line-height: 1;
@@ -459,9 +459,9 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .events-stat-label {
-          font-size: 14px;
-          color: var(--gray-700);
-          margin-top: 10px;
+          font-size: 11px;
+          color: var(--gray-500);
+          margin-top: 4px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           font-weight: 500;
@@ -513,7 +513,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
 
         .film-strip {
           position: relative;
-          height: 110px;
+          height: 150px;
           overflow: hidden;
         }
 
@@ -570,7 +570,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         .film-track {
           display: flex;
           gap: 6px;
-          padding: 16px 0;
+          padding: 14px 0;
           animation-timing-function: linear;
           animation-iteration-count: infinite;
           width: max-content;
@@ -595,8 +595,8 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .film-frame {
-          width: 130px;
-          height: 78px;
+          width: 200px;
+          height: 120px;
           border-radius: 3px;
           overflow: hidden;
           flex-shrink: 0;
@@ -715,12 +715,12 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           }
 
           .film-strip {
-            height: 90px;
+            height: 120px;
           }
 
           .film-frame {
-            width: 100px;
-            height: 60px;
+            width: 150px;
+            height: 90px;
           }
 
           .film-track-left {
@@ -734,9 +734,8 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       `}</style>
 
       {/* Stats */}
-      <section className="section" style={{ paddingBottom: 20 }}>
+      <section style={{ padding: '24px 0' }}>
         <div className="container">
-          <RevealOnScroll>
             <div className="events-stats">
               <div className="events-stat">
                 <div className="events-stat-number">{eventsData.length}</div>
@@ -755,7 +754,6 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
                 <div className="events-stat-label">Countries</div>
               </div>
             </div>
-          </RevealOnScroll>
         </div>
       </section>
 
