@@ -477,6 +477,10 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           padding-top: 56px;
         }
 
+        .film-strip:first-of-type {
+          border-top: 2px solid var(--primary);
+        }
+
         .film-reel-gap-cover {
           display: none;
         }
