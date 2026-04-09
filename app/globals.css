@@ -2405,6 +2405,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ===== PARTNERS BAR ===== */
-.partner-logo-text:hover {
-  color: var(--primary) !important;
+.partner-logo:hover {
+  opacity: 1 !important;
 }
