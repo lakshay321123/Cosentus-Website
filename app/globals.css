@@ -2455,3 +2455,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .partners-desktop { display: none !important; }
   .partners-mobile { display: block !important; }
 }
+
+/* ===== SERVICES ROW LAYOUT ===== */
+@media (max-width: 768px) {
+  .service-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 20px 0 !important;
+  }
+  .service-row > div:first-child {
+    display: none !important;
+  }
+  .service-row > div:last-child {
+    display: none !important;
+  }
+  .service-row > div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+  }
+  .service-row-stat {
+    text-align: right !important;
+    flex-shrink: 0;
+  }
+}
