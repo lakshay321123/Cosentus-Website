@@ -108,7 +108,7 @@ export default function OrthopedicsContent() {
         <div className="container">
           <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
           <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 32, marginTop: 48 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
             {testimonials.map((t, i) => (
               <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
                 <div className="testimonial-card" style={{
