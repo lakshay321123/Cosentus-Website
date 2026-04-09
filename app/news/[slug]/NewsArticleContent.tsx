@@ -31,18 +31,22 @@ function renderMarkdown(text: string) {
       continue // Skip empty lines — paragraph margins handle spacing
     }
 
-    // H2
+    // H2 — same font size, differentiated by weight
     if (trimmed.startsWith('## ')) {
       elements.push(
         <h2 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(20px, 2.5vw, 28px)',
-          fontWeight: 400,
+          fontSize: 16,
+          fontWeight: 700,
           color: 'var(--gray-900)',
-          marginTop: 40,
-          marginBottom: 16,
-          lineHeight: 1.3,
-          letterSpacing: '-0.01em',
+          marginTop: 36,
+          marginBottom: 12,
+          lineHeight: 1.75,
+          textTransform: 'uppercase',
+          letterSpacing: '0.02em',
+          borderLeft: '3px solid var(--primary)',
+          paddingLeft: 16,
+          marginLeft: 4,
         }}>
           {formatInline(trimmed.slice(3))}
         </h2>
@@ -50,17 +54,20 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // H3
+    // H3 — same font size, semi-bold
     if (trimmed.startsWith('### ')) {
       elements.push(
         <h3 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(17px, 2vw, 22px)',
-          fontWeight: 500,
+          fontSize: 16,
+          fontWeight: 600,
           color: 'var(--gray-900)',
-          marginTop: 32,
-          marginBottom: 12,
-          lineHeight: 1.4,
+          marginTop: 28,
+          marginBottom: 10,
+          lineHeight: 1.75,
+          borderLeft: '3px solid var(--primary)',
+          paddingLeft: 16,
+          marginLeft: 4,
         }}>
           {formatInline(trimmed.slice(4))}
         </h3>
@@ -68,17 +75,20 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // H4
+    // H4 — same font size, medium weight
     if (trimmed.startsWith('#### ')) {
       elements.push(
         <h4 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(16px, 1.8vw, 20px)',
-          fontWeight: 500,
+          fontSize: 16,
+          fontWeight: 600,
           color: 'var(--gray-900)',
-          marginTop: 28,
-          marginBottom: 10,
-          lineHeight: 1.4,
+          marginTop: 24,
+          marginBottom: 8,
+          lineHeight: 1.75,
+          borderLeft: '3px solid var(--primary)',
+          paddingLeft: 16,
+          marginLeft: 4,
         }}>
           {formatInline(trimmed.slice(5))}
         </h4>
@@ -86,14 +96,16 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // Bullet points
+    // Bullet points — teal left border
     if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
       elements.push(
         <div key={key++} style={{
-          display: 'flex',
-          gap: 12,
+          borderLeft: '3px solid var(--primary)',
+          paddingLeft: 16,
           marginBottom: 8,
-          paddingLeft: 8,
+          marginLeft: 4,
+          display: 'flex',
+          gap: 10,
         }}>
           <span style={{ color: 'var(--primary)', fontWeight: 600, flexShrink: 0 }}>•</span>
           <p style={{
@@ -108,15 +120,17 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // Numbered lists (1. 2. 3. etc.)
+    // Numbered lists — teal left border
     const numberedMatch = trimmed.match(/^(\d+)\.\s(.+)/)
     if (numberedMatch) {
       elements.push(
         <div key={key++} style={{
-          display: 'flex',
-          gap: 12,
+          borderLeft: '3px solid var(--primary)',
+          paddingLeft: 16,
           marginBottom: 8,
-          paddingLeft: 8,
+          marginLeft: 4,
+          display: 'flex',
+          gap: 10,
         }}>
           <span style={{ color: 'var(--primary)', fontWeight: 600, flexShrink: 0, minWidth: 20 }}>{numberedMatch[1]}.</span>
           <p style={{
