@@ -1,8 +1,11 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
+import { getPageData } from '@/sanity/lib/queries'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Pain Management Billing & RCM | Interventional Expertise | Cosentus',
@@ -20,13 +23,17 @@ const services = [
   { title: 'Analytics & Visibility', desc: 'Dashboards showing collections by procedure, provider, payer, and denial category.', iconPath: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
 ]
 
-export default function PainManagementPage() {
+export default async function PainManagementPage() {
+  
+  let page: any = null
+  try { page = await getPageData('pain-management') } catch (e) {}
+
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
         label="PAIN MANAGEMENT"
-        title="Pain Management Procedures Are High-Value. Your Reimbursements Should Be Too."
-        subtitle="Injections, SCS, ablations, and medication management — coded precisely, authorized proactively, defended aggressively."
+        title={page?.heroHeadline || "Pain Management Procedures Are High-Value. Your Reimbursements Should Be Too."}
+        subtitle={page?.heroSubtitle || "Injections, SCS, ablations, and medication management — coded precisely, authorized proactively, defended aggressively."}
         ctaText="Get Your Free Pain Management Revenue Analysis"
         ctaHref="/contact"
       />

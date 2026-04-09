@@ -1,21 +1,28 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
+import { getPageData } from '@/sanity/lib/queries'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import OrthopedicsContent from './OrthopedicsContent'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Orthopedic Billing & RCM | Surgical Precision Meets Revenue Intelligence | Cosentus',
   description: 'Joint replacements, arthroscopy, spinal surgery, and implant cases demand surgical-grade coding and proactive contract management.',
 }
 
-export default function OrthopedicsPage() {
+export default async function OrthopedicsPage() {
+  
+  let page: any = null
+  try { page = await getPageData('orthopedics') } catch (e) {}
+
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
         label="ORTHOPEDICS"
-        title="Think Growth. Your Dedicated Orthopedic Revenue Cycle Partner."
-        subtitle="Joint replacements, arthroscopy, spinal surgery, and implant cases demand surgical-grade coding and proactive contract management. Cosentus ensures every procedure is captured, billed, and collected."
+        title={page?.heroHeadline || "Think Growth. Your Dedicated Orthopedic Revenue Cycle Partner."}
+        subtitle={page?.heroSubtitle || "Joint replacements, arthroscopy, spinal surgery, and implant cases demand surgical-grade coding and proactive contract management. Cosentus ensures every procedure is captured, billed, and collected."}
         ctaText="Get Your Free Orthopedic Revenue Analysis"
         ctaHref="/contact"
       />

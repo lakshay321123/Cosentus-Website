@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
-const services = [
+const defaultServices = [
   {
     num: '01',
     title: 'Medical Billing & Coding',
@@ -39,7 +39,7 @@ const services = [
   },
 ]
 
-function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) {
+function ServiceRow({ svc, index }: { svc: typeof defaultServices[0]; index: number }) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -142,7 +142,15 @@ function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) 
   )
 }
 
-export default function ServicesSection() {
+export default function ServicesSection({ services: sanityServices }: { services?: any[] }) {
+  const services = sanityServices?.length ? sanityServices.map((s, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    title: s.title,
+    desc: s.description,
+    href: s.link || '#',
+    stat: s.statValue || '',
+    statLabel: s.statLabel || '',
+  })) : defaultServices
   return (
     <section className="section" id="services" style={{ overflow: 'hidden' }}>
       <div className="container">

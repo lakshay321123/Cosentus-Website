@@ -1,8 +1,11 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
+import { getPageData } from '@/sanity/lib/queries'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'ASC Billing & RCM | Facility + Professional Fee Expertise | Cosentus',
@@ -20,13 +23,17 @@ const services = [
   { title: 'Denial Management', desc: 'Appeals with clinical rationale and cost justification.', iconPath: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
 ]
 
-export default function ASCPage() {
+export default async function ASCPage() {
+  
+  let page: any = null
+  try { page = await getPageData('asc') } catch (e) {}
+
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
         label="AMBULATORY SURGERY CENTERS"
-        title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
-        subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
+        title={page?.heroHeadline || <>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
+        subtitle={page?.heroHeadline || "ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."}
         ctaText="Get Your Free ASC Revenue Analysis"
         ctaHref="/contact"
       />
