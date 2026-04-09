@@ -1659,6 +1659,37 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 8px 24px rgba(0,181,214,0.12);
   border-color: #00B5D6 !important;
 }
+
+/* ===== ANESTHESIA PAGE COMPONENTS ===== */
+.leader-row:hover {
+  border-color: var(--primary) !important;
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0,181,214,0.1);
+}
+
+.leader-row:hover > div:first-child {
+  background: var(--primary) !important;
+  color: white !important;
+}
+
+.testimonial-card:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
+  transform: translateY(-4px);
+}
+
+.emily-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,181,214,0.2);
+  border-color: var(--primary) !important;
+}
+
+/* Emily section mobile */
+@media (max-width: 768px) {
+  .emily-card {
+    width: 220px !important;
+  }
+}
 /* ==========================================================================
    MOBILE STYLESHEET — All mobile-specific rules in one place
    Everything below only applies at ≤768px viewport width.
