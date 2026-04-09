@@ -63,6 +63,16 @@ export default function CindyVoiceAgent() {
 
   // ===== Speak via ElevenLabs =====
   async function speakText(text: string): Promise<void> {
+    // CRITICAL: Clean up any previous audio to prevent memory buildup
+    // This is what causes "starts great then degrades"
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = ''
+      audioRef.current.load() // Release audio buffer from memory
+      audioRef.current = null
+    }
+    speechSynthesis.cancel()
+
     try {
       const res = await fetch('/api/tts', {
         method: 'POST',
@@ -75,9 +85,15 @@ export default function CindyVoiceAgent() {
         const audio = new Audio(url)
         audioRef.current = audio
         await new Promise<void>(resolve => {
-          audio.onended = () => { URL.revokeObjectURL(url); audioRef.current = null; resolve() }
-          audio.onerror = () => { URL.revokeObjectURL(url); audioRef.current = null; resolve() }
-          audio.play().catch(() => { audioRef.current = null; resolve() })
+          const cleanup = () => {
+            URL.revokeObjectURL(url)
+            audio.src = ''
+            audio.load() // Free audio buffer
+            audioRef.current = null
+          }
+          audio.onended = () => { cleanup(); resolve() }
+          audio.onerror = () => { cleanup(); resolve() }
+          audio.play().catch(() => { cleanup(); resolve() })
         })
         return
       }
@@ -94,7 +110,12 @@ export default function CindyVoiceAgent() {
   }
 
   function stopAudio() {
-    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; audioRef.current = null }
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = ''
+      audioRef.current.load()
+      audioRef.current = null
+    }
     speechSynthesis.cancel()
   }
 

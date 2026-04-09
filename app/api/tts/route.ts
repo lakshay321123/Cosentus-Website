@@ -13,7 +13,10 @@ export async function POST(req: NextRequest) {
 
     const voiceId = '4qGY1svUBZLI7l8Ei9WW'
 
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?optimize_streaming_latency=3&output_format=mp3_44100_128`, {
+    // Flash v2.5 = fastest + best quality for real-time
+    // NO optimize_streaming_latency param = best audio quality
+    // output_format mp3_44100_128 = high quality
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
       method: 'POST',
       headers: {
         'xi-api-key': apiKey,
@@ -21,13 +24,13 @@ export async function POST(req: NextRequest) {
         'Accept': 'audio/mpeg',
       },
       body: JSON.stringify({
-        text: text.substring(0, 500),
-        model_id: 'eleven_turbo_v2_5',
+        text: text.substring(0, 1000),
+        model_id: 'eleven_flash_v2_5',
         voice_settings: {
-          stability: 0.78,
+          stability: 0.65,
           similarity_boost: 0.80,
           style: 0.0,
-          use_speaker_boost: false,
+          use_speaker_boost: true,
         },
       }),
     })
@@ -40,7 +43,10 @@ export async function POST(req: NextRequest) {
 
     const audioBuffer = await response.arrayBuffer()
     return new NextResponse(audioBuffer, {
-      headers: { 'Content-Type': 'audio/mpeg' },
+      headers: {
+        'Content-Type': 'audio/mpeg',
+        'Cache-Control': 'no-store',
+      },
     })
   } catch (e) {
     console.error('TTS error:', e)
