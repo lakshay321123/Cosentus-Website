@@ -190,19 +190,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Dropdown nav */
 .has-dropdown { position: relative; }
 
-.has-dropdown > a::after {
-  content: '';
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 4px solid currentColor;
-  margin-left: 6px;
-  vertical-align: middle;
-  opacity: 0.6;
-}
-
 .dropdown {
   position: absolute;
   top: 100%;
