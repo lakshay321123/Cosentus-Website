@@ -13,13 +13,6 @@ const services = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>, title: 'Reporting & Analytics', desc: 'Real-time dashboards showing collections by procedure, surgeon, payer, and facility.' },
 ]
 
-const stats = [
-  { value: '46%', label: 'Revenue Growth' },
-  { value: '95%+', label: 'Appeal Success' },
-  { value: '28', label: 'Day WC Turnaround' },
-  { value: '$2.2M', label: 'From $1.5M' },
-]
-
 const testimonials = [
   { quote: 'Dedicated, flexible, and responsive team. Very pleased with increase in collections and their ability to work denials. Highly recommend Cosentus for medical offices needing a positive change.', author: 'Ryan King', title: 'Director of Operations, Hand Microsurgery & Reconstructive Orthopaedic' },
   { quote: 'They have been a great service to my practice. I highly recommend them. My collections have significantly increased.', author: 'Dr. Samir and Kavita Sharma', title: 'South Bay Orthopedics' },
@@ -28,23 +21,6 @@ const testimonials = [
 export default function OrthopedicsContent() {
   return (
     <>
-      {/* Stats Bar */}
-      <section style={{ borderBottom: '1px solid var(--gray-200)', padding: '36px 0' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-            {stats.map((s, i) => (
-              <RevealOnScroll key={i} delay={i * 0.15}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 'clamp(28px, 3vw, 40px)', fontWeight: 300, color: '#00B5D6', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{s.label}</div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
       {/* Challenge + Solution — Split Section */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
@@ -147,17 +123,12 @@ export default function OrthopedicsContent() {
               ))}
             </MobileCarousel>
           </div>
-        </div>
-      </section>
 
-
-      {/* Alta */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll><div className="section-label">EXPANDED CAPABILITIES</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div style={{ padding: '28px 32px', background: 'white', borderRadius: 12, border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6' }}>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--gray-600)', margin: 0 }}>
+          {/* Alta callout — integrated into services section */}
+          <RevealOnScroll delay={0.5}>
+            <div style={{ marginTop: 40, padding: '24px 32px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6', display: 'flex', alignItems: 'center', gap: 16 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={1.5} style={{ flexShrink: 0 }}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+              <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', margin: 0 }}>
                 <strong style={{ color: 'var(--gray-900)' }}>Alta Management Solutions</strong> — In May 2025, Cosentus acquired Alta, expanding orthopedic and multi-specialty surgical expertise, ASC management, and contract negotiation capabilities.
               </p>
             </div>
