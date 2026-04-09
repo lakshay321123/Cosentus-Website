@@ -105,7 +105,7 @@ export default function OrthopedicsContent() {
             {services.map((s, i) => (
               <RevealOnScroll key={i} delay={i * 0.07}>
                 <div className="advantage-card">
-                  <div className="advantage-icon">{typeof s.icon === 'string' ? <Image src={s.icon} alt="" width={28} height={28} className="icon-teal" style={{ objectFit: 'contain' }} /> : s.icon}</div>
+                  <div className="advantage-icon"><Image src={s.icon} alt="" width={28} height={28} className="icon-teal" style={{ objectFit: 'contain' }} /></div>
                   <h4>{s.title}</h4>
                   <p>{s.desc}</p>
                 </div>
@@ -116,7 +116,7 @@ export default function OrthopedicsContent() {
             <MobileCarousel autoScrollInterval={4500}>
               {services.map((s, i) => (
                 <div key={i} className="advantage-card">
-                  <div className="advantage-icon">{typeof s.icon === 'string' ? <Image src={s.icon} alt="" width={28} height={28} className="icon-teal" style={{ objectFit: 'contain' }} /> : s.icon}</div>
+                  <div className="advantage-icon"><Image src={s.icon} alt="" width={28} height={28} className="icon-teal" style={{ objectFit: 'contain' }} /></div>
                   <h4>{s.title}</h4>
                   <p>{s.desc}</p>
                 </div>
