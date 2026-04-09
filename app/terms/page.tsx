@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
 
 export const metadata: Metadata = { title: 'Terms & Conditions | Cosentus' }
@@ -20,7 +21,7 @@ export default function TermsPage() {
             <p>This Term of Use agreement (the &ldquo;Agreement&rdquo;) specifies the Terms and Conditions for access to and use of https://cosentus.com/ (the &ldquo;Site&rdquo;) and describe the terms and conditions applicable to your access of and use of the Site. This Agreement may be modified at any time by Cosentus, LLC upon posting of the modified Agreement. Any such modifications shall be effective immediately. You can view the most recent version of these terms at any time at https://cosentus.com/. Each use by you shall constitute and be deemed your unconditional acceptance of this Agreement.</p>
 
             <h3 style={h3Style}>Privacy</h3>
-            <p>Your visit to our site is also governed by our <a href="/privacy" style={{ color: 'var(--primary)' }}>Privacy Policy</a>. Please review our Privacy Policy.</p>
+            <p>Your visit to our site is also governed by our <Link href="/privacy" style={{ color: 'var(--primary)' }}>Privacy Policy</Link>. Please review our Privacy Policy.</p>
 
             <h3 style={h3Style}>Ownership</h3>
             <p>All content included on this site is and shall continue to be the property of Cosentus, LLC or its content suppliers and is protected under applicable copyright, patent, trademark, and other proprietary rights. Any copying, redistribution, use or publication by you of any such content or any part of the Site is prohibited, except as expressly permitted in this Agreement. Under no circumstances will you acquire any ownership rights or other interest in any content by or through your use of this Site.</p>
@@ -41,10 +42,10 @@ export default function TermsPage() {
             <p>You agree to indemnify, defend and hold Cosentus, LLC and our partners, employees, and affiliates, harmless from any liability, loss, claim and expense, including reasonable attorney&apos;s fees, related to your violation of this Agreement or use of the Site.</p>
 
             <h3 style={h3Style}>Disclaimer</h3>
-            <p style={{ textTransform: 'uppercase' as const, fontSize: 13 }}>The information on this site is provided on an &ldquo;as is,&rdquo; &ldquo;as available&rdquo; basis. You agree that use of this site is at your sole risk. Cosentus, LLC disclaims all warranties of any kind, including but not limited to any express warranties, statutory warranties, and any implied warranties of merchantability, fitness for a particular purpose, and non-infringement. To the extent your jurisdiction does not allow limitations on warranties, this limitation may not apply to you. Your sole and exclusive remedy relating to your use of the site shall be to discontinue using the site.</p>
+            <p style={{ fontSize: 14 }}>The information on this site is provided on an &ldquo;as is,&rdquo; &ldquo;as available&rdquo; basis. You agree that use of this site is at your sole risk. Cosentus, LLC disclaims all warranties of any kind, including but not limited to any express warranties, statutory warranties, and any implied warranties of merchantability, fitness for a particular purpose, and non-infringement. To the extent your jurisdiction does not allow limitations on warranties, this limitation may not apply to you. Your sole and exclusive remedy relating to your use of the site shall be to discontinue using the site.</p>
 
             <h3 style={h3Style}>Limitation of Liability</h3>
-            <p style={{ textTransform: 'uppercase' as const, fontSize: 13 }}>Under no circumstances will Cosentus, LLC be liable or responsible for any direct, indirect, incidental, consequential (including damages from loss of business, lost profits, litigation, or the like), special, exemplary, punitive, or other damages, under any legal theory, arising out of or in any way relating to the site, your site use, or the content, even if advised of the possibility of such damages. Your sole remedy for dissatisfaction with the site and/or content is to cease all of your site use.</p>
+            <p style={{ fontSize: 14 }}>Under no circumstances will Cosentus, LLC be liable or responsible for any direct, indirect, incidental, consequential (including damages from loss of business, lost profits, litigation, or the like), special, exemplary, punitive, or other damages, under any legal theory, arising out of or in any way relating to the site, your site use, or the content, even if advised of the possibility of such damages. Your sole remedy for dissatisfaction with the site and/or content is to cease all of your site use.</p>
             <p>You may have additional rights under certain laws (including consumer laws) which do not allow the exclusion of implied warranties, or the exclusion or limitation of certain damages. If these laws apply to you, the exclusions or limitations in this Agreement that directly conflict with such laws may not apply to you.</p>
 
             <h3 style={h3Style}>Use of Information</h3>
