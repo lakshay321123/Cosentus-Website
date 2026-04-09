@@ -1684,8 +1684,3 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     max-height: none !important;
   }
 }
-
-/* Blog card hover accent */
-.blog-card:hover .card-accent-bar {
-  transform: scaleX(1) !important;
-}

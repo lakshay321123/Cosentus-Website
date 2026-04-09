@@ -20,13 +20,14 @@ function splitFaqText(text: string): { question: string; answer: string }[] {
   // Match questions that start with common question words and end with ?
   // Must be preceded by start-of-string or sentence boundary (. or ? followed by space)
   const qWords = 'What|When|Who|Which|How|Why|Where|Can|Do|Does|Should|Is|Are'
-  const regex = new RegExp(`(?:^|[.?]\\s+)((?:${qWords})\\b[^?]*\\?)`, 'g')
+  const regex = new RegExp(`(?:^|[.?!]\\s+)((?:${qWords})\\b[^?]*?\\?)`, 'g')
   const questions: { q: string; start: number; end: number }[] = []
   let match
 
   while ((match = regex.exec(text)) !== null) {
-    const qStart = text.indexOf(match[1], match.index)
-    questions.push({ q: match[1].trim(), start: qStart, end: qStart + match[1].length })
+    const q = match[1].trim()
+    const qStart = match.index + match[0].indexOf(match[1])
+    questions.push({ q, start: qStart, end: qStart + match[1].length })
   }
 
   if (questions.length === 0) {
@@ -98,7 +99,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
   }
 
   // Filter only top-level TOC entries for the sidebar
-  const tocSections = post.sections.filter(s => s.heading.toLowerCase() !== "faq's" || s.content.length > 0)
+  const tocSections = post.sections.filter(s => s.content.length > 0 || s.heading.toLowerCase().includes('faq'))
 
   return (
     <>
@@ -110,7 +111,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
         display: 'flex',
         alignItems: 'center',
       }}>
-        <video autoPlay muted loop playsInline style={{
+        <video autoPlay muted loop playsInline poster="/images/hero-bg.jpg" style={{
           position: 'absolute', top: 0, left: 0,
           width: '100%', height: '100%', objectFit: 'cover', zIndex: 0,
         }}>
@@ -152,7 +153,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           }}>
             <ArrowLeftIcon /> Back to all articles
           </Link>
-          <div style={{
+          <div className="blog-layout" style={{
             display: 'grid',
             gridTemplateColumns: '280px 1fr',
             gap: 60,
@@ -288,6 +289,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                 }}>
                                   <button
                                     onClick={() => toggleFaq(faqKey)}
+                                    aria-expanded={isOpen}
+                                    aria-controls={`faq-answer-${faqKey}`}
                                     style={{
                                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                                       width: '100%', padding: '18px 24px',
@@ -315,7 +318,10 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                     </svg>
                                   </button>
                                   {isOpen && (
-                                    <div style={{
+                                    <div
+                                      id={`faq-answer-${faqKey}`}
+                                      role="region"
+                                      style={{
                                       padding: '0 24px 20px',
                                       background: 'white',
                                     }}>
@@ -397,15 +403,6 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
         </div>
       </section>
 
-      {/* Responsive: stack TOC above content on mobile */}
-      <style jsx>{`
-        @media (max-width: 900px) {
-          aside {
-            position: static !important;
-            max-height: none !important;
-          }
-        }
-      `}</style>
     </>
   )
 }
