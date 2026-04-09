@@ -2403,3 +2403,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     gap: 24px !important;
   }
 }
+
+/* ===== SERVICES ROW LAYOUT ===== */
+@media (max-width: 768px) {
+  .service-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .service-row-stat {
+    text-align: left !important;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+}
