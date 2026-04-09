@@ -41,9 +41,9 @@ const offices = [
   { city: 'Phoenix, AZ', label: 'Regional Office', address: 'Phoenix, AZ', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=Cosentus+Phoenix+AZ' },
   { city: 'Mission, TX', label: 'Regional Office', address: 'Mission, TX', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=Cosentus+Mission+TX' },
   { city: 'Napa, CA', label: 'Regional Office', address: '550 Gateway Dr #100, Napa, CA 94558', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=550+Gateway+Dr+100+Napa+CA+94558' },
-  { city: 'Dallas, TX', label: 'Regional Office', address: 'Dallas, TX', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=Cosentus+Dallas+TX' },
+  { city: 'Dallas, TX', label: 'Regional Office', address: 'Dallas, TX', phone: '(888) 521-0055', maps: 'https://maps.google.com/?q=Cosentus+Dallas+TX' },
   { city: 'Salt Lake City, UT', label: 'Regional Office', address: 'Utah', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=Cosentus+Utah' },
-  { city: 'Olathe, KS', label: 'Regional Office', address: 'Olathe, KS', phone: '(877) 266-9040', maps: 'https://maps.google.com/?q=Cosentus+Olathe+KS' },
+  { city: 'Olathe, KS', label: 'Regional Office', address: 'Olathe, KS', phone: '(913) 262-2323', maps: 'https://maps.google.com/?q=Cosentus+Olathe+KS' },
 ]
 
 export default function AboutContent() {
