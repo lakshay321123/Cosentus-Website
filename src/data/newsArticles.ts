@@ -309,5 +309,75 @@ export const newsArticles: NewsArticle[] = [
     "tag": "Compliance",
     "sourceUrl": "",
     "body": "Proper medical records retention is a critical compliance requirement for healthcare practices. Federal and state regulations establish specific timelines and standards for how long patient records must be maintained, how they should be stored, and when they can be safely destroyed.\n\nFailure to comply with medical records retention guidelines can expose practices to regulatory penalties, legal liability, and audit risk. As documentation requirements continue to expand and electronic health records become the standard, healthcare organizations must ensure their retention policies are current, comprehensive, and consistently enforced.\n\n### Key Retention Guidelines:\n\n* **Federal Requirements:** HIPAA requires covered entities to retain certain records for a minimum of six years from the date of creation or the date they were last in effect.\n* **State Regulations:** Many states impose longer retention periods, and requirements vary significantly by state and patient age. Practices must comply with the most stringent applicable standard.\n* **Medicare and Medicaid:** CMS requires providers to maintain records for at least five years for Medicare claims and potentially longer for Medicaid, depending on state rules.\n* **Pediatric Records:** Records for minor patients are typically required to be retained for a specified period beyond the age of majority.\n\n### Best Practices for Medical Records Management:\n\n* Develop and document a formal records retention policy\n* Train staff on proper storage, access, and destruction procedures\n* Use secure electronic storage with appropriate backup and disaster recovery measures\n* Conduct regular audits to ensure compliance with applicable retention schedules\n* Establish clear destruction protocols that include certification of proper disposal\n\nCosentus supports healthcare practices in maintaining compliant documentation processes that protect against audit exposure and strengthen overall revenue cycle integrity."
+  },
+  {
+    "slug": "managing-the-surge-in-claims-denials-are-you-prepared",
+    "title": "Managing the Surge in Claims Denials: Are You Prepared?",
+    "date": "November 14, 2024",
+    "featuredIn": "Experian",
+    "featuredDate": "November 14, 2024",
+    "tag": "Claims Management",
+    "sourceUrl": "",
+    "body": "Rising claims denial rates pose significant challenges for healthcare providers, disrupting revenue collection and complicating operational workflows. This analysis uncovers the root causes and offers actionable strategies to enhance revenue cycle efficiency.\n\nHealthcare providers are facing escalating claims denial rates, with rejection rates now reaching 10% to 15%, according to the State of Claims 2024 report by Experian. These denials not only disrupt revenue collection but also impose a heavy administrative burden, requiring providers to dedicate additional resources to appeals and resubmissions.\n\n### Key strategies for effective denial management include:\n\n* Real-time monitoring and analytics to uncover patterns and trends driving denials.\n* Comprehensive staff training to reduce errors during claim submissions.\n* Advanced workflows designed to streamline and accelerate the appeals process.\n\n### The Financial Impact\n\nClaim denials cost healthcare providers billions annually. A 2019 survey estimated these losses at $262 billion. Tackling these inefficiencies is essential for financial stability, particularly for smaller practices. AI-driven solutions are emerging as a game-changer, optimizing claims processing by reducing errors and speeding up workflows.\n\nAs denial rates climb, modernizing claims management systems and leveraging data-driven strategies will be critical for healthcare providers. Organizations that address these challenges proactively will not only protect their revenue but also improve operational efficiency across the board."
+  },
+  {
+    "slug": "revenue-cycle-management-set-to-transform-the-healthcare-industry",
+    "title": "Revenue Cycle Management Set to Transform the Healthcare Industry",
+    "date": "October 14, 2024",
+    "featuredIn": "Research Nester",
+    "featuredDate": "October 14, 2024",
+    "tag": "Industry Trends",
+    "sourceUrl": "",
+    "body": "The Revenue Cycle Management (RCM) market is poised for remarkable growth, projected to expand from USD 59.25 billion in 2024 to a staggering USD 311.21 billion by 2037. With a projected CAGR of approximately 13.5% between 2025 and 2037, this growth highlights the increasing global demand for streamlined healthcare services and advanced healthcare IT solutions.\n\nThe Revenue Cycle Management market is becoming a critical component in the rapidly evolving healthcare industry. With increasing complexities in healthcare administration, the demand for solutions that integrate clinical and administrative functions is growing. RCM systems, which manage financial processes from patient registration to final payment, are being widely adopted. By 2025, the RCM market size is expected to reach USD 65.7 billion, underscoring its essential role in healthcare innovation.\n\nGlobal trends, such as rising patient admissions and healthcare expenditure, are driving this demand. Healthcare spending as a share of GDP climbed from 8.63% in 2000 to 9.84% in 2019, according to World Bank data, emphasizing the need for efficient IT solutions like RCM.\n\nRCM systems are transforming healthcare by streamlining operations and reducing financial inefficiencies. They enable providers to navigate growing financial pressures while improving patient outcomes. As healthcare continues to evolve, the adoption of advanced RCM solutions will be crucial in shaping a more efficient and effective industry.\n\nCosentus is at the forefront of this transformation, empowering healthcare practices to optimize their revenue cycle operations and achieve sustainable growth."
+  },
+  {
+    "slug": "cosentus-earns-great-place-to-work-for-third-consecutive-year",
+    "title": "Cosentus Earns Great Place to Work for Third Consecutive Year",
+    "date": "July 18, 2024",
+    "featuredIn": "Great Place to Work",
+    "featuredDate": "July 18, 2024",
+    "tag": "Company News",
+    "sourceUrl": "https://www.greatplacetowork.com/certified-company/7040115",
+    "body": "Cosentus is proud to announce that we have been certified as a Great Place to Work for the third year in a row. This prestigious recognition highlights our dedication to fostering a positive and inclusive workplace where every team member can thrive.\n\nOur commitment to creating a collaborative and supportive environment has been pivotal in achieving this honor. We remain dedicated to maintaining high standards and prioritizing the well-being and professional growth of our employees."
+  },
+  {
+    "slug": "cosentus-breaks-into-top-500-of-2023-inc-5000-list",
+    "title": "Cosentus Breaks into Top 500 of 2023 Inc. 5000 List",
+    "date": "July 25, 2023",
+    "featuredIn": "Inc.",
+    "featuredDate": "July 25, 2023",
+    "tag": "Company News",
+    "sourceUrl": "https://www.inc.com/profile/cosentus-holdings",
+    "body": "Achieving Milestones in Medical Billing & Practice Management Services\n\nIn 2023, Cosentus proudly secured the No. 486 spot on the Inc. 5000 list, recognizing the fastest-growing private companies in the USA. This milestone reflects our rapid growth and excellence in medical billing and practice management services.\n\nOur inclusion in the Inc. 5000 underscores our commitment to helping healthcare providers streamline operations, boost efficiency, and improve patient care. This honor not only celebrates our achievements but also drives us to continue delivering exceptional value to our clients."
+  },
+  {
+    "slug": "cosentus-ranks-in-the-top-20-on-the-2022-inc-5000-annual-list",
+    "title": "Cosentus ranks in the top 20% on the 2022 Inc. 5000 Annual List",
+    "date": "August 29, 2022",
+    "featuredIn": "Inc.",
+    "featuredDate": "August 29, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "Cosentus is proud to announce its inclusion in the top 20% of the 2022 Inc. 5000 Annual List, recognizing the fastest-growing private companies in America. This achievement reflects our sustained growth trajectory and commitment to delivering exceptional revenue cycle management services to healthcare providers nationwide.\n\nBeing ranked among the top 20% of the Inc. 5000 validates our approach to combining deep industry expertise with innovative technology solutions. As we continue to expand our capabilities and client base, this recognition reinforces our position as a leading independent RCM company in the healthcare industry."
+  },
+  {
+    "slug": "whats-behind-the-rapid-revenue-growth-of-these-6-north-bay-companies",
+    "title": "What’s behind the rapid revenue growth of these 6 North Bay companies?",
+    "date": "August 23, 2022",
+    "featuredIn": "North Bay Business Journal",
+    "featuredDate": "August 23, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "Cosentus was featured among six North Bay companies recognized for their rapid revenue growth. The article highlights the business strategies and market conditions driving exceptional financial performance in the region.\n\nCosentus’s inclusion in this feature reflects the company’s strong growth trajectory in the healthcare revenue cycle management space, driven by expanding client relationships, investment in technology, and a commitment to delivering measurable results for medical practices."
+  },
+  {
+    "slug": "32-year-old-napa-medical-revenue-software-firm-enters-new-chapter",
+    "title": "32-year-old Napa medical revenue software firm enters new chapter",
+    "date": "August 12, 2022",
+    "featuredIn": "North Bay Business Journal",
+    "featuredDate": "August 12, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "The acquisition of SyMed Corporation by Cosentus marks a new chapter for the 32-year-old Napa-based medical revenue software firm. SyMed, known for its healthcare billing and receivables management software, brings decades of expertise and a loyal client base to the Cosentus family.\n\nThis strategic acquisition strengthens Cosentus’s technology portfolio and expands its ability to deliver comprehensive, tech-enabled revenue cycle management solutions to healthcare providers across the country."
   }
 ]
