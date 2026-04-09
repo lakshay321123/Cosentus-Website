@@ -182,15 +182,58 @@ function CindyInner() {
         return `Filling contact form with provided details`
       },
 
-      // Scroll to a specific section on the current page
+      // Scroll on the current page — supports directions, section IDs, and text search
       scroll_to: (params: { section_id: string }) => {
-        console.log('Cindy scrolling to:', params.section_id)
-        const el = document.getElementById(params.section_id)
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const target = params.section_id.toLowerCase().trim()
+        console.log('Cindy scrolling to:', target)
+
+        // Handle directional scrolling
+        if (target === 'down' || target === 'next') {
+          window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
+          return 'Scrolled down'
+        }
+        if (target === 'up' || target === 'previous') {
+          window.scrollBy({ top: -window.innerHeight * 0.8, behavior: 'smooth' })
+          return 'Scrolled up'
+        }
+        if (target === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          return 'Scrolled to top'
+        }
+        if (target === 'bottom') {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+          return 'Scrolled to bottom'
+        }
+
+        // Try by element ID first
+        const byId = document.getElementById(params.section_id) || document.getElementById(target)
+        if (byId) {
+          byId.scrollIntoView({ behavior: 'smooth', block: 'start' })
           return `Scrolled to section: ${params.section_id}`
         }
-        return `Section "${params.section_id}" not found on this page`
+
+        // Try finding section by heading or label text
+        const headings = document.querySelectorAll('h1, h2, h3, h4, .section-title, .section-label')
+        for (const h of Array.from(headings)) {
+          if ((h.textContent || '').toLowerCase().includes(target)) {
+            h.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            return `Scrolled to: ${h.textContent}`
+          }
+        }
+
+        // Try any element with matching text
+        const allSections = document.querySelectorAll('section, [class*="section"]')
+        for (const s of Array.from(allSections)) {
+          const label = s.querySelector('.section-label, .section-title, h2, h3')
+          if (label && (label.textContent || '').toLowerCase().includes(target)) {
+            s.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            return `Scrolled to section: ${label.textContent}`
+          }
+        }
+
+        // Fallback: scroll down
+        window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
+        return `Could not find "${params.section_id}", scrolled down instead`
       },
     },
   })
