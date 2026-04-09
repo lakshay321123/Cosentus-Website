@@ -473,12 +473,38 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           top: 0;
           z-index: 10;
           background: white;
-          border-bottom: 2px solid var(--primary);
           padding-top: 56px;
         }
 
+        .film-reel-inner {
+          background: var(--primary);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .film-reel-inner::before,
+        .film-reel-inner::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 80px;
+          z-index: 5;
+          pointer-events: none;
+        }
+
+        .film-reel-inner::before {
+          left: 0;
+          background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .film-reel-inner::after {
+          right: 0;
+          background: linear-gradient(270deg, var(--primary), transparent);
+        }
+
         .film-strip:first-of-type {
-          border-top: 2px solid var(--primary);
+          border-top: none;
         }
 
         .film-reel-gap-cover {
@@ -492,7 +518,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .film-strip + .film-strip {
-          border-top: 1px solid rgba(0,181,214,0.2);
+          border-top: 1px solid rgba(255,255,255,0.2);
         }
 
         /* Sprocket holes */
@@ -530,8 +556,8 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             90deg,
             transparent 0px,
             transparent 18px,
-            white 18px,
-            white 26px,
+            var(--primary) 18px,
+            var(--primary) 26px,
             transparent 26px,
             transparent 50px
           );
@@ -652,27 +678,6 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         /* Edge fade on the reel */
-        .film-reel-sticky::before,
-        .film-reel-sticky::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 80px;
-          z-index: 5;
-          pointer-events: none;
-        }
-
-        .film-reel-sticky::before {
-          left: 0;
-          background: linear-gradient(90deg, white, transparent);
-        }
-
-        .film-reel-sticky::after {
-          right: 0;
-          background: linear-gradient(270deg, white, transparent);
-        }
-
         /* Mobile responsive */
         @media (max-width: 768px) {
           .timeline-river::before {
@@ -770,6 +775,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       {/* Sticky Film Reel */}
       <div className="film-reel-sticky">
         <div className="film-reel-gap-cover" />
+        <div className="film-reel-inner">
         {/* Strip 1 — scrolls left */}
         <div className="film-strip">
           <div className="film-sprockets top" />
@@ -811,6 +817,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             ))}
           </div>
           <div className="film-sprockets bottom" />
+        </div>
         </div>
       </div>
 
