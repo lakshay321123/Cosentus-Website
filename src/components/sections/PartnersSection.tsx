@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const partners = [
@@ -13,21 +12,7 @@ export default function PartnersSection() {
   return (
     <section style={{ padding: '48px 0', borderTop: '1px solid var(--gray-200)' }}>
       <div className="container">
-        {/* Trust badges */}
         <RevealOnScroll>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-            <Image
-              src="/images/accolade-badges.png"
-              alt="SOC 2 Certified, HIPAA Compliant, HBMA Member, Inc. 5000, Great Place to Work, 25 Years"
-              width={700}
-              height={200}
-              style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
-            />
-          </div>
-        </RevealOnScroll>
-
-        {/* Partner logos */}
-        <RevealOnScroll delay={0.2}>
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--gray-400)' }}>Our Partners</div>
           </div>
