@@ -61,21 +61,9 @@ export default function CindyVoiceAgent() {
   const startConversation = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
-
-      // Get signed URL from our server (protects API key)
-      const tokenRes = await fetch('/api/cindy-token')
-      const tokenData = await tokenRes.json()
-
-      if (tokenData.signedUrl) {
-        // Private agent — use signed URL
-        await conversation.startSession({ signedUrl: tokenData.signedUrl })
-      } else {
-        // Fallback to public agent ID
-        await conversation.startSession({ agentId: AGENT_ID })
-      }
+      await conversation.startSession({ agentId: AGENT_ID })
     } catch (e) {
       console.error('Failed to start conversation:', e)
-      alert('Could not start voice conversation. Please allow microphone access and try again.')
     }
   }, [conversation])
 
@@ -157,7 +145,7 @@ export default function CindyVoiceAgent() {
                       <p style={{ margin: 0, color: '#00B5D6' }}>Go ahead, just talk naturally...</p>
                     )
                   ) : (
-                    <p style={{ margin: 0, color: '#999' }}>Conversation ended</p>
+                    <p style={{ margin: 0, color: '#999' }}>Tap below to start a conversation</p>
                   )}
                 </div>
                 {isConnected ? (
