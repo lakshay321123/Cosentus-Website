@@ -201,186 +201,6 @@ export const newsArticles: NewsArticle[] = [
     "body": "The third quarter of 2025 delivered robust performance across orthopedics, with total revenues climbing 9.7% year-over-year to reach $9.96 billion. Growth extended across nearly all major segments, driven by steady procedure demand and accelerating adoption of advanced technologies.\n\n## Segment-by-Segment Performance\n\nTrauma rose 10.8%, reinforced by its essential nature and consistent patient volumes.\n\nSpine advanced 9.5%, supported by broad adoption of procedural innovations and continued demand across hospital and ASC settings.\n\nEnabling Technology posted one of the quarter’s strongest increases at +16.5%, reflecting rapid expansion of robotics, navigation, and digital integration tools.\n\nLarge Joint Reconstruction also saw steady movement, with leadership from Stryker’s Mako system achieving its highest quarterly placement levels to date.\n\nCompany-level activity further validated the sector’s strength. ATEC delivered 30%+ revenue growth, while Zimmer Biomet reported a notable rebound in U.S. performance. Treace Medical Concepts, however, signaled pockets of softness in elective procedure volumes.\n\n## First Nine Months of 2025 View\n\nMomentum remains consistent through the first three quarters of the year, fueled by growth in trauma, spine, and enabling technologies—areas now shaping investment decisions and technology adoption across practices.\n\n## The Takeaway\n\nQ3 2025 reflects an orthopedic market accelerating through both core procedural segments and advanced technology categories. With robotics and navigation expanding rapidly, providers face new opportunities, and complexities, in revenue capture and coding accuracy.\n\nCosentus continues monitoring how these trends influence surgical workflows, reimbursement patterns, and long-term planning for orthopedic groups across hospital and ASC environments."
   },
   {
-    "slug": "5-payer-policy-shifts-providers-should-watch-closely",
-    "title": "5 Payer Policy Shifts Providers Should Watch Closely",
-    "date": "September 9, 2025",
-    "featuredIn": "Becker’s ASC Review",
-    "featuredDate": "September 09, 2025",
-    "tag": "Payer Updates",
-    "sourceUrl": "https://www.beckersasc.com/asc-coding-billing-and-collections/5-payer-updates-in-august/",
-    "body": "Payer dynamics continue to shape the financial stability of healthcare providers. In August, several major updates surfaced, signaling shifts that could impact reimbursements, compliance processes, and long-term strategies for medical practices. From large settlements to coverage expansions and cost projections, these developments underscore the need for healthcare leaders to stay informed and proactive.\n\n### Key Updates in August\n\n1. **Payer Settlement Signals Market Change**\nRecent legal resolutions highlight ongoing challenges with payer competition and contracting practices. These outcomes may influence how future agreements are structured, ultimately affecting provider reimbursements.\n\n2. **Medicaid Eligibility Redeterminations**\nStates have accelerated Medicaid eligibility checks, leading to coverage losses for many patients. This creates administrative hurdles for providers managing increased claim denials and shifting patient coverage.\n\n3. **Consolidation Trends in Healthcare**\nIndustry consolidation continues to blur the lines between payers and providers, creating new dynamics in contract negotiations and care delivery. Providers should prepare for increased payer leverage in operational and financial arrangements.\n\n4. **Rising Healthcare Costs**\nEmployer-sponsored healthcare costs are projected to rise significantly in 2024. This trend may impact payer contracts, patient financial responsibility, and overall practice collections.\n\n5. **Coverage Expansion for Weight Management Medications**\nPolicy proposals to expand coverage for new therapies, including weight management treatments, could alter prescribing patterns and reimbursement processes for providers.\n\n### Why It Matters for Providers\n\nThese changes highlight the growing complexity of payer relationships. Practices must anticipate reimbursement fluctuations, navigate eligibility hurdles, and adapt to shifting coverage landscapes. Proactive revenue cycle strategies, accurate eligibility verification, and stronger payer management practices will be critical for stability.\n\nAt Cosentus, we partner with practices to manage these evolving challenges—ensuring predictable cash flow, streamlined billing operations, and reduced administrative burdens."
-  },
-  {
-    "slug": "how-agentic-ai-is-redefining-rcm-efficiency",
-    "title": "How Agentic AI is Redefining RCM Efficiency?",
-    "date": "August 14, 2025",
-    "featuredIn": "TechTarget",
-    "featuredDate": "August 14, 2025",
-    "tag": "AI & Technology",
-    "sourceUrl": "https://www.techtarget.com/revcyclemanagement/feature/Top-use-cases-for-agentic-AI-in-revenue-cycle-management",
-    "body": "The healthcare industry is on the brink of a major transformation as Agentic AI emerges as a powerful tool for revenue cycle management (RCM). Unlike traditional AI models that focus on automation and prediction, Agentic AI combines decision-making capabilities with autonomous execution — offering a new level of operational efficiency.\n\n### What Is Agentic AI?\n\nAgentic AI is designed to take initiative, learn from interactions, and make context-aware decisions without constant human oversight. This technology can not only recommend actions but also implement them in real time, helping healthcare providers tackle RCM challenges more proactively.\n\n### Key Applications in RCM\n\n1. **Claims Processing**\nAutomatically detects coding errors and missing documentation before submission.\nReduces claim rejections and accelerates reimbursement cycles.\n\n2. **Denial Management**\nIdentifies patterns in denied claims.\nInitiates corrective actions to resolve issues before they impact revenue.\n\n3. **Patient Billing**\nPersonalizes payment plans based on patient history and financial profile.\nImproves payment compliance and reduces bad debt.\n\n### Benefits for Healthcare Providers\n\n* **Faster Turnaround Times:** AI systems can process and submit claims significantly faster than manual teams.\n* **Reduced Administrative Burden:** Frees staff to focus on patient care rather than paperwork.\n* **Increased Accuracy:** Minimizes human error in billing and coding.\n* **Scalability:** Handles large volumes of transactions without added labor costs.\n\n### Potential Challenges\n\nWhile the promise of Agentic AI is substantial, healthcare organizations must address:\n\n* Data Security & Compliance: Ensuring HIPAA compliance and protecting patient data.\n* Change Management: Training staff to trust and work alongside AI systems.\n* Integration Complexity: Seamlessly incorporating AI into existing workflows and EHR systems.\n\n### What’s Next\n\nIndustry experts predict that Agentic AI will move from early adoption to mainstream use within the next 3–5 years. As healthcare organizations face mounting pressure to improve revenue integrity while cutting costs, this technology could become an indispensable part of RCM operations."
-  },
-  {
-    "slug": "key-factors-fueling-the-rapid-growth-of-the-medical-coding-market",
-    "title": "Key Factors Fueling the Rapid Growth of the Medical Coding Market",
-    "date": "October 22, 2024",
-    "featuredIn": "Research Nester",
-    "featuredDate": "October 22, 2024",
-    "tag": "Industry Trends",
-    "sourceUrl": "https://www.researchnester.com/reports/medical-coding-market/5899",
-    "body": "The medical coding market is projected to witness exponential growth, fueled by rising global healthcare spending and technological advancements. Discover how this trend shapes the future of healthcare revenue management.\n\nThe medical coding market, valued at USD 38.71 billion in 2024, is forecasted to grow at a CAGR of 9.6%, reaching an estimated USD 127.46 billion by 2037. The projected industry size for 2025 is USD 41.68 billion, highlighting the sector’s rapid expansion.\n\nThis growth is driven by escalating global healthcare spending. Factors such as general inflation, rising prescription drug prices, increased wages for healthcare professionals, aging populations, and changing lifestyles have all contributed to this upward trend. According to recent estimates, global healthcare spending surged by over 35% between 2018 and 2022, reaching approximately USD 10 trillion.\n\nEmerging technologies like AI-driven medical coding systems are revolutionizing the market. These systems enable real-time coding with machine learning capabilities that:\n\n* Automate processes for improved accuracy.\n* Reduce coding errors.\n* Enhance productivity by offering recommendations for human coders.\n\nSuch advancements play a pivotal role in transforming medical billing and coding, ensuring efficiency and reliability in healthcare revenue management.\n\nCosentus is at the forefront of helping healthcare providers adapt to these innovations, empowering practices to optimize their operations."
-  },
-  {
-    "slug": "major-updates-to-californias-2025-physician-fee-schedule",
-    "title": "Major Updates to California’s 2025 Physician Fee Schedule",
-    "date": "January 29, 2025",
-    "featuredIn": "DaisyBill Blog",
-    "featuredDate": "January 23, 2025",
-    "tag": "Policy",
-    "sourceUrl": "https://blog.daisybill.com/ca-physician-fee-schedule-2025",
-    "body": "The California Division of Workers’ Compensation (CA DWC) has announced significant updates to the Physician and Non-Physician Practitioner section of the Official Medical Fee Schedule (OMFS) for workers’ compensation. Effective February 1, 2025, these changes align OMFS with Medicare payment system revisions, as required by California Labor Code Section 5307.1.\n\nThe 2025 update includes five major changes:\n\n1. Increase in Conversion Factor: The Conversion Factor rises from $48.51 to $48.79, setting OMFS reimbursements at 150.84% of Medicare rates, reflecting the higher workload involved in treating injured workers.\n2. Enhanced Reimbursements for California-Specific Codes: Adjustments ensure fair compensation for unique state-specific services.\n3. Revised Calculations for 16 Procedure Codes: Updates introduce established reimbursement rates for certain codes previously billed “By Report.”\n4. 318 New Procedure Codes: These additions expand the list of reimbursable services.\n5. 128 Deleted Procedure Codes: Outdated codes are eliminated from the OMFS.\n\nThese updates are designed to improve reimbursement accuracy and reflect the complex needs of treating workers’ compensation patients.\n\nCosentus is committed to helping healthcare providers navigate regulatory changes and optimize their revenue cycle management processes."
-  },
-  {
-    "slug": "napa-medical-billing-receivables-software-maker-symed-acquired-by-cosentus",
-    "title": "Napa medical billing, receivables software maker SyMed acquired by Cosentus",
-    "date": "August 12, 2022",
-    "featuredIn": "NORTH BAY BUSINESS JOURNAL",
-    "featuredDate": "August 12, 2022",
-    "tag": "Company News",
-    "sourceUrl": "https://www.northbaybusinessjournal.com/article/industrynews/napa-medical-billing-receivables-software-maker-symed-acquired-by-cosentus/",
-    "body": "SyMed Corporation, a health care billing software company headquartered in Napa, has been acquired by Cosentus Business Services, a global business services company with locations in Northern California."
-  },
-  {
-    "slug": "cosentus-expands-through-acquisition-of-north-medical-billing-2019",
-    "title": "Cosentus Expands Through Acquisition of North Medical Billing (2019)",
-    "date": "June 18, 2019",
-    "featuredIn": "Cosentus",
-    "featuredDate": "June 18, 2019",
-    "tag": "Company News",
-    "sourceUrl": "",
-    "body": "In a strategic move to enhance our service offerings, Cosentus acquired North Medical Billing in 2019. Known for its precision and reliability, North Medical Billing has been a trusted provider of medical billing services. This acquisition allows Cosentus to expand its capabilities and offer comprehensive revenue cycle management solutions to healthcare providers nationwide.\n\nThe integration of North Medical Billing into Cosentus’s operations marks a significant step in our commitment to delivering superior billing services. This merger ensures our clients benefit from cutting-edge medical billing technology and practices, reinforcing Cosentus’s position as a healthcare revenue cycle management leader."
-  },
-  {
-    "slug": "how-automated-medical-coding-is-changing-the-future-of-healthcare-documentation",
-    "title": "How Automated Medical Coding is Changing the Future of Healthcare Documentation",
-    "date": "August 6, 2025",
-    "featuredIn": "PMN Inc.",
-    "featuredDate": "August 06, 2025",
-    "tag": "AI & Technology",
-    "sourceUrl": "https://pmninc.biz/how-does-automated-medical-coding-work/",
-    "body": "As healthcare organizations face increasing documentation demands, automated medical coding is rapidly gaining traction as a powerful solution for improving accuracy, efficiency, and compliance. This transformative technology is reshaping revenue cycle management and medical billing across the industry.\n\nAutomated medical coding uses artificial intelligence (AI), machine learning (ML), and natural language processing (NLP) to extract relevant clinical information from medical records and assign appropriate codes based on standard classification systems such as ICD-10 and CPT. The goal is to streamline coding workflows, reduce human error, and ensure faster claims processing.\n\n### How It Works:\n\n1. **Data Collection** – The system gathers clinical data from EHRs, physician notes, lab results, and more.\n2. **Text Analysis** – NLP tools analyze unstructured text to identify clinical terms, diagnoses, procedures, and modifiers.\n3. **Code Assignment** – Based on established rules and real-time databases, the AI engine assigns appropriate diagnosis and procedure codes.\n4. **Human Review (Optional)** – Coders may review, validate, or override automated suggestions for quality assurance and compliance.\n\n### Why It Matters:\n\nHealthcare practices often struggle with coding backlogs, staffing shortages, and increasing regulatory pressure. Automated coding can address these issues by:\n\n* Reducing turnaround time for claim submissions\n* Minimizing costly coding errors\n* Increasing coder productivity and accuracy\n* Supporting real-time revenue insights\n\n### Challenges and Considerations:\n\nDespite its promise, automated coding requires robust data input, regular updates to coding logic, and integration with EHR platforms. Human oversight is still essential to ensure contextual accuracy and handle complex cases.\n\n### What This Means for Revenue Cycle Teams:\n\nAutomated coding isn’t just a tech upgrade—it’s a strategic move to future-proof your billing operations. With proper implementation, it enhances efficiency, improves financial performance, and allows coding teams to focus on high-value tasks."
-  },
-  {
-    "slug": "how-can-streamlined-patient-access-boost-revenue-and-improve-care-delivery",
-    "title": "How Can Streamlined Patient Access Boost Revenue and Improve Care Delivery?",
-    "date": "April 30, 2025",
-    "featuredIn": "Healthcare Financial Management Association (HFMA)",
-    "featuredDate": "April 30, 2025",
-    "tag": "Patient Access",
-    "sourceUrl": "https://www.hfma.org/revenue-cycle/patient-access/how-to-develop-a-playbook-to-provide-patients-with-timely-access-to-care/",
-    "body": "Improving patient access to care is critical for healthcare organizations aiming to boost satisfaction, streamline operations, and protect revenue. A recent HFMA analysis highlights how developing a Patient Access Playbook can eliminate bottlenecks and strengthen the revenue cycle.\n\n### Key strategies include:\n\n* **Dedicated Access Teams** to manage scheduling and insurance workflows.\n* **Standardized Workflows** for consistent, error-free processes.\n* **Technology and Automation** to speed up patient intake.\n* **Real-Time Monitoring** to identify and fix access delays.\n\n### Why it matters:\n\nBetter patient access reduces appointment no-shows, accelerates revenue capture, and enhances patient loyalty. As healthcare competition grows, investing in access improvements is essential for operational success and financial stability."
-  },
-  {
-    "slug": "rising-healthcare-data-breaches-demand-urgent-cybersecurity-overhaul",
-    "title": "Rising Healthcare Data Breaches Demand Urgent Cybersecurity Overhaul",
-    "date": "April 30, 2025",
-    "featuredIn": "Cosentus",
-    "featuredDate": "April 30, 2025",
-    "tag": "Cybersecurity",
-    "sourceUrl": "",
-    "body": "Healthcare data breaches continue to escalate, posing significant risks to patient privacy, operational continuity, and financial stability for providers across the country. As cyberattacks grow in frequency and sophistication, healthcare organizations must prioritize cybersecurity as a core component of their operational strategy.\n\nRecent high-profile breaches have exposed millions of patient records, disrupted clinical operations, and resulted in substantial regulatory penalties. The healthcare sector remains a prime target due to the value of protected health information (PHI) and the critical nature of care delivery systems.\n\n### Key Concerns for Healthcare Providers:\n\n* **Ransomware Attacks** continue to target hospitals and medical practices, encrypting critical systems and demanding payment for data restoration.\n* **Third-Party Vendor Risk** exposes organizations through supply chain vulnerabilities and insufficient vendor security protocols.\n* **Regulatory Compliance** requirements under HIPAA and state privacy laws demand robust data protection measures and incident response plans.\n* **Financial Impact** extends beyond direct breach costs to include legal fees, regulatory fines, patient notification expenses, and reputational damage.\n\n### What Healthcare Organizations Should Do:\n\n* Implement comprehensive cybersecurity risk assessments\n* Train staff on phishing awareness and data handling best practices\n* Deploy multi-factor authentication and encryption across all systems\n* Establish incident response and business continuity plans\n* Monitor vendor compliance and third-party access controls\n\nProtecting patient data is not just a compliance obligation—it is a fundamental responsibility that directly impacts trust, care quality, and long-term financial performance."
-  },
-  {
-    "slug": "managing-the-surge-in-claims-denials-are-you-prepared-description",
-    "title": "Managing the Surge in Claims Denials: Are You Prepared?",
-    "date": "April 3, 2025",
-    "featuredIn": "Cosentus",
-    "featuredDate": "April 3, 2025",
-    "tag": "Claims Management",
-    "sourceUrl": "",
-    "body": "Claims denials continue to rise across the healthcare industry, creating significant financial pressure on specialty practices, hospitals, and ambulatory surgery centers. Managing the growing volume of denied claims requires a proactive, data-driven approach to denial prevention, tracking, and resolution.\n\n### The Growing Challenge:\n\nIndustry data shows that denial rates have increased steadily over the past several years, with many practices experiencing rates of 10% or higher. Each denied claim delays reimbursement by 21 to 45 days and adds administrative cost to the revenue cycle. For specialty practices operating on tight margins, unresolved denials can directly impact cash flow and operational sustainability.\n\n### Common Root Causes:\n\n* Patient eligibility and coverage verification failures\n* Incorrect or incomplete coding and documentation\n* Prior authorization gaps\n* Timely filing deadline misses\n* Payer-specific billing rule changes\n\n### Building a Denial Prevention Strategy:\n\n1. **Analyze Current Denial Data** – Identify the top denial reasons by volume, payer, and procedure to understand where the biggest opportunities exist.\n2. **Strengthen Front-End Processes** – Improve eligibility verification, pre-authorization workflows, and charge capture accuracy before claims are submitted.\n3. **Invest in Staff Training** – Ensure coding and billing teams stay current on payer policy changes, modifier requirements, and documentation standards.\n4. **Implement Denial Tracking Technology** – Use analytics tools to monitor denial trends in real time and flag issues before they compound.\n5. **Establish Timely Appeals Workflows** – Work all denials within 48 hours and maintain structured follow-up protocols with clear action codes and review dates.\n\n### What This Means for Specialty Practices:\n\nPractices that treat denial management as a strategic priority—rather than a back-office function—consistently outperform those that react to problems after they appear. Cosentus helps specialty practices build proactive denial prevention into their revenue cycle operations, reducing future denial rates by 50–60% and protecting sustained cash flow."
-  },
-  {
-    "slug": "proper-guidelines-for-medical-records-retention-critical-for-compliance",
-    "title": "Proper Guidelines for Medical Records Retention Critical for Compliance",
-    "date": "December 6, 2024",
-    "featuredIn": "Cosentus",
-    "featuredDate": "December 6, 2024",
-    "tag": "Compliance",
-    "sourceUrl": "",
-    "body": "Proper medical records retention is a critical compliance requirement for healthcare practices. Federal and state regulations establish specific timelines and standards for how long patient records must be maintained, how they should be stored, and when they can be safely destroyed.\n\nFailure to comply with medical records retention guidelines can expose practices to regulatory penalties, legal liability, and audit risk. As documentation requirements continue to expand and electronic health records become the standard, healthcare organizations must ensure their retention policies are current, comprehensive, and consistently enforced.\n\n### Key Retention Guidelines:\n\n* **Federal Requirements:** HIPAA requires covered entities to retain certain records for a minimum of six years from the date of creation or the date they were last in effect.\n* **State Regulations:** Many states impose longer retention periods, and requirements vary significantly by state and patient age. Practices must comply with the most stringent applicable standard.\n* **Medicare and Medicaid:** CMS requires providers to maintain records for at least five years for Medicare claims and potentially longer for Medicaid, depending on state rules.\n* **Pediatric Records:** Records for minor patients are typically required to be retained for a specified period beyond the age of majority.\n\n### Best Practices for Medical Records Management:\n\n* Develop and document a formal records retention policy\n* Train staff on proper storage, access, and destruction procedures\n* Use secure electronic storage with appropriate backup and disaster recovery measures\n* Conduct regular audits to ensure compliance with applicable retention schedules\n* Establish clear destruction protocols that include certification of proper disposal\n\nCosentus supports healthcare practices in maintaining compliant documentation processes that protect against audit exposure and strengthen overall revenue cycle integrity."
-  },
-  {
-    "slug": "managing-the-surge-in-claims-denials-are-you-prepared",
-    "title": "Managing the Surge in Claims Denials: Are You Prepared?",
-    "date": "November 14, 2024",
-    "featuredIn": "Experian",
-    "featuredDate": "November 14, 2024",
-    "tag": "Claims Management",
-    "sourceUrl": "",
-    "body": "Rising claims denial rates pose significant challenges for healthcare providers, disrupting revenue collection and complicating operational workflows. This analysis uncovers the root causes and offers actionable strategies to enhance revenue cycle efficiency.\n\nHealthcare providers are facing escalating claims denial rates, with rejection rates now reaching 10% to 15%, according to the State of Claims 2024 report by Experian. These denials not only disrupt revenue collection but also impose a heavy administrative burden, requiring providers to dedicate additional resources to appeals and resubmissions.\n\n### Key strategies for effective denial management include:\n\n* Real-time monitoring and analytics to uncover patterns and trends driving denials.\n* Comprehensive staff training to reduce errors during claim submissions.\n* Advanced workflows designed to streamline and accelerate the appeals process.\n\n### The Financial Impact\n\nClaim denials cost healthcare providers billions annually. A 2019 survey estimated these losses at $262 billion. Tackling these inefficiencies is essential for financial stability, particularly for smaller practices. AI-driven solutions are emerging as a game-changer, optimizing claims processing by reducing errors and speeding up workflows.\n\nAs denial rates climb, modernizing claims management systems and leveraging data-driven strategies will be critical for healthcare providers. Organizations that address these challenges proactively will not only protect their revenue but also improve operational efficiency across the board."
-  },
-  {
-    "slug": "revenue-cycle-management-set-to-transform-the-healthcare-industry",
-    "title": "Revenue Cycle Management Set to Transform the Healthcare Industry",
-    "date": "October 14, 2024",
-    "featuredIn": "Research Nester",
-    "featuredDate": "October 14, 2024",
-    "tag": "Industry Trends",
-    "sourceUrl": "",
-    "body": "The Revenue Cycle Management (RCM) market is poised for remarkable growth, projected to expand from USD 59.25 billion in 2024 to a staggering USD 311.21 billion by 2037. With a projected CAGR of approximately 13.5% between 2025 and 2037, this growth highlights the increasing global demand for streamlined healthcare services and advanced healthcare IT solutions.\n\nThe Revenue Cycle Management market is becoming a critical component in the rapidly evolving healthcare industry. With increasing complexities in healthcare administration, the demand for solutions that integrate clinical and administrative functions is growing. RCM systems, which manage financial processes from patient registration to final payment, are being widely adopted. By 2025, the RCM market size is expected to reach USD 65.7 billion, underscoring its essential role in healthcare innovation.\n\nGlobal trends, such as rising patient admissions and healthcare expenditure, are driving this demand. Healthcare spending as a share of GDP climbed from 8.63% in 2000 to 9.84% in 2019, according to World Bank data, emphasizing the need for efficient IT solutions like RCM.\n\nRCM systems are transforming healthcare by streamlining operations and reducing financial inefficiencies. They enable providers to navigate growing financial pressures while improving patient outcomes. As healthcare continues to evolve, the adoption of advanced RCM solutions will be crucial in shaping a more efficient and effective industry.\n\nCosentus is at the forefront of this transformation, empowering healthcare practices to optimize their revenue cycle operations and achieve sustainable growth."
-  },
-  {
-    "slug": "cosentus-earns-great-place-to-work-for-third-consecutive-year",
-    "title": "Cosentus Earns Great Place to Work for Third Consecutive Year",
-    "date": "July 18, 2024",
-    "featuredIn": "Great Place to Work",
-    "featuredDate": "July 18, 2024",
-    "tag": "Company News",
-    "sourceUrl": "https://www.greatplacetowork.com/certified-company/7040115",
-    "body": "Cosentus is proud to announce that we have been certified as a Great Place to Work for the third year in a row. This prestigious recognition highlights our dedication to fostering a positive and inclusive workplace where every team member can thrive.\n\nOur commitment to creating a collaborative and supportive environment has been pivotal in achieving this honor. We remain dedicated to maintaining high standards and prioritizing the well-being and professional growth of our employees."
-  },
-  {
-    "slug": "cosentus-breaks-into-top-500-of-2023-inc-5000-list",
-    "title": "Cosentus Breaks into Top 500 of 2023 Inc. 5000 List",
-    "date": "July 25, 2023",
-    "featuredIn": "Inc.",
-    "featuredDate": "July 25, 2023",
-    "tag": "Company News",
-    "sourceUrl": "https://www.inc.com/profile/cosentus-holdings",
-    "body": "Achieving Milestones in Medical Billing & Practice Management Services\n\nIn 2023, Cosentus proudly secured the No. 486 spot on the Inc. 5000 list, recognizing the fastest-growing private companies in the USA. This milestone reflects our rapid growth and excellence in medical billing and practice management services.\n\nOur inclusion in the Inc. 5000 underscores our commitment to helping healthcare providers streamline operations, boost efficiency, and improve patient care. This honor not only celebrates our achievements but also drives us to continue delivering exceptional value to our clients."
-  },
-  {
-    "slug": "cosentus-ranks-in-the-top-20-on-the-2022-inc-5000-annual-list",
-    "title": "Cosentus ranks in the top 20% on the 2022 Inc. 5000 Annual List",
-    "date": "August 29, 2022",
-    "featuredIn": "Inc.",
-    "featuredDate": "August 29, 2022",
-    "tag": "Company News",
-    "sourceUrl": "",
-    "body": "Cosentus is proud to announce its inclusion in the top 20% of the 2022 Inc. 5000 Annual List, recognizing the fastest-growing private companies in America. This achievement reflects our sustained growth trajectory and commitment to delivering exceptional revenue cycle management services to healthcare providers nationwide.\n\nBeing ranked among the top 20% of the Inc. 5000 validates our approach to combining deep industry expertise with innovative technology solutions. As we continue to expand our capabilities and client base, this recognition reinforces our position as a leading independent RCM company in the healthcare industry."
-  },
-  {
-    "slug": "whats-behind-the-rapid-revenue-growth-of-these-6-north-bay-companies",
-    "title": "What’s behind the rapid revenue growth of these 6 North Bay companies?",
-    "date": "August 23, 2022",
-    "featuredIn": "North Bay Business Journal",
-    "featuredDate": "August 23, 2022",
-    "tag": "Company News",
-    "sourceUrl": "",
-    "body": "Cosentus was featured among six North Bay companies recognized for their rapid revenue growth. The article highlights the business strategies and market conditions driving exceptional financial performance in the region.\n\nCosentus’s inclusion in this feature reflects the company’s strong growth trajectory in the healthcare revenue cycle management space, driven by expanding client relationships, investment in technology, and a commitment to delivering measurable results for medical practices."
-  },
-  {
-    "slug": "32-year-old-napa-medical-revenue-software-firm-enters-new-chapter",
-    "title": "32-year-old Napa medical revenue software firm enters new chapter",
-    "date": "August 12, 2022",
-    "featuredIn": "North Bay Business Journal",
-    "featuredDate": "August 12, 2022",
-    "tag": "Company News",
-    "sourceUrl": "",
-    "body": "The acquisition of SyMed Corporation by Cosentus marks a new chapter for the 32-year-old Napa-based medical revenue software firm. SyMed, known for its healthcare billing and receivables management software, brings decades of expertise and a loyal client base to the Cosentus family.\n\nThis strategic acquisition strengthens Cosentus’s technology portfolio and expands its ability to deliver comprehensive, tech-enabled revenue cycle management solutions to healthcare providers across the country."
-  },
-  {
     "slug": "startups-bring-ai-and-imaging-to-orthopedic-navigation",
     "title": "Startups Bring AI and Imaging to Orthopedic Navigation",
     "date": "September 24, 2025",
@@ -401,6 +221,36 @@ export const newsArticles: NewsArticle[] = [
     "body": "The global trauma market continues to play a central role in orthopedics, surpassing $9 billion in sales in 2024 and representing 15% of the $62 billion orthopedic market. Projections suggest steady growth ahead, with revenues expected to reach $9.4 billion in 2025 and $10.7 billion by 2028, driven by important shifts across subsegments.\n\n### Foot & Ankle: Under Pressure but Poised to Rebound\n\nOften considered the “last gem” of orthopedics, the foot and ankle segment remains attractive at more than $5 billion in size and a high single-digit growth trajectory. Volumes slowed in 2024 and have remained under pressure in 2025, yet long-term fundamentals remain strong, and the market is expected to recover as key procedures regain momentum."
   },
   {
+    "slug": "5-payer-policy-shifts-providers-should-watch-closely",
+    "title": "5 Payer Policy Shifts Providers Should Watch Closely",
+    "date": "September 9, 2025",
+    "featuredIn": "Becker’s ASC Review",
+    "featuredDate": "September 09, 2025",
+    "tag": "Payer Updates",
+    "sourceUrl": "https://www.beckersasc.com/asc-coding-billing-and-collections/5-payer-updates-in-august/",
+    "body": "Payer dynamics continue to shape the financial stability of healthcare providers. In August, several major updates surfaced, signaling shifts that could impact reimbursements, compliance processes, and long-term strategies for medical practices. From large settlements to coverage expansions and cost projections, these developments underscore the need for healthcare leaders to stay informed and proactive.\n\n### Key Updates in August\n\n1. **Payer Settlement Signals Market Change**\nRecent legal resolutions highlight ongoing challenges with payer competition and contracting practices. These outcomes may influence how future agreements are structured, ultimately affecting provider reimbursements.\n\n2. **Medicaid Eligibility Redeterminations**\nStates have accelerated Medicaid eligibility checks, leading to coverage losses for many patients. This creates administrative hurdles for providers managing increased claim denials and shifting patient coverage.\n\n3. **Consolidation Trends in Healthcare**\nIndustry consolidation continues to blur the lines between payers and providers, creating new dynamics in contract negotiations and care delivery. Providers should prepare for increased payer leverage in operational and financial arrangements.\n\n4. **Rising Healthcare Costs**\nEmployer-sponsored healthcare costs are projected to rise significantly in 2024. This trend may impact payer contracts, patient financial responsibility, and overall practice collections.\n\n5. **Coverage Expansion for Weight Management Medications**\nPolicy proposals to expand coverage for new therapies, including weight management treatments, could alter prescribing patterns and reimbursement processes for providers.\n\n### Why It Matters for Providers\n\nThese changes highlight the growing complexity of payer relationships. Practices must anticipate reimbursement fluctuations, navigate eligibility hurdles, and adapt to shifting coverage landscapes. Proactive revenue cycle strategies, accurate eligibility verification, and stronger payer management practices will be critical for stability.\n\nAt Cosentus, we partner with practices to manage these evolving challenges—ensuring predictable cash flow, streamlined billing operations, and reduced administrative burdens."
+  },
+  {
+    "slug": "cosentus-invests-in-accreda-healthcare-management-an-anesthesia-exclusive-rcm-provider",
+    "title": "Cosentus Invests in Accreda Healthcare Management — An Anesthesia-Exclusive RCM Provider",
+    "date": "September 5, 2025",
+    "featuredIn": "Business Wire",
+    "featuredDate": "September 05, 2025",
+    "tag": "Company News",
+    "sourceUrl": "https://www.businesswire.com/news/home/20250905679159/en/Cosentus-Invests-in-Accreda-Healthcare-Management-An-Anesthesia-Exclusive-RCM-Provider",
+    "body": "IRVINE, Calif.–(BUSINESS WIRE)–Cosentus Holdings, a premier provider in revenue cycle management (RCM) and integrated business solutions for healthcare practices, has announced a strategic investment in Accreda Healthcare Management — a purpose-built company specializing exclusively in anesthesia focused revenue cycle management. This partnership marks a significant milestone in Cosentus’ commitment to deepening its specialization and elevating its service offerings in the anesthesia sector.\n\nAccreda Healthcare Management stands apart from traditional billing companies. Founded by CPAs Logan Lowry and Mark Wines and rooted in a boutique style business model, and a partner-oriented philosophy — Accreda delivers customized, tailored support to anesthesia providers. Their focus on proactive communication, operational visibility, and hands-on guidance ensures that clients are not just treated as accounts — but as genuine partners, who are fully invested in each other’s success. Built for anesthesia and exclusively serving that specialty, Accreda delivers exceptional revenue performance — not just reports.\n\nWith over 25 years of experience, Cosentus is one of the most well-respected independent Revenue Cycle Management companies in the country. Certified by “Great Places to Work” and ranked by “Inc. 5000” as one of the fastest-growing private companies in the U.S. — for 4 consecutive years. Today, Cosentus is proud to partner with Accreda to deliver anesthesia-specific support that empowers providers to thrive like never before.\n\n### WHY THIS PARTNERSHIP MATTERS:\n\n**Anesthesia Specialization** — With a sole focus on anesthesia, Accreda’s systems, coding expertise, and billing workflows are fine-tuned to address the specialty’s unique needs with precision.\n\n**Boutique, Custom-tailored Services** — Clients enjoy proactive, personalized communication and deep operational insight — benefiting from true (one-on-one) partnership, rather than generic account management.\n\n**Enhanced Revenue Performance** — Accreda transforms clinical precision into dramatic revenue impact, seamlessly managing every post-case process to strengthen practice profitability.\n\nAnesthesia practices will now have access to the combined strengths of Cosentus and Accreda — delivering a unified platform that enhances coding accuracy, streamlines claims processing, and accelerates reimbursements — all with boutique-level attention and support.\n\nCurrent Accreda clients can expect uninterrupted services and continuity as their trusted advisors will remain at their side — now empowered through Cosentus’ advanced technology and world-class support network.\n\n“The Cosentus model of partnering with clients to achieve stronger financial results aligns seamlessly with the Accreda philosophy of clients first. Accreda was formed to ensure our anesthesia providers receive every dollar they have rightfully earned for the services they deliver. Together with Cosentus, our clients will benefit from cutting-edge technology, deeper analytics, and a partnership model that truly understands and drives their financial success.”\n\n— Logan Lowry, Co-Founder and President of Accreda\n\n“Cosentus has over 23 years in experience in servicing anesthesia providers. Accreda’s bespoke, anesthesia-focused operating model aligns seamlessly with Cosentus’ vision of delivering unmatched, practice-specific solutions. By joining forces, we’re equipping anesthesia providers with an upgraded suite of tech enabled tools and expert resources — so they can prioritize exceptional patient care while maximizing their financial performance.” — GS Bhalla, Founder and CEO of Cosentus.\n\n#### Contacts\n\nMedia Contact: JR Thompson, Senior Vice President, Cosentus, jrthompson@cosentus.com"
+  },
+  {
+    "slug": "how-agentic-ai-is-redefining-rcm-efficiency",
+    "title": "How Agentic AI is Redefining RCM Efficiency?",
+    "date": "August 14, 2025",
+    "featuredIn": "TechTarget",
+    "featuredDate": "August 14, 2025",
+    "tag": "AI & Technology",
+    "sourceUrl": "https://www.techtarget.com/revcyclemanagement/feature/Top-use-cases-for-agentic-AI-in-revenue-cycle-management",
+    "body": "The healthcare industry is on the brink of a major transformation as Agentic AI emerges as a powerful tool for revenue cycle management (RCM). Unlike traditional AI models that focus on automation and prediction, Agentic AI combines decision-making capabilities with autonomous execution — offering a new level of operational efficiency.\n\n### What Is Agentic AI?\n\nAgentic AI is designed to take initiative, learn from interactions, and make context-aware decisions without constant human oversight. This technology can not only recommend actions but also implement them in real time, helping healthcare providers tackle RCM challenges more proactively.\n\n### Key Applications in RCM\n\n1. **Claims Processing**\nAutomatically detects coding errors and missing documentation before submission.\nReduces claim rejections and accelerates reimbursement cycles.\n\n2. **Denial Management**\nIdentifies patterns in denied claims.\nInitiates corrective actions to resolve issues before they impact revenue.\n\n3. **Patient Billing**\nPersonalizes payment plans based on patient history and financial profile.\nImproves payment compliance and reduces bad debt.\n\n### Benefits for Healthcare Providers\n\n* **Faster Turnaround Times:** AI systems can process and submit claims significantly faster than manual teams.\n* **Reduced Administrative Burden:** Frees staff to focus on patient care rather than paperwork.\n* **Increased Accuracy:** Minimizes human error in billing and coding.\n* **Scalability:** Handles large volumes of transactions without added labor costs.\n\n### Potential Challenges\n\nWhile the promise of Agentic AI is substantial, healthcare organizations must address:\n\n* Data Security & Compliance: Ensuring HIPAA compliance and protecting patient data.\n* Change Management: Training staff to trust and work alongside AI systems.\n* Integration Complexity: Seamlessly incorporating AI into existing workflows and EHR systems.\n\n### What’s Next\n\nIndustry experts predict that Agentic AI will move from early adoption to mainstream use within the next 3–5 years. As healthcare organizations face mounting pressure to improve revenue integrity while cutting costs, this technology could become an indispensable part of RCM operations."
+  },
+  {
     "slug": "how-cmss-fy-2026-ipps-proposed-rule-could-reshape-hospital-payment-strategies",
     "title": "How CMS’s FY 2026 IPPS Proposed Rule Could Reshape Hospital Payment Strategies",
     "date": "August 14, 2025",
@@ -409,6 +259,16 @@ export const newsArticles: NewsArticle[] = [
     "tag": "CMS Policy",
     "sourceUrl": "",
     "body": "As hospitals navigate evolving Medicare policy, CMS’s FY 2026 Inpatient Prospective Payment System (IPPS) final rule delivers modest payment increases, a rebased market basket, and a range of policy updates that affect documentation, quality reporting, and revenue cycle planning. These finalized changes aim to reflect updated cost trends while also advancing CMS’s regulatory and quality objectives for inpatient care.\n\nCMS’s FY 2026 IPPS final rule includes updates to operating and capital payment rates, a rebasing of the IPPS market basket to a 2023 base year, modifications to quality and reporting programs, and finalized policy items affecting hospital payments and reporting requirements. These changes influence how hospitals capture, document and submit claims making accurate clinical documentation and integrated RCM systems critical.\n\n### How It Works:\n\n**Payment Rate Update** – CMS finalized a 2.6% increase in IPPS operating payments for acute-care hospitals that meet quality reporting requirements, alongside updates to the capital Federal rate and outlier thresholds.\n\n**Market Basket Rebasing** – CMS rebased the IPPS market basket from a 2018 to a 2023 base year, updating the cost weight structure to reflect current hospital spending patterns across labor, supplies, and purchased services.\n\n**Quality and Reporting Program Updates** – The final rule includes modifications to the Hospital Inpatient Quality Reporting (IQR) Program, Hospital Value-Based Purchasing (VBP) Program, Hospital-Acquired Condition (HAC) Reduction Program, and Promoting Interoperability Program.\n\n### Why It Matters:\n\nThese updates affect how hospitals plan financially, document clinically, and submit claims accurately. Hospitals relying on outdated processes may face reimbursement shortfalls, while those with integrated documentation and billing workflows will be better positioned to capture appropriate payment under the updated structure."
+  },
+  {
+    "slug": "how-automated-medical-coding-is-changing-the-future-of-healthcare-documentation",
+    "title": "How Automated Medical Coding is Changing the Future of Healthcare Documentation",
+    "date": "August 6, 2025",
+    "featuredIn": "PMN Inc.",
+    "featuredDate": "August 06, 2025",
+    "tag": "AI & Technology",
+    "sourceUrl": "https://pmninc.biz/how-does-automated-medical-coding-work/",
+    "body": "As healthcare organizations face increasing documentation demands, automated medical coding is rapidly gaining traction as a powerful solution for improving accuracy, efficiency, and compliance. This transformative technology is reshaping revenue cycle management and medical billing across the industry.\n\nAutomated medical coding uses artificial intelligence (AI), machine learning (ML), and natural language processing (NLP) to extract relevant clinical information from medical records and assign appropriate codes based on standard classification systems such as ICD-10 and CPT. The goal is to streamline coding workflows, reduce human error, and ensure faster claims processing.\n\n### How It Works:\n\n1. **Data Collection** – The system gathers clinical data from EHRs, physician notes, lab results, and more.\n2. **Text Analysis** – NLP tools analyze unstructured text to identify clinical terms, diagnoses, procedures, and modifiers.\n3. **Code Assignment** – Based on established rules and real-time databases, the AI engine assigns appropriate diagnosis and procedure codes.\n4. **Human Review (Optional)** – Coders may review, validate, or override automated suggestions for quality assurance and compliance.\n\n### Why It Matters:\n\nHealthcare practices often struggle with coding backlogs, staffing shortages, and increasing regulatory pressure. Automated coding can address these issues by:\n\n* Reducing turnaround time for claim submissions\n* Minimizing costly coding errors\n* Increasing coder productivity and accuracy\n* Supporting real-time revenue insights\n\n### Challenges and Considerations:\n\nDespite its promise, automated coding requires robust data input, regular updates to coding logic, and integration with EHR platforms. Human oversight is still essential to ensure contextual accuracy and handle complex cases.\n\n### What This Means for Revenue Cycle Teams:\n\nAutomated coding isn’t just a tech upgrade—it’s a strategic move to future-proof your billing operations. With proper implementation, it enhances efficiency, improves financial performance, and allows coding teams to focus on high-value tasks."
   },
   {
     "slug": "can-bio-inductive-collagen-implants-replace-suture-anchors-in-rotator-cuff-repairs",
@@ -441,14 +301,94 @@ export const newsArticles: NewsArticle[] = [
     "body": "Cosentus recently hosted its Spring 2025 Growth Summit, a three-day gathering designed to inspire bold thinking, foster collaboration, and spark transformation across teams.\n\nHeld under the theme “Accelerating Cosentus Growth,” the summit brought together voices from across the organisation to align on vision, embrace innovation, and celebrate the power of shared ambition.\n\nThe event reflected our continued commitment to empowering our people, pushing boundaries, and growing with purpose.\n\nThink Growth. Be Bold. Move Forward."
   },
   {
-    "slug": "cosentus-invests-in-accreda-healthcare-management-an-anesthesia-exclusive-rcm-provider",
-    "title": "Cosentus Invests in Accreda Healthcare Management — An Anesthesia-Exclusive RCM Provider",
-    "date": "September 5, 2025",
-    "featuredIn": "Business Wire",
-    "featuredDate": "September 05, 2025",
+    "slug": "how-can-streamlined-patient-access-boost-revenue-and-improve-care-delivery",
+    "title": "How Can Streamlined Patient Access Boost Revenue and Improve Care Delivery?",
+    "date": "April 30, 2025",
+    "featuredIn": "Healthcare Financial Management Association (HFMA)",
+    "featuredDate": "April 30, 2025",
+    "tag": "Patient Access",
+    "sourceUrl": "https://www.hfma.org/revenue-cycle/patient-access/how-to-develop-a-playbook-to-provide-patients-with-timely-access-to-care/",
+    "body": "Improving patient access to care is critical for healthcare organizations aiming to boost satisfaction, streamline operations, and protect revenue. A recent HFMA analysis highlights how developing a Patient Access Playbook can eliminate bottlenecks and strengthen the revenue cycle.\n\n### Key strategies include:\n\n* **Dedicated Access Teams** to manage scheduling and insurance workflows.\n* **Standardized Workflows** for consistent, error-free processes.\n* **Technology and Automation** to speed up patient intake.\n* **Real-Time Monitoring** to identify and fix access delays.\n\n### Why it matters:\n\nBetter patient access reduces appointment no-shows, accelerates revenue capture, and enhances patient loyalty. As healthcare competition grows, investing in access improvements is essential for operational success and financial stability."
+  },
+  {
+    "slug": "rising-healthcare-data-breaches-demand-urgent-cybersecurity-overhaul",
+    "title": "Rising Healthcare Data Breaches Demand Urgent Cybersecurity Overhaul",
+    "date": "April 30, 2025",
+    "featuredIn": "Cosentus",
+    "featuredDate": "April 30, 2025",
+    "tag": "Cybersecurity",
+    "sourceUrl": "",
+    "body": "Healthcare data breaches continue to escalate, posing significant risks to patient privacy, operational continuity, and financial stability for providers across the country. As cyberattacks grow in frequency and sophistication, healthcare organizations must prioritize cybersecurity as a core component of their operational strategy.\n\nRecent high-profile breaches have exposed millions of patient records, disrupted clinical operations, and resulted in substantial regulatory penalties. The healthcare sector remains a prime target due to the value of protected health information (PHI) and the critical nature of care delivery systems.\n\n### Key Concerns for Healthcare Providers:\n\n* **Ransomware Attacks** continue to target hospitals and medical practices, encrypting critical systems and demanding payment for data restoration.\n* **Third-Party Vendor Risk** exposes organizations through supply chain vulnerabilities and insufficient vendor security protocols.\n* **Regulatory Compliance** requirements under HIPAA and state privacy laws demand robust data protection measures and incident response plans.\n* **Financial Impact** extends beyond direct breach costs to include legal fees, regulatory fines, patient notification expenses, and reputational damage.\n\n### What Healthcare Organizations Should Do:\n\n* Implement comprehensive cybersecurity risk assessments\n* Train staff on phishing awareness and data handling best practices\n* Deploy multi-factor authentication and encryption across all systems\n* Establish incident response and business continuity plans\n* Monitor vendor compliance and third-party access controls\n\nProtecting patient data is not just a compliance obligation—it is a fundamental responsibility that directly impacts trust, care quality, and long-term financial performance."
+  },
+  {
+    "slug": "managing-the-surge-in-claims-denials-are-you-prepared-description",
+    "title": "Managing the Surge in Claims Denials: Are You Prepared?",
+    "date": "April 3, 2025",
+    "featuredIn": "Cosentus",
+    "featuredDate": "April 3, 2025",
+    "tag": "Claims Management",
+    "sourceUrl": "",
+    "body": "Claims denials continue to rise across the healthcare industry, creating significant financial pressure on specialty practices, hospitals, and ambulatory surgery centers. Managing the growing volume of denied claims requires a proactive, data-driven approach to denial prevention, tracking, and resolution.\n\n### The Growing Challenge:\n\nIndustry data shows that denial rates have increased steadily over the past several years, with many practices experiencing rates of 10% or higher. Each denied claim delays reimbursement by 21 to 45 days and adds administrative cost to the revenue cycle. For specialty practices operating on tight margins, unresolved denials can directly impact cash flow and operational sustainability.\n\n### Common Root Causes:\n\n* Patient eligibility and coverage verification failures\n* Incorrect or incomplete coding and documentation\n* Prior authorization gaps\n* Timely filing deadline misses\n* Payer-specific billing rule changes\n\n### Building a Denial Prevention Strategy:\n\n1. **Analyze Current Denial Data** – Identify the top denial reasons by volume, payer, and procedure to understand where the biggest opportunities exist.\n2. **Strengthen Front-End Processes** – Improve eligibility verification, pre-authorization workflows, and charge capture accuracy before claims are submitted.\n3. **Invest in Staff Training** – Ensure coding and billing teams stay current on payer policy changes, modifier requirements, and documentation standards.\n4. **Implement Denial Tracking Technology** – Use analytics tools to monitor denial trends in real time and flag issues before they compound.\n5. **Establish Timely Appeals Workflows** – Work all denials within 48 hours and maintain structured follow-up protocols with clear action codes and review dates.\n\n### What This Means for Specialty Practices:\n\nPractices that treat denial management as a strategic priority—rather than a back-office function—consistently outperform those that react to problems after they appear. Cosentus helps specialty practices build proactive denial prevention into their revenue cycle operations, reducing future denial rates by 50–60% and protecting sustained cash flow."
+  },
+  {
+    "slug": "major-updates-to-californias-2025-physician-fee-schedule",
+    "title": "Major Updates to California’s 2025 Physician Fee Schedule",
+    "date": "January 29, 2025",
+    "featuredIn": "DaisyBill Blog",
+    "featuredDate": "January 23, 2025",
+    "tag": "Policy",
+    "sourceUrl": "https://blog.daisybill.com/ca-physician-fee-schedule-2025",
+    "body": "The California Division of Workers’ Compensation (CA DWC) has announced significant updates to the Physician and Non-Physician Practitioner section of the Official Medical Fee Schedule (OMFS) for workers’ compensation. Effective February 1, 2025, these changes align OMFS with Medicare payment system revisions, as required by California Labor Code Section 5307.1.\n\nThe 2025 update includes five major changes:\n\n1. Increase in Conversion Factor: The Conversion Factor rises from $48.51 to $48.79, setting OMFS reimbursements at 150.84% of Medicare rates, reflecting the higher workload involved in treating injured workers.\n2. Enhanced Reimbursements for California-Specific Codes: Adjustments ensure fair compensation for unique state-specific services.\n3. Revised Calculations for 16 Procedure Codes: Updates introduce established reimbursement rates for certain codes previously billed “By Report.”\n4. 318 New Procedure Codes: These additions expand the list of reimbursable services.\n5. 128 Deleted Procedure Codes: Outdated codes are eliminated from the OMFS.\n\nThese updates are designed to improve reimbursement accuracy and reflect the complex needs of treating workers’ compensation patients.\n\nCosentus is committed to helping healthcare providers navigate regulatory changes and optimize their revenue cycle management processes."
+  },
+  {
+    "slug": "proper-guidelines-for-medical-records-retention-critical-for-compliance",
+    "title": "Proper Guidelines for Medical Records Retention Critical for Compliance",
+    "date": "December 6, 2024",
+    "featuredIn": "Cosentus",
+    "featuredDate": "December 6, 2024",
+    "tag": "Compliance",
+    "sourceUrl": "",
+    "body": "Proper medical records retention is a critical compliance requirement for healthcare practices. Federal and state regulations establish specific timelines and standards for how long patient records must be maintained, how they should be stored, and when they can be safely destroyed.\n\nFailure to comply with medical records retention guidelines can expose practices to regulatory penalties, legal liability, and audit risk. As documentation requirements continue to expand and electronic health records become the standard, healthcare organizations must ensure their retention policies are current, comprehensive, and consistently enforced.\n\n### Key Retention Guidelines:\n\n* **Federal Requirements:** HIPAA requires covered entities to retain certain records for a minimum of six years from the date of creation or the date they were last in effect.\n* **State Regulations:** Many states impose longer retention periods, and requirements vary significantly by state and patient age. Practices must comply with the most stringent applicable standard.\n* **Medicare and Medicaid:** CMS requires providers to maintain records for at least five years for Medicare claims and potentially longer for Medicaid, depending on state rules.\n* **Pediatric Records:** Records for minor patients are typically required to be retained for a specified period beyond the age of majority.\n\n### Best Practices for Medical Records Management:\n\n* Develop and document a formal records retention policy\n* Train staff on proper storage, access, and destruction procedures\n* Use secure electronic storage with appropriate backup and disaster recovery measures\n* Conduct regular audits to ensure compliance with applicable retention schedules\n* Establish clear destruction protocols that include certification of proper disposal\n\nCosentus supports healthcare practices in maintaining compliant documentation processes that protect against audit exposure and strengthen overall revenue cycle integrity."
+  },
+  {
+    "slug": "managing-the-surge-in-claims-denials-are-you-prepared",
+    "title": "Managing the Surge in Claims Denials: Are You Prepared?",
+    "date": "November 14, 2024",
+    "featuredIn": "Experian",
+    "featuredDate": "November 14, 2024",
+    "tag": "Claims Management",
+    "sourceUrl": "",
+    "body": "Rising claims denial rates pose significant challenges for healthcare providers, disrupting revenue collection and complicating operational workflows. This analysis uncovers the root causes and offers actionable strategies to enhance revenue cycle efficiency.\n\nHealthcare providers are facing escalating claims denial rates, with rejection rates now reaching 10% to 15%, according to the State of Claims 2024 report by Experian. These denials not only disrupt revenue collection but also impose a heavy administrative burden, requiring providers to dedicate additional resources to appeals and resubmissions.\n\n### Key strategies for effective denial management include:\n\n* Real-time monitoring and analytics to uncover patterns and trends driving denials.\n* Comprehensive staff training to reduce errors during claim submissions.\n* Advanced workflows designed to streamline and accelerate the appeals process.\n\n### The Financial Impact\n\nClaim denials cost healthcare providers billions annually. A 2019 survey estimated these losses at $262 billion. Tackling these inefficiencies is essential for financial stability, particularly for smaller practices. AI-driven solutions are emerging as a game-changer, optimizing claims processing by reducing errors and speeding up workflows.\n\nAs denial rates climb, modernizing claims management systems and leveraging data-driven strategies will be critical for healthcare providers. Organizations that address these challenges proactively will not only protect their revenue but also improve operational efficiency across the board."
+  },
+  {
+    "slug": "key-factors-fueling-the-rapid-growth-of-the-medical-coding-market",
+    "title": "Key Factors Fueling the Rapid Growth of the Medical Coding Market",
+    "date": "October 22, 2024",
+    "featuredIn": "Research Nester",
+    "featuredDate": "October 22, 2024",
+    "tag": "Industry Trends",
+    "sourceUrl": "https://www.researchnester.com/reports/medical-coding-market/5899",
+    "body": "The medical coding market is projected to witness exponential growth, fueled by rising global healthcare spending and technological advancements. Discover how this trend shapes the future of healthcare revenue management.\n\nThe medical coding market, valued at USD 38.71 billion in 2024, is forecasted to grow at a CAGR of 9.6%, reaching an estimated USD 127.46 billion by 2037. The projected industry size for 2025 is USD 41.68 billion, highlighting the sector’s rapid expansion.\n\nThis growth is driven by escalating global healthcare spending. Factors such as general inflation, rising prescription drug prices, increased wages for healthcare professionals, aging populations, and changing lifestyles have all contributed to this upward trend. According to recent estimates, global healthcare spending surged by over 35% between 2018 and 2022, reaching approximately USD 10 trillion.\n\nEmerging technologies like AI-driven medical coding systems are revolutionizing the market. These systems enable real-time coding with machine learning capabilities that:\n\n* Automate processes for improved accuracy.\n* Reduce coding errors.\n* Enhance productivity by offering recommendations for human coders.\n\nSuch advancements play a pivotal role in transforming medical billing and coding, ensuring efficiency and reliability in healthcare revenue management.\n\nCosentus is at the forefront of helping healthcare providers adapt to these innovations, empowering practices to optimize their operations."
+  },
+  {
+    "slug": "revenue-cycle-management-set-to-transform-the-healthcare-industry",
+    "title": "Revenue Cycle Management Set to Transform the Healthcare Industry",
+    "date": "October 14, 2024",
+    "featuredIn": "Research Nester",
+    "featuredDate": "October 14, 2024",
+    "tag": "Industry Trends",
+    "sourceUrl": "",
+    "body": "The Revenue Cycle Management (RCM) market is poised for remarkable growth, projected to expand from USD 59.25 billion in 2024 to a staggering USD 311.21 billion by 2037. With a projected CAGR of approximately 13.5% between 2025 and 2037, this growth highlights the increasing global demand for streamlined healthcare services and advanced healthcare IT solutions.\n\nThe Revenue Cycle Management market is becoming a critical component in the rapidly evolving healthcare industry. With increasing complexities in healthcare administration, the demand for solutions that integrate clinical and administrative functions is growing. RCM systems, which manage financial processes from patient registration to final payment, are being widely adopted. By 2025, the RCM market size is expected to reach USD 65.7 billion, underscoring its essential role in healthcare innovation.\n\nGlobal trends, such as rising patient admissions and healthcare expenditure, are driving this demand. Healthcare spending as a share of GDP climbed from 8.63% in 2000 to 9.84% in 2019, according to World Bank data, emphasizing the need for efficient IT solutions like RCM.\n\nRCM systems are transforming healthcare by streamlining operations and reducing financial inefficiencies. They enable providers to navigate growing financial pressures while improving patient outcomes. As healthcare continues to evolve, the adoption of advanced RCM solutions will be crucial in shaping a more efficient and effective industry.\n\nCosentus is at the forefront of this transformation, empowering healthcare practices to optimize their revenue cycle operations and achieve sustainable growth."
+  },
+  {
+    "slug": "cosentus-earns-great-place-to-work-for-third-consecutive-year",
+    "title": "Cosentus Earns Great Place to Work for Third Consecutive Year",
+    "date": "July 18, 2024",
+    "featuredIn": "Great Place to Work",
+    "featuredDate": "July 18, 2024",
     "tag": "Company News",
-    "sourceUrl": "https://www.businesswire.com/news/home/20250905679159/en/Cosentus-Invests-in-Accreda-Healthcare-Management-An-Anesthesia-Exclusive-RCM-Provider",
-    "body": "IRVINE, Calif.–(BUSINESS WIRE)–Cosentus Holdings, a premier provider in revenue cycle management (RCM) and integrated business solutions for healthcare practices, has announced a strategic investment in Accreda Healthcare Management — a purpose-built company specializing exclusively in anesthesia focused revenue cycle management. This partnership marks a significant milestone in Cosentus’ commitment to deepening its specialization and elevating its service offerings in the anesthesia sector.\n\nAccreda Healthcare Management stands apart from traditional billing companies. Founded by CPAs Logan Lowry and Mark Wines and rooted in a boutique style business model, and a partner-oriented philosophy — Accreda delivers customized, tailored support to anesthesia providers. Their focus on proactive communication, operational visibility, and hands-on guidance ensures that clients are not just treated as accounts — but as genuine partners, who are fully invested in each other’s success. Built for anesthesia and exclusively serving that specialty, Accreda delivers exceptional revenue performance — not just reports.\n\nWith over 25 years of experience, Cosentus is one of the most well-respected independent Revenue Cycle Management companies in the country. Certified by “Great Places to Work” and ranked by “Inc. 5000” as one of the fastest-growing private companies in the U.S. — for 4 consecutive years. Today, Cosentus is proud to partner with Accreda to deliver anesthesia-specific support that empowers providers to thrive like never before.\n\n### WHY THIS PARTNERSHIP MATTERS:\n\n**Anesthesia Specialization** — With a sole focus on anesthesia, Accreda’s systems, coding expertise, and billing workflows are fine-tuned to address the specialty’s unique needs with precision.\n\n**Boutique, Custom-tailored Services** — Clients enjoy proactive, personalized communication and deep operational insight — benefiting from true (one-on-one) partnership, rather than generic account management.\n\n**Enhanced Revenue Performance** — Accreda transforms clinical precision into dramatic revenue impact, seamlessly managing every post-case process to strengthen practice profitability.\n\nAnesthesia practices will now have access to the combined strengths of Cosentus and Accreda — delivering a unified platform that enhances coding accuracy, streamlines claims processing, and accelerates reimbursements — all with boutique-level attention and support.\n\nCurrent Accreda clients can expect uninterrupted services and continuity as their trusted advisors will remain at their side — now empowered through Cosentus’ advanced technology and world-class support network.\n\n“The Cosentus model of partnering with clients to achieve stronger financial results aligns seamlessly with the Accreda philosophy of clients first. Accreda was formed to ensure our anesthesia providers receive every dollar they have rightfully earned for the services they deliver. Together with Cosentus, our clients will benefit from cutting-edge technology, deeper analytics, and a partnership model that truly understands and drives their financial success.”\n\n— Logan Lowry, Co-Founder and President of Accreda\n\n“Cosentus has over 23 years in experience in servicing anesthesia providers. Accreda’s bespoke, anesthesia-focused operating model aligns seamlessly with Cosentus’ vision of delivering unmatched, practice-specific solutions. By joining forces, we’re equipping anesthesia providers with an upgraded suite of tech enabled tools and expert resources — so they can prioritize exceptional patient care while maximizing their financial performance.” — GS Bhalla, Founder and CEO of Cosentus.\n\n#### Contacts\n\nMedia Contact: JR Thompson, Senior Vice President, Cosentus, jrthompson@cosentus.com"
+    "sourceUrl": "https://www.greatplacetowork.com/certified-company/7040115",
+    "body": "Cosentus is proud to announce that we have been certified as a Great Place to Work for the third year in a row. This prestigious recognition highlights our dedication to fostering a positive and inclusive workplace where every team member can thrive.\n\nOur commitment to creating a collaborative and supportive environment has been pivotal in achieving this honor. We remain dedicated to maintaining high standards and prioritizing the well-being and professional growth of our employees."
   },
   {
     "slug": "cosentus-acquires-medcloud-and-alliancemed",
@@ -459,5 +399,65 @@ export const newsArticles: NewsArticle[] = [
     "tag": "Company News",
     "sourceUrl": "",
     "body": "Cosentus has acquired AllianceMed and its subsidiary, MedCloud Software Solutions (MedCloud). Terms of the transaction were not disclosed.\n\nAllianceMed specializes in in-network and out-of-network billing for Ambulatory Surgery Centers (ASCs), Durable Medical Equipment (DME) companies, and multi-specialty physician groups. MedCloud offers a suite of technology solutions that includes billing software, an EMR tailored for ASCs, and DME management technology, among others. The companies are headquartered in Phoenix, Arizona with a delivery center in India.\n\nAlex Cushman, CEO of AllianceMed, said of the transaction, “We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.”\n\nG.S. Bhalla, CEO of Cosentus noted, “With MedCloud, we are investing in a best-in-class cloud-based practice management solution with highly customizable workflows and reporting capabilities. We also plan to invest in developing AI tools to offer even greater efficiencies to our clients. We are very excited about this acquisition and look forward to working with a great team to help build the platform as part of our broader strategy to become the industry-leading tech-enabled solutions provider to independent physician groups and facilities.”"
+  },
+  {
+    "slug": "cosentus-breaks-into-top-500-of-2023-inc-5000-list",
+    "title": "Cosentus Breaks into Top 500 of 2023 Inc. 5000 List",
+    "date": "July 25, 2023",
+    "featuredIn": "Inc.",
+    "featuredDate": "July 25, 2023",
+    "tag": "Company News",
+    "sourceUrl": "https://www.inc.com/profile/cosentus-holdings",
+    "body": "Achieving Milestones in Medical Billing & Practice Management Services\n\nIn 2023, Cosentus proudly secured the No. 486 spot on the Inc. 5000 list, recognizing the fastest-growing private companies in the USA. This milestone reflects our rapid growth and excellence in medical billing and practice management services.\n\nOur inclusion in the Inc. 5000 underscores our commitment to helping healthcare providers streamline operations, boost efficiency, and improve patient care. This honor not only celebrates our achievements but also drives us to continue delivering exceptional value to our clients."
+  },
+  {
+    "slug": "cosentus-ranks-in-the-top-20-on-the-2022-inc-5000-annual-list",
+    "title": "Cosentus ranks in the top 20% on the 2022 Inc. 5000 Annual List",
+    "date": "August 29, 2022",
+    "featuredIn": "Inc.",
+    "featuredDate": "August 29, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "Cosentus is proud to announce its inclusion in the top 20% of the 2022 Inc. 5000 Annual List, recognizing the fastest-growing private companies in America. This achievement reflects our sustained growth trajectory and commitment to delivering exceptional revenue cycle management services to healthcare providers nationwide.\n\nBeing ranked among the top 20% of the Inc. 5000 validates our approach to combining deep industry expertise with innovative technology solutions. As we continue to expand our capabilities and client base, this recognition reinforces our position as a leading independent RCM company in the healthcare industry."
+  },
+  {
+    "slug": "whats-behind-the-rapid-revenue-growth-of-these-6-north-bay-companies",
+    "title": "What’s behind the rapid revenue growth of these 6 North Bay companies?",
+    "date": "August 23, 2022",
+    "featuredIn": "North Bay Business Journal",
+    "featuredDate": "August 23, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "Cosentus was featured among six North Bay companies recognized for their rapid revenue growth. The article highlights the business strategies and market conditions driving exceptional financial performance in the region.\n\nCosentus’s inclusion in this feature reflects the company’s strong growth trajectory in the healthcare revenue cycle management space, driven by expanding client relationships, investment in technology, and a commitment to delivering measurable results for medical practices."
+  },
+  {
+    "slug": "napa-medical-billing-receivables-software-maker-symed-acquired-by-cosentus",
+    "title": "Napa medical billing, receivables software maker SyMed acquired by Cosentus",
+    "date": "August 12, 2022",
+    "featuredIn": "NORTH BAY BUSINESS JOURNAL",
+    "featuredDate": "August 12, 2022",
+    "tag": "Company News",
+    "sourceUrl": "https://www.northbaybusinessjournal.com/article/industrynews/napa-medical-billing-receivables-software-maker-symed-acquired-by-cosentus/",
+    "body": "SyMed Corporation, a health care billing software company headquartered in Napa, has been acquired by Cosentus Business Services, a global business services company with locations in Northern California."
+  },
+  {
+    "slug": "32-year-old-napa-medical-revenue-software-firm-enters-new-chapter",
+    "title": "32-year-old Napa medical revenue software firm enters new chapter",
+    "date": "August 12, 2022",
+    "featuredIn": "North Bay Business Journal",
+    "featuredDate": "August 12, 2022",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "The acquisition of SyMed Corporation by Cosentus marks a new chapter for the 32-year-old Napa-based medical revenue software firm. SyMed, known for its healthcare billing and receivables management software, brings decades of expertise and a loyal client base to the Cosentus family.\n\nThis strategic acquisition strengthens Cosentus’s technology portfolio and expands its ability to deliver comprehensive, tech-enabled revenue cycle management solutions to healthcare providers across the country."
+  },
+  {
+    "slug": "cosentus-expands-through-acquisition-of-north-medical-billing-2019",
+    "title": "Cosentus Expands Through Acquisition of North Medical Billing (2019)",
+    "date": "June 18, 2019",
+    "featuredIn": "Cosentus",
+    "featuredDate": "June 18, 2019",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "In a strategic move to enhance our service offerings, Cosentus acquired North Medical Billing in 2019. Known for its precision and reliability, North Medical Billing has been a trusted provider of medical billing services. This acquisition allows Cosentus to expand its capabilities and offer comprehensive revenue cycle management solutions to healthcare providers nationwide.\n\nThe integration of North Medical Billing into Cosentus’s operations marks a significant step in our commitment to delivering superior billing services. This merger ensures our clients benefit from cutting-edge medical billing technology and practices, reinforcing Cosentus’s position as a healthcare revenue cycle management leader."
   }
 ]

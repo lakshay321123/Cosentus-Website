@@ -96,6 +96,29 @@ function renderMarkdown(text: string) {
       continue
     }
 
+    // Numbered lists (1. 2. 3. etc.)
+    const numberedMatch = trimmed.match(/^(\d+)\.\s(.+)/)
+    if (numberedMatch) {
+      elements.push(
+        <div key={key++} style={{
+          display: 'flex',
+          gap: 12,
+          marginBottom: 8,
+          paddingLeft: 8,
+        }}>
+          <span style={{ color: 'var(--primary)', fontWeight: 600, flexShrink: 0, minWidth: 20 }}>{numberedMatch[1]}.</span>
+          <p style={{
+            fontSize: 16,
+            lineHeight: 1.75,
+            color: 'var(--gray-700)',
+          }}>
+            {formatInline(numberedMatch[2])}
+          </p>
+        </div>
+      )
+      continue
+    }
+
     // Regular paragraph
     elements.push(
       <p key={key++} style={{
