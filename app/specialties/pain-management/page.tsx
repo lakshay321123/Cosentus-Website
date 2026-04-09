@@ -23,7 +23,7 @@ const services = [
 export default function PainManagementPage() {
   return (
     <main>
-      <PageHero
+      <PageHero videoSrc="/images/specialties-hero.mp4"
         label="PAIN MANAGEMENT"
         title="Pain Management Procedures Are High-Value. Your Reimbursements Should Be Too."
         subtitle="Injections, SCS, ablations, and medication management — coded precisely, authorized proactively, defended aggressively."

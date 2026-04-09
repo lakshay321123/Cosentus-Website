@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function OrthopedicsPage() {
   return (
     <main>
-      <PageHero
+      <PageHero videoSrc="/images/specialties-hero.mp4"
         label="ORTHOPEDICS"
         title="Think Growth. Your Dedicated Orthopedic Revenue Cycle Partner."
         subtitle="Joint replacements, arthroscopy, spinal surgery, and implant cases demand surgical-grade coding and proactive contract management. Cosentus ensures every procedure is captured, billed, and collected."

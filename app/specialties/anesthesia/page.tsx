@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function AnesthesiaPage() {
   return (
     <main>
-      <PageHero
+      <PageHero videoSrc="/images/specialties-hero.mp4"
         label="ANESTHESIA — ACCREDA BY COSENTUS"
         title="Beyond Billing. Built for Anesthesia."
         subtitle="Accreda by Cosentus — 23+ years of anesthesia-specific RCM experience, backed by our Real + Artificial Intelligence operating model to capture every time unit, implant, and billable encounter."
