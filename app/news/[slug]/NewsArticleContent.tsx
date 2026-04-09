@@ -96,7 +96,7 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // Bullet points — teal left border
+    // Bullet points — teal left border only
     if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
       elements.push(
         <div key={key++} style={{
@@ -104,10 +104,7 @@ function renderMarkdown(text: string) {
           paddingLeft: 16,
           marginBottom: 8,
           marginLeft: 4,
-          display: 'flex',
-          gap: 10,
         }}>
-          <span style={{ color: 'var(--primary)', fontWeight: 600, flexShrink: 0 }}>•</span>
           <p style={{
             fontSize: 16,
             lineHeight: 1.75,
@@ -120,7 +117,7 @@ function renderMarkdown(text: string) {
       continue
     }
 
-    // Numbered lists — teal left border
+    // Numbered lists — teal left border only
     const numberedMatch = trimmed.match(/^(\d+)\.\s(.+)/)
     if (numberedMatch) {
       elements.push(
@@ -129,10 +126,7 @@ function renderMarkdown(text: string) {
           paddingLeft: 16,
           marginBottom: 8,
           marginLeft: 4,
-          display: 'flex',
-          gap: 10,
         }}>
-          <span style={{ color: 'var(--primary)', fontWeight: 600, flexShrink: 0, minWidth: 20 }}>{numberedMatch[1]}.</span>
           <p style={{
             fontSize: 16,
             lineHeight: 1.75,
