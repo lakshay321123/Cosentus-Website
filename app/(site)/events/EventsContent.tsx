@@ -735,7 +735,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       `}</style>
 
       {/* Stats */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px 24px', margin: 0 }}>
         <div className="events-stats">
           <div className="events-stat">
             <div className="events-stat-number">{eventsData.length}</div>
