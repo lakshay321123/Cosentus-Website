@@ -748,7 +748,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       )}
 
       {/* Sticky Film Reel with Stats */}
-      <div className="film-reel-sticky">
+      <div className="film-reel-sticky" style={{ marginTop: '-20px' }}>
         <div className="film-reel-gap-cover" />
         <div className="film-reel-inner">
 
