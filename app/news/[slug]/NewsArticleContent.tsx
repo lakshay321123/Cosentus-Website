@@ -148,8 +148,12 @@ function formatInline(text: string): React.ReactNode {
 
 export default function NewsArticleContent({ article }: { article: NewsArticle }) {
   const router = useRouter()
-  const currentIndex = newsArticles.findIndex(a => a.slug === article.slug)
-  const relatedArticles = newsArticles.filter((_, i) => i !== currentIndex).slice(0, 4)
+  const otherArticles = newsArticles.filter(a => a.slug !== article.slug)
+  
+  // Show tag-matched articles first, then fill remaining slots with recent articles
+  const sameTag = otherArticles.filter(a => a.tag === article.tag)
+  const differentTag = otherArticles.filter(a => a.tag !== article.tag)
+  const relatedArticles = [...sameTag, ...differentTag].slice(0, 4)
 
   return (
     <main>

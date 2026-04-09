@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 import { newsArticles } from '@/data/newsArticles'
 
 export default function NewsListContent() {
