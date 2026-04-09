@@ -734,28 +734,6 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
       `}</style>
 
-      {/* Stats */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px 24px', margin: 0 }}>
-        <div className="events-stats">
-          <div className="events-stat">
-            <div className="events-stat-number">{eventsData.length}</div>
-            <div className="events-stat-label">Events & Counting</div>
-          </div>
-          <div className="events-stat">
-            <div className="events-stat-number">{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
-            <div className="events-stat-label">Years Active</div>
-          </div>
-          <div className="events-stat">
-            <div className="events-stat-number">{eventsData.filter(e => e.tag === 'Conference').length}</div>
-            <div className="events-stat-label">Conferences</div>
-          </div>
-          <div className="events-stat">
-            <div className="events-stat-number">5</div>
-            <div className="events-stat-label">Countries</div>
-          </div>
-        </div>
-      </div>
-
       {/* Lightbox */}
       {lightboxSrc && (
         <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
@@ -769,10 +747,30 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         </div>
       )}
 
-      {/* Sticky Film Reel */}
+      {/* Sticky Film Reel with Stats */}
       <div className="film-reel-sticky">
         <div className="film-reel-gap-cover" />
         <div className="film-reel-inner">
+
+        {/* Stats on teal */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 24px', gap: 48, flexWrap: 'wrap' as const }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{eventsData.length}</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Events & Counting</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Years Active</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{eventsData.filter(e => e.tag === 'Conference').length}</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Conferences</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>5</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Countries</div>
+          </div>
+        </div>
         {/* Strip 1 — scrolls left */}
         <div className="film-strip">
           <div className="film-sprockets top" />
