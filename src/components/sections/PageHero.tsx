@@ -7,9 +7,10 @@ interface PageHeroProps {
   subtitle?: string
   ctaText?: string
   ctaHref?: string
+  videoSrc?: string
 }
 
-export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: PageHeroProps) {
+export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc }: PageHeroProps) {
   return (
     <section style={{ position: 'relative', minHeight: '50vh', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
       {/* Video background */}
@@ -26,7 +27,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref }: P
           zIndex: 0,
         }}
       >
-        <source src="/videos/hero-banner.mp4" type="video/mp4" />
+        <source src={videoSrc || "/videos/hero-banner.mp4"} type="video/mp4" />
       </video>
 
       {/* Dark overlay for readability */}

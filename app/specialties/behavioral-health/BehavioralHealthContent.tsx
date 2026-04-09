@@ -63,7 +63,7 @@ function LeaderCard({ leader }: { leader: typeof leaders[0] }) {
 export default function BehavioralHealthContent() {
   return (
     <main>
-      <PageHero
+      <PageHero videoSrc="/images/specialties-hero.mp4"
         label="BEHAVIORAL HEALTH"
         title="Behavioral Health Demand Is Surging. The Billing Complexity Is Surging With It."
         subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our behavioral health specialists keep revenue aligned with care delivered."

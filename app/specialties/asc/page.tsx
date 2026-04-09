@@ -23,7 +23,7 @@ const services = [
 export default function ASCPage() {
   return (
     <main>
-      <PageHero
+      <PageHero videoSrc="/images/specialties-hero.mp4"
         label="AMBULATORY SURGERY CENTERS"
         title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
         subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
