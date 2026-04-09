@@ -2407,13 +2407,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ===== SERVICES ROW LAYOUT ===== */
 @media (max-width: 768px) {
   .service-row {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 20px 0 !important;
   }
+  /* Hide number */
+  .service-row > div:first-child {
+    display: none !important;
+  }
+  /* Hide arrow circle */
+  .service-row > div:last-child {
+    display: none !important;
+  }
+  /* Title + desc */
+  .service-row > div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+  }
+  /* Stat */
   .service-row-stat {
-    text-align: left !important;
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
+    text-align: right !important;
+    flex-shrink: 0;
   }
 }
