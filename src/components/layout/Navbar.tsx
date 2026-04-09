@@ -59,6 +59,7 @@ export default function Navbar() {
 
   // Swipe-to-close state
   const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
   const touchCurrentX = useRef(0)
   const drawerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
@@ -94,19 +95,23 @@ export default function Navbar() {
   // Swipe-to-close handlers on the drawer panel
   const onDrawerTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
     touchCurrentX.current = e.touches[0].clientX
     isDragging.current = false
   }
 
   const onDrawerTouchMove = (e: React.TouchEvent) => {
     touchCurrentX.current = e.touches[0].clientX
-    const delta = touchCurrentX.current - touchStartX.current
-    // Only allow dragging left (negative delta = closing)
-    if (delta < -10) {
+    const deltaX = touchCurrentX.current - touchStartX.current
+    const deltaY = e.touches[0].clientY - (touchStartY.current || e.touches[0].clientY)
+    // Only start dragging if horizontal movement > vertical (intentional swipe)
+    if (!isDragging.current && Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY)) {
       isDragging.current = true
+    }
+    if (isDragging.current && deltaX < 0) {
       if (drawerRef.current) {
         drawerRef.current.style.transition = 'none'
-        drawerRef.current.style.transform = `translateX(${Math.min(0, delta)}px)`
+        drawerRef.current.style.transform = `translateX(${Math.min(0, deltaX)}px)`
       }
     }
   }
@@ -168,7 +173,7 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <Link href="/contact" className="nav-cta">Contact</Link>
+            <Link href="/contact" className="nav-cta">Contact</Link>
             </li>
           </ul>
         </div>

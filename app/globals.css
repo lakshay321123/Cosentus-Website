@@ -1732,6 +1732,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   /* App-like touch behavior */
   * {
     -webkit-tap-highlight-color: transparent;
+  }
+  button, a, [role="button"] {
     -webkit-touch-callout: none;
   }
   body {
@@ -2297,7 +2299,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 13px;
   line-height: 1.6;
   max-width: 85%;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .chat-bot {
   background: #00B5D6;
