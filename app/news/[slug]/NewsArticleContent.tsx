@@ -131,6 +131,30 @@ function renderMarkdown(text: string) {
       continue
     }
 
+    // Service items — "Label: Description" pattern (2-8 word label, long description)
+    const colonIdx = trimmed.indexOf(':')
+    if (colonIdx > 10 && colonIdx < 70 && trimmed.length > 80) {
+      const label = trimmed.slice(0, colonIdx).trim()
+      const desc = trimmed.slice(colonIdx + 1).trim()
+      const wordCount = label.split(/\s+/).length
+      if (wordCount >= 2 && wordCount <= 8 && desc.length > 30 && !label.startsWith('http')) {
+        elements.push(
+          <div key={key++} style={{
+            borderLeft: '3px solid var(--primary)',
+            paddingLeft: 16,
+            marginBottom: 16,
+            marginLeft: 4,
+          }}>
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-700)' }}>
+              <strong style={{ fontWeight: 600, color: 'var(--gray-900)' }}>{label}:</strong>{' '}
+              {formatInline(desc)}
+            </p>
+          </div>
+        )
+        continue
+      }
+    }
+
     // Regular paragraph
     elements.push(
       <p key={key++} style={{
