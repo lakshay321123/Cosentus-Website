@@ -85,10 +85,29 @@ export default function PainManagementPage() {
 
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div style={{ padding: 36, background: 'var(--primary-ghost)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: 16, fontStyle: 'italic', color: 'var(--gray-700)', lineHeight: 1.7, marginBottom: 16 }}>&ldquo;I&apos;ve worked with Cosentus and have had nothing but positive experiences. I recommend Cosentus without reservations.&rdquo;</p>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>Dr. Justin Lo, MD</p>
+          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
+          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
+          <RevealOnScroll delay={0.2}>
+            <div className="testimonial-card" style={{
+              padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
+              border: '1px solid var(--gray-200)', position: 'relative', maxWidth: 680, marginTop: 48,
+              transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}>
+              <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
+                &ldquo;I&apos;ve worked with Cosentus and have had nothing but positive experiences. I recommend Cosentus without reservations.&rdquo;
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
+                }}>JL</div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>Dr. Justin Lo, MD</div>
+                  <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>President, Northern California Pain Specialists</div>
+                </div>
+              </div>
             </div>
           </RevealOnScroll>
         </div>

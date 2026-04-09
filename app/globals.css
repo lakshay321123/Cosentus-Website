@@ -1659,6 +1659,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 8px 24px rgba(0,181,214,0.12);
   border-color: #00B5D6 !important;
 }
+
+/* Testimonial card hover */
+.testimonial-card:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
+  transform: translateY(-4px);
+}
 /* ==========================================================================
    MOBILE STYLESHEET — All mobile-specific rules in one place
    Everything below only applies at ≤768px viewport width.
