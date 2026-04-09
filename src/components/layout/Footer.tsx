@@ -89,7 +89,7 @@ export default function Footer() {
           <p>&copy; {new Date().getFullYear()} Cosentus. All rights reserved.</p>
           <div className="footer-legal">
             <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Terms of Service</Link>
+            <Link href="/terms">Terms & Conditions</Link>
           </div>
         </div>
       </div>
