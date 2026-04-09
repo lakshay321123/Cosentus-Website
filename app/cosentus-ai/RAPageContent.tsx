@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const problem = {
   title: 'The Problem',
@@ -62,7 +63,8 @@ export default function RAPageContent() {
               </p>
             </RevealOnScroll>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+            {/* Desktop */}
+            <div className="agents-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
               {allAgents.map((agent, i) => (
                 <RevealOnScroll key={i} delay={i * 0.08}>
                   <div
@@ -81,6 +83,26 @@ export default function RAPageContent() {
                   </div>
                 </RevealOnScroll>
               ))}
+            </div>
+            {/* Mobile */}
+            <div className="agents-mobile">
+              <MobileCarousel autoScrollInterval={3500}>
+                {allAgents.map((agent, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setSelectedAgent(agent)}
+                    style={{ cursor: 'pointer', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--gray-200)' }}
+                  >
+                    <div style={{ height: 280, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <img src={`/images/${agent.name.toLowerCase()}.png`} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
+                    </div>
+                    <div style={{ background: '#00B5D6', padding: '14px 16px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{agent.name}</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>{agent.shortRole}</div>
+                    </div>
+                  </div>
+                ))}
+              </MobileCarousel>
             </div>
           </div>
 

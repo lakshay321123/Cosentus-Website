@@ -1797,3 +1797,86 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     padding: 0 16px;
   }
 }
+
+/* About page mobile toggles */
+.offices-mobile { display: none; }
+
+@media (max-width: 768px) {
+  .offices-desktop { display: none !important; }
+  .offices-mobile { display: block; }
+  
+  /* Leadership: 2-column on mobile */
+  .leadership-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+}
+
+/* Cosentus AI + subpage mobile toggles */
+.agents-mobile { display: none; }
+
+@media (max-width: 768px) {
+  .agents-desktop { display: none !important; }
+  .agents-mobile { display: block; }
+  
+  /* Contact steps: stack */
+  [style*="repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Generic: any inline 2-col or 3-col grid → 1 col on mobile */
+  .advantage-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* RCM steps and key results */
+  [style*="repeat(2, 1fr)"],
+  [style*="repeat(5, 1fr)"],
+  [style*="repeat(3, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Partnership solutions row */
+  [style*="repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* WeCare initiatives */
+  [style*="minmax(340px"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Blog listing grid */
+  [style*="minmax(min(360px"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Chat widget: narrower on mobile */
+  .chat-widget {
+    width: calc(100vw - 24px) !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    height: 480px !important;
+  }
+  
+  /* CTA box: tighter padding */
+  .cta-box {
+    padding: 48px 24px !important;
+  }
+  
+  /* Section titles: smaller on mobile */
+  .section-title {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+  
+  /* Hero h1 smaller */
+  .hero h1 {
+    font-size: clamp(36px, 8vw, 56px) !important;
+  }
+  
+  /* Blog post layout stacks */
+  .blog-layout {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}

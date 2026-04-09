@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -78,7 +79,8 @@ export default function AboutContent() {
             <div className="section-title">What We Believe</div>
           </RevealOnScroll>
 
-          <div className="advantage-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
+          {/* Desktop */}
+          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {beliefs.map((b, i) => (
               <RevealOnScroll key={i}>
                 <div className="advantage-card">
@@ -87,6 +89,17 @@ export default function AboutContent() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          {/* Mobile */}
+          <div className="advantages-mobile" style={{ marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {beliefs.map((b, i) => (
+                <div key={i} className="advantage-card">
+                  <h4>{b.title}</h4>
+                  <p>{b.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>
@@ -97,7 +110,8 @@ export default function AboutContent() {
           <RevealOnScroll>
             <div className="section-label">COMPANY BY NUMBERS</div>
           </RevealOnScroll>
-          <div className="results-grid" style={{
+          {/* Desktop */}
+          <div className="results-grid results-desktop" style={{
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: 24,
             marginTop: 48,
@@ -117,6 +131,23 @@ export default function AboutContent() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          {/* Mobile */}
+          <div className="results-mobile" style={{ marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={3000}>
+              {companyStats.map((stat, i) => (
+                <div key={i} style={{
+                  textAlign: 'center',
+                  padding: 40,
+                  background: 'var(--primary)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'white',
+                }}>
+                  <div style={{ fontSize: 48, fontWeight: 300, lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 14, opacity: 0.8 }}>{stat.label}</div>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>
@@ -149,7 +180,7 @@ export default function AboutContent() {
             <div className="section-title">Executive Leadership</div>
           </RevealOnScroll>
 
-          <div style={{
+          <div className="leadership-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
             gap: 20,
@@ -225,37 +256,35 @@ export default function AboutContent() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">Where We Are</div>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
+          {/* Desktop */}
+          <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
             {offices.map((office, i) => (
               <RevealOnScroll key={i}>
-                <a
-                  href={office.maps}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'block',
-                    padding: '24px',
-                    background: 'var(--white)',
-                    color: 'var(--gray-700)',
-                    borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    height: '100%',
-                  }}
+                <a href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none', transition: 'all 0.3s ease', height: '100%' }}
                   onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 8px 24px rgba(0,181,214,0.2)'; el.style.background = '#00B5D6'; el.style.color = 'white'; el.style.borderColor = '#00B5D6' }}
-                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}
-                >
+                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}>
                   <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
                   <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
                   <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
                   <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
-                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>
-                    View on Maps →
-                  </div>
+                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
                 </a>
               </RevealOnScroll>
             ))}
+          </div>
+          {/* Mobile */}
+          <div className="offices-mobile" style={{ marginTop: 24 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {offices.map((office, i) => (
+                <a key={i} href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none' }}>
+                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
+                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
+                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
+                </a>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

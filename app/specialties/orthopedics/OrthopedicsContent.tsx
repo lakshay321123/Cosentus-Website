@@ -1,6 +1,7 @@
 'use client'
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const services = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" /></svg>, title: 'Surgical & Procedural Coding', desc: 'Accurate CPT selection, modifier application, and documentation alignment for every orthopedic procedure.' },
@@ -63,7 +64,7 @@ export default function OrthopedicsContent() {
         <div className="container">
           <RevealOnScroll><div className="section-label">WHAT WE MANAGE</div></RevealOnScroll>
           <RevealOnScroll delay={0.1}><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
-          <div className="advantage-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', marginTop: 48 }}>
+          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', marginTop: 48 }}>
             {services.map((s, i) => (
               <RevealOnScroll key={i} delay={i * 0.07}>
                 <div className="advantage-card">
