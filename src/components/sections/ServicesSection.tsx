@@ -57,6 +57,7 @@ function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) 
         padding: 'clamp(24px, 3vw, 36px) 0',
         borderBottom: '1px solid var(--gray-200)',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        overflow: 'hidden',
         background: hovered ? 'var(--gray-50)' : 'transparent',
         margin: hovered ? '0 -24px' : '0',
         paddingLeft: hovered ? '24px' : '0',
@@ -77,7 +78,7 @@ function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) 
         </div>
 
         {/* Title + Description */}
-        <div>
+        <div style={{ minWidth: 0 }}>
           <h4 style={{
             fontSize: 'clamp(18px, 2vw, 22px)',
             fontWeight: 600,
@@ -92,7 +93,6 @@ function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) 
             fontSize: 14,
             lineHeight: 1.7,
             color: 'var(--gray-500)',
-            maxWidth: 560,
             margin: 0,
           }}>
             {svc.desc}
@@ -110,7 +110,7 @@ function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) 
           }}>
             {svc.stat}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--gray-400)', marginTop: 2 }}>{svc.statLabel}</div>
+          <div style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 2 }}>{svc.statLabel}</div>
         </div>
 
         {/* Arrow */}
