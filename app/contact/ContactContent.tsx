@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const steps = [
   { num: '1', text: 'We respond within one business day.' },
@@ -41,7 +42,7 @@ export default function ContactContent() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">What Happens After You Reach Out</div>
           </RevealOnScroll>
-          <div style={{
+          <div className="steps-desktop" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: 24,
@@ -76,13 +77,23 @@ export default function ContactContent() {
               </RevealOnScroll>
             ))}
           </div>
+          <div className="steps-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {steps.map((step, i) => (
+                <div key={i} style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, marginBottom: 16 }}>{step.num}</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
       {/* Contact Form + Details */}
       <section className="section section-alt">
         <div className="container">
-          <div style={{
+          <div className="ra-main-grid" style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: 80,

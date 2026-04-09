@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'Pain Management Billing & RCM | Interventional Expertise | Cosentus',
@@ -56,7 +57,7 @@ export default function PainManagementPage() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">Complete Pain Management Revenue Cycle</div>
           </RevealOnScroll>
-          <div className="advantage-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
+          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {services.map((s, i) => (
               <RevealOnScroll key={i}>
                 <div className="advantage-card">
@@ -66,6 +67,18 @@ export default function PainManagementPage() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          {/* Mobile */}
+          <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4500}>
+              {services.map((s, i) => (
+                <div key={i} className="advantage-card">
+                  <div className="advantage-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
+                  <h4>{s.title}</h4>
+                  <p>{s.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

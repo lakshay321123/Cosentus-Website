@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <CindyVoiceAgent />
           <ChatWidget />
+          <CindyVoiceAgent />
         </ChatProvider>
       </body>
     </html>

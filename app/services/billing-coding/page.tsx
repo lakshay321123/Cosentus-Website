@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'Medical Billing & Coding Services | Expert-Led, AI-Powered | Cosentus',
@@ -57,6 +58,18 @@ export default function BillingCodingPage() {
               </RevealOnScroll>
             ))}
           </div>
+          {/* Mobile process steps */}
+          <div className="services-mobile" style={{ marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {process.map((p, i) => (
+                <div key={i} style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
+                  <div style={{ fontSize: 32, fontWeight: 200, color: 'var(--primary)', marginBottom: 12, fontFamily: 'var(--font-display)' }}>{p.step}</div>
+                  <h4 style={{ fontSize: 16, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 8 }}>{p.title}</h4>
+                  <p style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.6 }}>{p.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
@@ -68,7 +81,7 @@ export default function BillingCodingPage() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">Our Billing Process</div>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
+          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
             {process.map((p, i) => (
               <RevealOnScroll key={i}>
                 <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -44,7 +45,8 @@ export default function HeroSection() {
           </Link>
         </div>
 
-        <div className="hero-cases">
+        {/* Desktop testimonials */}
+        <div className="hero-cases hero-cases-desktop">
           {testimonials.map((t, i) => (
             <div key={i} className="hero-case">
               <div className="hero-case-tag">{t.tag}</div>
@@ -52,6 +54,19 @@ export default function HeroSection() {
               <span className="hero-case-link">{t.author}</span>
             </div>
           ))}
+        </div>
+
+        {/* Mobile testimonials carousel */}
+        <div className="hero-cases-mobile" style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
+          <MobileCarousel autoScrollInterval={4000} darkMode>
+            {testimonials.map((t, i) => (
+              <div key={i} className="hero-case" style={{ height: 'auto' }}>
+                <div className="hero-case-tag">{t.tag}</div>
+                <div className="hero-case-title">{t.title}</div>
+                <span className="hero-case-link">{t.author}</span>
+              </div>
+            ))}
+          </MobileCarousel>
         </div>
       </div>
 
