@@ -227,26 +227,7 @@ export default function NewsArticleContent({ article }: { article: NewsArticle }
             </RevealOnScroll>
           )}
 
-          {/* CTA inline */}
-          <RevealOnScroll delay={0.2}>
-            <div style={{
-              marginTop: 48, padding: '32px 36px', background: 'var(--primary-ghost)',
-              borderRadius: 'var(--radius-md)', border: '1px solid var(--primary-pale)',
-            }}>
-              <p style={{ fontSize: 16, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>
-                Need help navigating these changes?
-              </p>
-              <p style={{ fontSize: 14, color: 'var(--gray-600)', marginBottom: 16 }}>
-                Schedule a revenue cycle assessment with Cosentus and see how we protect your practice revenue.
-              </p>
-              <Link href="/contact" className="btn-primary" style={{ display: 'inline-flex' }}>
-                Get Your Free Revenue Analysis
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Link>
-            </div>
-          </RevealOnScroll>
+
         </div>
       </section>
 
