@@ -163,6 +163,7 @@ function YearMarker({ year }: { year: string }) {
 
 export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: string[] }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
 
   // Build film frames: real photos first, pad with gradients if needed (min 20 frames)
   const minFrames = 20
@@ -466,12 +467,13 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         /* Film Reel */
         .film-reel-sticky {
           position: sticky;
-          top: 72px;
+          top: 64px;
           z-index: 10;
-          background: #0a0a0a;
+          background: white;
           overflow: hidden;
-          border-top: 1px solid rgba(0,181,214,0.2);
-          border-bottom: 1px solid rgba(0,181,214,0.2);
+          border-top: 1px solid var(--gray-200);
+          border-bottom: 1px solid var(--gray-200);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
 
         .film-strip {
@@ -481,7 +483,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         }
 
         .film-strip + .film-strip {
-          border-top: 1px solid rgba(255,255,255,0.06);
+          border-top: 1px solid var(--gray-200);
         }
 
         /* Sprocket holes */
@@ -491,14 +493,14 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           position: absolute;
           left: 0;
           right: 0;
-          height: 14px;
+          height: 12px;
           z-index: 3;
           background: repeating-linear-gradient(
             90deg,
             transparent 0px,
             transparent 14px,
-            rgba(0,181,214,0.12) 14px,
-            rgba(0,181,214,0.12) 22px,
+            rgba(0,181,214,0.08) 14px,
+            rgba(0,181,214,0.08) 22px,
             transparent 22px,
             transparent 50px
           );
@@ -513,14 +515,14 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           position: absolute;
           left: 0;
           right: 0;
-          height: 14px;
+          height: 12px;
           z-index: 4;
           background: repeating-linear-gradient(
             90deg,
             transparent 0px,
             transparent 18px,
-            #0a0a0a 18px,
-            #0a0a0a 26px,
+            white 18px,
+            white 26px,
             transparent 26px,
             transparent 50px
           );
@@ -570,12 +572,67 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           width: 100%;
           height: 100%;
           object-fit: cover;
-          opacity: 0.85;
-          transition: opacity 0.3s;
+          transition: all 0.3s ease;
         }
 
         .film-frame:hover img {
-          opacity: 1;
+          transform: scale(1.05);
+          cursor: pointer;
+        }
+
+        /* Lightbox */
+        .lightbox-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: rgba(0,0,0,0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          animation: fadeIn 0.25s ease;
+          backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .lightbox-img {
+          max-width: 90vw;
+          max-height: 85vh;
+          border-radius: 8px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+          animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        @keyframes scaleIn {
+          from { transform: scale(0.85); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+
+        .lightbox-close {
+          position: absolute;
+          top: 24px;
+          right: 24px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: white;
+          font-size: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .lightbox-close:hover {
+          background: rgba(255,255,255,0.2);
         }
 
         /* Gradient placeholder for frames without images */
@@ -599,12 +656,12 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
 
         .film-reel-sticky::before {
           left: 0;
-          background: linear-gradient(90deg, #0a0a0a, transparent);
+          background: linear-gradient(90deg, white, transparent);
         }
 
         .film-reel-sticky::after {
           right: 0;
-          background: linear-gradient(270deg, #0a0a0a, transparent);
+          background: linear-gradient(270deg, white, transparent);
         }
 
         /* Mobile responsive */
@@ -688,6 +745,19 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         </div>
       </section>
 
+      {/* Lightbox */}
+      {lightboxSrc && (
+        <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
+          <button className="lightbox-close" onClick={() => setLightboxSrc(null)} aria-label="Close">✕</button>
+          <img
+            className="lightbox-img"
+            src={lightboxSrc}
+            alt="Event photo"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* Sticky Film Reel */}
       <div className="film-reel-sticky">
         {/* Strip 1 — scrolls left */}
@@ -698,7 +768,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
                 {filmFrames.map((frame, i) => (
-                  <div className="film-frame" key={`l-${setIdx}-${i}`}>
+                  <div className="film-frame" key={`l-${setIdx}-${i}`} onClick={() => frame.src && setLightboxSrc(frame.src)}>
                     {frame.src ? (
                       <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (
@@ -719,7 +789,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
                 {[...filmFrames].reverse().map((frame, i) => (
-                  <div className="film-frame" key={`r-${setIdx}-${i}`}>
+                  <div className="film-frame" key={`r-${setIdx}-${i}`} onClick={() => frame.src && setLightboxSrc(frame.src)}>
                     {frame.src ? (
                       <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (
