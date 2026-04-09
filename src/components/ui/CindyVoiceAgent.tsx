@@ -20,7 +20,8 @@ export default function CindyVoiceAgent() {
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null)
   const messagesRef = useRef<{ role: string; text: string }[]>([])
   const activeRef = useRef(false)
-  const processingRef = useRef(false) // Prevent double-processing
+  const processingRef = useRef(false)
+  const micStreamRef = useRef<MediaStream | null>(null) // Persistent AEC mic stream
   const router = useRouter()
   const pathname = usePathname()
   const pathnameRef = useRef(pathname)
@@ -28,7 +29,7 @@ export default function CindyVoiceAgent() {
   useEffect(() => { stateRef.current = state }, [state])
   useEffect(() => { pathnameRef.current = pathname }, [pathname])
 
-  // Greeting after 3s
+  // Greeting
   useEffect(() => {
     if (!sessionStorage.getItem('cindy-greeted')) {
       const t = setTimeout(() => { setShowPopup(true); setState('greeting') }, 3000)
@@ -42,12 +43,40 @@ export default function CindyVoiceAgent() {
     return () => clearInterval(id)
   }, [])
 
-  // Mouth during speech
+  // Mouth animation
   useEffect(() => {
     if (state !== 'speaking') { setMouthOpen(false); return }
     const id = setInterval(() => setMouthOpen(p => !p), 130)
     return () => clearInterval(id)
   }, [state])
+
+  // ===== Initialize persistent mic stream with echo cancellation =====
+  // This is the key: getUserMedia with echoCancellation trains Chrome's AEC.
+  // The browser learns "when I play audio through <audio>, subtract it from mic."
+  // This means SpeechRecognition running during playback won't hear Cindy's voice.
+  async function initMicStream() {
+    if (micStreamRef.current) return // Already initialized
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        }
+      })
+      micStreamRef.current = stream
+      console.log('AEC mic stream initialized')
+    } catch (e) {
+      console.warn('Could not init mic stream for AEC:', e)
+    }
+  }
+
+  function releaseMicStream() {
+    if (micStreamRef.current) {
+      micStreamRef.current.getTracks().forEach(t => t.stop())
+      micStreamRef.current = null
+    }
+  }
 
   // ===== Navigate =====
   function doNavigate(route: string, scroll?: string) {
@@ -59,12 +88,8 @@ export default function CindyVoiceAgent() {
     }
   }
 
-  // ===== Speak via ElevenLabs — NO background mic detection =====
-  // Research: https://dev.to/remi_etien — "The microphone picks up the speaker
-  // output. The agent hears itself and interrupts." The ONLY reliable fix is to
-  // NOT run speech recognition while audio plays. User taps button to interrupt.
+  // ===== Speak via ElevenLabs =====
   async function speakText(text: string): Promise<void> {
-    // Try ElevenLabs
     try {
       const res = await fetch('/api/tts', {
         method: 'POST',
@@ -84,14 +109,12 @@ export default function CindyVoiceAgent() {
         return
       }
     } catch (e) {
-      console.error('ElevenLabs TTS failed:', e)
+      console.error('ElevenLabs failed:', e)
     }
-
-    // Fallback: browser TTS
+    // Fallback browser TTS
     await new Promise<void>(resolve => {
       const u = new SpeechSynthesisUtterance(text)
-      u.rate = 0.95
-      u.pitch = 1.05
+      u.rate = 0.95; u.pitch = 1.05
       const voices = speechSynthesis.getVoices()
       const v = voices.find(v => v.name.includes('Samantha') || v.name.includes('Google UK English Female'))
       if (v) u.voice = v
@@ -101,15 +124,14 @@ export default function CindyVoiceAgent() {
     })
   }
 
-  // ===== Stop current audio (for manual interrupt) =====
   function interruptSpeech() {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; audioRef.current = null }
     speechSynthesis.cancel()
   }
 
-  // ===== Process message → AI → Speak → Auto-restart =====
+  // ===== Process message → AI → Speak with background listening =====
   async function processMessage(userText: string) {
-    if (processingRef.current) return // Prevent double-fire
+    if (processingRef.current) return
     processingRef.current = true
     setState('thinking')
     setTranscript('')
@@ -120,38 +142,63 @@ export default function CindyVoiceAgent() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [...messagesRef.current],
-          voiceMode: true,
-        }),
+        body: JSON.stringify({ messages: [...messagesRef.current], voiceMode: true }),
       })
       const data = await res.json()
       const aiText = data.text || "Sorry, could you say that again?"
-
       messagesRef.current.push({ role: 'bot', text: aiText })
 
-      // Navigate immediately
-      if (data.navigate) {
-        doNavigate(data.navigate.route, data.navigate.scroll)
-      }
+      if (data.navigate) doNavigate(data.navigate.route, data.navigate.scroll)
 
-      // Speak (no background mic — that caused the self-interrupt bug)
+      // Start speaking + background interrupt listener (with AEC active)
       setState('speaking')
       setResponse(aiText)
-      await speakText(aiText)
 
-      // After speaking completes naturally → auto-restart listening
-      processingRef.current = false
-      if (activeRef.current && stateRef.current === 'speaking') {
-        setState('idle')
-        // Small delay so browser mic doesn't pick up tail-end of audio
-        setTimeout(() => {
-          if (activeRef.current && stateRef.current === 'idle') {
-            startListening()
+      // Run background speech detection ONLY if AEC stream is active
+      let interrupted = false
+      let bgRec: any = null
+      if (micStreamRef.current) {
+        try {
+          const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+          if (SR) {
+            bgRec = new SR()
+            bgRec.continuous = false
+            bgRec.interimResults = true
+            bgRec.lang = 'en-US'
+            bgRec.onresult = (ev: any) => {
+              const t = ev.results[0]?.[0]?.transcript?.trim() || ''
+              const words = t.split(/\s+/).filter((w: string) => w.length > 0).length
+              // With AEC, only real user speech comes through
+              // Still require 2+ words for safety
+              if (words >= 2 || (ev.results[0]?.isFinal && t.length > 3)) {
+                interrupted = true
+                interruptSpeech()
+                try { bgRec.stop() } catch {}
+              }
+            }
+            bgRec.onerror = () => {}
+            bgRec.start()
           }
-        }, 600)
-      } else {
+        } catch {}
+      }
+
+      await speakText(aiText)
+      try { bgRec?.stop() } catch {}
+
+      processingRef.current = false
+
+      if (interrupted) {
+        // User interrupted — go straight to listening
         setState('idle')
+        setTimeout(() => {
+          if (activeRef.current) startListening()
+        }, 200)
+      } else {
+        // Natural end — restart listening after brief pause
+        setState('idle')
+        setTimeout(() => {
+          if (activeRef.current && stateRef.current === 'idle') startListening()
+        }, 500)
       }
     } catch {
       processingRef.current = false
@@ -165,9 +212,7 @@ export default function CindyVoiceAgent() {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return
     if (stateRef.current === 'listening' || stateRef.current === 'thinking' || stateRef.current === 'speaking') return
 
-    // Make sure no audio is playing
     interruptSpeech()
-
     setState('listening')
     setTranscript('')
     processingRef.current = false
@@ -190,7 +235,6 @@ export default function CindyVoiceAgent() {
       accumulated = (final + interim).trim()
       setTranscript(accumulated)
 
-      // Reset silence timer
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
       silenceTimerRef.current = setTimeout(() => {
         if (accumulated.trim() && !sent) {
@@ -208,30 +252,20 @@ export default function CindyVoiceAgent() {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
         processMessage(accumulated.trim())
       } else if (!sent && stateRef.current === 'listening') {
-        // No speech detected — restart if conversation active
         if (activeRef.current) {
           setTimeout(() => {
-            if (activeRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
-              startListening()
-            }
+            if (activeRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') startListening()
           }, 300)
-        } else {
-          setState('idle')
-        }
+        } else setState('idle')
       }
     }
 
     rec.onerror = (e: any) => {
       if (e.error === 'no-speech') {
-        if (activeRef.current) {
-          setTimeout(() => {
-            if (activeRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
-              startListening()
-            }
-          }, 300)
-        } else {
-          setState('idle')
-        }
+        if (activeRef.current) setTimeout(() => {
+          if (activeRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') startListening()
+        }, 300)
+        else setState('idle')
       } else if (e.error !== 'aborted') {
         console.error('Speech error:', e.error)
         setState('idle')
@@ -252,10 +286,8 @@ export default function CindyVoiceAgent() {
     setState('idle')
   }
 
-  // Button handler — context-aware
   function handleMicButton() {
     if (state === 'speaking') {
-      // Interrupt speech → start listening
       interruptSpeech()
       setState('idle')
       activeRef.current = true
@@ -264,25 +296,27 @@ export default function CindyVoiceAgent() {
       stopEverything()
     } else {
       activeRef.current = true
-      startListening()
+      initMicStream().then(() => startListening())
     }
   }
 
   function acceptGreeting() {
     sessionStorage.setItem('cindy-greeted', 'true')
     activeRef.current = true
-    ;(async () => {
+    // Init AEC stream, then greet, then listen
+    initMicStream().then(async () => {
       setState('speaking')
       setResponse("Hey! I'm Cindy, your AI guide. Ask me anything or tell me where to go!")
       await speakText("Hey! I'm Cindy, your AI guide. Ask me anything or tell me where to go!")
       setState('idle')
       if (activeRef.current) setTimeout(() => startListening(), 500)
-    })()
+    })
   }
 
   function dismissCindy() {
     sessionStorage.setItem('cindy-greeted', 'true')
     stopEverything()
+    releaseMicStream()
     setDismissed(true)
     setShowPopup(false)
     setState('hidden')
@@ -291,8 +325,7 @@ export default function CindyVoiceAgent() {
   const showMini = dismissed || state === 'hidden'
   if (!showPopup && !dismissed && state === 'hidden') return null
 
-  // Button label + color
-  const btnLabel = state === 'listening' ? 'Tap to Stop' : state === 'speaking' ? 'Tap to Interrupt' : 'Tap to Talk'
+  const btnLabel = state === 'listening' ? 'Listening — Tap to Stop' : state === 'speaking' ? 'Tap to Interrupt' : 'Tap to Talk'
   const btnColor = state === 'listening' ? '#ff4444' : state === 'speaking' ? '#E67E22' : '#00B5D6'
 
   return (
@@ -305,7 +338,7 @@ export default function CindyVoiceAgent() {
       )}
 
       {showPopup && !dismissed && (
-        <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+        <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
           <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
@@ -340,9 +373,7 @@ export default function CindyVoiceAgent() {
                   : (state === 'speaking' || state === 'idle') && response ? <p style={{ margin: 0, fontSize: 12, color: '#888', maxHeight: 60, overflow: 'hidden' }}>{response.substring(0, 150)}{response.length > 150 ? '...' : ''}</p>
                   : <p style={{ margin: 0, color: '#999' }}>Tap the mic to start talking</p>}
                 </div>
-                <button
-                  onClick={handleMicButton}
-                  disabled={state === 'thinking'}
+                <button onClick={handleMicButton} disabled={state === 'thinking'}
                   style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', cursor: state === 'thinking' ? 'wait' : 'pointer', background: btnColor, color: 'white', fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.3s ease' }}>
                   <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
                   {btnLabel}
@@ -355,12 +386,12 @@ export default function CindyVoiceAgent() {
 
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes cindyPulse { 0%, 100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
-        @keyframes cindyBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-        @keyframes cindyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-        @keyframes cindyGlow { 0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
-        @keyframes cindyWave { 0%, 100% { height: 8px; } 50% { height: 20px; } }
-        @keyframes dotBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
+        @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+        @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
+        @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
+        @keyframes dotBounce { 0%,80%,100% { transform: scale(0); } 40% { transform: scale(1); } }
       `}</style>
     </>
   )
