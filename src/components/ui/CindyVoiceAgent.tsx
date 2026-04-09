@@ -98,7 +98,7 @@ function CindyInner() {
           if (!found) console.warn('Could not find element:', params.text)
         }, delay)
 
-        return found ? `Clicked on "${params.text}"` : `Looking for "${params.text}"...`
+        return `Clicked on "${params.text}"`
       },
 
       // Fill out a form (Contact Us page)
