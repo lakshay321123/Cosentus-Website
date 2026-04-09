@@ -25,7 +25,7 @@ export default function ASCPage() {
     <main>
       <PageHero
         label="AMBULATORY SURGERY CENTERS"
-        title="Your ASC Runs Dozens of Cases a Day. Your Billing Needs to Keep Up."
+        title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
         subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
         ctaText="Get Your Free ASC Revenue Analysis"
         ctaHref="/contact"

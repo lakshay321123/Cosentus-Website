@@ -3,7 +3,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 interface PageHeroProps {
   label?: string
-  title: string
+  title: React.ReactNode
   subtitle?: string
   ctaText?: string
   ctaHref?: string
