@@ -1,13 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
-
-const problem = {
-  title: 'The Problem',
-  desc: "Traditional RCM scales by adding people. AI startups try to replace them. Both fail specialty practices. R+A fills the gap.",
-}
 
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's — Processes, Procedures, and Protocols — and customize our approach to your specific challenges. No templates." },
@@ -30,6 +25,17 @@ const allAgents = [
 
 export default function RAPageContent() {
   const [selectedAgent, setSelectedAgent] = useState<typeof allAgents[0] | null>(null)
+  const [activeStep, setActiveStep] = useState(0)
+  const [stepPaused, setStepPaused] = useState(false)
+
+  // Auto-advance steps every 5 seconds, loop back to 1
+  useEffect(() => {
+    if (stepPaused) return
+    const timer = setInterval(() => {
+      setActiveStep(prev => (prev >= steps.length - 1 ? 0 : prev + 1))
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [stepPaused, activeStep])
   
   // Avatar gradient colors per agent
   const avatarColors: Record<string, string> = {
@@ -142,26 +148,100 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* The Problem */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE PROBLEM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">{problem.title}</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 20, lineHeight: 1.8, fontWeight: 400 }}>
-              {problem.desc}
-            </p>
-          </RevealOnScroll>
+      {/* Problem + Solution — Animated Split Section */}
+      <section style={{ overflow: 'hidden' }}>
+        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 480 }}>
+          {/* Left — The Problem */}
+          <div className="ps-panel ps-problem" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
+            {/* Decorative corner accent */}
+            <div className="ps-corner-accent" style={{ position: 'absolute', top: 0, left: 0, width: 80, height: 80, opacity: 0.06 }}>
+              <svg viewBox="0 0 80 80" fill="none"><path d="M0 0h80v80" stroke="#616161" strokeWidth="1" /></svg>
+            </div>
+
+            <RevealOnScroll direction="left">
+              <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                THE PROBLEM
+              </div>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="left" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
+                Why Specialty Practices Deserve Better
+              </h2>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="left" delay={0.2}>
+              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 480, marginBottom: 32 }}>
+                Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles.
+              </p>
+            </RevealOnScroll>
+
+            {/* Animated bullet points */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                'Generic billing teams miss specialty nuances',
+                'AI-only solutions lack clinical judgment',
+                'Revenue leaks at every handoff',
+              ].map((item, i) => (
+                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
+                  <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
+                    <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
+                  </div>
+                </RevealOnScroll>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — The Solution */}
+          <div className="ps-panel ps-solution" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
+            {/* Animated shimmer overlay */}
+            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+
+            <RevealOnScroll direction="right">
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                THE SOLUTION
+              </div>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="right" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
+                Real + Artificial Intelligence
+              </h2>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="right" delay={0.2}>
+              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 32 }}>
+                Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate.
+              </p>
+            </RevealOnScroll>
+
+            {/* Animated solution points */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                'Specialty-trained teams for every payer nuance',
+                '8 AI agents automating volume workflows',
+                'Up to 30% revenue growth within 12 months',
+              ].map((item, i) => (
+                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
+                  <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div className="ps-check" style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.4s ease' }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
+                  </div>
+                </RevealOnScroll>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
 
-      {/* How R+A Works — 5-Step Process */}
-      <section className="section section-alt">
+      {/* How R+A Works — Interactive 5-Step Timeline */}
+      <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
             <div className="section-label">HOW R+A WORKS</div>
@@ -170,61 +250,105 @@ export default function RAPageContent() {
             <div className="section-title">The 5-Step Process</div>
           </RevealOnScroll>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 48, maxWidth: 800 }}>
-            {steps.map((step, i) => (
-              <RevealOnScroll key={i}>
-                <div style={{
-                  display: 'flex',
-                  gap: 24,
-                  padding: 32,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  alignItems: 'flex-start',
-                }}>
-                  <div style={{
-                    flexShrink: 0,
-                    width: 52,
-                    height: 52,
-                    borderRadius: '50%',
-                    background: 'var(--primary)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 22,
-                    fontWeight: 600,
-                  }}>{step.num}</div>
-                  <div>
-                    <h4 style={{ fontSize: 18, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{step.title}</h4>
-                    <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--gray-600)' }}>{step.desc}</p>
+          <RevealOnScroll delay={0.25}>
+            <div style={{ marginTop: 56 }}>
+              {/* Timeline bar with step nodes */}
+              <div className="step-timeline" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, padding: '0 20px' }}>
+                {/* Background line */}
+                <div style={{ position: 'absolute', top: '50%', left: 40, right: 40, height: 3, background: 'var(--gray-200)', borderRadius: 2, transform: 'translateY(-50%)' }} />
+                {/* Active progress line */}
+                <div className="step-progress-line" style={{ position: 'absolute', top: '50%', left: 40, height: 3, background: 'var(--primary)', borderRadius: 2, transform: 'translateY(-50%)', transition: 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)', width: `calc(${(activeStep / (steps.length - 1)) * 100}% - 80px * ${(activeStep / (steps.length - 1))})` }} />
+
+                {steps.map((step, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveStep(i)}
+                    className={`step-node ${activeStep === i ? 'step-active' : ''} ${i <= activeStep ? 'step-done' : ''}`}
+                    style={{
+                      position: 'relative', zIndex: 2, width: 56, height: 56, borderRadius: '50%',
+                      border: i <= activeStep ? '3px solid var(--primary)' : '3px solid var(--gray-300)',
+                      background: i <= activeStep ? 'var(--primary)' : 'var(--white)',
+                      color: i <= activeStep ? 'white' : 'var(--gray-500)',
+                      fontSize: 20, fontWeight: 600, fontFamily: 'var(--font-display)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: activeStep === i ? '0 0 0 8px rgba(0,181,214,0.15), 0 4px 20px rgba(0,181,214,0.3)' : 'none',
+                    }}
+                  >
+                    {step.num}
+                    {/* Step label below */}
+                    <span className="step-timeline-label" style={{
+                      position: 'absolute', top: 'calc(100% + 12px)', left: '50%', transform: 'translateX(-50%)',
+                      fontSize: 12, fontWeight: activeStep === i ? 500 : 400, whiteSpace: 'nowrap',
+                      color: activeStep === i ? 'var(--primary)' : 'var(--gray-500)',
+                      transition: 'all 0.3s ease', letterSpacing: '0.01em',
+                    }}>
+                      {step.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Active step detail panel */}
+              <div className="step-detail-panel" style={{
+                marginTop: 32, padding: '40px 48px', background: 'var(--white)', borderRadius: 16,
+                border: '1px solid var(--gray-200)', position: 'relative', overflow: 'hidden',
+                minHeight: 160, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}>
+                {/* Teal accent bar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: 'var(--primary)', borderRadius: '0 2px 2px 0' }} />
+
+                <div key={activeStep} className="step-detail-content" style={{ animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)',
+                      color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 18, fontWeight: 600, flexShrink: 0,
+                    }}>{steps[activeStep].num}</div>
+                    <h4 style={{ fontSize: 22, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>
+                      {steps[activeStep].title}
+                    </h4>
                   </div>
+                  <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)', margin: 0, paddingLeft: 56 }}>
+                    {steps[activeStep].desc}
+                  </p>
                 </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+
+                {/* Step navigation arrows */}
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 24 }}>
+                  <button
+                    onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+                    disabled={activeStep === 0}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--gray-200)',
+                      background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: activeStep === 0 ? 'default' : 'pointer', opacity: activeStep === 0 ? 0.3 : 1,
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
+                    disabled={activeStep === steps.length - 1}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--primary)',
+                      background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: activeStep === steps.length - 1 ? 'default' : 'pointer',
+                      opacity: activeStep === steps.length - 1 ? 0.4 : 1,
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
 
-      {/* Why R+A Can't Be Replicated */}
-      <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE MOAT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Why R+A Can&apos;t Be Replicated</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Built from 25 years of specialty practice expertise, clinical knowledge, and leadership talent.
-              Our founding team has stayed together for over two decades. Competitors can build agents or hire coders.
-              No one can replicate what takes 25 years to build.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
     </>
   )
 }
