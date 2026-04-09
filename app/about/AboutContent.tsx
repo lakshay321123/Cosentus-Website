@@ -107,49 +107,20 @@ export default function AboutContent() {
       </section>
 
       {/* Company by Numbers */}
-      <section className="section">
+      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">COMPANY BY NUMBERS</div>
-          </RevealOnScroll>
-          {/* Desktop */}
-          <div className="results-grid results-desktop" style={{
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 24,
-            marginTop: 48,
-            padding: 0,
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
-              <RevealOnScroll key={i}>
+              <RevealOnScroll key={i} delay={i * 0.12}>
                 <div style={{
-                  textAlign: 'center',
-                  padding: 40,
-                  background: 'var(--primary)',
-                  borderRadius: 'var(--radius-md)',
-                  color: 'white',
+                  textAlign: 'center', padding: '24px 16px',
+                  borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
-                  <div style={{ fontSize: 48, fontWeight: 300, lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 14, opacity: 0.8 }}>{stat.label}</div>
+                  <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
-          </div>
-          {/* Mobile */}
-          <div className="results-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={3000}>
-              {companyStats.map((stat, i) => (
-                <div key={i} style={{
-                  textAlign: 'center',
-                  padding: 40,
-                  background: 'var(--primary)',
-                  borderRadius: 'var(--radius-md)',
-                  color: 'white',
-                }}>
-                  <div style={{ fontSize: 48, fontWeight: 300, lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 14, opacity: 0.8 }}>{stat.label}</div>
-                </div>
-              ))}
-            </MobileCarousel>
           </div>
         </div>
       </section>
