@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const voiceId = '4qGY1svUBZLI7l8Ei9WW'
 
     // Try text-to-speech with the selected voice
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?optimize_streaming_latency=4&output_format=mp3_22050_32`, {
       method: 'POST',
       headers: {
         'xi-api-key': apiKey,

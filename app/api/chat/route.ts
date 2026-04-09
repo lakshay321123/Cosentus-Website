@@ -257,8 +257,8 @@ When someone asks about offices, addresses, locations, or "where are you located
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: voiceMode ? 150 : 300,
+        model: voiceMode ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-20250514',
+        max_tokens: voiceMode ? 120 : 300,
         system: systemPrompt,
         messages: messages.map((m: { role: string; text: string }) => ({
           role: m.role === 'bot' ? 'assistant' : 'user',

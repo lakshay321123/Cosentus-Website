@@ -142,7 +142,12 @@ export default function CindyVoiceAgent() {
       const aiText = data.text || "Sorry, could you say that again?"
       messagesRef.current.push({ role: 'bot', text: aiText })
 
-      // Speak the response
+      // Navigate IMMEDIATELY — don't wait for speech to finish
+      if (data.navigate) {
+        navigate(data.navigate.route, data.navigate.scroll)
+      }
+
+      // Speak the response (navigation already happening in parallel)
       setState('speaking')
       setResponse(aiText)
 
@@ -158,14 +163,22 @@ export default function CindyVoiceAgent() {
           interruptRecognition.continuous = false
           interruptRecognition.interimResults = true
           interruptRecognition.lang = 'en-US'
-          interruptRecognition.onresult = () => {
-            // User started speaking — interrupt Cindy!
-            interrupted = true
-            if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
-            speechSynthesis.cancel()
-            try { interruptRecognition.stop() } catch {}
+          let wordCount = 0
+          interruptRecognition.onresult = (event: any) => {
+            // Only interrupt if user said actual words (not just noise/breathing)
+            const text = event.results[0]?.[0]?.transcript?.trim() || ''
+            const confidence = event.results[0]?.[0]?.confidence || 0
+            wordCount = text.split(/\s+/).filter((w: string) => w.length > 0).length
+            
+            // Require at least 2 words OR a final result with 1+ words
+            if ((wordCount >= 2) || (event.results[0]?.isFinal && text.length > 3 && confidence > 0.7)) {
+              interrupted = true
+              if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
+              speechSynthesis.cancel()
+              try { interruptRecognition.stop() } catch {}
+            }
           }
-          interruptRecognition.onerror = () => {} // Ignore errors
+          interruptRecognition.onerror = () => {}
           interruptRecognition.start()
         }
       } catch {}
@@ -213,11 +226,6 @@ export default function CindyVoiceAgent() {
 
       // Clean up interrupt recognition
       try { interruptRecognition?.stop() } catch {}
-
-      // Handle navigation AFTER speaking
-      if (data.navigate && !interrupted) {
-        navigate(data.navigate.route, data.navigate.scroll)
-      }
 
       // If interrupted, go straight to listening
       if (interrupted) {
