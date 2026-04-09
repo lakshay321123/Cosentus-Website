@@ -2,14 +2,14 @@ import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
-const caseStudies = [
+const defaultCases = [
   { tag: 'Anesthesia', stat: '<48hr', statLabel: 'Turnaround', title: 'A 50+ site anesthesia group eliminated revenue leakage, achieved sub-48-hour turnaround, and drove significant cash flow improvement.', href: '/case-studies' },
   { tag: 'Behavioral Health', stat: '700%', statLabel: 'Revenue Growth', title: 'Hope Services grew revenue from $2M to $16M serving 3,500+ individuals with developmental disabilities.', href: '/case-studies' },
   { tag: 'Orthopedic', stat: '46%', statLabel: 'Revenue Growth', title: "A multi-physician orthopedic practice grew revenue 46% — from $1.5M to $2.2M — while cutting Workers' Comp turnaround from 45 to 28 days.", href: '/case-studies' },
   { tag: 'DME', stat: '2x', statLabel: 'Sales Doubled', title: 'A high-volume DME provider doubled sales from $82M to $165M, reduced DSO by 56%, and cut denial rates 31%.', href: '/case-studies' },
 ]
 
-function CaseCard({ cs }: { cs: typeof caseStudies[0] }) {
+function CaseCard({ cs }: { cs: typeof defaultCases[0] }) {
   return (
     <div style={{
       background: '#FFFFFF',
@@ -40,7 +40,15 @@ function CaseCard({ cs }: { cs: typeof caseStudies[0] }) {
   )
 }
 
-export default function CaseStudiesSection() {
+export default function CaseStudiesSection({ cases: sanityCases }: { cases?: any[] }) {
+  const caseStudies = sanityCases?.length ? sanityCases.map(c => ({
+    tag: c.specialty || '',
+    stat: c.headlineStat || '',
+    statLabel: '',
+    title: c.summary || c.title,
+    href: c.slug ? `/case-studies/${c.slug}` : '/case-studies',
+  })) : defaultCases
+
   return (
     <section className="section" id="cases" style={{ overflow: 'hidden' }}>
       <div className="container">
@@ -50,22 +58,17 @@ export default function CaseStudiesSection() {
         <RevealOnScroll direction="left" delay={0.1}>
           <div className="section-title">Case Studies</div>
         </RevealOnScroll>
-        <RevealOnScroll delay={0.2}>
-          <p className="section-desc">Real outcomes from real practices. Every figure is documented with full methodology.</p>
-        </RevealOnScroll>
 
-        {/* Desktop */}
-        <div className="hero-cases cases-desktop" style={{ marginTop: 48, gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+        <div className="cases-grid cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 48 }}>
           {caseStudies.map((cs, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={0.3 + i * 0.25}>
+            <RevealOnScroll key={i} direction="up" delay={0.15 + i * 0.1}>
               <CaseCard cs={cs} />
             </RevealOnScroll>
           ))}
         </div>
 
-        {/* Mobile */}
-        <div className="cases-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
-          <MobileCarousel autoScrollInterval={5000}>
+        <div className="cases-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+          <MobileCarousel>
             {caseStudies.map((cs, i) => (
               <CaseCard key={i} cs={cs} />
             ))}

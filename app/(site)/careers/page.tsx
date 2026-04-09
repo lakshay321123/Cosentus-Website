@@ -1,8 +1,11 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
+import { getPageData } from '@/sanity/lib/queries'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Careers | Join the Cosentus Team | Irvine, California',
@@ -17,13 +20,17 @@ const reasons = [
   { title: 'Mission-driven', desc: 'When practices get paid accurately and on time, they can focus fully on patient care.' },
 ]
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  
+  let page: any = null
+  try { page = await getPageData('careers') } catch (e) {}
+
   return (
     <main>
       <PageHero
         label="CAREERS"
-        title="Build a Career That Changes Healthcare."
-        subtitle="Independently owned. Great Place to Work certified three years running. Join a team redefining billing excellence — for practices, for patients, and for each other."
+        title={page?.heroHeadline || "Build a Career That Changes Healthcare."}
+        subtitle={page?.heroSubtitle || "Independently owned. Great Place to Work certified three years running. Join a team redefining billing excellence — for practices, for patients, and for each other."}
       />
 
       <section className="section">
