@@ -32,7 +32,7 @@ function AdvantageCard({ adv }: { adv: typeof advantages[0] }) {
             alt=""
             width={36}
             height={36}
-            style={{ filter: 'invert(1)', objectFit: 'contain' }}
+            style={{ mixBlendMode: 'screen', objectFit: 'contain' }}
           />
         ) : (
           adv.svg
