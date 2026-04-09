@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -21,8 +20,6 @@ const leaders = [
   { name: 'Joseph Demory', role: 'Director Anesthesia Services', photo: '/images/JOSEPH DEMORY.jpg' },
   { name: 'Laurie Allen', role: 'VP Anesthesia Operations', photo: '/images/Laurie Allen.jpg' },
   { name: 'Kanit Wongyai', role: 'Sr. Director of Operations', photo: '/images/Kanit copy.jpg' },
-  { name: 'Alex Kashkarian', role: 'Lead AI Specialist', photo: null },
-  { name: 'Lisa O\u2019Connor', role: 'Coding Audit & Review Manager', photo: "/images/Lisa O'Conner.jpg" },
   { name: 'Melissa George', role: 'Sr. RCM Manager', photo: '/images/Melissa George.jpg' },
   { name: 'Perla Setya', role: 'Sr. VP of RCM', photo: '/images/Perla-300x300-1.jpg' },
   { name: 'Evan Sewell', role: 'Director RCM', photo: '/images/Evan Sewell.jpg' },
@@ -56,10 +53,6 @@ const solutions = [
 ]
 
 export default function AnesthesiaContent() {
-  const [leaderPage, setLeaderPage] = useState(0)
-  const perPage = 6
-  const totalPages = Math.ceil(leaders.length / perPage)
-  const visibleLeaders = leaders.slice(leaderPage * perPage, (leaderPage + 1) * perPage)
   return (
     <>
       {/* Why Accreda Exists — Split impact section */}
@@ -211,77 +204,28 @@ export default function AnesthesiaContent() {
             </div>
           </RevealOnScroll>
 
-          <RevealOnScroll delay={0.3}>
-            <div>
-              {/* Leadership cards — same design as About page */}
-              <div key={leaderPage} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                {visibleLeaders.map((leader, i) => (
-                  <div key={i} style={{
-                    background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
-                    overflow: 'hidden', transition: 'all 0.3s ease', cursor: 'default',
-                  }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
-                  >
-                    <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
-                      ) : (
-                        <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600 }}>
-                          {leader.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                        </div>
-                      )}
-                    </div>
-                    <div style={{ padding: '14px 16px', textAlign: 'center' }}>
-                      <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{leader.name}</h4>
-                      <p style={{ fontSize: 12, color: 'var(--gray-500)', margin: 0 }}>{leader.role}</p>
-                    </div>
+          {/* All leaders in one grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 0 }}>
+            {leaders.map((leader, i) => (
+              <RevealOnScroll key={i} delay={0.1 + i * 0.05}>
+                <div style={{
+                  background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
+                  overflow: 'hidden', transition: 'all 0.3s ease', cursor: 'default', height: '100%',
+                }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
+                >
+                  <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
                   </div>
-                ))}
-              </div>
-
-              {/* Pagination controls */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 32 }}>
-                <button
-                  onClick={() => setLeaderPage(Math.max(0, leaderPage - 1))}
-                  disabled={leaderPage === 0}
-                  style={{
-                    width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gray-200)',
-                    background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: leaderPage === 0 ? 'default' : 'pointer', opacity: leaderPage === 0 ? 0.3 : 1,
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-
-                {/* Page dots */}
-                <div style={{ display: 'flex', gap: 8 }}>
-                  {Array.from({ length: totalPages }).map((_, i) => (
-                    <button key={i} onClick={() => setLeaderPage(i)} style={{
-                      width: leaderPage === i ? 24 : 8, height: 8, borderRadius: 4,
-                      background: leaderPage === i ? 'var(--primary)' : 'var(--gray-300)',
-                      border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', padding: 0,
-                    }} />
-                  ))}
+                  <div style={{ padding: '14px 16px', textAlign: 'center' }}>
+                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{leader.name}</h4>
+                    <p style={{ fontSize: 12, color: 'var(--gray-500)', margin: 0 }}>{leader.role}</p>
+                  </div>
                 </div>
-
-                <button
-                  onClick={() => setLeaderPage(Math.min(totalPages - 1, leaderPage + 1))}
-                  disabled={leaderPage === totalPages - 1}
-                  style={{
-                    width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--primary)',
-                    background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: leaderPage === totalPages - 1 ? 'default' : 'pointer',
-                    opacity: leaderPage === totalPages - 1 ? 0.4 : 1,
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-              </div>
-            </div>
-          </RevealOnScroll>
+              </RevealOnScroll>
+            ))}
+          </div>
         </div>
       </section>
 
