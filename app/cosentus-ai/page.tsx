@@ -14,7 +14,7 @@ export default function CosentusAIPage() {
       <PageHero
         label="REAL + ARTIFICIAL INTELLIGENCE"
         title="8 Agents. Zero Excuses. Infinite Follow-Ups."
-        subtitle="R+A pairs deep frontline revenue experience with eight AI voice agents that automate high-volume workflows, while named human teams retain accountability for coding, denials, and payer negotiation. Most clients see measurable improvement in 3–6 months and up to 30% revenue growth within 12 months."
+        subtitle="Cosentus AI agents handle the volume. Named human teams handle the judgment. Up to 30% revenue growth."
         ctaText="Get Your Free Revenue Analysis"
         ctaHref="/contact"
       />
