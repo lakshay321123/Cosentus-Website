@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -13,21 +14,21 @@ const advantages = [
 ]
 
 const leaders = [
-  'GS Bhalla — CEO & Chairman',
-  'Logan Lowry — President',
-  'Mark Wines — Chief Growth Officer',
-  'JR Thompson — Sr. VP Chief Operating Officer',
-  'Joseph Demory — Director Anesthesia Services',
-  'Laurie Allen — VP Anesthesia Operations',
-  'Kanit Wongyai — Sr. Director of Operations',
-  'Alex Kashkarian — Lead AI Specialist',
-  'Lisa O\u2019Connor — Coding Audit & Review Manager',
-  'Melissa George — Sr. RCM Manager',
-  'Perla Setya — Sr. VP of RCM',
-  'Evan Sewell — Director RCM',
-  'Liz Hussey — Credentialing Manager',
-  'Maisie Villegas — Director Quality Improvement',
-  'Thomas Wilson — Regional Director- Anesthesia Services',
+  { name: 'GS Bhalla', role: 'CEO & Chairman', photo: '/images/3-GS.jpg' },
+  { name: 'Logan Lowry', role: 'President', photo: '/images/LOGAN LOWRY.jpg' },
+  { name: 'Mark Wines', role: 'Chief Growth Officer', photo: '/images/MARK WINES.jpg' },
+  { name: 'JR Thompson', role: 'Sr. VP Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
+  { name: 'Joseph Demory', role: 'Director Anesthesia Services', photo: '/images/JOSEPH DEMORY.jpg' },
+  { name: 'Laurie Allen', role: 'VP Anesthesia Operations', photo: '/images/Laurie Allen.jpg' },
+  { name: 'Kanit Wongyai', role: 'Sr. Director of Operations', photo: '/images/Kanit copy.jpg' },
+  { name: 'Alex Kashkarian', role: 'Lead AI Specialist', photo: null },
+  { name: 'Lisa O\u2019Connor', role: 'Coding Audit & Review Manager', photo: "/images/Lisa O'Conner.jpg" },
+  { name: 'Melissa George', role: 'Sr. RCM Manager', photo: '/images/Melissa George.jpg' },
+  { name: 'Perla Setya', role: 'Sr. VP of RCM', photo: '/images/Perla-300x300-1.jpg' },
+  { name: 'Evan Sewell', role: 'Director RCM', photo: '/images/Evan Sewell.jpg' },
+  { name: 'Liz Hussey', role: 'Credentialing Manager', photo: '/images/Liz Hussey.jpg' },
+  { name: 'Maisie Villegas', role: 'Director Quality Improvement', photo: '/images/Maicie.jpg' },
+  { name: 'Thomas Wilson', role: 'Regional Director- Anesthesia Services', photo: '/images/Tom Wilson1.jpg' },
 ]
 
 const testimonials = [
@@ -55,6 +56,10 @@ const solutions = [
 ]
 
 export default function AnesthesiaContent() {
+  const [leaderPage, setLeaderPage] = useState(0)
+  const perPage = 6
+  const totalPages = Math.ceil(leaders.length / perPage)
+  const visibleLeaders = leaders.slice(leaderPage * perPage, (leaderPage + 1) * perPage)
   return (
     <>
       {/* Why Accreda Exists — Split impact section */}
@@ -206,30 +211,74 @@ export default function AnesthesiaContent() {
             </div>
           </RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 12 }}>
-            {leaders.map((leader, i) => {
-              const [name, role] = leader.split(' — ')
-              return (
-                <RevealOnScroll key={i} delay={0.15 + i * 0.04}>
-                  <div className="leader-row" style={{
-                    display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px',
-                    background: 'var(--white)', borderRadius: 10, border: '1px solid var(--gray-200)',
-                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)', cursor: 'default',
+          <RevealOnScroll delay={0.3}>
+            <div>
+              {/* Photo cards grid — 6 at a time */}
+              <div key={leaderPage} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                {visibleLeaders.map((leader, i) => (
+                  <div key={i} className="leader-photo-card" style={{
+                    borderRadius: 14, overflow: 'hidden', border: '1px solid var(--gray-200)',
+                    background: 'var(--white)', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}>
-                    <div style={{
-                      width: 36, height: 36, borderRadius: '50%', background: 'var(--primary-ghost)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                      fontSize: 13, fontWeight: 500, color: 'var(--primary)',
-                    }}>{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{role}</div>
+                    <div style={{ height: 220, overflow: 'hidden', background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {leader.photo ? (
+                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
+                      ) : (
+                        <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 500, color: 'white' }}>
+                          {leader.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '16px 20px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>{leader.name}</div>
+                      <div style={{ fontSize: 12, color: 'var(--gray-500)', lineHeight: 1.4 }}>{leader.role}</div>
                     </div>
                   </div>
-                </RevealOnScroll>
-              )
-            })}
-          </div>
+                ))}
+              </div>
+
+              {/* Pagination controls */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 32 }}>
+                <button
+                  onClick={() => setLeaderPage(Math.max(0, leaderPage - 1))}
+                  disabled={leaderPage === 0}
+                  style={{
+                    width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gray-200)',
+                    background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: leaderPage === 0 ? 'default' : 'pointer', opacity: leaderPage === 0 ? 0.3 : 1,
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+
+                {/* Page dots */}
+                <div style={{ display: 'flex', gap: 8 }}>
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button key={i} onClick={() => setLeaderPage(i)} style={{
+                      width: leaderPage === i ? 24 : 8, height: 8, borderRadius: 4,
+                      background: leaderPage === i ? 'var(--primary)' : 'var(--gray-300)',
+                      border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', padding: 0,
+                    }} />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setLeaderPage(Math.min(totalPages - 1, leaderPage + 1))}
+                  disabled={leaderPage === totalPages - 1}
+                  style={{
+                    width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--primary)',
+                    background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: leaderPage === totalPages - 1 ? 'default' : 'pointer',
+                    opacity: leaderPage === totalPages - 1 ? 0.4 : 1,
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
