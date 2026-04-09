@@ -37,7 +37,7 @@ export default function CaseStudiesSection() {
         </RevealOnScroll>
 
         {/* Desktop */}
-        <div className="hero-cases cases-desktop" style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+        <div className="hero-cases cases-desktop" style={{ marginTop: 48, gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
           {caseStudies.map((cs, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.3 + i * 0.25}>
               <CaseCard cs={cs} />
