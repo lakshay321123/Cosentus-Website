@@ -30,9 +30,9 @@ function CindyInner() {
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: () => {},
-    onDisconnect: () => {},
-    onError: (error: string) => console.error('Cindy error:', error),
+    onConnect: () => { setActionLabel('') },
+    onDisconnect: () => { setActionLabel('Conversation ended') ; setTimeout(() => setActionLabel(''), 2000) },
+    onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
     onMessage: () => {},
     clientTools: {
       navigate: async (params: { path: string; section?: string }) => {
@@ -155,16 +155,45 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // PAGE AWARENESS: Tell Cindy which page the user is on
+  // PAGE AWARENESS: Tell Cindy which page the user is on + page content
+  const lastSentPath = useRef('')
   useEffect(() => {
-    if (isConnected && pathname) {
+    if (!isConnected || !pathname) return
+    // Don't re-send for same page, don't interrupt speech
+    if (pathname === lastSentPath.current) return
+    if (isSpeaking) return
+
+    // Wait for page to render and connection to stabilize
+    const timer = setTimeout(() => {
+      if (!isConnected) return // re-check after delay
       try {
+        lastSentPath.current = pathname
+        const main = document.querySelector('main')
+        if (!main) {
+          conversation.sendContextualUpdate(`The user is now on page: ${pathname}.`)
+          return
+        }
+
+        // Scrape key content — headings, stats, names, short descriptions
+        const parts: string[] = []
+        for (const el of Array.from(main.querySelectorAll(
+          'h1, h2, h3, h4, .section-label, .section-title, p, li, ' +
+          '.result-number span, .result-label, .hero-sub, .hero-case-title, .hero-case-tag'
+        ))) {
+          if (el.closest('nav, footer, [style*="position: fixed"]')) continue
+          const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
+          if (text.length > 1 && text.length < 300) parts.push(text)
+        }
+
+        const content = parts.join('\n').substring(0, 2000)
         conversation.sendContextualUpdate(
-          `The user is now on page: ${pathname}. Adapt your responses to this page's content. You can scroll to show them different sections on this page.`
+          `User is on: ${pathname}\nPage content:\n${content}`
         )
-      } catch { /* may not be available during disconnect */ }
-    }
-  }, [pathname, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
+      } catch { /* ignore during transitions */ }
+    }, 1200)
+
+    return () => clearTimeout(timer)
+  }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Blink (PR fix: cleanup nested timeout to prevent memory leak)
   useEffect(() => {
