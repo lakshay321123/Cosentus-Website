@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -53,13 +53,19 @@ const navItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Close mobile menu on route change
+  // Swipe-to-close state
+  const touchStartX = useRef(0)
+  const touchCurrentX = useRef(0)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const isDragging = useRef(false)
+
+  // Close drawer on route change
   useEffect(() => {
-    setMobileOpen(false)
+    setDrawerOpen(false)
     setExpandedMenu(null)
   }, [pathname])
 
@@ -70,94 +76,177 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Prevent body scroll when menu is open
+  // Lock body scroll when drawer is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    document.body.style.overflow = drawerOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
+  }, [drawerOpen])
 
-  const closeMenu = () => {
-    setMobileOpen(false)
+  const closeDrawer = useCallback(() => {
+    setDrawerOpen(false)
     setExpandedMenu(null)
-  }
+  }, [])
 
   const toggleSubmenu = (label: string) => {
     setExpandedMenu(expandedMenu === label ? null : label)
   }
 
+  // Swipe-to-close handlers on the drawer panel
+  const onDrawerTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchCurrentX.current = e.touches[0].clientX
+    isDragging.current = false
+  }
+
+  const onDrawerTouchMove = (e: React.TouchEvent) => {
+    touchCurrentX.current = e.touches[0].clientX
+    const delta = touchCurrentX.current - touchStartX.current
+    // Only allow dragging left (negative delta = closing)
+    if (delta < -10) {
+      isDragging.current = true
+      if (drawerRef.current) {
+        drawerRef.current.style.transition = 'none'
+        drawerRef.current.style.transform = `translateX(${Math.min(0, delta)}px)`
+      }
+    }
+  }
+
+  const onDrawerTouchEnd = () => {
+    const delta = touchCurrentX.current - touchStartX.current
+    if (drawerRef.current) {
+      drawerRef.current.style.transition = ''
+      drawerRef.current.style.transform = ''
+    }
+    if (isDragging.current && delta < -80) {
+      closeDrawer()
+    }
+    isDragging.current = false
+  }
+
   return (
-    <nav className={`nav${scrolled ? ' scrolled' : ''}${mobileOpen ? ' mobile-open' : ''}`}>
-      <div className="nav-inner">
-        <Link href="/" className="nav-logo" onClick={closeMenu}>
+    <>
+      <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
+        <div className="nav-inner">
+          {/* Hamburger — mobile only */}
+          <button
+            className="drawer-toggle"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open menu"
+          >
+            <span /><span /><span />
+          </button>
+
+          <Link href="/" className="nav-logo" onClick={closeDrawer}>
+            <Image
+              src="/images/cosentus-logo.png"
+              alt="Cosentus"
+              width={200}
+              height={38}
+              style={{
+                height: scrolled ? 32 : 38,
+                width: 'auto',
+                filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+                transition: 'all 0.3s ease',
+              }}
+              priority
+            />
+          </Link>
+
+          {/* Desktop nav links */}
+          <ul className="nav-links">
+            {navItems.map((item) => (
+              <li key={item.label} className={item.children ? 'has-dropdown' : ''}>
+                <Link href={item.href}>{item.label}</Link>
+                {item.children && (
+                  <div className="dropdown">
+                    {item.children.map((child) => (
+                      <Link key={child.href} href={child.href}>{child.label}</Link>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+            <li>
+              <Link href="/contact" className="nav-cta">Contact</Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {/* ===== MOBILE DRAWER ===== */}
+      {/* Overlay */}
+      <div
+        className={`drawer-overlay${drawerOpen ? ' open' : ''}`}
+        onClick={closeDrawer}
+      />
+
+      {/* Drawer panel */}
+      <div
+        ref={drawerRef}
+        className={`drawer-panel${drawerOpen ? ' open' : ''}`}
+        onTouchStart={onDrawerTouchStart}
+        onTouchMove={onDrawerTouchMove}
+        onTouchEnd={onDrawerTouchEnd}
+      >
+        {/* Drawer header */}
+        <div className="drawer-header">
           <Image
             src="/images/cosentus-logo.png"
             alt="Cosentus"
-            width={200}
-            height={38}
-            style={{
-              height: scrolled ? 32 : 38,
-              width: 'auto',
-              filter: (scrolled && !mobileOpen) ? 'none' : 'brightness(0) invert(1)',
-              transition: 'all 0.3s ease',
-            }}
-            priority
+            width={160}
+            height={30}
+            style={{ height: 28, width: 'auto' }}
           />
-        </Link>
+          <button className="drawer-close" onClick={closeDrawer} aria-label="Close menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-        {/* Desktop nav */}
-        <ul className={`nav-links${mobileOpen ? ' active' : ''}`}>
+        {/* Drawer nav items */}
+        <nav className="drawer-nav">
           {navItems.map((item) => (
-            <li key={item.label} className={`${item.children ? 'has-dropdown' : ''}${expandedMenu === item.label ? ' expanded' : ''}`}>
-              {/* On mobile: tap to expand/collapse submenu */}
-              <a
-                href={item.href}
-                onClick={(e) => {
-                  if (item.children && window.innerWidth <= 768) {
-                    e.preventDefault()
-                    toggleSubmenu(item.label)
-                  } else {
-                    closeMenu()
-                  }
-                }}
-                className="nav-parent-link"
+            <div key={item.label} className="drawer-section">
+              <button
+                className={`drawer-parent${expandedMenu === item.label ? ' expanded' : ''}`}
+                onClick={() => item.children ? toggleSubmenu(item.label) : closeDrawer()}
               >
-                {item.label}
-                {item.children && (
-                  <svg className="mobile-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                    style={{ transform: expandedMenu === item.label ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+                {!item.children ? (
+                  <Link href={item.href} onClick={closeDrawer}>{item.label}</Link>
+                ) : (
+                  <>
+                    <span>{item.label}</span>
+                    <svg className="drawer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </>
                 )}
-              </a>
+              </button>
               {item.children && (
-                <div className={`dropdown${expandedMenu === item.label ? ' mobile-expanded' : ''}`}>
+                <div className={`drawer-children${expandedMenu === item.label ? ' expanded' : ''}`}>
                   {item.children.map((child) => (
-                    <Link key={child.href} href={child.href} onClick={closeMenu}>
+                    <Link key={child.href} href={child.href} onClick={closeDrawer} className="drawer-child">
                       {child.label}
                     </Link>
                   ))}
                 </div>
               )}
-            </li>
+            </div>
           ))}
-          <li>
-            <Link href="/contact" className="nav-cta-mobile" onClick={closeMenu}>
-              Contact Us
-            </Link>
-          </li>
-        </ul>
+        </nav>
 
-        {/* Mobile hamburger / X toggle */}
-        <button
-          className={`nav-toggle${mobileOpen ? ' open' : ''}`}
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        {/* Drawer CTA */}
+        <div className="drawer-footer">
+          <Link href="/contact" onClick={closeDrawer} className="drawer-cta">
+            Contact Us
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
+          <a href="tel:8778062286" className="drawer-phone">(877) 806-2286</a>
+        </div>
       </div>
-    </nav>
+    </>
   )
 }
