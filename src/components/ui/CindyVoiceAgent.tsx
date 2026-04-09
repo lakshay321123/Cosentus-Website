@@ -43,39 +43,54 @@ function CindyInner() {
           router.push(params.page)
         }
 
-        // Wait for page to load, then find and click the element
         const delay = params.page ? 1500 : 100
         setTimeout(() => {
-          // Try multiple strategies to find the clickable element
-          const searchText = params.text.toLowerCase()
-          const allClickable = document.querySelectorAll('button, a, [role="button"], [data-name], .leader-card, .case-study-card, .blog-card, [onclick]')
+          const searchText = params.text.toLowerCase().trim()
           let found = false
 
-          for (const el of Array.from(allClickable)) {
-            const elText = (el.textContent || '').toLowerCase().trim()
-            const dataName = (el.getAttribute('data-name') || '').toLowerCase()
-            if (elText.includes(searchText) || dataName.includes(searchText)) {
+          // Strategy 1: Find by data-name attribute (most reliable)
+          const dataNameEls = document.querySelectorAll('[data-name]')
+          for (const el of Array.from(dataNameEls)) {
+            if ((el.getAttribute('data-name') || '').toLowerCase().includes(searchText)) {
               ;(el as HTMLElement).click()
               found = true
-              console.log('Clicked element:', el)
+              console.log('Clicked by data-name:', el)
               break
             }
           }
 
-          // Fallback: search ALL elements for the text
+          // Strategy 2: Find clickable elements by text
           if (!found) {
-            const allEls = document.querySelectorAll('*')
-            for (const el of Array.from(allEls)) {
+            const clickable = document.querySelectorAll('button, a, [role="button"], [onclick], [style*="cursor: pointer"], [style*="cursor:pointer"]')
+            for (const el of Array.from(clickable)) {
               const elText = (el.textContent || '').toLowerCase().trim()
-              const directText = Array.from(el.childNodes)
-                .filter(n => n.nodeType === 3)
-                .map(n => n.textContent?.toLowerCase().trim() || '')
-                .join(' ')
-              if (directText.includes(searchText) || (elText.includes(searchText) && el.children.length < 5)) {
+              if (elText.includes(searchText) || searchText.includes(elText.substring(0, 10))) {
                 ;(el as HTMLElement).click()
                 found = true
-                console.log('Fallback clicked:', el)
+                console.log('Clicked clickable element:', el)
                 break
+              }
+            }
+          }
+
+          // Strategy 3: Find any element with text and walk UP to clickable parent
+          if (!found) {
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+            while (walker.nextNode()) {
+              const textNode = walker.currentNode
+              if ((textNode.textContent || '').toLowerCase().includes(searchText)) {
+                // Walk up to find clickable parent
+                let parent = textNode.parentElement
+                for (let i = 0; i < 5 && parent; i++) {
+                  if (parent.style.cursor === 'pointer' || parent.onclick || parent.getAttribute('role') === 'button' || parent.tagName === 'BUTTON' || parent.tagName === 'A') {
+                    ;(parent as HTMLElement).click()
+                    found = true
+                    console.log('Clicked parent of text node:', parent)
+                    break
+                  }
+                  parent = parent.parentElement
+                }
+                if (found) break
               }
             }
           }
@@ -83,7 +98,7 @@ function CindyInner() {
           if (!found) console.warn('Could not find element:', params.text)
         }, delay)
 
-        return `Clicked on "${params.text}"`
+        return found ? `Clicked on "${params.text}"` : `Looking for "${params.text}"...`
       },
 
       // Fill out a form (Contact Us page)
@@ -103,66 +118,68 @@ function CindyInner() {
         }
 
         setTimeout(() => {
-          const fields: Record<string, string | undefined> = {
-            'practice_name': params.practice_name,
-            'practice-name': params.practice_name,
-            'practiceName': params.practice_name,
-            'contact_name': params.contact_name,
-            'contact-name': params.contact_name,
-            'contactName': params.contact_name,
-            'name': params.contact_name,
-            'email': params.email,
-            'phone': params.phone,
-            'specialty': params.specialty,
-            'message': params.message,
+          // Map params to actual React form field names
+          const fieldMap: Record<string, string> = {
+            practiceName: params.practice_name || '',
+            contactName: params.contact_name || '',
+            email: params.email || '',
+            phone: params.phone || '',
+            message: params.message || '',
           }
 
           let filled = 0
-          for (const [key, value] of Object.entries(fields)) {
-            if (!value) continue
-            // Try by name, id, placeholder
-            const input = document.querySelector(
-              `input[name="${key}"], textarea[name="${key}"], select[name="${key}"], input[id="${key}"], textarea[id="${key}"], select[id="${key}"]`
-            ) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null
 
-            if (input) {
-              const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-                input.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype,
-                'value'
-              )?.set
-              if (nativeInputValueSetter) {
-                nativeInputValueSetter.call(input, value)
-                input.dispatchEvent(new Event('input', { bubbles: true }))
-                input.dispatchEvent(new Event('change', { bubbles: true }))
+          // Fill text inputs and textarea
+          for (const [name, value] of Object.entries(fieldMap)) {
+            if (!value) continue
+            const el = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
+            if (el) {
+              const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
+              const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
+              if (setter) {
+                setter.call(el, value)
+                el.dispatchEvent(new Event('input', { bubbles: true }))
+                el.dispatchEvent(new Event('change', { bubbles: true }))
                 filled++
               }
             }
           }
 
-          // Also try matching by placeholder text
-          if (filled === 0) {
-            const allInputs = document.querySelectorAll('input, textarea, select')
-            const paramEntries = Object.entries(params).filter(([, v]) => v)
-            for (const input of Array.from(allInputs)) {
-              const el = input as HTMLInputElement
-              const placeholder = (el.placeholder || '').toLowerCase()
-              const label = (el.getAttribute('aria-label') || '').toLowerCase()
-              for (const [key, value] of paramEntries) {
-                if (placeholder.includes(key.replace('_', ' ')) || label.includes(key.replace('_', ' '))) {
-                  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
-                  if (setter && value) {
-                    setter.call(el, value)
-                    el.dispatchEvent(new Event('input', { bubbles: true }))
-                    el.dispatchEvent(new Event('change', { bubbles: true }))
-                    filled++
-                  }
-                }
+          // Handle specialty SELECT dropdown separately
+          if (params.specialty) {
+            const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
+            if (select) {
+              // Map spoken specialty to option value
+              const specialtyMap: Record<string, string> = {
+                'anesthesia': 'anesthesia',
+                'orthopedics': 'orthopedics',
+                'orthopedic': 'orthopedics',
+                'pain management': 'pain-management',
+                'pain': 'pain-management',
+                'asc': 'asc',
+                'ambulatory surgery': 'asc',
+                'surgery center': 'asc',
+                'behavioral health': 'behavioral-health',
+                'behavioral': 'behavioral-health',
+                'mental health': 'behavioral-health',
+                'urgent care': 'urgent-care',
+                'urgent': 'urgent-care',
+                'other': 'other',
+              }
+              const key = params.specialty.toLowerCase()
+              const optionValue = specialtyMap[key] || Object.values(specialtyMap).find(v => v.includes(key)) || params.specialty.toLowerCase()
+
+              const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
+              if (setter) {
+                setter.call(select, optionValue)
+                select.dispatchEvent(new Event('change', { bubbles: true }))
+                filled++
               }
             }
           }
 
-          return `Filled ${filled} form fields`
-        }, window.location.pathname !== '/contact' ? 1500 : 100)
+          console.log(`Filled ${filled} form fields`)
+        }, window.location.pathname !== '/contact' ? 1500 : 200)
 
         return `Filling contact form with provided details`
       },

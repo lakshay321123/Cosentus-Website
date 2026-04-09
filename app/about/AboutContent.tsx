@@ -158,6 +158,7 @@ export default function AboutContent() {
             {leadership.map((person, i) => (
               <RevealOnScroll key={i}>
                 <div
+                  data-name={person.name.toLowerCase()}
                   onClick={() => setSelectedPerson(person)}
                   style={{
                     background: 'var(--white)',
