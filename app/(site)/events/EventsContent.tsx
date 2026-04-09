@@ -6,27 +6,27 @@ import { eventsData, CosentusEvent } from '@/data/eventsData'
 
 // Gallery photos — replace gradients with real photos when provided
 // Just add { src: '/images/events/gallery/photo1.jpg', alt: 'Event photo' }
-const galleryPhotos: { src?: string; alt: string; gradient?: string }[] = [
-  { alt: 'Event 1', gradient: 'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)' },
-  { alt: 'Event 2', gradient: 'linear-gradient(135deg, #36C2DE 0%, #0090AB 100%)' },
-  { alt: 'Event 3', gradient: 'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)' },
-  { alt: 'Event 4', gradient: 'linear-gradient(135deg, #0090AB 0%, #68D1E6 100%)' },
-  { alt: 'Event 5', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #00B5D6 100%)' },
-  { alt: 'Event 6', gradient: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)' },
-  { alt: 'Event 7', gradient: 'linear-gradient(135deg, #005F73 0%, #2A9D8F 100%)' },
-  { alt: 'Event 8', gradient: 'linear-gradient(135deg, #68D1E6 0%, #005F73 100%)' },
-  { alt: 'Event 9', gradient: 'linear-gradient(135deg, #0090AB 0%, #00B5D6 100%)' },
-  { alt: 'Event 10', gradient: 'linear-gradient(135deg, #36C2DE 0%, #005F73 100%)' },
-  { alt: 'Event 11', gradient: 'linear-gradient(135deg, #00B5D6 0%, #2A9D8F 100%)' },
-  { alt: 'Event 12', gradient: 'linear-gradient(135deg, #005F73 0%, #68D1E6 100%)' },
-  { alt: 'Event 13', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #0090AB 100%)' },
-  { alt: 'Event 14', gradient: 'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)' },
-  { alt: 'Event 15', gradient: 'linear-gradient(135deg, #68D1E6 0%, #36C2DE 100%)' },
-  { alt: 'Event 16', gradient: 'linear-gradient(135deg, #0090AB 0%, #2A9D8F 100%)' },
-  { alt: 'Event 17', gradient: 'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)' },
-  { alt: 'Event 18', gradient: 'linear-gradient(135deg, #36C2DE 0%, #68D1E6 100%)' },
-  { alt: 'Event 19', gradient: 'linear-gradient(135deg, #00B5D6 0%, #0090AB 100%)' },
-  { alt: 'Event 20', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #005F73 100%)' },
+const placeholderGradients = [
+  'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)',
+  'linear-gradient(135deg, #36C2DE 0%, #0090AB 100%)',
+  'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)',
+  'linear-gradient(135deg, #0090AB 0%, #68D1E6 100%)',
+  'linear-gradient(135deg, #2A9D8F 0%, #00B5D6 100%)',
+  'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
+  'linear-gradient(135deg, #005F73 0%, #2A9D8F 100%)',
+  'linear-gradient(135deg, #68D1E6 0%, #005F73 100%)',
+  'linear-gradient(135deg, #0090AB 0%, #00B5D6 100%)',
+  'linear-gradient(135deg, #36C2DE 0%, #005F73 100%)',
+  'linear-gradient(135deg, #00B5D6 0%, #2A9D8F 100%)',
+  'linear-gradient(135deg, #005F73 0%, #68D1E6 100%)',
+  'linear-gradient(135deg, #2A9D8F 0%, #0090AB 100%)',
+  'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)',
+  'linear-gradient(135deg, #68D1E6 0%, #36C2DE 100%)',
+  'linear-gradient(135deg, #0090AB 0%, #2A9D8F 100%)',
+  'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)',
+  'linear-gradient(135deg, #36C2DE 0%, #68D1E6 100%)',
+  'linear-gradient(135deg, #00B5D6 0%, #0090AB 100%)',
+  'linear-gradient(135deg, #2A9D8F 0%, #005F73 100%)',
 ]
 
 const tagColors: Record<string, string> = {
@@ -161,8 +161,15 @@ function YearMarker({ year }: { year: string }) {
   )
 }
 
-export default function EventsContent() {
+export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: string[] }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
+  // Build film frames: real photos first, pad with gradients if needed (min 20 frames)
+  const minFrames = 20
+  const filmFrames: { src?: string; gradient?: string }[] = galleryPhotos.map(src => ({ src }))
+  while (filmFrames.length < minFrames) {
+    filmFrames.push({ gradient: placeholderGradients[filmFrames.length % placeholderGradients.length] })
+  }
 
   // Group events by year for year markers
   const sortedEvents = [...eventsData].sort((a, b) => b.sortDate.localeCompare(a.sortDate))
@@ -690,12 +697,12 @@ export default function EventsContent() {
             {/* Duplicate the set for seamless loop */}
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
-                {galleryPhotos.map((photo, i) => (
+                {filmFrames.map((frame, i) => (
                   <div className="film-frame" key={`l-${setIdx}-${i}`}>
-                    {photo.src ? (
-                      <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    {frame.src ? (
+                      <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (
-                      <div className="film-frame-placeholder" style={{ background: photo.gradient }} />
+                      <div className="film-frame-placeholder" style={{ background: frame.gradient }} />
                     )}
                   </div>
                 ))}
@@ -711,12 +718,12 @@ export default function EventsContent() {
           <div className="film-track film-track-right">
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
-                {[...galleryPhotos].reverse().map((photo, i) => (
+                {[...filmFrames].reverse().map((frame, i) => (
                   <div className="film-frame" key={`r-${setIdx}-${i}`}>
-                    {photo.src ? (
-                      <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    {frame.src ? (
+                      <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (
-                      <div className="film-frame-placeholder" style={{ background: photo.gradient }} />
+                      <div className="film-frame-placeholder" style={{ background: frame.gradient }} />
                     )}
                   </div>
                 ))}

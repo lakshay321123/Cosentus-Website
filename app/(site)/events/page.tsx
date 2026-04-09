@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import fs from 'fs'
+import path from 'path'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import EventsContent from './EventsContent'
@@ -8,7 +10,21 @@ export const metadata: Metadata = {
   description: "There's always something happening at Cosentus. We attend and host events across healthcare RCM, medical billing, and AI — from industry conferences to community sponsorships.",
 }
 
+function getGalleryPhotos(): string[] {
+  const galleryDir = path.join(process.cwd(), 'public', 'images', 'events', 'gallery')
+  try {
+    const files = fs.readdirSync(galleryDir)
+    return files
+      .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f))
+      .map(f => `/images/events/gallery/${encodeURIComponent(f)}`)
+  } catch {
+    return []
+  }
+}
+
 export default function EventsPage() {
+  const photos = getGalleryPhotos()
+
   return (
     <main>
       <PageHero
@@ -17,7 +33,7 @@ export default function EventsPage() {
         subtitle="Innovation starts with information. We attend and host events related to all our service areas, providing the latest and greatest solutions to all your business needs. Come say hello!"
       />
 
-      <EventsContent />
+      <EventsContent galleryPhotos={photos} />
 
       <CTASection />
     </main>
