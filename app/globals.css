@@ -1638,7 +1638,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .chat-widget-DISABLED input::placeholder {
   color: white !important;
   opacity: 1 !important;
-}
+} */
 
 /* ===== TYPING INDICATOR DOTS ===== */
 @keyframes dotBounce {
@@ -1957,7 +1957,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .result-text,
   .mobile-carousel-slide,
   .mobile-carousel-slide > * {
-    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
     overflow-wrap: break-word !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
@@ -2122,7 +2122,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .advantage-card p,
   .hero-case-title {
     overflow-wrap: break-word;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     hyphens: auto;
   }
 

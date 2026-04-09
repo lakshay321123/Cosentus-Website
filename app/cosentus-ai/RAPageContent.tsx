@@ -68,7 +68,7 @@ export default function RAPageContent() {
               {allAgents.map((agent, i) => (
                 <RevealOnScroll key={i} delay={i * 0.08}>
                   <div
-                    onClick={() => setSelectedAgent(agent)}
+                    role="button" tabIndex={0} onClick={() => setSelectedAgent(agent)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedAgent(agent) }}
                     style={{ cursor: 'pointer', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.3s ease', height: '100%' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
@@ -90,7 +90,7 @@ export default function RAPageContent() {
                 {allAgents.map((agent, i) => (
                   <div
                     key={i}
-                    onClick={() => setSelectedAgent(agent)}
+                    role="button" tabIndex={0} onClick={() => setSelectedAgent(agent)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedAgent(agent) }}
                     style={{ cursor: 'pointer', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--gray-200)' }}
                   >
                     <div style={{ height: 280, background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>

@@ -132,6 +132,7 @@ export default function Navbar() {
             className="drawer-toggle"
             onClick={() => setDrawerOpen(true)}
             aria-label="Open menu"
+            aria-expanded={drawerOpen}
           >
             <span /><span /><span />
           </button>

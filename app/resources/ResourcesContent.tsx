@@ -61,7 +61,7 @@ export default function ResourcesContent() {
           <div className="cases-cards-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} delay={i * 0.1}>
-                <div onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease', height: '100%', display: 'flex', flexDirection: 'column' }}
+                <div role="button" tabIndex={0} onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") setViewingPdf({ title: cs.title, pdf: cs.pdf }) }} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease', height: '100%', display: 'flex', flexDirection: 'column' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,181,214,0.15)' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}>
                   <div style={{ background: '#00B5D6', padding: '24px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -88,7 +88,7 @@ export default function ResourcesContent() {
           <div className="cases-cards-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={6000}>
               {caseStudies.map((cs, i) => (
-                <div key={i} onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer' }}>
+                <div key={i} role="button" tabIndex={0} onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") setViewingPdf({ title: cs.title, pdf: cs.pdf }) }} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer' }}>
                   <div style={{ background: '#00B5D6', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: 4 }}>{cs.specialty}</span>
                     <div style={{ textAlign: 'right' }}>
