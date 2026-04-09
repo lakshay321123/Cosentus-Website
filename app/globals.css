@@ -2193,3 +2193,53 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ===== PROBLEM + SOLUTION SECTION ===== */
+.ps-panel {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ps-problem:hover {
+  background: var(--gray-50) !important;
+}
+
+.ps-problem:hover .ps-bullet-dot {
+  background: var(--gray-700) !important;
+  transform: scale(1.4);
+}
+
+.ps-solution:hover .ps-check {
+  background: rgba(255,255,255,0.35) !important;
+  transform: scale(1.15);
+}
+
+/* Shimmer sweep on solution panel */
+.ps-shimmer {
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+  background-size: 300% 100%;
+  animation: psShimmer 6s ease-in-out infinite;
+}
+
+@keyframes psShimmer {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: -100% 0; }
+}
+
+/* Hover glow on solution side */
+.ps-solution:hover {
+  box-shadow: inset 0 0 60px rgba(255,255,255,0.06);
+}
+
+/* Bullet hover micro-interaction */
+.ps-bullet,
+.ps-bullet-light {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ps-bullet:hover {
+  transform: translateX(6px);
+}
+
+.ps-bullet-light:hover {
+  transform: translateX(6px);
+}
