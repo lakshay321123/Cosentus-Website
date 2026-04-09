@@ -3,8 +3,8 @@ import PageHero from '@/components/sections/PageHero'
 import BlogContent from './BlogContent'
 
 export const metadata: Metadata = {
-  title: 'Healthcare RCM Blog & AI Innovations Insights | Cosentus',
-  description: 'Insights, updates, and thought leadership on healthcare revenue cycle management, AI innovations, and medical billing best practices.',
+  title: 'Blog | Healthcare Billing & RCM Insights | Cosentus',
+  description: 'Explore the Cosentus blog for the latest trends, tips, and insights in healthcare billing, revenue cycle management, and practice growth.',
 }
 
 export default function BlogPage() {
@@ -12,8 +12,8 @@ export default function BlogPage() {
     <main>
       <PageHero
         label="BLOG"
-        title="Insights & Thought Leadership"
-        subtitle="Expert perspectives on healthcare revenue cycle management, AI innovations, coding updates, and billing best practices."
+        title="Healthcare Billing & RCM Insights"
+        subtitle="Expert insights on medical billing, revenue cycle management, coding compliance, and practice growth strategies from the Cosentus team."
       />
       <BlogContent />
     </main>

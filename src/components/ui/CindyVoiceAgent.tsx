@@ -31,7 +31,7 @@ function CindyInner() {
 
   const conversation = useConversation({
     onConnect: () => { setActionLabel('') },
-    onDisconnect: () => { setActionLabel('Conversation ended') ; setTimeout(() => setActionLabel(''), 2000) },
+    onDisconnect: () => { setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000) },
     onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
     onMessage: () => {},
     clientTools: {
@@ -148,33 +148,11 @@ function CindyInner() {
         window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
         return done('Section not found, scrolled down')
       },
-    },
-  })
 
-  const { status, isSpeaking } = conversation
-  const isConnected = status === 'connected'
-  const isListening = isConnected && !isSpeaking
-
-  // PAGE AWARENESS: Tell Cindy which page the user is on + page content
-  const lastSentPath = useRef('')
-  useEffect(() => {
-    if (!isConnected || !pathname) return
-    // Don't re-send for same page, don't interrupt speech
-    if (pathname === lastSentPath.current) return
-    if (isSpeaking) return
-
-    // Wait for page to render and connection to stabilize
-    const timer = setTimeout(() => {
-      if (!isConnected) return // re-check after delay
-      try {
-        lastSentPath.current = pathname
+      // Read current page content on demand
+      read_page: () => {
         const main = document.querySelector('main')
-        if (!main) {
-          conversation.sendContextualUpdate(`The user is now on page: ${pathname}.`)
-          return
-        }
-
-        // Scrape key content — headings, stats, names, short descriptions
+        if (!main) return `Current page: ${window.location.pathname}. No content found.`
         const parts: string[] = []
         for (const el of Array.from(main.querySelectorAll(
           'h1, h2, h3, h4, .section-label, .section-title, p, li, ' +
@@ -184,14 +162,25 @@ function CindyInner() {
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
           if (text.length > 1 && text.length < 300) parts.push(text)
         }
+        return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n').substring(0, 2000)}`
+      },
+    },
+  })
 
-        const content = parts.join('\n').substring(0, 2000)
-        conversation.sendContextualUpdate(
-          `User is on: ${pathname}\nPage content:\n${content}`
-        )
-      } catch { /* ignore during transitions */ }
-    }, 1200)
+  const { status, isSpeaking } = conversation
+  const isConnected = status === 'connected'
+  const isListening = isConnected && !isSpeaking
 
+  // PAGE AWARENESS: Simple page notification only
+  const lastSentPath = useRef('')
+  useEffect(() => {
+    if (!isConnected || !pathname || isSpeaking) return
+    if (pathname === lastSentPath.current) return
+    const timer = setTimeout(() => {
+      if (!isConnected) return
+      lastSentPath.current = pathname
+      try { conversation.sendContextualUpdate(`User navigated to: ${pathname}`) } catch {}
+    }, 1500)
     return () => clearTimeout(timer)
   }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
 
