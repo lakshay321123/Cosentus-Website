@@ -26,7 +26,9 @@ const leadership = [
   { name: 'Stephen Williamson', title: 'Chief Growth Officer', photo: '/images/Stephen Williamson.jpg', bio: 'Leads business development and growth strategy across all Cosentus divisions. Focused on expanding the company footprint through strategic partnerships and market development.' },
   { name: 'Allen Ranjan', title: 'Chief Revenue Officer', photo: '/images/ALLEN RANJAN.jpg', bio: 'Has been with Cosentus since its founding. Leads all revenue generation activities, client acquisition, and strategic sales initiatives across the organization.' },
   { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '/images/Andrew-Clougherty.jpg', bio: '14 years of experience in RCM and medical billing. Started as a client services liaison for a DME company, then served as Director of Client Relations at AllianceMed for 10+ years. After the merger with Cosentus in 2023, manages operations and client services for offices in Phoenix, Napa, and Salt Lake City.' },
-  { name: 'David Langsam', title: 'Board Advisor', photo: '/images/David Langsam Board Advisor.jpg', bio: 'Senior board advisor providing strategic guidance on corporate growth, governance, and market positioning for Cosentus.' },
+  { name: 'David Langsam', title: 'Board Advisor', photo: '/images/david-langsam.jpg', bio: 'Senior board advisor providing strategic guidance on corporate growth, governance, and market positioning for Cosentus.' },
+  { name: 'Tom Scott', title: 'Sr. Advisor | Corporate Growth & M&A', photo: '/images/tom-scott.webp', bio: 'Senior Advisor for Corporate Growth and M&A at Cosentus. MBA, CPE, and AIE with extensive experience in entrepreneurial leadership, financial management, and business development. Founder of Moon Rock Media Group, guiding companies at the intersection of AI and CRM. Previously served as Managing Director at PermaPlate and Senior VP of Business Development at AmTrust Financial/Warrantech.' },
+  { name: 'John Nulty', title: 'Sr. Advisor', photo: '/images/john-nulty.jpg', bio: 'Senior Advisor at Cosentus bringing deep expertise in healthcare revenue cycle sales, marketing, and business development. Duke University graduate with extensive experience in the RCM industry, previously with Meduit. Provides strategic advisory on growth initiatives and market expansion.' },
   { name: 'Raja Inder Bhalla', title: 'Managing Director', photo: '/images/Inder.jpg', bio: 'Managing Director overseeing strategic initiatives and business operations. Plays a key role in driving organizational growth and international expansion.' },
   { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Leads global branding, marketing strategy, and communications for Cosentus. Responsible for brand positioning, digital presence, and marketing campaigns.' },
   { name: 'Wayne Wertz', title: 'Sr. Director of HR & Corporate Operations', photo: '/images/Wayne.jpg', bio: 'Senior Director overseeing human resources and corporate operations. Manages organizational development, compliance, and operational efficiency.' },
@@ -189,6 +191,7 @@ export default function AboutContent() {
             {leadership.map((person, i) => (
               <RevealOnScroll key={i}>
                 <div
+                  data-name={person.name.toLowerCase()}
                   onClick={() => setSelectedPerson(person)}
                   style={{
                     background: 'var(--white)',
