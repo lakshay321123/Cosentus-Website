@@ -113,6 +113,20 @@ export default function RCMContent() {
               </RevealOnScroll>
             ))}
           </div>
+          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {rcmSteps.map((step, i) => (
+                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: step.agent ? '#00B5D6' : 'var(--gray-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: step.agent ? 'white' : 'var(--gray-500)', flexShrink: 0 }}>{step.icon}</div>
+                    <div><h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{step.title}</h4>
+                    {step.agent && <span style={{ fontSize: 11, color: '#00B5D6' }}>{step.agent}</span>}</div>
+                  </div>
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', margin: 0 }}>{step.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
@@ -150,6 +164,16 @@ export default function RCMContent() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="results-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={3000}>
+              {keyResults.map((r, i) => (
+                <div key={i} style={{ padding: '32px 16px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', textAlign: 'center' }}>
+                  <div style={{ fontSize: 36, fontWeight: 300, color: '#00B5D6', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
+                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{r.label}</div>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

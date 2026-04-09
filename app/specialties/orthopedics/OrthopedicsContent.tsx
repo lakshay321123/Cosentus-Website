@@ -75,6 +75,17 @@ export default function OrthopedicsContent() {
               </RevealOnScroll>
             ))}
           </div>
+          <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4500}>
+              {services.map((s, i) => (
+                <div key={i} className="advantage-card">
+                  <div className="advantage-icon">{s.icon}</div>
+                  <h4>{s.title}</h4>
+                  <p>{s.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 

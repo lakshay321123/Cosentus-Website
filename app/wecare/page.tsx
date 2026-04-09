@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'WeCare | Community & Charitable Initiatives | Cosentus',
@@ -100,48 +101,27 @@ export default function WeCarePage() {
             <div className="section-title">Community Initiatives</div>
           </RevealOnScroll>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-            gap: 24,
-            marginTop: 48,
-          }}>
+          <div className="initiatives-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {initiatives.map((init, i) => (
               <RevealOnScroll key={i}>
-                <div style={{
-                  padding: 32,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all var(--transition-base)',
-                }}>
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '4px 12px',
-                    background: 'var(--primary-ghost)',
-                    borderRadius: 'var(--radius-sm)',
-                    fontSize: 11,
-                    fontWeight: 500,
-                    color: 'var(--primary)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    marginBottom: 16,
-                    alignSelf: 'flex-start',
-                  }}>
-                    {init.highlight}
-                  </div>
-                  <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>
-                    {init.name}
-                  </h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', flex: 1 }}>
-                    {init.desc}
-                  </p>
+                <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all var(--transition-base)' }}>
+                  <div style={{ display: 'inline-block', padding: '4px 12px', background: 'var(--primary-ghost)', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, color: 'var(--primary)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: 16, alignSelf: 'flex-start' }}>{init.highlight}</div>
+                  <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>{init.name}</h4>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', flex: 1 }}>{init.desc}</p>
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="initiatives-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={5000}>
+              {initiatives.map((init, i) => (
+                <div key={i} style={{ padding: 28, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
+                  <div style={{ display: 'inline-block', padding: '4px 12px', background: 'var(--primary-ghost)', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, color: 'var(--primary)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: 16 }}>{init.highlight}</div>
+                  <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>{init.name}</h4>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{init.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

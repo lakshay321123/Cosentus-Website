@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const caseStudies = [
   {
@@ -57,20 +58,12 @@ export default function ResourcesContent() {
             <p className="section-desc">Real outcomes from real practices. Every figure is documented with full methodology.</p>
           </RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
+          <div className="cases-cards-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} delay={i * 0.1}>
-                <div
-                  onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })}
-                  style={{
-                    background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
-                    overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease', height: '100%',
-                    display: 'flex', flexDirection: 'column',
-                  }}
+                <div onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease', height: '100%', display: 'flex', flexDirection: 'column' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,181,214,0.15)' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-                >
-                  {/* Top bar with specialty + headline stat */}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}>
                   <div style={{ background: '#00B5D6', padding: '24px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: 4 }}>{cs.specialty}</span>
                     <div style={{ textAlign: 'right' }}>
@@ -78,26 +71,39 @@ export default function ResourcesContent() {
                       <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{cs.headlineLabel}</div>
                     </div>
                   </div>
-
-                  {/* Content */}
                   <div style={{ padding: '24px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <h3 style={{ fontSize: 18, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 12, lineHeight: 1.4 }}>{cs.title}</h3>
                     <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', marginBottom: 20, flex: 1 }}>{cs.summary}</p>
-
-                    {/* Stats pills */}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
                       {cs.stats.map((stat, j) => (
                         <span key={j} style={{ fontSize: 12, padding: '4px 10px', background: 'var(--primary-ghost)', color: '#00B5D6', borderRadius: 4, fontWeight: 500 }}>{stat}</span>
                       ))}
                     </div>
-
-                    <div style={{ fontSize: 14, fontWeight: 500, color: '#00B5D6' }}>
-                      Read Case Study →
-                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#00B5D6' }}>Read Case Study →</div>
                   </div>
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="cases-cards-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={6000}>
+              {caseStudies.map((cs, i) => (
+                <div key={i} onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer' }}>
+                  <div style={{ background: '#00B5D6', padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: 4 }}>{cs.specialty}</span>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: 28, fontWeight: 700, color: 'white', lineHeight: 1 }}>{cs.headline}</div>
+                      <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{cs.headlineLabel}</div>
+                    </div>
+                  </div>
+                  <div style={{ padding: '20px 24px' }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8, lineHeight: 1.4 }}>{cs.title}</h3>
+                    <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', marginBottom: 16 }}>{cs.summary}</p>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#00B5D6' }}>Read Case Study →</div>
+                  </div>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

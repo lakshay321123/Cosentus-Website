@@ -1702,7 +1702,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .services-mobile,
 .hero-cases-mobile,
 .offices-mobile,
-.agents-mobile {
+.agents-mobile,
+.steps-mobile,
+.initiatives-mobile,
+.quotes-mobile,
+.solutions-mobile,
+.process-mobile,
+.rcm-steps-mobile,
+.rcm-results-mobile,
+.cases-cards-mobile {
   display: none;
 }
 
@@ -1906,7 +1914,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .services-desktop,
   .hero-cases-desktop,
   .offices-desktop,
-  .agents-desktop {
+  .agents-desktop,
+  .steps-desktop,
+  .initiatives-desktop,
+  .quotes-desktop,
+  .solutions-desktop,
+  .process-desktop,
+  .rcm-steps-desktop,
+  .rcm-results-desktop,
+  .cases-cards-desktop {
     display: none !important;
   }
   .results-mobile,
@@ -1915,7 +1931,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .services-mobile,
   .hero-cases-mobile,
   .offices-mobile,
-  .agents-mobile {
+  .agents-mobile,
+  .steps-mobile,
+  .initiatives-mobile,
+  .quotes-mobile,
+  .solutions-mobile,
+  .process-mobile,
+  .rcm-steps-mobile,
+  .rcm-results-mobile,
+  .cases-cards-mobile {
     display: block !important;
   }
 
