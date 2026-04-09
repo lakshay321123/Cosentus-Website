@@ -1,321 +1,135 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { useConversation } from '@11labs/react'
 
-type State = 'hidden' | 'greeting' | 'idle' | 'listening' | 'thinking' | 'speaking'
+const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
 
 export default function CindyVoiceAgent() {
-  const [state, setState] = useState<State>('hidden')
-  const [transcript, setTranscript] = useState('')
-  const [response, setResponse] = useState('')
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
-  const [mouthOpen, setMouthOpen] = useState(false)
   const [blinking, setBlinking] = useState(false)
-  const [conversationOn, setConversationOn] = useState(false)
+  const [mouthOpen, setMouthOpen] = useState(false)
+  const [lastMessage, setLastMessage] = useState('')
+  const mouthRef = useRef<NodeJS.Timeout | null>(null)
 
-  const stateRef = useRef<State>('hidden')
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const recognitionRef = useRef<any>(null)
-  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const messagesRef = useRef<{ role: string; text: string }[]>([])
-  const processingRef = useRef(false)
-  const conversationOnRef = useRef(false)
-  const speakResolveRef = useRef<(() => void) | null>(null) // To interrupt speech
-  const router = useRouter()
-  const pathname = usePathname()
-  const pathnameRef = useRef(pathname)
+  const conversation = useConversation({
+    onConnect: () => {
+      console.log('Cindy connected')
+    },
+    onDisconnect: () => {
+      console.log('Cindy disconnected')
+    },
+    onError: (error: string) => {
+      console.error('Cindy error:', error)
+    },
+    onMessage: (message: { source: string; message: string }) => {
+      if (message.source === 'ai') {
+        setLastMessage(message.message)
+      }
+    },
+  })
 
-  useEffect(() => { stateRef.current = state }, [state])
-  useEffect(() => { pathnameRef.current = pathname }, [pathname])
-  useEffect(() => { conversationOnRef.current = conversationOn }, [conversationOn])
+  const { status, isSpeaking } = conversation
 
+  // Show greeting after 3s
   useEffect(() => {
     if (!sessionStorage.getItem('cindy-greeted')) {
-      const t = setTimeout(() => { setShowPopup(true); setState('greeting') }, 3000)
+      const t = setTimeout(() => setShowPopup(true), 3000)
       return () => clearTimeout(t)
     }
   }, [])
 
+  // Blink
   useEffect(() => {
     const id = setInterval(() => { setBlinking(true); setTimeout(() => setBlinking(false), 150) }, 3500)
     return () => clearInterval(id)
   }, [])
 
+  // Mouth animation synced to agent speaking
   useEffect(() => {
-    if (state !== 'speaking') { setMouthOpen(false); return }
-    const id = setInterval(() => setMouthOpen(p => !p), 130)
-    return () => clearInterval(id)
-  }, [state])
-
-  function doNavigate(route: string, scroll?: string) {
-    if (pathnameRef.current !== route) {
-      router.push(route)
-      if (scroll) setTimeout(() => document.getElementById(scroll)?.scrollIntoView({ behavior: 'smooth' }), 1000)
-    } else if (scroll) {
-      document.getElementById(scroll)?.scrollIntoView({ behavior: 'smooth' })
+    if (isSpeaking) {
+      mouthRef.current = setInterval(() => setMouthOpen(p => !p), 130)
+    } else {
+      if (mouthRef.current) clearInterval(mouthRef.current)
+      setMouthOpen(false)
     }
-  }
+    return () => { if (mouthRef.current) clearInterval(mouthRef.current) }
+  }, [isSpeaking])
 
-  // ===== INTERRUPTIBLE speak =====
-  // Returns a promise that resolves when audio ends OR when stopAudio() is called
-  function speakText(text: string): Promise<void> {
-    return new Promise(async (resolve) => {
-      // Store resolve ref so stopAudio can trigger it
-      speakResolveRef.current = resolve
-
-      // Clean previous audio
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-      speechSynthesis.cancel()
-
-      try {
-        const res = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        })
-        if (res.ok) {
-          const blob = await res.blob()
-          const url = URL.createObjectURL(blob)
-          const audio = new Audio(url)
-          audioRef.current = audio
-
-          audio.onended = () => {
-            URL.revokeObjectURL(url)
-            audioRef.current = null
-            speakResolveRef.current = null
-            resolve()
-          }
-          audio.onerror = () => {
-            URL.revokeObjectURL(url)
-            audioRef.current = null
-            speakResolveRef.current = null
-            resolve()
-          }
-          await audio.play().catch(() => {
-            audioRef.current = null
-            speakResolveRef.current = null
-            resolve()
-          })
-          return // Don't resolve here — wait for onended
-        }
-      } catch (e) {
-        console.error('TTS failed:', e)
-      }
-
-      // Fallback browser TTS
-      const u = new SpeechSynthesisUtterance(text)
-      u.rate = 0.95; u.pitch = 1.05
-      u.onend = () => { speakResolveRef.current = null; resolve() }
-      u.onerror = () => { speakResolveRef.current = null; resolve() }
-      speechSynthesis.speak(u)
-    })
-  }
-
-  // ===== Stop audio AND resolve the speakText promise =====
-  function stopAudio() {
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current = null
-    }
-    speechSynthesis.cancel()
-    // Resolve the pending speakText promise so the flow continues
-    if (speakResolveRef.current) {
-      speakResolveRef.current()
-      speakResolveRef.current = null
-    }
-  }
-
-  // ===== Process → AI → Speak → Auto-listen =====
-  async function processMessage(userText: string) {
-    if (processingRef.current) return
-    processingRef.current = true
-    setState('thinking')
-    setTranscript('')
-
-    messagesRef.current.push({ role: 'user', text: userText })
-
+  // Start conversation
+  const startConversation = useCallback(async () => {
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messagesRef.current], voiceMode: true }),
-      })
-      const data = await res.json()
-      const aiText = data.text || "Sorry, could you say that again?"
-      messagesRef.current.push({ role: 'bot', text: aiText })
-
-      if (data.navigate) doNavigate(data.navigate.route, data.navigate.scroll)
-
-      setState('speaking')
-      setResponse(aiText)
-      await speakText(aiText) // This resolves on end OR on stopAudio()
-
-      processingRef.current = false
-      if (conversationOnRef.current) {
-        setState('listening')
-        setTimeout(() => {
-          if (conversationOnRef.current) beginRecognition()
-        }, 400)
-      } else {
-        setState('idle')
-      }
-    } catch {
-      processingRef.current = false
-      setState('idle')
+      await navigator.mediaDevices.getUserMedia({ audio: true })
+      await conversation.startSession({ agentId: AGENT_ID })
+    } catch (e) {
+      console.error('Failed to start:', e)
     }
-  }
+  }, [conversation])
 
-  // ===== Recognition =====
-  function beginRecognition() {
-    try { recognitionRef.current?.stop() } catch {}
-    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
+  // End conversation
+  const endConversation = useCallback(async () => {
+    await conversation.endSession()
+  }, [conversation])
 
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return
-
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    const rec = new SR()
-    rec.continuous = true
-    rec.interimResults = true
-    rec.lang = 'en-US'
-
-    let accumulated = ''
-    let sent = false
-
-    rec.onresult = (event: any) => {
-      let final = '', interim = ''
-      for (let i = 0; i < event.results.length; i++) {
-        if (event.results[i].isFinal) final += event.results[i][0].transcript
-        else interim += event.results[i][0].transcript
-      }
-      accumulated = (final + interim).trim()
-      setTranscript(accumulated)
-
-      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
-      silenceTimerRef.current = setTimeout(() => {
-        if (accumulated.trim() && !sent) {
-          sent = true
-          try { rec.stop() } catch {}
-          processMessage(accumulated.trim())
-        }
-      }, 2000)
-    }
-
-    rec.onend = () => {
-      if (!sent && accumulated.trim()) {
-        sent = true
-        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
-        processMessage(accumulated.trim())
-      } else if (!sent && conversationOnRef.current) {
-        setTimeout(() => {
-          if (conversationOnRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
-            beginRecognition()
-          }
-        }, 200)
-      }
-    }
-
-    rec.onerror = (e: any) => {
-      if (e.error === 'no-speech' && conversationOnRef.current) {
-        setTimeout(() => {
-          if (conversationOnRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
-            beginRecognition()
-          }
-        }, 200)
-      }
-    }
-
-    recognitionRef.current = rec
-    rec.start()
-  }
-
-  function startConversation() {
-    setConversationOn(true)
-    conversationOnRef.current = true
-    processingRef.current = false
-    setState('listening')
-    beginRecognition()
-  }
-
-  function endConversation() {
-    setConversationOn(false)
-    conversationOnRef.current = false
-    processingRef.current = false
-    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
-    try { recognitionRef.current?.stop() } catch {}
-    stopAudio()
-    setState('idle')
-  }
-
-  function acceptGreeting() {
+  // Accept greeting → start
+  const acceptGreeting = () => {
     sessionStorage.setItem('cindy-greeted', 'true')
-
-    // Add greeting to conversation memory so AI won't repeat it
-    const greetingText = "Hey! I'm Cindy, your AI guide for the Cosentus website. Just talk to me naturally. Ask me anything or tell me where you'd like to go!"
-    messagesRef.current.push({ role: 'bot', text: greetingText })
-
-    ;(async () => {
-      setState('speaking')
-      setResponse(greetingText)
-      await speakText(greetingText)
-      startConversation()
-    })()
+    startConversation()
   }
 
-  function dismissCindy() {
+  const dismissCindy = () => {
     sessionStorage.setItem('cindy-greeted', 'true')
-    endConversation()
+    if (status === 'connected') conversation.endSession()
     setDismissed(true)
     setShowPopup(false)
-    setState('hidden')
   }
 
-  // Handle clicking the avatar/panel while Cindy is speaking = interrupt
-  function handlePanelClick() {
-    if (stateRef.current === 'speaking') {
-      stopAudio()
-    }
-  }
+  // Determine visual state
+  const isConnected = status === 'connected'
+  const isListening = isConnected && !isSpeaking
+  const stateLabel = !isConnected ? 'Cindy — AI Guide'
+    : isSpeaking ? 'Speaking...'
+    : 'Listening...'
 
-  const showMini = dismissed || state === 'hidden'
-  if (!showPopup && !dismissed && state === 'hidden') return null
+  const showMini = dismissed || !showPopup
+  if (!showPopup && !dismissed) return null
 
   return (
     <>
-      {showMini && (
-        <button onClick={() => { setDismissed(false); setShowPopup(true); setState('idle') }} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+      {/* Mini avatar bubble */}
+      {showMini && dismissed && (
+        <button onClick={() => { setDismissed(false); setShowPopup(true) }} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
+      {/* Main panel */}
       {showPopup && !dismissed && (
         <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
-          {/* Click avatar area to interrupt */}
-          <div onClick={handlePanelClick} style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center', cursor: state === 'speaking' ? 'pointer' : 'default' }}>
-            <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: state === 'listening' ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: state === 'speaking' ? 'cindyBob 0.4s ease-in-out infinite' : state === 'listening' ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
+          {/* Avatar */}
+          <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
+            <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: isListening ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: blinking ? 'scaleY(0.97)' : 'scaleY(1)', transition: 'transform 0.1s ease' }} />
-              {state === 'speaking' && <div style={{ position: 'absolute', bottom: '22%', left: '50%', transform: 'translateX(-50%)', width: mouthOpen ? 14 : 10, height: mouthOpen ? 8 : 3, background: 'rgba(180,80,80,0.7)', borderRadius: '50%', transition: 'all 0.08s ease' }} />}
+              {isSpeaking && <div style={{ position: 'absolute', bottom: '22%', left: '50%', transform: 'translateX(-50%)', width: mouthOpen ? 14 : 10, height: mouthOpen ? 8 : 3, background: 'rgba(180,80,80,0.7)', borderRadius: '50%', transition: 'all 0.08s ease' }} />}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-              {state === 'listening' && <div style={{ display: 'flex', gap: 3 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ width: 3, background: 'white', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />)}</div>}
-              <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>
-                {state === 'greeting' ? 'Hey there!' : state === 'listening' ? 'Listening...' : state === 'thinking' ? 'Thinking...' : state === 'speaking' ? 'Tap me to interrupt' : 'Cindy — AI Guide'}
-              </span>
+              {isListening && <div style={{ display: 'flex', gap: 3 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ width: 3, background: 'white', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />)}</div>}
+              <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>{stateLabel}</span>
             </div>
           </div>
 
+          {/* Content */}
           <div style={{ padding: '20px 24px', minHeight: 80, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            {state === 'greeting' ? (
+            {!isConnected && !sessionStorage.getItem('cindy-greeted') ? (
               <>
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Cindy</strong>, your AI voice guide. I can navigate this website and answer any questions. Ready?</p>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
+                  Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Cindy</strong>, your AI voice guide. I can navigate this website and answer any questions. Ready?
+                </p>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={acceptGreeting} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
                   <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 14, cursor: 'pointer' }}>Later</button>
@@ -323,14 +137,18 @@ export default function CindyVoiceAgent() {
               </>
             ) : (
               <>
-                <div style={{ fontSize: 13, lineHeight: 1.6, color: '#555', marginBottom: 12, textAlign: 'center', minHeight: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {state === 'listening' && transcript ? <p style={{ color: '#00B5D6', fontStyle: 'italic', margin: 0 }}>&ldquo;{transcript}&rdquo;</p>
-                  : state === 'listening' ? <p style={{ margin: 0, color: '#00B5D6', fontSize: 12 }}>Go ahead, I&apos;m listening...</p>
-                  : state === 'thinking' ? <div style={{ display: 'flex', gap: 4 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00B5D6', animation: 'dotBounce 1.4s infinite' }} /><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00B5D6', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} /><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00B5D6', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} /></div>
-                  : (state === 'speaking' || state === 'idle') && response ? <p style={{ margin: 0, fontSize: 11, color: '#999', maxHeight: 50, overflow: 'hidden' }}>{response.substring(0, 120)}{response.length > 120 ? '...' : ''}</p>
-                  : <p style={{ margin: 0, color: '#999', fontSize: 12 }}>Tap below to start talking</p>}
+                <div style={{ fontSize: 12, lineHeight: 1.5, color: '#888', marginBottom: 12, textAlign: 'center', minHeight: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {isConnected ? (
+                    lastMessage ? (
+                      <p style={{ margin: 0, maxHeight: 60, overflow: 'hidden' }}>{lastMessage.substring(0, 150)}{lastMessage.length > 150 ? '...' : ''}</p>
+                    ) : (
+                      <p style={{ margin: 0, color: '#00B5D6' }}>Go ahead, just talk naturally...</p>
+                    )
+                  ) : (
+                    <p style={{ margin: 0, color: '#999' }}>Conversation ended</p>
+                  )}
                 </div>
-                {conversationOn ? (
+                {isConnected ? (
                   <button onClick={endConversation} style={{ width: '100%', padding: '10px', borderRadius: 12, border: '1px solid #ddd', cursor: 'pointer', background: 'white', color: '#999', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                     End Conversation
                   </button>
