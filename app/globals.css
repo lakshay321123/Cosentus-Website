@@ -1672,6 +1672,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: white !important;
 }
 
+/* Testimonial card — uniform height with author pinned to bottom */
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-card p:first-of-type {
+  flex: 1;
+}
+
 .testimonial-card:hover {
   border-color: var(--primary) !important;
   box-shadow: 0 12px 40px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
