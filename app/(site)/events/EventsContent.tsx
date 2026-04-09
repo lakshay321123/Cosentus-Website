@@ -735,28 +735,26 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       `}</style>
 
       {/* Stats */}
-      <section style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 0' }}>
-        <div className="container">
-            <div className="events-stats">
-              <div className="events-stat">
-                <div className="events-stat-number">{eventsData.length}</div>
-                <div className="events-stat-label">Events & Counting</div>
-              </div>
-              <div className="events-stat">
-                <div className="events-stat-number">{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
-                <div className="events-stat-label">Years Active</div>
-              </div>
-              <div className="events-stat">
-                <div className="events-stat-number">{eventsData.filter(e => e.tag === 'Conference').length}</div>
-                <div className="events-stat-label">Conferences</div>
-              </div>
-              <div className="events-stat">
-                <div className="events-stat-number">5</div>
-                <div className="events-stat-label">Countries</div>
-              </div>
-            </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+        <div className="events-stats">
+          <div className="events-stat">
+            <div className="events-stat-number">{eventsData.length}</div>
+            <div className="events-stat-label">Events & Counting</div>
+          </div>
+          <div className="events-stat">
+            <div className="events-stat-number">{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
+            <div className="events-stat-label">Years Active</div>
+          </div>
+          <div className="events-stat">
+            <div className="events-stat-number">{eventsData.filter(e => e.tag === 'Conference').length}</div>
+            <div className="events-stat-label">Conferences</div>
+          </div>
+          <div className="events-stat">
+            <div className="events-stat-number">5</div>
+            <div className="events-stat-label">Countries</div>
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* Lightbox */}
       {lightboxSrc && (
