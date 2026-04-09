@@ -1,17 +1,15 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { ConversationProvider, useConversation } from '@elevenlabs/react'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
 
 function CindyInner() {
-  const [showPopup, setShowPopup] = useState(false)
+  const [showPopup, setShowPopup] = useState(true)
   const [dismissed, setDismissed] = useState(false)
   const [blinking, setBlinking] = useState(false)
-  const [mouthOpen, setMouthOpen] = useState(false)
-  const mouthRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
   const conversation = useConversation({
@@ -201,30 +199,11 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // Greeting after 3s
-  useEffect(() => {
-    if (!sessionStorage.getItem('cindy-greeted')) {
-      const t = setTimeout(() => setShowPopup(true), 3000)
-      return () => clearTimeout(t)
-    }
-  }, [])
-
   // Blink
   useEffect(() => {
     const id = setInterval(() => { setBlinking(true); setTimeout(() => setBlinking(false), 150) }, 3500)
     return () => clearInterval(id)
   }, [])
-
-  // Mouth
-  useEffect(() => {
-    if (isSpeaking) {
-      mouthRef.current = setInterval(() => setMouthOpen(p => !p), 130)
-    } else {
-      if (mouthRef.current) clearInterval(mouthRef.current)
-      setMouthOpen(false)
-    }
-    return () => { if (mouthRef.current) clearInterval(mouthRef.current) }
-  }, [isSpeaking])
 
   const startConversation = useCallback(async () => {
     try {
@@ -243,19 +222,16 @@ function CindyInner() {
   }, [conversation])
 
   const acceptGreeting = () => {
-    sessionStorage.setItem('cindy-greeted', 'true')
     startConversation()
   }
 
   const dismissCindy = () => {
-    sessionStorage.setItem('cindy-greeted', 'true')
     if (isConnected) conversation.endSession()
     setDismissed(true)
     setShowPopup(false)
   }
 
   const stateLabel = !isConnected ? 'Cindy — AI Guide' : isSpeaking ? 'Speaking...' : 'Listening...'
-  if (!showPopup && !dismissed) return null
 
   return (
     <>
@@ -274,7 +250,6 @@ function CindyInner() {
             <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: isListening ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: blinking ? 'scaleY(0.97)' : 'scaleY(1)', transition: 'transform 0.1s ease' }} />
-              {isSpeaking && <div style={{ position: 'absolute', bottom: '22%', left: '50%', transform: 'translateX(-50%)', width: mouthOpen ? 14 : 10, height: mouthOpen ? 8 : 3, background: 'rgba(180,80,80,0.7)', borderRadius: '50%', transition: 'all 0.08s ease' }} />}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               {isListening && <div style={{ display: 'flex', gap: 3 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ width: 3, background: 'white', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />)}</div>}
@@ -283,7 +258,7 @@ function CindyInner() {
           </div>
 
           <div style={{ padding: '20px 24px', minHeight: 80, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            {!isConnected && !sessionStorage.getItem('cindy-greeted') ? (
+            {!isConnected ? (
               <>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
                   Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Cindy</strong>, your AI voice guide. I can navigate this website and answer any questions. Ready?
