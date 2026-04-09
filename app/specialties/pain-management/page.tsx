@@ -121,29 +121,54 @@ export default function PainManagementPage() {
         <div className="container">
           <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
           <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <div className="testimonial-card" style={{
-              padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
-              border: '1px solid var(--gray-200)', position: 'relative', maxWidth: 680, marginTop: 48,
-              transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}>
-              <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
-              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
-                &ldquo;I&apos;ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.&rdquo;
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
-                }}>JL</div>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>Dr. Justin Lo, MD</div>
-                  <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>President, Northern California Pain Specialists</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, marginTop: 48 }}>
+            <RevealOnScroll delay={0.2}>
+              <div className="testimonial-card" style={{
+                padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
+                border: '1px solid var(--gray-200)', position: 'relative',
+                display: 'flex', flexDirection: 'column' as const, height: '100%',
+              }}>
+                <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1, flex: 1 }}>
+                  &ldquo;I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!&rdquo;
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
+                  }}>MM</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>Dr. Mikko Murakami, QME</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>Pain Medicine, PM&amp;R</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </RevealOnScroll>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.35}>
+              <div className="testimonial-card" style={{
+                padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
+                border: '1px solid var(--gray-200)', position: 'relative',
+                display: 'flex', flexDirection: 'column' as const, height: '100%',
+              }}>
+                <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1, flex: 1 }}>
+                  &ldquo;I&apos;ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.&rdquo;
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
+                  }}>JL</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>Justin Lo, MD</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>President, Northern California Pain Specialists</div>
+                  </div>
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 
