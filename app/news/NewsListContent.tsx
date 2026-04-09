@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import { newsArticles } from '@/data/newsArticles'
+import { newsArticlesMeta } from '@/data/newsArticles'
 
 export default function NewsListContent() {
   return (
@@ -16,9 +16,9 @@ export default function NewsListContent() {
         </RevealOnScroll>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginTop: 48 }}>
-          {newsArticles.map((article, i) => (
+          {newsArticlesMeta.map((article, i) => (
             <RevealOnScroll key={article.slug} delay={Math.min(i * 0.05, 0.4)}>
-              <Link href={`/news/${article.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link href={`/news/${encodeURIComponent(article.slug)}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <article style={{
                   display: 'grid',
                   gridTemplateColumns: '140px 1fr auto',

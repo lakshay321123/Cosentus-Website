@@ -3,11 +3,15 @@ import { notFound } from 'next/navigation'
 import { newsArticles } from '@/data/newsArticles'
 import NewsArticleContent from './NewsArticleContent'
 
+interface NewsRouteProps {
+  params: { slug: string }
+}
+
 export async function generateStaticParams() {
   return newsArticles.map((article) => ({ slug: article.slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: NewsRouteProps): Promise<Metadata> {
   const article = newsArticles.find((a) => a.slug === params.slug)
   if (!article) return { title: 'News | Cosentus' }
   return {
@@ -16,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function NewsArticlePage({ params }: { params: { slug: string } }) {
+export default function NewsArticlePage({ params }: NewsRouteProps) {
   const article = newsArticles.find((a) => a.slug === params.slug)
   if (!article) notFound()
 

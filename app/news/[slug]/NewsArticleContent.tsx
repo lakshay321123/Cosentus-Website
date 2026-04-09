@@ -6,6 +6,19 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import CTASection from '@/components/sections/CTASection'
 import { newsArticles, NewsArticle } from '@/data/newsArticles'
 
+interface NewsArticleContentProps {
+  article: NewsArticle
+}
+
+function getSafeExternalUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.toString() : null
+  } catch {
+    return null
+  }
+}
+
 function renderMarkdown(text: string) {
   if (!text) return null
   const lines = text.split('\n')
@@ -146,7 +159,7 @@ function formatInline(text: string): React.ReactNode {
   })
 }
 
-export default function NewsArticleContent({ article }: { article: NewsArticle }) {
+export default function NewsArticleContent({ article }: NewsArticleContentProps) {
   const router = useRouter()
   const otherArticles = newsArticles.filter(a => a.slug !== article.slug)
   
@@ -154,6 +167,7 @@ export default function NewsArticleContent({ article }: { article: NewsArticle }
   const sameTag = otherArticles.filter(a => a.tag === article.tag)
   const differentTag = otherArticles.filter(a => a.tag !== article.tag)
   const relatedArticles = [...sameTag, ...differentTag].slice(0, 4)
+  const safeSourceUrl = article.sourceUrl ? getSafeExternalUrl(article.sourceUrl) : null
 
   return (
     <main>
@@ -235,11 +249,11 @@ export default function NewsArticleContent({ article }: { article: NewsArticle }
             </article>
           </RevealOnScroll>
 
-          {article.sourceUrl && (
+          {safeSourceUrl && (
             <RevealOnScroll delay={0.1}>
               <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--gray-200)' }}>
                 <a
-                  href={article.sourceUrl}
+                  href={safeSourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary"
@@ -272,7 +286,7 @@ export default function NewsArticleContent({ article }: { article: NewsArticle }
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
               {relatedArticles.map((related, i) => (
                 <RevealOnScroll key={related.slug} delay={0.15 + i * 0.1}>
-                  <Link href={`/news/${related.slug}`} style={{ textDecoration: 'none' }}>
+                  <Link href={`/news/${encodeURIComponent(related.slug)}`} style={{ textDecoration: 'none' }}>
                     <div className="case-card" style={{
                       padding: '28px 24px', background: 'white',
                       border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md)',

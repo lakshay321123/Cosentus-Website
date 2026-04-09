@@ -461,3 +461,8 @@ export const newsArticles: NewsArticle[] = [
     "body": "In a strategic move to enhance our service offerings, Cosentus acquired North Medical Billing in 2019. Known for its precision and reliability, North Medical Billing has been a trusted provider of medical billing services. This acquisition allows Cosentus to expand its capabilities and offer comprehensive revenue cycle management solutions to healthcare providers nationwide.\n\nThe integration of North Medical Billing into Cosentus’s operations marks a significant step in our commitment to delivering superior billing services. This merger ensures our clients benefit from cutting-edge medical billing technology and practices, reinforcing Cosentus’s position as a healthcare revenue cycle management leader."
   }
 ]
+
+export type NewsArticleMeta = Pick<NewsArticle, 'slug' | 'title' | 'date' | 'tag' | 'featuredIn'>
+
+export const newsArticlesMeta: NewsArticleMeta[] = newsArticles.map(({ slug, title, date, tag, featuredIn }) => ({ slug, title, date, tag, featuredIn }))
+
