@@ -4,8 +4,8 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const advantages = [
   { icon: '/images/icons/3a.png', title: 'Real + Artificial Intelligence', desc: "Human specialty expertise combined with AI that's purpose-built for your revenue cycle. Cosentus.ai automates eligibility, claims, prior authorizations, scheduling, and patient billing." },
-  { icon: '/images/icons/c4.png', title: 'Specialty Expertise', desc: 'Teams organized by specialty — anesthesia, orthopedics, pain management, ASC, and behavioral health. They know every payer nuance and clinical detail.', bold: true },
-  { icon: '/images/icons/Partnership-Page-3a.png', title: 'True Partnership', desc: "Independently owned. We manage your practice's financial health as if it were our own. Long-term decisions, not PE pressure.", reverse: true },
+  { icon: '/images/icons/c4.png', bold: true, title: 'Specialty Expertise', desc: 'Teams organized by specialty — anesthesia, orthopedics, pain management, ASC, and behavioral health. They know every payer nuance and clinical detail.' },
+  { icon: '/images/icons/Partnership-Page-3a.png', reverse: true, title: 'True Partnership', desc: "Independently owned. We manage your practice's financial health as if it were our own. Long-term decisions, not PE pressure." },
   { icon: '/images/icons/p3-3a.png', title: 'Outcome Focused', desc: 'We measure success by the revenue gains we deliver — not vanity metrics. Up to 30% revenue growth and >98% net collection.' },
   { icon: '/images/icons/3f.png', title: 'Tailored Solutions', desc: 'No cookie-cutter packages. Every engagement is designed around your practice — your workflows, your payer mix, your growth goals.' },
   { icon: '/images/icons/p3-3e.png', title: 'Clarity Driven', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting, no guessing. Full visibility into every dollar.' },
@@ -17,19 +17,20 @@ function AdvantageCard({ adv }: { adv: typeof advantages[0] }) {
 
   return (
     <div className="advantage-card">
-      <div style={{
+      <div className="advantage-icon" style={{
         width: 64, height: 64, borderRadius: 16,
-        background: isReverse ? 'var(--primary)' : 'var(--primary-ghost)',
+        background: (isBold || isReverse) ? 'var(--primary)' : 'var(--primary-ghost)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         marginBottom: 24, flexShrink: 0,
+        transition: 'background 0.3s ease',
       }}>
         <Image
           src={adv.icon}
           alt=""
           width={36}
           height={36}
-          className={isBold ? '' : isReverse ? 'icon-white' : 'icon-teal'}
-          style={{ objectFit: 'contain', ...(isBold ? { mixBlendMode: 'multiply' } : {}) }}
+          className={isBold ? 'icon-bold' : isReverse ? 'icon-white' : 'icon-teal'}
+          style={{ objectFit: 'contain' }}
         />
       </div>
       <h4>{adv.title}</h4>

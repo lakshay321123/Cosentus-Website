@@ -2411,3 +2411,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .icon-white {
   filter: brightness(0) invert(1);
 }
+.icon-bold {
+  mix-blend-mode: screen;
+}
+/* Hover: icon turns white on teal */
+.advantage-card:hover .advantage-icon {
+  background: var(--primary) !important;
+}
+.advantage-card:hover .icon-teal {
+  filter: brightness(0) invert(1) !important;
+}
+.advantage-card:hover .icon-bold {
+  mix-blend-mode: screen !important;
+}
+.service-card:hover .service-icon {
+  background: var(--primary) !important;
+}
+.service-card:hover .icon-teal {
+  filter: brightness(0) invert(1) !important;
+}
