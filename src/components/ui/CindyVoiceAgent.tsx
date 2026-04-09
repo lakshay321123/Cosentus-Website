@@ -51,7 +51,7 @@ function CindyInner() {
           const allClickable = document.querySelectorAll('button, a, [role="button"], [data-name], .leader-card, .case-study-card, .blog-card, [onclick]')
           let found = false
 
-          for (const el of allClickable) {
+          for (const el of Array.from(allClickable)) {
             const elText = (el.textContent || '').toLowerCase().trim()
             const dataName = (el.getAttribute('data-name') || '').toLowerCase()
             if (elText.includes(searchText) || dataName.includes(searchText)) {
@@ -65,7 +65,7 @@ function CindyInner() {
           // Fallback: search ALL elements for the text
           if (!found) {
             const allEls = document.querySelectorAll('*')
-            for (const el of allEls) {
+            for (const el of Array.from(allEls)) {
               const elText = (el.textContent || '').toLowerCase().trim()
               const directText = Array.from(el.childNodes)
                 .filter(n => n.nodeType === 3)
@@ -143,7 +143,7 @@ function CindyInner() {
           if (filled === 0) {
             const allInputs = document.querySelectorAll('input, textarea, select')
             const paramEntries = Object.entries(params).filter(([, v]) => v)
-            for (const input of allInputs) {
+            for (const input of Array.from(allInputs)) {
               const el = input as HTMLInputElement
               const placeholder = (el.placeholder || '').toLowerCase()
               const label = (el.getAttribute('aria-label') || '').toLowerCase()
