@@ -473,7 +473,6 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           top: 72px;
           z-index: 10;
           background: white;
-          overflow: hidden;
           border-bottom: 2px solid var(--primary);
           box-shadow: 0 -80px 0 0 white, 0 4px 20px rgba(0,0,0,0.06);
         }
