@@ -6,47 +6,43 @@ export async function POST(req: NextRequest) {
     if (!text) return NextResponse.json({ error: 'No text' }, { status: 400 })
 
     const apiKey = process.env.ELEVENLABS_API_KEY
-    if (!apiKey) {
-      console.error('ELEVENLABS_API_KEY not set')
-      return NextResponse.json({ error: 'ElevenLabs API key not configured' }, { status: 500 })
-    }
+    if (!apiKey) return NextResponse.json({ error: 'No API key' }, { status: 500 })
 
     const voiceId = '4qGY1svUBZLI7l8Ei9WW'
 
-    // Flash v2.5 = fastest + best quality for real-time
-    // NO optimize_streaming_latency param = best audio quality
-    // output_format mp3_44100_128 = high quality
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
-      method: 'POST',
-      headers: {
-        'xi-api-key': apiKey,
-        'Content-Type': 'application/json',
-        'Accept': 'audio/mpeg',
-      },
-      body: JSON.stringify({
-        text: text.substring(0, 1000),
-        model_id: 'eleven_flash_v2_5',
-        voice_settings: {
-          stability: 0.65,
-          similarity_boost: 0.80,
-          style: 0.0,
-          use_speaker_boost: true,
+    // eleven_multilingual_v2 = best quality for community voices
+    // No optimize_streaming_latency = full quality audio
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
+      {
+        method: 'POST',
+        headers: {
+          'xi-api-key': apiKey,
+          'Content-Type': 'application/json',
+          'Accept': 'audio/mpeg',
         },
-      }),
-    })
+        body: JSON.stringify({
+          text: text.substring(0, 1000),
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: 0.60,
+            similarity_boost: 0.85,
+            style: 0.0,
+            use_speaker_boost: true,
+          },
+        }),
+      }
+    )
 
     if (!response.ok) {
       const errText = await response.text()
       console.error('ElevenLabs error:', response.status, errText)
-      return NextResponse.json({ error: 'TTS failed', status: response.status }, { status: 500 })
+      return NextResponse.json({ error: 'TTS failed' }, { status: 500 })
     }
 
     const audioBuffer = await response.arrayBuffer()
     return new NextResponse(audioBuffer, {
-      headers: {
-        'Content-Type': 'audio/mpeg',
-        'Cache-Control': 'no-store',
-      },
+      headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' },
     })
   } catch (e) {
     console.error('TTS error:', e)

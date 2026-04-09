@@ -16,12 +16,13 @@ export default function CindyVoiceAgent() {
   const [conversationOn, setConversationOn] = useState(false)
 
   const stateRef = useRef<State>('hidden')
-  const recognitionRef = useRef<any>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const recognitionRef = useRef<any>(null)
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null)
   const messagesRef = useRef<{ role: string; text: string }[]>([])
   const processingRef = useRef(false)
   const conversationOnRef = useRef(false)
+  const speakResolveRef = useRef<(() => void) | null>(null) // To interrupt speech
   const router = useRouter()
   const pathname = usePathname()
   const pathnameRef = useRef(pathname)
@@ -30,7 +31,6 @@ export default function CindyVoiceAgent() {
   useEffect(() => { pathnameRef.current = pathname }, [pathname])
   useEffect(() => { conversationOnRef.current = conversationOn }, [conversationOn])
 
-  // Greeting
   useEffect(() => {
     if (!sessionStorage.getItem('cindy-greeted')) {
       const t = setTimeout(() => { setShowPopup(true); setState('greeting') }, 3000)
@@ -38,20 +38,17 @@ export default function CindyVoiceAgent() {
     }
   }, [])
 
-  // Blink
   useEffect(() => {
     const id = setInterval(() => { setBlinking(true); setTimeout(() => setBlinking(false), 150) }, 3500)
     return () => clearInterval(id)
   }, [])
 
-  // Mouth
   useEffect(() => {
     if (state !== 'speaking') { setMouthOpen(false); return }
     const id = setInterval(() => setMouthOpen(p => !p), 130)
     return () => clearInterval(id)
   }, [state])
 
-  // Navigate
   function doNavigate(route: string, scroll?: string) {
     if (pathnameRef.current !== route) {
       router.push(route)
@@ -61,62 +58,76 @@ export default function CindyVoiceAgent() {
     }
   }
 
-  // ===== Speak via ElevenLabs =====
-  async function speakText(text: string): Promise<void> {
-    // CRITICAL: Clean up any previous audio to prevent memory buildup
-    // This is what causes "starts great then degrades"
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.src = ''
-      audioRef.current.load() // Release audio buffer from memory
-      audioRef.current = null
-    }
-    speechSynthesis.cancel()
+  // ===== INTERRUPTIBLE speak =====
+  // Returns a promise that resolves when audio ends OR when stopAudio() is called
+  function speakText(text: string): Promise<void> {
+    return new Promise(async (resolve) => {
+      // Store resolve ref so stopAudio can trigger it
+      speakResolveRef.current = resolve
 
-    try {
-      const res = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const audio = new Audio(url)
-        audioRef.current = audio
-        await new Promise<void>(resolve => {
-          const cleanup = () => {
-            URL.revokeObjectURL(url)
-            audio.src = ''
-            audio.load() // Free audio buffer
-            audioRef.current = null
-          }
-          audio.onended = () => { cleanup(); resolve() }
-          audio.onerror = () => { cleanup(); resolve() }
-          audio.play().catch(() => { cleanup(); resolve() })
-        })
-        return
+      // Clean previous audio
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
       }
-    } catch (e) {
-      console.error('TTS failed:', e)
-    }
-    // Fallback
-    await new Promise<void>(resolve => {
+      speechSynthesis.cancel()
+
+      try {
+        const res = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+        if (res.ok) {
+          const blob = await res.blob()
+          const url = URL.createObjectURL(blob)
+          const audio = new Audio(url)
+          audioRef.current = audio
+
+          audio.onended = () => {
+            URL.revokeObjectURL(url)
+            audioRef.current = null
+            speakResolveRef.current = null
+            resolve()
+          }
+          audio.onerror = () => {
+            URL.revokeObjectURL(url)
+            audioRef.current = null
+            speakResolveRef.current = null
+            resolve()
+          }
+          await audio.play().catch(() => {
+            audioRef.current = null
+            speakResolveRef.current = null
+            resolve()
+          })
+          return // Don't resolve here — wait for onended
+        }
+      } catch (e) {
+        console.error('TTS failed:', e)
+      }
+
+      // Fallback browser TTS
       const u = new SpeechSynthesisUtterance(text)
       u.rate = 0.95; u.pitch = 1.05
-      u.onend = () => resolve(); u.onerror = () => resolve()
+      u.onend = () => { speakResolveRef.current = null; resolve() }
+      u.onerror = () => { speakResolveRef.current = null; resolve() }
       speechSynthesis.speak(u)
     })
   }
 
+  // ===== Stop audio AND resolve the speakText promise =====
   function stopAudio() {
     if (audioRef.current) {
       audioRef.current.pause()
-      audioRef.current.src = ''
-      audioRef.current.load()
       audioRef.current = null
     }
     speechSynthesis.cancel()
+    // Resolve the pending speakText promise so the flow continues
+    if (speakResolveRef.current) {
+      speakResolveRef.current()
+      speakResolveRef.current = null
+    }
   }
 
   // ===== Process → AI → Speak → Auto-listen =====
@@ -142,13 +153,11 @@ export default function CindyVoiceAgent() {
 
       setState('speaking')
       setResponse(aiText)
-      await speakText(aiText)
+      await speakText(aiText) // This resolves on end OR on stopAudio()
 
-      // Auto-restart listening — this is the key to continuous conversation
       processingRef.current = false
       if (conversationOnRef.current) {
         setState('listening')
-        // Small delay for AEC to settle, then start recognition
         setTimeout(() => {
           if (conversationOnRef.current) beginRecognition()
         }, 400)
@@ -158,15 +167,12 @@ export default function CindyVoiceAgent() {
     } catch {
       processingRef.current = false
       setState('idle')
-      setResponse("Having trouble connecting. Try again.")
     }
   }
 
-  // ===== Raw recognition start (no state guards — called internally) =====
+  // ===== Recognition =====
   function beginRecognition() {
-    // Clean up any existing
     try { recognitionRef.current?.stop() } catch {}
-    recognitionRef.current = null
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
 
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return
@@ -194,7 +200,6 @@ export default function CindyVoiceAgent() {
         if (accumulated.trim() && !sent) {
           sent = true
           try { rec.stop() } catch {}
-          recognitionRef.current = null
           processMessage(accumulated.trim())
         }
       }, 2000)
@@ -206,10 +211,8 @@ export default function CindyVoiceAgent() {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
         processMessage(accumulated.trim())
       } else if (!sent && conversationOnRef.current) {
-        // No speech — restart listening (keep the conversation alive)
         setTimeout(() => {
           if (conversationOnRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
-            setState('listening')
             beginRecognition()
           }
         }, 200)
@@ -218,16 +221,11 @@ export default function CindyVoiceAgent() {
 
     rec.onerror = (e: any) => {
       if (e.error === 'no-speech' && conversationOnRef.current) {
-        // Silence — just restart
         setTimeout(() => {
           if (conversationOnRef.current && stateRef.current !== 'thinking' && stateRef.current !== 'speaking') {
             beginRecognition()
           }
         }, 200)
-      } else if (e.error === 'aborted') {
-        // Intentional stop — do nothing
-      } else {
-        console.error('Speech error:', e.error)
       }
     }
 
@@ -235,7 +233,6 @@ export default function CindyVoiceAgent() {
     rec.start()
   }
 
-  // ===== Start conversation (once) =====
   function startConversation() {
     setConversationOn(true)
     conversationOnRef.current = true
@@ -244,25 +241,27 @@ export default function CindyVoiceAgent() {
     beginRecognition()
   }
 
-  // ===== End conversation =====
   function endConversation() {
     setConversationOn(false)
     conversationOnRef.current = false
     processingRef.current = false
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
     try { recognitionRef.current?.stop() } catch {}
-    recognitionRef.current = null
     stopAudio()
     setState('idle')
   }
 
   function acceptGreeting() {
     sessionStorage.setItem('cindy-greeted', 'true')
+
+    // Add greeting to conversation memory so AI won't repeat it
+    const greetingText = "Hey! I'm Cindy, your AI guide for the Cosentus website. Just talk to me naturally. Ask me anything or tell me where you'd like to go!"
+    messagesRef.current.push({ role: 'bot', text: greetingText })
+
     ;(async () => {
       setState('speaking')
-      setResponse("Hey! I'm Cindy, your AI guide. Just talk to me naturally. Ask me anything or tell me where you'd like to go!")
-      await speakText("Hey! I'm Cindy, your AI guide. Just talk to me naturally. Ask me anything or tell me where you'd like to go!")
-      // Start always-on conversation
+      setResponse(greetingText)
+      await speakText(greetingText)
       startConversation()
     })()
   }
@@ -273,6 +272,13 @@ export default function CindyVoiceAgent() {
     setDismissed(true)
     setShowPopup(false)
     setState('hidden')
+  }
+
+  // Handle clicking the avatar/panel while Cindy is speaking = interrupt
+  function handlePanelClick() {
+    if (stateRef.current === 'speaking') {
+      stopAudio()
+    }
   }
 
   const showMini = dismissed || state === 'hidden'
@@ -291,7 +297,8 @@ export default function CindyVoiceAgent() {
         <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
-          <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
+          {/* Click avatar area to interrupt */}
+          <div onClick={handlePanelClick} style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center', cursor: state === 'speaking' ? 'pointer' : 'default' }}>
             <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: state === 'listening' ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: state === 'speaking' ? 'cindyBob 0.4s ease-in-out infinite' : state === 'listening' ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: blinking ? 'scaleY(0.97)' : 'scaleY(1)', transition: 'transform 0.1s ease' }} />
@@ -300,7 +307,7 @@ export default function CindyVoiceAgent() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               {state === 'listening' && <div style={{ display: 'flex', gap: 3 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ width: 3, background: 'white', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />)}</div>}
               <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>
-                {state === 'greeting' ? 'Hey there!' : state === 'listening' ? 'Listening...' : state === 'thinking' ? 'Thinking...' : state === 'speaking' ? 'Speaking...' : 'Cindy — AI Guide'}
+                {state === 'greeting' ? 'Hey there!' : state === 'listening' ? 'Listening...' : state === 'thinking' ? 'Thinking...' : state === 'speaking' ? 'Tap me to interrupt' : 'Cindy — AI Guide'}
               </span>
             </div>
           </div>
@@ -323,16 +330,12 @@ export default function CindyVoiceAgent() {
                   : (state === 'speaking' || state === 'idle') && response ? <p style={{ margin: 0, fontSize: 11, color: '#999', maxHeight: 50, overflow: 'hidden' }}>{response.substring(0, 120)}{response.length > 120 ? '...' : ''}</p>
                   : <p style={{ margin: 0, color: '#999', fontSize: 12 }}>Tap below to start talking</p>}
                 </div>
-
                 {conversationOn ? (
-                  <button onClick={endConversation}
-                    style={{ width: '100%', padding: '10px', borderRadius: 12, border: '1px solid #ddd', cursor: 'pointer', background: 'white', color: '#999', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5.636 18.364a9 9 0 1112.728 0M12 9v4m0 4h.01" /></svg>
+                  <button onClick={endConversation} style={{ width: '100%', padding: '10px', borderRadius: 12, border: '1px solid #ddd', cursor: 'pointer', background: 'white', color: '#999', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                     End Conversation
                   </button>
                 ) : (
-                  <button onClick={startConversation}
-                    style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', cursor: 'pointer', background: '#00B5D6', color: 'white', fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                  <button onClick={startConversation} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', cursor: 'pointer', background: '#00B5D6', color: 'white', fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                     <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
                     Start Conversation
                   </button>
