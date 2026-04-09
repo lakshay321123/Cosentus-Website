@@ -21,8 +21,14 @@ function waitForElement(id: string, maxAttempts = 10): Promise<HTMLElement | nul
 }
 
 function CindyInner() {
-  const [showPopup, setShowPopup] = useState(true)
+  const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+
+  // Delay Cindy popup by 4 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowPopup(true), 4000)
+    return () => clearTimeout(timer)
+  }, [])
   const [blinking, setBlinking] = useState(false)
   const [actionLabel, setActionLabel] = useState('')
   const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)

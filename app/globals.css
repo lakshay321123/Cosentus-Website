@@ -1660,7 +1660,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-color: #00B5D6 !important;
 }
 
-/* Testimonial card hover */
+
+/* ===== ANESTHESIA PAGE COMPONENTS ===== */
+.leader-row:hover {
+  border-color: var(--primary) !important;
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0,181,214,0.1);
+}
+
+.leader-row:hover > div:first-child {
+  background: var(--primary) !important;
+  color: white !important;
+}
+
 /* Testimonial card — uniform height with author pinned to bottom */
 .testimonial-card {
   display: flex;
@@ -1675,6 +1687,57 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-color: var(--primary) !important;
   box-shadow: 0 12px 40px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
   transform: translateY(-4px);
+}
+
+.emily-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,181,214,0.2);
+  border-color: var(--primary) !important;
+}
+
+/* Leader photo cards */
+.leader-photo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+  border-color: var(--primary) !important;
+}
+
+.leader-photo-card:hover div:first-child {
+  border-color: var(--primary) !important;
+}
+
+.leader-photo-card img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.leader-photo-card:hover img {
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .leader-photo-card {
+    /* handled by grid auto-fill */
+  }
+}
+
+/* Emily section mobile */
+@media (max-width: 768px) {
+  .emily-card {
+    width: 220px !important;
+  }
+}
+
+/* Anesthesia page mobile fixes */
+@media (max-width: 900px) {
+  /* Emily spotlight: stack vertically */
+  .emily-spotlight-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  /* Testimonials: allow smaller cards */
+  .testimonials-responsive {
+    grid-template-columns: 1fr !important;
+  }
 }
 /* ==========================================================================
    MOBILE STYLESHEET — All mobile-specific rules in one place
@@ -2201,5 +2264,129 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .drawer-overlay,
   .drawer-panel {
     display: block;
+  }
+}
+
+/* Problem + Solution split section responsive */
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== PROBLEM + SOLUTION SECTION ===== */
+.ps-panel {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ps-problem:hover {
+  background: var(--gray-50) !important;
+}
+
+.ps-problem:hover .ps-bullet-dot {
+  background: var(--gray-700) !important;
+  transform: scale(1.4);
+}
+
+.ps-solution:hover .ps-check {
+  background: rgba(255,255,255,0.35) !important;
+  transform: scale(1.15);
+}
+
+/* Shimmer sweep on solution panel */
+.ps-shimmer {
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+  background-size: 300% 100%;
+  animation: psShimmer 6s ease-in-out infinite;
+}
+
+@keyframes psShimmer {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: -100% 0; }
+}
+
+/* Hover glow on solution side */
+.ps-solution:hover {
+  box-shadow: inset 0 0 60px rgba(255,255,255,0.06);
+}
+
+/* Bullet hover micro-interaction */
+.ps-bullet,
+.ps-bullet-light {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ps-bullet:hover {
+  transform: translateX(6px);
+}
+
+.ps-bullet-light:hover {
+  transform: translateX(6px);
+}
+
+/* ===== 5-STEP INTERACTIVE TIMELINE ===== */
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-node {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.step-node:hover {
+  transform: scale(1.12);
+}
+
+.step-node.step-active {
+  animation: stepPulse 2s ease-in-out infinite;
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(0,181,214,0.15), 0 4px 20px rgba(0,181,214,0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(0,181,214,0.08), 0 4px 24px rgba(0,181,214,0.2); }
+}
+
+.step-detail-panel {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-detail-panel:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
+  border-color: var(--primary) !important;
+}
+
+/* Mobile: stack timeline vertically */
+@media (max-width: 768px) {
+  .step-timeline {
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+    padding: 0 !important;
+  }
+  .step-timeline > div:first-child,
+  .step-timeline .step-progress-line {
+    display: none !important;
+  }
+  .step-node {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 16px !important;
+  }
+  .step-timeline-label {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-left: 12px;
+    display: inline !important;
+  }
+  .step-timeline {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 8px 0 !important;
+  }
+  .step-detail-panel {
+    padding: 24px 20px !important;
   }
 }
