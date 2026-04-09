@@ -2,16 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const { text } = await req.json()
-    if (!text) return NextResponse.json({ error: 'No text' }, { status: 400 })
+    const body = await req.json()
+    const text = typeof body?.text === 'string' ? body.text.trim() : ''
+    if (!text) return NextResponse.json({ error: 'Text must be a non-empty string' }, { status: 400 })
 
     const apiKey = process.env.ELEVENLABS_API_KEY
     if (!apiKey) return NextResponse.json({ error: 'No API key' }, { status: 500 })
 
     const voiceId = '4qGY1svUBZLI7l8Ei9WW'
 
-    // eleven_multilingual_v2 = best quality for community voices
-    // No optimize_streaming_latency = full quality audio
+    // PR fix: Add timeout to prevent indefinite hangs
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s timeout
+
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
       {
@@ -31,8 +34,11 @@ export async function POST(req: NextRequest) {
             use_speaker_boost: true,
           },
         }),
+        signal: controller.signal,
       }
     )
+
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errText = await response.text()
