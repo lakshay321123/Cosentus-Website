@@ -2439,3 +2439,107 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     border-radius: 20px 20px 0 0;
   }
 }
+
+/* ===== CINDY WELCOME POPUP ===== */
+.cindy-welcome {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  z-index: 9991;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E6E6E6;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  padding: 28px 24px 24px;
+  text-align: center;
+  animation: welcomePopIn 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@keyframes welcomePopIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.cindy-welcome-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #CCCCCC;
+  font-size: 16px;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.cindy-welcome-close:active {
+  background: #F0F0F0;
+  color: #616161;
+}
+.cindy-welcome-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  display: block;
+  border: 3px solid #00B5D6;
+}
+.cindy-welcome-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.cindy-welcome-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #616161;
+  margin-bottom: 20px;
+}
+.cindy-welcome-start {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background: #00B5D6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+.cindy-welcome-start:active {
+  transform: scale(0.97);
+  background: #009ab8;
+}
+.cindy-welcome-later {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: #616161;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.cindy-welcome-later:active {
+  color: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+  .cindy-welcome {
+    bottom: 80px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+}

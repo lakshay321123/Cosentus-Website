@@ -25,10 +25,11 @@ function VoiceWave({ active }: { active: boolean }) {
 }
 
 export default function ChatWidget() {
-  const { messages, sendMessage, isOpen, setIsOpen, isLoading } = useChat()
+  const { messages, sendMessage, isOpen, setIsOpen, isLoading, showWelcome, setShowWelcome } = useChat()
   const [input, setInput] = useState('')
   const [minimized, setMinimized] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [welcomeVisible, setWelcomeVisible] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -38,6 +39,14 @@ export default function ChatWidget() {
     window.addEventListener('resize', check, { passive: true })
     return () => window.removeEventListener('resize', check)
   }, [])
+
+  // Show welcome popup after 2s delay
+  useEffect(() => {
+    if (showWelcome && !isOpen) {
+      const timer = setTimeout(() => setWelcomeVisible(true), 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [showWelcome, isOpen])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -51,26 +60,58 @@ export default function ChatWidget() {
     if (!input.trim() || isLoading) return
     sendMessage(input)
     setInput('')
-    // On mobile, after first message sent, allow minimizing
+  }
+
+  const startChat = () => {
+    setShowWelcome(false)
+    setWelcomeVisible(false)
+    setIsOpen(true)
+    setMinimized(false)
+  }
+
+  const dismissWelcome = () => {
+    setShowWelcome(false)
+    setWelcomeVisible(false)
   }
 
   const hasConversation = messages.length > 0
 
-  // ===== FAB BUTTON (closed state) =====
+  // ===== FAB + WELCOME POPUP (closed state) =====
   if (!isOpen) {
     return (
-      <button
-        onClick={() => { setIsOpen(true); setMinimized(false) }}
-        aria-label="Chat with Cindy"
-        className="chat-fab"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-        </svg>
-        {hasConversation && (
-          <span className="chat-fab-badge">{messages.filter(m => m.role === 'bot').length}</span>
+      <>
+        {/* Welcome popup */}
+        {welcomeVisible && (
+          <div className="cindy-welcome">
+            <button className="cindy-welcome-close" onClick={dismissWelcome}>✕</button>
+            <img src="/images/cindy.png" alt="Cindy" className="cindy-welcome-avatar" />
+            <div className="cindy-welcome-name">Cindy — AI Guide</div>
+            <p className="cindy-welcome-text">
+              Hi! I&apos;m <strong>Cindy</strong>, your AI voice guide. I can navigate this website and answer any questions. Ready?
+            </p>
+            <button className="cindy-welcome-start" onClick={startChat}>
+              Start Conversation
+            </button>
+            <button className="cindy-welcome-later" onClick={dismissWelcome}>
+              Later
+            </button>
+          </div>
         )}
-      </button>
+
+        {/* FAB button */}
+        <button
+          onClick={welcomeVisible ? startChat : () => { setIsOpen(true); setMinimized(false) }}
+          aria-label="Chat with Cindy"
+          className="chat-fab"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+          </svg>
+          {hasConversation && (
+            <span className="chat-fab-badge">{messages.filter(m => m.role === 'bot').length}</span>
+          )}
+        </button>
+      </>
     )
   }
 
