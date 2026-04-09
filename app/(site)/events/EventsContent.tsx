@@ -1,8 +1,33 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { eventsData, CosentusEvent } from '@/data/eventsData'
+
+// Gallery photos — replace gradients with real photos when provided
+// Just add { src: '/images/events/gallery/photo1.jpg', alt: 'Event photo' }
+const galleryPhotos: { src?: string; alt: string; gradient?: string }[] = [
+  { alt: 'Event 1', gradient: 'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)' },
+  { alt: 'Event 2', gradient: 'linear-gradient(135deg, #36C2DE 0%, #0090AB 100%)' },
+  { alt: 'Event 3', gradient: 'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)' },
+  { alt: 'Event 4', gradient: 'linear-gradient(135deg, #0090AB 0%, #68D1E6 100%)' },
+  { alt: 'Event 5', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #00B5D6 100%)' },
+  { alt: 'Event 6', gradient: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)' },
+  { alt: 'Event 7', gradient: 'linear-gradient(135deg, #005F73 0%, #2A9D8F 100%)' },
+  { alt: 'Event 8', gradient: 'linear-gradient(135deg, #68D1E6 0%, #005F73 100%)' },
+  { alt: 'Event 9', gradient: 'linear-gradient(135deg, #0090AB 0%, #00B5D6 100%)' },
+  { alt: 'Event 10', gradient: 'linear-gradient(135deg, #36C2DE 0%, #005F73 100%)' },
+  { alt: 'Event 11', gradient: 'linear-gradient(135deg, #00B5D6 0%, #2A9D8F 100%)' },
+  { alt: 'Event 12', gradient: 'linear-gradient(135deg, #005F73 0%, #68D1E6 100%)' },
+  { alt: 'Event 13', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #0090AB 100%)' },
+  { alt: 'Event 14', gradient: 'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)' },
+  { alt: 'Event 15', gradient: 'linear-gradient(135deg, #68D1E6 0%, #36C2DE 100%)' },
+  { alt: 'Event 16', gradient: 'linear-gradient(135deg, #0090AB 0%, #2A9D8F 100%)' },
+  { alt: 'Event 17', gradient: 'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)' },
+  { alt: 'Event 18', gradient: 'linear-gradient(135deg, #36C2DE 0%, #68D1E6 100%)' },
+  { alt: 'Event 19', gradient: 'linear-gradient(135deg, #00B5D6 0%, #0090AB 100%)' },
+  { alt: 'Event 20', gradient: 'linear-gradient(135deg, #2A9D8F 0%, #005F73 100%)' },
+]
 
 const tagColors: Record<string, string> = {
   Conference: '#00B5D6',
@@ -431,6 +456,150 @@ export default function EventsContent() {
           letter-spacing: 0.06em;
         }
 
+        /* Film Reel */
+        .film-reel-sticky {
+          position: sticky;
+          top: 72px;
+          z-index: 10;
+          background: #0a0a0a;
+          overflow: hidden;
+          border-top: 1px solid rgba(0,181,214,0.2);
+          border-bottom: 1px solid rgba(0,181,214,0.2);
+        }
+
+        .film-strip {
+          position: relative;
+          height: 110px;
+          overflow: hidden;
+        }
+
+        .film-strip + .film-strip {
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* Sprocket holes */
+        .film-strip::before,
+        .film-strip::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 14px;
+          z-index: 3;
+          background: repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 14px,
+            rgba(0,181,214,0.12) 14px,
+            rgba(0,181,214,0.12) 22px,
+            transparent 22px,
+            transparent 50px
+          );
+          pointer-events: none;
+        }
+
+        .film-strip::before { top: 0; }
+        .film-strip::after { bottom: 0; }
+
+        /* Sprocket punch holes */
+        .film-sprockets {
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 14px;
+          z-index: 4;
+          background: repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 18px,
+            #0a0a0a 18px,
+            #0a0a0a 26px,
+            transparent 26px,
+            transparent 50px
+          );
+          pointer-events: none;
+        }
+
+        .film-sprockets.top { top: 0; }
+        .film-sprockets.bottom { bottom: 0; }
+
+        .film-track {
+          display: flex;
+          gap: 6px;
+          padding: 16px 0;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          width: max-content;
+        }
+
+        .film-track-left {
+          animation: scrollLeft 60s linear infinite;
+        }
+
+        .film-track-right {
+          animation: scrollRight 60s linear infinite;
+        }
+
+        @keyframes scrollLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @keyframes scrollRight {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+
+        .film-frame {
+          width: 130px;
+          height: 78px;
+          border-radius: 3px;
+          overflow: hidden;
+          flex-shrink: 0;
+          position: relative;
+        }
+
+        .film-frame img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0.85;
+          transition: opacity 0.3s;
+        }
+
+        .film-frame:hover img {
+          opacity: 1;
+        }
+
+        /* Gradient placeholder for frames without images */
+        .film-frame-placeholder {
+          width: 100%;
+          height: 100%;
+          opacity: 0.5;
+        }
+
+        /* Edge fade on the reel */
+        .film-reel-sticky::before,
+        .film-reel-sticky::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 80px;
+          z-index: 5;
+          pointer-events: none;
+        }
+
+        .film-reel-sticky::before {
+          left: 0;
+          background: linear-gradient(90deg, #0a0a0a, transparent);
+        }
+
+        .film-reel-sticky::after {
+          right: 0;
+          background: linear-gradient(270deg, #0a0a0a, transparent);
+        }
+
         /* Mobile responsive */
         @media (max-width: 768px) {
           .timeline-river::before {
@@ -466,6 +635,23 @@ export default function EventsContent() {
           .events-stats {
             gap: 24px;
           }
+
+          .film-strip {
+            height: 90px;
+          }
+
+          .film-frame {
+            width: 100px;
+            height: 60px;
+          }
+
+          .film-track-left {
+            animation-duration: 40s;
+          }
+
+          .film-track-right {
+            animation-duration: 40s;
+          }
         }
       `}</style>
 
@@ -494,6 +680,52 @@ export default function EventsContent() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Sticky Film Reel */}
+      <div className="film-reel-sticky">
+        {/* Strip 1 — scrolls left */}
+        <div className="film-strip">
+          <div className="film-sprockets top" />
+          <div className="film-track film-track-left">
+            {/* Duplicate the set for seamless loop */}
+            {[...Array(2)].map((_, setIdx) => (
+              <React.Fragment key={setIdx}>
+                {galleryPhotos.map((photo, i) => (
+                  <div className="film-frame" key={`l-${setIdx}-${i}`}>
+                    {photo.src ? (
+                      <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    ) : (
+                      <div className="film-frame-placeholder" style={{ background: photo.gradient }} />
+                    )}
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="film-sprockets bottom" />
+        </div>
+
+        {/* Strip 2 — scrolls right */}
+        <div className="film-strip">
+          <div className="film-sprockets top" />
+          <div className="film-track film-track-right">
+            {[...Array(2)].map((_, setIdx) => (
+              <React.Fragment key={setIdx}>
+                {[...galleryPhotos].reverse().map((photo, i) => (
+                  <div className="film-frame" key={`r-${setIdx}-${i}`}>
+                    {photo.src ? (
+                      <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    ) : (
+                      <div className="film-frame-placeholder" style={{ background: photo.gradient }} />
+                    )}
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="film-sprockets bottom" />
+        </div>
+      </div>
 
       {/* Timeline */}
       <section className="section" style={{ paddingTop: 0 }}>
