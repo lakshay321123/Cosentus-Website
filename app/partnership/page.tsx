@@ -65,11 +65,19 @@ export default function PartnershipPage() {
           <div className="quotes-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {partnerQuotes.map((q, i) => (
               <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
-                <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <p style={{ fontSize: 15, fontStyle: 'italic', color: 'var(--gray-700)', lineHeight: 1.7, flex: 1, marginBottom: 20 }}>&ldquo;{q.quote}&rdquo;</p>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</p>
-                    <p style={{ fontSize: 13, color: 'var(--gray-500)' }}>{q.title}</p>
+                <div className="testimonial-card" style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
+                    &ldquo;{q.quote}&rdquo;
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0 }}>
+                      {q.author.split(' ').filter(w => w[0] === w[0]?.toUpperCase() && !w.includes('.')).map(w => w[0]).slice(0, 2).join('')}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</div>
+                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{q.title}</div>
+                    </div>
                   </div>
                 </div>
               </RevealOnScroll>
@@ -78,10 +86,20 @@ export default function PartnershipPage() {
           <div className="quotes-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={5000}>
               {partnerQuotes.map((q, i) => (
-                <div key={i} style={{ padding: 28, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
-                  <p style={{ fontSize: 15, fontStyle: 'italic', color: 'var(--gray-700)', lineHeight: 1.7, marginBottom: 20 }}>&ldquo;{q.quote}&rdquo;</p>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</p>
-                  <p style={{ fontSize: 13, color: 'var(--gray-500)' }}>{q.title}</p>
+                <div className="testimonial-card" key={i} style={{ padding: '32px 28px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ position: 'absolute', top: 16, left: 24, fontSize: 48, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 20, position: 'relative', zIndex: 1 }}>
+                    &ldquo;{q.quote}&rdquo;
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid var(--gray-200)', paddingTop: 16 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: 'white', flexShrink: 0 }}>
+                      {q.author.split(' ').filter(w => w[0] === w[0]?.toUpperCase() && !w.includes('.')).map(w => w[0]).slice(0, 2).join('')}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</div>
+                      <div style={{ fontSize: 11, color: 'var(--gray-500)' }}>{q.title}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </MobileCarousel>

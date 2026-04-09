@@ -106,15 +106,31 @@ export default function OrthopedicsContent() {
       {/* Testimonials */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT TESTIMONIALS</div></RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginTop: 36 }}>
+          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
+          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
             {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} delay={i * 0.15}>
-                <div className="advantage-card" style={{ borderLeft: '4px solid #00B5D6', position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: 12, right: 20, fontSize: 56, fontFamily: 'Georgia, serif', color: 'rgba(0,181,214,0.08)', lineHeight: 1 }}>&ldquo;</div>
-                  <p style={{ fontSize: 16, fontStyle: 'italic', color: 'var(--gray-700)', lineHeight: 1.7, marginBottom: 20 }}>&ldquo;{t.quote}&rdquo;</p>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', margin: 0 }}>{t.author}</p>
-                  <p style={{ fontSize: 13, color: 'var(--gray-500)', margin: 0 }}>{t.title}</p>
+              <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
+                <div className="testimonial-card" style={{
+                  padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
+                  border: '1px solid var(--gray-200)', position: 'relative', height: '100%',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}>
+                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
+                    }}>{t.author.split(' ').filter(w => w[0] === w[0].toUpperCase() && !w.includes('.')).map(w => w[0]).slice(0, 2).join('')}</div>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{t.author}</div>
+                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{t.title}</div>
+                    </div>
+                  </div>
                 </div>
               </RevealOnScroll>
             ))}
