@@ -379,5 +379,65 @@ export const newsArticles: NewsArticle[] = [
     "tag": "Company News",
     "sourceUrl": "",
     "body": "The acquisition of SyMed Corporation by Cosentus marks a new chapter for the 32-year-old Napa-based medical revenue software firm. SyMed, known for its healthcare billing and receivables management software, brings decades of expertise and a loyal client base to the Cosentus family.\n\nThis strategic acquisition strengthens Cosentus’s technology portfolio and expands its ability to deliver comprehensive, tech-enabled revenue cycle management solutions to healthcare providers across the country."
+  },
+  {
+    "slug": "startups-bring-ai-and-imaging-to-orthopedic-navigation",
+    "title": "Startups Bring AI and Imaging to Orthopedic Navigation",
+    "date": "September 24, 2025",
+    "featuredIn": "ORTHOWORLD",
+    "featuredDate": "September 08, 2025",
+    "tag": "Orthopedics",
+    "sourceUrl": "https://www.orthoworld.com/orthopedic-startups-focus-on-navigation-imaging-and-ai/",
+    "body": "Navigation has been part of spine surgery since the 1990s, but adoption has stalled at roughly 30%, slowed by high costs, complex workflows, and limited innovation. A new wave of startups is looking to change that with AI-powered, ASC-friendly systems designed for simplicity and precision.\n\nSee All AI is converting 2D fluoroscopy into navigable 3D models without CTs or MRIs, tapping into the 150,000 C-arms already in use worldwide. Backed by $33M, the company plans an FDA submission in 2025.\n\nHJY Medical is advancing the first AI-assisted endoscopic platform, pairing high-quality imaging with single-use design to cut costs and streamline sterilization. Its 2D system is FDA-cleared, with an AI version expected in 2026.\n\nVUZE Medical takes a software-first approach, overlaying surgical tools on CT or X-ray views without markers or cameras. Its FDA-cleared second-gen system is expanding applications from spine to broader skeletal interventions.\n\nTogether, these innovators are rethinking navigation—making it leaner, smarter, and more accessible to both hospitals and ASCs."
+  },
+  {
+    "slug": "trauma-market-2025-steady-growth-strategic-shifts-and-emerging-niches",
+    "title": "Trauma Market 2025: Steady Growth, Strategic Shifts, and Emerging Niches",
+    "date": "September 16, 2025",
+    "featuredIn": "Orthoworld",
+    "featuredDate": "September 16, 2025",
+    "tag": "Orthopedics",
+    "sourceUrl": "",
+    "body": "The global trauma market continues to play a central role in orthopedics, surpassing $9 billion in sales in 2024 and representing 15% of the $62 billion orthopedic market. Projections suggest steady growth ahead, with revenues expected to reach $9.4 billion in 2025 and $10.7 billion by 2028, driven by important shifts across subsegments.\n\n### Foot & Ankle: Under Pressure but Poised to Rebound\n\nOften considered the “last gem” of orthopedics, the foot and ankle segment remains attractive at more than $5 billion in size and a high single-digit growth trajectory. Volumes slowed in 2024 and have remained under pressure in 2025, yet long-term fundamentals remain strong, and the market is expected to recover as key procedures regain momentum."
+  },
+  {
+    "slug": "how-cmss-fy-2026-ipps-proposed-rule-could-reshape-hospital-payment-strategies",
+    "title": "How CMS’s FY 2026 IPPS Proposed Rule Could Reshape Hospital Payment Strategies",
+    "date": "August 14, 2025",
+    "featuredIn": "CMS.gov",
+    "featuredDate": "August 14, 2025",
+    "tag": "CMS Policy",
+    "sourceUrl": "",
+    "body": "As hospitals navigate evolving Medicare policy, CMS’s FY 2026 Inpatient Prospective Payment System (IPPS) final rule delivers modest payment increases, a rebased market basket, and a range of policy updates that affect documentation, quality reporting, and revenue cycle planning. These finalized changes aim to reflect updated cost trends while also advancing CMS’s regulatory and quality objectives for inpatient care.\n\nCMS’s FY 2026 IPPS final rule includes updates to operating and capital payment rates, a rebasing of the IPPS market basket to a 2023 base year, modifications to quality and reporting programs, and finalized policy items affecting hospital payments and reporting requirements. These changes influence how hospitals capture, document and submit claims making accurate clinical documentation and integrated RCM systems critical.\n\n### How It Works:\n\n**Payment Rate Update** – CMS finalized a 2.6% increase in IPPS operating payments for acute-care hospitals that meet quality reporting requirements, alongside updates to the capital Federal rate and outlier thresholds.\n\n**Market Basket Rebasing** – CMS rebased the IPPS market basket from a 2018 to a 2023 base year, updating the cost weight structure to reflect current hospital spending patterns across labor, supplies, and purchased services.\n\n**Quality and Reporting Program Updates** – The final rule includes modifications to the Hospital Inpatient Quality Reporting (IQR) Program, Hospital Value-Based Purchasing (VBP) Program, Hospital-Acquired Condition (HAC) Reduction Program, and Promoting Interoperability Program.\n\n### Why It Matters:\n\nThese updates affect how hospitals plan financially, document clinically, and submit claims accurately. Hospitals relying on outdated processes may face reimbursement shortfalls, while those with integrated documentation and billing workflows will be better positioned to capture appropriate payment under the updated structure."
+  },
+  {
+    "slug": "can-bio-inductive-collagen-implants-replace-suture-anchors-in-rotator-cuff-repairs",
+    "title": "Can Bio inductive Collagen Implants Replace Suture Anchors in Rotator Cuff Repairs?",
+    "date": "June 3, 2025",
+    "featuredIn": "Healio Orthopedics",
+    "featuredDate": "May 30, 2025",
+    "tag": "Orthopedics",
+    "sourceUrl": "",
+    "body": "A recent study presented at the Arthroscopy Association of North America Annual Meeting found that bioinductive collagen implants produced similar outcomes to traditional suture anchors in full-thickness rotator cuff repairs.\n\n### Key takeaways:\n\n* **No difference in healing:** MRI results showed comparable tendon healing in both groups.\n* **Equal function and pain relief:** Patients reported similar improvements in range of motion and pain reduction after 2 years.\n* **Minimally invasive option:** Collagen implants offer a less invasive alternative to suture anchors, potentially reducing surgical complexity.\n\n### Why It Matters for Orthopedic Practices:\n\nAs bioinductive implants gain clinical validation, orthopedic practices may see shifts in procedure volume and implant billing patterns. Accurate coding for new implant types and proper documentation of clinical rationale will be essential for clean claims and appropriate reimbursement."
+  },
+  {
+    "slug": "orthopedic-devices-market-to-hit-48-1b-by-2028",
+    "title": "Orthopedic Devices Market to Hit $48.1B by 2028",
+    "date": "June 3, 2025",
+    "featuredIn": "Yahoo Finance",
+    "featuredDate": "May 16, 2025",
+    "tag": "Orthopedics",
+    "sourceUrl": "",
+    "body": "The global orthopedic devices market is expected to grow from $36.3 billion in 2022 to $48.1 billion by 2028, according to a new report by MarketsandMarkets. This 4.8% compound annual growth rate is largely driven by aging populations, technological innovation, and increased demand for minimally invasive procedures.\n\n### What’s driving growth?\n\n* **Aging demographics** are increasing the prevalence of orthopedic conditions like arthritis and osteoporosis.\n* **Technological advancements** such as 3D printing and robotics are streamlining surgeries and improving patient outcomes.\n* **Minimally invasive procedures** are gaining traction, reducing recovery times and hospital stays.\n\n### Revenue Cycle Implications:\n\nAs orthopedic volumes grow and new technologies enter the market, practices must ensure their billing and coding workflows keep pace. Accurate implant billing, proper modifier usage, and proactive denial management will be critical to capturing the full financial benefit of this expanding market."
+  },
+  {
+    "slug": "cosentus-hosts-growth-summit-2025",
+    "title": "Cosentus Hosts Growth Summit 2025",
+    "date": "May 1, 2025",
+    "featuredIn": "Cosentus",
+    "featuredDate": "May 1, 2025",
+    "tag": "Company News",
+    "sourceUrl": "",
+    "body": "Cosentus recently hosted its Spring 2025 Growth Summit, a three-day gathering designed to inspire bold thinking, foster collaboration, and spark transformation across teams.\n\nHeld under the theme “Accelerating Cosentus Growth,” the summit brought together voices from across the organisation to align on vision, embrace innovation, and celebrate the power of shared ambition.\n\nThe event reflected our continued commitment to empowering our people, pushing boundaries, and growing with purpose.\n\nThink Growth. Be Bold. Move Forward."
   }
 ]
