@@ -471,6 +471,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 12px 40px rgba(0,0,0,0.2);
 }
 
+.case-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,181,214,0.10);
+}
+
 .hero-case-tag {
   font-family: var(--font-display);
   font-size: 10px;
