@@ -54,7 +54,6 @@ interface EventCardProps {
 }
 
 function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
-  const isLeft = index % 2 === 0
   const contentRef = useRef<HTMLDivElement>(null)
   const [contentHeight, setContentHeight] = useState(0)
 
@@ -67,9 +66,7 @@ function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
   const tagColor = getTagColor(event.tag)
 
   return (
-    <div className={`timeline-item ${isLeft ? 'timeline-left' : 'timeline-right'}`}>
-      {/* Card first in DOM so CSS ~ selector reaches node */}
-      <div
+    <div
         className={`timeline-card ${isExpanded ? 'expanded' : ''}`}
         onClick={onToggle}
         role="button"
@@ -141,15 +138,6 @@ function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
           </div>
         </div>
       </div>
-
-      {/* Timeline node after card for CSS ~ selector */}
-      <div className="timeline-node">
-        <div className="timeline-dot" style={{ borderColor: tagColor }}>
-          <div className="timeline-dot-inner" style={{ background: tagColor }} />
-        </div>
-        <div className="timeline-connector" />
-      </div>
-    </div>
   )
 }
 
@@ -209,81 +197,114 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
     <>
       {/* Timeline CSS */}
       <style>{`
-        .timeline-river {
-          position: relative;
-          padding: 0 24px;
-          max-width: 1100px;
+        /* Zigzag Timeline */
+        .zigzag-timeline {
+          max-width: 1000px;
           margin: 0 auto;
+          padding: 0 24px;
         }
 
-        /* The vertical line */
-        .timeline-river::before {
+        .zigzag-row {
+          display: flex;
+          position: relative;
+        }
+
+        .zigzag-row.left {
+          justify-content: flex-start;
+        }
+
+        .zigzag-row.right {
+          justify-content: flex-end;
+        }
+
+        .zigzag-row .timeline-card {
+          width: 48%;
+        }
+
+        /* Zigzag connector lines */
+        .zigzag-connector {
+          position: relative;
+          height: 50px;
+        }
+
+        .zigzag-connector::before {
           content: '';
           position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: linear-gradient(180deg, var(--primary) 0%, #A1DEED 50%, var(--primary) 100%);
-          transform: translateX(-50%);
+          background: var(--primary);
           opacity: 0.3;
         }
 
-        .timeline-item {
-          display: grid;
-          grid-template-columns: 1fr 60px 1fr;
-          align-items: start;
-          margin-bottom: 24px;
-          position: relative;
-        }
-
-        .timeline-left .timeline-card { grid-column: 1; grid-row: 1; }
-        .timeline-left .timeline-node { grid-column: 2; grid-row: 1; }
-
-        .timeline-right .timeline-card { grid-column: 3; grid-row: 1; }
-        .timeline-right .timeline-node { grid-column: 2; grid-row: 1; }
-
-        .timeline-node {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-self: center;
-          position: relative;
-          z-index: 2;
-        }
-
-        .timeline-dot {
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          border: 2px solid var(--primary);
-          background: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-          flex-shrink: 0;
-          margin-top: 28px;
-        }
-
-        .timeline-dot-inner {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          transition: all 0.3s ease;
-        }
-
-        .timeline-card:hover ~ .timeline-node .timeline-dot,
-        .timeline-card.expanded ~ .timeline-node .timeline-dot {
-          transform: scale(1.3);
-          box-shadow: 0 0 12px rgba(0, 181, 214, 0.4);
-        }
-
-        .timeline-connector {
+        /* Vertical line down from left card */
+        .zigzag-connector.left-to-right::before {
+          left: 24%;
+          top: 0;
           width: 2px;
-          flex: 1;
-          min-height: 20px;
+          height: 50%;
         }
+
+        .zigzag-connector.left-to-right::after {
+          content: '';
+          position: absolute;
+          background: var(--primary);
+          opacity: 0.3;
+          left: 24%;
+          right: 24%;
+          top: 50%;
+          height: 2px;
+        }
+
+        .zigzag-connector.left-to-right .zigzag-vert-end {
+          position: absolute;
+          right: 24%;
+          top: 50%;
+          bottom: 0;
+          width: 2px;
+          background: var(--primary);
+          opacity: 0.3;
+        }
+
+        /* Vertical line down from right card */
+        .zigzag-connector.right-to-left::before {
+          right: 24%;
+          top: 0;
+          width: 2px;
+          height: 50%;
+        }
+
+        .zigzag-connector.right-to-left::after {
+          content: '';
+          position: absolute;
+          background: var(--primary);
+          opacity: 0.3;
+          left: 24%;
+          right: 24%;
+          top: 50%;
+          height: 2px;
+        }
+
+        .zigzag-connector.right-to-left .zigzag-vert-end {
+          position: absolute;
+          left: 24%;
+          top: 50%;
+          bottom: 0;
+          width: 2px;
+          background: var(--primary);
+          opacity: 0.3;
+        }
+
+        /* Dot at connection points */
+        .zigzag-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: var(--primary);
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .zigzag-connector.left-to-right .zigzag-dot { right: calc(24% - 4px); }
+        .zigzag-connector.right-to-left .zigzag-dot { left: calc(24% - 4px); }
 
         .timeline-card {
           background: white;
@@ -696,26 +717,19 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
         /* Edge fade on the reel */
         /* Mobile responsive */
         @media (max-width: 768px) {
-          .timeline-river::before {
-            left: 20px;
+          .zigzag-row .timeline-card {
+            width: 100%;
           }
 
-          .timeline-item {
-            grid-template-columns: 40px 1fr;
+          .zigzag-connector {
+            height: 30px;
           }
 
-          .timeline-left .timeline-card,
-          .timeline-right .timeline-card {
-            grid-column: 2;
-          }
-
-          .timeline-left .timeline-node,
-          .timeline-right .timeline-node {
-            grid-column: 1;
-          }
-
-          .timeline-dot {
-            margin-top: 24px;
+          .zigzag-connector::before,
+          .zigzag-connector::after,
+          .zigzag-connector .zigzag-vert-end,
+          .zigzag-connector .zigzag-dot {
+            display: none;
           }
 
           .card-body {
@@ -831,9 +845,9 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
         </div>
       </div>
 
-      {/* Timeline */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="timeline-river">
+      {/* Zigzag Timeline */}
+      <section className="section" style={{ paddingTop: 40, paddingBottom: 60 }}>
+        <div className="zigzag-timeline">
           {items.map((item, i) => {
             if (item.type === 'year' && item.year) {
               return (
@@ -845,15 +859,29 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
 
             if (item.type === 'event' && item.event && item.eventIndex !== undefined) {
               const idx = item.eventIndex
+              const isLeft = idx % 2 === 0
+              const nextItem = items[i + 1]
+              const hasNext = nextItem && nextItem.type === 'event'
+
               return (
-                <RevealOnScroll key={item.event.slug} delay={Math.min((i % 3) * 0.08, 0.2)}>
-                  <EventCard
-                    event={item.event}
-                    index={idx}
-                    isExpanded={expandedIndex === idx}
-                    onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
-                  />
-                </RevealOnScroll>
+                <React.Fragment key={item.event.slug}>
+                  <RevealOnScroll delay={0.05}>
+                    <div className={`zigzag-row ${isLeft ? 'left' : 'right'}`}>
+                      <EventCard
+                        event={item.event}
+                        index={idx}
+                        isExpanded={expandedIndex === idx}
+                        onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
+                      />
+                    </div>
+                  </RevealOnScroll>
+                  {hasNext && (
+                    <div className={`zigzag-connector ${isLeft ? 'left-to-right' : 'right-to-left'}`}>
+                      <div className="zigzag-vert-end" />
+                      <div className="zigzag-dot" />
+                    </div>
+                  )}
+                </React.Fragment>
               )
             }
 
