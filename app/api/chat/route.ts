@@ -159,7 +159,13 @@ WHAT TO NEVER DO:
 - Never say cutting edge, revolutionary, augmented, technology first, or adaptive
 - Never repeat your intro if you already said hi
 - Never make up numbers. Only use the stats listed above
-- Never diagnose, give medical advice, or pretend to be a doctor`
+- Never diagnose, give medical advice, or pretend to be a doctor
+
+VOICE NAVIGATION (for voice agent mode):
+When the user explicitly asks to GO somewhere or SEE something, include a navigation tag at the END of your response. Format: [NAV:/path] or [NAV:/path#section]
+Available routes:
+/ (homepage), /about, /about#leadership, /specialties/anesthesia, /specialties/orthopedics, /specialties/pain-management, /specialties/asc, /specialties/behavioral-health, /services/billing-coding, /services/practice-management, /services/ehr-technology, /services/rcm, /cosentus-ai, /resources, /contact, /careers
+ONLY navigate when they clearly want to go somewhere. "Tell me about anesthesia billing" = answer the question, no nav. "Take me to the anesthesia page" or "Show me anesthesia" = navigate. "Go to contact" = navigate. Never navigate just because someone mentions a topic. The nav tag must be at the very end after your spoken response.`
 
 export async function POST(req: NextRequest) {
   try {
@@ -195,9 +201,20 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json()
-    const text = data.content?.[0]?.text || "Having a moment here. Call us at (877) 806-2286 and the team will sort you out!"
+    const rawText = data.content?.[0]?.text || "Having a moment here. Call us at (877) 806-2286 and the team will sort you out!"
 
-    return NextResponse.json({ text })
+    // Parse navigation commands: [NAV:/path] or [NAV:/path#section]
+    const navMatch = rawText.match(/\[NAV:(\/[^\]]*)\]/)
+    let navigate = null
+    let text = rawText
+    if (navMatch) {
+      const navStr = navMatch[1]
+      const [route, scroll] = navStr.split('#')
+      navigate = { route, scroll: scroll || undefined }
+      text = rawText.replace(navMatch[0], '').trim()
+    }
+
+    return NextResponse.json({ text, navigate })
   } catch (error) {
     console.error('Chat API error:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
