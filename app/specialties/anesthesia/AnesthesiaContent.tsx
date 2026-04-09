@@ -213,30 +213,29 @@ export default function AnesthesiaContent() {
 
           <RevealOnScroll delay={0.3}>
             <div>
-              {/* Compact headshot cards — 6 at a time */}
-              <div key={leaderPage} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+              {/* Leadership cards — same design as About page */}
+              <div key={leaderPage} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                 {visibleLeaders.map((leader, i) => (
-                  <div key={i} className="leader-photo-card" style={{
-                    borderRadius: 14, border: '1px solid var(--gray-200)', padding: '32px 20px 24px',
-                    background: 'var(--white)', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  }}>
-                    <div style={{
-                      width: 96, height: 96, borderRadius: '50%', overflow: 'hidden',
-                      border: '3px solid var(--gray-200)', marginBottom: 16, flexShrink: 0,
-                      background: '#f5f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      transition: 'border-color 0.3s ease',
-                    }}>
+                  <div key={i} style={{
+                    background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
+                    overflow: 'hidden', transition: 'all 0.3s ease', cursor: 'default',
+                  }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
+                  >
+                    <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                       {leader.photo ? (
-                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
+                        <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
                       ) : (
-                        <div style={{ fontSize: 28, fontWeight: 500, color: 'var(--primary)' }}>
+                        <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600 }}>
                           {leader.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                         </div>
                       )}
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>{leader.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', lineHeight: 1.4 }}>{leader.role}</div>
+                    <div style={{ padding: '14px 16px', textAlign: 'center' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{leader.name}</h4>
+                      <p style={{ fontSize: 12, color: 'var(--gray-500)', margin: 0 }}>{leader.role}</p>
+                    </div>
                   </div>
                 ))}
               </div>
