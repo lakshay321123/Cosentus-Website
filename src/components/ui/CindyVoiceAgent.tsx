@@ -53,7 +53,10 @@ function CindyInner() {
   const startConversation = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
-      conversation.startSession({ agentId: AGENT_ID })
+      conversation.startSession({
+        agentId: AGENT_ID,
+        connectionType: 'websocket',
+      })
     } catch (e) {
       console.error('Failed to start conversation:', e)
     }
