@@ -11,7 +11,6 @@ function CindyInner() {
   const [dismissed, setDismissed] = useState(false)
   const [blinking, setBlinking] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
-  const [navMessage, setNavMessage] = useState('')
   const mouthRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
@@ -23,17 +22,160 @@ function CindyInner() {
       console.log('Message:', msg.source, msg.message)
     },
     clientTools: {
-      // This tool gets called when the AI decides to navigate
+      // Navigate to a page
       navigate: (params: { path: string; section?: string }) => {
         console.log('Cindy navigating to:', params.path, params.section)
-        setNavMessage(`Navigating to ${params.path}...`)
         router.push(params.path)
         if (params.section) {
           setTimeout(() => {
             document.getElementById(params.section!)?.scrollIntoView({ behavior: 'smooth' })
           }, 1000)
         }
-        return `Navigated to ${params.path}`
+        return `Navigated to ${params.path}${params.section ? '#' + params.section : ''}`
+      },
+
+      // Click an element by text content, name, or data attribute
+      click_element: (params: { text: string; page?: string }) => {
+        console.log('Cindy clicking:', params.text, 'on page:', params.page)
+
+        // Navigate first if needed
+        if (params.page && params.page !== window.location.pathname) {
+          router.push(params.page)
+        }
+
+        // Wait for page to load, then find and click the element
+        const delay = params.page ? 1500 : 100
+        setTimeout(() => {
+          // Try multiple strategies to find the clickable element
+          const searchText = params.text.toLowerCase()
+          const allClickable = document.querySelectorAll('button, a, [role="button"], [data-name], .leader-card, .case-study-card, .blog-card, [onclick]')
+          let found = false
+
+          for (const el of allClickable) {
+            const elText = (el.textContent || '').toLowerCase().trim()
+            const dataName = (el.getAttribute('data-name') || '').toLowerCase()
+            if (elText.includes(searchText) || dataName.includes(searchText)) {
+              ;(el as HTMLElement).click()
+              found = true
+              console.log('Clicked element:', el)
+              break
+            }
+          }
+
+          // Fallback: search ALL elements for the text
+          if (!found) {
+            const allEls = document.querySelectorAll('*')
+            for (const el of allEls) {
+              const elText = (el.textContent || '').toLowerCase().trim()
+              const directText = Array.from(el.childNodes)
+                .filter(n => n.nodeType === 3)
+                .map(n => n.textContent?.toLowerCase().trim() || '')
+                .join(' ')
+              if (directText.includes(searchText) || (elText.includes(searchText) && el.children.length < 5)) {
+                ;(el as HTMLElement).click()
+                found = true
+                console.log('Fallback clicked:', el)
+                break
+              }
+            }
+          }
+
+          if (!found) console.warn('Could not find element:', params.text)
+        }, delay)
+
+        return `Clicked on "${params.text}"`
+      },
+
+      // Fill out a form (Contact Us page)
+      fill_form: (params: {
+        practice_name?: string
+        contact_name?: string
+        email?: string
+        phone?: string
+        specialty?: string
+        message?: string
+      }) => {
+        console.log('Cindy filling form:', params)
+
+        // Navigate to contact page if not there
+        if (window.location.pathname !== '/contact') {
+          router.push('/contact')
+        }
+
+        setTimeout(() => {
+          const fields: Record<string, string | undefined> = {
+            'practice_name': params.practice_name,
+            'practice-name': params.practice_name,
+            'practiceName': params.practice_name,
+            'contact_name': params.contact_name,
+            'contact-name': params.contact_name,
+            'contactName': params.contact_name,
+            'name': params.contact_name,
+            'email': params.email,
+            'phone': params.phone,
+            'specialty': params.specialty,
+            'message': params.message,
+          }
+
+          let filled = 0
+          for (const [key, value] of Object.entries(fields)) {
+            if (!value) continue
+            // Try by name, id, placeholder
+            const input = document.querySelector(
+              `input[name="${key}"], textarea[name="${key}"], select[name="${key}"], input[id="${key}"], textarea[id="${key}"], select[id="${key}"]`
+            ) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null
+
+            if (input) {
+              const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                input.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype,
+                'value'
+              )?.set
+              if (nativeInputValueSetter) {
+                nativeInputValueSetter.call(input, value)
+                input.dispatchEvent(new Event('input', { bubbles: true }))
+                input.dispatchEvent(new Event('change', { bubbles: true }))
+                filled++
+              }
+            }
+          }
+
+          // Also try matching by placeholder text
+          if (filled === 0) {
+            const allInputs = document.querySelectorAll('input, textarea, select')
+            const paramEntries = Object.entries(params).filter(([, v]) => v)
+            for (const input of allInputs) {
+              const el = input as HTMLInputElement
+              const placeholder = (el.placeholder || '').toLowerCase()
+              const label = (el.getAttribute('aria-label') || '').toLowerCase()
+              for (const [key, value] of paramEntries) {
+                if (placeholder.includes(key.replace('_', ' ')) || label.includes(key.replace('_', ' '))) {
+                  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+                  if (setter && value) {
+                    setter.call(el, value)
+                    el.dispatchEvent(new Event('input', { bubbles: true }))
+                    el.dispatchEvent(new Event('change', { bubbles: true }))
+                    filled++
+                  }
+                }
+              }
+            }
+          }
+
+          return `Filled ${filled} form fields`
+        }, window.location.pathname !== '/contact' ? 1500 : 100)
+
+        return `Filling contact form with provided details`
+      },
+
+      // Scroll to a specific section on the current page
+      scroll_to: (params: { section_id: string }) => {
+        console.log('Cindy scrolling to:', params.section_id)
+        const el = document.getElementById(params.section_id)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          return `Scrolled to section: ${params.section_id}`
+        }
+        return `Section "${params.section_id}" not found on this page`
       },
     },
   })
