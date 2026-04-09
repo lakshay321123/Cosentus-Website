@@ -1684,3 +1684,116 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     max-height: none !important;
   }
 }
+
+/* ===== MOBILE CAROUSEL ===== */
+.mobile-carousel {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.mobile-carousel-track {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 24px;
+  padding: 0 16px;
+}
+
+/* Force no horizontal overflow on mobile */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+  }
+  
+  .container, .container-wide {
+    overflow-x: hidden;
+  }
+}
+
+/* ===== DESKTOP/MOBILE TOGGLE FOR CAROUSELS ===== */
+.results-mobile,
+.cases-mobile,
+.advantages-mobile,
+.services-mobile,
+.hero-cases-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .results-desktop,
+  .cases-desktop,
+  .advantages-desktop,
+  .services-desktop,
+  .hero-cases-desktop {
+    display: none !important;
+  }
+  .results-mobile,
+  .cases-mobile,
+  .advantages-mobile,
+  .services-mobile,
+  .hero-cases-mobile {
+    display: block;
+  }
+  
+  /* Ensure carousel stat cards look good full-width */
+  .results-mobile .result-item {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  /* Carousel dots on dark backgrounds */
+  .hero-cases-mobile .mobile-carousel-dots button {
+    background: rgba(255,255,255,0.3) !important;
+  }
+  .hero-cases-mobile .mobile-carousel-dots button[style*="width: 24px"] {
+    background: #FFFFFF !important;
+  }
+}
+
+/* ===== MOBILE RESPONSIVE OVERRIDES ===== */
+@media (max-width: 768px) {
+  /* R+A section: stack columns */
+  .ra-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Footer: single column */
+  .footer-top {
+    grid-template-columns: 1fr !important;
+  }
+  .footer-brand {
+    order: -1 !important;
+    align-items: flex-start !important;
+  }
+  .footer-brand p {
+    text-align: left !important;
+  }
+
+  /* Contact form: stack columns */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  
+  /* Hero: reduce padding */
+  .hero-content {
+    padding: 120px 20px 60px !important;
+  }
+  
+  /* Section padding tighter */
+  .section {
+    padding: 60px 0;
+  }
+  
+  /* Nav: ensure no overflow */
+  .nav-inner {
+    padding: 0 16px;
+  }
+}

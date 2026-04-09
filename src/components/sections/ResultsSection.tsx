@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
   target: number; prefix?: string; suffix?: string; decimals?: number
@@ -47,6 +48,21 @@ const stats = [
   { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '' },
 ]
 
+function StatCard({ stat }: { stat: typeof stats[0] }) {
+  return (
+    <div className="result-item">
+      <div className="result-arrow-img" />
+      <div className="result-text">
+        {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+        <div className="result-number">
+          <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+        </div>
+        <div className="result-label">{stat.label}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function ResultsSection() {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
@@ -54,22 +70,25 @@ export default function ResultsSection() {
         <RevealOnScroll>
           <div className="results-header"><h2>Results Our Clients See</h2></div>
         </RevealOnScroll>
-        <div className="results-grid">
+
+        {/* Desktop: grid layout */}
+        <div className="results-grid results-desktop">
           {stats.map((stat, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.25}>
-              <div className="result-item">
-                <div className="result-arrow-img" />
-                <div className="result-text">
-                  {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
-                  <div className="result-number">
-                    <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
-                  </div>
-                  <div className="result-label">{stat.label}</div>
-                </div>
-              </div>
+              <StatCard stat={stat} />
             </RevealOnScroll>
           ))}
         </div>
+
+        {/* Mobile: carousel */}
+        <div className="results-mobile">
+          <MobileCarousel autoScrollInterval={3500}>
+            {stats.map((stat, i) => (
+              <StatCard key={i} stat={stat} />
+            ))}
+          </MobileCarousel>
+        </div>
+
         <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
             Verified client results. Every figure is documented and linked to case studies with full methodology.
