@@ -26,11 +26,6 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <div className="hero-badge">
-          <div className="hero-badge-dot" />
-          <span>25+ YEARS OF SPECIALTY RCM</span>
-        </div>
-
         <h1>Think <span className="accent">Growth.</span></h1>
 
         <p className="hero-sub">
