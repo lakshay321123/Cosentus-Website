@@ -2094,6 +2094,33 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     max-width: 260px;
     margin: 0 auto;
   }
+  /* Results: bigger text, less gap from arrow on mobile */
+  .results-mobile .result-arrow-img {
+    aspect-ratio: 1.6 !important;
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  .results-mobile .result-text {
+    padding: 8px 8px 0 !important;
+    min-height: 70px !important;
+  }
+  .results-mobile .result-number {
+    font-size: 32px !important;
+  }
+  .results-mobile .result-label {
+    font-size: 11px !important;
+  }
+  /* Hero: left-align everything consistently on mobile */
+  .hero-actions .btn-ghost {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+  .hero h1 {
+    text-align: left !important;
+  }
+  .hero-sub {
+    text-align: left !important;
+  }
   /* White dots for dark backgrounds */
   .hero-cases-mobile .mobile-carousel-dots button {
     background: rgba(255,255,255,0.3) !important;
@@ -2407,4 +2434,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ===== PARTNERS BAR ===== */
 .partner-logo:hover {
   opacity: 1 !important;
+}
+.partners-mobile {
+  display: none;
+}
+.partners-desktop {
+  display: flex;
+}
+@keyframes partnerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.partners-marquee {
+  display: flex;
+  gap: 40px;
+  animation: partnerScroll 20s linear infinite;
+  width: max-content;
+}
+@media (max-width: 768px) {
+  .partners-desktop { display: none !important; }
+  .partners-mobile { display: block !important; }
 }
