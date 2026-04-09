@@ -474,7 +474,15 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           z-index: 10;
           background: white;
           border-bottom: 2px solid var(--primary);
-          box-shadow: 0 -80px 0 0 white, 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .film-reel-gap-cover {
+          position: absolute;
+          top: -80px;
+          left: 0;
+          right: 0;
+          height: 80px;
+          background: white;
         }
 
         .film-strip {
@@ -761,6 +769,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
 
       {/* Sticky Film Reel */}
       <div className="film-reel-sticky">
+        <div className="film-reel-gap-cover" />
         {/* Strip 1 — scrolls left */}
         <div className="film-strip">
           <div className="film-sprockets top" />
