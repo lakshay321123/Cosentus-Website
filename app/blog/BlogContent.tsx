@@ -19,7 +19,7 @@ export default function BlogContent() {
       <div className="container">
         {/* Tag Filter */}
         <RevealOnScroll>
-          <div style={{
+          <div className="blog-tags" style={{
             display: 'flex', flexWrap: 'wrap', gap: 10,
             marginBottom: 48,
           }}>
@@ -29,7 +29,7 @@ export default function BlogContent() {
                 onClick={() => setActiveTag(tag)}
                 style={{
                   padding: '8px 20px',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 20,
                   border: `1px solid ${activeTag === tag ? 'var(--primary)' : 'var(--gray-200)'}`,
                   background: activeTag === tag ? 'var(--primary)' : 'var(--white)',
                   color: activeTag === tag ? 'white' : 'var(--gray-700)',
@@ -38,6 +38,8 @@ export default function BlogContent() {
                   fontFamily: 'var(--font-display)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                 }}
               >
                 {tag}
