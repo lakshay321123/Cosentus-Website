@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
