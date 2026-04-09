@@ -192,7 +192,7 @@ export default function RASection() {
   return (
     <section className="section" id="ra" style={{ overflow: 'hidden' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
           <div>
             <RevealOnScroll direction="left">
               <div className="section-label">COSENTUS.AI</div>

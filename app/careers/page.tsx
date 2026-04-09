@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'Careers | Join the Cosentus Team | Irvine, California',
@@ -34,7 +35,7 @@ export default function CareersPage() {
             <div className="section-title">Why Join Us</div>
           </RevealOnScroll>
 
-          <div className="advantage-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
+          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
             {reasons.map((r, i) => (
               <RevealOnScroll key={i}>
                 <div className="advantage-card">
@@ -43,6 +44,16 @@ export default function CareersPage() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4500}>
+              {reasons.map((r, i) => (
+                <div key={i} className="advantage-card">
+                  <h4>{r.title}</h4>
+                  <p>{r.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

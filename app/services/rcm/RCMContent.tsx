@@ -1,6 +1,7 @@
 'use client'
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const rcmSteps = [
   { agent: 'Harper', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" /></svg>, title: 'Eligibility Verification', desc: 'Harper verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.' },
@@ -67,7 +68,7 @@ export default function RCMContent() {
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
           </RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
+          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
             {rcmSteps.map((step, i) => (
               <RevealOnScroll key={i} delay={i * 0.06}>
                 <div
@@ -112,6 +113,20 @@ export default function RCMContent() {
               </RevealOnScroll>
             ))}
           </div>
+          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {rcmSteps.map((step, i) => (
+                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: step.agent ? '#00B5D6' : 'var(--gray-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: step.agent ? 'white' : 'var(--gray-500)', flexShrink: 0 }}>{step.icon}</div>
+                    <div><h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{step.title}</h4>
+                    {step.agent && <span style={{ fontSize: 11, color: '#00B5D6' }}>{step.agent}</span>}</div>
+                  </div>
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', margin: 0 }}>{step.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
@@ -124,7 +139,7 @@ export default function RCMContent() {
           <RevealOnScroll delay={0.1}>
             <div className="section-title">Measurable Outcomes</div>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
+          <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
             {keyResults.map((r, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
                 <div
@@ -149,6 +164,16 @@ export default function RCMContent() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="results-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={3000}>
+              {keyResults.map((r, i) => (
+                <div key={i} style={{ padding: '32px 16px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', textAlign: 'center' }}>
+                  <div style={{ fontSize: 36, fontWeight: 300, color: '#00B5D6', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
+                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{r.label}</div>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

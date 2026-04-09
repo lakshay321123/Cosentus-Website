@@ -35,7 +35,7 @@ export default function BlogContent() {
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
           <RevealOnScroll>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
+            <div className="blog-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
               {allTags.map((tag) => (
                 <button
                   key={tag}
@@ -44,13 +44,15 @@ export default function BlogContent() {
                     padding: '8px 18px',
                     background: activeTag === tag ? 'var(--primary)' : 'var(--white)',
                     color: activeTag === tag ? 'white' : 'var(--gray-600)',
-                    borderRadius: 'var(--radius-sm)',
+                    borderRadius: 20,
                     fontSize: 13,
                     fontWeight: activeTag === tag ? 500 : 400,
                     border: `1px solid ${activeTag === tag ? 'var(--primary)' : 'var(--gray-200)'}`,
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     fontFamily: 'var(--font-body)',
+                    whiteSpace: 'nowrap' as const,
+                    flexShrink: 0,
                   }}
                 >
                   {tag}

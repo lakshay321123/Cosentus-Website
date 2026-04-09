@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'Healthcare RCM Partnership Solutions — Partner With Cosentus',
@@ -61,7 +62,7 @@ export default function PartnershipPage() {
           <RevealOnScroll direction="left" delay={0.1}>
             <div className="section-title">Our Partner&apos;s Perspective</div>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
+          <div className="quotes-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {partnerQuotes.map((q, i) => (
               <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
                 <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -73,6 +74,17 @@ export default function PartnershipPage() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="quotes-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={5000}>
+              {partnerQuotes.map((q, i) => (
+                <div key={i} style={{ padding: 28, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
+                  <p style={{ fontSize: 15, fontStyle: 'italic', color: 'var(--gray-700)', lineHeight: 1.7, marginBottom: 20 }}>&ldquo;{q.quote}&rdquo;</p>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</p>
+                  <p style={{ fontSize: 13, color: 'var(--gray-500)' }}>{q.title}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>
@@ -104,7 +116,7 @@ export default function PartnershipPage() {
           <RevealOnScroll>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, fontStyle: 'italic', color: 'white', textAlign: 'center', marginBottom: 48 }}>THINK GROWTH</h2>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          <div className="solutions-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
             {solutions.map((s, i) => (
               <RevealOnScroll key={i} delay={i * 0.1}>
                 <div style={{ padding: 28, background: 'rgba(255,255,255,0.1)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center', height: '100%' }}>
@@ -113,6 +125,16 @@ export default function PartnershipPage() {
                 </div>
               </RevealOnScroll>
             ))}
+          </div>
+          <div className="solutions-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 8 }}>
+            <MobileCarousel autoScrollInterval={4000} darkMode>
+              {solutions.map((s, i) => (
+                <div key={i} style={{ padding: 28, background: 'rgba(255,255,255,0.1)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
+                  <h4 style={{ fontSize: 16, fontWeight: 500, color: 'white', marginBottom: 10 }}>{s.title}</h4>
+                  <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6 }}>{s.desc}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

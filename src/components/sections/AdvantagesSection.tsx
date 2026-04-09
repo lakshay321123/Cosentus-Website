@@ -1,4 +1,5 @@
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const advantages = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, title: 'Real + Artificial Intelligence', desc: "Human specialty expertise combined with AI that's purpose-built for your revenue cycle. Cosentus.ai automates eligibility, claims, prior authorizations, scheduling, and patient billing." },
@@ -8,6 +9,16 @@ const advantages = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>, title: 'Tailored Solutions', desc: 'No cookie-cutter packages. Every engagement is designed around your practice — your workflows, your payer mix, your growth goals.' },
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>, title: 'Clarity Driven', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting, no guessing. Full visibility into every dollar.' },
 ]
+
+function AdvantageCard({ adv }: { adv: typeof advantages[0] }) {
+  return (
+    <div className="advantage-card">
+      <div className="advantage-icon">{adv.icon}</div>
+      <h4>{adv.title}</h4>
+      <p>{adv.desc}</p>
+    </div>
+  )
+}
 
 export default function AdvantagesSection() {
   return (
@@ -20,16 +31,22 @@ export default function AdvantagesSection() {
           <div className="section-title">The Cosentus Advantage</div>
         </RevealOnScroll>
 
-        <div className="advantage-grid">
+        {/* Desktop */}
+        <div className="advantage-grid advantages-desktop">
           {advantages.map((adv, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.2}>
-              <div className="advantage-card">
-                <div className="advantage-icon">{adv.icon}</div>
-                <h4>{adv.title}</h4>
-                <p>{adv.desc}</p>
-              </div>
+              <AdvantageCard adv={adv} />
             </RevealOnScroll>
           ))}
+        </div>
+
+        {/* Mobile */}
+        <div className="advantages-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
+          <MobileCarousel autoScrollInterval={4500}>
+            {advantages.map((adv, i) => (
+              <AdvantageCard key={i} adv={adv} />
+            ))}
+          </MobileCarousel>
         </div>
       </div>
     </section>
