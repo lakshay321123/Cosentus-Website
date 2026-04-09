@@ -54,7 +54,17 @@ function splitFaqText(text: string): { question: string; answer: string }[] {
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const [activeId, setActiveId] = useState<string>('')
   const [tocOpen, setTocOpen] = useState(true)
+  const [expandedFaqs, setExpandedFaqs] = useState<Set<string>>(new Set())
   const observerRef = useRef<IntersectionObserver | null>(null)
+
+  const toggleFaq = (key: string) => {
+    setExpandedFaqs(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
 
   // Intersection Observer to highlight active TOC item on scroll
   useEffect(() => {
@@ -112,13 +122,6 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           zIndex: 1,
         }} />
         <div className="container" style={{ position: 'relative', zIndex: 2, padding: '140px 40px 60px' }}>
-          <Link href="/blog" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 20,
-            transition: 'color 0.2s',
-          }}>
-            <ArrowLeftIcon /> Back to Blog
-          </Link>
           <div style={{
             display: 'inline-block', padding: '4px 14px',
             background: 'rgba(0,181,214,0.25)', borderRadius: 6,
@@ -139,8 +142,16 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       </section>
 
       {/* Blog Content with Sidebar TOC */}
-      <section className="section" style={{ paddingTop: 60, paddingBottom: 80 }}>
+      <section className="section" style={{ paddingTop: 40, paddingBottom: 80 }}>
         <div className="container" style={{ maxWidth: 1200 }}>
+          {/* Back to blog breadcrumb */}
+          <Link href="/blog" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            fontSize: 13, color: 'var(--gray-500)', marginBottom: 32,
+            transition: 'color 0.2s',
+          }}>
+            <ArrowLeftIcon /> Back to all articles
+          </Link>
           <div style={{
             display: 'grid',
             gridTemplateColumns: '280px 1fr',
@@ -263,26 +274,62 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       if (qaPairs.length > 0) {
                         return (
                           <div key={j}>
-                            {qaPairs.map((qa, qi) => (
-                              <div key={qi} style={{
-                                marginBottom: 20, padding: '20px 24px',
-                                background: 'var(--gray-50)',
-                                borderRadius: 'var(--radius-md)',
-                                border: '1px solid var(--gray-200)',
-                              }}>
-                                <p style={{
-                                  fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
-                                  marginBottom: 10, lineHeight: 1.5,
+                            {qaPairs.map((qa, qi) => {
+                              const faqKey = `${j}-${qi}`
+                              const isOpen = expandedFaqs.has(faqKey)
+                              return (
+                                <div key={qi} style={{
+                                  marginBottom: 8,
+                                  borderRadius: 'var(--radius-md)',
+                                  border: '1px solid var(--gray-200)',
+                                  overflow: 'hidden',
+                                  transition: 'border-color 0.2s ease',
+                                  borderColor: isOpen ? '#00B5D6' : 'var(--gray-200)',
                                 }}>
-                                  {qa.question}
-                                </p>
-                                <p style={{
-                                  fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
-                                }}>
-                                  {qa.answer}
-                                </p>
-                              </div>
-                            ))}
+                                  <button
+                                    onClick={() => toggleFaq(faqKey)}
+                                    style={{
+                                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                      width: '100%', padding: '18px 24px',
+                                      background: isOpen ? 'var(--primary-ghost)' : 'var(--gray-50)',
+                                      border: 'none', cursor: 'pointer', textAlign: 'left',
+                                      gap: 16, transition: 'background 0.2s ease',
+                                    }}
+                                  >
+                                    <span style={{
+                                      fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+                                      lineHeight: 1.5, flex: 1,
+                                    }}>
+                                      {qa.question}
+                                    </span>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                                      viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2.5}
+                                      style={{
+                                        flexShrink: 0,
+                                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
+                                        transition: 'transform 0.3s ease',
+                                      }}
+                                    >
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                  </button>
+                                  {isOpen && (
+                                    <div style={{
+                                      padding: '0 24px 20px',
+                                      background: 'white',
+                                    }}>
+                                      <p style={{
+                                        fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+                                        paddingTop: 12,
+                                      }}>
+                                        {qa.answer}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            })}
                           </div>
                         )
                       }
