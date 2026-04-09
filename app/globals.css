@@ -2403,3 +2403,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     gap: 24px !important;
   }
 }
+
+/* ===== PARTNERS BAR ===== */
+.partner-logo-text:hover {
+  color: var(--primary) !important;
+}
