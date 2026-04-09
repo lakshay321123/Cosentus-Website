@@ -2243,3 +2243,70 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .ps-bullet-light:hover {
   transform: translateX(6px);
 }
+
+/* ===== 5-STEP INTERACTIVE TIMELINE ===== */
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-node {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.step-node:hover {
+  transform: scale(1.12);
+}
+
+.step-node.step-active {
+  animation: stepPulse 2s ease-in-out infinite;
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(0,181,214,0.15), 0 4px 20px rgba(0,181,214,0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(0,181,214,0.08), 0 4px 24px rgba(0,181,214,0.2); }
+}
+
+.step-detail-panel {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-detail-panel:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,181,214,0.1);
+  border-color: var(--primary) !important;
+}
+
+/* Mobile: stack timeline vertically */
+@media (max-width: 768px) {
+  .step-timeline {
+    flex-direction: column !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+    padding: 0 !important;
+  }
+  .step-timeline > div:first-child,
+  .step-timeline .step-progress-line {
+    display: none !important;
+  }
+  .step-node {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 16px !important;
+  }
+  .step-timeline-label {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-left: 12px;
+    display: inline !important;
+  }
+  .step-timeline {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 8px 0 !important;
+  }
+  .step-detail-panel {
+    padding: 24px 20px !important;
+  }
+}

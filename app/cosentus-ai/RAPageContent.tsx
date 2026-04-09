@@ -25,6 +25,7 @@ const allAgents = [
 
 export default function RAPageContent() {
   const [selectedAgent, setSelectedAgent] = useState<typeof allAgents[0] | null>(null)
+  const [activeStep, setActiveStep] = useState(0)
   
   // Avatar gradient colors per agent
   const avatarColors: Record<string, string> = {
@@ -229,8 +230,8 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* How R+A Works — 5-Step Process */}
-      <section className="section section-alt">
+      {/* How R+A Works — Interactive 5-Step Timeline */}
+      <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
             <div className="section-label">HOW R+A WORKS</div>
@@ -239,39 +240,101 @@ export default function RAPageContent() {
             <div className="section-title">The 5-Step Process</div>
           </RevealOnScroll>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 48, maxWidth: 800 }}>
-            {steps.map((step, i) => (
-              <RevealOnScroll key={i}>
-                <div style={{
-                  display: 'flex',
-                  gap: 24,
-                  padding: 32,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  alignItems: 'flex-start',
-                }}>
-                  <div style={{
-                    flexShrink: 0,
-                    width: 52,
-                    height: 52,
-                    borderRadius: '50%',
-                    background: 'var(--primary)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 22,
-                    fontWeight: 600,
-                  }}>{step.num}</div>
-                  <div>
-                    <h4 style={{ fontSize: 18, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{step.title}</h4>
-                    <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--gray-600)' }}>{step.desc}</p>
+          <RevealOnScroll delay={0.25}>
+            <div style={{ marginTop: 56 }}>
+              {/* Timeline bar with step nodes */}
+              <div className="step-timeline" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, padding: '0 20px' }}>
+                {/* Background line */}
+                <div style={{ position: 'absolute', top: '50%', left: 40, right: 40, height: 3, background: 'var(--gray-200)', borderRadius: 2, transform: 'translateY(-50%)' }} />
+                {/* Active progress line */}
+                <div className="step-progress-line" style={{ position: 'absolute', top: '50%', left: 40, height: 3, background: 'var(--primary)', borderRadius: 2, transform: 'translateY(-50%)', transition: 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)', width: `calc(${(activeStep / (steps.length - 1)) * 100}% - 80px * ${(activeStep / (steps.length - 1))})` }} />
+
+                {steps.map((step, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveStep(i)}
+                    className={`step-node ${activeStep === i ? 'step-active' : ''} ${i <= activeStep ? 'step-done' : ''}`}
+                    style={{
+                      position: 'relative', zIndex: 2, width: 56, height: 56, borderRadius: '50%',
+                      border: i <= activeStep ? '3px solid var(--primary)' : '3px solid var(--gray-300)',
+                      background: i <= activeStep ? 'var(--primary)' : 'var(--white)',
+                      color: i <= activeStep ? 'white' : 'var(--gray-500)',
+                      fontSize: 20, fontWeight: 600, fontFamily: 'var(--font-display)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: activeStep === i ? '0 0 0 8px rgba(0,181,214,0.15), 0 4px 20px rgba(0,181,214,0.3)' : 'none',
+                    }}
+                  >
+                    {step.num}
+                    {/* Step label below */}
+                    <span className="step-timeline-label" style={{
+                      position: 'absolute', top: 'calc(100% + 12px)', left: '50%', transform: 'translateX(-50%)',
+                      fontSize: 12, fontWeight: activeStep === i ? 500 : 400, whiteSpace: 'nowrap',
+                      color: activeStep === i ? 'var(--primary)' : 'var(--gray-500)',
+                      transition: 'all 0.3s ease', letterSpacing: '0.01em',
+                    }}>
+                      {step.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Active step detail panel */}
+              <div className="step-detail-panel" style={{
+                marginTop: 32, padding: '40px 48px', background: 'var(--white)', borderRadius: 16,
+                border: '1px solid var(--gray-200)', position: 'relative', overflow: 'hidden',
+                minHeight: 160, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}>
+                {/* Teal accent bar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: 'var(--primary)', borderRadius: '0 2px 2px 0' }} />
+
+                <div key={activeStep} className="step-detail-content" style={{ animation: 'stepFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)',
+                      color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 18, fontWeight: 600, flexShrink: 0,
+                    }}>{steps[activeStep].num}</div>
+                    <h4 style={{ fontSize: 22, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>
+                      {steps[activeStep].title}
+                    </h4>
                   </div>
+                  <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)', margin: 0, paddingLeft: 56 }}>
+                    {steps[activeStep].desc}
+                  </p>
                 </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+
+                {/* Step navigation arrows */}
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 24 }}>
+                  <button
+                    onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+                    disabled={activeStep === 0}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--gray-200)',
+                      background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: activeStep === 0 ? 'default' : 'pointer', opacity: activeStep === 0 ? 0.3 : 1,
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
+                    disabled={activeStep === steps.length - 1}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--primary)',
+                      background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: activeStep === steps.length - 1 ? 'default' : 'pointer',
+                      opacity: activeStep === steps.length - 1 ? 0.4 : 1,
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
