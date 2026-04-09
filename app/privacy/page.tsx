@@ -57,7 +57,7 @@ export default function PrivacyPage() {
             <p>We may use your personal information to send you updates (by email, text message, telephone or post) about our products and services, including exclusive offers, promotions or new products and services.</p>
             <p>We have a legitimate interest in processing your personal information for promotional purposes. This means we do not usually need your consent to send you promotional communications. However, where consent is needed, we will ask for this consent separately and clearly.</p>
             <p>We will always treat your personal information with the utmost respect and never sell or share it with other organizations outside the Cosentus group for marketing purposes.</p>
-            <p>You have the right to opt out of receiving promotional communications at any time by: contacting us at <a href="mailto:wecare@cosentus.com" style={{ color: 'var(--primary)' }}>wecare@cosentus.com</a>; using the &ldquo;unsubscribe&rdquo; link in emails or &ldquo;STOP&rdquo; number in texts.</p>
+            <p>You have the right to opt out of receiving promotional communications at any time by: contacting us at <a href="mailto:sales@cosentus.com" style={{ color: 'var(--primary)' }}>sales@cosentus.com</a>; using the &ldquo;unsubscribe&rdquo; link in emails or &ldquo;STOP&rdquo; number in texts.</p>
             <p>We may ask you to confirm or update your marketing preferences if you instruct us to provide further products and services in the future, or if there are changes in the law, regulation, or the structure of our business.</p>
 
             <h3 style={h3Style}>6. Who We Share Your Personal Information With</h3>
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
             <p>We have appropriate security measures in place to prevent personal information from being accidentally lost or used or accessed in an unauthorized way. We limit access to your personal information to those who have a genuine business need to access it. Those processing your information will do so only in an authorized manner and are subject to a duty of confidentiality. We also have procedures in place to deal with any suspected data security breach. We will notify you and any applicable regulator of a suspected data security breach where we are legally required to do so.</p>
 
             <h3 style={h3Style}>14. How to Exercise Your Rights</h3>
-            <p>If you would like to exercise any of your rights as described in this Privacy Policy, please email us at <a href="mailto:wecare@cosentus.com" style={{ color: 'var(--primary)' }}>wecare@cosentus.com</a>.</p>
+            <p>If you would like to exercise any of your rights as described in this Privacy Policy, please email us at <a href="mailto:sales@cosentus.com" style={{ color: 'var(--primary)' }}>sales@cosentus.com</a>.</p>
             <p>Please note that you may only make a CCPA-related data access or data portability disclosure request twice within a 12-month period. If you choose to contact us directly by website/email, you will need to provide us with: enough information to identify you; proof of your identity and address (e.g., a copy of your driving license or passport and a recent utility or credit card bill); and a description of what right you want to exercise and the information to which your request relates.</p>
             <p>We are not obligated to make a data access or data portability disclosure if we cannot verify that the person making the request is the person about whom we collected information, or is someone authorized to act on such person&apos;s behalf. Any personal information we collect from you to verify your identity in connection with your request will be used solely for the purposes of verification.</p>
 
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
               <strong style={strongStyle}>Cosentus, LLC</strong><br />
               300 Spectrum Center Drive, Suite 1450<br />
               Irvine, CA 92618<br />
-              <a href="mailto:wecare@cosentus.com" style={{ color: 'var(--primary)' }}>wecare@cosentus.com</a> | (949) 506-4185
+              <a href="mailto:sales@cosentus.com" style={{ color: 'var(--primary)' }}>sales@cosentus.com</a> | (949) 506-4185
             </div>
 
             <h3 style={h3Style}>18. Do You Need Extra Help?</h3>

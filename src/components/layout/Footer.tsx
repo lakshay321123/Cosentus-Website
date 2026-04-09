@@ -59,7 +59,7 @@ export default function Footer() {
               Cut Through the Noise. AI-Native RCM That Delivers.
             </p>
             <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
-              (877) 806-2286 &nbsp;|&nbsp;{' '}
+              (877) 266-9040 &nbsp;|&nbsp;{' '}
               <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
             </p>
             <div style={{ marginTop: 20 }}>

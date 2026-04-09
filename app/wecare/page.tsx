@@ -130,7 +130,7 @@ export default function WeCarePage() {
         <div className="container">
           <div className="cta-box">
             <h2>Want to Partner With Us on a Community Initiative?</h2>
-            <a href="mailto:wecare@cosentus.com" className="btn-primary">
+            <a href="mailto:sales@cosentus.com" className="btn-primary">
               Contact WeCare
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

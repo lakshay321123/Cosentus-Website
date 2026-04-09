@@ -50,7 +50,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     } catch {
       setMessages(prev => [...prev, {
         role: 'bot',
-        text: "I'm having a brief hiccup. You can reach our team directly at (877) 806-2286 or wecare@cosentus.com — they'll take great care of you!"
+        text: "I'm having a brief hiccup. You can reach our team directly at (877) 266-9040 or sales@cosentus.com — they'll take great care of you!"
       }])
     } finally {
       setIsLoading(false)
