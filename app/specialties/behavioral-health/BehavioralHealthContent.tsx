@@ -27,12 +27,12 @@ const testimonials = [
 const leaders = [
   { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
   { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '/images/Andrew-Clougherty.jpg' },
-  { name: 'Caty Harding', title: 'Account Manager', photo: null },
-  { name: 'Toni Brown', title: 'Senior Account Manager', photo: null },
-  { name: 'Amber Alvelo', title: 'Division Manager', photo: null },
-  { name: 'Peter Ranjan', title: 'AR Manager', photo: null },
-  { name: 'Julie DelBlasio', title: 'Lead Reimbursement Specialist', photo: null },
-  { name: 'Steven Sundrud', title: 'Division Manager, IT Division', photo: null },
+  { name: 'Caty Harding', title: 'Account Manager', photo: '/images/Caty-Harding-2.webp' },
+  { name: 'Toni Brown', title: 'Senior Account Manager', photo: '/images/Toni-Brown-1.webp' },
+  { name: 'Amber Alvelo', title: 'Division Manager', photo: '/images/Amber-Alvelo.webp' },
+  { name: 'Peter Ranjan', title: 'AR Manager', photo: '/images/Peter-Ranjan.webp' },
+  { name: 'Julie DelBlasio', title: 'Lead Reimbursement Specialist', photo: '/images/Julie-DeBlasio.webp' },
+  { name: 'Steven Sundrud', title: 'Division Manager, IT Division', photo: '/images/Steven-Symed.webp' },
 ]
 
 function LeaderCard({ leader }: { leader: typeof leaders[0] }) {
