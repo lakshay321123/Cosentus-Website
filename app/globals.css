@@ -2431,6 +2431,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
+/* News listing row styles */
+.news-row:hover,
+.news-row:focus-within {
+  background: var(--primary-ghost);
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  margin-left: -16px;
+  margin-right: -16px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 768px) {
+  .news-row {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  .news-row > div:last-child {
+    display: none;
+  }
+}
+
 /* ===== PARTNERS BAR ===== */
 .partner-logo:hover {
   opacity: 1 !important;
