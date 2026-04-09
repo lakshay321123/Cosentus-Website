@@ -1,38 +1,31 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useConversation } from '@11labs/react'
+import { ConversationProvider, useConversation } from '@elevenlabs/react'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
 
-export default function CindyVoiceAgent() {
+function CindyInner() {
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
   const [blinking, setBlinking] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
-  const [lastMessage, setLastMessage] = useState('')
   const mouthRef = useRef<NodeJS.Timeout | null>(null)
 
   const conversation = useConversation({
-    onConnect: () => {
-      console.log('Cindy connected')
-    },
-    onDisconnect: () => {
-      console.log('Cindy disconnected')
-    },
-    onError: (error: string) => {
-      console.error('Cindy error:', error)
-    },
-    onMessage: (message: { source: string; message: string }) => {
-      if (message.source === 'ai') {
-        setLastMessage(message.message)
-      }
+    onConnect: () => console.log('Cindy connected'),
+    onDisconnect: () => console.log('Cindy disconnected'),
+    onError: (error: string) => console.error('Cindy error:', error),
+    onMessage: (msg: { source: string; message: string }) => {
+      console.log('Message:', msg.source, msg.message)
     },
   })
 
   const { status, isSpeaking } = conversation
+  const isConnected = status === 'connected'
+  const isListening = isConnected && !isSpeaking
 
-  // Show greeting after 3s
+  // Greeting after 3s
   useEffect(() => {
     if (!sessionStorage.getItem('cindy-greeted')) {
       const t = setTimeout(() => setShowPopup(true), 3000)
@@ -46,7 +39,7 @@ export default function CindyVoiceAgent() {
     return () => clearInterval(id)
   }, [])
 
-  // Mouth animation synced to agent speaking
+  // Mouth
   useEffect(() => {
     if (isSpeaking) {
       mouthRef.current = setInterval(() => setMouthOpen(p => !p), 130)
@@ -57,22 +50,19 @@ export default function CindyVoiceAgent() {
     return () => { if (mouthRef.current) clearInterval(mouthRef.current) }
   }, [isSpeaking])
 
-  // Start conversation
   const startConversation = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
-      await conversation.startSession({ agentId: AGENT_ID })
+      conversation.startSession({ agentId: AGENT_ID })
     } catch (e) {
       console.error('Failed to start conversation:', e)
     }
   }, [conversation])
 
-  // End conversation
-  const endConversation = useCallback(async () => {
-    await conversation.endSession()
+  const endConversation = useCallback(() => {
+    conversation.endSession()
   }, [conversation])
 
-  // Accept greeting → start
   const acceptGreeting = () => {
     sessionStorage.setItem('cindy-greeted', 'true')
     startConversation()
@@ -80,37 +70,27 @@ export default function CindyVoiceAgent() {
 
   const dismissCindy = () => {
     sessionStorage.setItem('cindy-greeted', 'true')
-    if (status === 'connected') conversation.endSession()
+    if (isConnected) conversation.endSession()
     setDismissed(true)
     setShowPopup(false)
   }
 
-  // Determine visual state
-  const isConnected = status === 'connected'
-  const isListening = isConnected && !isSpeaking
-  const stateLabel = !isConnected ? 'Cindy — AI Guide'
-    : isSpeaking ? 'Speaking...'
-    : 'Listening...'
-
-  const showMini = dismissed || !showPopup
+  const stateLabel = !isConnected ? 'Cindy — AI Guide' : isSpeaking ? 'Speaking...' : 'Listening...'
   if (!showPopup && !dismissed) return null
 
   return (
     <>
-      {/* Mini avatar bubble */}
-      {showMini && dismissed && (
+      {(dismissed || !showPopup) && dismissed && (
         <button onClick={() => { setDismissed(false); setShowPopup(true) }} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
-      {/* Main panel */}
       {showPopup && !dismissed && (
         <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
-          {/* Avatar */}
           <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
             <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: isListening ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -123,7 +103,6 @@ export default function CindyVoiceAgent() {
             </div>
           </div>
 
-          {/* Content */}
           <div style={{ padding: '20px 24px', minHeight: 80, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             {!isConnected && !sessionStorage.getItem('cindy-greeted') ? (
               <>
@@ -139,11 +118,7 @@ export default function CindyVoiceAgent() {
               <>
                 <div style={{ fontSize: 12, lineHeight: 1.5, color: '#888', marginBottom: 12, textAlign: 'center', minHeight: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {isConnected ? (
-                    lastMessage ? (
-                      <p style={{ margin: 0, maxHeight: 60, overflow: 'hidden' }}>{lastMessage.substring(0, 150)}{lastMessage.length > 150 ? '...' : ''}</p>
-                    ) : (
-                      <p style={{ margin: 0, color: '#00B5D6' }}>Go ahead, just talk naturally...</p>
-                    )
+                    <p style={{ margin: 0, color: '#00B5D6' }}>Go ahead, just talk naturally...</p>
                   ) : (
                     <p style={{ margin: 0, color: '#999' }}>Tap below to start a conversation</p>
                   )}
@@ -171,8 +146,16 @@ export default function CindyVoiceAgent() {
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
-        @keyframes dotBounce { 0%,80%,100% { transform: scale(0); } 40% { transform: scale(1); } }
       `}</style>
     </>
+  )
+}
+
+// Wrapper with ConversationProvider (required by @elevenlabs/react v1.x)
+export default function CindyVoiceAgent() {
+  return (
+    <ConversationProvider>
+      <CindyInner />
+    </ConversationProvider>
   )
 }
