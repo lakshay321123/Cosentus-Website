@@ -16,6 +16,7 @@ function getGalleryPhotos(): string[] {
     const files = fs.readdirSync(galleryDir)
     return files
       .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f))
+      .sort((a, b) => a.localeCompare(b))
       .map(f => `/images/events/gallery/${encodeURIComponent(f)}`)
   } catch {
     return []

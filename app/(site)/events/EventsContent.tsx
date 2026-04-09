@@ -46,12 +46,14 @@ function getYearFromSort(sortDate: string) {
   return sortDate.split('-')[0]
 }
 
-function EventCard({ event, index, isExpanded, onToggle }: {
+interface EventCardProps {
   event: CosentusEvent
   index: number
   isExpanded: boolean
   onToggle: () => void
-}) {
+}
+
+function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
   const isLeft = index % 2 === 0
   const contentRef = useRef<HTMLDivElement>(null)
   const [contentHeight, setContentHeight] = useState(0)
@@ -66,15 +68,7 @@ function EventCard({ event, index, isExpanded, onToggle }: {
 
   return (
     <div className={`timeline-item ${isLeft ? 'timeline-left' : 'timeline-right'}`}>
-      {/* Timeline node */}
-      <div className="timeline-node">
-        <div className="timeline-dot" style={{ borderColor: tagColor }}>
-          <div className="timeline-dot-inner" style={{ background: tagColor }} />
-        </div>
-        <div className="timeline-connector" />
-      </div>
-
-      {/* Card */}
+      {/* Card first in DOM so CSS ~ selector reaches node */}
       <div
         className={`timeline-card ${isExpanded ? 'expanded' : ''}`}
         onClick={onToggle}
@@ -99,7 +93,7 @@ function EventCard({ event, index, isExpanded, onToggle }: {
           {/* Location */}
           {event.location && (
             <div className="card-location">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={tagColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={tagColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
@@ -109,7 +103,7 @@ function EventCard({ event, index, isExpanded, onToggle }: {
 
           {/* Expand indicator */}
           <div className="card-expand-hint">
-            <svg className={`expand-icon ${isExpanded ? 'rotated' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" className={`expand-icon ${isExpanded ? 'rotated' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </div>
@@ -128,7 +122,7 @@ function EventCard({ event, index, isExpanded, onToggle }: {
                   style={{ color: tagColor }}
                 >
                   Learn More
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>
                 </a>
@@ -146,6 +140,14 @@ function EventCard({ event, index, isExpanded, onToggle }: {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Timeline node after card for CSS ~ selector */}
+      <div className="timeline-node">
+        <div className="timeline-dot" style={{ borderColor: tagColor }}>
+          <div className="timeline-dot-inner" style={{ background: tagColor }} />
+        </div>
+        <div className="timeline-connector" />
       </div>
     </div>
   )
@@ -725,15 +727,15 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
           <RevealOnScroll>
             <div className="events-stats">
               <div className="events-stat">
-                <div className="events-stat-number">24</div>
+                <div className="events-stat-number">{eventsData.length}</div>
                 <div className="events-stat-label">Events & Counting</div>
               </div>
               <div className="events-stat">
-                <div className="events-stat-number">6+</div>
+                <div className="events-stat-number">{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
                 <div className="events-stat-label">Years Active</div>
               </div>
               <div className="events-stat">
-                <div className="events-stat-number">12</div>
+                <div className="events-stat-number">{eventsData.filter(e => e.tag === 'Conference').length}</div>
                 <div className="events-stat-label">Conferences</div>
               </div>
               <div className="events-stat">
@@ -808,25 +810,29 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="timeline-river">
           {items.map((item, i) => {
-            if (item.type === 'year') {
+            if (item.type === 'year' && item.year) {
               return (
                 <RevealOnScroll key={`year-${item.year}`}>
-                  <YearMarker year={item.year!} />
+                  <YearMarker year={item.year} />
                 </RevealOnScroll>
               )
             }
 
-            const eventIndex = item.eventIndex!
-            return (
-              <RevealOnScroll key={item.event!.slug} delay={Math.min((i % 3) * 0.08, 0.2)}>
-                <EventCard
-                  event={item.event!}
-                  index={eventIndex}
-                  isExpanded={expandedIndex === eventIndex}
-                  onToggle={() => setExpandedIndex(expandedIndex === eventIndex ? null : eventIndex)}
-                />
-              </RevealOnScroll>
-            )
+            if (item.type === 'event' && item.event && item.eventIndex !== undefined) {
+              const idx = item.eventIndex
+              return (
+                <RevealOnScroll key={item.event.slug} delay={Math.min((i % 3) * 0.08, 0.2)}>
+                  <EventCard
+                    event={item.event}
+                    index={idx}
+                    isExpanded={expandedIndex === idx}
+                    onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
+                  />
+                </RevealOnScroll>
+              )
+            }
+
+            return null
           })}
         </div>
       </section>

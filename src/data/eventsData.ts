@@ -3,7 +3,7 @@ export interface CosentusEvent {
   title: string
   date: string
   sortDate: string // ISO for sorting
-  location: string
+  location?: string
   description: string
   tag: string
   learnMoreUrl?: string
