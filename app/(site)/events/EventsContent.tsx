@@ -109,7 +109,7 @@ function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
           </div>
 
           {/* Expandable content */}
-          <div className="card-expand" style={{ maxHeight: isExpanded ? contentHeight + 40 : 0 }}>
+          <div className="card-expand" style={{ maxHeight: isExpanded ? contentHeight + 40 /* expand padding */ : 0 }}>
             <div ref={contentRef} className="card-expand-inner">
               <p className="card-description">{event.description}</p>
               {event.learnMoreUrl && (
@@ -163,9 +163,24 @@ function YearMarker({ year }: { year: string }) {
   )
 }
 
-export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: string[] }) {
+interface EventsContentProps {
+  galleryPhotos?: string[]
+}
+
+export default function EventsContent({ galleryPhotos = [] }: EventsContentProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+
+  // Close lightbox on Escape
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxSrc(null)
+    }
+    if (lightboxSrc) {
+      document.addEventListener('keydown', handleKey)
+      return () => document.removeEventListener('keydown', handleKey)
+    }
+  }, [lightboxSrc])
 
   // Build film frames: real photos first, pad with gradients if needed (min 20 frames)
   const minFrames = 20
@@ -759,7 +774,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Events & Counting</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{new Set(eventsData.map(e => e.sortDate.slice(0, 4))).size}</div>
+            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{(() => { const years = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...years) - Math.min(...years) + 1; })()}+</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Years Active</div>
           </div>
           <div style={{ textAlign: 'center' }}>
@@ -779,7 +794,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
                 {filmFrames.map((frame, i) => (
-                  <div className="film-frame" key={`l-${setIdx}-${i}`} onClick={() => frame.src && setLightboxSrc(frame.src)}>
+                  <div className="film-frame" key={`l-${setIdx}-${i}`} role={frame.src ? "button" : undefined} tabIndex={frame.src ? 0 : undefined} onClick={() => frame.src && setLightboxSrc(frame.src)} onKeyDown={(e) => { if (frame.src && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setLightboxSrc(frame.src) } }}>
                     {frame.src ? (
                       <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (
@@ -800,7 +815,7 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
             {[...Array(2)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
                 {[...filmFrames].reverse().map((frame, i) => (
-                  <div className="film-frame" key={`r-${setIdx}-${i}`} onClick={() => frame.src && setLightboxSrc(frame.src)}>
+                  <div className="film-frame" key={`r-${setIdx}-${i}`} role={frame.src ? "button" : undefined} tabIndex={frame.src ? 0 : undefined} onClick={() => frame.src && setLightboxSrc(frame.src)} onKeyDown={(e) => { if (frame.src && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setLightboxSrc(frame.src) } }}>
                     {frame.src ? (
                       <img src={frame.src} alt="Cosentus event" loading="lazy" />
                     ) : (

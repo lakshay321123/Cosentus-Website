@@ -18,7 +18,8 @@ function getGalleryPhotos(): string[] {
       .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f))
       .sort((a, b) => a.localeCompare(b))
       .map(f => `/images/events/gallery/${encodeURIComponent(f)}`)
-  } catch {
+  } catch (err) {
+    console.error('Failed to read events gallery:', err)
     return []
   }
 }
