@@ -470,19 +470,15 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         /* Film Reel */
         .film-reel-sticky {
           position: sticky;
-          top: 72px;
+          top: 0;
           z-index: 10;
           background: white;
           border-bottom: 2px solid var(--primary);
+          padding-top: 56px;
         }
 
         .film-reel-gap-cover {
-          position: absolute;
-          top: -80px;
-          left: 0;
-          right: 0;
-          height: 80px;
-          background: white;
+          display: none;
         }
 
         .film-strip {
