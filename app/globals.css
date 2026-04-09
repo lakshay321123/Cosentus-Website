@@ -2186,3 +2186,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     display: block;
   }
 }
+
+/* Problem + Solution split section responsive */
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

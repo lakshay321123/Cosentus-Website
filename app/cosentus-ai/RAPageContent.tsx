@@ -4,11 +4,6 @@ import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
-const problem = {
-  title: 'The Problem',
-  desc: "Traditional RCM scales by adding people. AI startups try to replace them. Both fail specialty practices. R+A fills the gap.",
-}
-
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's — Processes, Procedures, and Protocols — and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
@@ -142,20 +137,42 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* The Problem */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE PROBLEM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">{problem.title}</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 20, lineHeight: 1.8, fontWeight: 400 }}>
-              {problem.desc}
-            </p>
-          </RevealOnScroll>
+      {/* Problem + Solution — Split Section */}
+      <section style={{ overflow: 'hidden' }}>
+        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
+          {/* Left — The Problem */}
+          <div style={{ padding: 'clamp(48px, 6vw, 80px) clamp(32px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', borderRight: '1px solid var(--gray-200)' }}>
+            <RevealOnScroll direction="left">
+              <div className="section-label">THE PROBLEM</div>
+            </RevealOnScroll>
+            <RevealOnScroll direction="left" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
+                Why Specialty Practices Deserve Better
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="left" delay={0.2}>
+              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 480 }}>
+                Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles.
+              </p>
+            </RevealOnScroll>
+          </div>
+
+          {/* Right — The Solution */}
+          <div style={{ padding: 'clamp(48px, 6vw, 80px) clamp(32px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6' }}>
+            <RevealOnScroll direction="right">
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 16 }}>THE SOLUTION</div>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 20 }}>
+                Real + Artificial Intelligence
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.2}>
+              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 480 }}>
+                Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate.
+              </p>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 
@@ -207,24 +224,6 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* Why R+A Can't Be Replicated */}
-      <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE MOAT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Why R+A Can&apos;t Be Replicated</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Built from 25 years of specialty practice expertise, clinical knowledge, and leadership talent.
-              Our founding team has stayed together for over two decades. Competitors can build agents or hire coders.
-              No one can replicate what takes 25 years to build.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
     </>
   )
 }
