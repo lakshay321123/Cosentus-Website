@@ -1660,6 +1660,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-color: #00B5D6 !important;
 }
 
+
 /* ===== ANESTHESIA PAGE COMPONENTS ===== */
 .leader-row:hover {
   border-color: var(--primary) !important;
