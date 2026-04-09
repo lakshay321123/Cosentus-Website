@@ -25,27 +25,61 @@ export default function PainManagementPage() {
     <main>
       <PageHero
         label="PAIN MANAGEMENT"
-        title="We Close the Gap Between Clinical Complexity and Payer Scrutiny."
-        subtitle="Interventional injections, SCS, radiofrequency ablation, and medication management demand precise coding and authorization management. Our pain management experts ensure every high-value procedure is billed and defended."
+        title="Pain Management Procedures Are High-Value. Your Reimbursements Should Be Too."
+        subtitle="Injections, SCS, ablations, and medication management — coded precisely, authorized proactively, defended aggressively."
         ctaText="Get Your Free Pain Management Revenue Analysis"
         ctaHref="/contact"
       />
 
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">THE CHALLENGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Payers scrutinize injection frequency, imaging guidance, and medical necessity. Modifier or laterality errors cost $200–$500 per visit — multiplying quickly. Pre-payment reviews and opioid-related scrutiny add risk.
-            </p>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 16, lineHeight: 1.8, marginTop: 20 }}>
-              Our pain division specialists handle interventional coding and payer defense. AI automates verification and follow-ups; human experts focus on documentation defense and appeals.
-            </p>
-          </RevealOnScroll>
+      {/* Problem / Solution Split */}
+      <section className="section" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden', minHeight: 340 }}>
+            {/* Problem */}
+            <RevealOnScroll direction="left">
+              <div className="ps-panel ps-problem" style={{ background: 'var(--white)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--gray-400)', marginBottom: 16 }}>THE PROBLEM</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.25, marginBottom: 20 }}>
+                  High-Frequency Procedures.<br />High-Frequency Denials.
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
+                  {[
+                    'Payers scrutinize injection frequency, imaging guidance, and medical necessity',
+                    'Modifier or laterality errors cost $200–$500 per visit — and multiply fast',
+                    'Pre-payment reviews and opioid-related scrutiny add risk',
+                  ].map((item, i) => (
+                    <div key={i} className="ps-bullet" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <svg style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'var(--gray-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                      <span style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealOnScroll>
+            {/* Solution */}
+            <RevealOnScroll direction="right">
+              <div className="ps-panel ps-solution" style={{ background: 'var(--primary)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', borderRadius: '0 var(--radius-md) var(--radius-md) 0', position: 'relative' as const, overflow: 'hidden' }}>
+                <div className="ps-shimmer" />
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>THE SOLUTION</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'white', lineHeight: 1.25, marginBottom: 20 }}>
+                  Interventional Coding Experts + AI Defense
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
+                  {[
+                    'Pain division specialists handle interventional coding and payer defense',
+                    'AI automates verification and follow-ups at scale',
+                    'Human experts focus on documentation defense and appeals',
+                    '95%+ appeal success rate with clinical rationale',
+                  ].map((item, i) => (
+                    <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <svg className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                      <span style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 
@@ -95,7 +129,7 @@ export default function PainManagementPage() {
             }}>
               <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
               <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
-                &ldquo;I&apos;ve worked with Cosentus and have had nothing but positive experiences. I recommend Cosentus without reservations.&rdquo;
+                &ldquo;I&apos;ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.&rdquo;
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
                 <div style={{
