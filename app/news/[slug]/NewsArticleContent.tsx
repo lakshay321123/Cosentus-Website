@@ -28,8 +28,7 @@ function renderMarkdown(text: string) {
   for (const line of lines) {
     const trimmed = line.trim()
     if (!trimmed) {
-      elements.push(<br key={key++} />)
-      continue
+      continue // Skip empty lines — paragraph margins handle spacing
     }
 
     // H2
