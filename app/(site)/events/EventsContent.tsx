@@ -506,11 +506,9 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
 
         /* Film Reel */
         .film-reel-sticky {
-          position: sticky;
-          top: 0;
+          position: relative;
           z-index: 10;
           background: white;
-          padding-top: 56px;
         }
 
         .film-reel-inner {
@@ -777,7 +775,7 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
       )}
 
       {/* Sticky Film Reel with Stats */}
-      <div className="film-reel-sticky" style={{ marginTop: '-56px' }}>
+      <div className="film-reel-sticky">
         <div className="film-reel-gap-cover" />
         <div className="film-reel-inner">
 
