@@ -469,13 +469,12 @@ export default function EventsContent({ galleryPhotos = [] }: { galleryPhotos?: 
         /* Film Reel */
         .film-reel-sticky {
           position: sticky;
-          top: 64px;
+          top: 72px;
           z-index: 10;
           background: white;
           overflow: hidden;
-          border-top: 1px solid var(--gray-200);
           border-bottom: 1px solid var(--gray-200);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+          box-shadow: 0 -80px 0 0 white, 0 4px 20px rgba(0,0,0,0.06);
         }
 
         .film-strip {
