@@ -216,9 +216,9 @@ ABOUT US (/about):
   * Phoenix, AZ — (877) 266-9040
   * Mission, TX — (877) 266-9040
   * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 266-9040
-  * Dallas, TX — (877) 266-9040
+  * Dallas, TX — (888) 521-0055
   * Salt Lake City, UT — (877) 266-9040
-  * Olathe, KS — (877) 266-9040
+  * Olathe, KS — (913) 262-2323
   Each office card links to Google Maps when clicked. Hover turns them blue.
 
 SPECIALTIES:
