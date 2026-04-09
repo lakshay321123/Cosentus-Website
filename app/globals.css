@@ -1672,3 +1672,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 8px 24px rgba(0,181,214,0.12);
   border-color: #00B5D6 !important;
 }
+
+/* ===== BLOG POST LAYOUT ===== */
+@media (max-width: 900px) {
+  .blog-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .blog-layout aside {
+    position: static !important;
+    max-height: none !important;
+  }
+}
