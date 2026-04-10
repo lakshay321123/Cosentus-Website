@@ -2419,10 +2419,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', alt: 'Revenue analytics on digital display', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&q=80', alt: 'Professional analyzing financial charts', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7947663.jpg', alt: 'Healthcare KPI analytics dashboard with charts and performance metrics', afterSection: 0 }, { url: '/images/blog-inline/pexels-187041.jpg', alt: 'Tablet displaying real-time data trends for practice performance tracking', afterSection: 1 }],
   },
   {
     slug: 'revenue-cycle-management-for-ambulatory-surgery-centers',
@@ -2488,10 +2485,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80', alt: 'Calculator and financial documents', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80', alt: 'Accountant reviewing spreadsheets', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3183150.jpg', alt: 'ASC operations team coordinating revenue cycle management on devices', afterSection: 0 }, { url: '/images/blog-inline/pexels-5673488.jpg', alt: 'Healthcare administrator managing ambulatory surgery center billing workflow', afterSection: 3 }],
   },
   {
     slug: 'medical-billing-trends',
@@ -2537,10 +2531,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=800&q=80', alt: 'Financial planning and budgeting session', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=800&q=80', alt: 'Business growth chart trending upward', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3184292.jpg', alt: 'Digital transformation trends reshaping medical billing processes', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344876.jpg', alt: 'Modern technology driving changes in healthcare billing practices', afterSection: 1 }],
   },
   {
     slug: 'know-your-medical-billing-its-importance',
@@ -2605,10 +2596,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80', alt: 'Executive in professional business attire', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80', alt: 'Modern coworking office environment', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3184325.jpg', alt: 'Medical billing team collaborating on claims processing and coding', afterSection: 0 }, { url: '/images/blog-inline/pexels-3760262.jpg', alt: 'Healthcare professional explaining medical billing fundamentals', afterSection: 2 }],
   },
   {
     slug: 'no-surprise-act-cutting-revenue-to-the-bone',
@@ -2657,10 +2645,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', alt: 'Clean modern office with natural light', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80', alt: 'Startup team working collaboratively', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5668881.jpg', alt: 'Compliance professional reviewing No Surprises Act regulatory documents', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344874.jpg', alt: 'Patient advocacy and surprise billing protection legislation impact', afterSection: 2 }],
   },
   {
     slug: '2021-year-end-tax-planning-tips-for-individuals-and-businesses',
