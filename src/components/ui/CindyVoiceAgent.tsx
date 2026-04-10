@@ -155,17 +155,20 @@ function CindyInner() {
         return done('Section not found, scrolled down')
       },
 
-      // Read current page content on demand — lightweight, headings + key text only
+      // Read current page content — headings + paragraphs + key data, capped for speed
       read_page: () => {
         const main = document.querySelector('main')
         if (!main) return `Page: ${window.location.pathname}`
         const parts: string[] = []
-        for (const el of Array.from(main.querySelectorAll('h1, h2, h3, .section-label, .section-title'))) {
-          if (el.closest('nav, footer')) continue
+        for (const el of Array.from(main.querySelectorAll(
+          'h1, h2, h3, .section-label, .section-title, p, li, ' +
+          '.result-number span, .result-label, .hero-sub'
+        ))) {
+          if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 120) parts.push(text)
+          if (text.length > 1 && text.length < 200) parts.push(text)
         }
-        return `Page: ${window.location.pathname}\nSections: ${parts.join(' | ').substring(0, 600)}`
+        return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n').substring(0, 1200)}`
       },
     },
   })
