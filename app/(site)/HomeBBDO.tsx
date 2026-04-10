@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const quotes = [
@@ -19,18 +19,15 @@ const I4 = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=8
 export default function HomeBBDO() {
   const [qi, setQi] = useState(0)
   const [ready, setReady] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const mainRef = useRef<HTMLElement>(null)
+  
+  
 
   useEffect(() => { setTimeout(() => setReady(true), 200) }, [])
   useEffect(() => { const t = setInterval(() => setQi(p => (p + 1) % quotes.length), 5000); return () => clearInterval(t) }, [])
 
   // Parallax scroll tracking
-  const onScroll = useCallback(() => { setScrollY(window.scrollY) }, [])
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [onScroll])
+  
+
 
   // Scroll-triggered reveals
   useEffect(() => {
@@ -42,7 +39,7 @@ export default function HomeBBDO() {
   }, [ready])
 
   return (
-    <main ref={mainRef} style={{ background: '#000', overflow: 'hidden' }}>
+    <main style={{ background: '#000', overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         .reveal{opacity:0;transform:translateY(60px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
         .reveal.revealed{opacity:1;transform:translateY(0)}
@@ -54,7 +51,7 @@ export default function HomeBBDO() {
 
         /* HERO */
         .hh{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
-        .hh video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+        .hh video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
         .hh-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.7) 100%)}
         .hh-geo{position:absolute;z-index:2;pointer-events:none;opacity:0;transition:all 1.8s cubic-bezier(.16,1,.3,1)}
         .hh-geo.on{opacity:1}
@@ -80,7 +77,7 @@ export default function HomeBBDO() {
 
         /* PARALLAX IMAGE STRIP */
         .px-strip{position:relative;height:60vh;overflow:hidden}
-        .px-strip img{position:absolute;inset:0;width:100%;height:130%;object-fit:cover;will-change:transform}
+        .px-strip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
         .px-strip-ov{position:absolute;inset:0;background:rgba(0,0,0,.85);z-index:1}
         .px-strip-text{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px}
         .px-strip-text h2{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,80px);color:#fff;line-height:1;letter-spacing:-.03em;text-shadow:0 4px 30px rgba(0,0,0,.8)}
@@ -112,7 +109,7 @@ export default function HomeBBDO() {
 
         /* VIDEO SECTION */
         .hv{position:relative;height:70vh;overflow:hidden}
-        .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+        .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
         .hv-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.8),rgba(0,0,0,.75));z-index:1}
         .hv-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
         .hv h2{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,5vw,72px);color:#fff;line-height:1.1;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.8)}
@@ -168,13 +165,13 @@ export default function HomeBBDO() {
 
       {/* HERO — video + parallax + geometric overlays */}
       <section className="hh">
-        <video autoPlay loop muted playsInline style={{ transform: `translateY(${scrollY * 0.3}px)` }}><source src="/images/hero-video.mp4" type="video/mp4" /></video>
+        <video autoPlay loop muted playsInline ><source src="/images/hero-video.mp4" type="video/mp4" /></video>
         <div className="hh-ov" />
-        <div className={`hh-geo g1 ${ready ? 'on' : ''}`} style={{ transform: ready ? `scale(1) translateY(${scrollY * -0.15}px)` : 'scale(.3)' }} />
+        <div className={`hh-geo g1 ${ready ? 'on' : ''}`}  />
         <div className={`hh-geo g2 ${ready ? 'on' : ''}`} />
-        <div className={`hh-geo g3 ${ready ? 'on' : ''}`} style={{ transform: `translateY(${scrollY * -0.1}px)` }} />
+        <div className={`hh-geo g3 ${ready ? 'on' : ''}`}  />
         <div className={`hh-geo g4 ${ready ? 'on' : ''}`} />
-        <div className={`hh-geo g5 ${ready ? 'on' : ''}`} style={{ transform: `translateY(${scrollY * -0.2}px)` }} />
+        <div className={`hh-geo g5 ${ready ? 'on' : ''}`}  />
         <div className={`hh-center ${ready ? 'on' : ''}`}>
           <h1>THINK<br /><span>GROWTH.</span></h1>
           <div className="hh-sub">Real + Artificial Intelligence for Healthcare</div>
@@ -193,7 +190,7 @@ export default function HomeBBDO() {
 
       {/* PARALLAX IMAGE with text overlay */}
       <section className="px-strip">
-        <img src={I1} alt="" style={{ transform: `translateY(${(scrollY - 800) * -0.2}px)` }} />
+        <img src={I1} alt=""  />
         <div className="px-strip-ov" />
         <div className="px-strip-text">
           <h2 className="reveal"><span>8</span> AI Agents.<br /><span>1,000+</span> Experts.<br />Zero Excuses.</h2>
@@ -219,7 +216,7 @@ export default function HomeBBDO() {
 
       {/* VIDEO SECTION — second video with parallax */}
       <section className="hv">
-        <video autoPlay loop muted playsInline style={{ transform: `translateY(${(scrollY - 2400) * -0.15}px)` }}><source src="/images/specialties-hero.mp4" type="video/mp4" /></video>
+        <video autoPlay loop muted playsInline ><source src="/images/specialties-hero.mp4" type="video/mp4" /></video>
         <div className="hv-ov" />
         <div className="hv-content">
           <h2 className="reveal">25 Years. 19 Acquisitions.<br /><em>One Mission.</em></h2>
