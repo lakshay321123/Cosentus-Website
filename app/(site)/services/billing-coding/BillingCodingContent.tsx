@@ -437,9 +437,9 @@ export default function BillingCodingContent() {
             </div>
           </RevealOnScroll>
 
-          <style jsx>{`
+          <style dangerouslySetInnerHTML={{ __html: `
             @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-          `}</style>
+          ` }} />
         </div>
       </section>
 
@@ -493,11 +493,11 @@ export default function BillingCodingContent() {
         </div>
       </section>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 768px) {
           .billing-rcm-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
-      `}</style>
+      ` }} />
     </>
   )
 }
