@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
@@ -58,140 +58,139 @@ const faqsPagePM = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE MIND MAP — p3-2a.png + visible animated overlays
+   INTERACTIVE MIND MAP — built from individual icons
    ─────────────────────────────────────────── */
 
-const hotspots = [
-  { label: 'Book Keeper', desc: 'Financial record-keeping and bookkeeping', x: 23, y: 12 },
-  { label: 'Marketing Strategy', desc: 'Strategic marketing to grow your patient base', x: 80, y: 14 },
-  { label: 'Tech Support', desc: 'Managed IT, EHR integration, and data security', x: 87, y: 51 },
-  { label: 'People Manager', desc: 'HR, recruitment, and workforce management', x: 78, y: 84 },
-  { label: 'Billing Expert', desc: 'Expert billing and revenue cycle optimization', x: 51, y: 88 },
-  { label: 'Online Marketing', desc: 'Digital presence, SEO, and patient engagement', x: 25, y: 80 },
-  { label: 'Office Admin', desc: 'Front desk, scheduling, and office operations', x: 11, y: 51 },
+const nodes = [
+  { label: 'Book\nKeeper', img: '/images/icons/p3-3b.png', x: 20, y: 5 },
+  { label: 'Marketing\nStrategy', img: '/images/icons/p3-3e.png', x: 72, y: 5 },
+  { label: 'Tech\nSupport', img: '/images/icons/p3-3c.png', x: 85, y: 42 },
+  { label: 'People\nManager', img: '/images/icons/p3-3d.png', x: 72, y: 78 },
+  { label: 'Billing\nExpert', img: '/images/icons/p3-3a.png', x: 42, y: 88 },
+  { label: 'Online\nMarketing', img: '/images/icons/p3-3b.png', x: 12, y: 78 },
+  { label: 'Office\nAdmin', img: '/images/icons/p3-3d.png', x: 2, y: 42 },
 ]
+
+const CX = 47, CY = 48 // center point %
 
 function InteractiveMindMap() {
   const [active, setActive] = useState(-1)
-  const [autoPulse, setAutoPulse] = useState(0)
-
-  // Auto-cycle visible pulse through nodes
-  useEffect(() => {
-    const id = setInterval(() => setAutoPulse(p => (p + 1) % hotspots.length), 2000)
-    return () => clearInterval(id)
-  }, [])
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto', animation: 'diagramFloat 5s ease-in-out infinite' }}>
-      {/* The actual diagram */}
-      <img
-        src="/images/icons/p3-2a.png"
-        alt="Complete Practice Management — doctor with 7 connected service roles"
-        style={{ width: '100%', height: 'auto', display: 'block' }}
-      />
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, aspectRatio: '1.15 / 1', margin: '0 auto' }}>
 
-      {/* VISIBLE animated rings + interactive hotspots */}
-      {hotspots.map((spot, i) => {
+      {/* SVG lines + animated dots */}
+      <svg viewBox="0 0 100 100" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1, overflow: 'visible' }}>
+        {nodes.map((n, i) => {
+          const nx = n.x + 5, ny = n.y + 5
+          return (
+            <g key={i}>
+              <line x1={CX} y1={CY} x2={nx} y2={ny}
+                stroke={active === i ? 'rgba(0,181,214,0.7)' : 'rgba(0,181,214,0.25)'}
+                strokeWidth={active === i ? '0.5' : '0.25'}
+                style={{ transition: 'all 0.3s ease' }}
+              />
+              {/* Traveling dot */}
+              <circle r="0.9" fill="#00B5D6" opacity="0.6">
+                <animateMotion dur={`${2.2 + i * 0.3}s`} repeatCount="indefinite" path={`M${CX},${CY} L${nx},${ny}`} />
+              </circle>
+              {/* Return dot */}
+              <circle r="0.6" fill="#00B5D6" opacity="0.3">
+                <animateMotion dur={`${2.8 + i * 0.2}s`} repeatCount="indefinite" path={`M${nx},${ny} L${CX},${CY}`} />
+              </circle>
+              {/* Junction dot */}
+              <circle cx={(CX + nx) / 2} cy={(CY + ny) / 2} r="1.3" fill="#00B5D6" opacity={active === i ? 0.8 : 0.3} style={{ transition: 'opacity 0.3s' }} />
+            </g>
+          )
+        })}
+      </svg>
+
+      {/* Center doctor node */}
+      <div style={{
+        position: 'absolute', left: `${CX}%`, top: `${CY}%`, transform: 'translate(-50%,-50%)',
+        width: 90, height: 90, borderRadius: '50%', zIndex: 5,
+        background: 'linear-gradient(135deg, #00c9e8, #00B5D6)',
+        border: '5px solid rgba(0,181,214,0.2)',
+        boxShadow: '0 0 30px rgba(0,181,214,0.25)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        animation: 'breathe 4s ease-in-out infinite',
+      }}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </div>
+
+      {/* Outer nodes — real icons */}
+      {nodes.map((n, i) => {
         const isActive = active === i
-        const isPulsing = autoPulse === i && active === -1
-
         return (
-          <div
-            key={i}
+          <div key={i}
             onMouseEnter={() => setActive(i)}
             onMouseLeave={() => setActive(-1)}
             style={{
-              position: 'absolute',
-              left: `${spot.x}%`, top: `${spot.y}%`,
-              transform: 'translate(-50%, -50%)',
-              width: 76, height: 76,
-              borderRadius: '50%',
+              position: 'absolute', left: `${n.x}%`, top: `${n.y}%`,
+              zIndex: isActive ? 10 : 3,
               cursor: 'pointer',
-              zIndex: isActive ? 10 : 2,
+              animation: `nFloat ${3.5 + i * 0.3}s ease-in-out infinite`,
+              animationDelay: `${i * 0.4}s`,
             }}
           >
-            {/* Always-visible glowing ring */}
+            {/* White circle with icon */}
             <div style={{
-              position: 'absolute', inset: 0,
-              borderRadius: '50%',
-              border: isActive ? '3px solid rgba(255,255,255,0.9)' : isPulsing ? '2px solid rgba(255,255,255,0.6)' : '2px solid rgba(255,255,255,0.15)',
+              width: isActive ? 68 : 58, height: isActive ? 68 : 58,
+              borderRadius: '50%', background: 'white',
+              border: `2px solid ${isActive ? '#00B5D6' : 'rgba(0,181,214,0.15)'}`,
               boxShadow: isActive
-                ? '0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(0,181,214,0.3), inset 0 0 15px rgba(255,255,255,0.15)'
-                : isPulsing
-                  ? '0 0 12px rgba(255,255,255,0.3), 0 0 24px rgba(0,181,214,0.15)'
-                  : '0 0 6px rgba(255,255,255,0.05)',
-              transition: 'all 0.4s ease',
-              background: isActive ? 'rgba(255,255,255,0.12)' : 'transparent',
-            }} />
+                ? '0 0 24px rgba(0,181,214,0.4), 0 6px 20px rgba(0,0,0,0.1)'
+                : '0 2px 10px rgba(0,0,0,0.06)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
+              padding: isActive ? 12 : 10,
+              overflow: 'hidden',
+            }}>
+              <img src={n.img} alt={n.label} style={{
+                width: '100%', height: '100%', objectFit: 'contain',
+                filter: isActive ? 'none' : 'opacity(0.7)',
+                transition: 'filter 0.3s ease',
+              }} />
+            </div>
 
-            {/* Expanding pulse ring — visible on auto-pulse AND hover */}
-            {(isActive || isPulsing) && (
+            {/* Pulse ring on hover */}
+            {isActive && (
               <div style={{
-                position: 'absolute', inset: -4,
-                borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.5)',
-                animation: 'ringPulse 1.4s ease-out infinite',
+                position: 'absolute', inset: -6, borderRadius: '50%',
+                border: '2px solid rgba(0,181,214,0.4)',
+                animation: 'ringExpand 1.3s ease-out infinite',
               }} />
             )}
 
-            {/* Second pulse ring on hover for extra pop */}
-            {isActive && (
-              <div style={{
-                position: 'absolute', inset: -4,
-                borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.3)',
-                animation: 'ringPulse 1.4s ease-out infinite 0.3s',
-              }} />
-            )}
-
-            {/* Tooltip on hover */}
-            {isActive && (
-              <div style={{
-                position: 'absolute',
-                bottom: '115%', left: '50%', transform: 'translateX(-50%)',
-                background: 'white', color: 'var(--gray-900)',
-                padding: '10px 16px', borderRadius: 'var(--radius-sm)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.2)', whiteSpace: 'nowrap',
-                fontSize: 13, lineHeight: 1.4, animation: 'tooltipIn 0.25s ease',
-                zIndex: 20,
-              }}>
-                <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 2 }}>{spot.label}</div>
-                <div style={{ fontSize: 12, color: 'var(--gray-600)', fontWeight: 400 }}>{spot.desc}</div>
-                <div style={{
-                  position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)',
-                  width: 12, height: 12, background: 'white',
-                }} />
-              </div>
-            )}
+            {/* Label */}
+            <div style={{
+              textAlign: 'center', marginTop: 5,
+              fontSize: 11, fontWeight: isActive ? 700 : 500,
+              color: isActive ? '#00B5D6' : 'var(--gray-700)',
+              lineHeight: 1.25, whiteSpace: 'pre-line',
+              transition: 'all 0.3s ease',
+              fontFamily: 'var(--font-display)',
+            }}>
+              {n.label}
+            </div>
           </div>
         )
       })}
 
-      {/* Center glow overlay */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
-        width: 110, height: 110, borderRadius: '50%',
-        boxShadow: '0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(0,181,214,0.15)',
-        animation: 'centerGlow 3s ease-in-out infinite',
-        pointerEvents: 'none',
-      }} />
-
       <style jsx>{`
-        @keyframes diagramFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
+        @keyframes nFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
         }
-        @keyframes ringPulse {
-          0% { transform: scale(1); opacity: 0.7; }
-          100% { transform: scale(1.8); opacity: 0; }
+        @keyframes breathe {
+          0%, 100% { box-shadow: 0 0 30px rgba(0,181,214,0.25); transform: translate(-50%,-50%) scale(1); }
+          50% { box-shadow: 0 0 45px rgba(0,181,214,0.4); transform: translate(-50%,-50%) scale(1.04); }
         }
-        @keyframes centerGlow {
-          0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(0,181,214,0.15); }
-          50% { box-shadow: 0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(0,181,214,0.25); }
-        }
-        @keyframes tooltipIn {
-          from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-          to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        @keyframes ringExpand {
+          0% { transform: scale(1); opacity: 0.6; }
+          100% { transform: scale(1.7); opacity: 0; }
         }
       `}</style>
     </div>
