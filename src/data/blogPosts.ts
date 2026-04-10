@@ -195,6 +195,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80', alt: 'Digital security and data protection concept', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', alt: 'Cybersecurity network protection technology', afterSection: 3 },
+    ],
   },
   {
     slug: 'leverage-rpm-rtm-in-your-telehealth-model',
@@ -248,6 +252,10 @@ export const blogPosts: BlogPost[] = [
           'To sum up, the comprehensive advantages have turned telehealth into a sustainable and profitable part of healthcare delivery. It encourages patients to take an active role in managing their health, leading to better health outcomes and patient satisfaction. It is effective for managing chronic conditions, reducing hospital readmissions, and preventing complications. Remote monitoring aids in streamlining administrative tasks, reducing overhead costs and boosting overall efficiency. Healthcare providers can keep abreast of RTM and RPM billing codes to benefit from reimbursement opportunities.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Doctor conducting telehealth consultation with patient', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional using digital technology', afterSection: 3 },
     ],
   },
   {
@@ -335,6 +343,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment plan', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical professionals in clinical setting', afterSection: 3 },
+    ],
   },
   {
     slug: 'strategies-to-handle-interoperability-challenges',
@@ -376,6 +388,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
+    ],
   },
   {
     slug: 'final-rule-against-injustice-disguised-as-paper-work',
@@ -411,6 +427,10 @@ export const blogPosts: BlogPost[] = [
           'Patient Access API: Allows patients to view their claims, clinical data, and the status/details of their PA requests (including denial reasons) via third-party applications. Provider Access API: Allows in-network providers to access current patient data, adjudicated claims, and PA information to facilitate care coordination. Payer-to-Payer API: Facilitates the exchange of up to five years of patient data between a patient’s old and new payers when they switch plans, with patient consent. Prior Auth API: Allows providers to check if a service requires PA, identify necessary documentation, and submit requests directly from their Electronic Health Record (EHR) system. Does the Final Rule apply to all types of prescriptions and services? No. The PA policies in this final rule explicitly exclude drugs of any type that could be covered by an impacted payer. However, durable medical equipment (DME) and supplies dispensed at the pharmacy that are considered medical benefits are subject to the new PA requirements. What is “Gold Carding,” and how does it help providers? Gold Carding is a concept that exempts high-performing providers from certain prior authorization requirements. It is a time and effort saver for providers who achieve a high PA approval rate (e.g., over a six-month period). They only need to submit a prenotification, and approval is granted immediately for the exempted services, significantly reducing administrative work and delays.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
     ],
   },
   {
@@ -462,6 +482,10 @@ export const blogPosts: BlogPost[] = [
           'How can revenue cycle management (RCM) support help after this CMS update? An RCM partner can ensure quality reporting compliance, accurate coding and billing, proactive denial management, and financial forecasting—helping ASCs capture more revenue and reduce administrative burden. What types of procedures benefit most from the revenue increase? High-volume orthopedic procedures like total knee arthroplasty (TKA), arthroscopies, and small joint surgeries can see improved margins with the increased facility reimbursement.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team performing orthopedic procedure', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals discussing treatment approach', afterSection: 3 },
     ],
   },
   {
@@ -532,6 +556,10 @@ export const blogPosts: BlogPost[] = [
           'AI is intended to augment human expertise, not replace it. While AI automates repetitive tasks and improves efficiency, trained professionals are still essential to oversee processes, interpret complex cases, and ensure compliance. What barriers exist for adopting AI in RCM? Challenges include initial implementation cost, integration with legacy systems, data privacy concerns, and the need for staff training and change management. How quickly can healthcare practices see ROI from AI in RCM? Many organizations experience faster claim cycles, reduced denials, and improved revenue capture soon after deployment. Exact timelines vary based on practice size, existing systems, and scope of AI adoption. Can AI improve patient financial experience? Yes — AI can provide better payment estimates, personalized billing communication, and more transparent patient statements, improving the overall patient experience.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Artificial intelligence and healthcare technology', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using AI-powered medical technology', afterSection: 3 },
     ],
   },
   {
@@ -715,6 +743,10 @@ export const blogPosts: BlogPost[] = [
           'What is cardiology billing and why is it important? Cardiology billing refers to the process of submitting and managing claims for cardiology services—from patient registration and documentation to coding, claim submission, payment posting, and denial management. Accurate billing ensures practices receive correct reimbursements and maintain financial sustainability. What are the key steps in the cardiology billing process? The cardiology billing process includes: patient check-in and registration, documentation of medical services, coding of procedures, claim generation and submission, payer review and adjudication, denial management, patient billing, and reporting for compliance. What common challenges do cardiology practices face with billing? Cardiology billing can be complicated due to detailed documentation requirements, complex coding rules, high rates of claim denials, frequent regulatory changes, and the need for prior authorizations. How can practices reduce claim denials? Practices can reduce denials by ensuring complete and accurate documentation, using correct CPT/ICD codes with appropriate modifiers, verifying insurance eligibility and prior authorizations, and conducting regular claim audits. Why is accurate documentation crucial in cardiology billing? Incomplete or inaccurate clinical notes and procedural details often lead to errors in coding, denials, delays in payment, and compliance risks. Thorough and precise documentation supports correct coding and smooth claim processing. What are the benefits of outsourcing cardiology billing? Outsourcing to specialist billing professionals can bring expert coding knowledge, reduce administrative burden, lower overhead costs, minimize claim errors and denials, and help practices focus more on patient care. How does technology help in cardiology billing? Advanced billing software and practice management technology automate workflows, reduce manual errors, provide real-time coding updates, and improve overall revenue cycle efficiency. What role does staff training play in effective cardiology billing? Regular training helps billing and clinical staff stay updated on the latest coding standards, regulatory changes, payer policies, and best practices—leading to more accurate billing and fewer denials.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Cardiologist reviewing patient heart health data', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical team in cardiovascular care setting', afterSection: 3 },
     ],
   },
   {
@@ -971,6 +1003,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Modern ambulatory surgery center operating room', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Surgical team coordinating patient care', afterSection: 3 },
+    ],
   },
   {
     slug: 'what-is-charge-capture-a-physicians-guide',
@@ -1141,6 +1177,10 @@ export const blogPosts: BlogPost[] = [
           'How does Cosentus help with charge capture? Cosentus offers advanced charge capture support using experienced specialists, AI-powered tools, and practice management expertise that streamline billing and boost financial outcomes for healthcare practices.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing charge capture documentation', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical practice optimizing revenue cycle processes', afterSection: 3 },
     ],
   },
   {
@@ -1369,6 +1409,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Radiologist reviewing diagnostic imaging results', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical professional analyzing radiology scans', afterSection: 3 },
+    ],
   },
   {
     slug: 'health-insurance-verification-tips-for-medical-practices',
@@ -1469,6 +1513,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Insurance verification and patient intake process', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional verifying insurance details', afterSection: 3 },
+    ],
   },
   {
     slug: 'external-factors-affecting-your-medical-billing',
@@ -1489,6 +1537,10 @@ export const blogPosts: BlogPost[] = [
       'Healthcare providers should stay updated on policy changes, adapt workflows and billing practices, and leverage advanced RCM solutions (including AI-based tools) to mitigate negative impacts and protect revenue streams. Can external payer or policy trends lead to operational changes? Yes — shifts in policies or payer behavior often require practices to rethink care models, adjust billing workflows, and ensure compliance with evolving requirements to maintain optimal revenue performance.'
     ],
     sections: [
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
     ],
   },
   {
@@ -1546,6 +1598,10 @@ export const blogPosts: BlogPost[] = [
           'Improving appointment scheduling, reducing no-shows, expanding value-added services (like menopause or infertility clinics), and enhancing patient engagement can all contribute to increased revenue. Why is monitoring KPIs important in OB-GYN practices? Tracking key performance indicators—such as average reimbursement per visit, denial rates, and collection rates—helps identify revenue cycle weaknesses and areas needing improvement. How can Cosentus help my OB-GYN practice? Cosentus offers expertise in overcoming billing complexities, implementing strategic RCM improvements, and regularly evaluating financial performance to increase your practice’s revenue and operational efficiency.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about healthcare needs', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional providing specialized care', afterSection: 3 },
     ],
   },
   {
@@ -1665,6 +1721,10 @@ export const blogPosts: BlogPost[] = [
           'Common categories include general anesthesia, regional anesthesia, monitored anesthesia care (MAC), and conscious sedation—each requiring specific documentation and codes. What are anesthesia billing modifiers and why are they important? Modifiers provide additional details about the service, such as who provided the anesthesia or under what circumstances. Using the correct modifier (e.g., AA, AD) is essential for accurate reimbursement. Why do anesthesia claims get denied? Claims can be denied due to inaccurate coding, missing documentation, incorrect time units, improper modifiers, or not following insurance rules. Regular audits and accurate record-keeping help reduce denials. How can practices improve anesthesia billing accuracy? Best practices include thorough documentation, precise coding, clear communication between clinicians and billing staff, staying up to date with regulations, and conducting internal audits. What is the difference between medical direction and medically supervised billing? Medical direction involves overseeing multiple anesthesia cases (often higher reimbursement), whereas medically supervised billing reflects direct involvement with a single patient’s care.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Anesthesiologist preparing for surgical procedure', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Operating room team during anesthesia administration', afterSection: 3 },
     ],
   },
   {
@@ -1838,6 +1898,10 @@ export const blogPosts: BlogPost[] = [
           'Key performance indicators (KPIs) include days in accounts receivable (AR), claim denial rates, clean claim rates, collection rates, and patient satisfaction scores. Regular monitoring of these metrics helps identify areas for improvement.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
     ],
   },
   {
@@ -2015,6 +2079,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment plan', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical professionals in clinical setting', afterSection: 3 },
+    ],
   },
   {
     slug: 'your-guide-to-medical-billing-services',
@@ -2127,6 +2195,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+    ],
   },
   {
     slug: 'the-benefits-of-outsourcing-medical-billing',
@@ -2140,6 +2212,10 @@ export const blogPosts: BlogPost[] = [
       '“Our collection has doubled from last year after switching to Cosentus. It is one of the best things we have done for our medical practice and surgery center.” Sherman Tran, MD Spine and Sports Surgery Center, San Jose, CA'
     ],
     sections: [
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare team collaborating on practice operations', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office team managing billing workflow', afterSection: 3 },
     ],
   },
   {
@@ -2164,6 +2240,10 @@ export const blogPosts: BlogPost[] = [
           'Key metrics include employee turnover rate, voluntary resignation rate, employee engagement scores, retention rates by department, exit interview data, and timeto-fill open positions.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare team meeting to address staffing challenges', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals collaborating in practice setting', afterSection: 3 },
     ],
   },
   {
@@ -2204,6 +2284,10 @@ export const blogPosts: BlogPost[] = [
           'Practices can streamline billing by adopting electronic claims submission, setting up automated reminders, training staff on best practices, and reviewing claims regularly for accuracy. Should medical practices follow up on unpaid claims? Yes. Regular follow-up on unpaid or denied claims helps identify issues quickly, improves chances of successful payment, and reduces days in accounts receivable. Are there technology tools that can help medical practices get paid faster? Yes. Practice management systems, automated billing software, and electronic health records with integrated claims tracking can significantly improve efficiency and reduce delays. How does offering patient payment options (like online payments) affect payment turnaround? Providing flexible payment options, such as online portals, credit card processing, and payment plans, encourages patients to pay promptly and improves overall revenue collection. Can outsourcing billing and collections help expedite payments? Outsourcing to experienced billing specialists can reduce administrative burden, improve accuracy, and expedite payments by handling claims and follow-ups professionally. What are key metrics medical practices should track to get paid faster? Important metrics include days in accounts receivable (A/R), claim denial rates, clean claim rates, and average payment turnaround times. Monitoring these helps identify bottlenecks and improve performance.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
     ],
   },
   {
@@ -2255,6 +2339,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team performing orthopedic procedure', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals discussing treatment approach', afterSection: 3 },
+    ],
   },
   {
     slug: 'evaluation-management-em-codes-cheat-sheet',
@@ -2291,6 +2379,10 @@ export const blogPosts: BlogPost[] = [
           'E/M coding guidelines are updated periodically, so it’s best practice to review your resources annually or whenever major coding updates are released. Where can I get additional help with E/M coding questions? You can contact Cosentus, refer to official CMS guidance, or consult professional coding forums and training resources for further clarification and support.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 3 },
     ],
   },
   {
@@ -2336,6 +2428,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals collaborating on patient care strategy', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor reviewing patient records on tablet', afterSection: 3 },
+    ],
   },
   {
     slug: 'essential-key-performance-indicators-kpis-in-healthcare',
@@ -2371,6 +2467,10 @@ export const blogPosts: BlogPost[] = [
           'A consulting partner can help define relevant KPIs, implement tracking systems, analyse performance results, and recommend strategies to drive improvements and support practice growth.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', alt: 'Healthcare analytics dashboard and performance metrics', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Data-driven healthcare decision making', afterSection: 3 },
     ],
   },
   {
@@ -2436,6 +2536,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Modern ambulatory surgery center operating room', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Surgical team coordinating patient care', afterSection: 3 },
+    ],
   },
   {
     slug: 'medical-billing-trends',
@@ -2479,6 +2583,10 @@ export const blogPosts: BlogPost[] = [
           'Overview of emerging patterns such as automation, AI adoption, patient-centric billing, interoperability, and predictive analytics. How is AI transforming revenue cycle management in healthcare? Explains how artificial intelligence improves claims processing, denial management, coding accuracy, and financial forecasting. Why is automation important for modern RCM processes? Highlights benefits like reduced manual effort, fewer errors, faster turnaround times, and increased staff productivity. What role does patient engagement play in RCM trends? Focuses on trends like online billing portals, transparent pricing, patient payment plans, and communication tools. How are healthcare providers dealing with rising denial rates? Explains how analytics, real-time eligibility checks, and automated follow-ups help reduce denials and recover revenue. What is predictive analytics in RCM and why does it matter? Defines predictive analytics and its impact on forecasting revenue, identifying risk areas, and improving decision-making. How do interoperability standards affect RCM? Covers how data exchange standards, EHR integration, and secure APIs improve operational efficiency and revenue accuracy. How can smaller practices compete in the evolving RCM landscape? Discusses scalable RCM solutions, outsourcing, cloud-based platforms, and tailored strategies for small providers. What are common challenges in implementing new RCM technologies? Outlines obstacles like legacy systems, training gaps, data security concerns, and integration complexities. How do regulatory changes impact revenue cycle management trends? Explains how policy shifts (e.g., billing regulations, ICD-10 updates, value-based care models) influence RCM strategies.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
     ],
   },
   {
@@ -2543,6 +2651,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+    ],
   },
   {
     slug: 'no-surprise-act-cutting-revenue-to-the-bone',
@@ -2590,6 +2702,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare compliance documentation and review', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical practice regulatory compliance process', afterSection: 3 },
+    ],
   },
   {
     slug: '2021-year-end-tax-planning-tips-for-individuals-and-businesses',
@@ -2625,6 +2741,10 @@ export const blogPosts: BlogPost[] = [
           'When does the tax year end for individuals and businesses? For most individuals, the tax year ends on December 31. Some businesses have different fiscal year ends, so it’s important to confirm your organisation’s specific tax period. Who should consider year-end tax planning? Individuals, self-employed professionals, partnerships, corporations, and small business owners can all benefit from proactive year-end tax planning strategies. How early should I start year-end tax planning? It’s best to begin planning well before the end of the tax year—ideally in the final quarter (October–December)—to ensure you have time to implement strategies effectively. What deductions and credits should individuals review before year end? Common areas include retirement contributions, charitable donations, medical expenses, education credits, and mortgage interest deductions. Can individuals defer income into the next tax year? Yes, in some cases you can defer income (e.g., year-end bonuses) into the next tax year to manage taxable income levels—but this depends on your individual situation and cash flow needs. How do retirement contributions affect year-end tax planning? Contributions to IRAs, 401(k)s, and similar retirement accounts may be deductible and can reduce taxable income while also helping with long-term savings goals.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 3 },
     ],
   },
   {
@@ -2791,6 +2911,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 3 },
+    ],
   },
   {
     slug: '5-tips-to-maximize-urgent-care-revenue',
@@ -2936,6 +3060,10 @@ export const blogPosts: BlogPost[] = [
           'What is the average net collection rate for urgent care centers? The industry average net collection rate for urgent care is 75–82%. Best-in-class centers with dedicated RCM support achieve above 95%. Cosentus clients consistently reach 95–97% after full RCM optimization. What are the most common revenue leakage points in urgent care? The most common are: missed ancillary service charges, E/M undercoding, unworked denied claims, inadequate point-of-service patient collections, and eligibility-related denials from skipped pre-visit verification. How does AI improve urgent care billing? AI-powered medical billing tools automate charge capture validation, flag undercoded E/M levels, categorize denials in real time, and prioritize AR work queues — reducing manual workload, accelerating cash flow, and improving accuracy across the entire revenue cycle. How much does outsourcing urgent care billing cost? Most RCM companies, including Cosentus, charge a percentage of collections (typically 3–8% depending on volume and services). The return on investment is consistently positive — most clients see their increase in collections more than offset the cost of RCM services within 90 days. How quickly can I see revenue improvements after working with Cosentus? Most clients see measurable improvement in denial rates and AR days within 30–60 days of onboarding. Full revenue optimization — including coding improvements, contract renegotiation, and patient collections enhancement — typically produces significant results within 90 days. Does Cosentus serve urgent care centers across California? Yes. Cosentus provides urgent care billing and RCM services nationwide. Our conventional-market presence spans Texas (Dallas, Houston, Austin), Florida (Miami, Tampa, Orlando), California (Irvine, Orange County, Los Angeles, Napa, Newport Beach), Georgia (Atlanta), Arizona (Phoenix, Scottsdale), and North Carolina (Charlotte, Raleigh). Our unconventional-market coverage includes Maryland (Baltimore), New Jersey, Massachusetts (Boston), Connecticut, and New York.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 3 },
     ],
   },
   {
@@ -3154,6 +3282,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare compliance documentation and review', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical practice regulatory compliance process', afterSection: 3 },
+    ],
   },
   {
     slug: 'clinical-coding-optimization-tips',
@@ -3174,6 +3306,10 @@ export const blogPosts: BlogPost[] = [
           'How soon can a practice expect results after optimizing medical coding with Cosentus? Results can vary by organization, but many providers experience measurable improvements in claim accuracy and revenue cycle metrics within the first few months of implementation. Is Cosentus able to train in-house staff on best practices for coding? Yes—Cosentus offers training and ongoing education to internal teams to help maintain consistent quality and up-to-date coding practices.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 3 },
     ],
   },
   {
@@ -3210,6 +3346,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Public health professionals working on community health', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Healthcare workers supporting public health initiatives', afterSection: 3 },
+    ],
   },
   {
     slug: 'denial-management-strategies-in-medical-billing',
@@ -3235,6 +3375,10 @@ export const blogPosts: BlogPost[] = [
       'How can healthcare technology support denial management? Technology solutions like denial tracking software, automated workflows, and analytics tools can help streamline the denial management process, improve accuracy, and speed up resolution times. What should a practice do after a claim is denied? After a denial, practices should quickly determine the denial reason, gather necessary documentation, correct any errors, and resubmit the claim according to payer guidelines. Can denial management strategies reduce future denials? Yes. By analysing denial data and implementing targeted improvements (such as better documentation and coding practices), practices can significantly reduce the likelihood of future denials. Who should be responsible for denial management within a practice? A dedicated team or individual—such as a billing manager or revenue cycle specialist—should oversee denial management to ensure timely analysis, follow-up, and process improvements. How does effective denial management impact patient satisfaction? Reducing claim denials decreases billing delays and patient confusion, leading to a smoother revenue cycle and higher patient satisfaction.'
     ],
     sections: [
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 3 },
     ],
   },
   {
@@ -3396,6 +3540,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 3 },
+    ],
   },
   {
     slug: 'how-to-improve-medical-billing-for-your-medical-practice',
@@ -3461,6 +3609,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+    ],
   },
   {
     slug: 'how-to-increase-revenue-in-your-primary-care-office',
@@ -3520,6 +3672,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare revenue growth strategy planning', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Medical practice team discussing financial performance', afterSection: 3 },
+    ],
   },
   {
     slug: 'how-to-reduce-ar-days-in-medical-billing',
@@ -3560,6 +3716,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 3 },
+    ],
   },
   {
     slug: 'how-to-prepare-your-technology-for-2022',
@@ -3582,6 +3742,10 @@ export const blogPosts: BlogPost[] = [
           'Yes — small businesses often benefit even more from proactive technology planning, as it helps them compete, reduce risks, and scale efficiently without unexpected disruptions. What role does employee training play in tech preparedness? Training ensures staff know how to use updated systems effectively and securely. Well-trained employees reduce errors, increase adoption of new tools, and prevent security breaches.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Healthcare technology innovation and digital transformation', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical professional leveraging modern technology', afterSection: 3 },
     ],
   },
   {
@@ -3653,6 +3817,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 3 },
+    ],
   },
   {
     slug: 'medical-billing-and-collection-tips',
@@ -3698,6 +3866,10 @@ export const blogPosts: BlogPost[] = [
           'Can outsourcing medical billing help maximise collections? Yes. Outsourcing to experienced medical billing experts can streamline workflows, improve accuracy, reduce denials, and free internal staff to focus on patient care, often resulting in higher collections and efficiency. What role does patient communication play in medical billing optimisation? Effective patient communication ensures clarity around billing expectations, collects accurate demographic and insurance information, and reduces confusion or delays in patient payments. How can technology improve medical billing performance? Automated billing systems, electronic claim submission, real-time eligibility checks, and analytics tools help reduce errors, track denials, speed up submission cycles, and provide actionable financial insights. What metrics should practices monitor to optimise collections? Key metrics include days in accounts receivable (A/R), claim denial rates, clean claim rates, net collection rate, and patient payment trends, which help gauge performance and areas for improvement. How long does it take to see results after implementing billing optimisation tips? Results can vary, but many practices begin to see improvements in cash flow, reduced denials, and faster reimbursements within a few billing cycles after applying optimisation strategies.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
     ],
   },
   {
@@ -3750,6 +3922,10 @@ export const blogPosts: BlogPost[] = [
           'The information contained in this publication is provided solely for educational purposes. Cosentus LLC, nor the author, offers any legal or other professional advice. Every effort has been made to make this white paper as accurate as possible. However, there may be errors. Therefore, this publication should serve only as a general guide and not as the ultimate source of subject information FAQs'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 3 },
     ],
   },
   {
@@ -3931,6 +4107,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+    ],
   },
   {
     slug: 'preventive-denial-management-the-key-to-sustained-practice-cashflow',
@@ -3959,6 +4139,10 @@ export const blogPosts: BlogPost[] = [
           'Results vary by organisation, but many facilities begin to see improvements in denial rates and cashflow stability within the first few months of implementing a preventive denial management strategy. Is preventive denial management compliant with regulatory requirements? Yes. Effective preventive denial management strategies incorporate regulatory compliance, documentation guidelines, and payer rules to ensure reductions in denials do not compromise compliance. How do we get started with preventive denial management? You can start with a denial risk assessment, data review, and workflow audit. Partnering with a specialist like Cosentus helps tailor a preventive strategy that fits your organisation’s needs and goals.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 3 },
     ],
   },
   {
@@ -4153,6 +4337,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
+    ],
   },
   {
     slug: 'revenue-leakage-in-healthcare-signs-to-watch-out-for',
@@ -4191,6 +4379,10 @@ export const blogPosts: BlogPost[] = [
           'How does coding accuracy affect the revenue cycle? Accurate coding directly influences claim acceptance and reimbursement rates. Coding errors can lead to denials, delays in payment, and increased administrative costs for resubmission. What is accounts receivable (A/R) and why does it matter? Accounts receivable (A/R) refers to outstanding payments owed to a healthcare provider. High A/R days indicate delays in payment collection, tying up cash flow that could be used for operations or growth. What causes an increase in denied claims? Denied claims can result from incomplete documentation, incorrect coding, eligibility issues, or missing authorisations. Regular review and training help reduce denials. Can patient billing complaints signal revenue cycle problems? Yes. Frequent billing complaints often signal breakdowns in billing accuracy, transparency, or communication—affecting both financial performance and patient satisfaction. How can healthcare organisations improve their revenue cycle? Improvements include strengthening pre-registration processes, enhancing coding accuracy, using automation and technology, providing staff training, and partnering with revenue cycle specialists. When should a healthcare organisation consider external revenue cycle support? If persistent issues like high denials, slow cash flow, and staffing challenges persist despite internal efforts, partnering with RCM experts can provide analysis, optimisation, and measurable improvements. What are the benefits of fixing a failing revenue cycle? Benefits include stronger cash flow, fewer denials, lower administrative costs, improved compliance, better patient experience, and more resources available to deliver quality care.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare revenue growth strategy planning', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Medical practice team discussing financial performance', afterSection: 3 },
     ],
   },
   {
@@ -4232,6 +4424,10 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+    ],
   },
   {
     slug: 'tips-to-improve-healthcare-rcm-revenue-cycle-management-model',
@@ -4257,6 +4453,10 @@ export const blogPosts: BlogPost[] = [
       'Customer feedback provides insights into willingness to pay, perceived value, and pricing sensitivity. Incorporating feedback helps businesses refine models to better meet customer expectations and maximise revenue. What are the risks of sticking with an outdated revenue model? An outdated revenue model can lead to lost market share, reduced profitability, stagnation, and inability to adapt to new customer demands or competitive pressures. How can technology trends impact revenue models in 2023 and beyond? Technology trends like AI, automation, e-commerce, and data analytics influence customer behavior and operational efficiency. They can create new monetisation opportunities and reshape how businesses generate and scale revenue. Can a business use more than one revenue model at the same time? Absolutely. Many successful companies use hybrid or multiple revenue streams— such as combining subscriptions with product sales or advertising—to diversify income and reduce reliance on a single source. How can Cosentus help businesses strategize their revenue model? Cosentus offers expert consulting, market insights, and tailored strategies that help businesses evaluate revenue opportunities, optimise pricing, model forecasts, and implement effective revenue growth plans.'
     ],
     sections: [
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
     ],
   },
   {
@@ -4300,6 +4500,10 @@ export const blogPosts: BlogPost[] = [
           'Talk to a Cosentus representative today about a FREE comprehensive analysis of your billing and coding. You will get all the answers you need about the state of your billing and a road map for increasing revenue. This knowledge is a great tool in your hand and enables you to question the various aspects your healthcare revenue cycle and ensure it is fully optimized.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 3 },
     ],
   },
   {
@@ -4476,6 +4680,10 @@ export const blogPosts: BlogPost[] = [
           'Most clients see measurable improvement in denial rates and AR days within 30–60 days. Full revenue optimization across all four RCM areas typically produces significant, sustained results within 90 days of onboarding.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 3 },
     ],
   },
 ]
