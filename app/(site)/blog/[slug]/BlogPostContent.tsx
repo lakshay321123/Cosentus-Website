@@ -69,6 +69,7 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
   let m
   while ((m = capsRegex.exec(text)) !== null) {
     const h = m[1].trim()
+    if (h.endsWith(':')) continue  // Skip list item labels
     // Must be at least 2 real caps words and 10+ chars
     const capWords = h.split(/[\s/]+/).filter(w => /^[A-Z]{2,}/.test(w.replace(/[?:.&]/, '')))
     if (capWords.length >= 2 && h.length >= 10) {
@@ -97,9 +98,11 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
 
   // Pattern 3: Title Case headings mid-text (after period, followed by body text)
   // e.g., "...some sentence. Categorize Every Denial Immediately The foundation..."
-  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?:]?)\s+(?=[A-Z])/g
+  // EXCLUDES colon-ending matches (those are list item labels like "Fewer Billing Errors:")
+  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?]?)\s+(?=[A-Z])/g
   while ((m = titleMidRegex.exec(text)) !== null) {
     const h = m[1].trim()
+    if (h.endsWith(':')) continue  // Skip list item labels
     const words = h.split(/\s+/)
     const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
     if (capWords.length >= 3 && h.length >= 20 && !h.includes(',')) {
@@ -124,10 +127,14 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
     const before = text.slice(lastIdx, hp.start).trim()
     if (before) segments.push({ type: 'text', content: before })
 
-    // Convert to Title Case
+    // Convert to Title Case — preserve known acronyms
+    const acronyms = new Set(['IT','AI','AR','RCM','EHR','EMR','CMS','CPT','ICD','ASC','API','HIPAA','ACO','VBS','FHIR','OB','GYN','DME','ERA','EOB','RPM','RTM','IoT','HCPCS','NCCI','MUE','PFS','MPFS','PAYGO','MIPS','DSO','FPA','CARC','RARC'])
     const titleCase = hp.text.replace(/[?:.]$/, '').split(/[\s/]+/).map((w, i) => {
+      const cleaned = w.replace(/[?:.]/g, '')
+      // Preserve known acronyms
+      if (acronyms.has(cleaned)) return cleaned
       if (smallWords.has(w.toLowerCase()) && i > 0) return w.toLowerCase()
-      if (/^[A-Z]{2,}$/.test(w.replace(/[?:.]/, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+      if (/^[A-Z]{2,}$/.test(cleaned)) return w.charAt(0) + w.slice(1).toLowerCase()
       return w
     }).join(' ')
     const suffix = hp.text.match(/[?:]$/)?.[0] || ''
@@ -368,6 +375,74 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   )}
 
                   {section.content.map((text, j) => {
+                    // Detect standalone heading strings (split from paragraph endings)
+                    // STRICT criteria: must look like a real section heading, not a list item label
+                    if (text.length < 120 && text.length > 10 && !section.heading.toLowerCase().includes("faq")) {
+                      const trimmed = text.trim()
+                      
+                      // NEVER treat as heading: ends with colon (list item label), 
+                      // ends with comma, contains ":-", is a TOC entry with numbers
+                      const isLabel = trimmed.endsWith(':') || trimmed.endsWith(',') || trimmed.includes(':-') || /^\d+\.\s/.test(trimmed)
+                      
+                      if (!isLabel) {
+                        const clean = trimmed.replace(/[?]/g, '').trim()
+                        const words = clean.split(/\s+/)
+                        const hasNoPeriod = !clean.includes('.')
+                        
+                        // ALL CAPS heading (2+ uppercase words, 10+ chars) — always a heading
+                        const allCapsWords = words.filter(w => /^[A-Z]{2,}$/.test(w.replace(/[?&]/g, '')))
+                        const isAllCaps = allCapsWords.length >= 2 && clean.length >= 10
+                        
+                        // Title Case heading — STRICT: must be 3+ words, mostly capitalized,
+                        // must start with a "heading word" pattern (What/How/Why/The/Key/Best/Top/Overview/Benefits etc.)
+                        const headingStarters = /^(What|How|Why|Where|When|Who|Which|The|Key|Best|Top|Overview|Benefits|Challenges|Tips|Role|Impact|Understanding|Importance|Steps|Types|Common|Introduction|Conclusion|Summary|Final|Revenue|Practice|Patient|Medical|Clinical|Billing|Coding|Denial|Payment|Insurance|Healthcare|Regulatory|Compliance|Technology|Data|Staff|Operational)/i
+                        const capWords = words.filter(w => /^[A-Z]/.test(w))
+                        const isTitle = words.length >= 3 && words.length <= 12 && hasNoPeriod 
+                          && capWords.length >= Math.ceil(words.length * 0.6)
+                          && headingStarters.test(clean)
+                          && !clean.includes(',')
+                        
+                        if (isAllCaps || isTitle) {
+                          const displayText = isAllCaps ? clean.split(/\s+/).map((w, wi) => {
+                            const lo = w.toLowerCase()
+                            const smalls = ['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','vs','with']
+                            if (wi > 0 && smalls.includes(lo)) return lo
+                            if (/^[A-Z]{2,}$/.test(w.replace(/[?&]/g, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+                            return w
+                          }).join(' ') + (trimmed.endsWith('?') ? '?' : '') : trimmed
+
+                          return (
+                            <h4 key={j} style={{
+                              fontFamily: 'var(--font-display)',
+                              fontSize: 16,
+                              fontWeight: 600,
+                              color: 'var(--gray-900)',
+                              lineHeight: 1.75,
+                              marginTop: 24,
+                              marginBottom: 8,
+                              borderLeft: '3px solid var(--primary)',
+                              paddingLeft: 16,
+                              marginLeft: 4,
+                            }}>
+                              {displayText}
+                            </h4>
+                          )
+                        }
+                      }
+                      
+                      // Colon-ending labels: render as bold inline text, not a heading
+                      if (trimmed.endsWith(':') && trimmed.length < 80) {
+                        return (
+                          <p key={j} style={{
+                            fontSize: 16, lineHeight: 1.8, color: 'var(--gray-900)',
+                            marginTop: 20, marginBottom: 6, fontWeight: 600,
+                          }}>
+                            {trimmed}
+                          </p>
+                        )
+                      }
+                    }
+
                     // Detect FAQ Q&A patterns — split multi-QA paragraphs
                     if (section.heading.toLowerCase().includes("faq")) {
                       const qaPairs = splitFaqText(text)
