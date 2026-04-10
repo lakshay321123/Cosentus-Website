@@ -263,6 +263,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'revenue-growth-strategies-in-pain-management',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2025/11/REVENUE-GROWTH-STRATEGIES-IN-PAIN-MANAGEMENT-02.webp',
     title: 'Revenue Growth Strategies In Pain Management',
     tag: 'Pain Management',
     excerpt: 'Running a successful pain management practice isn’t just about providing top-notch patient care—it’s also about ensuring financial stability and growth. With increasing operational costs, insurance co...',
@@ -353,6 +354,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'strategies-to-handle-interoperability-challenges',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2025/11/STRATEGIES-TO-HANDLE-System-integration-CHALLENGES-1-01.webp',
     title: 'Strategies To Handle Interoperability Challenges',
     tag: 'RCM',
     excerpt: 'Being in the healthcare industry, we know how crucial it is to have accurate and timely availability of patient information. US healthcare mechanisms involve a large amount of data sharing with differ...',
@@ -398,6 +400,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'final-rule-against-injustice-disguised-as-paper-work',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2025/11/FINAL-RULE-AGAINST-INJUSTICE-DISGUISED-AS-PAPER-WORK-01.jpg',
     title: 'Final Rule Against Injustice Disguised as Paper Work',
     tag: 'RCM',
     excerpt: 'For healthcare providers, prior authorization is an absolute necessity to ensure their claims are paid. But the reality is, physicians are forced to spend countless hours each week completing an avera...',
@@ -438,6 +441,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'how-to-turn-cms-rule-into-real-revenue-boost-for-ortho-asc',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2025/09/1-01.png',
     title: 'How to Turn CMS Rule into Real Revenue Boost for Ortho ASC',
     tag: 'Orthopedics',
     excerpt: 'How to Turn CMS Rule into Real Revenue Boost for Ortho ASC',
@@ -493,6 +497,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'ai-in-medical-billing',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2024/04/Integration-of-AI-in-Healthcare-RCM.png',
     title: 'AI in Medical Billing',
     tag: 'AI & Technology',
     excerpt: 'The past few decades have been asterisked with the metamorphosis of the US healthcare system, fusing various enhancements like a value-based model, no-surprise act, electronic health records, IoT (Int...',
@@ -567,6 +572,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'the-ultimate-cardiology-medical-billing-guide',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2023/10/Cardiology-Billing.png',
     title: 'The Ultimate Cardiology Medical Billing Guide',
     tag: 'Cardiology',
     excerpt: 'Today’s Healthcare organizations need to ensure every aspect of their practice is running smoothly and efficiently. As Healthcare organizations strive for excellence in patient care, it is equally imp...',
@@ -754,6 +760,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'ambulatory-surgery-center-asc-billing-guidelines',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2023/09/Ambulatory-Surgical-Billing.png',
     title: 'Ambulatory Surgery Center (ASC) Billing Guidelines',
     tag: 'ASC',
     excerpt: 'The healthcare industry plays a crucial role in our society. While it focuses on the care of patients, many financial aspects of it also need to be taken care of. Every healthcare provider follows a p...',
@@ -1013,6 +1020,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'what-is-charge-capture-a-physicians-guide',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2023/09/COSENTUS-Blog-Graphics1.png',
     title: 'What Is Charge Capture? A Physician\'s Guide',
     tag: 'RCM',
     excerpt: 'A healthcare practice’s success ultimately hinges on many interconnected factors. While providing sound healthcare services is the primary and most important aspect of a healthcare facility, several o...',
@@ -1188,6 +1196,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'radiology-billing-guide-for-medical-practices',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2023/08/outsourcing-radiology-billing.jpeg',
     title: 'Radiology Billing Guide for Medical Practices',
     tag: 'Radiology',
     excerpt: 'It truly is remarkable how something as simple as an image can hold such profound significance and contribute to the field of medicine in such a meaningful way. Radiology is the medical discipline that u...',
@@ -1419,6 +1428,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'health-insurance-verification-tips-for-medical-practices',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2023/09/2.jpg',
     title: 'Health Insurance Verification Tips for Medical Practices',
     tag: 'Insurance',
     excerpt: 'Verifying medical insurance is an essential healthcare process that guarantees a patient’s coverage and benefits before administering any healthcare services or treatments. If you are seeking clarity...',
