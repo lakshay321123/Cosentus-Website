@@ -69,6 +69,7 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
   let m
   while ((m = capsRegex.exec(text)) !== null) {
     const h = m[1].trim()
+    if (h.endsWith(':')) continue  // Skip list item labels
     // Must be at least 2 real caps words and 10+ chars
     const capWords = h.split(/[\s/]+/).filter(w => /^[A-Z]{2,}/.test(w.replace(/[?:.&]/, '')))
     if (capWords.length >= 2 && h.length >= 10) {
@@ -97,9 +98,11 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
 
   // Pattern 3: Title Case headings mid-text (after period, followed by body text)
   // e.g., "...some sentence. Categorize Every Denial Immediately The foundation..."
-  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?:]?)\s+(?=[A-Z])/g
+  // EXCLUDES colon-ending matches (those are list item labels like "Fewer Billing Errors:")
+  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?]?)\s+(?=[A-Z])/g
   while ((m = titleMidRegex.exec(text)) !== null) {
     const h = m[1].trim()
+    if (h.endsWith(':')) continue  // Skip list item labels
     const words = h.split(/\s+/)
     const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
     if (capWords.length >= 3 && h.length >= 20 && !h.includes(',')) {
@@ -124,10 +127,14 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
     const before = text.slice(lastIdx, hp.start).trim()
     if (before) segments.push({ type: 'text', content: before })
 
-    // Convert to Title Case
+    // Convert to Title Case — preserve known acronyms
+    const acronyms = new Set(['IT','AI','AR','RCM','EHR','EMR','CMS','CPT','ICD','ASC','API','HIPAA','ACO','VBS','FHIR','OB','GYN','DME','ERA','EOB','RPM','RTM','IoT','HCPCS','NCCI','MUE','PFS','MPFS','PAYGO','MIPS','DSO','FPA','CARC','RARC'])
     const titleCase = hp.text.replace(/[?:.]$/, '').split(/[\s/]+/).map((w, i) => {
+      const cleaned = w.replace(/[?:.]/g, '')
+      // Preserve known acronyms
+      if (acronyms.has(cleaned)) return cleaned
       if (smallWords.has(w.toLowerCase()) && i > 0) return w.toLowerCase()
-      if (/^[A-Z]{2,}$/.test(w.replace(/[?:.]/, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+      if (/^[A-Z]{2,}$/.test(cleaned)) return w.charAt(0) + w.slice(1).toLowerCase()
       return w
     }).join(' ')
     const suffix = hp.text.match(/[?:]$/)?.[0] || ''
