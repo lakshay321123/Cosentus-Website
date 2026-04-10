@@ -91,7 +91,6 @@ function InteractiveMindMap() {
         alt="Complete Practice Management — doctor with 7 connected service roles"
         style={{
           width: '100%', height: 'auto', display: 'block',
-          filter: 'brightness(0) invert(1)',
         }}
       />
 
