@@ -1,401 +1,260 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 
-const testimonials = [
-  { quote: '97% collection rate. Staggering.', author: 'Dr. John B. Field Jr.', title: 'Anesthesia' },
-  { quote: 'Reimbursements increased after they started coding for me.', author: 'Dr. Morteza Farr', title: 'Orthopedics' },
-  { quote: 'Nothing but positive experiences. Without reservations.', author: 'Justin Lo, MD', title: 'Pain Management' },
-  { quote: 'The outstanding balances saved our surgery center.', author: 'John Welsh, M.D.', title: 'ASC' },
-  { quote: 'Reducing our Days in AR and improving cash flow.', author: 'Sujan Vatturi', title: 'Behavioral Health' },
+const quotes = [
+  { q: '97% collection rate. Staggering.', a: 'Dr. John B. Field Jr.', t: 'Anesthesia' },
+  { q: 'Reimbursements increased after they started coding for me.', a: 'Dr. Morteza Farr', t: 'Orthopedics' },
+  { q: 'Nothing but positive experiences. Without reservations.', a: 'Justin Lo, MD', t: 'Pain Management' },
+  { q: 'The outstanding balances saved our surgery center.', a: 'John Welsh, M.D.', t: 'ASC' },
+  { q: 'Reducing our Days in AR and improving cash flow.', a: 'Sujan Vatturi', t: 'Behavioral Health' },
 ]
 
-export default function HomeBBDO() {
-  const [activeQuote, setActiveQuote] = useState(0)
-  const [heroReady, setHeroReady] = useState(false)
+const I1 = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1400&q=80'
+const I2 = 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1400&q=80'
+const I3 = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=80'
+const I4 = 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1400&q=80'
 
-  useEffect(() => { setTimeout(() => setHeroReady(true), 200) }, [])
+export default function HomeBBDO() {
+  const [qi, setQi] = useState(0)
+  const [ready, setReady] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
+  const mainRef = useRef<HTMLElement>(null)
+
+  useEffect(() => { setTimeout(() => setReady(true), 200) }, [])
+  useEffect(() => { const t = setInterval(() => setQi(p => (p + 1) % quotes.length), 5000); return () => clearInterval(t) }, [])
+
+  // Parallax scroll tracking
+  const onScroll = useCallback(() => { setScrollY(window.scrollY) }, [])
   useEffect(() => {
-    const t = setInterval(() => setActiveQuote(p => (p + 1) % testimonials.length), 5000)
-    return () => clearInterval(t)
-  }, [])
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [onScroll])
+
+  // Scroll-triggered reveals
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed') })
+    }, { threshold: 0.15 })
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+    return () => obs.disconnect()
+  }, [ready])
 
   return (
-    <main>
-      <style>{`
-        /* ===== HERO ===== */
-        .hm-hero {
-          position: relative; height: 100vh; overflow: hidden; background: #000;
-          display: flex; align-items: flex-end; padding: 0 60px 60px;
-        }
-        .hm-hero video {
-          position: absolute; inset: 0; width: 100%; height: 100%;
-          object-fit: cover; opacity: 0.45;
-        }
-        .hm-hero-overlay {
-          position: absolute; inset: 0; z-index: 1;
-          background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.7) 100%);
-        }
-        /* Geometric overlays like BBDO */
-        .hm-geo { position: absolute; z-index: 2; pointer-events: none; }
-        .hm-geo-circle {
-          top: 15%; right: 20%; width: 180px; height: 180px;
-          border: 3px solid var(--primary); border-radius: 50%;
-          opacity: 0; transform: scale(0.5);
-          transition: all 1.5s cubic-bezier(0.16,1,0.3,1) 0.6s;
-        }
-        .hm-geo-circle.show { opacity: 0.4; transform: scale(1); }
-        .hm-geo-bracket-l {
-          top: 30%; left: 8%; width: 40px; height: 80px;
-          border-left: 3px solid var(--primary); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary);
-          opacity: 0; transition: opacity 1s 0.8s;
-        }
-        .hm-geo-bracket-l.show { opacity: 0.35; }
-        .hm-geo-bracket-r {
-          bottom: 25%; right: 8%; width: 40px; height: 80px;
-          border-right: 3px solid var(--primary); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary);
-          opacity: 0; transition: opacity 1s 1s;
-        }
-        .hm-geo-bracket-r.show { opacity: 0.35; }
-        .hm-geo-line {
-          top: 40%; left: 25%; width: 120px; height: 0;
-          border-top: 2px solid var(--primary);
-          opacity: 0; transition: opacity 1s 1.2s;
-        }
-        .hm-geo-line.show { opacity: 0.3; }
+    <main ref={mainRef} style={{ background: '#000', overflow: 'hidden' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .reveal{opacity:0;transform:translateY(60px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+        .reveal.revealed{opacity:1;transform:translateY(0)}
+        .reveal.d1{transition-delay:.15s}.reveal.d2{transition-delay:.3s}.reveal.d3{transition-delay:.45s}.reveal.d4{transition-delay:.6s}.reveal.d5{transition-delay:.75s}
+        .reveal-scale{opacity:0;transform:scale(.85);transition:opacity .8s,transform 1s cubic-bezier(.16,1,.3,1)}
+        .reveal-scale.revealed{opacity:1;transform:scale(1)}
+        .reveal-clip{clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)}
+        .reveal-clip.revealed{clip-path:inset(0 0% 0 0)}
 
-        .hm-hero-text {
-          position: relative; z-index: 3;
-          display: flex; justify-content: space-between; align-items: flex-end;
-          width: 100%;
-        }
-        .hm-hero h1 {
-          font-family: var(--font-display); font-weight: 800;
-          font-style: italic; font-size: clamp(48px, 9vw, 130px);
-          color: white; line-height: 0.9; letter-spacing: -0.03em;
-          margin: 0; opacity: 0; transform: translateY(40px);
-          transition: all 1s cubic-bezier(0.16,1,0.3,1) 0.3s;
-        }
-        .hm-hero h1.show { opacity: 1; transform: translateY(0); }
-        .hm-hero h1 span { color: var(--primary); }
-        .hm-hero-right {
-          font-family: var(--font-display); font-size: clamp(40px, 7vw, 100px);
-          font-weight: 800; font-style: italic;
-          color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.25);
-          letter-spacing: -0.03em; line-height: 0.9;
-          opacity: 0; transition: opacity 1.2s 0.8s;
-        }
-        .hm-hero-right.show { opacity: 1; }
+        /* HERO */
+        .hh{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+        .hh video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+        .hh-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.7) 100%)}
+        .hh-geo{position:absolute;z-index:2;pointer-events:none;opacity:0;transition:all 1.8s cubic-bezier(.16,1,.3,1)}
+        .hh-geo.on{opacity:1}
+        .g1{top:10%;right:15%;width:250px;height:250px;border:2px solid var(--primary);border-radius:50%;box-shadow:0 0 60px rgba(0,181,214,.25);transform:scale(.3);transition-delay:.4s}
+        .g1.on{transform:scale(1);opacity:.5}
+        .g2{bottom:20%;left:5%;width:50px;height:100px;border-left:2px solid var(--primary);border-top:2px solid var(--primary);border-bottom:2px solid var(--primary);transition-delay:.6s}
+        .g2.on{opacity:.4}
+        .g3{top:35%;right:40%;width:50px;height:100px;border-right:2px solid var(--primary);border-top:2px solid var(--primary);border-bottom:2px solid var(--primary);transition-delay:.8s}
+        .g3.on{opacity:.4}
+        .g4{top:55%;left:20%;width:150px;border-top:1px solid var(--primary);transition-delay:1s}
+        .g4.on{opacity:.3}
+        .g5{top:25%;left:35%;width:8px;height:8px;background:var(--primary);border-radius:50%;box-shadow:0 0 20px rgba(0,181,214,.6);transition-delay:1.2s}
+        .g5.on{opacity:.6}
+        .hh-center{position:relative;z-index:3;text-align:center;opacity:0;transform:translateY(50px);transition:all 1.2s cubic-bezier(.16,1,.3,1) .2s}
+        .hh-center.on{opacity:1;transform:translateY(0)}
+        .hh h1{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(56px,11vw,160px);color:#fff;line-height:.88;letter-spacing:-.04em;margin:0;text-shadow:0 4px 60px rgba(0,0,0,.4)}
+        .hh h1 span{color:var(--primary)}
+        .hh-sub{font-family:var(--font-display);font-size:clamp(14px,1.5vw,18px);color:rgba(255,255,255,.6);margin-top:24px;font-weight:300;letter-spacing:.05em}
+        .hh-btn{display:inline-block;margin-top:32px;padding:16px 48px;font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;transition:all .4s}
+        .hh-btn:hover{background:#fff;color:#000;transform:scale(1.05)}
+        .hh-ghost{position:absolute;bottom:60px;right:60px;z-index:3;font-family:var(--font-display);font-size:clamp(36px,6vw,90px);font-weight:800;font-style:italic;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.12);letter-spacing:-.03em;line-height:.9;opacity:0;transition:opacity 1.5s 1s}
+        .hh-ghost.on{opacity:1}
 
-        /* ===== STATEMENT — images mixed into text ===== */
-        .hm-statement {
-          background: var(--primary); padding: clamp(60px,10vw,120px) clamp(24px,5vw,80px);
-          position: relative; overflow: hidden;
-        }
-        .hm-stmt-grid {
-          display: grid; grid-template-columns: 1.4fr 1fr;
-          gap: clamp(32px,4vw,64px); align-items: center;
-          max-width: 1200px; margin: 0 auto;
-        }
-        .hm-stmt-text {
-          font-family: var(--font-display); font-weight: 800;
-          font-size: clamp(36px,5.5vw,80px); color: white;
-          line-height: 1.05; letter-spacing: -0.02em;
-        }
-        .hm-stmt-text .img-inline {
-          display: inline-block; width: clamp(80px,12vw,180px);
-          height: clamp(50px,7vw,100px); border-radius: 8px;
-          overflow: hidden; vertical-align: middle; margin: 0 8px;
-          position: relative;
-        }
-        .hm-stmt-text .img-inline img {
-          width: 100%; height: 100%; object-fit: cover;
-        }
-        .hm-stmt-right {
-          font-family: var(--font-display); font-size: clamp(16px,1.8vw,22px);
-          font-weight: 400; color: rgba(255,255,255,0.9);
-          line-height: 1.6;
-        }
-        .hm-stmt-right p { margin-bottom: 20px; }
-        .hm-stmt-cta {
-          display: inline-block; padding: 16px 44px;
-          font-family: var(--font-display); font-size: 13px;
-          font-weight: 600; letter-spacing: 0.12em;
-          text-transform: uppercase; color: var(--primary);
-          background: white; text-decoration: none;
-          border-radius: 40px; transition: all 0.3s;
-        }
-        .hm-stmt-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        /* PARALLAX IMAGE STRIP */
+        .px-strip{position:relative;height:60vh;overflow:hidden}
+        .px-strip img{position:absolute;inset:0;width:100%;height:130%;object-fit:cover;will-change:transform}
+        .px-strip-ov{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:1}
+        .px-strip-text{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+        .px-strip-text h2{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,80px);color:#fff;line-height:1;letter-spacing:-.03em}
+        .px-strip-text h2 span{color:var(--primary)}
 
-        /* ===== OUTLINE TYPOGRAPHY ===== */
-        .hm-outline {
-          padding: 80px 24px; background: var(--gray-900);
-          text-align: center; overflow: hidden;
-        }
-        .hm-outline-filled {
-          font-family: var(--font-display); font-weight: 800;
-          font-size: clamp(48px,10vw,140px); color: white;
-          line-height: 1; letter-spacing: -0.03em;
-        }
-        .hm-outline-stroke {
-          font-family: var(--font-display); font-weight: 800;
-          font-size: clamp(48px,10vw,140px);
-          color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.15);
-          line-height: 1; letter-spacing: -0.03em;
-          margin-top: -8px;
-        }
+        /* STATS */
+        .hs{display:grid;grid-template-columns:repeat(4,1fr);background:#fff}
+        .hs-c{padding:64px 24px;text-align:center;border-right:1px solid var(--gray-200);transition:all .5s}
+        .hs-c:last-child{border-right:none}
+        .hs-c:hover{background:var(--gray-900)}
+        .hs-c:hover .hs-n{color:var(--primary);transform:scale(1.1)}
+        .hs-c:hover .hs-l{color:rgba(255,255,255,.5)}
+        .hs-n{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5vw,60px);color:var(--gray-900);line-height:1;transition:all .5s}
+        .hs-l{font-family:var(--font-display);font-size:11px;font-weight:500;color:var(--gray-500);text-transform:uppercase;letter-spacing:.1em;margin-top:12px;transition:color .5s}
 
-        /* ===== NEWS with giant side label ===== */
-        .hm-news {
-          background: var(--primary); padding: 80px 0;
-          display: grid; grid-template-columns: 1fr auto;
-          position: relative; overflow: hidden;
-        }
-        .hm-news-content { padding: 0 clamp(24px,4vw,60px); }
-        .hm-news-label {
-          font-family: var(--font-display); font-weight: 800;
-          font-size: clamp(120px,18vw,300px); color: rgba(255,255,255,0.08);
-          writing-mode: vertical-rl; text-orientation: mixed;
-          line-height: 1; letter-spacing: -0.04em;
-          padding-right: 20px; user-select: none;
-        }
-        .hm-news-top {
-          display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
-          margin-bottom: 4px;
-        }
-        .hm-news-card {
-          position: relative; overflow: hidden; display: flex;
-          align-items: flex-end; text-decoration: none;
-          min-height: 260px; transition: transform 0.4s;
-        }
-        .hm-news-card:hover { transform: scale(0.98); }
-        .hm-news-card.featured { grid-column: 1; grid-row: span 2; min-height: 524px; }
-        .hm-news-card img {
-          position: absolute; inset: 0; width: 100%; height: 100%;
-          object-fit: cover; transition: transform 0.6s;
-        }
-        .hm-news-card:hover img { transform: scale(1.05); }
-        .hm-news-card::after {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.8) 100%);
-          z-index: 1;
-        }
-        .hm-nc-inner { position: relative; z-index: 2; padding: 24px; }
-        .hm-nc-tag {
-          font-family: var(--font-display); font-size: 10px;
-          font-weight: 600; letter-spacing: 0.12em;
-          text-transform: uppercase; color: var(--primary);
-          margin-bottom: 6px;
-        }
-        .hm-nc-title {
-          font-family: var(--font-display); font-size: 18px;
-          font-weight: 700; color: white; line-height: 1.2;
-          text-transform: uppercase;
-        }
-        .hm-news-card.featured .hm-nc-title { font-size: clamp(22px,2.5vw,32px); }
-        .hm-nc-arrow {
-          position: absolute; top: 16px; right: 16px; z-index: 2;
-          width: 32px; height: 32px; border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.3);
-          display: flex; align-items: center; justify-content: center;
-        }
+        /* STATEMENT — teal with inline images */
+        .hst{background:var(--primary);padding:clamp(80px,12vw,160px) clamp(24px,5vw,80px);position:relative;overflow:hidden}
+        .hst::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(0,0,0,.1),transparent 70%)}
+        .hst-g{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(40px,5vw,80px);align-items:center;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,6vw,90px);color:#fff;line-height:1;letter-spacing:-.03em}
+        .ii{display:inline-block;width:clamp(90px,14vw,200px);height:clamp(55px,8vw,110px);border-radius:10px;overflow:hidden;vertical-align:middle;margin:0 6px;transition:transform .6s}
+        .ii:hover{transform:scale(1.1) rotate(-2deg)}
+        .ii img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+        .ii:hover img{transform:scale(1.15)}
+        .hst-r{font-family:var(--font-display);font-size:clamp(16px,1.8vw,22px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.7}
+        .hst-r p{margin-bottom:24px}
+        .hst-btn{display:inline-block;padding:16px 48px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);background:#fff;text-decoration:none;border-radius:40px;transition:all .4s}
+        .hst-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
 
-        /* ===== STATS ROW ===== */
-        .hm-stats {
-          display: grid; grid-template-columns: repeat(4, 1fr);
-          background: white;
-        }
-        .hm-stat-card {
-          padding: 56px 24px; text-align: center;
-          border-right: 1px solid var(--gray-200);
-          transition: all 0.4s; cursor: default;
-        }
-        .hm-stat-card:last-child { border-right: none; }
-        .hm-stat-card:hover { background: var(--gray-900); }
-        .hm-stat-card:hover .hm-sc-num { color: var(--primary); }
-        .hm-stat-card:hover .hm-sc-label { color: rgba(255,255,255,0.6); }
-        .hm-sc-num {
-          font-family: var(--font-display); font-weight: 800;
-          font-size: clamp(32px,4vw,52px); color: var(--gray-900);
-          line-height: 1; transition: color 0.4s;
-        }
-        .hm-sc-label {
-          font-family: var(--font-display); font-size: 11px;
-          font-weight: 500; color: var(--gray-500);
-          text-transform: uppercase; letter-spacing: 0.1em;
-          margin-top: 12px; transition: color 0.4s;
-        }
+        /* VIDEO SECTION */
+        .hv{position:relative;height:70vh;overflow:hidden}
+        .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+        .hv-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.3));z-index:1}
+        .hv-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+        .hv h2{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,5vw,72px);color:#fff;line-height:1.1;letter-spacing:-.02em}
+        .hv h2 em{font-weight:300;font-style:italic;opacity:.8}
 
-        /* ===== TESTIMONIAL ===== */
-        .hm-testi {
-          min-height: 50vh; display: flex; align-items: center;
-          justify-content: center; background: var(--gray-50);
-          padding: 80px 24px; text-align: center;
-        }
-        .hm-tq {
-          font-family: var(--font-display); font-weight: 300;
-          font-style: italic; font-size: clamp(24px,3.5vw,48px);
-          color: var(--gray-900); line-height: 1.25;
-          max-width: 750px; margin: 0 auto;
-        }
-        .hm-ta {
-          font-family: var(--font-display); font-size: 13px;
-          color: var(--gray-500); margin-top: 24px; font-weight: 500;
-        }
-        .hm-ta span { color: var(--primary); font-weight: 600; }
-        .hm-tdots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
-        .hm-td {
-          width: 8px; height: 8px; border-radius: 50%;
-          background: var(--gray-300); border: none; padding: 0;
-          cursor: pointer; transition: all 0.3s;
-        }
-        .hm-td.on { background: var(--primary); transform: scale(1.5); }
+        /* NEWS with side label */
+        .hn{background:#111;padding:80px 0;display:grid;grid-template-columns:1fr auto;overflow:hidden}
+        .hn-c{padding:0 clamp(24px,4vw,60px)}
+        .hn-lab{font-family:var(--font-display);font-weight:800;font-size:clamp(120px,20vw,350px);color:rgba(255,255,255,.04);writing-mode:vertical-rl;line-height:1;letter-spacing:-.04em;padding-right:20px;user-select:none}
+        .hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+        .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:280px;transition:transform .5s}
+        .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:564px}
+        .hn-card:hover{transform:scale(.97)}
+        .hn-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.16,1,.3,1)}
+        .hn-card:hover img{transform:scale(1.12)}
+        .hn-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.85) 100%);z-index:1}
+        .hn-in{position:relative;z-index:2;padding:28px}
+        .hn-tag{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px}
+        .hn-tt{font-family:var(--font-display);font-size:20px;font-weight:700;color:#fff;line-height:1.2;text-transform:uppercase}
+        .hn-card:first-child .hn-tt{font-size:clamp(24px,3vw,36px)}
+        .hn-arr{position:absolute;top:16px;right:16px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s}
+        .hn-card:hover .hn-arr{background:var(--primary);border-color:var(--primary)}
 
-        /* ===== CTA ===== */
-        .hm-cta {
-          padding: 120px 24px; background: var(--gray-900);
-          text-align: center;
-        }
-        .hm-cta h2 {
-          font-family: var(--font-display); font-weight: 800;
-          font-style: italic; font-size: clamp(48px,8vw,120px);
-          color: white; letter-spacing: -0.03em; margin-bottom: 40px;
-        }
-        .hm-cta h2 span { color: var(--primary); }
-        .hm-cta-btn {
-          display: inline-block; padding: 18px 52px;
-          font-family: var(--font-display); font-size: 13px;
-          font-weight: 600; letter-spacing: 0.15em;
-          text-transform: uppercase; color: white;
-          background: var(--primary); text-decoration: none;
-          transition: all 0.3s;
-        }
-        .hm-cta-btn:hover {
-          background: white; color: var(--gray-900);
-          transform: translateY(-2px);
-        }
+        /* TESTIMONIAL */
+        .ht{min-height:50vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:100px 24px;text-align:center}
+        .ht-q{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:clamp(26px,4vw,52px);color:var(--gray-900);line-height:1.2;max-width:800px;margin:0 auto}
+        .ht-a{font-family:var(--font-display);font-size:14px;color:var(--gray-500);margin-top:28px;font-weight:500}
+        .ht-a span{color:var(--primary);font-weight:600}
+        .ht-d{display:flex;justify-content:center;gap:10px;margin-top:28px}
+        .ht-dd{width:8px;height:8px;border-radius:50%;background:var(--gray-200);border:none;padding:0;cursor:pointer;transition:all .4s}
+        .ht-dd.on{background:var(--primary);transform:scale(1.6);box-shadow:0 0 12px rgba(0,181,214,.4)}
 
-        @media (max-width: 768px) {
-          .hm-hero { padding: 0 24px 40px; }
-          .hm-hero-right { display: none; }
-          .hm-geo-circle, .hm-geo-bracket-l, .hm-geo-bracket-r, .hm-geo-line { display: none; }
-          .hm-stmt-grid { grid-template-columns: 1fr; }
-          .hm-stmt-text .img-inline { width: 60px; height: 40px; }
-          .hm-news { grid-template-columns: 1fr; }
-          .hm-news-label { display: none; }
-          .hm-news-top { grid-template-columns: 1fr; }
-          .hm-news-card.featured { grid-row: span 1; min-height: 260px; }
-          .hm-stats { grid-template-columns: repeat(2, 1fr); }
-          .hm-stat-card:nth-child(2) { border-right: none; }
-          .hm-stat-card:nth-child(1), .hm-stat-card:nth-child(2) { border-bottom: 1px solid var(--gray-200); }
-        }
-      `}</style>
+        /* CTA */
+        .hf{padding:140px 24px;background:#000;text-align:center;position:relative;overflow:hidden}
+        .hf::before{content:'GROWTH';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:clamp(100px,20vw,300px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.03);letter-spacing:-.04em;pointer-events:none;white-space:nowrap}
+        .hf h2{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(52px,9vw,130px);color:#fff;letter-spacing:-.03em;margin-bottom:40px;position:relative;z-index:1}
+        .hf h2 span{color:var(--primary)}
+        .hf-btn{display:inline-block;padding:20px 56px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;transition:all .4s;position:relative;z-index:1}
+        .hf-btn:hover{background:#fff;color:var(--gray-900);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,181,214,.3)}
 
-      {/* HERO — video + geometric overlays + dual typography */}
-      <section className="hm-hero">
-        <video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video>
-        <div className="hm-hero-overlay" />
-        <div className={`hm-geo hm-geo-circle ${heroReady ? 'show' : ''}`} />
-        <div className={`hm-geo hm-geo-bracket-l ${heroReady ? 'show' : ''}`} />
-        <div className={`hm-geo hm-geo-bracket-r ${heroReady ? 'show' : ''}`} />
-        <div className={`hm-geo hm-geo-line ${heroReady ? 'show' : ''}`} />
-        <div className="hm-hero-text">
-          <h1 className={heroReady ? 'show' : ''}>THINK<br /><span>GROWTH.</span></h1>
-          <div className={`hm-hero-right ${heroReady ? 'show' : ''}`}>THINK<br />GROWTH.</div>
+        @media(max-width:768px){
+          .hh-ghost,.hh-geo,.hn-lab{display:none}
+          .hst-g{grid-template-columns:1fr}
+          .ii{width:60px;height:40px}
+          .hn{grid-template-columns:1fr}
+          .hn-grid{grid-template-columns:1fr}
+          .hn-card:first-child{grid-row:span 1;min-height:280px}
+          .hs{grid-template-columns:repeat(2,1fr)}
+          .hs-c:nth-child(2){border-right:none}
+          .hs-c:nth-child(1),.hs-c:nth-child(2){border-bottom:1px solid var(--gray-200)}
+        }
+      ` }} />
+
+      {/* HERO — video + parallax + geometric overlays */}
+      <section className="hh">
+        <video autoPlay loop muted playsInline style={{ transform: `translateY(${scrollY * 0.3}px)` }}><source src="/images/hero-video.mp4" type="video/mp4" /></video>
+        <div className="hh-ov" />
+        <div className={`hh-geo g1 ${ready ? 'on' : ''}`} style={{ transform: ready ? `scale(1) translateY(${scrollY * -0.15}px)` : 'scale(.3)' }} />
+        <div className={`hh-geo g2 ${ready ? 'on' : ''}`} />
+        <div className={`hh-geo g3 ${ready ? 'on' : ''}`} style={{ transform: `translateY(${scrollY * -0.1}px)` }} />
+        <div className={`hh-geo g4 ${ready ? 'on' : ''}`} />
+        <div className={`hh-geo g5 ${ready ? 'on' : ''}`} style={{ transform: `translateY(${scrollY * -0.2}px)` }} />
+        <div className={`hh-center ${ready ? 'on' : ''}`}>
+          <h1>THINK<br /><span>GROWTH.</span></h1>
+          <div className="hh-sub">Real + Artificial Intelligence for Healthcare</div>
+          <Link href="/contact" className="hh-btn">Free Revenue Analysis</Link>
+        </div>
+        <div className={`hh-ghost ${ready ? 'on' : ''}`}>THINK<br />GROWTH.</div>
+      </section>
+
+      {/* STATS — reveal on scroll */}
+      <section><div className="hs">
+        <div className="hs-c reveal"><div className="hs-n">30%</div><div className="hs-l">Revenue Growth</div></div>
+        <div className="hs-c reveal d1"><div className="hs-n">98%+</div><div className="hs-l">Net Collection</div></div>
+        <div className="hs-c reveal d2"><div className="hs-n">99%</div><div className="hs-l">Clean Claims</div></div>
+        <div className="hs-c reveal d3"><div className="hs-n">98.5%</div><div className="hs-l">Coding Accuracy</div></div>
+      </div></section>
+
+      {/* PARALLAX IMAGE with text overlay */}
+      <section className="px-strip">
+        <img src={I1} alt="" style={{ transform: `translateY(${(scrollY - 800) * -0.2}px)` }} />
+        <div className="px-strip-ov" />
+        <div className="px-strip-text">
+          <h2 className="reveal"><span>8</span> AI Agents.<br /><span>1,000+</span> Experts.<br />Zero Excuses.</h2>
         </div>
       </section>
 
-      {/* STATS ROW */}
-      <section>
-        <div className="hm-stats">
-          <div className="hm-stat-card"><div className="hm-sc-num">30%</div><div className="hm-sc-label">Revenue Growth</div></div>
-          <div className="hm-stat-card"><div className="hm-sc-num">98%+</div><div className="hm-sc-label">Net Collection</div></div>
-          <div className="hm-stat-card"><div className="hm-sc-num">99%</div><div className="hm-sc-label">Clean Claims</div></div>
-          <div className="hm-stat-card"><div className="hm-sc-num">98.5%</div><div className="hm-sc-label">Coding Accuracy</div></div>
-        </div>
-      </section>
-
-      {/* STATEMENT — images mixed into text like BBDO */}
-      <section className="hm-statement">
-        <div className="hm-stmt-grid">
-          <div className="hm-stmt-text">
-            WE ARE
-            <span className="img-inline"><img src="/images/hero-healthcare.jpg" alt="" /></span>
-            COSENTUS
-            <br />
-            <span className="img-inline"><img src="/images/hero-medical.jpg" alt="" /></span>
-            WE DO
-            <br />
-            BIG
-            <span className="img-inline"><img src="/images/hero-team.jpg" alt="" /></span>
-            THINGS
+      {/* STATEMENT — images mixed into text */}
+      <section className="hst">
+        <div className="hst-g">
+          <div className="hst-t reveal">
+            WE ARE <span className="ii"><img src={I1} alt="" /></span> COSENTUS<br />
+            <span className="ii"><img src={I2} alt="" /></span> WE DO<br />
+            BIG <span className="ii"><img src={I3} alt="" /></span> THINGS
           </div>
-          <div className="hm-stmt-right">
-            <p>We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
-            <p>We work with specialty practices that have the biggest ambitions.</p>
-            <p>We hire expert talent and bring them opportunities that build lasting careers.</p>
-            <Link href="/contact" className="hm-stmt-cta">Contact Us</Link>
+          <div className="hst-r">
+            <p className="reveal d1">We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
+            <p className="reveal d2">We work with specialty practices that have the biggest ambitions.</p>
+            <p className="reveal d3">We hire expert talent and bring them opportunities that build lasting careers.</p>
+            <div className="reveal d4"><Link href="/contact" className="hst-btn">Contact Us</Link></div>
           </div>
         </div>
       </section>
 
-      {/* OUTLINE TYPOGRAPHY */}
-      <section className="hm-outline">
-        <div className="hm-outline-filled">THINK GROWTH</div>
-        <div className="hm-outline-stroke">THINK GROWTH</div>
+      {/* VIDEO SECTION — second video with parallax */}
+      <section className="hv">
+        <video autoPlay loop muted playsInline style={{ transform: `translateY(${(scrollY - 2400) * -0.15}px)` }}><source src="/images/specialties-hero.mp4" type="video/mp4" /></video>
+        <div className="hv-ov" />
+        <div className="hv-content">
+          <h2 className="reveal">25 Years. 19 Acquisitions.<br /><em>One Mission.</em></h2>
+        </div>
       </section>
 
-      {/* NEWS — with giant vertical label */}
-      <section className="hm-news">
-        <div className="hm-news-content">
-          <div className="hm-news-top">
-            <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hm-news-card featured">
-              <img src="/images/hero-healthcare.jpg" alt="" />
-              <div className="hm-nc-inner">
-                <div className="hm-nc-tag">Medicare Policy</div>
-                <div className="hm-nc-title">Congress Moves to Stop the Bleeding</div>
-              </div>
-              <div className="hm-nc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-            </Link>
-            <Link href="/news/cms-policy-updates-asc" className="hm-news-card">
-              <img src="/images/hero-medical.jpg" alt="" />
-              <div className="hm-nc-inner">
-                <div className="hm-nc-tag">CMS Policy</div>
-                <div className="hm-nc-title">Four Changes Every Specialty Must Know</div>
-              </div>
-              <div className="hm-nc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-            </Link>
-            <Link href="/news/asc-reimbursement-payer-strategy" className="hm-news-card">
-              <img src="/images/hero-team.jpg" alt="" />
-              <div className="hm-nc-inner">
-                <div className="hm-nc-tag">ASC</div>
-                <div className="hm-nc-title">ASC Reimbursement Under Attack</div>
-              </div>
-              <div className="hm-nc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-            </Link>
-          </div>
-        </div>
-        <div className="hm-news-label">NEWS</div>
-      </section>
+      {/* NEWS — with giant side label + image zoom */}
+      <section className="hn"><div className="hn-c"><div className="hn-grid">
+        <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hn-card reveal-scale">
+          <img src={I4} alt="" /><div className="hn-in"><div className="hn-tag">Medicare Policy</div><div className="hn-tt">Congress Moves to Stop the Bleeding</div></div>
+          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        </Link>
+        <Link href="/news/cms-policy-updates-asc" className="hn-card reveal-scale d1">
+          <img src={I1} alt="" /><div className="hn-in"><div className="hn-tag">CMS Policy</div><div className="hn-tt">Four Changes Every Specialty Must Know</div></div>
+          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        </Link>
+        <Link href="/news/asc-reimbursement-payer-strategy" className="hn-card reveal-scale d2">
+          <img src={I2} alt="" /><div className="hn-in"><div className="hn-tag">ASC</div><div className="hn-tt">ASC Reimbursement Under Attack</div></div>
+          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        </Link>
+      </div></div><div className="hn-lab">NEWS</div></section>
 
       {/* TESTIMONIALS */}
-      <section className="hm-testi">
-        <div>
-          <div className="hm-tq">&ldquo;{testimonials[activeQuote].quote}&rdquo;</div>
-          <div className="hm-ta">— {testimonials[activeQuote].author} &nbsp;|&nbsp; <span>{testimonials[activeQuote].title}</span></div>
-          <div className="hm-tdots">
-            {testimonials.map((_, i) => (
-              <button key={i} className={`hm-td ${i === activeQuote ? 'on' : ''}`} onClick={() => setActiveQuote(i)} aria-label={`Quote ${i + 1}`} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="ht"><div>
+        <div className="ht-q">&ldquo;{quotes[qi].q}&rdquo;</div>
+        <div className="ht-a">— {quotes[qi].a} &nbsp;|&nbsp; <span>{quotes[qi].t}</span></div>
+        <div className="ht-d">{quotes.map((_, i) => (
+          <button key={i} className={`ht-dd ${i === qi ? 'on' : ''}`} onClick={() => setQi(i)} aria-label={`Quote ${i + 1}`} />
+        ))}</div>
+      </div></section>
 
-      {/* CTA */}
-      <section className="hm-cta">
-        <h2><span>Ready</span>?</h2>
-        <Link href="/contact" className="hm-cta-btn">Free Revenue Analysis</Link>
+      {/* CTA — with ghost text background */}
+      <section className="hf">
+        <h2 className="reveal"><span>Ready</span>?</h2>
+        <Link href="/contact" className="hf-btn reveal d1">Free Revenue Analysis</Link>
       </section>
     </main>
   )
