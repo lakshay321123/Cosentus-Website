@@ -66,8 +66,8 @@ export default function HomeBBDO() {
       const stTl = gsap.timeline({
         scrollTrigger: { trigger: '#sec-stmt', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
-      stTl.from('.gs-stmt-txt', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' })
-        .from('.gs-bubble', { scale: 0, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.3')
+      stTl.from('.gs-stmt-txt', { y: 50, duration: 0.8, ease: 'power3.out' })
+        .from('.gs-bubble', { scale: 0, stagger: 0.2, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.2')
         .from('.gs-stmt-r > *', { y: 30, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power3.out' }, '-=0.3')
 
       // 7. Video text from top/bottom
