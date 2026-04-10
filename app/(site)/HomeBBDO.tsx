@@ -62,7 +62,7 @@ export default function HomeBBDO() {
         i++
         setTyped(full.slice(0, i))
         if (i >= full.length) { clearInterval(iv); setTimeout(() => setShowGlow(true), 300); setTimeout(() => setShowBtn(true), 800) }
-      }, 80)
+      }, 150)
     }, 500)
     return () => clearTimeout(t)
   }, [])
@@ -92,7 +92,7 @@ export default function HomeBBDO() {
       'sec-news': setNewsVisible, 'sec-testi': setTestiVisible, 'sec-cta': setCtaVisible,
     }
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { const fn = map[e.target.id]; if (fn) fn(true) } })
+      entries.forEach(e => { const fn = map[e.target.id]; if (fn) fn(e.isIntersecting) })
     }, { threshold: 0.2 })
     Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el) })
     return () => obs.disconnect()
@@ -148,6 +148,7 @@ export default function HomeBBDO() {
         .ag h2 span{color:var(--primary)}
         .ag-line{display:block;opacity:0;transform:translateX(-80px);transition:all .8s cubic-bezier(.16,1,.3,1)}
         .ag-line.on{opacity:1;transform:translateX(0)}
+        .ag-line:not(.on){transition:all .5s ease-in}
         .ag-line:nth-child(2){transition-delay:.3s}
         .ag-line:nth-child(3){transition-delay:.6s}
 
@@ -156,14 +157,17 @@ export default function HomeBBDO() {
         .hst-g{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(60px,6vw,100px);align-items:start;max-width:1200px;margin:0 auto}
         .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,6vw,90px);color:#fff;line-height:1;letter-spacing:-.03em;opacity:0;transform:translateY(40px);transition:all 1s cubic-bezier(.16,1,.3,1)}
         .hst-t.on{opacity:1;transform:translateY(0)}
+        .hst-t:not(.on){transition:all .5s ease-in}
         .ii{display:inline-block;width:clamp(90px,14vw,200px);height:clamp(55px,8vw,110px);border-radius:10px;overflow:hidden;vertical-align:middle;margin:0 6px;opacity:0;transform:scale(0);transition:all .6s cubic-bezier(.34,1.56,.64,1)}
         .ii.on{opacity:1;transform:scale(1)}
+        .ii:not(.on){transition:all .4s ease-in}
         .ii:nth-child(2){transition-delay:.15s}.ii:nth-child(4){transition-delay:.3s}.ii:nth-child(6){transition-delay:.45s}
         .ii:hover{transform:scale(1.1) rotate(-2deg)}
         .ii img{width:100%;height:100%;object-fit:cover}
         .hst-r{font-family:var(--font-display);font-size:clamp(18px,2vw,24px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.7}
         .hst-r p{margin-bottom:24px;opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
         .hst-r p.on{opacity:1;transform:translateY(0)}
+        .hst-r p:not(.on){transition:all .4s ease-in}
         .hst-r p:nth-child(2){transition-delay:.2s}.hst-r p:nth-child(3){transition-delay:.4s}
         .hst-btn-wrap{opacity:0;transform:translateY(20px);transition:all .8s .6s}
         .hst-btn-wrap.on{opacity:1;transform:translateY(0)}
@@ -180,6 +184,7 @@ export default function HomeBBDO() {
         .hv-line{display:block;opacity:0;transition:all 1s cubic-bezier(.16,1,.3,1)}
         .hv-line.from-top{transform:translateY(-60px)}.hv-line.from-bot{transform:translateY(60px)}
         .hv-line.on{opacity:1;transform:translateY(0)}
+        .hv-line:not(.on){transition:all .5s ease-in}
         .hv-line:nth-child(2){transition-delay:.3s}
 
         /* NEWS — slide from left */
@@ -189,6 +194,7 @@ export default function HomeBBDO() {
         .hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
         .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:280px;transition:transform .5s;opacity:0;transform:translateX(-60px)}
         .hn-card.on{opacity:1;transform:translateX(0);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .hn-card:not(.on){transition:all .6s cubic-bezier(.16,1,.3,1)}
         .hn-card:nth-child(2){transition-delay:.2s}.hn-card:nth-child(3){transition-delay:.4s}
         .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:564px}
         .hn-card:hover{transform:scale(.97)}
@@ -206,6 +212,7 @@ export default function HomeBBDO() {
         .ht{min-height:50vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:100px 24px;text-align:center}
         .ht-wrap{opacity:0;transform:scale(.9);transition:all 1s cubic-bezier(.16,1,.3,1)}
         .ht-wrap.on{opacity:1;transform:scale(1)}
+        .ht-wrap:not(.on){transition:all .5s ease-in}
         .ht-q{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:clamp(26px,4vw,52px);color:var(--gray-900);line-height:1.2;max-width:800px;margin:0 auto}
         .ht-a{font-family:var(--font-display);font-size:14px;color:var(--gray-500);margin-top:28px;font-weight:500}
         .ht-a span{color:var(--primary);font-weight:600}
@@ -218,6 +225,7 @@ export default function HomeBBDO() {
         .hf::before{content:'GROWTH';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:clamp(100px,20vw,300px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.03);pointer-events:none;white-space:nowrap}
         .hf h2{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(52px,9vw,130px);color:#fff;letter-spacing:-.03em;margin-bottom:40px;position:relative;z-index:1;opacity:0;transition:all 1.2s}
         .hf h2.on{opacity:1;text-shadow:0 0 40px rgba(0,181,214,.5),0 0 80px rgba(0,181,214,.2)}
+        .hf h2:not(.on){transition:all .5s ease-in}
         .hf h2 span{color:var(--primary)}
         .hf-btn{display:inline-block;padding:20px 56px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;transition:all .4s;position:relative;z-index:1}
         .hf-btn:hover{background:#fff;color:var(--gray-900);transform:translateY(-3px)}
