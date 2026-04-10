@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
@@ -87,64 +87,68 @@ const faqsPageBilling = [
 
 function InteractiveRCMCycle() {
   const [active, setActive] = useState(-1)
+  const [revealed, setRevealed] = useState(0)
+
+  // Sequential reveal — one label at a time
+  useEffect(() => {
+    let i = 0
+    const id = setInterval(() => {
+      i++
+      if (i <= rcmSteps.length) setRevealed(i)
+      else clearInterval(id)
+    }, 300)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management — 14 step billing cycle" style={{ width: '100%', height: 'auto', display: 'block', filter: 'brightness(0) invert(1)', animation: 'diagramFloat 5s ease-in-out infinite' }} />
+      {/* Base diagram — mix-blend-mode so white shows, rest blends */}
+      <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management" style={{
+        width: '100%', height: 'auto', display: 'block',
+        mixBlendMode: 'screen',
+        animation: 'diagramFloat 5s ease-in-out infinite',
+      }} />
 
-      {/* Rotating glow ring around the cycle */}
+      {/* HTML text labels — appear one at a time */}
+      {rcmSteps.map((step, i) => (
+        <div key={i}
+          onMouseEnter={() => setActive(i)}
+          onMouseLeave={() => setActive(-1)}
+          style={{
+            position: 'absolute', left: `${step.x}%`, top: `${step.y}%`,
+            fontSize: 9, fontWeight: 700, color: 'white',
+            textTransform: 'uppercase', letterSpacing: '0.03em',
+            lineHeight: 1.2, textAlign: 'center', cursor: 'pointer',
+            opacity: i < revealed ? 1 : 0,
+            transform: i < revealed ? 'translateY(0)' : 'translateY(8px)',
+            transition: 'opacity 0.4s ease, transform 0.4s ease',
+            textShadow: active === i ? '0 0 12px rgba(255,255,255,0.8)' : '0 1px 3px rgba(0,0,0,0.15)',
+          }}
+        >
+          {step.label}
+        </div>
+      ))}
+
+      {/* Rotating orbit dot */}
       <div style={{
         position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
-        width: '85%', height: '85%', borderRadius: '50%', pointerEvents: 'none',
-        border: '2px solid rgba(255,255,255,0.15)',
-        animation: 'spinSlow 20s linear infinite',
+        width: '80%', height: '80%', borderRadius: '50%', pointerEvents: 'none',
+        animation: 'spinSlow 15s linear infinite',
       }}>
-        <div style={{ position: 'absolute', top: -4, left: '50%', transform: 'translateX(-50%)', width: 8, height: 8, borderRadius: '50%', background: 'white', boxShadow: '0 0 12px rgba(255,255,255,0.8)' }} />
+        <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 10px rgba(255,255,255,0.8)' }} />
       </div>
-
-      {/* Visible animated dots around the cycle path */}
-      <svg viewBox="0 0 100 100" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-        {[0, 1, 2, 3].map(i => (
-          <circle key={i} r="1" fill="white" opacity="0.7">
-            <animateMotion dur={`${8 + i}s`} repeatCount="indefinite" path="M50,10 A40,40 0 1,1 49.99,10" begin={`${i * 2}s`} />
-          </circle>
-        ))}
-      </svg>
 
       {/* Center glow */}
       <div style={{
         position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
         width: 100, height: 100, borderRadius: '50%', pointerEvents: 'none',
-        boxShadow: '0 0 40px rgba(255,255,255,0.25), 0 0 80px rgba(0,181,214,0.15)',
         animation: 'centerGlow 3s ease-in-out infinite',
       }} />
-
-      {/* Hotspots */}
-      {rcmSteps.map((step, i) => {
-        const isActive = active === i
-        return (
-          <div key={i} onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(-1)}
-            style={{ position: 'absolute', left: `${step.x}%`, top: `${step.y}%`, width: 50, height: 30, cursor: 'pointer', zIndex: isActive ? 10 : 2 }}>
-            {isActive && (
-              <div style={{
-                position: 'absolute', bottom: '120%', left: '50%', transform: 'translateX(-50%)',
-                background: 'white', color: 'var(--gray-900)', padding: '8px 14px',
-                borderRadius: 'var(--radius-sm)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-                whiteSpace: 'nowrap', fontSize: 13, fontWeight: 600, animation: 'tooltipIn 0.2s ease', zIndex: 20,
-              }}>
-                {step.label}
-                <div style={{ position: 'absolute', bottom: -5, left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: 10, height: 10, background: 'white' }} />
-              </div>
-            )}
-          </div>
-        )
-      })}
 
       <style jsx>{`
         @keyframes diagramFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         @keyframes spinSlow { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-        @keyframes centerGlow { 0%, 100% { box-shadow: 0 0 40px rgba(255,255,255,0.2), 0 0 80px rgba(0,181,214,0.15); } 50% { box-shadow: 0 0 55px rgba(255,255,255,0.4), 0 0 100px rgba(0,181,214,0.3); } }
-        @keyframes tooltipIn { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        @keyframes centerGlow { 0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.15), 0 0 60px rgba(0,181,214,0.1); } 50% { box-shadow: 0 0 45px rgba(255,255,255,0.3), 0 0 80px rgba(0,181,214,0.2); } }
       `}</style>
     </div>
   )
