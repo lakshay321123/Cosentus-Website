@@ -86,48 +86,130 @@ const faqsPageBilling = [
    ─────────────────────────────────────────── */
 
 function InteractiveRCMCycle() {
-  const [progress, setProgress] = useState(0)
+  const [revealed, setRevealed] = useState(0)
 
   useEffect(() => {
-    let p = 0
+    let i = 0
     const id = setInterval(() => {
-      p += 2
-      setProgress(p)
-      if (p >= 100) clearInterval(id)
-    }, 60)
+      i++
+      setRevealed(i)
+      if (i >= 17) clearInterval(id) // 14 segments + center + people + platform
+    }, 400)
     return () => clearInterval(id)
   }, [])
 
+  const cx = 250, cy = 250
+  const outerR = 190, innerR = 130
+  const total = 14
+  const gapDeg = 2.5
+  const startOffset = -90 // start from top
+
+  const labels = [
+    'PATIENT\nREGISTRATION', 'ELIGIBILITY\n& BENEFITS\nCHECK', 'DATA ENTRY\nDEMOGRAPHICS',
+    'REFERRAL &\nAUTHORIZATION', 'CODING\n& BILLING', 'CHARGE\nPOSTING',
+    'CLAIM\nSUBMISSION', 'CLEARING\nDENIALS', 'PAYMENT\nPOSTING',
+    'DENIAL\nMANAGEMENT', 'SECONDARY\nFILING', 'ACCOUNTS\nRECEIVABLE',
+    'APPEAL\nPROCEDURE', 'PATIENT\nBILLING'
+  ]
+
+  function toRad(deg: number) { return deg * Math.PI / 180 }
+
+  function arcSegment(i: number) {
+    const anglePer = 360 / total
+    const s = toRad(startOffset + i * anglePer + gapDeg)
+    const e = toRad(startOffset + (i + 1) * anglePer - gapDeg)
+    const x1 = cx + outerR * Math.cos(s), y1 = cy + outerR * Math.sin(s)
+    const x2 = cx + outerR * Math.cos(e), y2 = cy + outerR * Math.sin(e)
+    const x3 = cx + innerR * Math.cos(e), y3 = cy + innerR * Math.sin(e)
+    const x4 = cx + innerR * Math.cos(s), y4 = cy + innerR * Math.sin(s)
+    return `M${x1},${y1} A${outerR},${outerR} 0 0,1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 0,0 ${x4},${y4} Z`
+  }
+
+  function labelXY(i: number) {
+    const anglePer = 360 / total
+    const mid = toRad(startOffset + (i + 0.5) * anglePer)
+    const lr = outerR + 28
+    return { x: cx + lr * Math.cos(mid), y: cy + lr * Math.sin(mid) }
+  }
+
+  // Arrow head at the start (top) of the cycle
+  const arrowAngle = toRad(startOffset - 3)
+  const aMid = (outerR + innerR) / 2
+  const ax = cx + aMid * Math.cos(arrowAngle), ay = cy + aMid * Math.sin(arrowAngle)
+  const tipAngle = toRad(startOffset - 12)
+  const tx = cx + (outerR + 18) * Math.cos(tipAngle), ty = cy + (outerR + 18) * Math.sin(tipAngle)
+  const bx = cx + outerR * Math.cos(arrowAngle), by = cy + outerR * Math.sin(arrowAngle)
+  const dx = cx + innerR * Math.cos(arrowAngle), dy = cy + innerR * Math.sin(arrowAngle)
+
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      {/* Clip mask reveals the image in a circular sweep */}
-      <div style={{
-        position: 'relative', width: '100%',
-        clipPath: `polygon(50% 50%, 50% 0%, ${progress >= 12.5 ? '100% 0%' : `${50 + progress * 4}% 0%`}${progress >= 12.5 ? `, 100% ${progress >= 37.5 ? '100%' : `${(progress - 12.5) * 4}%`}` : ''}${progress >= 37.5 ? `, ${progress >= 62.5 ? '0%' : `${100 - (progress - 37.5) * 4}%`} 100%` : ''}${progress >= 62.5 ? `, 0% ${progress >= 87.5 ? '0%' : `${100 - (progress - 62.5) * 4}%`}` : ''}${progress >= 87.5 ? `, ${Math.min(50, (progress - 87.5) * 4)}% 0%` : ''})`,
-        transition: 'clip-path 0.05s linear',
-      }}>
-        <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management" style={{
-          width: '100%', height: 'auto', display: 'block',
-          mixBlendMode: 'screen',
-        }} />
-      </div>
+      <svg viewBox="0 0 500 500" style={{ width: '100%', height: 'auto', overflow: 'visible' }}>
 
-      {/* Orbiting dot after reveal completes */}
-      {progress >= 100 && (
-        <div style={{
-          position: 'absolute', left: '50%', top: '50%',
-          width: '78%', height: '78%',
-          transform: 'translate(-50%,-50%)',
-          borderRadius: '50%', pointerEvents: 'none',
-          animation: 'spinSlow 12s linear infinite',
-        }}>
-          <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 12px rgba(255,255,255,0.8)' }} />
-        </div>
-      )}
+        {/* Arc segments */}
+        {labels.map((_, i) => (
+          <path key={i} d={arcSegment(i)}
+            fill={i < revealed ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.03)'}
+            stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"
+            style={{
+              opacity: i < revealed ? 1 : 0.15,
+              transition: `opacity 0.5s ease, fill 0.5s ease`,
+            }}
+          />
+        ))}
 
-      <style jsx>{`
-        @keyframes spinSlow { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-      `}</style>
+        {/* Arrow head */}
+        <polygon points={`${bx},${by} ${tx},${ty} ${dx},${dy}`}
+          fill={revealed >= 1 ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.03)'}
+          stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinejoin="round"
+          style={{ transition: 'fill 0.5s ease, opacity 0.5s ease', opacity: revealed >= 1 ? 1 : 0.15 }}
+        />
+
+        {/* Text labels */}
+        {labels.map((label, i) => {
+          const pos = labelXY(i)
+          const lines = label.split('\n')
+          return (
+            <text key={`lbl${i}`} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
+              fill="white" fontSize="10" fontWeight="700" fontFamily="var(--font-display)"
+              style={{ opacity: i < revealed ? 1 : 0, transition: `opacity 0.4s ease 0.15s` }}
+            >
+              {lines.map((line, li) => (
+                <tspan key={li} x={pos.x} dy={li === 0 ? -(lines.length - 1) * 5.5 : 11}>{line}</tspan>
+              ))}
+            </text>
+          )
+        })}
+
+        {/* Center circle */}
+        <circle cx={cx} cy={cy} r="95" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"
+          style={{ opacity: revealed >= 15 ? 1 : 0, transition: 'opacity 0.6s ease' }}
+        />
+
+        {/* Center people — 3 figures */}
+        <g style={{ opacity: revealed >= 16 ? 1 : 0, transition: 'opacity 0.8s ease' }}>
+          {/* Left person */}
+          <circle cx={cx - 28} cy={cy - 16} r="10" fill="white" />
+          <path d={`M${cx - 43},${cy + 22} Q${cx - 43},${cy} ${cx - 28},${cy} Q${cx - 13},${cy} ${cx - 13},${cy + 22} Z`} fill="white" />
+          {/* Center person (taller) */}
+          <circle cx={cx} cy={cy - 26} r="13" fill="white" />
+          <path d={`M${cx - 20},${cy + 22} Q${cx - 20},${cy - 4} ${cx},${cy - 4} Q${cx + 20},${cy - 4} ${cx + 20},${cy + 22} Z`} fill="white" />
+          {/* Right person */}
+          <circle cx={cx + 28} cy={cy - 16} r="10" fill="white" />
+          <path d={`M${cx + 13},${cy + 22} Q${cx + 13},${cy} ${cx + 28},${cy} Q${cx + 43},${cy} ${cx + 43},${cy + 22} Z`} fill="white" />
+          {/* Platform */}
+          <ellipse cx={cx} cy={cy + 38} rx="52" ry="10" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" />
+          <ellipse cx={cx} cy={cy + 38} rx="52" ry="10" fill="rgba(255,255,255,0.08)" />
+        </g>
+
+        {/* Orbiting dot */}
+        {revealed >= total && (
+          <circle r="4" fill="white" opacity="0.7">
+            <animateMotion dur="14s" repeatCount="indefinite"
+              path={`M${cx},${cy - outerR} A${outerR},${outerR} 0 1,1 ${cx - 0.01},${cy - outerR}`} />
+          </circle>
+        )}
+
+      </svg>
     </div>
   )
 }
