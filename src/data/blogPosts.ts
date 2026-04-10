@@ -419,10 +419,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial reports at desk', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Office team collaborating on business strategy', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5668882.jpg', alt: 'Scales of justice and gavel representing healthcare regulation and compliance', afterSection: 0 }, { url: '/images/blog-inline/pexels-5668858.jpg', alt: 'Professional reviewing compliance documents and administrative requirements', afterSection: 1 }],
   },
   {
     slug: 'how-to-turn-cms-rule-into-real-revenue-boost-for-ortho-asc',
@@ -475,10 +472,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80', alt: 'Business professional working on laptop', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80', alt: 'Team brainstorming in modern office space', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-1170979.jpg', alt: 'Medical team examining orthopedic X-ray images for surgical planning', afterSection: 0 }, { url: '/images/blog-inline/pexels-247786.jpg', alt: 'Modern ambulatory surgery center operating room with advanced equipment', afterSection: 1 }],
   },
   {
     slug: 'ai-in-medical-billing',
@@ -550,10 +544,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80', alt: 'Business meeting with presentation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80', alt: 'Professional handshake in corporate setting', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-8386440.jpg', alt: 'Artificial intelligence robotic hand reaching into connected network nodes', afterSection: 0 }, { url: '/images/blog-inline/pexels-8849295.jpg', alt: 'AI concept illustration representing automation in healthcare technology', afterSection: 2 }],
   },
   {
     slug: 'the-ultimate-cardiology-medical-billing-guide',
@@ -738,10 +729,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', alt: 'Analytics dashboard on computer screen', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', alt: 'Data visualization and business analytics', afterSection: 9 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7108344.jpg', alt: 'Doctor measuring patient blood pressure during cardiovascular examination', afterSection: 0 }, { url: '/images/blog-inline/pexels-3844581.jpg', alt: 'Vital signs monitor displaying heart rhythm in surgical setting', afterSection: 9 }],
   },
   {
     slug: 'ambulatory-surgery-center-asc-billing-guidelines',
@@ -998,10 +986,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80', alt: 'Modern office workspace with technology', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', alt: 'Team collaboration in bright office', afterSection: 12 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3938023.jpg', alt: 'Surgical team preparing for ambulatory surgery center procedure', afterSection: 0 }, { url: '/images/blog-inline/pexels-4173251.jpg', alt: 'Healthcare professional with stethoscope in ambulatory care facility', afterSection: 12 }],
   },
   {
     slug: 'what-is-charge-capture-a-physicians-guide',
