@@ -69,7 +69,7 @@ export default function AboutContent() {
               <RevealOnScroll delay={0.1}>
                 <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', marginTop: 24, margin: '24px 0 0' }}>
                   Built on its R+A approach — Real + Artificial Intelligence — Cosentus combines experienced revenue cycle
-                  professionals with specialised AI agents to help healthcare organisations manage administrative complexity
+                  professionals with specialized AI agents to help healthcare organizations manage administrative complexity
                   more efficiently and improve operational efficiency and financial performance.
                 </p>
               </RevealOnScroll>
@@ -79,70 +79,67 @@ export default function AboutContent() {
       </section>
 
       {/* What We Believe */}
-      <section style={{
-        background: 'linear-gradient(135deg, #003545 0%, #005A6E 40%, #00B5D6 100%)',
-        padding: '100px 0',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Decorative circles */}
-        <div style={{ position: 'absolute', top: -120, right: -80, width: 400, height: 400, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.06)' }} />
-        <div style={{ position: 'absolute', bottom: -60, left: -60, width: 300, height: 300, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.04)' }} />
-
+      <section style={{ padding: '100px 0', background: 'white', position: 'relative' }}>
         <div className="container">
-          <RevealOnScroll>
-            <div style={{ fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: '#68D1E6', marginBottom: 16 }}>OUR VALUES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, color: 'white', marginBottom: 16, letterSpacing: '-0.02em' }}>What We Believe</h2>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
-            <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', maxWidth: 560, marginBottom: 56 }}>
-              The principles that guide every decision we make for our clients, our team, and our company.
-            </p>
-          </RevealOnScroll>
-
-          {/* Desktop */}
-          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
-            {beliefs.map((b, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.07)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  borderRadius: 16,
-                  padding: '36px 28px',
-                  height: '100%',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                  cursor: 'default',
-                }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.background = 'rgba(255,255,255,0.14)'; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none' }}
-                >
-                  <div style={{
-                    width: 56, height: 56, borderRadius: 14,
-                    background: 'rgba(0,181,214,0.2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: 24, color: '#68D1E6',
-                  }}>{b.icon}</div>
-                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 10, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', margin: 0 }}>{b.desc}</p>
-                </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }} className="about-intro-grid">
+            <div style={{ position: 'sticky', top: 120 }}>
+              <RevealOnScroll>
+                <div className="section-label">OUR VALUES</div>
               </RevealOnScroll>
-            ))}
+              <RevealOnScroll delay={0.1}>
+                <div className="section-title">What We Believe</div>
+              </RevealOnScroll>
+              <RevealOnScroll delay={0.15}>
+                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', maxWidth: 420 }}>
+                  The principles that guide every decision we make — for our clients, our team, and our company.
+                </p>
+              </RevealOnScroll>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 16 }}>
+              {beliefs.map((b, i) => (
+                <RevealOnScroll key={i} delay={0.1 + i * 0.1}>
+                  <div style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    padding: '32px 32px 32px 36px',
+                    border: '1px solid var(--gray-200)',
+                    borderLeft: '4px solid #00B5D6',
+                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    cursor: 'default',
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateX(6px)'; el.style.boxShadow = '0 8px 32px rgba(0,181,214,0.12)'; el.style.borderLeftColor = '#00B5D6' }}
+                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateX(0)'; el.style.boxShadow = 'none' }}
+                  >
+                    <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: 12, flexShrink: 0,
+                        background: '#D6EBF2',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#00B5D6',
+                      }}>{b.icon}</div>
+                      <div>
+                        <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
+                        <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </RevealOnScroll>
+              ))}
+            </div>
           </div>
+
           {/* Mobile */}
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={4000}>
               {beliefs.map((b, i) => (
                 <div key={i} style={{
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  borderRadius: 16, padding: '36px 28px',
+                  background: 'white', borderRadius: 16, padding: '32px 28px',
+                  border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6',
                 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(0,181,214,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, color: '#68D1E6' }}>{b.icon}</div>
-                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 10 }}>{b.title}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', margin: 0 }}>{b.desc}</p>
+                  <div style={{ width: 52, height: 52, borderRadius: 12, background: '#D6EBF2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, color: '#00B5D6' }}>{b.icon}</div>
+                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8 }}>{b.title}</h4>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
                 </div>
               ))}
             </MobileCarousel>
@@ -171,21 +168,19 @@ export default function AboutContent() {
 
       {/* Why Independent Matters */}
       <section style={{
-        background: '#00B5D6',
+        background: 'linear-gradient(135deg, #0a2640 0%, #143d5e 30%, #0d6e8a 70%, #00B5D6 100%)',
         padding: '100px 0',
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Decorative large text watermark */}
-        <div style={{ position: 'absolute', top: '50%', right: -40, transform: 'translateY(-50%)', fontSize: 'clamp(180px, 22vw, 320px)', fontWeight: 800, fontStyle: 'italic', color: 'rgba(255,255,255,0.04)', fontFamily: 'var(--font-display)', lineHeight: 0.9, pointerEvents: 'none', whiteSpace: 'nowrap' as const }}>
-          OWN&shy;ED
-        </div>
+        {/* Subtle texture overlay */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/hero-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15, mixBlendMode: 'overlay' as const }} />
 
-        <div className="container">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }} className="about-intro-grid">
             <div>
               <RevealOnScroll>
-                <div style={{ fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>INDEPENDENCE</div>
+                <div style={{ fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: '#68D1E6', marginBottom: 16 }}>INDEPENDENCE</div>
               </RevealOnScroll>
               <RevealOnScroll delay={0.1}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, color: 'white', marginBottom: 24, letterSpacing: '-0.02em' }}>
@@ -193,7 +188,7 @@ export default function AboutContent() {
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll delay={0.2}>
-                <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(255,255,255,0.8)', maxWidth: 520, marginBottom: 0 }}>
+                <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', maxWidth: 520, marginBottom: 0 }}>
                   Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
                   not quarterly investor returns. No PE pressure. No shortcuts. Just partnership built to last.
                 </p>
@@ -202,19 +197,28 @@ export default function AboutContent() {
 
             <div>
               <RevealOnScroll delay={0.15}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)' }}>
-                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>80%</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Founding team still with the company</div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)' }}>
-                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>25+</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Years of consistent, stable leadership</div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)', gridColumn: 'span 2' }}>
-                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>99%</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Customer retention — built on trust, not contracts</div>
-                  </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  {[
+                    { val: '80%', label: 'Founding team still with the company' },
+                    { val: '25+', label: 'Years of consistent, stable leadership' },
+                    { val: '99%', label: 'Customer retention rate' },
+                    { val: '0', label: 'Private equity investors' },
+                  ].map((s, i) => (
+                    <div key={i} style={{
+                      background: 'rgba(255,255,255,0.08)',
+                      backdropFilter: 'blur(8px)',
+                      borderRadius: 14,
+                      padding: '28px 22px',
+                      border: '1px solid rgba(255,255,255,0.10)',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.14)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                    >
+                      <div style={{ fontSize: 'clamp(32px, 4vw, 44px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{s.val}</div>
+                      <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.4 }}>{s.label}</div>
+                    </div>
+                  ))}
                 </div>
               </RevealOnScroll>
             </div>
