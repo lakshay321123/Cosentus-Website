@@ -118,7 +118,7 @@ function InteractiveMindMap() {
       }}>
         <img src="/images/icon-doctor.png" alt="Doctor" style={{
           width: '100%', height: '100%', objectFit: 'cover',
-          filter: 'brightness(0) invert(1)',
+          mixBlendMode: 'screen',
         }} />
       </div>
 
