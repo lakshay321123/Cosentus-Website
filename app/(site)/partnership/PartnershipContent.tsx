@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
@@ -27,29 +26,6 @@ const solutions = [
 ]
 
 export default function PartnershipContent() {
-  const [activeSection, setActiveSection] = useState('stats')
-  const sections = [
-    { id: 'stats', label: 'Overview' },
-    { id: 'testimonials', label: 'Partners' },
-    { id: 'challenge', label: 'Challenge' },
-    { id: 'contact', label: 'Contact' },
-  ]
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
-        })
-      },
-      { threshold: 0.3 }
-    )
-    sections.forEach(s => {
-      const el = document.getElementById(s.id)
-      if (el) observer.observe(el)
-    })
-    return () => observer.disconnect()
-  }, [])
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -58,69 +34,7 @@ export default function PartnershipContent() {
   return (
     <>
       <style>{`
-        /* Side Dot Navigation */
-        .side-nav {
-          position: fixed;
-          right: 32px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 50;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          align-items: center;
-        }
-
-        .side-nav-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          border: 1.5px solid var(--gray-300);
-          background: transparent;
-          cursor: pointer;
-          transition: all 0.4s ease;
-          position: relative;
-          padding: 0;
-        }
-
-        .side-nav-dot:hover {
-          border-color: var(--primary);
-          transform: scale(1.3);
-        }
-
-        .side-nav-dot.active {
-          border-color: var(--primary);
-          background: var(--primary);
-          transform: scale(1.3);
-          box-shadow: 0 0 12px rgba(0, 181, 214, 0.4);
-        }
-
-        .side-nav-dot::before {
-          content: attr(data-label);
-          position: absolute;
-          right: 24px;
-          top: 50%;
-          transform: translateY(-50%);
-          background: var(--gray-900);
-          color: white;
-          font-size: 11px;
-          padding: 4px 10px;
-          border-radius: 4px;
-          white-space: nowrap;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s;
-          font-family: var(--font-display);
-        }
-
-        .side-nav-dot:hover::before {
-          opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-          .side-nav { display: none; }
-        }
-
+        
         /* Giant Stats */
         .partnership-stats {
           display: grid;
@@ -311,21 +225,9 @@ export default function PartnershipContent() {
         }
       `}</style>
 
-      {/* Side Dot Navigation */}
-      <nav className="side-nav" aria-label="Page sections">
-        {sections.map(s => (
-          <button
-            key={s.id}
-            className={`side-nav-dot ${activeSection === s.id ? 'active' : ''}`}
-            onClick={() => scrollTo(s.id)}
-            data-label={s.label}
-            aria-label={s.label}
-          />
-        ))}
-      </nav>
 
       {/* Giant Stats */}
-      <section id="stats" style={{ padding: '40px 0' }}>
+      <section style={{ padding: '40px 0' }}>
         <div className="container">
           <RevealOnScroll>
             <div className="partnership-stats">
@@ -358,7 +260,7 @@ export default function PartnershipContent() {
       </section>
 
       {/* Partner Testimonials */}
-      <section id="testimonials" className="section section-alt">
+      <section className="section section-alt">
         <div className="container">
           <RevealOnScroll direction="left">
             <div className="section-label">PARTNER PERSPECTIVES</div>
@@ -391,7 +293,7 @@ export default function PartnershipContent() {
       </section>
 
       {/* Challenge + Solution */}
-      <section id="challenge" style={{ overflow: 'hidden' }}>
+      <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left">
@@ -470,7 +372,7 @@ export default function PartnershipContent() {
 
 
       {/* CTA with Form */}
-      <section id="contact" style={{ padding: '80px 0', background: 'white' }}>
+      <section style={{ padding: '80px 0', background: 'white' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
             <RevealOnScroll>
