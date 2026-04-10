@@ -4018,10 +4018,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&q=80', alt: 'Hospital building with modern architecture', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80', alt: 'Team meeting around conference table', afterSection: 8 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344904.jpg', alt: 'Medical billing optimization workflow with step-by-step process improvement', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344906.jpg', alt: 'Healthcare collections team implementing systematic billing optimization', afterSection: 8 }],
   },
   {
     slug: 'preventive-denial-management-the-key-to-sustained-practice-cashflow',
@@ -4052,10 +4049,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', alt: 'Corporate training and development session', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', alt: 'Diverse team collaborating on project', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344908.jpg', alt: 'Proactive denial prevention team reviewing clean claims submission process', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344914.jpg', alt: 'Medical practice sustaining cashflow through preventive denial strategies', afterSection: 1 }],
   },
   {
     slug: 'revenue-cycle-outsourcing-for-healthcare-practices',
@@ -4250,10 +4244,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&q=80', alt: 'Modern reception area in medical office', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576765974004-1c35d5a76f98?w=800&q=80', alt: 'Waiting room in healthcare facility', afterSection: 8 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439391.jpg', alt: 'Healthcare practice evaluating revenue cycle outsourcing partnership options', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439393.jpg', alt: 'Outsourced RCM team managing end-to-end billing operations remotely', afterSection: 8 }],
   },
   {
     slug: 'revenue-leakage-in-healthcare-signs-to-watch-out-for',
@@ -4294,10 +4285,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors reviewing patient care plan', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using digital tablet for patient records', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439395.jpg', alt: 'Healthcare financial analyst identifying revenue leakage warning signs', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439397.jpg', alt: 'Medical practice audit revealing revenue gaps and missed collections', afterSection: 1 }],
   },
   {
     slug: 'should-i-find-a-new-medical-billing-company',
@@ -4339,10 +4327,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team in modern operating room', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals in team meeting', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439399.jpg', alt: 'Practice manager evaluating medical billing company performance and alternatives', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439401.jpg', alt: 'Comparing billing service providers for better revenue cycle outcomes', afterSection: 1 }],
   },
   {
     slug: 'tips-to-improve-healthcare-rcm-revenue-cycle-management-model',
@@ -4370,10 +4355,7 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment options', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Medical professional reviewing diagnostic results', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439403.jpg', alt: 'Healthcare team implementing revenue cycle management improvements', afterSection: 1 }, { url: '/images/blog-inline/pexels-5439405.jpg', alt: 'RCM process optimization driving better financial performance for practices', afterSection: 3 }],
   },
   {
     slug: 'top-mistakes-that-cause-denials-in-medical-billing',
@@ -4418,10 +4400,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Surgical procedure in ambulatory center', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Hospital corridor with medical staff', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439407.jpg', alt: 'Medical billing specialist identifying common claim denial errors and mistakes', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439409.jpg', alt: 'Healthcare team reviewing denied claims to prevent recurring billing mistakes', afterSection: 1 }],
   },
   {
     slug: 'urgent-care-revenue-cycle-management-4-key-areas-to-master',
@@ -4599,10 +4578,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Stethoscope on medical documents', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Telehealth video consultation with doctor', afterSection: 9 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439413.jpg', alt: 'Urgent care facility managing key revenue cycle areas for profitability', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439415.jpg', alt: 'Walk-in clinic operations team mastering revenue cycle management essentials', afterSection: 9 }],
   },
 ]
 
