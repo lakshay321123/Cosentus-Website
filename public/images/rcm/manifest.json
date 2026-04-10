@@ -1,0 +1,191 @@
+[
+  {
+    "name": "secondary_filing",
+    "bbox": [
+      198,
+      0,
+      128,
+      124
+    ]
+  },
+  {
+    "name": "accounts_receivable",
+    "bbox": [
+      315,
+      1,
+      132,
+      134
+    ]
+  },
+  {
+    "name": "denial_management",
+    "bbox": [
+      89,
+      19,
+      143,
+      149
+    ]
+  },
+  {
+    "name": "appeal_procedure",
+    "bbox": [
+      392,
+      40,
+      151,
+      148
+    ]
+  },
+  {
+    "name": "payment_posting",
+    "bbox": [
+      19,
+      89,
+      146,
+      146
+    ]
+  },
+  {
+    "name": "patient_billing",
+    "bbox": [
+      452,
+      128,
+      158,
+      146
+    ]
+  },
+  {
+    "name": "left_head",
+    "bbox": [
+      242,
+      197,
+      37,
+      37
+    ]
+  },
+  {
+    "name": "right_head",
+    "bbox": [
+      331,
+      197,
+      36,
+      37
+    ]
+  },
+  {
+    "name": "clearing_denials",
+    "bbox": [
+      0,
+      199,
+      123,
+      125
+    ]
+  },
+  {
+    "name": "center_head",
+    "bbox": [
+      287,
+      209,
+      36,
+      37
+    ]
+  },
+  {
+    "name": "left_body",
+    "bbox": [
+      233,
+      240,
+      53,
+      124
+    ]
+  },
+  {
+    "name": "right_body",
+    "bbox": [
+      324,
+      240,
+      53,
+      124
+    ]
+  },
+  {
+    "name": "center_body",
+    "bbox": [
+      277,
+      251,
+      56,
+      125
+    ]
+  },
+  {
+    "name": "patient_registration",
+    "bbox": [
+      472,
+      295,
+      123,
+      128
+    ]
+  },
+  {
+    "name": "claim_submission",
+    "bbox": [
+      1,
+      313,
+      136,
+      135
+    ]
+  },
+  {
+    "name": "center_ring",
+    "bbox": [
+      188,
+      340,
+      234,
+      64
+    ]
+  },
+  {
+    "name": "eligibility_benefits_check",
+    "bbox": [
+      424,
+      378,
+      148,
+      150
+    ]
+  },
+  {
+    "name": "charge_posting",
+    "bbox": [
+      40,
+      396,
+      151,
+      149
+    ]
+  },
+  {
+    "name": "data_entry_demographics",
+    "bbox": [
+      352,
+      444,
+      141,
+      146
+    ]
+  },
+  {
+    "name": "coding_billing",
+    "bbox": [
+      129,
+      455,
+      137,
+      141
+    ]
+  },
+  {
+    "name": "referral_authorization",
+    "bbox": [
+      250,
+      482,
+      127,
+      119
+    ]
+  }
+]

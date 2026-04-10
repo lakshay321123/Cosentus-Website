@@ -85,131 +85,84 @@ const faqsPageBilling = [
    INTERACTIVE RCM CYCLE — p1-2a.png + animated overlays
    ─────────────────────────────────────────── */
 
+/* ── RCM manifest — bbox: [x, y, w, h] in 610x601 viewBox ── */
+const rcmParts: Array<{ name: string; bbox: number[]; group: number }> = [
+  { name: 'patient_registration', bbox: [472,295,123,128], group: 0 },
+  { name: 'eligibility_benefits_check', bbox: [424,378,148,150], group: 1 },
+  { name: 'data_entry_demographics', bbox: [352,444,141,146], group: 2 },
+  { name: 'referral_authorization', bbox: [250,482,127,119], group: 3 },
+  { name: 'coding_billing', bbox: [129,455,137,141], group: 4 },
+  { name: 'charge_posting', bbox: [40,396,151,149], group: 5 },
+  { name: 'claim_submission', bbox: [1,313,136,135], group: 6 },
+  { name: 'clearing_denials', bbox: [0,199,123,125], group: 7 },
+  { name: 'payment_posting', bbox: [19,89,146,146], group: 8 },
+  { name: 'denial_management', bbox: [89,19,143,149], group: 9 },
+  { name: 'secondary_filing', bbox: [198,0,128,124], group: 10 },
+  { name: 'accounts_receivable', bbox: [315,1,132,134], group: 11 },
+  { name: 'appeal_procedure', bbox: [392,40,151,148], group: 12 },
+  { name: 'patient_billing', bbox: [452,128,158,146], group: 13 },
+  { name: 'center_ring', bbox: [188,340,234,64], group: 14 },
+  { name: 'left_head', bbox: [242,197,37,37], group: 15 },
+  { name: 'center_head', bbox: [287,209,36,37], group: 15 },
+  { name: 'right_head', bbox: [331,197,36,37], group: 15 },
+  { name: 'left_body', bbox: [233,240,53,124], group: 16 },
+  { name: 'center_body', bbox: [277,251,56,125], group: 16 },
+  { name: 'right_body', bbox: [324,240,53,124], group: 16 },
+]
+
 function InteractiveRCMCycle() {
-  const [revealed, setRevealed] = useState(0)
+  const [step, setStep] = useState(0)
 
   useEffect(() => {
     let i = 0
     const id = setInterval(() => {
       i++
-      setRevealed(i)
-      if (i >= 17) clearInterval(id) // 14 segments + center + people + platform
-    }, 400)
+      setStep(i)
+      if (i > 16) clearInterval(id)
+    }, 350)
     return () => clearInterval(id)
   }, [])
 
-  const cx = 250, cy = 250
-  const outerR = 190, innerR = 130
-  const total = 14
-  const gapDeg = 2.5
-  const startOffset = -90 // start from top
-
-  const labels = [
-    'PATIENT\nREGISTRATION', 'ELIGIBILITY\n& BENEFITS\nCHECK', 'DATA ENTRY\nDEMOGRAPHICS',
-    'REFERRAL &\nAUTHORIZATION', 'CODING\n& BILLING', 'CHARGE\nPOSTING',
-    'CLAIM\nSUBMISSION', 'CLEARING\nDENIALS', 'PAYMENT\nPOSTING',
-    'DENIAL\nMANAGEMENT', 'SECONDARY\nFILING', 'ACCOUNTS\nRECEIVABLE',
-    'APPEAL\nPROCEDURE', 'PATIENT\nBILLING'
-  ]
-
-  function toRad(deg: number) { return deg * Math.PI / 180 }
-
-  function arcSegment(i: number) {
-    const anglePer = 360 / total
-    const s = toRad(startOffset + i * anglePer + gapDeg)
-    const e = toRad(startOffset + (i + 1) * anglePer - gapDeg)
-    const x1 = cx + outerR * Math.cos(s), y1 = cy + outerR * Math.sin(s)
-    const x2 = cx + outerR * Math.cos(e), y2 = cy + outerR * Math.sin(e)
-    const x3 = cx + innerR * Math.cos(e), y3 = cy + innerR * Math.sin(e)
-    const x4 = cx + innerR * Math.cos(s), y4 = cy + innerR * Math.sin(s)
-    return `M${x1},${y1} A${outerR},${outerR} 0 0,1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 0,0 ${x4},${y4} Z`
-  }
-
-  function labelXY(i: number) {
-    const anglePer = 360 / total
-    const mid = toRad(startOffset + (i + 0.5) * anglePer)
-    const lr = outerR + 28
-    return { x: cx + lr * Math.cos(mid), y: cy + lr * Math.sin(mid) }
-  }
-
-  // Arrow head at the start (top) of the cycle
-  const arrowAngle = toRad(startOffset - 3)
-  const aMid = (outerR + innerR) / 2
-  const ax = cx + aMid * Math.cos(arrowAngle), ay = cy + aMid * Math.sin(arrowAngle)
-  const tipAngle = toRad(startOffset - 12)
-  const tx = cx + (outerR + 18) * Math.cos(tipAngle), ty = cy + (outerR + 18) * Math.sin(tipAngle)
-  const bx = cx + outerR * Math.cos(arrowAngle), by = cy + outerR * Math.sin(arrowAngle)
-  const dx = cx + innerR * Math.cos(arrowAngle), dy = cy + innerR * Math.sin(arrowAngle)
+  const W = 610, H = 601
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      <svg viewBox="0 0 500 500" style={{ width: '100%', height: 'auto', overflow: 'visible' }}>
-
-        {/* Arc segments */}
-        {labels.map((_, i) => (
-          <path key={i} d={arcSegment(i)}
-            fill={i < revealed ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.03)'}
-            stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"
-            style={{
-              opacity: i < revealed ? 1 : 0.15,
-              transition: `opacity 0.5s ease, fill 0.5s ease`,
-            }}
-          />
-        ))}
-
-        {/* Arrow head */}
-        <polygon points={`${bx},${by} ${tx},${ty} ${dx},${dy}`}
-          fill={revealed >= 1 ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.03)'}
-          stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinejoin="round"
-          style={{ transition: 'fill 0.5s ease, opacity 0.5s ease', opacity: revealed >= 1 ? 1 : 0.15 }}
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto', aspectRatio: `${W} / ${H}` }}>
+      {rcmParts.map((part) => (
+        <img
+          key={part.name}
+          src={`/images/rcm/${part.name}.svg`}
+          alt={part.name.replace(/_/g, ' ')}
+          style={{
+            position: 'absolute',
+            left: `${(part.bbox[0] / W) * 100}%`,
+            top: `${(part.bbox[1] / H) * 100}%`,
+            width: `${(part.bbox[2] / W) * 100}%`,
+            height: `${(part.bbox[3] / H) * 100}%`,
+            opacity: step >= part.group ? 1 : 0,
+            transform: step >= part.group ? 'scale(1)' : 'scale(0.85)',
+            transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)',
+            filter: 'brightness(0) invert(1)',
+            pointerEvents: 'none',
+          }}
         />
+      ))}
 
-        {/* Text labels */}
-        {labels.map((label, i) => {
-          const pos = labelXY(i)
-          const lines = label.split('\n')
-          return (
-            <text key={`lbl${i}`} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
-              fill="white" fontSize="10" fontWeight="700" fontFamily="var(--font-display)"
-              style={{ opacity: i < revealed ? 1 : 0, transition: `opacity 0.4s ease 0.15s` }}
-            >
-              {lines.map((line, li) => (
-                <tspan key={li} x={pos.x} dy={li === 0 ? -(lines.length - 1) * 5.5 : 11}>{line}</tspan>
-              ))}
-            </text>
-          )
-        })}
+      {/* Orbiting dot after complete */}
+      {step > 16 && (
+        <div style={{
+          position: 'absolute', left: '50%', top: '50%',
+          width: '62%', height: '62%',
+          transform: 'translate(-50%,-50%)',
+          borderRadius: '50%', pointerEvents: 'none',
+          animation: 'rcmOrbit 14s linear infinite',
+        }}>
+          <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 12px rgba(255,255,255,0.8)' }} />
+        </div>
+      )}
 
-        {/* Center circle */}
-        <circle cx={cx} cy={cy} r="95" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"
-          style={{ opacity: revealed >= 15 ? 1 : 0, transition: 'opacity 0.6s ease' }}
-        />
-
-        {/* Center people — 3 figures */}
-        <g style={{ opacity: revealed >= 16 ? 1 : 0, transition: 'opacity 0.8s ease' }}>
-          {/* Left person */}
-          <circle cx={cx - 28} cy={cy - 16} r="10" fill="white" />
-          <path d={`M${cx - 43},${cy + 22} Q${cx - 43},${cy} ${cx - 28},${cy} Q${cx - 13},${cy} ${cx - 13},${cy + 22} Z`} fill="white" />
-          {/* Center person (taller) */}
-          <circle cx={cx} cy={cy - 26} r="13" fill="white" />
-          <path d={`M${cx - 20},${cy + 22} Q${cx - 20},${cy - 4} ${cx},${cy - 4} Q${cx + 20},${cy - 4} ${cx + 20},${cy + 22} Z`} fill="white" />
-          {/* Right person */}
-          <circle cx={cx + 28} cy={cy - 16} r="10" fill="white" />
-          <path d={`M${cx + 13},${cy + 22} Q${cx + 13},${cy} ${cx + 28},${cy} Q${cx + 43},${cy} ${cx + 43},${cy + 22} Z`} fill="white" />
-          {/* Platform */}
-          <ellipse cx={cx} cy={cy + 38} rx="52" ry="10" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" />
-          <ellipse cx={cx} cy={cy + 38} rx="52" ry="10" fill="rgba(255,255,255,0.08)" />
-        </g>
-
-        {/* Orbiting dot */}
-        {revealed >= total && (
-          <circle r="4" fill="white" opacity="0.7">
-            <animateMotion dur="14s" repeatCount="indefinite"
-              path={`M${cx},${cy - outerR} A${outerR},${outerR} 0 1,1 ${cx - 0.01},${cy - outerR}`} />
-          </circle>
-        )}
-
-      </svg>
+      <style jsx>{`
+        @keyframes rcmOrbit { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+      `}</style>
     </div>
   )
 }
