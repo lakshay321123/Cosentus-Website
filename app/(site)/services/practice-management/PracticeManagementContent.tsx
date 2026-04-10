@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
@@ -58,7 +58,7 @@ const faqsPagePM = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE MIND MAP — p3-2a.png base + hotspots
+   INTERACTIVE MIND MAP — p3-2a.png + visible animated overlays
    ─────────────────────────────────────────── */
 
 const hotspots = [
@@ -73,19 +73,28 @@ const hotspots = [
 
 function InteractiveMindMap() {
   const [active, setActive] = useState(-1)
+  const [autoPulse, setAutoPulse] = useState(0)
+
+  // Auto-cycle visible pulse through nodes
+  useEffect(() => {
+    const id = setInterval(() => setAutoPulse(p => (p + 1) % hotspots.length), 2000)
+    return () => clearInterval(id)
+  }, [])
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      {/* The actual diagram with all correct icons */}
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto', animation: 'diagramFloat 5s ease-in-out infinite' }}>
+      {/* The actual diagram */}
       <img
         src="/images/icons/p3-2a.png"
         alt="Complete Practice Management — doctor with 7 connected service roles"
         style={{ width: '100%', height: 'auto', display: 'block' }}
       />
 
-      {/* Invisible interactive hotspots */}
+      {/* VISIBLE animated rings + interactive hotspots */}
       {hotspots.map((spot, i) => {
         const isActive = active === i
+        const isPulsing = autoPulse === i && active === -1
+
         return (
           <div
             key={i}
@@ -95,62 +104,93 @@ function InteractiveMindMap() {
               position: 'absolute',
               left: `${spot.x}%`, top: `${spot.y}%`,
               transform: 'translate(-50%, -50%)',
-              width: 70, height: 70,
+              width: 76, height: 76,
               borderRadius: '50%',
               cursor: 'pointer',
-              zIndex: isActive ? 10 : 1,
+              zIndex: isActive ? 10 : 2,
             }}
           >
-            {/* Glow ring on hover */}
+            {/* Always-visible glowing ring */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              borderRadius: '50%',
+              border: isActive ? '3px solid rgba(255,255,255,0.9)' : isPulsing ? '2px solid rgba(255,255,255,0.6)' : '2px solid rgba(255,255,255,0.15)',
+              boxShadow: isActive
+                ? '0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(0,181,214,0.3), inset 0 0 15px rgba(255,255,255,0.15)'
+                : isPulsing
+                  ? '0 0 12px rgba(255,255,255,0.3), 0 0 24px rgba(0,181,214,0.15)'
+                  : '0 0 6px rgba(255,255,255,0.05)',
+              transition: 'all 0.4s ease',
+              background: isActive ? 'rgba(255,255,255,0.12)' : 'transparent',
+            }} />
+
+            {/* Expanding pulse ring — visible on auto-pulse AND hover */}
+            {(isActive || isPulsing) && (
+              <div style={{
+                position: 'absolute', inset: -4,
+                borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.5)',
+                animation: 'ringPulse 1.4s ease-out infinite',
+              }} />
+            )}
+
+            {/* Second pulse ring on hover for extra pop */}
             {isActive && (
-              <>
+              <div style={{
+                position: 'absolute', inset: -4,
+                borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.3)',
+                animation: 'ringPulse 1.4s ease-out infinite 0.3s',
+              }} />
+            )}
+
+            {/* Tooltip on hover */}
+            {isActive && (
+              <div style={{
+                position: 'absolute',
+                bottom: '115%', left: '50%', transform: 'translateX(-50%)',
+                background: 'white', color: 'var(--gray-900)',
+                padding: '10px 16px', borderRadius: 'var(--radius-sm)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.2)', whiteSpace: 'nowrap',
+                fontSize: 13, lineHeight: 1.4, animation: 'tooltipIn 0.25s ease',
+                zIndex: 20,
+              }}>
+                <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 2 }}>{spot.label}</div>
+                <div style={{ fontSize: 12, color: 'var(--gray-600)', fontWeight: 400 }}>{spot.desc}</div>
                 <div style={{
-                  position: 'absolute', inset: -4,
-                  borderRadius: '50%',
-                  border: '2.5px solid rgba(255,255,255,0.8)',
-                  boxShadow: '0 0 20px rgba(255,255,255,0.4)',
-                  animation: 'glowIn 0.3s ease',
+                  position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)',
+                  width: 12, height: 12, background: 'white',
                 }} />
-                <div style={{
-                  position: 'absolute', inset: -8,
-                  borderRadius: '50%',
-                  border: '2px solid rgba(255,255,255,0.4)',
-                  animation: 'mindMapPulse 1.2s ease-out infinite',
-                }} />
-                {/* Tooltip */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: '115%', left: '50%', transform: 'translateX(-50%)',
-                  background: 'white', color: 'var(--gray-900)',
-                  padding: '10px 16px', borderRadius: 'var(--radius-sm)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)', whiteSpace: 'nowrap',
-                  fontSize: 13, lineHeight: 1.4, animation: 'fadeUp 0.25s ease',
-                  zIndex: 20,
-                }}>
-                  <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 2 }}>{spot.label}</div>
-                  <div style={{ fontSize: 12, color: 'var(--gray-600)', fontWeight: 400 }}>{spot.desc}</div>
-                  <div style={{
-                    position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)',
-                    width: 12, height: 12, background: 'white',
-                  }} />
-                </div>
-              </>
+              </div>
             )}
           </div>
         )
       })}
 
+      {/* Center glow overlay */}
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
+        width: 110, height: 110, borderRadius: '50%',
+        boxShadow: '0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(0,181,214,0.15)',
+        animation: 'centerGlow 3s ease-in-out infinite',
+        pointerEvents: 'none',
+      }} />
+
       <style jsx>{`
-        @keyframes mindMapPulse {
-          0% { transform: scale(1); opacity: 0.8; }
-          100% { transform: scale(2); opacity: 0; }
+        @keyframes diagramFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
         }
-        @keyframes glowIn {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
+        @keyframes ringPulse {
+          0% { transform: scale(1); opacity: 0.7; }
+          100% { transform: scale(1.8); opacity: 0; }
         }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+        @keyframes centerGlow {
+          0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(0,181,214,0.15); }
+          50% { box-shadow: 0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(0,181,214,0.25); }
+        }
+        @keyframes tooltipIn {
+          from { opacity: 0; transform: translateX(-50%) translateY(8px); }
           to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
       `}</style>
