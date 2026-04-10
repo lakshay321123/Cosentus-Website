@@ -36,7 +36,8 @@ export default function PartnershipContent() {
   ]
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Track active section for side nav
+    const navObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) setActiveSection(entry.target.id)
@@ -46,9 +47,28 @@ export default function PartnershipContent() {
     )
     sections.forEach(s => {
       const el = document.getElementById(s.id)
-      if (el) observer.observe(el)
+      if (el) navObserver.observe(el)
     })
-    return () => observer.disconnect()
+
+    // Reveal animations for snap sections
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view')
+          } else {
+            entry.target.classList.remove('in-view')
+          }
+        })
+      },
+      { threshold: 0.2 }
+    )
+    document.querySelectorAll('.snap-section').forEach(el => revealObserver.observe(el))
+
+    return () => {
+      navObserver.disconnect()
+      revealObserver.disconnect()
+    }
   }, [])
 
   const scrollTo = (id: string) => {
@@ -58,6 +78,76 @@ export default function PartnershipContent() {
   return (
     <>
       <style>{`
+
+        /* Scroll Snap — Digital Gravity Effect */
+        .snap-container {
+          height: 100vh;
+          overflow-y: auto;
+          scroll-snap-type: y mandatory;
+          scroll-behavior: smooth;
+        }
+
+        .snap-section {
+          min-height: 100vh;
+          scroll-snap-align: start;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .snap-section .reveal-item {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .snap-section.in-view .reveal-item {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .snap-section.in-view .reveal-item:nth-child(1) { transition-delay: 0.1s; }
+        .snap-section.in-view .reveal-item:nth-child(2) { transition-delay: 0.3s; }
+        .snap-section.in-view .reveal-item:nth-child(3) { transition-delay: 0.5s; }
+        .snap-section.in-view .reveal-item:nth-child(4) { transition-delay: 0.7s; }
+        .snap-section.in-view .reveal-item:nth-child(5) { transition-delay: 0.9s; }
+        .snap-section.in-view .reveal-item:nth-child(6) { transition-delay: 1.1s; }
+        .snap-section.in-view .reveal-item:nth-child(7) { transition-delay: 1.3s; }
+        .snap-section.in-view .reveal-item:nth-child(8) { transition-delay: 1.5s; }
+
+        /* Horizontal line reveal */
+        .line-reveal {
+          width: 0;
+          height: 1px;
+          background: var(--primary);
+          transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+          transition-delay: 0.6s;
+        }
+
+        .snap-section.in-view .line-reveal {
+          width: 80px;
+        }
+
+        /* Scale-up reveal for cards */
+        .snap-section .scale-reveal {
+          opacity: 0;
+          transform: scale(0.92);
+          transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .snap-section.in-view .scale-reveal {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .snap-section.in-view .scale-reveal:nth-child(1) { transition-delay: 0.2s; }
+        .snap-section.in-view .scale-reveal:nth-child(2) { transition-delay: 0.4s; }
+        .snap-section.in-view .scale-reveal:nth-child(3) { transition-delay: 0.6s; }
+        .snap-section.in-view .scale-reveal:nth-child(4) { transition-delay: 0.8s; }
+        .snap-section.in-view .scale-reveal:nth-child(5) { transition-delay: 1.0s; }
+
         /* Side Dot Navigation */
         .side-nav {
           position: fixed;
@@ -325,40 +415,29 @@ export default function PartnershipContent() {
       </nav>
 
       {/* Giant Stats */}
-      <section id="stats" style={{ padding: '40px 0' }}>
+      <section id="stats" className="snap-section" style={{ background: 'white' }}>
         <div className="container">
-          <RevealOnScroll>
             <div className="partnership-stats">
-              <div className="stat-block">
+              <div className="stat-block reveal-item">
                 <div className="stat-number">1,000<span className="stat-suffix">+</span></div>
                 <div className="stat-label">RCM Experts</div>
               </div>
-              <div className="stat-block">
+              <div className="stat-block reveal-item">
                 <div className="stat-number">19</div>
                 <div className="stat-label">Successful Acquisitions</div>
               </div>
-              <div className="stat-block">
+              <div className="stat-block reveal-item">
                 <div className="stat-number">25<span className="stat-suffix">yr</span></div>
                 <div className="stat-label">Years of Excellence</div>
               </div>
             </div>
-          </RevealOnScroll>
         </div>
       </section>
 
-      {/* Intro */}
-      <section style={{ padding: '0 0 60px' }}>
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', textAlign: 'center' }}>
-              With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+
 
       {/* Partner Testimonials */}
-      <section id="testimonials" className="section section-alt">
+      <section id="testimonials" className="snap-section" style={{ background: 'var(--gray-50)', padding: '80px 0' }}>
         <div className="container">
           <RevealOnScroll direction="left">
             <div className="section-label">PARTNER PERSPECTIVES</div>
@@ -369,7 +448,7 @@ export default function PartnershipContent() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {partnerQuotes.map((q, i) => (
               <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
-                <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                <div className="scale-reveal" style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
                     &ldquo;{q.quote}&rdquo;
@@ -391,7 +470,7 @@ export default function PartnershipContent() {
       </section>
 
       {/* Challenge + Solution */}
-      <section id="challenge" style={{ overflow: 'hidden' }}>
+      <section id="challenge" className="snap-section" style={{ padding: 0 }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left">
@@ -470,7 +549,7 @@ export default function PartnershipContent() {
 
 
       {/* CTA with Form */}
-      <section id="contact" style={{ padding: '80px 0', background: 'white' }}>
+      <section id="contact" className="snap-section" style={{ background: 'white' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
             <RevealOnScroll>
