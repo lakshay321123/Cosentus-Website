@@ -9,20 +9,16 @@ export const metadata: Metadata = {
 
 export default function PartnershipPage() {
   return (
-    <div className="snap-container" style={{ height: '100vh', overflowY: 'auto', scrollSnapType: 'y mandatory' as any }}>
-      <main>
-        <section className="snap-section" style={{ scrollSnapAlign: 'start' as any }}>
-          <PageHero
-            label="PARTNERSHIP"
-            title="Grow Your Business with Innovative Solutions"
-            subtitle="Cosentus has emerged as the preferred partner of choice for billing companies across America. Our dedicated team of 1,000+ RCM experts ensures cost-effectiveness and maximized operational efficiencies."
-            ctaText="Schedule a Call"
-            ctaHref="/contact"
-          />
-        </section>
+    <main>
+      <PageHero
+        label="PARTNERSHIP"
+        title="Grow Your Business with Innovative Solutions"
+        subtitle="Cosentus has emerged as the preferred partner of choice for billing companies across America. Our dedicated team of 1,000+ RCM experts ensures cost-effectiveness and maximized operational efficiencies."
+        ctaText="Schedule a Call"
+        ctaHref="/contact"
+      />
 
-        <PartnershipContent />
-      </main>
-    </div>
+      <PartnershipContent />
+    </main>
   )
 }
