@@ -83,8 +83,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors discussing patient care plan together', },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgeons performing procedure in modern operating room', },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors discussing patient care plan together', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgeons performing procedure in modern operating room', afterSection: 3 },
     ],
   },
   {
