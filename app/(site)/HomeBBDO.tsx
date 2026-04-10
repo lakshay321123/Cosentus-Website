@@ -175,10 +175,10 @@ export default function HomeBBDO() {
 
       {/* STATS — reveal on scroll */}
       <section><div className="hs">
-        <div className="hs-c reveal"><div className="hs-n">30%</div><div className="hs-l">Revenue Growth</div></div>
-        <div className="hs-c reveal d1"><div className="hs-n">98%+</div><div className="hs-l">Net Collection</div></div>
-        <div className="hs-c reveal d2"><div className="hs-n">99%</div><div className="hs-l">Clean Claims</div></div>
-        <div className="hs-c reveal d3"><div className="hs-n">98.5%</div><div className="hs-l">Coding Accuracy</div></div>
+        <div className="hs-c"><div className="hs-n">30%</div><div className="hs-l">Revenue Growth</div></div>
+        <div className="hs-c"><div className="hs-n">98%+</div><div className="hs-l">Net Collection</div></div>
+        <div className="hs-c"><div className="hs-n">99%</div><div className="hs-l">Clean Claims</div></div>
+        <div className="hs-c"><div className="hs-n">98.5%</div><div className="hs-l">Coding Accuracy</div></div>
       </div></section>
 
       {/* PARALLAX IMAGE with text overlay */}
@@ -193,16 +193,16 @@ export default function HomeBBDO() {
       {/* STATEMENT — images mixed into text */}
       <section className="hst">
         <div className="hst-g">
-          <div className="hst-t reveal">
+          <div className="hst-t">
             WE ARE <span className="ii"><img src={I1} alt="" /></span> COSENTUS<br />
             <span className="ii"><img src={I2} alt="" /></span> WE DO<br />
             BIG <span className="ii"><img src={I3} alt="" /></span> THINGS
           </div>
           <div className="hst-r">
-            <p className="hm-rv d1">We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
-            <p className="hm-rv d2">We work with specialty practices that have the biggest ambitions.</p>
-            <p className="hm-rv d3">We hire expert talent and bring them opportunities that build lasting careers.</p>
-            <div className="hm-rv d4"><Link href="/contact" className="hst-btn">Contact Us</Link></div>
+            <p className="hm-rv">We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
+            <p className="hm-rv">We work with specialty practices that have the biggest ambitions.</p>
+            <p className="hm-rv">We hire expert talent and bring them opportunities that build lasting careers.</p>
+            <div className="hm-rv"><Link href="/contact" className="hst-btn">Contact Us</Link></div>
           </div>
         </div>
       </section>
@@ -218,15 +218,15 @@ export default function HomeBBDO() {
 
       {/* NEWS — with giant side label + image zoom */}
       <section className="hn"><div className="hn-c"><div className="hn-grid">
-        <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hn-card reveal-scale">
+        <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hn-card">
           <img src={I4} alt="" /><div className="hn-in"><div className="hn-tag">Medicare Policy</div><div className="hn-tt">Congress Moves to Stop the Bleeding</div></div>
           <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
         </Link>
-        <Link href="/news/cms-policy-updates-asc" className="hn-card reveal-scale d1">
+        <Link href="/news/cms-policy-updates-asc" className="hn-card">
           <img src={I1} alt="" /><div className="hn-in"><div className="hn-tag">CMS Policy</div><div className="hn-tt">Four Changes Every Specialty Must Know</div></div>
           <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
         </Link>
-        <Link href="/news/asc-reimbursement-payer-strategy" className="hn-card reveal-scale d2">
+        <Link href="/news/asc-reimbursement-payer-strategy" className="hn-card">
           <img src={I2} alt="" /><div className="hn-in"><div className="hn-tag">ASC</div><div className="hn-tt">ASC Reimbursement Under Attack</div></div>
           <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
         </Link>
@@ -244,7 +244,7 @@ export default function HomeBBDO() {
       {/* CTA — with ghost text background */}
       <section className="hf">
         <h2 className="hm-rv"><span>Ready</span>?</h2>
-        <Link href="/contact" className="hf-btn reveal d1">Free Revenue Analysis</Link>
+        <Link href="/contact" className="hf-btn">Free Revenue Analysis</Link>
       </section>
     </main>
   )
