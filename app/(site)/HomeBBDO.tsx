@@ -1,21 +1,28 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const testimonials = [
-  { quote: '97% collection rate. Staggering.', author: 'Dr. John B. Field Jr.', title: 'VP, Anesthesia Associates' },
-  { quote: 'My reimbursements increased after they started coding for me.', author: 'Dr. Morteza Farr', title: 'Board Certified Orthopedic Surgeon' },
-  { quote: 'Nothing but positive experiences. Highly recommend without reservations.', author: 'Justin Lo, MD', title: 'Northern California Pain Specialists' },
-  { quote: 'The outstanding balances saved our surgery center.', author: 'John Welsh, M.D.', title: 'Surgery Center Director' },
-  { quote: 'Reducing our Days in AR and improving cash flow.', author: 'Sujan Vatturi', title: 'CIO, Hope Services' },
+  { quote: '97% collection rate. Staggering.', author: 'Dr. John B. Field Jr.', title: 'Anesthesia' },
+  { quote: 'My reimbursements increased after they started coding for me.', author: 'Dr. Morteza Farr', title: 'Orthopedics' },
+  { quote: 'Nothing but positive experiences. Without reservations.', author: 'Justin Lo, MD', title: 'Pain Management' },
+  { quote: 'The outstanding balances saved our surgery center.', author: 'John Welsh, M.D.', title: 'ASC' },
+  { quote: 'Reducing our Days in AR and improving cash flow.', author: 'Sujan Vatturi', title: 'Behavioral Health' },
 ]
 
 const newsCards = [
-  { title: 'Congress Moves to Stop the Bleeding', tag: 'Medicare Policy', href: '/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5', size: 'tall' },
-  { title: 'Four CMS Changes Every Specialty Must Know', tag: 'CMS Policy', href: '/news/cms-policy-updates-asc', size: 'wide' },
-  { title: 'ASC Reimbursement & Payer Strategy', tag: 'ASC', href: '/news/asc-reimbursement-payer-strategy', size: 'normal' },
-  { title: 'Medicare ASC Spending Surges 16%', tag: 'Medicare', href: '/news/medicare-asc-spending-surges-16-in-one-year-pain-management-and-cardiology-lead-the-growth', size: 'normal' },
+  { title: 'Congress Moves to Stop the Bleeding', tag: 'Medicare Policy', href: '/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5', img: '/images/hero-healthcare.jpg' },
+  { title: 'Four CMS Changes Every Specialty Must Know', tag: 'CMS Policy', href: '/news/cms-policy-updates-asc', img: '/images/hero-medical.jpg' },
+  { title: 'ASC Reimbursement Under Attack', tag: 'ASC', href: '/news/asc-reimbursement-payer-strategy', img: '/images/hero-team.jpg' },
+  { title: 'Medicare ASC Spending Surges 16%', tag: 'Medicare', href: '/news/medicare-asc-spending-surges-16-in-one-year-pain-management-and-cardiology-lead-the-growth', img: '/images/hero-healthcare.jpg' },
+]
+
+const caseStudyStats = [
+  { number: '$2M', arrow: '→', target: '$16M', label: 'Behavioral Health' },
+  { number: '46%', arrow: '', target: 'Growth', label: 'Orthopedics' },
+  { number: '129%', arrow: '', target: 'More', label: 'ASC Collections' },
+  { number: '$82M', arrow: '→', target: '$165M', label: 'DME' },
 ]
 
 export default function HomeBBDO() {
@@ -23,7 +30,6 @@ export default function HomeBBDO() {
   const [heroVisible, setHeroVisible] = useState(false)
 
   useEffect(() => { setTimeout(() => setHeroVisible(true), 300) }, [])
-
   useEffect(() => {
     const t = setInterval(() => setActiveQuote(p => (p + 1) % testimonials.length), 5000)
     return () => clearInterval(t)
@@ -32,8 +38,7 @@ export default function HomeBBDO() {
   return (
     <main>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
-
+        /* HERO */
         .bbdo-hero {
           position: relative; height: 100vh; display: flex;
           align-items: center; justify-content: center;
@@ -41,184 +46,243 @@ export default function HomeBBDO() {
         }
         .bbdo-hero video {
           position: absolute; inset: 0; width: 100%; height: 100%;
-          object-fit: cover; opacity: 0.55;
+          object-fit: cover; opacity: 0.5;
+        }
+        .bbdo-hero-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.5) 100%);
+          z-index: 1;
         }
         .bbdo-hero-content {
           position: relative; z-index: 2; text-align: center;
           opacity: 0; transform: translateY(30px);
           transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .bbdo-hero-content.visible {
-          opacity: 1; transform: translateY(0);
-        }
+        .bbdo-hero-content.visible { opacity: 1; transform: translateY(0); }
         .bbdo-hero h1 {
-          font-family: 'Instrument Serif', Georgia, serif;
-          font-size: clamp(64px, 12vw, 160px);
-          font-weight: 400; font-style: italic;
-          color: white; line-height: 0.9;
-          letter-spacing: -0.03em;
-          margin: 0;
+          font-family: var(--font-display);
+          font-size: clamp(56px, 10vw, 140px);
+          font-weight: 800; font-style: italic;
+          color: white; line-height: 0.95;
+          letter-spacing: -0.03em; margin: 0;
+          text-shadow: 0 4px 40px rgba(0,0,0,0.3);
         }
-        .bbdo-hero-cta {
+        .bbdo-hero h1 span { color: var(--primary); }
+        .bbdo-cta-btn {
           display: inline-block; margin-top: 40px;
-          padding: 16px 48px; font-size: 14px;
-          font-weight: 500; letter-spacing: 0.15em;
+          padding: 18px 52px; font-size: 13px;
+          font-weight: 600; letter-spacing: 0.15em;
           text-transform: uppercase; color: white;
-          border: 1px solid rgba(255,255,255,0.4);
-          background: transparent; text-decoration: none;
+          background: var(--primary);
+          border: none; text-decoration: none;
           transition: all 0.4s; cursor: pointer;
+          font-family: var(--font-display);
         }
-        .bbdo-hero-cta:hover {
-          background: white; color: #000;
-          border-color: white;
+        .bbdo-cta-btn:hover {
+          background: white; color: var(--gray-900);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(0,181,214,0.3);
         }
         .bbdo-scroll-hint {
           position: absolute; bottom: 32px; left: 50%;
           transform: translateX(-50%); z-index: 2;
           display: flex; flex-direction: column; align-items: center; gap: 8px;
-          color: rgba(255,255,255,0.4); font-size: 11px;
-          letter-spacing: 0.1em; text-transform: uppercase;
+          color: rgba(255,255,255,0.5); font-size: 10px;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          font-family: var(--font-display);
         }
         .bbdo-scroll-line {
           width: 1px; height: 40px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.4), transparent);
+          background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
           animation: scrollPulse 2s ease-in-out infinite;
         }
         @keyframes scrollPulse {
-          0%, 100% { opacity: 0.3; height: 40px; }
-          50% { opacity: 1; height: 50px; }
+          0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
         }
 
-        /* Big Stat */
-        .bbdo-stat-section {
-          min-height: 80vh; display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          background: white; padding: 80px 24px; text-align: center;
+        /* CASE STUDY STATS */
+        .bbdo-cases {
+          padding: 100px 24px;
+          background: white;
         }
-        .bbdo-big-number {
-          font-family: 'Instrument Serif', Georgia, serif;
-          font-size: clamp(100px, 20vw, 280px);
-          font-weight: 400; color: #00B5D6;
-          line-height: 0.85; letter-spacing: -0.04em;
+        .bbdo-cases-grid {
+          max-width: 1100px; margin: 0 auto;
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 0;
         }
-        .bbdo-stat-line {
-          font-size: clamp(18px, 2.5vw, 28px); font-weight: 300;
-          color: var(--gray-600); margin-top: 16px;
-          max-width: 500px; line-height: 1.4;
+        .bbdo-case-card {
+          padding: 48px 32px; text-align: center;
+          border-right: 1px solid var(--gray-200);
+          transition: all 0.4s;
+        }
+        .bbdo-case-card:last-child { border-right: none; }
+        .bbdo-case-card:hover { background: var(--primary); }
+        .bbdo-case-card:hover .bbdo-case-num,
+        .bbdo-case-card:hover .bbdo-case-arrow,
+        .bbdo-case-card:hover .bbdo-case-target { color: white; }
+        .bbdo-case-card:hover .bbdo-case-label { color: rgba(255,255,255,0.7); }
+        .bbdo-case-num {
+          font-family: var(--font-display);
+          font-size: clamp(36px, 5vw, 56px);
+          font-weight: 800; color: var(--primary);
+          line-height: 1; transition: color 0.4s;
+        }
+        .bbdo-case-arrow {
+          font-size: 24px; color: var(--gray-400);
+          margin: 4px 0; transition: color 0.4s;
+        }
+        .bbdo-case-target {
+          font-family: var(--font-display);
+          font-size: clamp(28px, 4vw, 44px);
+          font-weight: 800; color: var(--gray-900);
+          line-height: 1; transition: color 0.4s;
+        }
+        .bbdo-case-label {
+          font-size: 12px; font-weight: 500;
+          color: var(--gray-500); margin-top: 16px;
+          text-transform: uppercase; letter-spacing: 0.1em;
+          transition: color 0.4s;
         }
 
-        /* News Grid */
-        .bbdo-news { padding: 80px 24px; background: #fafafa; }
+        /* STATEMENT */
+        .bbdo-statement {
+          padding: 120px 24px; text-align: center;
+          background: var(--primary);
+          position: relative; overflow: hidden;
+        }
+        .bbdo-statement::before {
+          content: ''; position: absolute; inset: 0;
+          background: url('/images/hero-healthcare.jpg') center/cover;
+          opacity: 0.08;
+        }
+        .bbdo-statement h2 {
+          font-family: var(--font-display);
+          font-size: clamp(32px, 5vw, 72px);
+          font-weight: 800; color: white;
+          line-height: 1.15; letter-spacing: -0.02em;
+          max-width: 900px; margin: 0 auto;
+          position: relative; z-index: 1;
+        }
+        .bbdo-statement h2 em {
+          font-style: italic; font-weight: 300;
+          opacity: 0.8;
+        }
+
+        /* NEWS */
+        .bbdo-news { padding: 80px 24px; background: var(--gray-900); }
         .bbdo-news-label {
-          font-size: 12px; font-weight: 500; letter-spacing: 0.15em;
-          text-transform: uppercase; color: var(--gray-400);
+          font-family: var(--font-display);
+          font-size: 12px; font-weight: 600; letter-spacing: 0.15em;
+          text-transform: uppercase; color: var(--primary);
           text-align: center; margin-bottom: 48px;
         }
         .bbdo-news-grid {
           max-width: 1100px; margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto auto;
-          gap: 4px;
+          display: grid; grid-template-columns: 1.2fr 0.8fr;
+          grid-template-rows: 1fr 1fr; gap: 4px;
         }
         .bbdo-news-card {
           position: relative; overflow: hidden;
-          background: #111; min-height: 280px;
-          display: flex; align-items: flex-end;
-          text-decoration: none; cursor: pointer;
-          transition: transform 0.4s;
+          min-height: 260px; display: flex;
+          align-items: flex-end; text-decoration: none;
+          cursor: pointer; transition: transform 0.5s;
         }
-        .bbdo-news-card.tall { grid-row: span 2; min-height: 564px; }
+        .bbdo-news-card:first-child { grid-row: span 2; min-height: 524px; }
         .bbdo-news-card:hover { transform: scale(0.98); }
-        .bbdo-news-card::before {
+        .bbdo-news-card img {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: cover; transition: transform 0.6s;
+        }
+        .bbdo-news-card:hover img { transform: scale(1.05); }
+        .bbdo-news-card::after {
           content: ''; position: absolute; inset: 0;
-          background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.85) 100%);
+          background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.85) 100%);
           z-index: 1;
         }
-        .bbdo-news-card-inner {
-          position: relative; z-index: 2;
-          padding: 32px; width: 100%;
+        .bbdo-news-inner {
+          position: relative; z-index: 2; padding: 28px;
         }
         .bbdo-news-tag {
+          font-family: var(--font-display);
           font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
-          text-transform: uppercase; color: #00B5D6; margin-bottom: 8px;
+          text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
         }
         .bbdo-news-title {
-          font-family: 'Instrument Serif', Georgia, serif;
-          font-size: clamp(20px, 2.5vw, 32px);
-          font-weight: 400; color: white; line-height: 1.2;
+          font-family: var(--font-display);
+          font-size: 20px; font-weight: 700;
+          color: white; line-height: 1.25;
         }
-        .bbdo-news-card.tall .bbdo-news-title {
-          font-size: clamp(24px, 3vw, 40px);
-        }
+        .bbdo-news-card:first-child .bbdo-news-title { font-size: clamp(24px, 3vw, 36px); }
 
-        /* Statement */
-        .bbdo-statement {
-          min-height: 70vh; display: flex;
-          align-items: center; justify-content: center;
-          background: #000; padding: 80px 24px; text-align: center;
-        }
-        .bbdo-statement h2 {
-          font-family: 'Instrument Serif', Georgia, serif;
-          font-size: clamp(36px, 6vw, 80px);
-          font-weight: 400; color: white;
-          line-height: 1.15; letter-spacing: -0.02em;
-          max-width: 800px;
-        }
-        .bbdo-statement h2 span { color: #00B5D6; }
-
-        /* Testimonials */
+        /* TESTIMONIALS */
         .bbdo-testimonials {
           min-height: 60vh; display: flex;
           align-items: center; justify-content: center;
-          background: white; padding: 80px 24px; text-align: center;
-          position: relative;
-        }
-        .bbdo-quote-wrap {
-          max-width: 700px; margin: 0 auto;
+          background: white; padding: 100px 24px;
+          text-align: center;
         }
         .bbdo-quote {
-          font-family: 'Instrument Serif', Georgia, serif;
-          font-size: clamp(28px, 4vw, 52px);
-          font-weight: 400; font-style: italic;
-          color: var(--gray-900); line-height: 1.25;
-          transition: opacity 0.6s, transform 0.6s;
+          font-family: var(--font-display);
+          font-size: clamp(28px, 4vw, 56px);
+          font-weight: 300; font-style: italic;
+          color: var(--gray-900); line-height: 1.2;
+          max-width: 800px; margin: 0 auto;
         }
         .bbdo-quote-author {
+          font-family: var(--font-display);
           font-size: 14px; color: var(--gray-500);
-          margin-top: 32px; letter-spacing: 0.05em;
+          margin-top: 32px; font-weight: 500;
+          letter-spacing: 0.05em;
         }
+        .bbdo-quote-author span { color: var(--primary); font-weight: 600; }
         .bbdo-quote-dots {
           display: flex; justify-content: center;
           gap: 8px; margin-top: 32px;
         }
-        .bbdo-quote-dot {
+        .bbdo-qdot {
           width: 8px; height: 8px; border-radius: 50%;
           background: var(--gray-200); border: none; padding: 0;
           cursor: pointer; transition: all 0.3s;
         }
-        .bbdo-quote-dot.active {
-          background: #00B5D6; transform: scale(1.4);
+        .bbdo-qdot.active { background: var(--primary); transform: scale(1.5); }
+
+        /* BIG STAT */
+        .bbdo-stat {
+          padding: 100px 24px; text-align: center; background: var(--gray-50);
+        }
+        .bbdo-big-num {
+          font-family: var(--font-display);
+          font-size: clamp(80px, 16vw, 220px);
+          font-weight: 800; color: var(--primary);
+          line-height: 0.85; letter-spacing: -0.04em;
+        }
+        .bbdo-stat-line {
+          font-family: var(--font-display);
+          font-size: clamp(16px, 2vw, 24px); font-weight: 300;
+          color: var(--gray-600); margin-top: 16px; max-width: 500px;
+          margin-left: auto; margin-right: auto; line-height: 1.4;
         }
 
         /* CTA */
-        .bbdo-cta {
-          min-height: 50vh; display: flex;
-          flex-direction: column; align-items: center;
-          justify-content: center;
-          background: #000; padding: 80px 24px; text-align: center;
+        .bbdo-final-cta {
+          padding: 120px 24px; text-align: center;
+          background: var(--gray-900);
         }
-        .bbdo-cta h2 {
-          font-family: 'Instrument Serif', Georgia, serif;
+        .bbdo-final-cta h2 {
+          font-family: var(--font-display);
           font-size: clamp(48px, 8vw, 120px);
-          font-weight: 400; font-style: italic;
+          font-weight: 800; font-style: italic;
           color: white; margin-bottom: 40px;
           letter-spacing: -0.03em;
         }
+        .bbdo-final-cta h2 span { color: var(--primary); }
 
         @media (max-width: 768px) {
           .bbdo-news-grid { grid-template-columns: 1fr; }
-          .bbdo-news-card.tall { grid-row: span 1; min-height: 280px; }
+          .bbdo-news-card:first-child { grid-row: span 1; min-height: 260px; }
+          .bbdo-cases-grid { grid-template-columns: repeat(2, 1fr); }
+          .bbdo-case-card:nth-child(2) { border-right: none; }
+          .bbdo-case-card:nth-child(1), .bbdo-case-card:nth-child(2) { border-bottom: 1px solid var(--gray-200); }
         }
       `}</style>
 
@@ -227,9 +291,10 @@ export default function HomeBBDO() {
         <video autoPlay loop muted playsInline>
           <source src="/images/hero-video.mp4" type="video/mp4" />
         </video>
+        <div className="bbdo-hero-overlay" />
         <div className={`bbdo-hero-content ${heroVisible ? 'visible' : ''}`}>
-          <h1>Think<br/>Growth.</h1>
-          <Link href="/contact" className="bbdo-hero-cta">Free Revenue Analysis</Link>
+          <h1>Think<br/><span>Growth.</span></h1>
+          <Link href="/contact" className="bbdo-cta-btn">Free Revenue Analysis</Link>
         </div>
         <div className="bbdo-scroll-hint">
           <div className="bbdo-scroll-line" />
@@ -237,12 +302,27 @@ export default function HomeBBDO() {
         </div>
       </section>
 
-      {/* BIG STAT */}
-      <section className="bbdo-stat-section">
-        <div className="bbdo-big-number">30%</div>
-        <div className="bbdo-stat-line">
-          That&apos;s how much revenue your practice is leaving behind.
+      {/* CASE STUDY STATS */}
+      <section className="bbdo-cases">
+        <div className="bbdo-cases-grid">
+          {caseStudyStats.map((s, i) => (
+            <div key={i} className="bbdo-case-card">
+              <div className="bbdo-case-num">{s.number}</div>
+              {s.arrow && <div className="bbdo-case-arrow">{s.arrow}</div>}
+              <div className="bbdo-case-target">{s.target}</div>
+              <div className="bbdo-case-label">{s.label}</div>
+            </div>
+          ))}
         </div>
+      </section>
+
+      {/* STATEMENT */}
+      <section className="bbdo-statement">
+        <h2>
+          8 AI Agents.<br/>
+          1,000+ Experts.<br/>
+          <em>Zero Excuses.</em>
+        </h2>
       </section>
 
       {/* NEWS */}
@@ -250,8 +330,9 @@ export default function HomeBBDO() {
         <div className="bbdo-news-label">Latest News</div>
         <div className="bbdo-news-grid">
           {newsCards.map((card, i) => (
-            <Link key={i} href={card.href} className={`bbdo-news-card ${card.size === 'tall' ? 'tall' : ''}`}>
-              <div className="bbdo-news-card-inner">
+            <Link key={i} href={card.href} className="bbdo-news-card">
+              <img src={card.img} alt="" />
+              <div className="bbdo-news-inner">
                 <div className="bbdo-news-tag">{card.tag}</div>
                 <div className="bbdo-news-title">{card.title}</div>
               </div>
@@ -259,42 +340,39 @@ export default function HomeBBDO() {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <Link href="/news" style={{ fontSize: 13, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--gray-500)', textDecoration: 'none', borderBottom: '1px solid var(--gray-300)', paddingBottom: 4 }}>
+          <Link href="/news" className="bbdo-cta-btn" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.3)' }}>
             View All News
           </Link>
         </div>
       </section>
 
-      {/* STATEMENT */}
-      <section className="bbdo-statement">
-        <h2>
-          <span>8</span> AI Agents.<br/>
-          <span>1,000+</span> Experts.<br/>
-          Zero Excuses.
-        </h2>
-      </section>
-
       {/* TESTIMONIALS */}
       <section className="bbdo-testimonials">
-        <div className="bbdo-quote-wrap">
-          <div className="bbdo-quote">
-            &ldquo;{testimonials[activeQuote].quote}&rdquo;
-          </div>
+        <div>
+          <div className="bbdo-quote">&ldquo;{testimonials[activeQuote].quote}&rdquo;</div>
           <div className="bbdo-quote-author">
-            — {testimonials[activeQuote].author}, {testimonials[activeQuote].title}
+            — {testimonials[activeQuote].author} &nbsp;|&nbsp; <span>{testimonials[activeQuote].title}</span>
           </div>
           <div className="bbdo-quote-dots">
             {testimonials.map((_, i) => (
-              <button key={i} className={`bbdo-quote-dot ${i === activeQuote ? 'active' : ''}`} onClick={() => setActiveQuote(i)} aria-label={`Quote ${i + 1}`} />
+              <button key={i} className={`bbdo-qdot ${i === activeQuote ? 'active' : ''}`} onClick={() => setActiveQuote(i)} aria-label={`Quote ${i + 1}`} />
             ))}
           </div>
         </div>
       </section>
 
+      {/* BIG STAT */}
+      <section className="bbdo-stat">
+        <div className="bbdo-big-num">30%</div>
+        <div className="bbdo-stat-line">
+          That&apos;s how much revenue your practice is leaving behind.
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="bbdo-cta">
-        <h2>Ready?</h2>
-        <Link href="/contact" className="bbdo-hero-cta">Free Revenue Analysis</Link>
+      <section className="bbdo-final-cta">
+        <h2><span>Ready</span>?</h2>
+        <Link href="/contact" className="bbdo-cta-btn">Free Revenue Analysis</Link>
       </section>
     </main>
   )
