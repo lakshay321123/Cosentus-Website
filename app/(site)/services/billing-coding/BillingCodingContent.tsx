@@ -89,19 +89,42 @@ function InteractiveRCMCycle() {
   const [active, setActive] = useState(-1)
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto', animation: 'diagramFloat 5s ease-in-out infinite' }}>
-      <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management — 14 step billing cycle" style={{ width: '100%', height: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
+      <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management — 14 step billing cycle" style={{ width: '100%', height: 'auto', display: 'block', filter: 'brightness(0) invert(1)', animation: 'diagramFloat 5s ease-in-out infinite' }} />
 
-      {/* Animated hotspots */}
+      {/* Rotating glow ring around the cycle */}
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
+        width: '85%', height: '85%', borderRadius: '50%', pointerEvents: 'none',
+        border: '2px solid rgba(255,255,255,0.15)',
+        animation: 'spinSlow 20s linear infinite',
+      }}>
+        <div style={{ position: 'absolute', top: -4, left: '50%', transform: 'translateX(-50%)', width: 8, height: 8, borderRadius: '50%', background: 'white', boxShadow: '0 0 12px rgba(255,255,255,0.8)' }} />
+      </div>
+
+      {/* Visible animated dots around the cycle path */}
+      <svg viewBox="0 0 100 100" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+        {[0, 1, 2, 3].map(i => (
+          <circle key={i} r="1" fill="white" opacity="0.7">
+            <animateMotion dur={`${8 + i}s`} repeatCount="indefinite" path="M50,10 A40,40 0 1,1 49.99,10" begin={`${i * 2}s`} />
+          </circle>
+        ))}
+      </svg>
+
+      {/* Center glow */}
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
+        width: 100, height: 100, borderRadius: '50%', pointerEvents: 'none',
+        boxShadow: '0 0 40px rgba(255,255,255,0.25), 0 0 80px rgba(0,181,214,0.15)',
+        animation: 'centerGlow 3s ease-in-out infinite',
+      }} />
+
+      {/* Hotspots */}
       {rcmSteps.map((step, i) => {
         const isActive = active === i
         return (
           <div key={i} onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(-1)}
-            style={{
-              position: 'absolute', left: `${step.x}%`, top: `${step.y}%`,
-              width: 50, height: 30, cursor: 'pointer', zIndex: isActive ? 10 : 2,
-            }}
-          >
+            style={{ position: 'absolute', left: `${step.x}%`, top: `${step.y}%`, width: 50, height: 30, cursor: 'pointer', zIndex: isActive ? 10 : 2 }}>
             {isActive && (
               <div style={{
                 position: 'absolute', bottom: '120%', left: '50%', transform: 'translateX(-50%)',
@@ -117,17 +140,10 @@ function InteractiveRCMCycle() {
         )
       })}
 
-      {/* Center glow */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
-        width: 120, height: 120, borderRadius: '50%', pointerEvents: 'none',
-        boxShadow: '0 0 40px rgba(255,255,255,0.2), 0 0 80px rgba(0,181,214,0.15)',
-        animation: 'centerGlow 3s ease-in-out infinite',
-      }} />
-
       <style jsx>{`
         @keyframes diagramFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes centerGlow { 0%, 100% { box-shadow: 0 0 40px rgba(255,255,255,0.2), 0 0 80px rgba(0,181,214,0.15); } 50% { box-shadow: 0 0 55px rgba(255,255,255,0.35), 0 0 100px rgba(0,181,214,0.3); } }
+        @keyframes spinSlow { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+        @keyframes centerGlow { 0%, 100% { box-shadow: 0 0 40px rgba(255,255,255,0.2), 0 0 80px rgba(0,181,214,0.15); } 50% { box-shadow: 0 0 55px rgba(255,255,255,0.4), 0 0 100px rgba(0,181,214,0.3); } }
         @keyframes tooltipIn { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
       `}</style>
     </div>
@@ -268,15 +284,12 @@ export default function BillingCodingContent() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
             {solutions.map((s, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.15}>
-                <div style={{
-                  background: 'var(--primary)', color: 'white', borderRadius: 'var(--radius-lg)',
-                  padding: '48px 28px 36px', textAlign: 'center', height: '100%',
-                  clipPath: 'polygon(0 12%, 50% 0, 100% 12%, 100% 100%, 0 100%)',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                  transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease',
-                }}>
-                  <h4 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, marginTop: 16 }}>{s.title}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)' }}>{s.desc}</p>
+                <div style={{ position: 'relative', textAlign: 'center' }}>
+                  <div style={{ width: '100%', aspectRatio: '1.26', background: "url('/images/growth-arrow.png') center / contain no-repeat", position: 'relative' }} />
+                  <div style={{ marginTop: -60, position: 'relative', zIndex: 2, padding: '0 20px 20px' }}>
+                    <h4 style={{ fontSize: 17, fontWeight: 700, color: 'var(--primary)', marginBottom: 8 }}>{s.title}</h4>
+                    <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{s.desc}</p>
+                  </div>
                 </div>
               </RevealOnScroll>
             ))}
@@ -331,7 +344,7 @@ export default function BillingCodingContent() {
       </section>
 
       {/* ── BENEFITS OF OUTSOURCING ── */}
-      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, rgba(0,40,60,0.9), rgba(0,80,100,0.85))', backgroundImage: 'url(/images/hero-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundBlendMode: 'overlay', color: 'white' }}>
+      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #003545 0%, #005970 50%, #004050 100%)', color: 'white' }}>
         <div className="container">
           <RevealOnScroll>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 20, lineHeight: 1.3 }}>
