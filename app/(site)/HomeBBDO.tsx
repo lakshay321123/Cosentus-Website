@@ -138,13 +138,13 @@ export default function HomeBBDO() {
         .ag h2{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,80px);color:#fff;line-height:1.15;letter-spacing:-.03em}
         .ag h2 span{color:var(--primary)}
 
-        .hst{background:var(--primary);padding:clamp(80px,12vw,160px) clamp(40px,6vw,100px);overflow:hidden}
-        .hst-g{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(60px,6vw,100px);align-items:start;max-width:1200px;margin:0 auto}
-        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,6vw,90px);color:#fff;line-height:1;letter-spacing:-.03em}
-        .ii{display:inline-block;width:clamp(90px,14vw,200px);height:clamp(55px,8vw,110px);border-radius:10px;overflow:hidden;vertical-align:middle;margin:0 6px;transition:transform .5s}
+        .hst{background:var(--primary);padding:clamp(80px,10vw,140px) clamp(40px,5vw,80px);overflow:hidden}
+        .hst-g{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(40px,4vw,80px);align-items:start;max-width:1300px;margin:0 auto}
+        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(44px,7vw,100px);color:#fff;line-height:1.05;letter-spacing:-.03em}
+        .ii{display:inline-block;width:clamp(120px,18vw,280px);height:clamp(65px,9vw,120px);border-radius:12px;overflow:hidden;vertical-align:middle;margin:0 8px;transition:transform .5s}
         .ii:hover{transform:scale(1.1) rotate(-2deg)}
-        .ii img{width:100%;height:100%;object-fit:cover}
-        .hst-r{font-family:var(--font-display);font-size:clamp(18px,2vw,24px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.7}
+        .ii img,.ii video{width:100%;height:100%;object-fit:cover}
+        .hst-r{font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.65;padding-top:clamp(20px,3vw,40px)}
         .hst-r p{margin-bottom:24px}
         .hst-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);background:#fff;text-decoration:none;border-radius:50px;transition:all .4s}
         .hst-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
@@ -242,9 +242,9 @@ export default function HomeBBDO() {
       <section className="hst" id="sec-stmt">
         <div className="hst-g">
           <div className="hst-t gs-stmt-txt">
-            WE ARE <span className="ii"><img src="/images/hero-healthcare.jpg" alt="" /></span> COSENTUS<br />
-            <span className="ii"><img src="/images/hero-medical.jpg" alt="" /></span> WE DO<br />
-            BIG <span className="ii"><img src="/images/hero-team.jpg" alt="" /></span> THINGS
+            WE ARE <span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span> COSENTUS<br />
+            <span className="ii"><video autoPlay loop muted playsInline><source src="/images/specialties-hero.mp4" type="video/mp4" /></video></span> WE DO<br />
+            BIG <span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span> THINGS
           </div>
           <div className="hst-r gs-stmt-r">
             <p>We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
