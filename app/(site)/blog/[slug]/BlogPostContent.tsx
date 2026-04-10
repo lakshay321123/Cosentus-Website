@@ -52,42 +52,93 @@ function splitFaqText(text: string): { question: string; answer: string }[] {
   return pairs
 }
 
-// Split text that contains inline ALL CAPS headings into segments
-// e.g. "some text. INLINE HEADING More text" → [{type:'text',content:'some text.'},{type:'heading',content:'Inline Heading'},{type:'text',content:'More text'}]
+// Split text that contains inline headings (ALL CAPS or Title Case) into segments
+// Catches: "some text. INLINE HEADING More text", "text. Title Case Heading More text",
+// and headings at string start or end
 function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content: string }[] {
-  // Match 2+ consecutive ALL CAPS words (3+ letters each) that look like inline headings
-  // They typically appear after a period/sentence boundary or at the start
-  const pattern = /(?:^|(?<=[.!?]\s))([A-Z][A-Z]+(?:\s+(?:[A-Z][A-Z]+|&|AND|OR|OF|IN|FOR|THE|TO|A|AN|AT|ON|BY|VS|WITH))+[?:]?)/g
+  // Skip short text or FAQ content
+  if (text.length < 60) return []
+
+  const smallWords = new Set(['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','it','vs','with','&'])
   const segments: { type: 'text' | 'heading'; content: string }[] = []
-  let lastIndex = 0
-  let match
+  const headingPositions: { start: number; end: number; text: string }[] = []
 
-  while ((match = pattern.exec(text)) !== null) {
-    const heading = match[1]
-    // Skip short matches or things that are clearly not headings
-    if (heading.length < 8) continue
-
-    // Add preceding text
-    const before = text.slice(lastIndex, match.index + (match[0].length - match[1].length)).trim()
-    if (before) segments.push({ type: 'text', content: before })
-
-    // Convert heading to Title Case
-    const titleCase = heading.replace(/[?:]/g, '').split(/\s+/).map((w, i) => {
-      const lower = w.toLowerCase()
-      const smallWords = ['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','vs','with']
-      if (i > 0 && smallWords.includes(lower)) return lower
-      return w.charAt(0) + w.slice(1).toLowerCase()
-    }).join(' ')
-    segments.push({ type: 'heading', content: titleCase + (heading.endsWith('?') ? '?' : '') })
-
-    lastIndex = match.index + match[0].length
+  // Pattern 1: ALL CAPS headings (2+ words, each 2+ uppercase letters)
+  // Can appear after sentence boundary, at start, or after numbered prefix
+  const capsRegex = /(?:^|[.!?]\s+|(?:\d+\.)\s*)([A-Z][A-Z&]+(?:[\s/]+(?:[A-Z][A-Z&]+|AND|OR|OF|IN|FOR|THE|TO|A|AN|AT|ON|BY|VS|WITH|IS|IT|&))+[?:.]?)/g
+  let m
+  while ((m = capsRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    // Must be at least 2 real caps words and 10+ chars
+    const capWords = h.split(/[\s/]+/).filter(w => /^[A-Z]{2,}/.test(w.replace(/[?:.&]/, '')))
+    if (capWords.length >= 2 && h.length >= 10) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+    }
   }
 
-  // Add remaining text
-  const remaining = text.slice(lastIndex).trim()
+  // Pattern 2: Title Case headings at the END of text (after period, no period at end)
+  // e.g., "...some sentence. Revenue Cycle Management Strategies"
+  const titleEndRegex = /[.!?]\s+((?:[A-Z][a-zA-Z]+(?:\s+(?:and|or|of|in|for|the|to|a|an|at|on|by|vs|with|&)\s+)*)+[A-Z][a-zA-Z]+[?:]?)\s*$/g
+  while ((m = titleEndRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    const words = h.split(/\s+/)
+    const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
+    // Must be 3+ capitalized words, 20+ chars, and NOT look like a regular sentence
+    if (capWords.length >= 3 && h.length >= 20 && !h.includes(',') && !/\b(is|are|was|were|has|have|had|will|would|can|could|should|may|might)\b/i.test(h)) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      // Check no overlap with existing ALL CAPS matches
+      const overlaps = headingPositions.some(p => hStart >= p.start && hStart < p.end)
+      if (!overlaps) {
+        headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+      }
+    }
+  }
+
+  // Pattern 3: Title Case headings mid-text (after period, followed by body text)
+  // e.g., "...some sentence. Categorize Every Denial Immediately The foundation..."
+  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?:]?)\s+(?=[A-Z])/g
+  while ((m = titleMidRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    const words = h.split(/\s+/)
+    const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
+    if (capWords.length >= 3 && h.length >= 20 && !h.includes(',')) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      const overlaps = headingPositions.some(p =>
+        (hStart >= p.start && hStart < p.end) || (p.start >= hStart && p.start < hStart + h.length)
+      )
+      if (!overlaps) {
+        headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+      }
+    }
+  }
+
+  if (headingPositions.length === 0) return []
+
+  // Sort by position
+  headingPositions.sort((a, b) => a.start - b.start)
+
+  // Build segments
+  let lastIdx = 0
+  for (const hp of headingPositions) {
+    const before = text.slice(lastIdx, hp.start).trim()
+    if (before) segments.push({ type: 'text', content: before })
+
+    // Convert to Title Case
+    const titleCase = hp.text.replace(/[?:.]$/, '').split(/[\s/]+/).map((w, i) => {
+      if (smallWords.has(w.toLowerCase()) && i > 0) return w.toLowerCase()
+      if (/^[A-Z]{2,}$/.test(w.replace(/[?:.]/, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+      return w
+    }).join(' ')
+    const suffix = hp.text.match(/[?:]$/)?.[0] || ''
+    segments.push({ type: 'heading', content: titleCase + suffix })
+
+    lastIdx = hp.end
+  }
+
+  const remaining = text.slice(lastIdx).trim()
   if (remaining) segments.push({ type: 'text', content: remaining })
 
-  // Only return segments if we actually found headings
   return segments.length > 1 ? segments : []
 }
 
