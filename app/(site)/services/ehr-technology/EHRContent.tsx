@@ -358,68 +358,59 @@ function Interactive360Wheel() {
 
 
 /* ───────────────────────────────────────────
-   FAQ ACCORDION COMPONENT
+   FAQ ACCORDION — matches blog card style
    ─────────────────────────────────────────── */
 
 function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
-  const contentRef = useRef<HTMLDivElement>(null)
-  const [height, setHeight] = useState(0)
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(isOpen ? contentRef.current.scrollHeight : 0)
-    }
-  }, [isOpen])
-
   return (
     <div style={{
-      borderBottom: '1px solid var(--gray-200)',
-      transition: 'all var(--transition-base)',
+      marginBottom: 8,
+      borderRadius: 'var(--radius-md)',
+      border: '1px solid var(--gray-200)',
+      overflow: 'hidden',
+      transition: 'border-color 0.2s ease',
+      borderColor: isOpen ? '#00B5D6' : 'var(--gray-200)',
     }}>
       <button
         onClick={onToggle}
+        aria-expanded={isOpen}
         style={{
-          width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          padding: '24px 0', textAlign: 'left', gap: 24,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          width: '100%', padding: '18px 24px',
+          background: isOpen ? 'var(--primary-ghost)' : 'var(--gray-50)',
+          border: 'none', cursor: 'pointer', textAlign: 'left',
+          gap: 16, transition: 'background 0.2s ease',
           fontFamily: 'var(--font-body)',
         }}
-        aria-expanded={isOpen}
       >
         <span style={{
-          fontSize: 16, fontWeight: 500, color: isOpen ? 'var(--primary)' : 'var(--gray-900)',
-          transition: 'color var(--transition-fast)', lineHeight: 1.5,
+          fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+          lineHeight: 1.5, flex: 1,
         }}>
           {q}
         </span>
-        <span style={{
-          flexShrink: 0, width: 36, height: 36, borderRadius: '50%',
-          border: `1.5px solid ${isOpen ? 'var(--primary)' : 'var(--gray-200)'}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'all var(--transition-base)',
-          background: isOpen ? 'var(--primary)' : 'transparent',
-          color: isOpen ? 'white' : 'var(--gray-500)',
-          transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-        }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-        </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2.5}
+          style={{
+            flexShrink: 0,
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
+            transition: 'transform 0.3s ease',
+          }}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
-      <div
-        ref={contentRef}
-        style={{
-          overflow: 'hidden',
-          height,
-          transition: 'height 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-        }}
-      >
-        <div style={{
-          paddingBottom: 24, fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)',
-          maxWidth: 800,
-        }}>
-          {a}
+      {isOpen && (
+        <div style={{ padding: '0 24px 20px', background: 'white' }}>
+          <p style={{
+            fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+            paddingTop: 12, margin: 0,
+          }}>
+            {a}
+          </p>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -428,15 +419,14 @@ function FAQSection({ title, faqs }: { title: string; faqs: Array<{ q: string; a
   const [openIndex, setOpenIndex] = useState(-1)
 
   return (
-    <div style={{ marginBottom: 56 }}>
+    <div style={{ marginBottom: 48 }}>
       <h3 style={{
-        fontSize: 20, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8,
-        paddingBottom: 16, borderBottom: '2px solid var(--primary)',
-        display: 'inline-block',
+        fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16,
+        fontFamily: 'var(--font-display)',
       }}>
         {title}
       </h3>
-      <div style={{ marginTop: 8 }}>
+      <div>
         {faqs.map((faq, i) => (
           <FAQItem
             key={i}
@@ -500,7 +490,7 @@ export default function EHRContent() {
           <RevealOnScroll>
             <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 24 }}>
-                <span style={{ fontSize: 32, fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>medcloud</span>
+                <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
               </div>
               <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.2, marginBottom: 16 }}>
                 EHR & Practice Management Solutions for Physicians
@@ -530,7 +520,7 @@ export default function EHRContent() {
             <RevealOnScroll direction="right">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
-                  <span style={{ fontSize: 28, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>medcloud</span>
+                  <span style={{ fontSize: 24, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
                 </div>
                 <h3 style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.3, marginBottom: 32 }}>
                   Cutting-edge EHR & Practice Management Software
