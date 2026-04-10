@@ -347,31 +347,39 @@ export default function BillingCodingContent() {
         </div>
       </section>
 
-      {/* ── BENEFITS OF OUTSOURCING ── */}
+      {/* ── BENEFITS OF OUTSOURCING — clean stats ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white' }}>
         <div className="container">
           <RevealOnScroll>
-            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 20, lineHeight: 1.3 }}>
-              Benefits of Outsourcing Medical Billing & Coding Services
-            </h2>
+            <div className="section-label" style={{ color: 'rgba(255,255,255,0.6)' }}>WHY OUTSOURCE</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)', marginBottom: 12 }}>
-              <strong>Did you know…15% – 22% of all denials are because the data was not captured properly at the time of billing.</strong> Inaccurate patient registration leads to delayed payments and entails additional cost for correcting the work.
-            </p>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 48, lineHeight: 1.2 }}>
+              Benefits of Outsourcing Your Billing
+            </h2>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 'var(--radius-md)', padding: '32px 40px', marginTop: 24, backdropFilter: 'blur(8px)' }}>
-              <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)', marginBottom: 20 }}>
-                Our Billing Team has in-depth understanding and extensive exposure to multiple provider specialties, allowing us to maximize your revenue with little to no re-work.
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px 32px' }}>
-                {outsourcingBenefits.map((b, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15, color: 'white' }}>
-                    <span style={{ color: 'var(--primary)', fontWeight: 700, fontSize: 18 }}>•</span> {b}
-                  </div>
-                ))}
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+            {[
+              { stat: '25+', label: 'Provider Specialties' },
+              { stat: '99.4%', label: 'Clean Claim Rate' },
+              { stat: '0', label: 'Re-work Required' },
+            ].map((item, i) => (
+              <RevealOnScroll key={i} delay={0.15 + i * 0.1}>
+                <div style={{ padding: '36px 28px', background: 'rgba(255,255,255,0.08)', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(4px)', borderLeft: '3px solid rgba(255,255,255,0.3)' }}>
+                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, fontFamily: 'var(--font-display)', marginBottom: 4 }}>{item.stat}</div>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+          <RevealOnScroll delay={0.5}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 32 }}>
+              {['Blazing fast turnaround', 'Seamless transition & ramp-up', 'Optimized collections & cashflow'].map((t, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15, color: 'rgba(255,255,255,0.85)' }}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  {t}
+                </div>
+              ))}
             </div>
           </RevealOnScroll>
         </div>
