@@ -129,7 +129,7 @@ export default function EventsContent() {
       <div className="container">
         <div className="evt-stats">
           <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.length}</div><div className="evt-stat-label">Events & Counting</div></div>
-          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{(() => { const y = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...y) - Math.min(...y) + 1 })}+</div><div className="evt-stat-label">Years Active</div></div>
+          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{(() => { const y = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...y) - Math.min(...y) + 1 })()}+</div><div className="evt-stat-label">Years Active</div></div>
           <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.filter(e => e.tag === 'Conference').length}</div><div className="evt-stat-label">Conferences</div></div>
           <div style={{ textAlign: 'center' }}><div className="evt-stat-num">5</div><div className="evt-stat-label">Countries</div></div>
         </div>
