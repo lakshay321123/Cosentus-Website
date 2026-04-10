@@ -3277,10 +3277,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80', alt: 'Legal documents and compliance review', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&q=80', alt: 'Contract signing in professional setting', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3993239.jpg', alt: 'Healthcare worker in protective equipment providing community health care during pandemic', afterSection: 0 }, { url: '/images/blog-inline/pexels-3952234.jpg', alt: 'Public health response and COVID-19 safety measures in medical setting', afterSection: 1 }],
   },
   {
     slug: 'denial-management-strategies-in-medical-billing',
@@ -3308,10 +3305,7 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80', alt: 'Stack of important legal documents', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80', alt: 'Writing notes in professional notebook', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5699481.jpg', alt: 'Billing specialist reviewing denied claims documentation and appeal strategies', afterSection: 1 }, { url: '/images/blog-inline/pexels-4344880.jpg', alt: 'Healthcare team analyzing denial trends and developing prevention plans', afterSection: 3 }],
   },
   {
     slug: 'effective-accounts-receivable-management-in-healthcare',
@@ -3473,10 +3467,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80', alt: 'Studying and researching documents', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80', alt: 'Library of medical reference books', afterSection: 8 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344882.jpg', alt: 'Accounts receivable manager reviewing aging reports and collection metrics', afterSection: 0 }, { url: '/images/blog-inline/pexels-3938022.jpg', alt: 'Medical billing department tracking AR performance and payment timelines', afterSection: 8 }],
   },
   {
     slug: 'how-to-improve-medical-billing-for-your-medical-practice',
@@ -3543,10 +3534,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80', alt: 'Students studying medical textbooks', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?w=800&q=80', alt: 'Presentation in conference room', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5699477.jpg', alt: 'Practice manager implementing billing process improvements and best practices', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184418.jpg', alt: 'Medical billing team collaborating on workflow efficiency and accuracy', afterSection: 3 }],
   },
   {
     slug: 'how-to-increase-revenue-in-your-primary-care-office',
@@ -3607,10 +3595,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&q=80', alt: 'Workshop and training session', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80', alt: 'Educational seminar with participants', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7579831.jpg', alt: 'Primary care physician consulting with patient during office visit', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344884.jpg', alt: 'Family medicine practice focused on revenue growth and patient volume', afterSection: 3 }],
   },
   {
     slug: 'how-to-reduce-ar-days-in-medical-billing',
