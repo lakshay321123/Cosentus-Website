@@ -160,15 +160,17 @@ function CindyInner() {
         const main = document.querySelector('main')
         if (!main) return `Page: ${window.location.pathname}`
         const parts: string[] = []
+        let charCount = 0
         for (const el of Array.from(main.querySelectorAll(
           'h1, h2, h3, .section-label, .section-title, p, li, ' +
           '.result-number span, .result-label, .hero-sub'
         ))) {
+          if (charCount >= 1200) break
           if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 200) parts.push(text)
+          if (text.length > 1 && text.length < 200) { parts.push(text); charCount += text.length + 1 }
         }
-        return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n').substring(0, 1200)}`
+        return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n')}`
       },
     },
   })
@@ -207,6 +209,7 @@ function CindyInner() {
   const startConversation = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
+      lastSentPath.current = pathname || '/'
       conversation.startSession({
         agentId: AGENT_ID,
         connectionType: 'websocket',
