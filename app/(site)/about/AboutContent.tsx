@@ -79,54 +79,49 @@ export default function AboutContent() {
       </section>
 
       {/* What We Believe */}
-      <section style={{ padding: '100px 0', background: 'white', position: 'relative' }}>
+      <section style={{ padding: '100px 0', background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }} className="about-intro-grid">
-            <div style={{ position: 'sticky', top: 120 }}>
-              <RevealOnScroll>
-                <div className="section-label">OUR VALUES</div>
-              </RevealOnScroll>
-              <RevealOnScroll delay={0.1}>
-                <div className="section-title">What We Believe</div>
-              </RevealOnScroll>
-              <RevealOnScroll delay={0.15}>
-                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', maxWidth: 420 }}>
-                  The principles that guide every decision we make — for our clients, our team, and our company.
-                </p>
-              </RevealOnScroll>
-            </div>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <RevealOnScroll>
+              <div className="section-label" style={{ textAlign: 'center' }}>OUR VALUES</div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <div className="section-title" style={{ textAlign: 'center' }}>What We Believe</div>
+            </RevealOnScroll>
+          </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 16 }}>
-              {beliefs.map((b, i) => (
-                <RevealOnScroll key={i} delay={0.1 + i * 0.1}>
-                  <div style={{
-                    background: 'white',
-                    borderRadius: 16,
-                    padding: '32px 32px 32px 36px',
-                    border: '1px solid var(--gray-200)',
-                    borderLeft: '4px solid #00B5D6',
-                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    cursor: 'default',
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateX(6px)'; el.style.boxShadow = '0 8px 32px rgba(0,181,214,0.12)'; el.style.borderLeftColor = '#00B5D6' }}
-                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateX(0)'; el.style.boxShadow = 'none' }}
-                  >
-                    <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
-                      <div style={{
-                        width: 52, height: 52, borderRadius: 12, flexShrink: 0,
-                        background: '#D6EBF2',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: '#00B5D6',
-                      }}>{b.icon}</div>
-                      <div>
-                        <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
-                        <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
-                      </div>
+          {/* Desktop 2x2 grid */}
+          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+            {beliefs.map((b, i) => (
+              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.1}>
+                <div style={{
+                  background: '#f8fbfc',
+                  borderRadius: 16,
+                  padding: '36px 32px',
+                  border: '1px solid #E6E6E6',
+                  borderTop: '3px solid #00B5D6',
+                  height: '100%',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  cursor: 'default',
+                }}
+                onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 12px 32px rgba(0,181,214,0.12)' }}
+                onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none' }}
+                >
+                  <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+                    <div style={{
+                      width: 52, height: 52, borderRadius: 12, flexShrink: 0,
+                      background: '#D6EBF2',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: '#00B5D6',
+                    }}>{b.icon}</div>
+                    <div>
+                      <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
+                      <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
                     </div>
                   </div>
-                </RevealOnScroll>
-              ))}
-            </div>
+                </div>
+              </RevealOnScroll>
+            ))}
           </div>
 
           {/* Mobile */}
@@ -134,8 +129,8 @@ export default function AboutContent() {
             <MobileCarousel autoScrollInterval={4000}>
               {beliefs.map((b, i) => (
                 <div key={i} style={{
-                  background: 'white', borderRadius: 16, padding: '32px 28px',
-                  border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6',
+                  background: '#f8fbfc', borderRadius: 16, padding: '32px 28px',
+                  border: '1px solid #E6E6E6', borderTop: '3px solid #00B5D6',
                 }}>
                   <div style={{ width: 52, height: 52, borderRadius: 12, background: '#D6EBF2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, color: '#00B5D6' }}>{b.icon}</div>
                   <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8 }}>{b.title}</h4>
