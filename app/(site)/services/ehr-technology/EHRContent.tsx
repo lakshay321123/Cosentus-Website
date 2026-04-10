@@ -490,7 +490,7 @@ export default function EHRContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div style={{ maxWidth: 800 }}>
+            <div>
               <div className="section-label">MEDCLOUD</div>
               <div className="section-title">
                 EHR & Practice Management Solutions for Physicians
@@ -642,7 +642,7 @@ export default function EHRContent() {
 
       {/* ── PARTNERSHIP PITCH ── */}
       <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-title">
               Growth with Cosentus: A Partnership for Success
@@ -658,7 +658,7 @@ export default function EHRContent() {
 
       {/* ── FAQ SECTION ── */}
       <section className="section" id="faq">
-        <div className="container" style={{ maxWidth: 900 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
           </RevealOnScroll>

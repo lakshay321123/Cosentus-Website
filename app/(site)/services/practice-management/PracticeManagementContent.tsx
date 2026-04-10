@@ -287,7 +287,7 @@ export default function PracticeManagementContent() {
 
       {/* ── INTRO ── */}
       <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-label">PRACTICE MANAGEMENT</div>
           </RevealOnScroll>
@@ -382,7 +382,7 @@ export default function PracticeManagementContent() {
 
       {/* ── WHY OUTSOURCE ── */}
       <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-label">WHY OUTSOURCE</div>
           </RevealOnScroll>
@@ -399,7 +399,7 @@ export default function PracticeManagementContent() {
 
       {/* ── FAQ ── */}
       <section className="section section-alt" id="faq">
-        <div className="container" style={{ maxWidth: 900 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
           </RevealOnScroll>
