@@ -79,45 +79,53 @@ export default function AboutContent() {
       </section>
 
       {/* What We Believe */}
-      <section style={{ padding: '100px 0', background: 'white' }}>
+      <section style={{ padding: '100px 0', background: 'linear-gradient(180deg, #f0f8fa 0%, #f7fbfc 100%)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <RevealOnScroll>
-              <div className="section-label" style={{ textAlign: 'center' }}>OUR VALUES</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
-              <div className="section-title" style={{ textAlign: 'center' }}>What We Believe</div>
-            </RevealOnScroll>
-          </div>
+          <RevealOnScroll>
+            <div className="section-label">OUR VALUES</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">What We Believe</div>
+          </RevealOnScroll>
 
           {/* Desktop 2x2 grid */}
-          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginTop: 48 }}>
             {beliefs.map((b, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.1}>
+              <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
                 <div style={{
-                  background: '#f8fbfc',
-                  borderRadius: 16,
-                  padding: '36px 32px',
-                  border: '1px solid #E6E6E6',
-                  borderTop: '3px solid #00B5D6',
+                  background: 'white',
+                  borderRadius: 20,
+                  padding: '40px 36px',
                   height: '100%',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  border: '1px solid rgba(0,181,214,0.08)',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                   cursor: 'default',
+                  position: 'relative' as const,
+                  overflow: 'hidden',
                 }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 12px 32px rgba(0,181,214,0.12)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none' }}
+                onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 20px 48px rgba(0,181,214,0.10), 0 1px 4px rgba(0,0,0,0.04)'; el.style.borderColor = 'rgba(0,181,214,0.2)' }}
+                onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'; el.style.borderColor = 'rgba(0,181,214,0.08)' }}
                 >
-                  <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+                  {/* Large background number */}
+                  <div style={{
+                    position: 'absolute', top: -8, right: 16,
+                    fontSize: 120, fontWeight: 800, fontFamily: 'var(--font-display)',
+                    color: 'rgba(0,181,214,0.04)', lineHeight: 1, pointerEvents: 'none',
+                    fontStyle: 'italic',
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+
+                  <div style={{ position: 'relative' }}>
                     <div style={{
-                      width: 52, height: 52, borderRadius: 12, flexShrink: 0,
-                      background: '#D6EBF2',
+                      width: 48, height: 48, borderRadius: 12,
+                      background: 'linear-gradient(135deg, #D6EBF2 0%, #e8f4f8 100%)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#00B5D6',
+                      marginBottom: 24, color: '#00B5D6',
                     }}>{b.icon}</div>
-                    <div>
-                      <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
-                      <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
-                    </div>
+                    <h4 style={{ fontSize: 20, fontWeight: 600, color: '#0a2640', marginBottom: 10, fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>{b.title}</h4>
+                    <p style={{ fontSize: 15, lineHeight: 1.7, color: '#616161', margin: 0 }}>{b.desc}</p>
                   </div>
                 </div>
               </RevealOnScroll>
@@ -129,12 +137,18 @@ export default function AboutContent() {
             <MobileCarousel autoScrollInterval={4000}>
               {beliefs.map((b, i) => (
                 <div key={i} style={{
-                  background: '#f8fbfc', borderRadius: 16, padding: '32px 28px',
-                  border: '1px solid #E6E6E6', borderTop: '3px solid #00B5D6',
+                  background: 'white', borderRadius: 20, padding: '36px 28px',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)', border: '1px solid rgba(0,181,214,0.08)',
+                  position: 'relative' as const, overflow: 'hidden',
                 }}>
-                  <div style={{ width: 52, height: 52, borderRadius: 12, background: '#D6EBF2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, color: '#00B5D6' }}>{b.icon}</div>
-                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8 }}>{b.title}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-500)', margin: 0 }}>{b.desc}</p>
+                  <div style={{ position: 'absolute', top: -8, right: 16, fontSize: 100, fontWeight: 800, fontFamily: 'var(--font-display)', color: 'rgba(0,181,214,0.04)', lineHeight: 1, pointerEvents: 'none', fontStyle: 'italic' }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 12, background: 'linear-gradient(135deg, #D6EBF2 0%, #e8f4f8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, color: '#00B5D6' }}>{b.icon}</div>
+                    <h4 style={{ fontSize: 20, fontWeight: 600, color: '#0a2640', marginBottom: 10 }}>{b.title}</h4>
+                    <p style={{ fontSize: 15, lineHeight: 1.7, color: '#616161', margin: 0 }}>{b.desc}</p>
+                  </div>
                 </div>
               ))}
             </MobileCarousel>
