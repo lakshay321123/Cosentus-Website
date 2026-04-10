@@ -266,8 +266,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
               {/* Intro */}
               {post.intro.map((p, i) => (
                 <p key={i} style={{
-                  fontSize: 17, lineHeight: 1.85, color: 'var(--gray-700)',
-                  marginBottom: 20, fontFamily: 'var(--font-body)',
+                  fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                  marginBottom: 16, fontFamily: 'var(--font-body)',
                 }}>
                   {p}
                 </p>
@@ -281,13 +281,17 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(22px, 2.5vw, 30px)',
-                        fontWeight: 500,
+                        fontSize: 16,
+                        fontWeight: 700,
                         color: 'var(--gray-900)',
-                        lineHeight: 1.3,
-                        marginBottom: 16,
-                        paddingTop: 8,
-                        borderBottom: section.heading.toLowerCase().includes("faq") ? 'none' : undefined,
+                        lineHeight: 1.75,
+                        marginBottom: 12,
+                        marginTop: 36,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.02em',
+                        borderLeft: '3px solid var(--primary)',
+                        paddingLeft: 16,
+                        marginLeft: 4,
                       }}
                     >
                       {section.heading}
@@ -297,12 +301,15 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(17px, 2vw, 22px)',
-                        fontWeight: 500,
-                        color: 'var(--gray-800)',
-                        lineHeight: 1.35,
-                        marginBottom: 12,
-                        paddingTop: 4,
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: 'var(--gray-900)',
+                        lineHeight: 1.75,
+                        marginBottom: 10,
+                        marginTop: 28,
+                        borderLeft: '3px solid var(--primary)',
+                        paddingLeft: 16,
+                        marginLeft: 4,
                       }}
                     >
                       {section.heading}
@@ -341,7 +348,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                     }}
                                   >
                                     <span style={{
-                                      fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+                                      fontSize: 16, fontWeight: 600, color: 'var(--gray-900)',
                                       lineHeight: 1.5, flex: 1,
                                     }}>
                                       {qa.question}
@@ -367,7 +374,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                       background: 'white',
                                     }}>
                                       <p style={{
-                                        fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+                                        fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)',
                                         paddingTop: 12,
                                       }}>
                                         {qa.answer}
@@ -387,18 +394,22 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       const items = text.split(/\s[•·]\s/)
                       if (items.length > 1) {
                         return (
-                          <ul key={j} style={{
-                            paddingLeft: 20, marginBottom: 16,
-                          }}>
+                          <div key={j} style={{ marginBottom: 16 }}>
                             {items.map((item, k) => (
-                              <li key={k} style={{
-                                fontSize: 15, lineHeight: 1.75, color: 'var(--gray-700)',
-                                marginBottom: 6,
+                              <div key={k} style={{
+                                borderLeft: '3px solid var(--primary)',
+                                paddingLeft: 16,
+                                marginBottom: 8,
+                                marginLeft: 4,
                               }}>
-                                {item.trim()}
-                              </li>
+                                <p style={{
+                                  fontSize: 16, lineHeight: 1.75, color: 'var(--gray-700)',
+                                }}>
+                                  {item.trim()}
+                                </p>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         )
                       }
                     }
@@ -411,20 +422,22 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                           {segments.map((seg, si) => seg.type === 'heading' ? (
                             <h4 key={si} style={{
                               fontFamily: 'var(--font-display)',
-                              fontSize: 'clamp(16px, 1.8vw, 20px)',
-                              fontWeight: 500,
-                              color: 'var(--gray-800)',
-                              lineHeight: 1.35,
+                              fontSize: 16,
+                              fontWeight: 600,
+                              color: 'var(--gray-900)',
+                              lineHeight: 1.75,
                               marginTop: 24,
-                              marginBottom: 10,
-                              paddingTop: 4,
+                              marginBottom: 8,
+                              borderLeft: '3px solid var(--primary)',
+                              paddingLeft: 16,
+                              marginLeft: 4,
                             }}>
                               {seg.content}
                             </h4>
                           ) : (
                             <p key={si} style={{
-                              fontSize: 16, lineHeight: 1.85, color: 'var(--gray-700)',
-                              marginBottom: 16, fontFamily: 'var(--font-body)',
+                              fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                              marginBottom: 16,
                             }}>
                               {seg.content}
                             </p>
@@ -435,8 +448,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
 
                     return (
                       <p key={j} style={{
-                        fontSize: 16, lineHeight: 1.85, color: 'var(--gray-700)',
-                        marginBottom: 16, fontFamily: 'var(--font-body)',
+                        fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                        marginBottom: 16,
                       }}>
                         {text}
                       </p>
