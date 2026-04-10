@@ -72,40 +72,7 @@ export default function PartnershipContent() {
           font-weight: 500;
         }
 
-        /* Challenges */
-        .challenge-row {
-          display: grid;
-          grid-template-columns: 80px 1fr;
-          gap: 24px;
-          align-items: center;
-          padding: 32px 0;
-          border-bottom: 1px solid var(--gray-100);
-          transition: all 0.4s ease;
-        }
-
-        .challenge-row:first-child {
-          border-top: 1px solid var(--gray-100);
-        }
-
-        .challenge-row:hover {
-          padding-left: 12px;
-        }
-
-        .challenge-number {
-          font-size: 48px;
-          font-weight: 200;
-          color: var(--primary);
-          font-family: var(--font-display);
-          line-height: 1;
-        }
-
-        .challenge-text {
-          font-size: 18px;
-          color: var(--gray-700);
-          line-height: 1.5;
-        }
-
-        /* Solutions Grid */
+        
         .solutions-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -319,43 +286,62 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* Challenges — Editorial */}
-      <section style={{ padding: '80px 0' }}>
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Common Challenges</div>
-            <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 48 }}>Is Your Journey to Growth Facing These Challenges?</h2>
-          </RevealOnScroll>
-          {challenges.map((c, i) => (
-            <RevealOnScroll key={i} delay={i * 0.08}>
-              <div className="challenge-row">
-                <div className="challenge-number">{c.number}</div>
-                <div className="challenge-text">{c.text}</div>
+      {/* Problem / Solution Split */}
+      <section className="section" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden', minHeight: 400 }}>
+            {/* Problem */}
+            <RevealOnScroll direction="left">
+              <div style={{ background: 'var(--white)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--gray-400)', marginBottom: 16 }}>THE CHALLENGE</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.25, marginBottom: 20 }}>
+                  Is Your Journey to Growth<br />Facing These Challenges?
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
+                  {[
+                    'Scaling operations without losing quality or client relationships',
+                    'Keeping pace with technology and AI advancements',
+                    'Managing rising costs while maintaining profitability',
+                    'Competing against private equity-backed consolidators',
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <svg aria-hidden="true" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'var(--gray-400)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                      <span style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </RevealOnScroll>
-          ))}
+            {/* Solution */}
+            <RevealOnScroll direction="right">
+              <div className="ps-solution" style={{ background: 'var(--primary)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', borderRadius: '0 var(--radius-md) var(--radius-md) 0', position: 'relative' as const, overflow: 'hidden' }}>
+                <div className="ps-shimmer" />
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>THE SOLUTION</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'white', lineHeight: 1.25, marginBottom: 20 }}>
+                  25 Years of RCM Expertise +<br />Real + Artificial Intelligence
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
+                  {[
+                    '1,000+ dedicated RCM experts ensuring cost-effectiveness',
+                    'AI software and advanced technology platforms at scale',
+                    'Comprehensive offshore teams and outsourcing capabilities',
+                    'Upfront capital investments to de-risk owners',
+                    '19 successful acquisitions — we know how to grow together',
+                    'Inc. 5000 and Great Place to Work certified',
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <svg aria-hidden="true" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'rgba(255,255,255,0.7)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 
-      {/* Think Growth Solutions — Dark */}
-      <section style={{ background: 'var(--primary)', padding: '80px 0' }}>
-        <div className="container">
-          <RevealOnScroll>
-            <h2 style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 200, fontStyle: 'italic', color: 'white', textAlign: 'center', marginBottom: 56, letterSpacing: '-0.02em' }}>THINK GROWTH</h2>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="solutions-grid">
-              {solutions.map((s, i) => (
-                <div className="solution-card" key={i}>
-                  <div className="solution-stat">{s.stat}<span className="stat-suffix">{s.unit}</span></div>
-                  <div className="solution-title">{s.title}</div>
-                  <div className="solution-desc">{s.desc}</div>
-                </div>
-              ))}
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+
 
 
 
