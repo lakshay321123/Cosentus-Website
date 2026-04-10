@@ -114,10 +114,12 @@ function InteractiveMindMap() {
         boxShadow: '0 0 30px rgba(0,181,214,0.25)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         animation: 'breathe 4s ease-in-out infinite',
+        padding: 20, overflow: 'hidden',
       }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-        </svg>
+        <img src="/images/icons/p3-center-doctor.png" alt="Doctor" style={{
+          width: '100%', height: '100%', objectFit: 'contain',
+          filter: 'brightness(0) invert(1)',
+        }} />
       </div>
 
       {/* Outer nodes — real icons */}
