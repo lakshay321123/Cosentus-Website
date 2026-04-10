@@ -135,31 +135,26 @@ function InteractiveMindMap() {
               animationDelay: `${i * 0.4}s`,
             }}
           >
-            {/* White circle with icon */}
+            {/* Icon — white, no circle */}
             <div style={{
-              width: isActive ? 82 : 74, height: isActive ? 82 : 74,
-              borderRadius: '50%', background: 'white',
-              border: `2.5px solid ${isActive ? '#00B5D6' : 'rgba(0,181,214,0.5)'}`,
-              boxShadow: isActive
-                ? '0 0 24px rgba(0,181,214,0.4), 0 6px 20px rgba(0,0,0,0.1)'
-                : '0 2px 10px rgba(0,0,0,0.06)',
+              width: isActive ? 80 : 70, height: isActive ? 80 : 70,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
-              padding: isActive ? 14 : 13,
-              overflow: 'hidden',
+              padding: 4,
             }}>
               <img src={n.img} alt={n.label} style={{
                 width: '100%', height: '100%', objectFit: 'contain',
+                filter: 'brightness(0) invert(1)',
                 transition: 'transform 0.3s ease',
-                transform: isActive ? 'scale(1.1)' : 'scale(1)',
+                transform: isActive ? 'scale(1.15)' : 'scale(1)',
               }} />
             </div>
 
             {/* Pulse ring on hover */}
             {isActive && (
               <div style={{
-                position: 'absolute', inset: -8, borderRadius: '50%',
-                border: '2px solid rgba(0,181,214,0.5)',
+                position: 'absolute', inset: -4, borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.5)',
                 animation: 'ringExpand 1.3s ease-out infinite',
               }} />
             )}
