@@ -155,20 +155,17 @@ function CindyInner() {
         return done('Section not found, scrolled down')
       },
 
-      // Read current page content on demand
+      // Read current page content on demand — lightweight, headings + key text only
       read_page: () => {
         const main = document.querySelector('main')
-        if (!main) return `Current page: ${window.location.pathname}. No content found.`
+        if (!main) return `Page: ${window.location.pathname}`
         const parts: string[] = []
-        for (const el of Array.from(main.querySelectorAll(
-          'h1, h2, h3, h4, .section-label, .section-title, p, li, ' +
-          '.result-number span, .result-label, .hero-sub, .hero-case-title, .hero-case-tag'
-        ))) {
-          if (el.closest('nav, footer, [style*="position: fixed"]')) continue
+        for (const el of Array.from(main.querySelectorAll('h1, h2, h3, .section-label, .section-title'))) {
+          if (el.closest('nav, footer')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 300) parts.push(text)
+          if (text.length > 1 && text.length < 120) parts.push(text)
         }
-        return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n').substring(0, 2000)}`
+        return `Page: ${window.location.pathname}\nSections: ${parts.join(' | ').substring(0, 600)}`
       },
     },
   })
@@ -177,17 +174,19 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // PAGE AWARENESS: Simple page notification only
+  // PAGE AWARENESS: Notify agent of navigation — debounced, skips during active speech
   const lastSentPath = useRef('')
+  const contextTimerRef = useRef<NodeJS.Timeout | null>(null)
   useEffect(() => {
     if (!isConnected || !pathname || isSpeaking) return
     if (pathname === lastSentPath.current) return
-    const timer = setTimeout(() => {
-      if (!isConnected) return
+    if (contextTimerRef.current) clearTimeout(contextTimerRef.current)
+    contextTimerRef.current = setTimeout(() => {
+      if (!isConnected || isSpeaking) return
       lastSentPath.current = pathname
-      try { conversation.sendContextualUpdate(`User navigated to: ${pathname}`) } catch {}
-    }, 1500)
-    return () => clearTimeout(timer)
+      try { conversation.sendContextualUpdate(`User is now on: ${pathname}`) } catch {}
+    }, 3000)
+    return () => { if (contextTimerRef.current) clearTimeout(contextTimerRef.current) }
   }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Blink (PR fix: cleanup nested timeout to prevent memory leak)
@@ -205,11 +204,15 @@ function CindyInner() {
   const startConversation = useCallback(async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
-      conversation.startSession({ agentId: AGENT_ID, connectionType: 'websocket' })
+      conversation.startSession({
+        agentId: AGENT_ID,
+        connectionType: 'websocket',
+        dynamicVariables: { current_page: pathname || '/' },
+      })
     } catch (e) {
       console.error('Failed to start conversation:', e)
     }
-  }, [conversation])
+  }, [conversation, pathname])
 
   const endConversation = useCallback(() => { conversation.endSession() }, [conversation])
 
