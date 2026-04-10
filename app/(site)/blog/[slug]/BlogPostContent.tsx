@@ -52,6 +52,96 @@ function splitFaqText(text: string): { question: string; answer: string }[] {
   return pairs
 }
 
+// Split text that contains inline headings (ALL CAPS or Title Case) into segments
+// Catches: "some text. INLINE HEADING More text", "text. Title Case Heading More text",
+// and headings at string start or end
+function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content: string }[] {
+  // Skip short text or FAQ content
+  if (text.length < 60) return []
+
+  const smallWords = new Set(['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','it','vs','with','&'])
+  const segments: { type: 'text' | 'heading'; content: string }[] = []
+  const headingPositions: { start: number; end: number; text: string }[] = []
+
+  // Pattern 1: ALL CAPS headings (2+ words, each 2+ uppercase letters)
+  // Can appear after sentence boundary, at start, or after numbered prefix
+  const capsRegex = /(?:^|[.!?]\s+|(?:\d+\.)\s*)([A-Z][A-Z&]+(?:[\s/]+(?:[A-Z][A-Z&]+|AND|OR|OF|IN|FOR|THE|TO|A|AN|AT|ON|BY|VS|WITH|IS|IT|&))+[?:.]?)/g
+  let m
+  while ((m = capsRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    // Must be at least 2 real caps words and 10+ chars
+    const capWords = h.split(/[\s/]+/).filter(w => /^[A-Z]{2,}/.test(w.replace(/[?:.&]/, '')))
+    if (capWords.length >= 2 && h.length >= 10) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+    }
+  }
+
+  // Pattern 2: Title Case headings at the END of text (after period, no period at end)
+  // e.g., "...some sentence. Revenue Cycle Management Strategies"
+  const titleEndRegex = /[.!?]\s+((?:[A-Z][a-zA-Z]+(?:\s+(?:and|or|of|in|for|the|to|a|an|at|on|by|vs|with|&)\s+)*)+[A-Z][a-zA-Z]+[?:]?)\s*$/g
+  while ((m = titleEndRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    const words = h.split(/\s+/)
+    const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
+    // Must be 3+ capitalized words, 20+ chars, and NOT look like a regular sentence
+    if (capWords.length >= 3 && h.length >= 20 && !h.includes(',') && !/\b(is|are|was|were|has|have|had|will|would|can|could|should|may|might)\b/i.test(h)) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      // Check no overlap with existing ALL CAPS matches
+      const overlaps = headingPositions.some(p => hStart >= p.start && hStart < p.end)
+      if (!overlaps) {
+        headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+      }
+    }
+  }
+
+  // Pattern 3: Title Case headings mid-text (after period, followed by body text)
+  // e.g., "...some sentence. Categorize Every Denial Immediately The foundation..."
+  const titleMidRegex = /[.!?]\s+((?:[A-Z][a-z]+\s+){2,}[A-Z][a-z]+[?:]?)\s+(?=[A-Z])/g
+  while ((m = titleMidRegex.exec(text)) !== null) {
+    const h = m[1].trim()
+    const words = h.split(/\s+/)
+    const capWords = words.filter(w => /^[A-Z]/.test(w) && !smallWords.has(w.toLowerCase()))
+    if (capWords.length >= 3 && h.length >= 20 && !h.includes(',')) {
+      const hStart = m.index + m[0].indexOf(m[1])
+      const overlaps = headingPositions.some(p =>
+        (hStart >= p.start && hStart < p.end) || (p.start >= hStart && p.start < hStart + h.length)
+      )
+      if (!overlaps) {
+        headingPositions.push({ start: hStart, end: hStart + h.length, text: h })
+      }
+    }
+  }
+
+  if (headingPositions.length === 0) return []
+
+  // Sort by position
+  headingPositions.sort((a, b) => a.start - b.start)
+
+  // Build segments
+  let lastIdx = 0
+  for (const hp of headingPositions) {
+    const before = text.slice(lastIdx, hp.start).trim()
+    if (before) segments.push({ type: 'text', content: before })
+
+    // Convert to Title Case
+    const titleCase = hp.text.replace(/[?:.]$/, '').split(/[\s/]+/).map((w, i) => {
+      if (smallWords.has(w.toLowerCase()) && i > 0) return w.toLowerCase()
+      if (/^[A-Z]{2,}$/.test(w.replace(/[?:.]/, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+      return w
+    }).join(' ')
+    const suffix = hp.text.match(/[?:]$/)?.[0] || ''
+    segments.push({ type: 'heading', content: titleCase + suffix })
+
+    lastIdx = hp.end
+  }
+
+  const remaining = text.slice(lastIdx).trim()
+  if (remaining) segments.push({ type: 'text', content: remaining })
+
+  return segments.length > 1 ? segments : []
+}
+
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const [activeId, setActiveId] = useState<string>('')
   const [tocOpen, setTocOpen] = useState(true)
@@ -145,14 +235,16 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       {/* Blog Content with Sidebar TOC */}
       <section className="section" style={{ paddingTop: 40, paddingBottom: 80 }}>
         <div className="container" style={{ maxWidth: 1200 }}>
-          {/* Back to blog breadcrumb */}
-          <Link href="/blog" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, color: 'var(--gray-500)', marginBottom: 32,
-            transition: 'color 0.2s',
-          }}>
-            <ArrowLeftIcon /> Back to all articles
-          </Link>
+          {/* Back to blog breadcrumb — separate nav component, outside article flow */}
+          <nav aria-label="Breadcrumb" style={{ marginBottom: 32 }}>
+            <Link href="/blog" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 13, color: 'var(--gray-500)',
+              transition: 'color 0.2s',
+            }}>
+              <ArrowLeftIcon /> Back to all articles
+            </Link>
+          </nav>
           <div className="blog-layout" style={{
             display: 'grid',
             gridTemplateColumns: '280px 1fr',
@@ -225,8 +317,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
               {/* Intro */}
               {post.intro.map((p, i) => (
                 <p key={i} style={{
-                  fontSize: 17, lineHeight: 1.85, color: 'var(--gray-700)',
-                  marginBottom: 20, fontFamily: 'var(--font-body)',
+                  fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                  marginBottom: 16, fontFamily: 'var(--font-body)',
                 }}>
                   {p}
                 </p>
@@ -240,13 +332,17 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(22px, 2.5vw, 30px)',
-                        fontWeight: 500,
+                        fontSize: 16,
+                        fontWeight: 700,
                         color: 'var(--gray-900)',
-                        lineHeight: 1.3,
-                        marginBottom: 16,
-                        paddingTop: 8,
-                        borderBottom: section.heading.toLowerCase().includes("faq") ? 'none' : undefined,
+                        lineHeight: 1.75,
+                        marginBottom: 12,
+                        marginTop: 36,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.02em',
+                        borderLeft: '3px solid var(--primary)',
+                        paddingLeft: 16,
+                        marginLeft: 4,
                       }}
                     >
                       {section.heading}
@@ -256,12 +352,15 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(17px, 2vw, 22px)',
-                        fontWeight: 500,
-                        color: 'var(--gray-800)',
-                        lineHeight: 1.35,
-                        marginBottom: 12,
-                        paddingTop: 4,
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: 'var(--gray-900)',
+                        lineHeight: 1.75,
+                        marginBottom: 10,
+                        marginTop: 28,
+                        borderLeft: '3px solid var(--primary)',
+                        paddingLeft: 16,
+                        marginLeft: 4,
                       }}
                     >
                       {section.heading}
@@ -300,7 +399,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                     }}
                                   >
                                     <span style={{
-                                      fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+                                      fontSize: 16, fontWeight: 600, color: 'var(--gray-900)',
                                       lineHeight: 1.5, flex: 1,
                                     }}>
                                       {qa.question}
@@ -326,7 +425,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                       background: 'white',
                                     }}>
                                       <p style={{
-                                        fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+                                        fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)',
                                         paddingTop: 12,
                                       }}>
                                         {qa.answer}
@@ -346,26 +445,62 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       const items = text.split(/\s[•·]\s/)
                       if (items.length > 1) {
                         return (
-                          <ul key={j} style={{
-                            paddingLeft: 20, marginBottom: 16,
-                          }}>
+                          <div key={j} style={{ marginBottom: 16 }}>
                             {items.map((item, k) => (
-                              <li key={k} style={{
-                                fontSize: 15, lineHeight: 1.75, color: 'var(--gray-700)',
-                                marginBottom: 6,
+                              <div key={k} style={{
+                                borderLeft: '3px solid var(--primary)',
+                                paddingLeft: 16,
+                                marginBottom: 8,
+                                marginLeft: 4,
                               }}>
-                                {item.trim()}
-                              </li>
+                                <p style={{
+                                  fontSize: 16, lineHeight: 1.75, color: 'var(--gray-700)',
+                                }}>
+                                  {item.trim()}
+                                </p>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         )
                       }
                     }
 
+                    // Check for inline ALL CAPS headings within paragraphs
+                    const segments = splitInlineHeadings(text)
+                    if (segments.length > 0) {
+                      return (
+                        <div key={j}>
+                          {segments.map((seg, si) => seg.type === 'heading' ? (
+                            <h4 key={si} style={{
+                              fontFamily: 'var(--font-display)',
+                              fontSize: 16,
+                              fontWeight: 600,
+                              color: 'var(--gray-900)',
+                              lineHeight: 1.75,
+                              marginTop: 24,
+                              marginBottom: 8,
+                              borderLeft: '3px solid var(--primary)',
+                              paddingLeft: 16,
+                              marginLeft: 4,
+                            }}>
+                              {seg.content}
+                            </h4>
+                          ) : (
+                            <p key={si} style={{
+                              fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                              marginBottom: 16,
+                            }}>
+                              {seg.content}
+                            </p>
+                          ))}
+                        </div>
+                      )
+                    }
+
                     return (
                       <p key={j} style={{
-                        fontSize: 16, lineHeight: 1.85, color: 'var(--gray-700)',
-                        marginBottom: 16, fontFamily: 'var(--font-body)',
+                        fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                        marginBottom: 16,
                       }}>
                         {text}
                       </p>
