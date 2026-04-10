@@ -2683,10 +2683,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1649923619701-eb73e73a40b4?w=800&q=80', alt: 'Medical billing department workspace', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=800&q=80', alt: 'Healthcare administrator at computer', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-6863183.jpg', alt: 'Tax planning documents with 1040 forms and financial calculations', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699479.jpg', alt: 'Financial advisor reviewing year-end tax strategy and business deductions', afterSection: 1 }],
   },
   {
     slug: '4-tricks-for-profitable-urgent-care-contract-negotiations',
@@ -2853,10 +2850,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1576671081837-49000212a370?w=800&q=80', alt: 'Ambulance and emergency medical services', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1580281657702-257584239a55?w=800&q=80', alt: 'Laboratory technician running tests', afterSection: 7 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344867.jpg', alt: 'Urgent care facility team reviewing payer contract terms and negotiations', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344912.jpg', alt: 'Healthcare administrator negotiating profitable contract agreements', afterSection: 7 }],
   },
   {
     slug: '5-tips-to-maximize-urgent-care-revenue',
@@ -3004,10 +2998,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&q=80', alt: 'Orthopedic surgeon examining X-ray', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80', alt: 'Patient in recovery room after surgery', afterSection: 6 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344917.jpg', alt: 'Busy urgent care clinic front desk managing patient flow and revenue', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699460.jpg', alt: 'Medical practice revenue optimization through efficient operations', afterSection: 6 }],
   },
   {
     slug: 'cms-regulations-to-reduce-administrative-burden-on-physicians',
@@ -3226,10 +3217,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1583912267550-d974311a9a6e?w=800&q=80', alt: 'Medical team during emergency procedure', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1578496480157-697fc14d2e55?w=800&q=80', alt: 'Physiotherapy session with patient', afterSection: 10 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3184306.jpg', alt: 'Administrative team working to reduce physician documentation burden', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344870.jpg', alt: 'CMS regulatory compliance review and administrative simplification', afterSection: 10 }],
   },
   {
     slug: 'clinical-coding-optimization-tips',
@@ -3252,10 +3240,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1614308457932-e16d29e5d6c5?w=800&q=80', alt: 'Cardiologist reviewing ECG results', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579154204845-5d0c4e17bc89?w=800&q=80', alt: 'Hospital nurse station with monitors', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344916.jpg', alt: 'Medical coder optimizing clinical coding accuracy at workstation', afterSection: 0 }, { url: '/images/blog-inline/pexels-669996.jpg', alt: 'Healthcare coding professional reviewing documentation for optimization', afterSection: 1 }],
   },
   {
     slug: 'community-health-topic-covid-19',
