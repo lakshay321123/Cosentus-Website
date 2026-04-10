@@ -83,10 +83,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors reviewing patient care plan', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using digital tablet for patient records', afterSection: 4 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5407206.jpg', alt: 'Medical professionals collaborating on patient care plans in hospital', afterSection: 0 }, { url: '/images/blog-inline/pexels-4386466.jpg', alt: 'Healthcare team discussing value-based care strategy', afterSection: 4 }],
   },
   {
     slug: 'safeguard-your-practice-from-cyberattacks',
@@ -197,10 +194,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team in modern operating room', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals in team meeting', afterSection: 6 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5380642.jpg', alt: 'Cybersecurity monitoring interface for healthcare data protection', afterSection: 0 }, { url: '/images/blog-inline/pexels-5952651.jpg', alt: 'Digital privacy and medical records security concept', afterSection: 6 }],
   },
   {
     slug: 'leverage-rpm-rtm-in-your-telehealth-model',
@@ -256,10 +250,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment options', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Medical professional reviewing diagnostic results', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7195308.jpg', alt: 'Healthcare provider conducting telehealth consultation via laptop', afterSection: 0 }, { url: '/images/blog-inline/pexels-4031710.jpg', alt: 'Remote patient monitoring with wearable health technology', afterSection: 2 }],
   },
   {
     slug: 'revenue-growth-strategies-in-pain-management',
@@ -347,10 +338,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Surgical procedure in ambulatory center', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Hospital corridor with medical staff', afterSection: 4 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5452291.jpg', alt: 'Pain management physician reviewing patient records on tablet', afterSection: 0 }, { url: '/images/blog-inline/pexels-4266931.jpg', alt: 'Doctor discussing treatment plan with pain management patient', afterSection: 4 }],
   },
   {
     slug: 'strategies-to-handle-interoperability-challenges',
@@ -393,10 +381,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Stethoscope on medical documents', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Telehealth video consultation with doctor', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-6010864.jpg', alt: 'Healthcare professional using digital tablet for electronic health records', afterSection: 0 }, { url: '/images/blog-inline/pexels-5380664.jpg', alt: 'Health information technology systems and data integration display', afterSection: 1 }],
   },
   {
     slug: 'final-rule-against-injustice-disguised-as-paper-work',
