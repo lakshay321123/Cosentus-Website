@@ -344,7 +344,7 @@ export default function BillingCodingContent() {
       </section>
 
       {/* ── BENEFITS OF OUTSOURCING ── */}
-      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #003545 0%, #005970 50%, #004050 100%)', color: 'white' }}>
+      <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white' }}>
         <div className="container">
           <RevealOnScroll>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 20, lineHeight: 1.3 }}>
