@@ -490,12 +490,12 @@ export default function EHRContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto' }}>
-              <div className="section-label" style={{ textAlign: 'center' }}>MEDCLOUD</div>
-              <div className="section-title" style={{ textAlign: 'center' }}>
+            <div>
+              <div className="section-label">MEDCLOUD</div>
+              <div className="section-title">
                 EHR & Practice Management Solutions for Physicians
               </div>
-              <p className="section-desc" style={{ textAlign: 'center' }}>
+              <p className="section-desc">
                 Enter Medcloud, our innovative EHR and Practice Management Software. Designed with your needs in mind, Medcloud integrates seamlessly into your practice, offering a user-friendly interface and cutting-edge features. It&apos;s not just software; it&apos;s a tool that empowers your practice to operate at its peak efficiency.
               </p>
             </div>
@@ -642,9 +642,9 @@ export default function EHRContent() {
 
       {/* ── PARTNERSHIP PITCH ── */}
       <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800, textAlign: 'center' }}>
+        <div className="container">
           <RevealOnScroll>
-            <div className="section-title" style={{ textAlign: 'center' }}>
+            <div className="section-title">
               Growth with Cosentus: A Partnership for Success
             </div>
           </RevealOnScroll>
@@ -658,7 +658,7 @@ export default function EHRContent() {
 
       {/* ── FAQ SECTION ── */}
       <section className="section" id="faq">
-        <div className="container" style={{ maxWidth: 900 }}>
+        <div className="container">
           <RevealOnScroll>
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
           </RevealOnScroll>
