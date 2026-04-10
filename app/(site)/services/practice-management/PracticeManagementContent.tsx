@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
@@ -58,47 +58,72 @@ const faqsPagePM = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE MIND MAP — image with live hotspots
+   INTERACTIVE MIND MAP — fully built in HTML/CSS
    ─────────────────────────────────────────── */
 
-const hotspots = [
-  { label: 'Book Keeper', x: 23, y: 12, desc: 'Financial record-keeping and bookkeeping services' },
-  { label: 'Marketing Strategy', x: 80, y: 14, desc: 'Strategic marketing to grow your patient base' },
-  { label: 'Tech Support', x: 87, y: 51, desc: 'Managed IT, EHR integration, and data security' },
-  { label: 'People Manager', x: 78, y: 84, desc: 'HR, recruitment, and workforce management' },
-  { label: 'Billing Expert', x: 51, y: 88, desc: 'Expert billing and revenue cycle optimization' },
-  { label: 'Online Marketing', x: 25, y: 80, desc: 'Digital presence, SEO, and patient engagement' },
-  { label: 'Office Admin', x: 11, y: 51, desc: 'Front desk, scheduling, and office operations' },
+const roles = [
+  { label: 'Book Keeper', x: 18, y: 8, icon: '📋', delay: 0 },
+  { label: 'Marketing Strategy', x: 75, y: 8, icon: '🎯', delay: 0.3 },
+  { label: 'Tech Support', x: 88, y: 48, icon: '⚙️', delay: 0.6 },
+  { label: 'People Manager', x: 75, y: 82, icon: '👥', delay: 0.9 },
+  { label: 'Billing Expert', x: 45, y: 90, icon: '💲', delay: 1.2 },
+  { label: 'Online Marketing', x: 15, y: 82, icon: '📊', delay: 1.5 },
+  { label: 'Office Admin', x: 5, y: 48, icon: '🗂️', delay: 1.8 },
 ]
 
 function InteractiveMindMap() {
   const [active, setActive] = useState(-1)
-  const [pulseKey, setPulseKey] = useState(0)
-
-  // Auto-cycle through nodes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPulseKey(k => (k + 1) % hotspots.length)
-    }, 2500)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      {/* Base diagram image */}
-      <img
-        src="/images/icons/p3-2a.png"
-        alt="Complete Practice Management — doctor with 7 connected service roles"
-        style={{
-          width: '100%', height: 'auto', display: 'block',
-        }}
-      />
+    <div className="mindmap-container" style={{ position: 'relative', width: '100%', maxWidth: 540, aspectRatio: '1.2 / 1', margin: '0 auto' }}>
 
-      {/* Animated hotspots */}
-      {hotspots.map((spot, i) => {
+      {/* SVG connection lines */}
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0, overflow: 'visible' }}>
+        {roles.map((r, i) => (
+          <line key={i} x1="47" y1="47" x2={r.x + 4} y2={r.y + 4}
+            stroke={active === i ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)'}
+            strokeWidth={active === i ? '0.6' : '0.3'}
+            style={{ transition: 'all 0.4s ease' }}
+          />
+        ))}
+        {/* Animated pulse dots on lines */}
+        {roles.map((r, i) => (
+          <circle key={`dot-${i}`} r="0.8"
+            fill="rgba(255,255,255,0.7)"
+          >
+            <animateMotion
+              dur={`${2.5 + i * 0.2}s`}
+              repeatCount="indefinite"
+              path={`M47,47 L${r.x + 4},${r.y + 4}`}
+            />
+          </circle>
+        ))}
+        {/* Teal dots at connection joints */}
+        {roles.map((r, i) => {
+          const jx = 47 + (r.x + 4 - 47) * 0.55
+          const jy = 47 + (r.y + 4 - 47) * 0.55
+          return <circle key={`joint-${i}`} cx={jx} cy={jy} r="1.2" fill="white" opacity="0.5" />
+        })}
+      </svg>
+
+      {/* Center node — doctor */}
+      <div style={{
+        position: 'absolute', left: '47%', top: '47%', transform: 'translate(-50%, -50%)',
+        width: 100, height: 100, borderRadius: '50%',
+        background: 'linear-gradient(135deg, #00c9e8 0%, #00B5D6 100%)',
+        border: '6px solid rgba(255,255,255,0.3)',
+        boxShadow: '0 0 40px rgba(0,181,214,0.4), 0 0 80px rgba(0,181,214,0.15)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        zIndex: 5, animation: 'centerPulse 3s ease-in-out infinite',
+      }}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </div>
+
+      {/* Outer role nodes */}
+      {roles.map((r, i) => {
         const isActive = active === i
-        const isPulsing = pulseKey === i && active === -1
-
         return (
           <div
             key={i}
@@ -106,61 +131,66 @@ function InteractiveMindMap() {
             onMouseLeave={() => setActive(-1)}
             style={{
               position: 'absolute',
-              left: `${spot.x}%`, top: `${spot.y}%`,
-              transform: 'translate(-50%, -50%)',
-              width: isActive ? 80 : 56, height: isActive ? 80 : 56,
-              borderRadius: '50%',
-              background: isActive ? 'rgba(255,255,255,0.25)' : 'transparent',
-              border: `2px solid ${isActive ? 'white' : 'transparent'}`,
+              left: `${r.x}%`, top: `${r.y}%`,
+              zIndex: isActive ? 10 : 2,
+              animation: `nodeFloat ${3 + i * 0.4}s ease-in-out infinite`,
+              animationDelay: `${r.delay}s`,
               cursor: 'pointer',
-              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-              zIndex: isActive ? 10 : 1,
             }}
           >
-            {/* Pulse ring */}
-            {(isPulsing || isActive) && (
-              <span style={{
-                position: 'absolute', inset: -8,
-                borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.6)',
-                animation: 'mindMapPulse 1.5s ease-out infinite',
-              }} />
-            )}
+            {/* Node circle */}
+            <div style={{
+              width: isActive ? 72 : 60, height: isActive ? 72 : 60,
+              borderRadius: '50%',
+              background: isActive ? 'white' : 'rgba(255,255,255,0.95)',
+              border: `2px solid ${isActive ? 'white' : 'rgba(255,255,255,0.6)'}`,
+              boxShadow: isActive
+                ? '0 0 30px rgba(255,255,255,0.5), 0 8px 32px rgba(0,0,0,0.15)'
+                : '0 4px 16px rgba(0,0,0,0.08)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              fontSize: isActive ? 28 : 22,
+            }}>
+              {r.icon}
+            </div>
 
-            {/* Tooltip */}
+            {/* Label */}
+            <div style={{
+              textAlign: 'center', marginTop: 6,
+              fontSize: 12, fontWeight: isActive ? 700 : 500,
+              color: 'white', lineHeight: 1.3,
+              textShadow: '0 1px 4px rgba(0,0,0,0.2)',
+              transition: 'all 0.3s ease',
+              whiteSpace: 'nowrap',
+            }}>
+              {r.label.split(' ').map((w, wi) => <span key={wi}>{w}<br /></span>)}
+            </div>
+
+            {/* Pulse ring on active */}
             {isActive && (
               <div style={{
-                position: 'absolute',
-                bottom: '110%', left: '50%', transform: 'translateX(-50%)',
-                background: 'white', color: 'var(--gray-900)',
-                padding: '10px 16px', borderRadius: 'var(--radius-sm)',
-                boxShadow: 'var(--shadow-lg)', whiteSpace: 'nowrap',
-                fontSize: 13, fontWeight: 500, lineHeight: 1.4,
-                animation: 'fadeInUp 0.25s ease',
-                zIndex: 20,
-              }}>
-                <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 2 }}>{spot.label}</div>
-                <div style={{ fontSize: 12, color: 'var(--gray-600)', fontWeight: 400 }}>{spot.desc}</div>
-                {/* Arrow */}
-                <div style={{
-                  position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)',
-                  width: 12, height: 12, background: 'white',
-                  boxShadow: '2px 2px 4px rgba(0,0,0,0.08)',
-                }} />
-              </div>
+                position: 'absolute', top: 0, left: 0,
+                width: 72, height: 72, borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.6)',
+                animation: 'mindMapPulse 1.2s ease-out infinite',
+              }} />
             )}
           </div>
         )
       })}
 
       <style jsx>{`
+        @keyframes nodeFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes centerPulse {
+          0%, 100% { box-shadow: 0 0 40px rgba(0,181,214,0.4), 0 0 80px rgba(0,181,214,0.15); }
+          50% { box-shadow: 0 0 50px rgba(0,181,214,0.6), 0 0 100px rgba(0,181,214,0.25); }
+        }
         @keyframes mindMapPulse {
           0% { transform: scale(1); opacity: 0.8; }
-          100% { transform: scale(2.2); opacity: 0; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateX(-50%) translateY(6px); }
-          to { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { transform: scale(2); opacity: 0; }
         }
       `}</style>
     </div>
