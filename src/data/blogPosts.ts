@@ -83,8 +83,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors discussing patient care plan together', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgeons performing procedure in modern operating room', afterSection: 4 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors reviewing patient care plan', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using digital tablet for patient records', afterSection: 4 },
     ],
   },
   {
@@ -196,8 +196,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80', alt: 'Digital security and data protection concept', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', alt: 'Cybersecurity network protection technology', afterSection: 6 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team in modern operating room', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals in team meeting', afterSection: 6 },
     ],
   },
   {
@@ -254,8 +254,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Doctor conducting telehealth consultation with patient', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional using digital technology', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment options', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Medical professional reviewing diagnostic results', afterSection: 2 },
     ],
   },
   {
@@ -344,8 +344,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment plan', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical professionals in clinical setting', afterSection: 4 },
+      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Surgical procedure in ambulatory center', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Hospital corridor with medical staff', afterSection: 4 },
     ],
   },
   {
@@ -389,8 +389,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Stethoscope on medical documents', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Telehealth video consultation with doctor', afterSection: 1 },
     ],
   },
   {
@@ -429,8 +429,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial reports at desk', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Office team collaborating on business strategy', afterSection: 1 },
     ],
   },
   {
@@ -484,8 +484,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team performing orthopedic procedure', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals discussing treatment approach', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80', alt: 'Business professional working on laptop', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80', alt: 'Team brainstorming in modern office space', afterSection: 1 },
     ],
   },
   {
@@ -558,8 +558,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Artificial intelligence and healthcare technology', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using AI-powered medical technology', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80', alt: 'Business meeting with presentation', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80', alt: 'Professional handshake in corporate setting', afterSection: 2 },
     ],
   },
   {
@@ -745,8 +745,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Cardiologist reviewing patient heart health data', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical team in cardiovascular care setting', afterSection: 9 },
+      { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', alt: 'Analytics dashboard on computer screen', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', alt: 'Data visualization and business analytics', afterSection: 9 },
     ],
   },
   {
@@ -1004,8 +1004,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Modern ambulatory surgery center operating room', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Surgical team coordinating patient care', afterSection: 12 },
+      { url: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80', alt: 'Modern office workspace with technology', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', alt: 'Team collaboration in bright office', afterSection: 12 },
     ],
   },
   {
@@ -1179,8 +1179,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing charge capture documentation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical practice optimizing revenue cycle processes', afterSection: 8 },
+      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Robotics and artificial intelligence technology', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', alt: 'Network security and digital protection', afterSection: 8 },
     ],
   },
   {
@@ -1410,8 +1410,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Radiologist reviewing diagnostic imaging results', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical professional analyzing radiology scans', afterSection: 11 },
+      { url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80', alt: 'Cybersecurity lock and digital data', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', alt: 'Computer circuit board technology closeup', afterSection: 11 },
     ],
   },
   {
@@ -1514,8 +1514,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Insurance verification and patient intake process', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional verifying insurance details', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&q=80', alt: 'Software code on computer monitor', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80', alt: 'Woman working with modern technology', afterSection: 1 },
     ],
   },
   {
@@ -1539,8 +1539,8 @@ export const blogPosts: BlogPost[] = [
     sections: [
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=800&q=80', alt: 'Digital transformation concept', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1488229297570-58520851e868?w=800&q=80', alt: 'Cloud computing and data technology', afterSection: 3 },
     ],
   },
   {
@@ -1600,8 +1600,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about healthcare needs', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional providing specialized care', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80', alt: 'Server room with modern infrastructure', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80', alt: 'Binary code digital background', afterSection: 2 },
     ],
   },
   {
@@ -1723,8 +1723,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Anesthesiologist preparing for surgical procedure', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Operating room team during anesthesia administration', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&q=80', alt: 'Nurse caring for patient in hospital', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80', alt: 'Doctor writing medical prescription', afterSection: 1 },
     ],
   },
   {
@@ -1900,8 +1900,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 6 },
+      { url: 'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=800&q=80', alt: 'Medical research laboratory equipment', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&q=80', alt: 'Healthcare worker examining patient chart', afterSection: 6 },
     ],
   },
   {
@@ -2080,8 +2080,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment plan', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Medical professionals in clinical setting', afterSection: 7 },
+      { url: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80', alt: 'Doctor with protective equipment', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80', alt: 'Modern hospital building exterior', afterSection: 7 },
     ],
   },
   {
@@ -2196,8 +2196,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=800&q=80', alt: 'Medical professional in white coat', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&q=80', alt: 'Healthcare team walking through hospital', afterSection: 3 },
     ],
   },
   {
@@ -2214,8 +2214,8 @@ export const blogPosts: BlogPost[] = [
     sections: [
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare team collaborating on practice operations', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office team managing billing workflow', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=800&q=80', alt: 'Pharmacist reviewing medication', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80', alt: 'Physical therapist working with patient', afterSection: 3 },
     ],
   },
   {
@@ -2242,8 +2242,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare team meeting to address staffing challenges', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals collaborating in practice setting', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&q=80', alt: 'Doctor explaining results to patient', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1625134673337-519d4d10b313?w=800&q=80', alt: 'Medical consultation in bright clinic', afterSection: 1 },
     ],
   },
   {
@@ -2286,8 +2286,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80', alt: 'Healthcare worker with face mask', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&q=80', alt: 'Senior doctor mentoring junior staff', afterSection: 1 },
     ],
   },
   {
@@ -2340,8 +2340,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team performing orthopedic procedure', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical professionals discussing treatment approach', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=800&q=80', alt: 'Nurse preparing medical equipment', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1632833239869-a37e3a5806d2?w=800&q=80', alt: 'Doctor reviewing brain scan results', afterSection: 2 },
     ],
   },
   {
@@ -2381,8 +2381,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1618498082410-b4aa22193b38?w=800&q=80', alt: 'Medical staff at reception desk', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=800&q=80', alt: 'Dentist performing dental examination', afterSection: 1 },
     ],
   },
   {
@@ -2429,8 +2429,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals collaborating on patient care strategy', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor reviewing patient records on tablet', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800&q=80', alt: 'Eye doctor performing vision test', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80', alt: 'Pediatrician examining child patient', afterSection: 1 },
     ],
   },
   {
@@ -2469,8 +2469,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', alt: 'Healthcare analytics dashboard and performance metrics', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Data-driven healthcare decision making', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', alt: 'Revenue analytics on digital display', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&q=80', alt: 'Professional analyzing financial charts', afterSection: 1 },
     ],
   },
   {
@@ -2537,8 +2537,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Modern ambulatory surgery center operating room', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Surgical team coordinating patient care', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80', alt: 'Calculator and financial documents', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80', alt: 'Accountant reviewing spreadsheets', afterSection: 3 },
     ],
   },
   {
@@ -2585,8 +2585,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=800&q=80', alt: 'Financial planning and budgeting session', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=800&q=80', alt: 'Business growth chart trending upward', afterSection: 1 },
     ],
   },
   {
@@ -2652,8 +2652,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80', alt: 'Executive in professional business attire', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80', alt: 'Modern coworking office environment', afterSection: 2 },
     ],
   },
   {
@@ -2703,8 +2703,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare compliance documentation and review', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical practice regulatory compliance process', afterSection: 2 },
+      { url: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', alt: 'Clean modern office with natural light', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80', alt: 'Startup team working collaboratively', afterSection: 2 },
     ],
   },
   {
@@ -2743,8 +2743,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1649923619701-eb73e73a40b4?w=800&q=80', alt: 'Medical billing department workspace', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=800&q=80', alt: 'Healthcare administrator at computer', afterSection: 1 },
     ],
   },
   {
@@ -2912,8 +2912,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 7 },
+      { url: 'https://images.unsplash.com/photo-1576671081837-49000212a370?w=800&q=80', alt: 'Ambulance and emergency medical services', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1580281657702-257584239a55?w=800&q=80', alt: 'Laboratory technician running tests', afterSection: 7 },
     ],
   },
   {
@@ -3062,8 +3062,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 6 },
+      { url: 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&q=80', alt: 'Orthopedic surgeon examining X-ray', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80', alt: 'Patient in recovery room after surgery', afterSection: 6 },
     ],
   },
   {
@@ -3283,8 +3283,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare compliance documentation and review', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical practice regulatory compliance process', afterSection: 10 },
+      { url: 'https://images.unsplash.com/photo-1583912267550-d974311a9a6e?w=800&q=80', alt: 'Medical team during emergency procedure', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1578496480157-697fc14d2e55?w=800&q=80', alt: 'Physiotherapy session with patient', afterSection: 10 },
     ],
   },
   {
@@ -3308,8 +3308,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1614308457932-e16d29e5d6c5?w=800&q=80', alt: 'Cardiologist reviewing ECG results', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1579154204845-5d0c4e17bc89?w=800&q=80', alt: 'Hospital nurse station with monitors', afterSection: 1 },
     ],
   },
   {
@@ -3347,8 +3347,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Public health professionals working on community health', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Healthcare workers supporting public health initiatives', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80', alt: 'Legal documents and compliance review', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&q=80', alt: 'Contract signing in professional setting', afterSection: 1 },
     ],
   },
   {
@@ -3377,8 +3377,8 @@ export const blogPosts: BlogPost[] = [
     sections: [
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80', alt: 'Stack of important legal documents', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80', alt: 'Writing notes in professional notebook', afterSection: 3 },
     ],
   },
   {
@@ -3541,8 +3541,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 8 },
+      { url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80', alt: 'Studying and researching documents', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80', alt: 'Library of medical reference books', afterSection: 8 },
     ],
   },
   {
@@ -3610,8 +3610,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80', alt: 'Students studying medical textbooks', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?w=800&q=80', alt: 'Presentation in conference room', afterSection: 3 },
     ],
   },
   {
@@ -3673,8 +3673,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare revenue growth strategy planning', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Medical practice team discussing financial performance', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&q=80', alt: 'Workshop and training session', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80', alt: 'Educational seminar with participants', afterSection: 3 },
     ],
   },
   {
@@ -3717,8 +3717,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=800&q=80', alt: 'Medical professional using microscope', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1582719471384-894fbb16564e?w=800&q=80', alt: 'Modern medical imaging equipment', afterSection: 1 },
     ],
   },
   {
@@ -3744,8 +3744,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Healthcare technology innovation and digital transformation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Medical professional leveraging modern technology', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1551190822-a9ce113ac100?w=800&q=80', alt: 'Healthcare facility with modern equipment', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?w=800&q=80', alt: 'Doctor holding medical chart clipboard', afterSection: 1 },
     ],
   },
   {
@@ -3818,8 +3818,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Accounts receivable management in healthcare', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Financial professional managing medical accounts', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=800&q=80', alt: 'Medical team in scrubs walking together', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=800&q=80', alt: 'Researcher in laboratory setting', afterSection: 1 },
     ],
   },
   {
@@ -3868,8 +3868,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80', alt: 'Medical scientist analyzing samples', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80', alt: 'Healthcare team coordinating care plan', afterSection: 1 },
     ],
   },
   {
@@ -3924,8 +3924,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Medical coder reviewing clinical documentation', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare professional coding patient records', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&q=80', alt: 'Telemedicine consultation on screen', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=800&q=80', alt: 'Doctor making notes on medical chart', afterSection: 1 },
     ],
   },
   {
@@ -4108,8 +4108,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 8 },
+      { url: 'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&q=80', alt: 'Hospital building with modern architecture', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80', alt: 'Team meeting around conference table', afterSection: 8 },
     ],
   },
   {
@@ -4141,8 +4141,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', alt: 'Corporate training and development session', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', alt: 'Diverse team collaborating on project', afterSection: 1 },
     ],
   },
   {
@@ -4338,8 +4338,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 8 },
+      { url: 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&q=80', alt: 'Modern reception area in medical office', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1576765974004-1c35d5a76f98?w=800&q=80', alt: 'Waiting room in healthcare facility', afterSection: 8 },
     ],
   },
   {
@@ -4381,8 +4381,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare revenue growth strategy planning', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Medical practice team discussing financial performance', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors reviewing patient care plan', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Doctor using digital tablet for patient records', afterSection: 1 },
     ],
   },
   {
@@ -4425,8 +4425,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare billing professional reviewing claims', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical office administration and billing workflow', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgical team in modern operating room', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80', alt: 'Healthcare professionals in team meeting', afterSection: 1 },
     ],
   },
   {
@@ -4455,8 +4455,8 @@ export const blogPosts: BlogPost[] = [
     sections: [
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Professional reviewing financial documents and reports', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', alt: 'Healthcare administration and revenue cycle management', afterSection: 3 },
+      { url: 'https://images.unsplash.com/photo-1666214280557-091e227998e0?w=800&q=80', alt: 'Doctor consulting with patient about treatment options', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80', alt: 'Medical professional reviewing diagnostic results', afterSection: 3 },
     ],
   },
   {
@@ -4502,8 +4502,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Healthcare professional reviewing claim denials', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80', alt: 'Medical billing team managing denial appeals', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80', alt: 'Surgical procedure in ambulatory center', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Hospital corridor with medical staff', afterSection: 1 },
     ],
   },
   {
@@ -4682,8 +4682,8 @@ export const blogPosts: BlogPost[] = [
       }
     ],
     images: [
-      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80', alt: 'Busy urgent care facility providing patient services', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Urgent care medical team attending to patients', afterSection: 9 },
+      { url: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=800&q=80', alt: 'Stethoscope on medical documents', afterSection: 0 },
+      { url: 'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80', alt: 'Telehealth video consultation with doctor', afterSection: 9 },
     ],
   },
 ]
