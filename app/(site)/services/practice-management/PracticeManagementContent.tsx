@@ -287,15 +287,15 @@ export default function PracticeManagementContent() {
 
       {/* ── INTRO ── */}
       <section className="section">
-        <div className="container" style={{ maxWidth: 800, textAlign: 'center' }}>
+        <div className="container" style={{ maxWidth: 800 }}>
           <RevealOnScroll>
-            <div className="section-label" style={{ textAlign: 'center' }}>PRACTICE MANAGEMENT</div>
+            <div className="section-label">PRACTICE MANAGEMENT</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <div className="section-title" style={{ textAlign: 'center' }}>Practice Management Services</div>
+            <div className="section-title">Practice Management Services</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ textAlign: 'center' }}>
+            <p className="section-desc">
               Beyond billing, our Complete Practice Management encompasses every administrative aspect of your practice. From patient scheduling to data management, we handle it all. This holistic approach means more time for patient care and less time worrying about paperwork.
             </p>
           </RevealOnScroll>
@@ -382,15 +382,15 @@ export default function PracticeManagementContent() {
 
       {/* ── WHY OUTSOURCE ── */}
       <section className="section">
-        <div className="container" style={{ maxWidth: 800, textAlign: 'center' }}>
+        <div className="container" style={{ maxWidth: 800 }}>
           <RevealOnScroll>
-            <div className="section-label" style={{ textAlign: 'center' }}>WHY OUTSOURCE</div>
+            <div className="section-label">WHY OUTSOURCE</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <div className="section-title" style={{ textAlign: 'center' }}>Why Outsource Practice Management</div>
+            <div className="section-title">Why Outsource Practice Management</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ textAlign: 'center' }}>
+            <p className="section-desc">
               Reduce administrative overhead, improve front-end revenue capture, and gain predictable financial performance. Your clinical team stays focused on patients while we handle operations, reporting, and growth.
             </p>
           </RevealOnScroll>
