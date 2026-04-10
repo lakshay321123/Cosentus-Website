@@ -66,13 +66,12 @@ export default function BlogContent() {
                   cursor: 'pointer',
                   border: '1px solid var(--gray-200)',
                 }}>
-                  {/* Cover image — prefer illustration, fall back to stock */}
-                  {(blog.coverImage || blog.images?.[0]) && (
+                  {/* Cover illustration from cosentus.com */}
+                  {blog.coverImage && (
                     <img
-                      src={blog.coverImage || blog.images![0].url}
+                      src={blog.coverImage}
                       alt={blog.title}
                       loading="lazy"
-                      onError={(e) => { if (blog.images?.[0]) (e.target as HTMLImageElement).src = blog.images[0].url }}
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)' }}
                       className="blog-card-img"
                     />
