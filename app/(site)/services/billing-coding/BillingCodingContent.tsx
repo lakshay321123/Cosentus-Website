@@ -141,7 +141,7 @@ function InteractiveRCMCycle() {
             opacity: step >= part.group ? 1 : 0,
             transform: step >= part.group ? 'scale(1)' : 'scale(0.85)',
             transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)',
-            filter: 'brightness(0) invert(1)',
+            filter: 'none',
             pointerEvents: 'none',
           }}
         />
