@@ -11,10 +11,10 @@ const quotes = [
   { q: 'Reducing our Days in AR and improving cash flow.', a: 'Sujan Vatturi', t: 'Behavioral Health' },
 ]
 
-const I1 = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1400&q=80'
-const I2 = 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1400&q=80'
-const I3 = 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80'
-const I4 = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=80'
+const I1 = '/images/hero-healthcare.jpg'
+const I2 = '/images/hero-medical.jpg'
+const I3 = '/images/hero-team.jpg'
+const I4 = '/images/events/gallery/Cosentus - Growth Summit 2025 - 030.jpg'
 
 export default function HomeBBDO() {
   const [qi, setQi] = useState(0)
@@ -29,25 +29,18 @@ export default function HomeBBDO() {
   
 
 
-  // Scroll-triggered reveals
-  useEffect(() => {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on') })
-    }, { threshold: 0.15 })
-    document.querySelectorAll('.hm-rv,.hm-rs').forEach(el => obs.observe(el))
-    return () => obs.disconnect()
-  }, [ready])
+
 
   return (
     <main style={{ background: '#000', overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        .hm-rv{opacity:0;transform:translateY(60px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
-        .hm-rv.on{opacity:1;transform:translateY(0);filter:none}
-        .hm-rv.d1{transition-delay:.15s}.hm-rv.d2{transition-delay:.3s}.hm-rv.d3{transition-delay:.45s}.hm-rv.d4{transition-delay:.6s}.hm-rv.d5{transition-delay:.75s}
-        .hm-rs{opacity:0;transform:scale(.85);transition:opacity .8s,transform 1s cubic-bezier(.16,1,.3,1)}
-        .hm-rs.on{opacity:1;transform:scale(1);filter:none}
-        .hm-rc{clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)}
-        .hm-rc.on{clip-path:inset(0 0% 0 0)}
+        .hm-rv{opacity:1;transform:none}
+        .hm-rv.on{opacity:1;transform:none;filter:none}
+        
+        .hm-rs{opacity:1;transform:none}
+        .hm-rs.on{opacity:1;transform:none;filter:none}
+        .hm-rc{clip-path:none}
+        
 
         /* HERO */
         .hh{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
