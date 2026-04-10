@@ -86,70 +86,118 @@ const faqsPageBilling = [
    ─────────────────────────────────────────── */
 
 function InteractiveRCMCycle() {
-  const [active, setActive] = useState(-1)
-  const [revealed, setRevealed] = useState(0)
+  const [step, setStep] = useState(0)
 
-  // Sequential reveal — one label at a time
+  // Sequential reveal
   useEffect(() => {
     let i = 0
     const id = setInterval(() => {
       i++
-      if (i <= rcmSteps.length) setRevealed(i)
-      else clearInterval(id)
-    }, 300)
+      setStep(i)
+      if (i >= rcmSteps.length + 2) clearInterval(id) // +2 for center figures
+    }, 350)
     return () => clearInterval(id)
   }, [])
 
+  const cx = 200, cy = 200, r = 155, labelR = 185
+  const total = rcmSteps.length
+
+  function arcPath(index: number) {
+    const gap = 3
+    const anglePerStep = 360 / total
+    const startAngle = (index * anglePerStep + gap / 2 - 90) * (Math.PI / 180)
+    const endAngle = ((index + 1) * anglePerStep - gap / 2 - 90) * (Math.PI / 180)
+    const innerR = 110, outerR = 155
+    const x1 = cx + outerR * Math.cos(startAngle)
+    const y1 = cy + outerR * Math.sin(startAngle)
+    const x2 = cx + outerR * Math.cos(endAngle)
+    const y2 = cy + outerR * Math.sin(endAngle)
+    const x3 = cx + innerR * Math.cos(endAngle)
+    const y3 = cy + innerR * Math.sin(endAngle)
+    const x4 = cx + innerR * Math.cos(startAngle)
+    const y4 = cy + innerR * Math.sin(startAngle)
+    return `M${x1},${y1} A${outerR},${outerR} 0 0,1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 0,0 ${x4},${y4} Z`
+  }
+
+  function labelPos(index: number) {
+    const anglePerStep = 360 / total
+    const angle = ((index + 0.5) * anglePerStep - 90) * (Math.PI / 180)
+    return { x: cx + labelR * Math.cos(angle), y: cy + labelR * Math.sin(angle) }
+  }
+
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
-      {/* Base diagram — mix-blend-mode so white shows, rest blends */}
-      <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management" style={{
-        width: '100%', height: 'auto', display: 'block',
-        mixBlendMode: 'screen',
-        animation: 'diagramFloat 5s ease-in-out infinite',
-      }} />
+    <div style={{ position: 'relative', width: '100%', maxWidth: 520, margin: '0 auto' }}>
+      <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto' }}>
 
-      {/* HTML text labels — appear one at a time */}
-      {rcmSteps.map((step, i) => (
-        <div key={i}
-          onMouseEnter={() => setActive(i)}
-          onMouseLeave={() => setActive(-1)}
-          style={{
-            position: 'absolute', left: `${step.x}%`, top: `${step.y}%`,
-            fontSize: 9, fontWeight: 700, color: 'white',
-            textTransform: 'uppercase', letterSpacing: '0.03em',
-            lineHeight: 1.2, textAlign: 'center', cursor: 'pointer',
-            opacity: i < revealed ? 1 : 0,
-            transform: i < revealed ? 'translateY(0)' : 'translateY(8px)',
-            transition: 'opacity 0.4s ease, transform 0.4s ease',
-            textShadow: active === i ? '0 0 12px rgba(255,255,255,0.8)' : '0 1px 3px rgba(0,0,0,0.15)',
-          }}
-        >
-          {step.label}
-        </div>
-      ))}
+        {/* Arc segments */}
+        {rcmSteps.map((s, i) => (
+          <path key={i} d={arcPath(i)} fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"
+            style={{
+              opacity: i < step ? 1 : 0,
+              transform: i < step ? 'scale(1)' : 'scale(0.9)',
+              transformOrigin: `${cx}px ${cy}px`,
+              transition: `opacity 0.5s ease ${i * 0.05}s, transform 0.5s ease ${i * 0.05}s`,
+            }}
+          />
+        ))}
 
-      {/* Rotating orbit dot */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
-        width: '80%', height: '80%', borderRadius: '50%', pointerEvents: 'none',
-        animation: 'spinSlow 15s linear infinite',
-      }}>
-        <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 10px rgba(255,255,255,0.8)' }} />
-      </div>
+        {/* Center circle */}
+        <circle cx={cx} cy={cy} r="80" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1"
+          style={{ opacity: step > total ? 1 : 0, transition: 'opacity 0.6s ease 0.3s' }}
+        />
 
-      {/* Center glow */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
-        width: 100, height: 100, borderRadius: '50%', pointerEvents: 'none',
-        animation: 'centerGlow 3s ease-in-out infinite',
-      }} />
+        {/* Center people icon */}
+        <g style={{ opacity: step > total + 1 ? 1 : 0, transition: 'opacity 0.8s ease' }}>
+          {/* Person left */}
+          <circle cx={cx - 22} cy={cy - 18} r="7" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d={`M${cx - 35},${cy + 14} a14,14 0 0,1 26,0`} fill="none" stroke="white" strokeWidth="1.5" />
+          {/* Person center (taller) */}
+          <circle cx={cx} cy={cy - 24} r="9" fill="none" stroke="white" strokeWidth="1.8" />
+          <path d={`M${cx - 16},${cy + 16} a18,18 0 0,1 32,0`} fill="none" stroke="white" strokeWidth="1.8" />
+          {/* Person right */}
+          <circle cx={cx + 22} cy={cy - 18} r="7" fill="none" stroke="white" strokeWidth="1.5" />
+          <path d={`M${cx + 9},${cy + 14} a14,14 0 0,1 26,0`} fill="none" stroke="white" strokeWidth="1.5" />
+          {/* Platform oval */}
+          <ellipse cx={cx} cy={cy + 28} rx="40" ry="8" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+        </g>
 
-      <style jsx>{`
-        @keyframes diagramFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes spinSlow { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-        @keyframes centerGlow { 0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.15), 0 0 60px rgba(0,181,214,0.1); } 50% { box-shadow: 0 0 45px rgba(255,255,255,0.3), 0 0 80px rgba(0,181,214,0.2); } }
-      `}</style>
+        {/* Labels */}
+        {rcmSteps.map((s, i) => {
+          const pos = labelPos(i)
+          return (
+            <text key={`t${i}`} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
+              fill="white" fontSize="7.5" fontWeight="700" fontFamily="var(--font-display)"
+              style={{
+                opacity: i < step ? 1 : 0, textTransform: 'uppercase' as const,
+                transition: `opacity 0.4s ease ${i * 0.05 + 0.2}s`,
+              }}
+            >
+              {s.label.length > 18
+                ? <>{s.label.split(' ').reduce((lines: string[], word: string) => {
+                    const last = lines[lines.length - 1]
+                    if (last && (last + ' ' + word).length <= 14) { lines[lines.length - 1] = last + ' ' + word }
+                    else { lines.push(word) }
+                    return lines
+                  }, []).map((line, li) => <tspan key={li} x={pos.x} dy={li === 0 ? 0 : 10}>{line}</tspan>)}</>
+                : s.label.split(' ').length > 1
+                  ? <>{s.label.split(' ').reduce((lines: string[], word: string) => {
+                      const last = lines[lines.length - 1]
+                      if (last && (last + ' ' + word).length <= 12) { lines[lines.length - 1] = last + ' ' + word }
+                      else { lines.push(word) }
+                      return lines
+                    }, []).map((line, li) => <tspan key={li} x={pos.x} dy={li === 0 ? 0 : 10}>{line}</tspan>)}</>
+                  : s.label
+              }
+            </text>
+          )
+        })}
+
+        {/* Rotating orbit dot */}
+        <circle r="3" fill="white" opacity="0.6" style={{ animation: step >= total ? undefined : 'none' }}>
+          <animateMotion dur="12s" repeatCount="indefinite" path={`M${cx},${cy - r} A${r},${r} 0 1,1 ${cx - 0.01},${cy - r}`} />
+        </circle>
+
+      </svg>
     </div>
   )
 }
