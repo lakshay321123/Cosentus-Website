@@ -67,7 +67,6 @@ export default function HomeBBDO() {
         scrollTrigger: { trigger: '#sec-stmt', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
       stTl.from('.gs-stmt-txt', { y: 50, duration: 0.8, ease: 'power3.out' })
-        .from('.gs-bubble', { scale: 0, stagger: 0.2, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.2')
         .from('.gs-stmt-r > *', { y: 30, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power3.out' }, '-=0.3')
 
       // 7. Video text from top/bottom
@@ -243,9 +242,9 @@ export default function HomeBBDO() {
       <section className="hst" id="sec-stmt">
         <div className="hst-g">
           <div className="hst-t gs-stmt-txt">
-            WE ARE <span className="ii gs-bubble"><img src="/images/hero-healthcare.jpg" alt="" /></span> COSENTUS<br />
-            <span className="ii gs-bubble"><img src="/images/hero-medical.jpg" alt="" /></span> WE DO<br />
-            BIG <span className="ii gs-bubble"><img src="/images/hero-team.jpg" alt="" /></span> THINGS
+            WE ARE <span className="ii"><img src="/images/hero-healthcare.jpg" alt="" /></span> COSENTUS<br />
+            <span className="ii"><img src="/images/hero-medical.jpg" alt="" /></span> WE DO<br />
+            BIG <span className="ii"><img src="/images/hero-team.jpg" alt="" /></span> THINGS
           </div>
           <div className="hst-r gs-stmt-r">
             <p>We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
