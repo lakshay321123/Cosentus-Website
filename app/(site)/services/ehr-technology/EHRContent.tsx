@@ -489,13 +489,11 @@ export default function EHRContent() {
         <div className="container">
           <RevealOnScroll>
             <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 24 }}>
-                <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
-              </div>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.2, marginBottom: 16 }}>
+              <div className="section-label" style={{ textAlign: 'center' }}>MEDCLOUD</div>
+              <div className="section-title" style={{ textAlign: 'center' }}>
                 EHR & Practice Management Solutions for Physicians
-              </h2>
-              <p style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--gray-600)' }}>
+              </div>
+              <p className="section-desc" style={{ textAlign: 'center' }}>
                 Enter Medcloud, our innovative EHR and Practice Management Software. Designed with your needs in mind, Medcloud integrates seamlessly into your practice, offering a user-friendly interface and cutting-edge features. It&apos;s not just software; it&apos;s a tool that empowers your practice to operate at its peak efficiency.
               </p>
             </div>
@@ -507,7 +505,7 @@ export default function EHRContent() {
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white', overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
-            <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 600, marginBottom: 56, lineHeight: 1.3 }}>
+            <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 56, lineHeight: 1.3 }}>
               How We Are Enhancing Healthcare Operations:
             </h2>
           </RevealOnScroll>
@@ -644,9 +642,9 @@ export default function EHRContent() {
       <section className="section section-alt">
         <div className="container" style={{ maxWidth: 800, textAlign: 'center' }}>
           <RevealOnScroll>
-            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 20 }}>
+            <div className="section-title" style={{ textAlign: 'center' }}>
               Growth with Cosentus: A Partnership for Success
-            </h2>
+            </div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.15}>
             <p style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--gray-600)' }}>
@@ -663,7 +661,7 @@ export default function EHRContent() {
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <div className="section-title">Yes. I am ready to maximize my revenue and elevate my practice?</div>
+            <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
 
           <div style={{ marginTop: 48 }}>
