@@ -11,10 +11,10 @@ const quotes = [
   { q: 'Reducing our Days in AR and improving cash flow.', a: 'Sujan Vatturi', t: 'Behavioral Health' },
 ]
 
-const I1 = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1400&q=80'
-const I2 = 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1400&q=80'
-const I3 = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1400&q=80'
-const I4 = 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1400&q=80'
+const I1 = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1400&q=80'
+const I2 = 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1400&q=80'
+const I3 = 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80'
+const I4 = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=80'
 
 export default function HomeBBDO() {
   const [qi, setQi] = useState(0)
@@ -81,7 +81,7 @@ export default function HomeBBDO() {
         /* PARALLAX IMAGE STRIP */
         .px-strip{position:relative;height:60vh;overflow:hidden}
         .px-strip img{position:absolute;inset:0;width:100%;height:130%;object-fit:cover;will-change:transform}
-        .px-strip-ov{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:1}
+        .px-strip-ov{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:1}
         .px-strip-text{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px}
         .px-strip-text h2{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,80px);color:#fff;line-height:1;letter-spacing:-.03em}
         .px-strip-text h2 span{color:var(--primary)}
@@ -113,7 +113,7 @@ export default function HomeBBDO() {
         /* VIDEO SECTION */
         .hv{position:relative;height:70vh;overflow:hidden}
         .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
-        .hv-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.3));z-index:1}
+        .hv-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.6));z-index:1}
         .hv-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
         .hv h2{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,5vw,72px);color:#fff;line-height:1.1;letter-spacing:-.02em}
         .hv h2 em{font-weight:300;font-style:italic;opacity:.8}
