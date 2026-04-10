@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -10,6 +10,184 @@ const beliefs = [
   { title: 'Accountability', desc: 'We own outcomes end-to-end. Issues get root-cause analysis and immediate fixes.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg> },
   { title: 'Specialty Focus', desc: 'Teams organized by specialty. They know every payer nuance and clinical detail — reducing denials and accelerating cash flow.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" /></svg> },
 ]
+
+const CYCLE_MS = 5000
+
+function ValuesExplorer() {
+  const [active, setActive] = useState(0)
+  const [progress, setProgress] = useState(0)
+  const paused = useRef(false)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startRef = useRef(Date.now())
+
+  const startCycle = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    startRef.current = Date.now()
+    setProgress(0)
+    timerRef.current = setInterval(() => {
+      if (paused.current) { startRef.current = Date.now() - (progress * CYCLE_MS); return }
+      const elapsed = Date.now() - startRef.current
+      const pct = Math.min(elapsed / CYCLE_MS, 1)
+      setProgress(pct)
+      if (pct >= 1) {
+        setActive(prev => (prev + 1) % beliefs.length)
+        startRef.current = Date.now()
+        setProgress(0)
+      }
+    }, 30)
+  }, [])
+
+  useEffect(() => {
+    startCycle()
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [startCycle])
+
+  const handleSelect = (i: number) => {
+    setActive(i)
+    startRef.current = Date.now()
+    setProgress(0)
+  }
+
+  const b = beliefs[active]
+
+  return (
+    <div
+      style={{ marginTop: 48 }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false; startRef.current = Date.now() }}
+    >
+      {/* Desktop layout */}
+      <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'stretch' }}>
+        {/* Left: active value detail */}
+        <div style={{
+          background: 'linear-gradient(135deg, #0a2640 0%, #0d5570 50%, #00B5D6 100%)',
+          borderRadius: 24,
+          padding: '48px 44px',
+          display: 'flex',
+          flexDirection: 'column' as const,
+          justifyContent: 'center',
+          position: 'relative' as const,
+          overflow: 'hidden',
+          minHeight: 340,
+        }}>
+          {/* Decorative ring */}
+          <div style={{ position: 'absolute', top: -60, right: -60, width: 200, height: 200, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: -40, left: -40, width: 140, height: 140, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+
+          <div key={active} style={{ animation: 'fadeSlideIn 0.4s ease-out' }}>
+            <div style={{
+              width: 56, height: 56, borderRadius: 14,
+              background: 'rgba(255,255,255,0.12)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: 28, color: '#68D1E6',
+            }}>{b.icon}</div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#68D1E6', letterSpacing: '0.08em', textTransform: 'uppercase' as const, marginBottom: 12 }}>
+              {String(active + 1).padStart(2, '0')} / {String(beliefs.length).padStart(2, '0')}
+            </div>
+            <h3 style={{ fontSize: 'clamp(26px, 3vw, 34px)', fontWeight: 600, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1.15, marginBottom: 16, letterSpacing: '-0.02em' }}>
+              {b.title}
+            </h3>
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.7)', margin: 0 }}>
+              {b.desc}
+            </p>
+          </div>
+        </div>
+
+        {/* Right: value selector cards */}
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12 }}>
+          {beliefs.map((item, i) => {
+            const isActive = i === active
+            return (
+              <button
+                key={i}
+                onClick={() => handleSelect(i)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 20,
+                  padding: '24px 28px',
+                  background: isActive ? 'white' : 'rgba(255,255,255,0.6)',
+                  border: isActive ? '2px solid #00B5D6' : '1px solid rgba(0,181,214,0.1)',
+                  borderRadius: 16,
+                  cursor: 'pointer',
+                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                  textAlign: 'left' as const,
+                  fontFamily: 'var(--font-body)',
+                  position: 'relative' as const,
+                  overflow: 'hidden',
+                  flex: isActive ? '1.3' : '1',
+                  boxShadow: isActive ? '0 8px 32px rgba(0,181,214,0.12)' : 'none',
+                }}
+              >
+                {/* Progress bar on active */}
+                {isActive && (
+                  <div style={{
+                    position: 'absolute', bottom: 0, left: 0,
+                    height: 3, background: '#00B5D6',
+                    width: `${progress * 100}%`,
+                    transition: 'width 0.03s linear',
+                    borderRadius: '0 2px 0 0',
+                  }} />
+                )}
+
+                <div style={{
+                  width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+                  background: isActive ? '#D6EBF2' : '#eef5f7',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: isActive ? '#00B5D6' : '#9cc',
+                  transition: 'all 0.3s ease',
+                }}>{item.icon}</div>
+
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontSize: 16, fontWeight: isActive ? 600 : 400,
+                    color: isActive ? '#0a2640' : '#616161',
+                    transition: 'all 0.3s ease',
+                  }}>{item.title}</div>
+                  {isActive && (
+                    <div style={{ fontSize: 13, color: '#616161', marginTop: 4, lineHeight: 1.5 }}>
+                      {item.desc}
+                    </div>
+                  )}
+                </div>
+
+                <div style={{
+                  fontSize: 13, fontWeight: 600, color: isActive ? '#00B5D6' : '#CCCCCC',
+                  fontFamily: 'var(--font-display)',
+                  transition: 'color 0.3s ease',
+                }}>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Mobile: carousel fallback */}
+      <div className="advantages-mobile">
+        <MobileCarousel autoScrollInterval={4000}>
+          {beliefs.map((item, i) => (
+            <div key={i} style={{
+              background: 'linear-gradient(135deg, #0a2640, #00B5D6)',
+              borderRadius: 20, padding: '36px 28px',
+            }}>
+              <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, color: '#68D1E6' }}>{item.icon}</div>
+              <h4 style={{ fontSize: 20, fontWeight: 600, color: 'white', marginBottom: 10 }}>{item.title}</h4>
+              <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', margin: 0 }}>{item.desc}</p>
+            </div>
+          ))}
+        </MobileCarousel>
+      </div>
+
+      {/* Keyframe for fade-slide */}
+      <style jsx>{`
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  )
+}
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
@@ -78,7 +256,7 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* What We Believe */}
+      {/* What We Believe — Interactive Values Explorer */}
       <section style={{ padding: '100px 0', background: 'linear-gradient(180deg, #f0f8fa 0%, #f7fbfc 100%)' }}>
         <div className="container">
           <RevealOnScroll>
@@ -88,71 +266,9 @@ export default function AboutContent() {
             <div className="section-title">What We Believe</div>
           </RevealOnScroll>
 
-          {/* Desktop 2x2 grid */}
-          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginTop: 48 }}>
-            {beliefs.map((b, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
-                <div style={{
-                  background: 'white',
-                  borderRadius: 20,
-                  padding: '40px 36px',
-                  height: '100%',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-                  border: '1px solid rgba(0,181,214,0.08)',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                  cursor: 'default',
-                  position: 'relative' as const,
-                  overflow: 'hidden',
-                }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 20px 48px rgba(0,181,214,0.10), 0 1px 4px rgba(0,0,0,0.04)'; el.style.borderColor = 'rgba(0,181,214,0.2)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'; el.style.borderColor = 'rgba(0,181,214,0.08)' }}
-                >
-                  {/* Large background number */}
-                  <div style={{
-                    position: 'absolute', top: -8, right: 16,
-                    fontSize: 120, fontWeight: 800, fontFamily: 'var(--font-display)',
-                    color: 'rgba(0,181,214,0.04)', lineHeight: 1, pointerEvents: 'none',
-                    fontStyle: 'italic',
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-
-                  <div style={{ position: 'relative' }}>
-                    <div style={{
-                      width: 48, height: 48, borderRadius: 12,
-                      background: 'linear-gradient(135deg, #D6EBF2 0%, #e8f4f8 100%)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: 24, color: '#00B5D6',
-                    }}>{b.icon}</div>
-                    <h4 style={{ fontSize: 20, fontWeight: 600, color: '#0a2640', marginBottom: 10, fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>{b.title}</h4>
-                    <p style={{ fontSize: 15, lineHeight: 1.7, color: '#616161', margin: 0 }}>{b.desc}</p>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-
-          {/* Mobile */}
-          <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {beliefs.map((b, i) => (
-                <div key={i} style={{
-                  background: 'white', borderRadius: 20, padding: '36px 28px',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)', border: '1px solid rgba(0,181,214,0.08)',
-                  position: 'relative' as const, overflow: 'hidden',
-                }}>
-                  <div style={{ position: 'absolute', top: -8, right: 16, fontSize: 100, fontWeight: 800, fontFamily: 'var(--font-display)', color: 'rgba(0,181,214,0.04)', lineHeight: 1, pointerEvents: 'none', fontStyle: 'italic' }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <div style={{ position: 'relative' }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 12, background: 'linear-gradient(135deg, #D6EBF2 0%, #e8f4f8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, color: '#00B5D6' }}>{b.icon}</div>
-                    <h4 style={{ fontSize: 20, fontWeight: 600, color: '#0a2640', marginBottom: 10 }}>{b.title}</h4>
-                    <p style={{ fontSize: 15, lineHeight: 1.7, color: '#616161', margin: 0 }}>{b.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
+          <RevealOnScroll delay={0.2}>
+            <ValuesExplorer />
+          </RevealOnScroll>
         </div>
       </section>
 
