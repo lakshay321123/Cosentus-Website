@@ -3,11 +3,12 @@
 
 export interface BlogSection { id: string; heading: string; level: number; content: string[] }
 export interface BlogImage { url: string; alt: string; caption?: string; afterSection: number }
-export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[]; images?: BlogImage[] }
+export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[]; images?: BlogImage[]; coverImage?: string }
 
 export const blogPosts: BlogPost[] = [
   {
     slug: 'transforming-episode-accountability-model-team-the-future-of-value-based-care',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2026/02/Transforming-Episode-Accountability-Model-TEAM-The-Future-of-ValueBased-Care-01-1.webp',
     title: 'Transforming Episode Accountability Model (TEAM): The Future of Value-Based Care',
     tag: 'Value-Based Care',
     excerpt: 'In recent years, the U.S. healthcare system has increasingly shifted its focus toward value-based care, moving away from traditional fee-for-service models. One of the most significant steps in this d...',
@@ -89,6 +90,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'safeguard-your-practice-from-cyberattacks',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2026/02/SAFEGUARD-YOUR-PRACTICE-FROM-CYBERATTACKS-02-01.webp',
     title: 'Safeguard Your Practice From Cyberattacks',
     tag: 'Cybersecurity',
     excerpt: 'In the era of digital technology, the healthcare industry has increasingly attracted cybercriminals, with attacks becoming more frequent, larger in scale, and more financially damaging. Recent cyberat...',
@@ -202,6 +204,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'leverage-rpm-rtm-in-your-telehealth-model',
+    coverImage: 'https://cosentus.com/wp-content/uploads/2025/11/Leverage-RPM-RTM-in-your-Telehealth-Model-01.jpg',
     title: 'Leverage RPM & RTM In Your Telehealth Model',
     tag: 'Telehealth',
     excerpt: 'Offering telehealth services to patients now makes up a significant part of every provider’s daily schedule. The digital interactions through video calls and digital platforms, doctors and therapists...',
