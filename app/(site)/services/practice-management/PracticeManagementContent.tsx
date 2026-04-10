@@ -86,20 +86,20 @@ function InteractiveMindMap() {
           return (
             <g key={i}>
               <line x1={CX} y1={CY} x2={nx} y2={ny}
-                stroke={active === i ? 'rgba(0,181,214,0.7)' : 'rgba(0,181,214,0.25)'}
-                strokeWidth={active === i ? '0.5' : '0.25'}
+                stroke={active === i ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)'}
+                strokeWidth={active === i ? '0.7' : '0.4'}
                 style={{ transition: 'all 0.3s ease' }}
               />
-              {/* Traveling dot */}
-              <circle r="0.9" fill="#00B5D6" opacity="0.6">
+              {/* Traveling dot outbound */}
+              <circle r="1.2" fill="white" opacity="0.85">
                 <animateMotion dur={`${2.2 + i * 0.3}s`} repeatCount="indefinite" path={`M${CX},${CY} L${nx},${ny}`} />
               </circle>
-              {/* Return dot */}
-              <circle r="0.6" fill="#00B5D6" opacity="0.3">
+              {/* Traveling dot return */}
+              <circle r="0.8" fill="white" opacity="0.5">
                 <animateMotion dur={`${2.8 + i * 0.2}s`} repeatCount="indefinite" path={`M${nx},${ny} L${CX},${CY}`} />
               </circle>
               {/* Junction dot */}
-              <circle cx={(CX + nx) / 2} cy={(CY + ny) / 2} r="1.3" fill="#00B5D6" opacity={active === i ? 0.8 : 0.3} style={{ transition: 'opacity 0.3s' }} />
+              <circle cx={(CX + nx) / 2} cy={(CY + ny) / 2} r="1.8" fill="white" opacity={active === i ? 0.9 : 0.5} style={{ transition: 'opacity 0.3s' }} />
             </g>
           )
         })}
@@ -108,14 +108,14 @@ function InteractiveMindMap() {
       {/* Center doctor node */}
       <div style={{
         position: 'absolute', left: `${CX}%`, top: `${CY}%`, transform: 'translate(-50%,-50%)',
-        width: 90, height: 90, borderRadius: '50%', zIndex: 5,
+        width: 110, height: 110, borderRadius: '50%', zIndex: 5,
         background: 'linear-gradient(135deg, #00c9e8, #00B5D6)',
-        border: '5px solid rgba(0,181,214,0.2)',
+        border: '6px solid rgba(255,255,255,0.35)',
         boxShadow: '0 0 30px rgba(0,181,214,0.25)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         animation: 'breathe 4s ease-in-out infinite',
       }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.2}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
         </svg>
       </div>
@@ -137,29 +137,29 @@ function InteractiveMindMap() {
           >
             {/* White circle with icon */}
             <div style={{
-              width: isActive ? 68 : 58, height: isActive ? 68 : 58,
+              width: isActive ? 82 : 74, height: isActive ? 82 : 74,
               borderRadius: '50%', background: 'white',
-              border: `2px solid ${isActive ? '#00B5D6' : 'rgba(0,181,214,0.15)'}`,
+              border: `2.5px solid ${isActive ? '#00B5D6' : 'rgba(0,181,214,0.5)'}`,
               boxShadow: isActive
                 ? '0 0 24px rgba(0,181,214,0.4), 0 6px 20px rgba(0,0,0,0.1)'
                 : '0 2px 10px rgba(0,0,0,0.06)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
-              padding: isActive ? 12 : 10,
+              padding: isActive ? 14 : 13,
               overflow: 'hidden',
             }}>
               <img src={n.img} alt={n.label} style={{
                 width: '100%', height: '100%', objectFit: 'contain',
-                filter: isActive ? 'none' : 'opacity(0.7)',
-                transition: 'filter 0.3s ease',
+                transition: 'transform 0.3s ease',
+                transform: isActive ? 'scale(1.1)' : 'scale(1)',
               }} />
             </div>
 
             {/* Pulse ring on hover */}
             {isActive && (
               <div style={{
-                position: 'absolute', inset: -6, borderRadius: '50%',
-                border: '2px solid rgba(0,181,214,0.4)',
+                position: 'absolute', inset: -8, borderRadius: '50%',
+                border: '2px solid rgba(0,181,214,0.5)',
                 animation: 'ringExpand 1.3s ease-out infinite',
               }} />
             )}
