@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const partnerQuotes = [
@@ -171,7 +170,19 @@ export default function PartnershipContent() {
           grid-column: 1 / -1;
         }
 
+        .cta-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
         @media (max-width: 768px) {
+          .cta-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .problem-solution-grid {
+            grid-template-columns: 1fr !important;
+          }
+
           .partnership-stats {
             grid-template-columns: 1fr;
           }
@@ -268,7 +279,7 @@ export default function PartnershipContent() {
           <RevealOnScroll direction="left" delay={0.1}>
             <div className="section-title">Our Partner&apos;s Perspective</div>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))', gap: 24, marginTop: 48 }}>
             {partnerQuotes.map((q, i) => (
               <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
                 <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
@@ -374,7 +385,7 @@ export default function PartnershipContent() {
       {/* CTA with Form */}
       <section style={{ padding: '80px 0', background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
+          <div className="cta-grid" style={{ display: 'grid', gap: 48, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
             <RevealOnScroll>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Get Started</div>
@@ -386,11 +397,11 @@ export default function PartnershipContent() {
             </RevealOnScroll>
             <RevealOnScroll delay={0.15}>
               <form className="partnership-form" onSubmit={(e) => e.preventDefault()}>
-                <input type="text" placeholder="First Name *" required />
-                <input type="text" placeholder="Last Name *" required />
-                <input type="text" placeholder="Company *" required />
-                <input type="email" placeholder="Email *" required />
-                <textarea placeholder="Message *" required />
+                <input type="text" placeholder="First Name *" aria-label="First Name" required />
+                <input type="text" placeholder="Last Name *" aria-label="Last Name" required />
+                <input type="text" placeholder="Company *" aria-label="Company" required />
+                <input type="email" placeholder="Email *" aria-label="Email" required />
+                <textarea placeholder="Message *" aria-label="Message" required />
                 <div className="form-full">
                   <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
                     I Would Like to Know More
