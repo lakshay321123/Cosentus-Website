@@ -91,6 +91,7 @@ function Interactive360Wheel() {
   const lastMouseX = useRef(0)
   const hoveredIndex = useRef(-1)
   const [hovered, setHovered] = useState(-1)
+  const [dragging, setDragging] = useState(false)
   const [dimensions, setDimensions] = useState({ w: 560, h: 560 })
 
   const draw = useCallback(() => {
@@ -289,6 +290,7 @@ function Interactive360Wheel() {
 
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true
+    setDragging(true)
     lastMouseX.current = e.clientX
     velocityRef.current = 0
   }
@@ -307,8 +309,8 @@ function Interactive360Wheel() {
     }
   }
 
-  const onMouseUp = () => { isDragging.current = false }
-  const onMouseLeave = () => { isDragging.current = false; hoveredIndex.current = -1; setHovered(-1) }
+  const onMouseUp = () => { isDragging.current = false; setDragging(false) }
+  const onMouseLeave = () => { isDragging.current = false; setDragging(false); hoveredIndex.current = -1; setHovered(-1) }
 
   // Touch support
   const onTouchStart = (e: React.TouchEvent) => {
@@ -330,7 +332,7 @@ function Interactive360Wheel() {
     <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
       <canvas
         ref={canvasRef}
-        style={{ width: dimensions.w, height: dimensions.h, cursor: isDragging.current ? 'grabbing' : 'grab', touchAction: 'none' }}
+        style={{ width: dimensions.w, height: dimensions.h, cursor: dragging ? 'grabbing' : 'grab', touchAction: 'none' }}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -466,7 +468,7 @@ export default function EHRContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>
-              Works with your existing EHR — Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMod, nxGen, and more. No migrations. No disruption. For practices that want a purpose-built option, Medcloud supports cleaner claims and faster revenue.
+              Works with your existing EHR — Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, and more. No migrations. No disruption. For practices that want a purpose-built option, Medcloud supports cleaner claims and faster revenue.
             </p>
           </RevealOnScroll>
           <RevealOnScroll delay={0.3}>
