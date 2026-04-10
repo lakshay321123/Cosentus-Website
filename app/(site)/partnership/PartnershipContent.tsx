@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import PartnersSection from '@/components/sections/PartnersSection'
 
 const partnerQuotes = [
   { quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', author: 'Alex Cushman', title: 'CEO, AllianceMed' },
@@ -28,7 +26,6 @@ const solutions = [
 ]
 
 export default function PartnershipContent() {
-  const [activeQuote, setActiveQuote] = useState(0)
 
   return (
     <>
@@ -40,15 +37,7 @@ export default function PartnershipContent() {
           position: relative;
         }
 
-        .partnership-stats::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 5%;
-          right: 5%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, var(--gray-200), transparent);
-        }
+
 
         .stat-block {
           text-align: center;
@@ -56,15 +45,7 @@ export default function PartnershipContent() {
           position: relative;
         }
 
-        .stat-block + .stat-block::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 20%;
-          bottom: 20%;
-          width: 1px;
-          background: var(--gray-200);
-        }
+
 
         .stat-number {
           font-size: clamp(56px, 8vw, 96px);
@@ -89,113 +70,6 @@ export default function PartnershipContent() {
           letter-spacing: 0.1em;
           margin-top: 12px;
           font-weight: 500;
-        }
-
-        /* Testimonial Spotlight */
-        .testimonial-spotlight {
-          display: grid;
-          grid-template-columns: 280px 1fr;
-          gap: 0;
-          min-height: 500px;
-        }
-
-        .testimonial-nav {
-          display: flex;
-          flex-direction: column;
-          border-right: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .testimonial-nav-item {
-          padding: 24px 28px;
-          cursor: pointer;
-          border: none;
-          background: transparent;
-          text-align: left;
-          color: rgba(255,255,255,0.4);
-          font-size: 14px;
-          font-weight: 400;
-          transition: all 0.4s ease;
-          border-left: 3px solid transparent;
-          font-family: var(--font-display);
-        }
-
-        .testimonial-nav-item:hover {
-          color: rgba(255,255,255,0.7);
-          background: rgba(255,255,255,0.03);
-        }
-
-        .testimonial-nav-item.active {
-          color: white;
-          background: rgba(0,181,214,0.1);
-          border-left-color: var(--primary);
-        }
-
-        .testimonial-nav-company {
-          font-size: 11px;
-          opacity: 0.5;
-          margin-top: 2px;
-        }
-
-        .testimonial-display {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 64px 80px;
-          position: relative;
-        }
-
-        .testimonial-display::before {
-          content: '"';
-          position: absolute;
-          top: 40px;
-          left: 60px;
-          font-size: 200px;
-          line-height: 1;
-          color: rgba(0,181,214,0.08);
-          font-family: Georgia, serif;
-          font-weight: 700;
-        }
-
-        .testimonial-quote {
-          font-size: clamp(20px, 2.5vw, 28px);
-          font-weight: 300;
-          line-height: 1.6;
-          color: white;
-          position: relative;
-          z-index: 1;
-          font-style: italic;
-        }
-
-        .testimonial-author-block {
-          margin-top: 40px;
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .testimonial-avatar {
-          width: 52px;
-          height: 52px;
-          border-radius: 50%;
-          background: var(--primary);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-          font-weight: 600;
-          color: white;
-        }
-
-        .testimonial-author-name {
-          font-size: 16px;
-          font-weight: 500;
-          color: white;
-        }
-
-        .testimonial-author-title {
-          font-size: 13px;
-          color: rgba(255,255,255,0.5);
-          margin-top: 2px;
         }
 
         /* Challenges */
@@ -236,12 +110,12 @@ export default function PartnershipContent() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 2px;
-          background: rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
         }
 
         .solution-card {
           padding: 48px 40px;
-          background: rgba(0,30,50,0.95);
+          background: rgba(255,255,255,0.08);
           transition: all 0.5s ease;
           position: relative;
           overflow: hidden;
@@ -265,7 +139,7 @@ export default function PartnershipContent() {
         }
 
         .solution-card:hover {
-          background: rgba(0,50,70,0.95);
+          background: rgba(255,255,255,0.15);
         }
 
         .solution-stat {
@@ -412,42 +286,35 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* Testimonial Spotlight — Dark */}
-      <section style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #071520 100%)', padding: '0' }}>
-        <div className="container" style={{ padding: 0, maxWidth: '100%' }}>
-          <RevealOnScroll>
-            <div style={{ padding: '40px 40px 0', maxWidth: 'var(--container)', margin: '0 auto' }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(0,181,214,0.6)', marginBottom: 8 }}>Partner Perspectives</div>
-              <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'white', marginBottom: 0 }}>Our Partner&apos;s Perspective</h2>
-            </div>
+      {/* Partner Testimonials — ORIGINAL design */}
+      <section className="section section-alt">
+        <div className="container">
+          <RevealOnScroll direction="left">
+            <div className="section-label">PARTNER PERSPECTIVES</div>
           </RevealOnScroll>
-          <div className="testimonial-spotlight">
-            <div className="testimonial-nav">
-              {partnerQuotes.map((q, i) => (
-                <button
-                  key={i}
-                  className={`testimonial-nav-item ${activeQuote === i ? 'active' : ''}`}
-                  onClick={() => setActiveQuote(i)}
-                >
-                  {q.author}
-                  <div className="testimonial-nav-company">{q.title}</div>
-                </button>
-              ))}
-            </div>
-            <div className="testimonial-display">
-              <p className="testimonial-quote">
-                &ldquo;{partnerQuotes[activeQuote].quote}&rdquo;
-              </p>
-              <div className="testimonial-author-block">
-                <div className="testimonial-avatar">
-                  {partnerQuotes[activeQuote].author.split(' ').map(w => w[0]).slice(0, 2).join('')}
+          <RevealOnScroll direction="left" delay={0.1}>
+            <div className="section-title">Our Partner&apos;s Perspective</div>
+          </RevealOnScroll>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
+            {partnerQuotes.map((q, i) => (
+              <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
+                <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
+                    &ldquo;{q.quote}&rdquo;
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0 }}>
+                      {q.author.split(' ').map(w => w[0]).slice(0, 2).join('')}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</div>
+                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{q.title}</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="testimonial-author-name">{partnerQuotes[activeQuote].author}</div>
-                  <div className="testimonial-author-title">{partnerQuotes[activeQuote].title}</div>
-                </div>
-              </div>
-            </div>
+              </RevealOnScroll>
+            ))}
           </div>
         </div>
       </section>
@@ -471,7 +338,7 @@ export default function PartnershipContent() {
       </section>
 
       {/* Think Growth Solutions — Dark */}
-      <section style={{ background: 'linear-gradient(135deg, #071520 0%, #0d2137 50%, #0a1628 100%)', padding: '80px 0' }}>
+      <section style={{ background: 'var(--primary)', padding: '80px 0' }}>
         <div className="container">
           <RevealOnScroll>
             <h2 style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 200, fontStyle: 'italic', color: 'white', textAlign: 'center', marginBottom: 56, letterSpacing: '-0.02em' }}>THINK GROWTH</h2>
@@ -490,17 +357,7 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* Accolades */}
-      <section style={{ padding: '48px 0', background: 'var(--gray-50)' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
-            <img src="/images/accolade-badges.png" alt="SOC 2, HIPAA, Inc. 5000, Great Place to Work, HBMA Member" style={{ maxWidth: 600, width: '100%', opacity: 0.85 }} />
-          </RevealOnScroll>
-        </div>
-      </section>
 
-      {/* Partners */}
-      <PartnersSection />
 
       {/* CTA with Form */}
       <section style={{ padding: '80px 0', background: 'white' }}>
