@@ -368,6 +368,47 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   )}
 
                   {section.content.map((text, j) => {
+                    // Detect standalone heading strings (split from paragraph endings)
+                    // Short, Title Case or ALL CAPS, no internal periods
+                    if (text.length < 120 && !section.heading.toLowerCase().includes("faq")) {
+                      const clean = text.replace(/[?:]/g, '').trim()
+                      const words = clean.split(/\s+/)
+                      const hasNoPeriod = !clean.includes('.')
+                      const capWords = words.filter(w => /^[A-Z]/.test(w))
+                      const isShortHeading = words.length >= 1 && words.length <= 12 && hasNoPeriod && capWords.length >= Math.ceil(words.length * 0.5)
+                      // Extra check: ALL CAPS version
+                      const allCapsWords = words.filter(w => /^[A-Z]{2,}$/.test(w.replace(/[?:&]/g, '')))
+                      const isAllCaps = allCapsWords.length >= 2
+
+                      if (isShortHeading || isAllCaps) {
+                        // Convert ALL CAPS to Title Case for display
+                        const displayText = isAllCaps ? clean.split(/\s+/).map((w, wi) => {
+                          const lo = w.toLowerCase()
+                          const smalls = ['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','vs','with']
+                          if (wi > 0 && smalls.includes(lo)) return lo
+                          if (/^[A-Z]{2,}$/.test(w.replace(/[?:&]/g, ''))) return w.charAt(0) + w.slice(1).toLowerCase()
+                          return w
+                        }).join(' ') + (text.trim().endsWith('?') ? '?' : '') : text.trim()
+
+                        return (
+                          <h4 key={j} style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: 16,
+                            fontWeight: 600,
+                            color: 'var(--gray-900)',
+                            lineHeight: 1.75,
+                            marginTop: 24,
+                            marginBottom: 8,
+                            borderLeft: '3px solid var(--primary)',
+                            paddingLeft: 16,
+                            marginLeft: 4,
+                          }}>
+                            {displayText}
+                          </h4>
+                        )
+                      }
+                    }
+
                     // Detect FAQ Q&A patterns — split multi-QA paragraphs
                     if (section.heading.toLowerCase().includes("faq")) {
                       const qaPairs = splitFaqText(text)
