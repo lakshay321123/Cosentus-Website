@@ -54,17 +54,17 @@ export default function HomeBBDO() {
     const ctx = gsap.context(() => {
       // 4. Stats count-up slide from left
       gsap.from('.gs-stat', { x: -60, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-stats', start: 'top 80%', end: 'top 20%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-stats', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
       // 5. Agent lines from left
       gsap.from('.gs-agline', { x: -100, opacity: 0, stagger: 0.3, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-agents', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-agents', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
       // 6. Statement: text first, then images bubble, then right side
       const stTl = gsap.timeline({
-        scrollTrigger: { trigger: '#sec-stmt', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-stmt', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
       stTl.from('.gs-stmt-txt', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out' })
         .from('.gs-bubble', { scale: 0, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.3')
@@ -72,25 +72,25 @@ export default function HomeBBDO() {
 
       // 7. Video text from top/bottom
       gsap.from('.gs-vtop', { y: -80, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-video', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-video', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
       gsap.from('.gs-vbot', { y: 80, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-video', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-video', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
       // 8. News cards from left
       gsap.from('.gs-news', { x: -80, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-news', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-news', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
       // 9. Testimonial scale
       gsap.from('.gs-testi', { scale: 0.85, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-testi', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-testi', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
       // 10. CTA glow
       gsap.from('.gs-cta', { opacity: 0, scale: 0.9, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-cta', start: 'top 70%', end: 'top 10%', toggleActions: 'play reverse play reverse' }
+        scrollTrigger: { trigger: '#sec-cta', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
     }, mainRef)
 
