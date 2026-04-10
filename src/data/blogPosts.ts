@@ -2202,10 +2202,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&q=80', alt: 'Doctor explaining results to patient', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1625134673337-519d4d10b313?w=800&q=80', alt: 'Medical consultation in bright clinic', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439381.jpg', alt: 'Job interview handshake representing healthcare recruitment and hiring', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344878.jpg', alt: 'Business team meeting to address staffing and workforce retention strategies', afterSection: 1 }],
   },
   {
     slug: 'tips-for-faster-healthcare-processing',
@@ -2247,10 +2244,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80', alt: 'Healthcare worker with face mask', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&q=80', alt: 'Senior doctor mentoring junior staff', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3184357.jpg', alt: 'Efficient office team processing claims at multiple workstations', afterSection: 0 }, { url: '/images/blog-inline/pexels-7688460.jpg', alt: 'Team analyzing healthcare performance data trends and analytics', afterSection: 1 }],
   },
   {
     slug: 'orthopedic-rcm-how-to-boost-profitability',
@@ -2302,10 +2296,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=800&q=80', alt: 'Nurse preparing medical equipment', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1632833239869-a37e3a5806d2?w=800&q=80', alt: 'Doctor reviewing brain scan results', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4226216.jpg', alt: 'Physician reviewing orthopedic diagnostic imaging for surgical planning', afterSection: 0 }, { url: '/images/blog-inline/pexels-3845757.jpg', alt: 'Medical professional in clinical setting supporting orthopedic practice operations', afterSection: 2 }],
   },
   {
     slug: 'evaluation-management-em-codes-cheat-sheet',
@@ -2344,10 +2335,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1618498082410-b4aa22193b38?w=800&q=80', alt: 'Medical staff at reception desk', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=800&q=80', alt: 'Dentist performing dental examination', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5214949.jpg', alt: 'Doctor preparing for patient evaluation and management encounter', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184465.jpg', alt: 'Healthcare coding professional documenting E/M service levels', afterSection: 1 }],
   },
   {
     slug: 'understanding-the-value-based-healthcare-model',
@@ -2393,10 +2381,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800&q=80', alt: 'Eye doctor performing vision test', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80', alt: 'Pediatrician examining child patient', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3985163.jpg', alt: 'Medical team collaborating in hospital corridor on patient care quality', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184405.jpg', alt: 'Healthcare leader with team focused on value-based outcomes improvement', afterSection: 1 }],
   },
   {
     slug: 'essential-key-performance-indicators-kpis-in-healthcare',
