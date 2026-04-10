@@ -52,6 +52,45 @@ function splitFaqText(text: string): { question: string; answer: string }[] {
   return pairs
 }
 
+// Split text that contains inline ALL CAPS headings into segments
+// e.g. "some text. INLINE HEADING More text" → [{type:'text',content:'some text.'},{type:'heading',content:'Inline Heading'},{type:'text',content:'More text'}]
+function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content: string }[] {
+  // Match 2+ consecutive ALL CAPS words (3+ letters each) that look like inline headings
+  // They typically appear after a period/sentence boundary or at the start
+  const pattern = /(?:^|(?<=[.!?]\s))([A-Z][A-Z]+(?:\s+(?:[A-Z][A-Z]+|&|AND|OR|OF|IN|FOR|THE|TO|A|AN|AT|ON|BY|VS|WITH))+[?:]?)/g
+  const segments: { type: 'text' | 'heading'; content: string }[] = []
+  let lastIndex = 0
+  let match
+
+  while ((match = pattern.exec(text)) !== null) {
+    const heading = match[1]
+    // Skip short matches or things that are clearly not headings
+    if (heading.length < 8) continue
+
+    // Add preceding text
+    const before = text.slice(lastIndex, match.index + (match[0].length - match[1].length)).trim()
+    if (before) segments.push({ type: 'text', content: before })
+
+    // Convert heading to Title Case
+    const titleCase = heading.replace(/[?:]/g, '').split(/\s+/).map((w, i) => {
+      const lower = w.toLowerCase()
+      const smallWords = ['a','an','the','and','but','or','nor','for','yet','so','in','on','at','to','by','of','up','as','is','vs','with']
+      if (i > 0 && smallWords.includes(lower)) return lower
+      return w.charAt(0) + w.slice(1).toLowerCase()
+    }).join(' ')
+    segments.push({ type: 'heading', content: titleCase + (heading.endsWith('?') ? '?' : '') })
+
+    lastIndex = match.index + match[0].length
+  }
+
+  // Add remaining text
+  const remaining = text.slice(lastIndex).trim()
+  if (remaining) segments.push({ type: 'text', content: remaining })
+
+  // Only return segments if we actually found headings
+  return segments.length > 1 ? segments : []
+}
+
 export default function BlogPostContent({ post }: { post: BlogPost }) {
   const [activeId, setActiveId] = useState<string>('')
   const [tocOpen, setTocOpen] = useState(true)
@@ -145,14 +184,16 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       {/* Blog Content with Sidebar TOC */}
       <section className="section" style={{ paddingTop: 40, paddingBottom: 80 }}>
         <div className="container" style={{ maxWidth: 1200 }}>
-          {/* Back to blog breadcrumb */}
-          <Link href="/blog" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, color: 'var(--gray-500)', marginBottom: 32,
-            transition: 'color 0.2s',
-          }}>
-            <ArrowLeftIcon /> Back to all articles
-          </Link>
+          {/* Back to blog breadcrumb — separate nav component, outside article flow */}
+          <nav aria-label="Breadcrumb" style={{ marginBottom: 32 }}>
+            <Link href="/blog" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 13, color: 'var(--gray-500)',
+              transition: 'color 0.2s',
+            }}>
+              <ArrowLeftIcon /> Back to all articles
+            </Link>
+          </nav>
           <div className="blog-layout" style={{
             display: 'grid',
             gridTemplateColumns: '280px 1fr',
@@ -360,6 +401,36 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                           </ul>
                         )
                       }
+                    }
+
+                    // Check for inline ALL CAPS headings within paragraphs
+                    const segments = splitInlineHeadings(text)
+                    if (segments.length > 0) {
+                      return (
+                        <div key={j}>
+                          {segments.map((seg, si) => seg.type === 'heading' ? (
+                            <h4 key={si} style={{
+                              fontFamily: 'var(--font-display)',
+                              fontSize: 'clamp(16px, 1.8vw, 20px)',
+                              fontWeight: 500,
+                              color: 'var(--gray-800)',
+                              lineHeight: 1.35,
+                              marginTop: 24,
+                              marginBottom: 10,
+                              paddingTop: 4,
+                            }}>
+                              {seg.content}
+                            </h4>
+                          ) : (
+                            <p key={si} style={{
+                              fontSize: 16, lineHeight: 1.85, color: 'var(--gray-700)',
+                              marginBottom: 16, fontFamily: 'var(--font-body)',
+                            }}>
+                              {seg.content}
+                            </p>
+                          ))}
+                        </div>
+                      )
                     }
 
                     return (
