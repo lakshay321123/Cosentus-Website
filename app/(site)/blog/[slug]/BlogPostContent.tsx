@@ -350,6 +350,13 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                 </p>
               ))}
 
+              {/* Image after intro (afterSection: 0) */}
+              {post.images?.filter(img => img.afterSection === 0).map((img, imgIdx) => (
+                <figure key={`img-intro-${imgIdx}`} style={{ margin: '32px 0', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--gray-200)' }}>
+                  <img src={img.url} alt={img.alt} loading="lazy" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 400, objectFit: 'cover' }} />
+                </figure>
+              ))}
+
               {/* Sections */}
               {post.sections.map((section, i) => (
                 <div key={section.id}>
