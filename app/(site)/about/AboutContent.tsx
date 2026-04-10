@@ -184,7 +184,7 @@ export default function AboutContent() {
               </RevealOnScroll>
               <RevealOnScroll delay={0.1}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, color: 'white', marginBottom: 24, letterSpacing: '-0.02em' }}>
-                  Why Independent<br />Matters
+                  Why Independence<br />Matters
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll delay={0.2}>
