@@ -86,118 +86,48 @@ const faqsPageBilling = [
    ─────────────────────────────────────────── */
 
 function InteractiveRCMCycle() {
-  const [step, setStep] = useState(0)
+  const [progress, setProgress] = useState(0)
 
-  // Sequential reveal
   useEffect(() => {
-    let i = 0
+    let p = 0
     const id = setInterval(() => {
-      i++
-      setStep(i)
-      if (i >= rcmSteps.length + 2) clearInterval(id) // +2 for center figures
-    }, 350)
+      p += 2
+      setProgress(p)
+      if (p >= 100) clearInterval(id)
+    }, 60)
     return () => clearInterval(id)
   }, [])
 
-  const cx = 200, cy = 200, r = 155, labelR = 185
-  const total = rcmSteps.length
-
-  function arcPath(index: number) {
-    const gap = 3
-    const anglePerStep = 360 / total
-    const startAngle = (index * anglePerStep + gap / 2 - 90) * (Math.PI / 180)
-    const endAngle = ((index + 1) * anglePerStep - gap / 2 - 90) * (Math.PI / 180)
-    const innerR = 110, outerR = 155
-    const x1 = cx + outerR * Math.cos(startAngle)
-    const y1 = cy + outerR * Math.sin(startAngle)
-    const x2 = cx + outerR * Math.cos(endAngle)
-    const y2 = cy + outerR * Math.sin(endAngle)
-    const x3 = cx + innerR * Math.cos(endAngle)
-    const y3 = cy + innerR * Math.sin(endAngle)
-    const x4 = cx + innerR * Math.cos(startAngle)
-    const y4 = cy + innerR * Math.sin(startAngle)
-    return `M${x1},${y1} A${outerR},${outerR} 0 0,1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 0,0 ${x4},${y4} Z`
-  }
-
-  function labelPos(index: number) {
-    const anglePerStep = 360 / total
-    const angle = ((index + 0.5) * anglePerStep - 90) * (Math.PI / 180)
-    return { x: cx + labelR * Math.cos(angle), y: cy + labelR * Math.sin(angle) }
-  }
-
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 520, margin: '0 auto' }}>
-      <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto' }}>
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
+      {/* Clip mask reveals the image in a circular sweep */}
+      <div style={{
+        position: 'relative', width: '100%',
+        clipPath: `polygon(50% 50%, 50% 0%, ${progress >= 12.5 ? '100% 0%' : `${50 + progress * 4}% 0%`}${progress >= 12.5 ? `, 100% ${progress >= 37.5 ? '100%' : `${(progress - 12.5) * 4}%`}` : ''}${progress >= 37.5 ? `, ${progress >= 62.5 ? '0%' : `${100 - (progress - 37.5) * 4}%`} 100%` : ''}${progress >= 62.5 ? `, 0% ${progress >= 87.5 ? '0%' : `${100 - (progress - 62.5) * 4}%`}` : ''}${progress >= 87.5 ? `, ${Math.min(50, (progress - 87.5) * 4)}% 0%` : ''})`,
+        transition: 'clip-path 0.05s linear',
+      }}>
+        <img src="/images/icons/p1-2a.png" alt="Revenue Cycle Management" style={{
+          width: '100%', height: 'auto', display: 'block',
+          mixBlendMode: 'screen',
+        }} />
+      </div>
 
-        {/* Arc segments */}
-        {rcmSteps.map((s, i) => (
-          <path key={i} d={arcPath(i)} fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" strokeWidth="1"
-            style={{
-              opacity: i < step ? 1 : 0,
-              transform: i < step ? 'scale(1)' : 'scale(0.9)',
-              transformOrigin: `${cx}px ${cy}px`,
-              transition: `opacity 0.5s ease ${i * 0.05}s, transform 0.5s ease ${i * 0.05}s`,
-            }}
-          />
-        ))}
+      {/* Orbiting dot after reveal completes */}
+      {progress >= 100 && (
+        <div style={{
+          position: 'absolute', left: '50%', top: '50%',
+          width: '78%', height: '78%',
+          transform: 'translate(-50%,-50%)',
+          borderRadius: '50%', pointerEvents: 'none',
+          animation: 'spinSlow 12s linear infinite',
+        }}>
+          <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 12px rgba(255,255,255,0.8)' }} />
+        </div>
+      )}
 
-        {/* Center circle */}
-        <circle cx={cx} cy={cy} r="80" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1"
-          style={{ opacity: step > total ? 1 : 0, transition: 'opacity 0.6s ease 0.3s' }}
-        />
-
-        {/* Center people icon */}
-        <g style={{ opacity: step > total + 1 ? 1 : 0, transition: 'opacity 0.8s ease' }}>
-          {/* Person left */}
-          <circle cx={cx - 22} cy={cy - 18} r="7" fill="none" stroke="white" strokeWidth="1.5" />
-          <path d={`M${cx - 35},${cy + 14} a14,14 0 0,1 26,0`} fill="none" stroke="white" strokeWidth="1.5" />
-          {/* Person center (taller) */}
-          <circle cx={cx} cy={cy - 24} r="9" fill="none" stroke="white" strokeWidth="1.8" />
-          <path d={`M${cx - 16},${cy + 16} a18,18 0 0,1 32,0`} fill="none" stroke="white" strokeWidth="1.8" />
-          {/* Person right */}
-          <circle cx={cx + 22} cy={cy - 18} r="7" fill="none" stroke="white" strokeWidth="1.5" />
-          <path d={`M${cx + 9},${cy + 14} a14,14 0 0,1 26,0`} fill="none" stroke="white" strokeWidth="1.5" />
-          {/* Platform oval */}
-          <ellipse cx={cx} cy={cy + 28} rx="40" ry="8" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
-        </g>
-
-        {/* Labels */}
-        {rcmSteps.map((s, i) => {
-          const pos = labelPos(i)
-          return (
-            <text key={`t${i}`} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
-              fill="white" fontSize="7.5" fontWeight="700" fontFamily="var(--font-display)"
-              style={{
-                opacity: i < step ? 1 : 0, textTransform: 'uppercase' as const,
-                transition: `opacity 0.4s ease ${i * 0.05 + 0.2}s`,
-              }}
-            >
-              {s.label.length > 18
-                ? <>{s.label.split(' ').reduce((lines: string[], word: string) => {
-                    const last = lines[lines.length - 1]
-                    if (last && (last + ' ' + word).length <= 14) { lines[lines.length - 1] = last + ' ' + word }
-                    else { lines.push(word) }
-                    return lines
-                  }, []).map((line, li) => <tspan key={li} x={pos.x} dy={li === 0 ? 0 : 10}>{line}</tspan>)}</>
-                : s.label.split(' ').length > 1
-                  ? <>{s.label.split(' ').reduce((lines: string[], word: string) => {
-                      const last = lines[lines.length - 1]
-                      if (last && (last + ' ' + word).length <= 12) { lines[lines.length - 1] = last + ' ' + word }
-                      else { lines.push(word) }
-                      return lines
-                    }, []).map((line, li) => <tspan key={li} x={pos.x} dy={li === 0 ? 0 : 10}>{line}</tspan>)}</>
-                  : s.label
-              }
-            </text>
-          )
-        })}
-
-        {/* Rotating orbit dot */}
-        <circle r="3" fill="white" opacity="0.6" style={{ animation: step >= total ? undefined : 'none' }}>
-          <animateMotion dur="12s" repeatCount="indefinite" path={`M${cx},${cy - r} A${r},${r} 0 1,1 ${cx - 0.01},${cy - r}`} />
-        </circle>
-
-      </svg>
+      <style jsx>{`
+        @keyframes spinSlow { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+      `}</style>
     </div>
   )
 }
