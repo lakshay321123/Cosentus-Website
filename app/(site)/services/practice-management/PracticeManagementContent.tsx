@@ -1,22 +1,12 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 /* ───────────────────────────────────────────
    DATA
    ─────────────────────────────────────────── */
-
-const mindMapNodes = [
-  { label: 'Book\nKeeper', angle: 0 },
-  { label: 'Marketing\nStrategy', angle: 51.4 },
-  { label: 'Tech\nSupport', angle: 102.8 },
-  { label: 'People\nManager', angle: 154.2 },
-  { label: 'Billing\nExpert', angle: 205.6 },
-  { label: 'Online\nMarketing', angle: 257 },
-  { label: 'Office\nAdmin', angle: 308.4 },
-]
 
 const benefits = [
   { title: 'Effortless Workflow', desc: 'Our integrated approach ensures a seamless operation, eliminating inefficiencies and optimizing your practice\'s performance.' },
@@ -26,11 +16,11 @@ const benefits = [
 ]
 
 const operations = [
-  { title: 'Expert Billing Management', desc: 'Say goodbye to high accounts receivable and confusing billing issues. Our billing experts streamline your processes, ensuring maximum revenue collection with minimal hassle.', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg> },
-  { title: 'Accounting & Tax Services', desc: 'Dive into financial clarity with our team. We automate and manage your accounting processes, ensuring efficiency and compliance, so you can focus on your practice without financial distractions.', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" /></svg> },
-  { title: 'Technology Solutions', desc: 'Embrace the future with our Managed IT services. We handle everything from patient billing systems to data security, ensuring seamless and efficient technology integration in your practice.', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" /></svg> },
-  { title: 'Human Resources & Recruitment', desc: 'Overcome staffing challenges effortlessly. Our HR services provide comprehensive support, from recruiting top talent to managing HR tasks, ensuring your practice runs smoothly.', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg> },
-  { title: 'Marketing & Branding', desc: 'Elevate your online presence. Our marketing experts craft strategies that enhance your visibility, attract new patients, and build a strong, engaging brand identity.', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46" /></svg> },
+  { title: 'Expert Billing Management', desc: 'Say goodbye to high accounts receivable and confusing billing issues. Our billing experts streamline your processes, ensuring maximum revenue collection with minimal hassle.', img: '/images/icons/p3-3a.png' },
+  { title: 'Accounting & Tax Services', desc: 'Dive into financial clarity with our team. We automate and manage your accounting processes, ensuring efficiency and compliance, so you can focus on your practice without financial distractions.', img: '/images/icons/p3-3b.png' },
+  { title: 'Technology Solutions', desc: 'Embrace the future with our Managed IT services. We handle everything from patient billing systems to data security, ensuring seamless and efficient technology integration in your practice.', img: '/images/icons/p3-3c.png' },
+  { title: 'Human Resources & Recruitment', desc: 'Overcome staffing challenges effortlessly. Our HR services provide comprehensive support, from recruiting top talent to managing HR tasks, ensuring your practice runs smoothly.', img: '/images/icons/p3-3d.png' },
+  { title: 'Marketing & Branding', desc: 'Elevate your online presence. Our marketing experts craft strategies that enhance your visibility, attract new patients, and build a strong, engaging brand identity.', img: '/images/icons/p3-3e.png' },
 ]
 
 const whatWeManage = [
@@ -68,196 +58,112 @@ const faqsPagePM = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE MIND MAP — constellation style
+   INTERACTIVE MIND MAP — image with live hotspots
    ─────────────────────────────────────────── */
 
+const hotspots = [
+  { label: 'Book Keeper', x: 23, y: 12, desc: 'Financial record-keeping and bookkeeping services' },
+  { label: 'Marketing Strategy', x: 80, y: 14, desc: 'Strategic marketing to grow your patient base' },
+  { label: 'Tech Support', x: 87, y: 51, desc: 'Managed IT, EHR integration, and data security' },
+  { label: 'People Manager', x: 78, y: 84, desc: 'HR, recruitment, and workforce management' },
+  { label: 'Billing Expert', x: 51, y: 88, desc: 'Expert billing and revenue cycle optimization' },
+  { label: 'Online Marketing', x: 25, y: 80, desc: 'Digital presence, SEO, and patient engagement' },
+  { label: 'Office Admin', x: 11, y: 51, desc: 'Front desk, scheduling, and office operations' },
+]
+
 function InteractiveMindMap() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animRef = useRef<number>(0)
-  const hoveredRef = useRef(-1)
-  const [hovered, setHovered] = useState(-1)
-  const [dims, setDims] = useState({ w: 520, h: 520 })
-  const pulseRef = useRef(0)
+  const [active, setActive] = useState(-1)
+  const [pulseKey, setPulseKey] = useState(0)
 
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    const dpr = window.devicePixelRatio || 1
-    const w = dims.w, h = dims.h
-    canvas.width = w * dpr
-    canvas.height = h * dpr
-    ctx.scale(dpr, dpr)
-
-    const cx = w / 2, cy = h / 2
-    const orbitR = Math.min(w, h) / 2 - 60
-    const centerR = 52
-    const nodeR = 36
-
-    pulseRef.current += 0.02
-    ctx.clearRect(0, 0, w, h)
-
-    // Draw connection lines
-    mindMapNodes.forEach((node, i) => {
-      const rad = (node.angle - 90) * Math.PI / 180
-      const nx = cx + Math.cos(rad) * orbitR
-      const ny = cy + Math.sin(rad) * orbitR
-      const isHov = hoveredRef.current === i
-
-      ctx.beginPath()
-      ctx.moveTo(cx, cy)
-      ctx.lineTo(nx, ny)
-      ctx.strokeStyle = isHov ? '#00B5D6' : 'rgba(0,181,214,0.2)'
-      ctx.lineWidth = isHov ? 2.5 : 1.5
-      ctx.stroke()
-
-      // Pulse dot traveling along line
-      const pulseFrac = ((pulseRef.current + i * 0.15) % 1)
-      const px = cx + (nx - cx) * pulseFrac
-      const py = cy + (ny - cy) * pulseFrac
-      ctx.beginPath()
-      ctx.arc(px, py, isHov ? 3 : 2, 0, Math.PI * 2)
-      ctx.fillStyle = isHov ? '#00B5D6' : 'rgba(0,181,214,0.3)'
-      ctx.fill()
-    })
-
-    // Draw orbit ring
-    ctx.beginPath()
-    ctx.arc(cx, cy, orbitR, 0, Math.PI * 2)
-    ctx.strokeStyle = 'rgba(0,181,214,0.08)'
-    ctx.lineWidth = 1
-    ctx.stroke()
-
-    // Draw outer nodes
-    mindMapNodes.forEach((node, i) => {
-      const rad = (node.angle - 90) * Math.PI / 180
-      const nx = cx + Math.cos(rad) * orbitR
-      const ny = cy + Math.sin(rad) * orbitR
-      const isHov = hoveredRef.current === i
-      const scale = isHov ? 1.15 : 1
-
-      // Node circle
-      ctx.beginPath()
-      ctx.arc(nx, ny, nodeR * scale, 0, Math.PI * 2)
-      if (isHov) {
-        ctx.fillStyle = '#00B5D6'
-        ctx.shadowColor = 'rgba(0,181,214,0.4)'
-        ctx.shadowBlur = 20
-      } else {
-        ctx.fillStyle = 'white'
-        ctx.shadowColor = 'rgba(0,0,0,0.08)'
-        ctx.shadowBlur = 8
-      }
-      ctx.fill()
-      ctx.shadowBlur = 0
-      ctx.shadowColor = 'transparent'
-
-      if (!isHov) {
-        ctx.strokeStyle = 'rgba(0,181,214,0.3)'
-        ctx.lineWidth = 1.5
-        ctx.stroke()
-      }
-
-      // Label
-      ctx.fillStyle = isHov ? '#FFFFFF' : '#333333'
-      ctx.font = `${isHov ? '600' : '400'} 10px "Reddit Sans", sans-serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      const lines = node.label.split('\n')
-      lines.forEach((line, li) => {
-        ctx.fillText(line, nx, ny + (li - (lines.length - 1) / 2) * 13)
-      })
-    })
-
-    // Center node — doctor/practice
-    const centerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, centerR)
-    centerGrad.addColorStop(0, '#00c9e8')
-    centerGrad.addColorStop(1, '#00B5D6')
-    ctx.beginPath()
-    ctx.arc(cx, cy, centerR, 0, Math.PI * 2)
-    ctx.fillStyle = centerGrad
-    ctx.shadowColor = 'rgba(0,181,214,0.35)'
-    ctx.shadowBlur = 25
-    ctx.fill()
-    ctx.shadowBlur = 0
-    ctx.shadowColor = 'transparent'
-
-    // Center icon — stethoscope-ish
-    ctx.fillStyle = 'white'
-    ctx.font = 'bold 12px "Reddit Sans", sans-serif'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('YOUR', cx, cy - 8)
-    ctx.fillText('PRACTICE', cx, cy + 8)
-  }, [dims])
-
-  const animate = useCallback(() => {
-    draw()
-    animRef.current = requestAnimationFrame(animate)
-  }, [draw])
-
+  // Auto-cycle through nodes
   useEffect(() => {
-    const handleResize = () => {
-      const container = canvasRef.current?.parentElement
-      if (container) {
-        const w = Math.min(container.clientWidth, 520)
-        setDims({ w, h: w })
-      }
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    const interval = setInterval(() => {
+      setPulseKey(k => (k + 1) % hotspots.length)
+    }, 2500)
+    return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    animRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animRef.current)
-  }, [animate])
-
-  const getNodeIndex = (clientX: number, clientY: number) => {
-    const canvas = canvasRef.current
-    if (!canvas) return -1
-    const rect = canvas.getBoundingClientRect()
-    const x = clientX - rect.left, y = clientY - rect.top
-    const cx = dims.w / 2, cy = dims.h / 2
-    const orbitR = Math.min(dims.w, dims.h) / 2 - 60
-
-    for (let i = 0; i < mindMapNodes.length; i++) {
-      const rad = (mindMapNodes[i].angle - 90) * Math.PI / 180
-      const nx = cx + Math.cos(rad) * orbitR
-      const ny = cy + Math.sin(rad) * orbitR
-      const dist = Math.sqrt((x - nx) ** 2 + (y - ny) ** 2)
-      if (dist < 40) return i
-    }
-    return -1
-  }
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    const idx = getNodeIndex(e.clientX, e.clientY)
-    if (idx !== hoveredRef.current) { hoveredRef.current = idx; setHovered(idx) }
-  }
-  const onMouseLeave = () => { hoveredRef.current = -1; setHovered(-1) }
-
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 520, margin: '0 auto' }}>
-      <canvas
-        ref={canvasRef}
-        style={{ width: dims.w, height: dims.h, cursor: hovered >= 0 ? 'pointer' : 'default' }}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
+    <div style={{ position: 'relative', width: '100%', maxWidth: 560, margin: '0 auto' }}>
+      {/* Base diagram image */}
+      <img
+        src="/images/icons/p3-2a.png"
+        alt="Complete Practice Management — doctor with 7 connected service roles"
+        style={{
+          width: '100%', height: 'auto', display: 'block',
+          filter: 'brightness(0) invert(1)',
+        }}
       />
-      {hovered >= 0 && (
-        <div style={{
-          position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-          background: 'var(--primary)', color: 'white', padding: '8px 20px',
-          borderRadius: 'var(--radius-sm)', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap',
-          boxShadow: 'var(--shadow-md)', pointerEvents: 'none',
-        }}>
-          {mindMapNodes[hovered].label.replace('\n', ' ')}
-        </div>
-      )}
+
+      {/* Animated hotspots */}
+      {hotspots.map((spot, i) => {
+        const isActive = active === i
+        const isPulsing = pulseKey === i && active === -1
+
+        return (
+          <div
+            key={i}
+            onMouseEnter={() => setActive(i)}
+            onMouseLeave={() => setActive(-1)}
+            style={{
+              position: 'absolute',
+              left: `${spot.x}%`, top: `${spot.y}%`,
+              transform: 'translate(-50%, -50%)',
+              width: isActive ? 80 : 56, height: isActive ? 80 : 56,
+              borderRadius: '50%',
+              background: isActive ? 'rgba(255,255,255,0.25)' : 'transparent',
+              border: `2px solid ${isActive ? 'white' : 'transparent'}`,
+              cursor: 'pointer',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              zIndex: isActive ? 10 : 1,
+            }}
+          >
+            {/* Pulse ring */}
+            {(isPulsing || isActive) && (
+              <span style={{
+                position: 'absolute', inset: -8,
+                borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.6)',
+                animation: 'mindMapPulse 1.5s ease-out infinite',
+              }} />
+            )}
+
+            {/* Tooltip */}
+            {isActive && (
+              <div style={{
+                position: 'absolute',
+                bottom: '110%', left: '50%', transform: 'translateX(-50%)',
+                background: 'white', color: 'var(--gray-900)',
+                padding: '10px 16px', borderRadius: 'var(--radius-sm)',
+                boxShadow: 'var(--shadow-lg)', whiteSpace: 'nowrap',
+                fontSize: 13, fontWeight: 500, lineHeight: 1.4,
+                animation: 'fadeInUp 0.25s ease',
+                zIndex: 20,
+              }}>
+                <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: 2 }}>{spot.label}</div>
+                <div style={{ fontSize: 12, color: 'var(--gray-600)', fontWeight: 400 }}>{spot.desc}</div>
+                {/* Arrow */}
+                <div style={{
+                  position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)',
+                  width: 12, height: 12, background: 'white',
+                  boxShadow: '2px 2px 4px rgba(0,0,0,0.08)',
+                }} />
+              </div>
+            )}
+          </div>
+        )
+      })}
+
+      <style jsx>{`
+        @keyframes mindMapPulse {
+          0% { transform: scale(1); opacity: 0.8; }
+          100% { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+          to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+      `}</style>
     </div>
   )
 }
@@ -413,7 +319,9 @@ export default function PracticeManagementContent() {
             {operations.map((op, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.08}>
                 <div className="advantage-card" style={{ height: '100%' }}>
-                  <div className="advantage-icon">{op.icon}</div>
+                  <div className="advantage-icon">
+                    <img src={op.img} alt={op.title} style={{ width: 26, height: 26, objectFit: 'contain' }} />
+                  </div>
                   <h4>{op.title}</h4>
                   <p>{op.desc}</p>
                 </div>
