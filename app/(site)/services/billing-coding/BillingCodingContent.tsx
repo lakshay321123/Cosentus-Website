@@ -413,8 +413,11 @@ export default function BillingCodingContent() {
               { stat: '0', label: 'Re-work Required' },
             ].map((item, i) => (
               <RevealOnScroll key={i} delay={0.15 + i * 0.1}>
-                <div style={{ padding: '36px 28px', background: 'rgba(255,255,255,0.08)', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(4px)', borderLeft: '3px solid rgba(255,255,255,0.3)' }}>
-                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, fontFamily: 'var(--font-display)', marginBottom: 4 }}>{item.stat}</div>
+                <div className="benefit-stat-card" style={{ padding: '36px 28px', background: 'rgba(255,255,255,0.08)', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(4px)', borderLeft: '3px solid rgba(255,255,255,0.3)', cursor: 'default', transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)'; e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)'; e.currentTarget.style.borderLeftColor = 'white' }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderLeftColor = 'rgba(255,255,255,0.3)' }}
+                >
+                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, fontFamily: 'var(--font-display)', marginBottom: 4, animation: 'fadeSlideUp 0.6s ease forwards', animationDelay: `${0.3 + i * 0.2}s`, opacity: 0 }}>{item.stat}</div>
                   <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
                 </div>
               </RevealOnScroll>
@@ -423,13 +426,20 @@ export default function BillingCodingContent() {
           <RevealOnScroll delay={0.5}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 32 }}>
               {['Blazing fast turnaround', 'Seamless transition & ramp-up', 'Optimized collections & cashflow'].map((t, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15, color: 'rgba(255,255,255,0.85)' }}>
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15, color: 'rgba(255,255,255,0.85)', cursor: 'default', transition: 'color 0.3s ease, transform 0.3s ease' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = 'white'; e.currentTarget.style.transform = 'translateX(4px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'translateX(0)' }}
+                >
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   {t}
                 </div>
               ))}
             </div>
           </RevealOnScroll>
+
+          <style jsx>{`
+            @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+          `}</style>
         </div>
       </section>
 
