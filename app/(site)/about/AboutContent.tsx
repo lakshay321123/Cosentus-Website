@@ -5,10 +5,10 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const beliefs = [
-  { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
-  { title: 'Transparency', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting. No guessing.' },
-  { title: 'Accountability', desc: 'We own outcomes end-to-end. Issues get root-cause analysis and immediate fixes.' },
-  { title: 'Specialty focus', desc: 'Teams organized by specialty. They know every payer nuance and clinical detail — reducing denials and accelerating cash flow.' },
+  { title: 'Customers First', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg> },
+  { title: 'Transparency', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting. No guessing.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> },
+  { title: 'Accountability', desc: 'We own outcomes end-to-end. Issues get root-cause analysis and immediate fixes.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg> },
+  { title: 'Specialty Focus', desc: 'Teams organized by specialty. They know every payer nuance and clinical detail — reducing denials and accelerating cash flow.', icon: <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" /></svg> },
 ]
 
 const companyStats = [
@@ -79,22 +79,54 @@ export default function AboutContent() {
       </section>
 
       {/* What We Believe */}
-      <section className="section section-alt">
+      <section style={{
+        background: 'linear-gradient(135deg, #003545 0%, #005A6E 40%, #00B5D6 100%)',
+        padding: '100px 0',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        {/* Decorative circles */}
+        <div style={{ position: 'absolute', top: -120, right: -80, width: 400, height: 400, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.06)' }} />
+        <div style={{ position: 'absolute', bottom: -60, left: -60, width: 300, height: 300, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.04)' }} />
+
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">OUR VALUES</div>
+            <div style={{ fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: '#68D1E6', marginBottom: 16 }}>OUR VALUES</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <div className="section-title">What We Believe</div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, color: 'white', marginBottom: 16, letterSpacing: '-0.02em' }}>What We Believe</h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.15}>
+            <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', maxWidth: 560, marginBottom: 56 }}>
+              The principles that guide every decision we make for our clients, our team, and our company.
+            </p>
           </RevealOnScroll>
 
           {/* Desktop */}
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
+          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
             {beliefs.map((b, i) => (
-              <RevealOnScroll key={i}>
-                <div className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
+              <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.07)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  borderRadius: 16,
+                  padding: '36px 28px',
+                  height: '100%',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  cursor: 'default',
+                }}
+                onMouseEnter={e => { const el = e.currentTarget; el.style.background = 'rgba(255,255,255,0.14)'; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)' }}
+                onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none' }}
+                >
+                  <div style={{
+                    width: 56, height: 56, borderRadius: 14,
+                    background: 'rgba(0,181,214,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginBottom: 24, color: '#68D1E6',
+                  }}>{b.icon}</div>
+                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 10, fontFamily: 'var(--font-display)' }}>{b.title}</h4>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', margin: 0 }}>{b.desc}</p>
                 </div>
               </RevealOnScroll>
             ))}
@@ -103,9 +135,14 @@ export default function AboutContent() {
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={4000}>
               {beliefs.map((b, i) => (
-                <div key={i} className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
+                <div key={i} style={{
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  borderRadius: 16, padding: '36px 28px',
+                }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(0,181,214,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, color: '#68D1E6' }}>{b.icon}</div>
+                  <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 10 }}>{b.title}</h4>
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', margin: 0 }}>{b.desc}</p>
                 </div>
               ))}
             </MobileCarousel>
@@ -133,20 +170,55 @@ export default function AboutContent() {
       </section>
 
       {/* Why Independent Matters */}
-      <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">INDEPENDENCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Why Independent Matters</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
-              not quarterly investor returns. Our stability shows: 80% of our founding team remains with the company.
-            </p>
-          </RevealOnScroll>
+      <section style={{
+        background: '#00B5D6',
+        padding: '100px 0',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        {/* Decorative large text watermark */}
+        <div style={{ position: 'absolute', top: '50%', right: -40, transform: 'translateY(-50%)', fontSize: 'clamp(180px, 22vw, 320px)', fontWeight: 800, fontStyle: 'italic', color: 'rgba(255,255,255,0.04)', fontFamily: 'var(--font-display)', lineHeight: 0.9, pointerEvents: 'none', whiteSpace: 'nowrap' as const }}>
+          OWN&shy;ED
+        </div>
+
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }} className="about-intro-grid">
+            <div>
+              <RevealOnScroll>
+                <div style={{ fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>INDEPENDENCE</div>
+              </RevealOnScroll>
+              <RevealOnScroll delay={0.1}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, color: 'white', marginBottom: 24, letterSpacing: '-0.02em' }}>
+                  Why Independent<br />Matters
+                </h2>
+              </RevealOnScroll>
+              <RevealOnScroll delay={0.2}>
+                <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(255,255,255,0.8)', maxWidth: 520, marginBottom: 0 }}>
+                  Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
+                  not quarterly investor returns. No PE pressure. No shortcuts. Just partnership built to last.
+                </p>
+              </RevealOnScroll>
+            </div>
+
+            <div>
+              <RevealOnScroll delay={0.15}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>80%</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Founding team still with the company</div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>25+</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Years of consistent, stable leadership</div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', borderRadius: 16, padding: '32px 24px', border: '1px solid rgba(255,255,255,0.15)', gridColumn: 'span 2' }}>
+                    <div style={{ fontSize: 'clamp(40px, 5vw, 56px)', fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>99%</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>Customer retention — built on trust, not contracts</div>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
         </div>
       </section>
 
