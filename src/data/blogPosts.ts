@@ -2,7 +2,8 @@
 // All 53 blog posts (v3) — fragments merged, watermarks removed, duplicates resolved
 
 export interface BlogSection { id: string; heading: string; level: number; content: string[] }
-export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[] }
+export interface BlogImage { url: string; alt: string; caption?: string; afterSection: number }
+export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[]; images?: BlogImage[] }
 
 export const blogPosts: BlogPost[] = [
   {
@@ -80,6 +81,10 @@ export const blogPosts: BlogPost[] = [
           'How does payment work under TEAM? Participating hospitals continue billing Medicare on a fee-for-service basis, but CMS sets a target price for each episode. Costs and quality performance are measured against this target to determine shared savings or repayment responsibility. What is the role of care coordination in TEAM? TEAM emphasizes coordinated, team-based care delivery among surgeons, primary care providers, therapists, and other care partners to achieve better outcomes and reduce unnecessary readmissions and complications. Why is TEAM important for the future of value-based care? By shifting focus from fee-for-service toward bundled, episode-based accountability, TEAM encourages efficient, high-quality care and strengthens the transition toward broader value-based payment models across healthcare.'
         ],
       }
+    ],
+    images: [
+      { url: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80', alt: 'Medical team of doctors discussing patient care plan together', caption: 'Value-based care models like TEAM emphasize coordinated, team-based care delivery among healthcare professionals.', afterSection: 1 },
+      { url: 'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?w=800&q=80', alt: 'Surgeons performing procedure in modern operating room', caption: 'TEAM covers five high-impact surgical episodes including joint replacements, spinal fusions, and coronary bypass procedures.', afterSection: 3 },
     ],
   },
   {
