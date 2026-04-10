@@ -32,22 +32,22 @@ export default function HomeBBDO() {
   // Scroll-triggered reveals
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed') })
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on') })
     }, { threshold: 0.15 })
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+    document.querySelectorAll('.hm-rv,.hm-rs').forEach(el => obs.observe(el))
     return () => obs.disconnect()
   }, [ready])
 
   return (
     <main style={{ background: '#000', overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        .reveal{opacity:0;transform:translateY(60px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
-        .reveal.revealed{opacity:1;transform:translateY(0)}
-        .reveal.d1{transition-delay:.15s}.reveal.d2{transition-delay:.3s}.reveal.d3{transition-delay:.45s}.reveal.d4{transition-delay:.6s}.reveal.d5{transition-delay:.75s}
-        .reveal-scale{opacity:0;transform:scale(.85);transition:opacity .8s,transform 1s cubic-bezier(.16,1,.3,1)}
-        .reveal-scale.revealed{opacity:1;transform:scale(1)}
-        .reveal-clip{clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)}
-        .reveal-clip.revealed{clip-path:inset(0 0% 0 0)}
+        .hm-rv{opacity:0;transform:translateY(60px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+        .hm-rv.on{opacity:1;transform:translateY(0);filter:none}
+        .hm-rv.d1{transition-delay:.15s}.hm-rv.d2{transition-delay:.3s}.hm-rv.d3{transition-delay:.45s}.hm-rv.d4{transition-delay:.6s}.hm-rv.d5{transition-delay:.75s}
+        .hm-rs{opacity:0;transform:scale(.85);transition:opacity .8s,transform 1s cubic-bezier(.16,1,.3,1)}
+        .hm-rs.on{opacity:1;transform:scale(1);filter:none}
+        .hm-rc{clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)}
+        .hm-rc.on{clip-path:inset(0 0% 0 0)}
 
         /* HERO */
         .hh{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -193,7 +193,7 @@ export default function HomeBBDO() {
         <img src={I1} alt=""  />
         <div className="px-strip-ov" />
         <div className="px-strip-text">
-          <h2 className="reveal"><span>8</span> AI Agents.<br /><span>1,000+</span> Experts.<br />Zero Excuses.</h2>
+          <h2 className="hm-rv"><span>8</span> AI Agents.<br /><span>1,000+</span> Experts.<br />Zero Excuses.</h2>
         </div>
       </section>
 
@@ -206,10 +206,10 @@ export default function HomeBBDO() {
             BIG <span className="ii"><img src={I3} alt="" /></span> THINGS
           </div>
           <div className="hst-r">
-            <p className="reveal d1">We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
-            <p className="reveal d2">We work with specialty practices that have the biggest ambitions.</p>
-            <p className="reveal d3">We hire expert talent and bring them opportunities that build lasting careers.</p>
-            <div className="reveal d4"><Link href="/contact" className="hst-btn">Contact Us</Link></div>
+            <p className="hm-rv d1">We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
+            <p className="hm-rv d2">We work with specialty practices that have the biggest ambitions.</p>
+            <p className="hm-rv d3">We hire expert talent and bring them opportunities that build lasting careers.</p>
+            <div className="hm-rv d4"><Link href="/contact" className="hst-btn">Contact Us</Link></div>
           </div>
         </div>
       </section>
@@ -219,7 +219,7 @@ export default function HomeBBDO() {
         <video autoPlay loop muted playsInline ><source src="/images/specialties-hero.mp4" type="video/mp4" /></video>
         <div className="hv-ov" />
         <div className="hv-content">
-          <h2 className="reveal">25 Years. 19 Acquisitions.<br /><em>One Mission.</em></h2>
+          <h2 className="hm-rv">25 Years. 19 Acquisitions.<br /><em>One Mission.</em></h2>
         </div>
       </section>
 
@@ -250,7 +250,7 @@ export default function HomeBBDO() {
 
       {/* CTA — with ghost text background */}
       <section className="hf">
-        <h2 className="reveal"><span>Ready</span>?</h2>
+        <h2 className="hm-rv"><span>Ready</span>?</h2>
         <Link href="/contact" className="hf-btn reveal d1">Free Revenue Analysis</Link>
       </section>
     </main>
