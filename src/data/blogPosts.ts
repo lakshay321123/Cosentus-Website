@@ -1693,10 +1693,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&q=80', alt: 'Nurse caring for patient in hospital', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80', alt: 'Doctor writing medical prescription', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3376790.jpg', alt: 'Surgical team performing operation requiring anesthesia monitoring and billing', afterSection: 0 }, { url: '/images/blog-inline/pexels-4483340.jpg', alt: 'Anesthesia machine and vital signs monitor in operating room', afterSection: 1 }],
   },
   {
     slug: 'medical-billing-guide-for-healthcare-providers-practices',
@@ -1871,10 +1868,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=800&q=80', alt: 'Medical research laboratory equipment', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&q=80', alt: 'Healthcare worker examining patient chart', afterSection: 6 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7578803.jpg', alt: 'Doctor reviewing billing charts and patient records during consultation', afterSection: 0 }, { url: '/images/blog-inline/pexels-7579828.jpg', alt: 'Physician examining diagnostic images as part of medical documentation', afterSection: 6 }],
   },
   {
     slug: 'a-guide-to-pain-management-medical-billing',
@@ -2052,10 +2046,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80', alt: 'Doctor with protective equipment', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80', alt: 'Modern hospital building exterior', afterSection: 7 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3279197.jpg', alt: 'Pain management specialist in clinical setting between procedures', afterSection: 0 }, { url: '/images/blog-inline/pexels-2324837.jpg', alt: 'Healthcare professional reviewing patient treatment records', afterSection: 7 }],
   },
   {
     slug: 'your-guide-to-medical-billing-services',
@@ -2169,10 +2160,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=800&q=80', alt: 'Medical professional in white coat', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&q=80', alt: 'Healthcare team walking through hospital', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-3182812.jpg', alt: 'Medical billing team collaborating on claims processing at computer', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699475.jpg', alt: 'Billing specialist reviewing insurance documentation and forms', afterSection: 3 }],
   },
   {
     slug: 'the-benefits-of-outsourcing-medical-billing',
@@ -2188,10 +2176,7 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=800&q=80', alt: 'Pharmacist reviewing medication', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80', alt: 'Physical therapist working with patient', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344860.jpg', alt: 'Business handshake representing outsourcing partnership agreement', afterSection: 1 }, { url: '/images/blog-inline/pexels-3184339.jpg', alt: 'Outsourced billing team collaborating on healthcare revenue management', afterSection: 3 }],
   },
   {
     slug: 'still-facing-great-resignation-in-your-business',
