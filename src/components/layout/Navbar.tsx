@@ -12,7 +12,6 @@ const navItems = [
     children: [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
-      { label: 'Cosentus.ai', href: '/cosentus-ai' },
       { label: 'WeCare', href: '/wecare' },
       { label: 'Careers', href: '/careers' },
     ],
@@ -48,6 +47,10 @@ const navItems = [
       { label: 'Events', href: '/events' },
       { label: 'Partnership', href: '/partnership' },
     ],
+  },
+  {
+    label: 'Technology',
+    href: '/cosentus-ai',
   },
 ]
 
@@ -214,21 +217,25 @@ export default function Navbar() {
         <nav className="drawer-nav">
           {navItems.map((item) => (
             <div key={item.label} className="drawer-section">
-              <button
-                className={`drawer-parent${expandedMenu === item.label ? ' expanded' : ''}`}
-                onClick={() => item.children ? toggleSubmenu(item.label) : closeDrawer()}
-              >
-                {!item.children ? (
-                  <Link href={item.href} onClick={closeDrawer}>{item.label}</Link>
-                ) : (
-                  <>
-                    <span>{item.label}</span>
-                    <svg className="drawer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </>
-                )}
-              </button>
+              {!item.children ? (
+                <Link
+                  className="drawer-parent"
+                  href={item.href}
+                  onClick={closeDrawer}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  className={`drawer-parent${expandedMenu === item.label ? ' expanded' : ''}`}
+                  onClick={() => toggleSubmenu(item.label)}
+                >
+                  <span>{item.label}</span>
+                  <svg className="drawer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              )}
               {item.children && (
                 <div className={`drawer-children${expandedMenu === item.label ? ' expanded' : ''}`}>
                   {item.children.map((child) => (
