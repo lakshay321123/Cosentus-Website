@@ -163,7 +163,7 @@ function InteractiveMindMap() {
             <div style={{
               textAlign: 'center', marginTop: 5,
               fontSize: 11, fontWeight: isActive ? 700 : 500,
-              color: isActive ? '#00B5D6' : 'var(--gray-700)',
+              color: 'white',
               lineHeight: 1.25, whiteSpace: 'pre-line',
               transition: 'all 0.3s ease',
               fontFamily: 'var(--font-display)',
