@@ -1159,10 +1159,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80', alt: 'Robotics and artificial intelligence technology', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', alt: 'Network security and digital protection', afterSection: 8 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5215024.jpg', alt: 'Physician with clipboard and stethoscope documenting patient encounter for charge capture', afterSection: 0 }, { url: '/images/blog-inline/pexels-4021775.jpg', alt: 'Healthcare professional in scrubs ready for clinical documentation', afterSection: 8 }],
   },
   {
     slug: 'radiology-billing-guide-for-medical-practices',
@@ -1391,10 +1388,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80', alt: 'Cybersecurity lock and digital data', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', alt: 'Computer circuit board technology closeup', afterSection: 11 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4226264.jpg', alt: 'Radiologist examining MRI and CT brain scan images on light panel', afterSection: 0 }, { url: '/images/blog-inline/pexels-5723882.jpg', alt: 'Diagnostic X-ray images of hand used in radiology billing', afterSection: 11 }],
   },
   {
     slug: 'health-insurance-verification-tips-for-medical-practices',
@@ -1496,10 +1490,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&q=80', alt: 'Software code on computer monitor', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80', alt: 'Woman working with modern technology', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7176026.jpg', alt: 'Medical staff verifying patient insurance information on clipboard', afterSection: 0 }, { url: '/images/blog-inline/pexels-4386464.jpg', alt: 'Stethoscope representing healthcare insurance and patient eligibility verification', afterSection: 1 }],
   },
   {
     slug: 'external-factors-affecting-your-medical-billing',
@@ -1522,10 +1513,7 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=800&q=80', alt: 'Digital transformation concept', afterSection: 1 },
-      { url: 'https://images.unsplash.com/photo-1488229297570-58520851e868?w=800&q=80', alt: 'Cloud computing and data technology', afterSection: 3 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-590016.jpg', alt: 'Financial reports and performance charts analyzing external billing factors', afterSection: 1 }, { url: '/images/blog-inline/pexels-6120171.jpg', alt: 'Analyzing healthcare revenue trends with magnifying glass and calculator', afterSection: 3 }],
   },
   {
     slug: 'obgyn-medical-billing-overcoming-complexities',
@@ -1584,10 +1572,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80', alt: 'Server room with modern infrastructure', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80', alt: 'Binary code digital background', afterSection: 2 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-7089401.jpg', alt: 'OB/GYN physician consulting with female patient during office visit', afterSection: 0 }, { url: '/images/blog-inline/pexels-3985170.jpg', alt: 'Healthcare provider administering care to female patient in clinical setting', afterSection: 2 }],
   },
   {
     slug: 'everything-to-know-about-anesthesia-medical-billing',
