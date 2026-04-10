@@ -3637,10 +3637,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=800&q=80', alt: 'Medical professional using microscope', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1582719471384-894fbb16564e?w=800&q=80', alt: 'Modern medical imaging equipment', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344886.jpg', alt: 'Healthcare financial analyst tracking accounts receivable aging and days outstanding', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344888.jpg', alt: 'Medical billing team implementing strategies to accelerate AR collections', afterSection: 1 }],
   },
   {
     slug: 'how-to-prepare-your-technology-for-2022',
@@ -3665,10 +3662,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1551190822-a9ce113ac100?w=800&q=80', alt: 'Healthcare facility with modern equipment', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?w=800&q=80', alt: 'Doctor holding medical chart clipboard', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5473955.jpg', alt: 'Healthcare IT professional upgrading practice management technology systems', afterSection: 0 }, { url: '/images/blog-inline/pexels-5473957.jpg', alt: 'Modern EHR technology infrastructure powering medical practice operations', afterSection: 1 }],
   },
   {
     slug: 'key-features-of-effective-accounts-receivable-management',
@@ -3740,10 +3734,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=800&q=80', alt: 'Medical team in scrubs walking together', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=800&q=80', alt: 'Researcher in laboratory setting', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344890.jpg', alt: 'AR management dashboard displaying key collection metrics and aging reports', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344894.jpg', alt: 'Healthcare revenue team reviewing accounts receivable performance features', afterSection: 1 }],
   },
   {
     slug: 'medical-billing-and-collection-tips',
@@ -3791,10 +3782,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80', alt: 'Medical scientist analyzing samples', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80', alt: 'Healthcare team coordinating care plan', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-5439387.jpg', alt: 'Patient billing specialist processing payments and managing collection workflows', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439389.jpg', alt: 'Medical practice front desk handling patient payment and billing inquiries', afterSection: 1 }],
   },
   {
     slug: 'medical-coding-optimization-strategies',
@@ -3848,10 +3836,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
-    images: [
-      { url: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&q=80', alt: 'Telemedicine consultation on screen', afterSection: 0 },
-      { url: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=800&q=80', alt: 'Doctor making notes on medical chart', afterSection: 1 },
-    ],
+    images: [{ url: '/images/blog-inline/pexels-4344900.jpg', alt: 'Medical coding specialist reviewing CPT and ICD documentation for accuracy', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344898.jpg', alt: 'Healthcare coding team optimizing clinical documentation and code selection', afterSection: 1 }],
   },
   {
     slug: 'optimize-medical-billing-and-collections-in-6-steps',
