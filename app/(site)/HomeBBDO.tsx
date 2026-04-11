@@ -141,17 +141,22 @@ export default function HomeBBDO() {
         .ag h2{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,80px);color:#fff;line-height:1.15;letter-spacing:-.03em}
         .ag h2 span{color:var(--primary)}
 
-        .hst{background:var(--primary);padding:clamp(80px,10vw,140px) clamp(40px,5vw,80px);overflow:hidden}
-        .hst-g{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(40px,4vw,80px);align-items:start;max-width:1300px;margin:0 auto}
-        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(44px,7vw,100px);color:#fff;line-height:1;letter-spacing:-.03em;max-width:700px}
-        .hst-line{display:flex;align-items:center;gap:12px}
-        .ii{width:clamp(140px,20vw,300px);height:clamp(70px,9vw,120px);border-radius:12px;overflow:hidden;transition:transform .5s;flex-shrink:0}
-        .ii:hover{transform:scale(1.1) rotate(-2deg)}
-        .ii img,.ii video{width:100%;height:100%;object-fit:cover}
-        .hst-r{font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.65;padding-top:clamp(20px,3vw,40px)}
-        .hst-r p{margin-bottom:24px}
-        .hst-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);background:#fff;text-decoration:none;border-radius:50px;transition:all .4s}
-        .hst-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+        .decl{background:#000;padding:0;overflow:hidden;position:relative}
+        .decl-inner{padding:clamp(80px,10vw,140px) clamp(40px,6vw,80px);max-width:1400px;margin:0 auto}
+        .decl-h{font-family:var(--font-display);font-weight:800;font-size:clamp(52px,9vw,140px);letter-spacing:-.04em;line-height:.92;margin:0}
+        .decl-h1{color:#fff}
+        .decl-vid{width:100%;height:clamp(120px,15vw,220px);overflow:hidden;margin:clamp(16px,2vw,32px) 0;border-radius:16px;position:relative}
+        .decl-vid video{width:100%;height:100%;object-fit:cover}
+        .decl-vid::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.3),transparent 20%,transparent 80%,rgba(0,0,0,.3))}
+        .decl-h2{color:var(--primary)}
+
+        .decl-proof{display:flex;gap:clamp(24px,4vw,60px);margin-top:clamp(40px,5vw,72px);padding-top:clamp(24px,3vw,40px);border-top:1px solid rgba(255,255,255,.1)}
+        .decl-p{flex:1}
+        .decl-p strong{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(14px,1.2vw,18px);color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+        .decl-p span{font-family:var(--font-display);font-weight:300;font-size:clamp(13px,1.1vw,16px);color:rgba(255,255,255,.5);line-height:1.5}
+        .decl-cta{margin-top:clamp(32px,4vw,56px)}
+        .decl-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#000;background:var(--primary);text-decoration:none;border-radius:50px;transition:all .4s}
+        .decl-btn:hover{background:#fff;transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,181,214,.3)}
 
         .hv{position:relative;height:70vh;overflow:hidden}
         .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
