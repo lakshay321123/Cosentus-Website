@@ -116,7 +116,7 @@ export default function HomeBBDO() {
       <style dangerouslySetInnerHTML={{ __html: `
         .hh{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
         .hh video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
-        .hh-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,30,50,.6) 0%,rgba(0,30,50,.1) 40%,rgba(0,30,50,.75) 100%)}
+        .hh-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.7) 100%)}
         .hh-center{position:relative;z-index:3;text-align:center}
         .hh h1{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(56px,11vw,160px);color:#fff;line-height:.88;letter-spacing:-.04em;margin:0}
         .hh h1 span{color:var(--primary)}
@@ -148,27 +148,27 @@ export default function HomeBBDO() {
 
         .ag{position:relative;height:60vh;overflow:hidden}
         .ag video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-        .ag-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,40,55,.88),rgba(0,100,120,.75));z-index:1}
+        .ag-ov{position:absolute;inset:0;background:rgba(0,0,0,.75);z-index:1}
         .ag-txt{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;transition:transform .15s ease-out}
         .ag h2{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.5vw,48px);color:#fff;line-height:1.3;letter-spacing:-.02em}
         .ag h2 span{color:var(--primary)}
 
-        .decl{background:linear-gradient(135deg,#001820 0%,#002a38 100%);padding:0;overflow:hidden;position:relative}
+        .decl{background:var(--white);padding:0;overflow:hidden;position:relative}
         .decl-inner{padding:clamp(80px,10vw,140px) clamp(40px,6vw,80px);max-width:1400px;margin:0 auto}
         .decl-h{font-family:var(--font-display);font-weight:800;font-size:clamp(52px,9vw,140px);letter-spacing:-.04em;line-height:.92;margin:0}
-        .decl-h1{color:#fff}
+        .decl-h1{color:var(--gray-900)}
         .decl-vid{width:100%;height:clamp(120px,15vw,220px);overflow:hidden;margin:clamp(16px,2vw,32px) 0;border-radius:16px;position:relative}
         .decl-vid video{width:100%;height:100%;object-fit:cover}
-        .decl-vid::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.3),transparent 20%,transparent 80%,rgba(0,0,0,.3))}
+        .decl-vid::after{content:'';position:absolute;inset:0;background:none}
         .decl-h2{color:var(--primary)}
 
-        .decl-proof{display:flex;gap:clamp(24px,4vw,60px);margin-top:clamp(40px,5vw,72px);padding-top:clamp(24px,3vw,40px);border-top:1px solid rgba(255,255,255,.1)}
+        .decl-proof{display:flex;gap:clamp(24px,4vw,60px);margin-top:clamp(40px,5vw,72px);padding-top:clamp(24px,3vw,40px);border-top:1px solid var(--gray-200)}
         .decl-p{flex:1}
-        .decl-p strong{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(14px,1.2vw,18px);color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-        .decl-p span{font-family:var(--font-display);font-weight:300;font-size:clamp(13px,1.1vw,16px);color:rgba(255,255,255,.5);line-height:1.5}
+        .decl-p strong{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(14px,1.2vw,18px);color:var(--gray-900);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+        .decl-p span{font-family:var(--font-display);font-weight:300;font-size:clamp(13px,1.1vw,16px);color:var(--gray-700);line-height:1.5}
         .decl-cta{margin-top:clamp(32px,4vw,56px)}
-        .decl-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#000;background:var(--primary);text-decoration:none;border-radius:50px;transition:all .4s}
-        .decl-btn:hover{background:#fff;transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,181,214,.3)}
+        .decl-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;border-radius:50px;transition:all .4s}
+        .decl-btn:hover{background:var(--gray-900);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
 
         /* PLATFORM */
         .plat{background:#fff;padding:clamp(80px,10vw,140px) clamp(40px,6vw,80px);overflow:hidden}
@@ -178,10 +178,10 @@ export default function HomeBBDO() {
         .plat-h em{font-style:italic;color:var(--primary)}
         .plat-desc{font-family:var(--font-display);font-size:clamp(16px,1.5vw,20px);color:var(--gray-500);line-height:1.6;font-weight:300}
         .plat-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-        .plat-num{background:linear-gradient(135deg,#002a38,#004050);padding:clamp(32px,4vw,56px) clamp(20px,2vw,32px);text-align:center;transition:background .4s}
+        .plat-num{background:var(--primary);padding:clamp(32px,4vw,56px) clamp(20px,2vw,32px);text-align:center;transition:background .4s}
         .plat-num:first-child{border-radius:16px 0 0 16px}
         .plat-num:last-child{border-radius:0 16px 16px 0}
-        .plat-num:hover{background:var(--primary)}
+        .plat-num:hover{background:var(--gray-900)}
         .plat-n{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,5vw,72px);color:#fff;line-height:1}
         .plat-nl{font-family:var(--font-display);font-size:clamp(11px,1vw,14px);font-weight:500;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:8px}
         .plat-cta{text-align:center;margin-top:clamp(32px,4vw,56px)}
@@ -190,7 +190,7 @@ export default function HomeBBDO() {
 
         .hv{position:relative;height:70vh;overflow:hidden}
         .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-        .hv-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,30,50,.75),rgba(0,60,80,.65));z-index:1}
+        .hv-ov{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:1}
         .hv-ct{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px}
         .hv h2{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,5vw,72px);color:#fff;line-height:1.15;letter-spacing:-.02em}
         .hv h2 em{font-weight:300;font-style:italic;opacity:.8}
@@ -204,7 +204,7 @@ export default function HomeBBDO() {
         .hn-card:hover{transform:scale(.97)}
         .hn-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.16,1,.3,1)}
         .hn-card:hover img{transform:scale(1.12)}
-        .hn-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,30,50,.9) 100%);z-index:1}
+        .hn-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.85) 100%);z-index:1}
         .hn-in{position:relative;z-index:2;padding:28px}
         .hn-tag{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px}
         .hn-tt{font-family:var(--font-display);font-size:20px;font-weight:700;color:#fff;line-height:1.2;text-transform:uppercase}
