@@ -140,8 +140,9 @@ export default function HomeBBDO() {
 
         .hst{background:var(--primary);padding:clamp(80px,10vw,140px) clamp(40px,5vw,80px);overflow:hidden}
         .hst-g{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(40px,4vw,80px);align-items:start;max-width:1300px;margin:0 auto}
-        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(44px,7vw,100px);color:#fff;line-height:1.05;letter-spacing:-.03em}
-        .ii{display:inline-block;width:clamp(120px,18vw,280px);height:clamp(65px,9vw,120px);border-radius:12px;overflow:hidden;vertical-align:middle;margin:0 8px;transition:transform .5s}
+        .hst-t{font-family:var(--font-display);font-weight:800;font-size:clamp(44px,7vw,100px);color:#fff;line-height:1;letter-spacing:-.03em;max-width:700px}
+        .hst-line{display:flex;align-items:center;gap:0;width:100%}
+        .ii{flex:1;height:clamp(65px,9vw,120px);border-radius:12px;overflow:hidden;transition:transform .5s;min-width:0}
         .ii:hover{transform:scale(1.1) rotate(-2deg)}
         .ii img,.ii video{width:100%;height:100%;object-fit:cover}
         .hst-r{font-family:var(--font-display);font-size:clamp(18px,2vw,26px);font-weight:400;color:rgba(255,255,255,.85);line-height:1.65;padding-top:clamp(20px,3vw,40px)}
@@ -242,9 +243,11 @@ export default function HomeBBDO() {
       <section className="hst" id="sec-stmt">
         <div className="hst-g">
           <div className="hst-t gs-stmt-txt">
-            WE ARE <span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span> COSENTUS<br />
-            <span className="ii"><video autoPlay loop muted playsInline><source src="/images/specialties-hero.mp4" type="video/mp4" /></video></span> WE DO<br />
-            BIG <span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span> THINGS
+            <div className="hst-line"><span>WE ARE</span><span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span></div>
+            <div>COSENTUS</div>
+            <div className="hst-line"><span className="ii"><video autoPlay loop muted playsInline><source src="/images/specialties-hero.mp4" type="video/mp4" /></video></span><span>WE DO</span></div>
+            <div className="hst-line"><span>BIG</span><span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span></div>
+            <div>THINGS</div>
           </div>
           <div className="hst-r gs-stmt-r">
             <p>We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
