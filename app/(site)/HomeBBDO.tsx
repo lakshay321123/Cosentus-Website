@@ -72,6 +72,18 @@ export default function HomeBBDO() {
         .from('.gs-d-proof > *', { y: 30, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'power3.out' }, '-=0.3')
         .from('.gs-d-cta', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
 
+
+      // Platform section
+      gsap.from('.gs-plat-h', { x: -80, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '#sec-plat', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
+      })
+      gsap.from('.gs-plat-desc', { x: 80, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '#sec-plat', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
+      })
+      gsap.from('.gs-plat-num', { y: 40, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: '#sec-plat', start: 'top 70%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
+      })
+
       // 7. Video text from top/bottom
       gsap.from('.gs-vtop', { y: -80, opacity: 0, duration: 1, ease: 'power3.out',
         scrollTrigger: { trigger: '#sec-video', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
@@ -158,6 +170,24 @@ export default function HomeBBDO() {
         .decl-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#000;background:var(--primary);text-decoration:none;border-radius:50px;transition:all .4s}
         .decl-btn:hover{background:#fff;transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,181,214,.3)}
 
+        /* PLATFORM */
+        .plat{background:#fff;padding:clamp(80px,10vw,140px) clamp(40px,6vw,80px);overflow:hidden}
+        .plat-inner{max-width:1400px;margin:0 auto}
+        .plat-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,80px);align-items:center;margin-bottom:clamp(48px,6vw,80px)}
+        .plat-h{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5vw,72px);color:var(--gray-900);line-height:.95;letter-spacing:-.03em}
+        .plat-h em{font-style:italic;color:var(--primary)}
+        .plat-desc{font-family:var(--font-display);font-size:clamp(16px,1.5vw,20px);color:var(--gray-500);line-height:1.6;font-weight:300}
+        .plat-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+        .plat-num{background:var(--gray-900);padding:clamp(32px,4vw,56px) clamp(20px,2vw,32px);text-align:center;transition:background .4s}
+        .plat-num:first-child{border-radius:16px 0 0 16px}
+        .plat-num:last-child{border-radius:0 16px 16px 0}
+        .plat-num:hover{background:var(--primary)}
+        .plat-n{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,5vw,72px);color:#fff;line-height:1}
+        .plat-nl{font-family:var(--font-display);font-size:clamp(11px,1vw,14px);font-weight:500;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:8px}
+        .plat-cta{text-align:center;margin-top:clamp(32px,4vw,56px)}
+        .plat-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff;background:var(--gray-900);text-decoration:none;border-radius:50px;transition:all .4s}
+        .plat-btn:hover{background:var(--primary);transform:translateY(-3px)}
+
         .hv{position:relative;height:70vh;overflow:hidden}
         .hv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
         .hv-ov{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:1}
@@ -201,6 +231,9 @@ export default function HomeBBDO() {
         @media(max-width:768px){
           .hh-ghost,.hh-geo,.hn-lab{display:none}
           .decl-proof{flex-direction:column;gap:24px}
+          .plat-top{grid-template-columns:1fr}
+          .plat-nums{grid-template-columns:1fr}
+          .plat-num:first-child,.plat-num:last-child{border-radius:16px}
           .hn{grid-template-columns:1fr}
           .hn-grid{grid-template-columns:1fr}
           .hn-card:first-child{grid-row:span 1;min-height:280px}
@@ -219,7 +252,7 @@ export default function HomeBBDO() {
         <div className={`hh-geo g3 ${showGlow ? 'on' : ''}`} />
         <div className="hh-center">
           <h1>{typed.includes('GROWTH') ? <>THINK<br /><span>{typed.slice(5)}</span></> : typed}<span className="hh-cursor" style={{ opacity: showGlow ? 0 : 1, animation: 'blink .6s step-end infinite' }} /></h1>
-          <div className={`hh-glow ${showGlow ? 'on' : ''}`}>Where Specialty Healthcare Meets Intelligent Revenue.</div>
+          <div className={`hh-glow ${showGlow ? 'on' : ''}`}>Your billing team is leaving money on the table. We pick it up.</div>
           <Link href="/contact" className={`hh-btn ${showBtn ? 'on' : ''}`}>Know More</Link>
         </div>
         <div className="hh-ghost">THINK<br />GROWTH.</div>
@@ -227,9 +260,9 @@ export default function HomeBBDO() {
 
       {/* 4. STATS */}
       <section id="sec-stats"><div className="hs">
-        <div className="hs-c gs-stat"><div className="hs-n">30%</div><div className="hs-l">Revenue Growth</div></div>
-        <div className="hs-c gs-stat"><div className="hs-n">98%+</div><div className="hs-l">Net Collection</div></div>
-        <div className="hs-c gs-stat"><div className="hs-n">99%</div><div className="hs-l">Clean Claims</div></div>
+        <div className="hs-c gs-stat"><div className="hs-n">30%</div><div className="hs-l">More Revenue</div></div>
+        <div className="hs-c gs-stat"><div className="hs-n">98%+</div><div className="hs-l">Collected</div></div>
+        <div className="hs-c gs-stat"><div className="hs-n">99%</div><div className="hs-l">Claims Paid First Time</div></div>
         <div className="hs-c gs-stat"><div className="hs-n">98.5%</div><div className="hs-l">Coding Accuracy</div></div>
       </div></section>
 
@@ -239,9 +272,9 @@ export default function HomeBBDO() {
         <div className="ag-ov" />
         <div className="ag-txt" style={{ transform: `translate(${mouseX}px, ${mouseY}px)` }}>
           <h2>
-            <div className="gs-agline">AI calls every payer.</div>
-            <div className="gs-agline">Experts fight every denial.</div>
-            <div className="gs-agline">You keep <span>every dollar.</span></div>
+            <div className="gs-agline">Claims chased before you notice them.</div>
+            <div className="gs-agline">Denials overturned before they cost you.</div>
+            <div className="gs-agline">Collections handled while you see patients.</div>
           </h2>
         </div>
       </section>
@@ -255,11 +288,28 @@ export default function HomeBBDO() {
           </div>
           <h2 className="decl-h decl-h2 gs-d-h2">WE KNOW HEALTHCARE.</h2>
           <div className="decl-proof gs-d-proof">
-            <div className="decl-p"><strong>Independently Owned</strong><span>No private equity. No quarterly pressure. Every decision is made for your practice, not our investors.</span></div>
-            <div className="decl-p"><strong>Specialty Obsessed</strong><span>Anesthesia. Orthopedics. Pain. ASC. Behavioral Health. We don&apos;t do general. We do yours.</span></div>
-            <div className="decl-p"><strong>Your Named Team</strong><span>Not a call center. Not a ticket number. Named experts who know your payers, your codes, your practice.</span></div>
+            <div className="decl-p"><strong>Will they care about MY practice?</strong><span>No investors to answer to. We only answer to you.</span></div>
+            <div className="decl-p"><strong>Do they know MY specialty?</strong><span>Anesthesia. Ortho. Pain. ASC. Behavioral Health. We already work your codes.</span></div>
+            <div className="decl-p"><strong>Will I talk to a real person?</strong><span>Named team. Direct line. They know your payers by heart.</span></div>
           </div>
-          <div className="decl-cta gs-d-cta"><Link href="/contact" className="decl-btn">Talk To Us</Link></div>
+          <div className="decl-cta gs-d-cta"><Link href="/contact" className="decl-btn">Let&apos;s Talk</Link></div>
+        </div>
+      </section>
+
+
+      {/* PLATFORM — Cosentus.ai + MedCloud */}
+      <section className="plat" id="sec-plat">
+        <div className="plat-inner">
+          <div className="plat-top">
+            <h2 className="plat-h gs-plat-h">Not Just a<br />Billing Company.<br /><em>A Platform.</em></h2>
+            <p className="plat-desc gs-plat-desc">MedCloud is our AI-native EHR and RCM platform. 23 modules. 15 AI features. 8 voice agents handling 3,000+ calls a day. Built from scratch for healthcare — not retrofitted onto legacy systems. Your practice runs on it. Or we plug into yours. Either way, AI works for you from day one.</p>
+          </div>
+          <div className="plat-nums">
+            <div className="plat-num gs-plat-num"><div className="plat-n">23</div><div className="plat-nl">Platform Modules</div></div>
+            <div className="plat-num gs-plat-num"><div className="plat-n">15</div><div className="plat-nl">AI Features</div></div>
+            <div className="plat-num gs-plat-num"><div className="plat-n">8</div><div className="plat-nl">Voice AI Agents</div></div>
+          </div>
+          <div className="plat-cta"><Link href="/cosentus-ai" className="plat-btn">Explore The Platform</Link></div>
         </div>
       </section>
 
@@ -302,8 +352,8 @@ export default function HomeBBDO() {
 
       {/* 10. CTA */}
       <section className="hf" id="sec-cta">
-        <h2 className="gs-cta gs-cta-glow">See What You&apos;re <span>Missing.</span></h2>
-        <Link href="/contact" className="hf-btn gs-cta">Get Your Free Revenue Analysis</Link>
+        <h2 className="gs-cta gs-cta-glow">How Much Revenue Are You <span>Losing?</span></h2>
+        <Link href="/contact" className="hf-btn gs-cta">Get Your Free Analysis</Link>
       </section>
     </main>
   )
