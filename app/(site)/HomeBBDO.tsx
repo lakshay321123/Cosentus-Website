@@ -148,25 +148,25 @@ export default function HomeBBDO() {
 
         .ag{position:relative;height:60vh;overflow:hidden}
         .ag video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-        .ag-ov{position:absolute;inset:0;background:rgba(0,0,0,.75);z-index:1}
+        .ag-ov{position:absolute;inset:0;background:rgba(0,0,0,.82);z-index:1}
         .ag-txt{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;transition:transform .15s ease-out}
         .ag h2{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.5vw,48px);color:#fff;line-height:1.3;letter-spacing:-.02em}
         .ag h2 span{color:var(--primary)}
 
         .decl{background:var(--white);padding:0;overflow:hidden;position:relative}
         .decl-inner{padding:clamp(80px,10vw,140px) clamp(40px,6vw,80px);max-width:1400px;margin:0 auto}
-        .decl-h{font-family:var(--font-display);font-weight:800;font-size:clamp(52px,9vw,140px);letter-spacing:-.04em;line-height:.92;margin:0}
+        .decl-h{font-family:var(--font-display);font-weight:800;font-size:clamp(44px,7vw,100px);letter-spacing:-.04em;line-height:.92;margin:0}
         .decl-h1{color:var(--gray-900)}
-        .decl-vid{width:100%;height:clamp(120px,15vw,220px);overflow:hidden;margin:clamp(16px,2vw,32px) 0;border-radius:16px;position:relative}
+        .decl-vid{width:100%;height:clamp(160px,20vw,300px);overflow:hidden;margin:clamp(20px,3vw,40px) 0;border-radius:16px;position:relative}
         .decl-vid video{width:100%;height:100%;object-fit:cover}
         .decl-vid::after{content:'';position:absolute;inset:0;background:none}
         .decl-h2{color:var(--primary)}
 
         .decl-proof{display:flex;gap:clamp(24px,4vw,60px);margin-top:clamp(40px,5vw,72px);padding-top:clamp(24px,3vw,40px);border-top:1px solid var(--gray-200)}
         .decl-p{flex:1}
-        .decl-p strong{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(14px,1.2vw,18px);color:var(--gray-900);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-        .decl-p span{font-family:var(--font-display);font-weight:300;font-size:clamp(13px,1.1vw,16px);color:var(--gray-700);line-height:1.5}
-        .decl-cta{margin-top:clamp(32px,4vw,56px)}
+        .decl-p strong{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(16px,1.4vw,20px);color:var(--gray-900);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+        .decl-p span{font-family:var(--font-display);font-weight:400;font-size:clamp(14px,1.2vw,17px);color:var(--gray-600);line-height:1.55}
+        .decl-cta{margin-top:clamp(32px,4vw,56px);text-align:center}
         .decl-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;border-radius:50px;transition:all .4s}
         .decl-btn:hover{background:var(--gray-900);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
 
@@ -178,7 +178,7 @@ export default function HomeBBDO() {
         .plat-h em{font-style:italic;color:var(--primary)}
         .plat-desc{font-family:var(--font-display);font-size:clamp(16px,1.5vw,20px);color:var(--gray-500);line-height:1.6;font-weight:300}
         .plat-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-        .plat-num{background:var(--primary);padding:clamp(32px,4vw,56px) clamp(20px,2vw,32px);text-align:center;transition:background .4s}
+        .plat-num{background:var(--primary);padding:clamp(40px,5vw,64px) clamp(24px,3vw,40px);text-align:center;transition:all .4s;box-shadow:0 8px 24px rgba(0,181,214,.2)}
         .plat-num:first-child{border-radius:16px 0 0 16px}
         .plat-num:last-child{border-radius:0 16px 16px 0}
         .plat-num:hover{background:var(--gray-900)}
@@ -212,7 +212,7 @@ export default function HomeBBDO() {
         .hn-arr{position:absolute;top:16px;right:16px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s}
         .hn-card:hover .hn-arr{background:var(--primary);border-color:var(--primary)}
 
-        .ht{min-height:50vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:100px 24px;text-align:center}
+        .ht{min-height:auto;display:flex;align-items:center;justify-content:center;background:var(--gray-50);padding:clamp(60px,8vw,100px) 24px;text-align:center}
         .ht-q{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:clamp(26px,4vw,52px);color:var(--gray-900);line-height:1.2;max-width:800px;margin:0 auto}
         .ht-a{font-family:var(--font-display);font-size:14px;color:var(--gray-500);margin-top:28px;font-weight:500}
         .ht-a span{color:var(--primary);font-weight:600}
@@ -221,7 +221,7 @@ export default function HomeBBDO() {
         .ht-dd.on{background:var(--primary);transform:scale(1.6);box-shadow:0 0 12px rgba(0,181,214,.4)}
 
         .hf{padding:140px 24px;background:var(--primary);text-align:center;position:relative;overflow:hidden}
-        .hf::before{content:'GROWTH';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:clamp(100px,20vw,300px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.12);pointer-events:none;white-space:nowrap}
+        .hf::before{display:none}
         .hf h2{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(52px,9vw,130px);color:#fff;letter-spacing:-.03em;margin-bottom:40px;position:relative;z-index:1}
         .hf h2 span{color:var(--primary)}
         .gs-cta-glow{text-shadow:0 0 40px rgba(255,255,255,.4),0 0 80px rgba(255,255,255,.15)}
@@ -302,7 +302,7 @@ export default function HomeBBDO() {
         <div className="plat-inner">
           <div className="plat-top">
             <h2 className="plat-h gs-plat-h">Not Just a<br />Billing Company.<br /><em>A Platform.</em></h2>
-            <p className="plat-desc gs-plat-desc">MedCloud is our AI-native EHR and RCM platform. 23 modules. 15 AI features. 8 voice agents handling 3,000+ calls a day. Built from scratch for healthcare — not retrofitted onto legacy systems. Your practice runs on it. Or we plug into yours. Either way, AI works for you from day one.</p>
+            <p className="plat-desc gs-plat-desc">MedCloud. AI-native from day one. Not retrofitted onto legacy systems. Your practice runs on it — or we plug into yours. 3,000+ calls handled daily. AI works for you before you walk in the door.</p>
           </div>
           <div className="plat-nums">
             <div className="plat-num gs-plat-num"><div className="plat-n">23</div><div className="plat-nl">Platform Modules</div></div>
@@ -328,7 +328,7 @@ export default function HomeBBDO() {
       {/* 8. NEWS */}
       <section className="hn" id="sec-news"><div className="hn-c"><div className="hn-grid">
         <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hn-card gs-news">
-          <img src="/images/events/gallery/Cosentus - Growth Summit 2025 - 030.jpg" alt="" /><div className="hn-in"><div className="hn-tag">Medicare Policy</div><div className="hn-tt">Congress Moves to Stop the Bleeding</div></div>
+          <img src="/images/hero-bg.jpg" alt="" /><div className="hn-in"><div className="hn-tag">Medicare Policy</div><div className="hn-tt">Congress Moves to Stop the Bleeding</div></div>
           <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
         </Link>
         <Link href="/news/cms-policy-updates-asc" className="hn-card gs-news">
@@ -352,7 +352,7 @@ export default function HomeBBDO() {
 
       {/* 10. CTA */}
       <section className="hf" id="sec-cta">
-        <h2 className="gs-cta gs-cta-glow">How Much Revenue Are You <span>Losing?</span></h2>
+        <h2 className="gs-cta gs-cta-glow">How Much Are You <span>Leaving Behind?</span></h2>
         <Link href="/contact" className="hf-btn gs-cta">Get Your Free Analysis</Link>
       </section>
     </main>
