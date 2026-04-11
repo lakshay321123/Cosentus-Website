@@ -219,7 +219,7 @@ export default function HomeBBDO() {
         <div className={`hh-geo g3 ${showGlow ? 'on' : ''}`} />
         <div className="hh-center">
           <h1>{typed.includes('GROWTH') ? <>THINK<br /><span>{typed.slice(5)}</span></> : typed}<span className="hh-cursor" style={{ opacity: showGlow ? 0 : 1, animation: 'blink .6s step-end infinite' }} /></h1>
-          <div className={`hh-glow ${showGlow ? 'on' : ''}`}>Real + Artificial Intelligence for Healthcare</div>
+          <div className={`hh-glow ${showGlow ? 'on' : ''}`}>Where Specialty Healthcare Meets Intelligent Revenue.</div>
           <Link href="/contact" className={`hh-btn ${showBtn ? 'on' : ''}`}>Know More</Link>
         </div>
         <div className="hh-ghost">THINK<br />GROWTH.</div>
@@ -239,9 +239,9 @@ export default function HomeBBDO() {
         <div className="ag-ov" />
         <div className="ag-txt" style={{ transform: `translate(${mouseX}px, ${mouseY}px)` }}>
           <h2>
-            <div className="gs-agline"><span>8</span> AI Agents.</div>
-            <div className="gs-agline"><span>1,000+</span> Experts.</div>
-            <div className="gs-agline">Zero Excuses.</div>
+            <div className="gs-agline">AI calls every payer.</div>
+            <div className="gs-agline">Experts fight every denial.</div>
+            <div className="gs-agline">You keep <span>every dollar.</span></div>
           </h2>
         </div>
       </section>
@@ -255,11 +255,11 @@ export default function HomeBBDO() {
           </div>
           <h2 className="decl-h decl-h2 gs-d-h2">WE KNOW HEALTHCARE.</h2>
           <div className="decl-proof gs-d-proof">
-            <div className="decl-p"><strong>25 Years</strong><span>Deep specialty RCM expertise across anesthesia, orthopedics, pain, ASC, and behavioral health.</span></div>
-            <div className="decl-p"><strong>8 AI Agents</strong><span>Real + Artificial Intelligence. Automation handles volume. Humans handle judgment.</span></div>
-            <div className="decl-p"><strong>Real Results</strong><span>Up to 30% revenue growth. 98%+ net collection. 99% clean claim rate.</span></div>
+            <div className="decl-p"><strong>Independently Owned</strong><span>No private equity. No quarterly pressure. Every decision is made for your practice, not our investors.</span></div>
+            <div className="decl-p"><strong>Specialty Obsessed</strong><span>Anesthesia. Orthopedics. Pain. ASC. Behavioral Health. We don&apos;t do general. We do yours.</span></div>
+            <div className="decl-p"><strong>Your Named Team</strong><span>Not a call center. Not a ticket number. Named experts who know your payers, your codes, your practice.</span></div>
           </div>
-          <div className="decl-cta gs-d-cta"><Link href="/contact" className="decl-btn">Know More</Link></div>
+          <div className="decl-cta gs-d-cta"><Link href="/contact" className="decl-btn">Talk To Us</Link></div>
         </div>
       </section>
 
@@ -302,8 +302,8 @@ export default function HomeBBDO() {
 
       {/* 10. CTA */}
       <section className="hf" id="sec-cta">
-        <h2 className="gs-cta gs-cta-glow"><span>Ready</span>?</h2>
-        <Link href="/contact" className="hf-btn gs-cta">Know More</Link>
+        <h2 className="gs-cta gs-cta-glow">See What You&apos;re <span>Missing.</span></h2>
+        <Link href="/contact" className="hf-btn gs-cta">Get Your Free Revenue Analysis</Link>
       </section>
     </main>
   )
