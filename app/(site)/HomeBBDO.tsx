@@ -66,8 +66,11 @@ export default function HomeBBDO() {
       const stTl = gsap.timeline({
         scrollTrigger: { trigger: '#sec-stmt', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
-      stTl.from('.gs-stmt-txt', { y: 50, duration: 0.8, ease: 'power3.out' })
-        .from('.gs-stmt-r > *', { y: 30, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+      stTl.from('.gs-d-h1', { x: -120, opacity: 0, duration: 1, ease: 'power3.out' })
+        .from('.gs-d-vid', { scaleX: 0, opacity: 0, duration: 0.8, ease: 'power3.out', transformOrigin: 'center center' }, '-=0.4')
+        .from('.gs-d-h2', { x: 120, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.4')
+        .from('.gs-d-proof > *', { y: 30, opacity: 0, stagger: 0.12, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+        .from('.gs-d-cta', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
 
       // 7. Video text from top/bottom
       gsap.from('.gs-vtop', { y: -80, opacity: 0, duration: 1, ease: 'power3.out',
@@ -192,8 +195,7 @@ export default function HomeBBDO() {
 
         @media(max-width:768px){
           .hh-ghost,.hh-geo,.hn-lab{display:none}
-          .hst-g{grid-template-columns:1fr}
-          .ii{width:60px;height:40px}
+          .decl-proof{flex-direction:column;gap:24px}
           .hn{grid-template-columns:1fr}
           .hn-grid{grid-template-columns:1fr}
           .hn-card:first-child{grid-row:span 1;min-height:280px}
@@ -240,20 +242,19 @@ export default function HomeBBDO() {
       </section>
 
       {/* 6. STATEMENT */}
-      <section className="hst" id="sec-stmt">
-        <div className="hst-g">
-          <div className="hst-t gs-stmt-txt">
-            <div className="hst-line"><span>THINK</span><span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span></div>
-            <div className="hst-line"><span className="ii"><video autoPlay loop muted playsInline><source src="/images/specialties-hero.mp4" type="video/mp4" /></video></span><span>GROWTH</span></div>
-            <div className="hst-line"><span>WE</span><span className="ii"><video autoPlay loop muted playsInline><source src="/images/hero-video.mp4" type="video/mp4" /></video></span><span>DO</span></div>
-            <div>BIG THINGS</div>
+      <section className="decl" id="sec-stmt">
+        <div className="decl-inner">
+          <h2 className="decl-h decl-h1 gs-d-h1">WE ARE COSENTUS.</h2>
+          <div className="decl-vid gs-d-vid">
+            <video autoPlay loop muted playsInline><source src="/images/specialties-hero.mp4" type="video/mp4" /></video>
           </div>
-          <div className="hst-r gs-stmt-r">
-            <p>We solve complex revenue problems with Real + Artificial Intelligence that makes a measurable impact.</p>
-            <p>We work with specialty practices that have the biggest ambitions.</p>
-            <p>We hire expert talent and bring them opportunities that build lasting careers.</p>
-            <div><Link href="/contact" className="hst-btn">Contact Us</Link></div>
+          <h2 className="decl-h decl-h2 gs-d-h2">WE KNOW HEALTHCARE.</h2>
+          <div className="decl-proof gs-d-proof">
+            <div className="decl-p"><strong>25 Years</strong><span>Deep specialty RCM expertise across anesthesia, orthopedics, pain, ASC, and behavioral health.</span></div>
+            <div className="decl-p"><strong>8 AI Agents</strong><span>Real + Artificial Intelligence. Automation handles volume. Humans handle judgment.</span></div>
+            <div className="decl-p"><strong>Real Results</strong><span>Up to 30% revenue growth. 98%+ net collection. 99% clean claim rate.</span></div>
           </div>
+          <div className="decl-cta gs-d-cta"><Link href="/contact" className="decl-btn">Know More</Link></div>
         </div>
       </section>
 
