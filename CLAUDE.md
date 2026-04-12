@@ -1,5 +1,9 @@
 # Claude Code Configuration - RuFlo V3
 
+## Skills
+- **graphify** (`.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
+
 ## Behavioral Rules (Always Enforced)
 
 - Do what has been asked; nothing more, nothing less
