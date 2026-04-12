@@ -198,14 +198,14 @@ export default function HomeBBDO() {
         .hn-c{padding:0 clamp(24px,4vw,60px)}
         .hn-lab{font-family:var(--font-display);font-weight:800;font-size:clamp(120px,20vw,350px);color:rgba(0,181,214,.06);writing-mode:vertical-rl;line-height:1;letter-spacing:-.04em;padding-right:20px;user-select:none}
         .hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-        .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:148px;transition:transform .5s}
-        .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:300px}
+        .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:248px;transition:transform .5s}
+        .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:500px}
         .hn-card:hover{transform:scale(.97)}
         .hn-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.16,1,.3,1)}
         .hn-card:hover img{transform:scale(1.12)}
         .hn-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.85) 100%);z-index:1}
         .hn-in{position:relative;z-index:2;padding:28px}
-        .hn-tag{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px}
+        .hn-tag{font-family:var(--font-display);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px}
         .hn-tt{font-family:var(--font-display);font-size:14px;font-weight:700;color:#fff;line-height:1.25;text-transform:uppercase}
         .hn-card:first-child .hn-tt{font-size:clamp(16px,2vw,22px)}
         .hn-arr{position:absolute;top:16px;right:16px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s}
