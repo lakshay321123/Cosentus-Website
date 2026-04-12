@@ -111,6 +111,16 @@ export default function HomeBBDO() {
     return () => ctx.revert()
   }, [])
 
+  const allNews = [
+    { href: '/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5', tag: 'Medicare Policy', title: 'Congress Moves to Stop the Bleeding', img: '/images/hero-bg.jpg' },
+    { href: '/news/cms-policy-updates-asc', tag: 'CMS Policy', title: 'Four Changes Every Specialty Must Know', img: '/images/hero-healthcare.jpg' },
+    { href: '/news/asc-reimbursement-payer-strategy', tag: 'ASC', title: 'ASC Reimbursement Under Attack', img: '/images/hero-medical.jpg' },
+    { href: '/news/prior-authorization-reform-2025', tag: 'Prior Auth', title: 'Prior Auth Reform Is Finally Here', img: '/images/hero-bg.jpg' },
+    { href: '/news/behavioral-health-billing-challenges', tag: 'Behavioral Health', title: 'The Billing Crisis Nobody Talks About', img: '/images/hero-healthcare.jpg' },
+    { href: '/news/ai-in-healthcare-rcm', tag: 'AI & RCM', title: 'AI Is Reshaping Revenue Cycle Management', img: '/images/hero-medical.jpg' },
+  ]
+  const [newsCards] = useState(() => [...allNews].sort(() => Math.random() - 0.5).slice(0, 3))
+
   return (
     <main ref={mainRef} style={{ background: 'var(--white)', overflow: 'hidden' }}>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -153,7 +163,7 @@ export default function HomeBBDO() {
         .ag h2{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.5vw,48px);color:#fff;line-height:1.3;letter-spacing:-.02em}
         .ag h2 span{color:var(--primary)}
 
-        .decl{background:var(--white);padding:0;overflow:hidden;position:relative}
+        .decl{background:var(--gray-50);padding:0;overflow:hidden;position:relative}
         .decl-inner{padding:clamp(56px,7vw,100px) clamp(40px,6vw,80px);max-width:1400px;margin:0 auto}
         .decl-h{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,76px);letter-spacing:-.04em;line-height:.92;margin:0}
         .decl-h1{color:var(--gray-900)}
@@ -212,13 +222,13 @@ export default function HomeBBDO() {
         .hn-arr{position:absolute;top:16px;right:16px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s}
         .hn-card:hover .hn-arr{background:var(--primary);border-color:var(--primary)}
 
-        .ht{min-height:auto;display:flex;align-items:center;justify-content:center;background:var(--white);padding:clamp(48px,6vw,80px) 24px;text-align:center}
-        .ht-q{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:clamp(22px,3vw,38px);color:var(--gray-900);line-height:1.2;max-width:800px;margin:0 auto}
-        .ht-a{font-family:var(--font-display);font-size:14px;color:var(--gray-500);margin-top:28px;font-weight:500}
-        .ht-a span{color:var(--primary);font-weight:600}
+        .ht{min-height:auto;display:flex;align-items:center;justify-content:center;background:var(--primary);padding:clamp(48px,6vw,80px) 24px;text-align:center}
+        .ht-q{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:clamp(22px,3vw,38px);color:#fff;line-height:1.2;max-width:800px;margin:0 auto}
+        .ht-a{font-family:var(--font-display);font-size:14px;color:rgba(255,255,255,.7);margin-top:28px;font-weight:500}
+        .ht-a span{color:#fff;font-weight:600}
         .ht-d{display:flex;justify-content:center;gap:10px;margin-top:28px}
-        .ht-dd{width:8px;height:8px;border-radius:50%;background:var(--gray-200);border:none;padding:0;cursor:pointer;transition:all .4s}
-        .ht-dd.on{background:var(--primary);transform:scale(1.6);box-shadow:0 0 12px rgba(0,181,214,.4)}
+        .ht-dd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);border:none;padding:0;cursor:pointer;transition:all .4s}
+        .ht-dd.on{background:#fff;transform:scale(1.6);box-shadow:0 0 12px rgba(255,255,255,.3)}
 
         .hf{padding:clamp(60px,8vw,100px) 24px;background:var(--white);text-align:center;position:relative;overflow:hidden}
         .hf::before{display:none}
@@ -325,20 +335,14 @@ export default function HomeBBDO() {
         </div>
       </section>
 
-      {/* 8. NEWS */}
+      {/* 8. NEWS — randomized */}
       <section className="hn" id="sec-news"><div className="hn-c"><div className="hn-grid">
-        <Link href="/news/congress-moves-to-stop-the-bleeding-new-bill-would-cap-annual-medicare-pay-cuts-at-2-5" className="hn-card gs-news">
-          <img src="/images/hero-bg.jpg" alt="" /><div className="hn-in"><div className="hn-tag">Medicare Policy</div><div className="hn-tt">Congress Moves to Stop the Bleeding</div></div>
-          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-        </Link>
-        <Link href="/news/cms-policy-updates-asc" className="hn-card gs-news">
-          <img src="/images/hero-healthcare.jpg" alt="" /><div className="hn-in"><div className="hn-tag">CMS Policy</div><div className="hn-tt">Four Changes Every Specialty Must Know</div></div>
-          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-        </Link>
-        <Link href="/news/asc-reimbursement-payer-strategy" className="hn-card gs-news">
-          <img src="/images/hero-medical.jpg" alt="" /><div className="hn-in"><div className="hn-tag">ASC</div><div className="hn-tt">ASC Reimbursement Under Attack</div></div>
-          <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
-        </Link>
+        {newsCards.map((n, i) => (
+          <Link key={i} href={n.href} className="hn-card gs-news">
+            <img src={n.img} alt="" /><div className="hn-in"><div className="hn-tag">{n.tag}</div><div className="hn-tt">{n.title}</div></div>
+            <div className="hn-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+          </Link>
+        ))}
       </div></div><div className="hn-lab">NEWS</div></section>
 
       {/* 9. TESTIMONIALS */}
