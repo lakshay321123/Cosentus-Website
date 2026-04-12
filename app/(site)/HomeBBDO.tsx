@@ -222,7 +222,7 @@ export default function HomeBBDO() {
 
         .hf{padding:clamp(60px,8vw,100px) 24px;background:var(--white);text-align:center;position:relative;overflow:hidden}
         .hf::before{display:none}
-        .hf h2{font-family:var(--font-display);font-weight:800;font-style:italic;font-size:clamp(52px,9vw,130px);color:#fff;letter-spacing:-.03em;margin-bottom:40px;position:relative;z-index:1}
+        .hf h2{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,4vw,56px);color:var(--gray-900);letter-spacing:-.02em;margin-bottom:40px;position:relative;z-index:1}
         .hf h2 span{color:var(--primary);font-style:italic}
         .gs-cta-glow{text-shadow:none}
         .hf-btn{display:inline-block;padding:18px 52px;font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#fff;background:var(--primary);text-decoration:none;transition:all .4s;position:relative;z-index:1;border-radius:50px}
