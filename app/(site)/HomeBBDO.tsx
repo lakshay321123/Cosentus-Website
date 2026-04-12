@@ -74,15 +74,7 @@ export default function HomeBBDO() {
 
 
       // Platform section
-      gsap.from('.gs-plat-h', { x: -80, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-plat', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
-      })
-      gsap.from('.gs-plat-desc', { x: 80, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-plat', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
-      })
-      gsap.from('.gs-plat-num', { y: 40, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-plat', start: 'top 70%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
-      })
+      // Platform — no GSAP, always visible
 
       // 7. Video text from top/bottom
       gsap.from('.gs-vtop', { y: -80, opacity: 0, duration: 1, ease: 'power3.out',
@@ -311,13 +303,13 @@ export default function HomeBBDO() {
       <section className="plat" id="sec-plat">
         <div className="plat-inner">
           <div className="plat-top">
-            <h2 className="plat-h gs-plat-h">Not Just a<br />Billing Company.<br /><em>A Platform.</em></h2>
-            <p className="plat-desc gs-plat-desc">MedCloud. AI-native from day one. Not retrofitted onto legacy systems. Your practice runs on it — or we plug into yours. 3,000+ calls handled daily. AI works for you before you walk in the door.</p>
+            <h2 className="plat-h">Not Just a<br />Billing Company.<br /><em>A Platform.</em></h2>
+            <p className="plat-desc">MedCloud. AI-native from day one. Not retrofitted onto legacy systems. Your practice runs on it — or we plug into yours. 3,000+ calls handled daily. AI works for you before you walk in the door.</p>
           </div>
           <div className="plat-nums">
-            <div className="plat-num gs-plat-num"><div className="plat-n">23</div><div className="plat-nl">Platform Modules</div></div>
-            <div className="plat-num gs-plat-num"><div className="plat-n">15</div><div className="plat-nl">AI Features</div></div>
-            <div className="plat-num gs-plat-num"><div className="plat-n">8</div><div className="plat-nl">Voice AI Agents</div></div>
+            <div className="plat-num"><div className="plat-n">23</div><div className="plat-nl">Platform Modules</div></div>
+            <div className="plat-num"><div className="plat-n">15</div><div className="plat-nl">AI Features</div></div>
+            <div className="plat-num"><div className="plat-n">8</div><div className="plat-nl">Voice AI Agents</div></div>
           </div>
           <div className="plat-cta"><Link href="/cosentus-ai" className="plat-btn">Explore The Platform</Link></div>
         </div>
