@@ -89,10 +89,7 @@ export default function HomeBBDO() {
         scrollTrigger: { trigger: '#sec-news', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
       })
 
-      // 9. Testimonial scale
-      gsap.from('.gs-testi', { scale: 0.85, opacity: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: '#sec-testi', start: 'top 85%', end: 'bottom 5%', toggleActions: 'play reverse play reverse' }
-      })
+      // 9. Testimonial — no GSAP, always visible
 
       // 10. CTA glow
       gsap.from('.gs-cta', { opacity: 0, scale: 0.9, duration: 1.2, ease: 'power3.out',
@@ -338,7 +335,7 @@ export default function HomeBBDO() {
       </div></div><div className="hn-lab">NEWS</div></section>
 
       {/* 9. TESTIMONIALS */}
-      <section className="ht" id="sec-testi"><div className="gs-testi">
+      <section className="ht" id="sec-testi"><div >
         <div className="ht-q">&ldquo;{quotes[qi].q}&rdquo;</div>
         <div className="ht-a">— {quotes[qi].a} &nbsp;|&nbsp; <span>{quotes[qi].t}</span></div>
         <div className="ht-d">{quotes.map((_, i) => (
