@@ -205,12 +205,12 @@ export default function HomeBBDO() {
         .hv h2{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,56px);color:#fff;line-height:1.15;letter-spacing:-.02em}
         .hv h2 em{font-weight:300;font-style:italic;opacity:.8}
 
-        .hn{background:var(--gray-50);padding:clamp(48px,6vw,72px) 0;display:grid;grid-template-columns:1fr auto;overflow:hidden}
+        .hn{background:var(--gray-50);padding:clamp(32px,4vw,48px) 0;display:grid;grid-template-columns:1fr auto;overflow:hidden}
         .hn-c{padding:0 clamp(24px,4vw,60px)}
         .hn-lab{font-family:var(--font-display);font-weight:800;font-size:clamp(120px,20vw,350px);color:rgba(0,181,214,.06);writing-mode:vertical-rl;line-height:1;letter-spacing:-.04em;padding-right:20px;user-select:none}
         .hn-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-        .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:280px;transition:transform .5s}
-        .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:564px}
+        .hn-card{position:relative;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;min-height:196px;transition:transform .5s}
+        .hn-card:first-child{grid-column:1;grid-row:span 2;min-height:400px}
         .hn-card:hover{transform:scale(.97)}
         .hn-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.16,1,.3,1)}
         .hn-card:hover img{transform:scale(1.12)}
