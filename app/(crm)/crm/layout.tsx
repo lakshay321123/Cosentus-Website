@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import GlobalSearch from '@/components/crm/GlobalSearch'
 
 const navItems = [
   { href: '/crm', label: 'Dashboard', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> },
@@ -45,6 +46,9 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', color: '#00B5D6', marginTop: 8, textTransform: 'uppercase' }}>CRM Platform</div>
         </div>
+
+        {/* Search */}
+        <GlobalSearch />
 
         {/* Nav */}
         <nav style={{ padding: '16px 12px', flex: 1 }}>
