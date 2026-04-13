@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import Link from 'next/link'
 import { supabase, Lead } from '@/lib/supabase'
 
 function TempBadge({ temp }: { temp: string }) {
@@ -166,7 +167,7 @@ export default function LeadsPage() {
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FAFAFA' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}>
                 <td style={{ padding: '14px 16px' }}>
-                  <div style={{ fontWeight: 500, color: '#000' }}>{lead.first_name} {lead.last_name}</div>
+                  <Link href={`/crm/leads/${lead.id}`} style={{ fontWeight: 500, color: '#000', textDecoration: 'none' }}>{lead.first_name} {lead.last_name}</Link>
                   <div style={{ fontSize: 12, color: '#616161' }}>{lead.practice_name}</div>
                   <div style={{ fontSize: 11, color: '#CCCCCC' }}>{lead.email}</div>
                 </td>
