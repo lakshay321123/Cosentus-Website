@@ -28,14 +28,34 @@ export default function EmailsPage() {
 
   const onReady = useCallback(() => {
     setEditorReady(true)
-    // Load default Cosentus template
     const editor = emailEditorRef.current?.editor
-    if (editor) {
-      editor.setAppearance({
-        theme: 'modern_light',
-        panels: { tools: { dock: 'left' } },
-      })
-    }
+    if (!editor) return
+
+    // Load default Cosentus template
+    editor.loadDesign({
+      body: {
+        id: 'root',
+        rows: [
+          // Header with logo
+          { id: 'row-header', cells: [1], columns: [{ id: 'col-header', contents: [{ id: 'content-logo', type: 'image', values: { src: { url: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', width: 160, height: 40 }, alt: 'Cosentus', action: { name: 'web', values: { href: 'https://cosentus.com' } }, textAlign: 'center', containerPadding: '20px 30px 5px' } }] }], values: { backgroundColor: '#00B5D6', padding: '0px' } },
+          // Tagline
+          { id: 'row-tagline', cells: [1], columns: [{ id: 'col-tagline', contents: [{ id: 'content-tagline', type: 'text', values: { text: '<p style="text-align:center;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.8)">REAL + ARTIFICIAL INTELLIGENCE</p>', containerPadding: '0px 30px 20px' } }] }], values: { backgroundColor: '#00B5D6', padding: '0px' } },
+          // Body text
+          { id: 'row-body', cells: [1], columns: [{ id: 'col-body', contents: [{ id: 'content-body', type: 'text', values: { text: '<p style="font-size:15px;line-height:1.7;color:#333333">Hi {{first_name}},</p><p style="font-size:15px;line-height:1.7;color:#333333">Click here to edit this text. Use the AI Write button above to generate content, or type your own message.</p><p style="font-size:15px;line-height:1.7;color:#333333">We help specialty practices like yours achieve up to 30% revenue growth with our Real + Artificial Intelligence approach.</p>', containerPadding: '30px 40px 10px' } }] }], values: { padding: '0px' } },
+          // Stats bar
+          { id: 'row-stats', cells: [3], columns: [
+            { id: 'col-stat1', contents: [{ id: 'stat1', type: 'text', values: { text: '<p style="text-align:center"><span style="font-size:28px;font-weight:bold;color:#00B5D6">&gt;98%</span></p><p style="text-align:center;font-size:12px;color:#666666">Net Collection</p>', containerPadding: '15px' } }] },
+            { id: 'col-stat2', contents: [{ id: 'stat2', type: 'text', values: { text: '<p style="text-align:center"><span style="font-size:28px;font-weight:bold;color:#00B5D6">&gt;99%</span></p><p style="text-align:center;font-size:12px;color:#666666">Clean Claims</p>', containerPadding: '15px' } }] },
+            { id: 'col-stat3', contents: [{ id: 'stat3', type: 'text', values: { text: '<p style="text-align:center"><span style="font-size:28px;font-weight:bold;color:#00B5D6">30%</span></p><p style="text-align:center;font-size:12px;color:#666666">Revenue Growth</p>', containerPadding: '15px' } }] },
+          ], values: { backgroundColor: '#f7f7f7', padding: '0px' } },
+          // CTA Button
+          { id: 'row-cta', cells: [1], columns: [{ id: 'col-cta', contents: [{ id: 'content-cta', type: 'button', values: { text: 'Get Your Free Revenue Analysis', href: 'https://cosentus.com/book', backgroundColor: '#00B5D6', color: '#ffffff', borderRadius: '8px', fontSize: '16px', padding: '14px 36px', textAlign: 'center', containerPadding: '20px 40px 30px' } }] }], values: { padding: '0px' } },
+          // Footer
+          { id: 'row-footer', cells: [1], columns: [{ id: 'col-footer', contents: [{ id: 'content-footer', type: 'text', values: { text: '<p style="text-align:center;font-size:12px;color:#999999">Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com</p><p style="text-align:center;font-size:11px;color:#cccccc;margin-top:4px">SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</p>', containerPadding: '20px 30px' } }] }], values: { borderTopWidth: '1px', borderTopColor: '#e5e5e5', borderTopStyle: 'solid', padding: '0px' } },
+        ],
+        values: { backgroundColor: '#f0f0f0', fontFamily: { label: 'Arial', value: 'arial,helvetica,sans-serif' }, contentWidth: '600px' },
+      },
+    })
   }, [])
 
   const saveTemplate = async () => {
@@ -131,6 +151,19 @@ export default function EmailsPage() {
             <input value={templateName} onChange={e => setTemplateName(e.target.value)} placeholder="Template name" style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, width: 150, ...S }} />
             <input value={templateSubject} onChange={e => setTemplateSubject(e.target.value)} placeholder="Subject line" style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, width: 180, ...S }} />
             <button onClick={aiGenerateSubjectLines} disabled={aiLoading} style={{ fontSize: 11, padding: '6px 10px', borderRadius: 6, border: '1px solid #00B5D6', background: '#D6EBF2', color: '#00B5D6', cursor: 'pointer', whiteSpace: 'nowrap', ...S }}>{aiLoading ? '...' : '✨ AI Subject'}</button>
+            <button onClick={async () => {
+              setAiLoading(true)
+              try {
+                const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'write_email', lead_id: previewLead || undefined, context: { purpose: 'marketing', tone: 'professional' } }) })
+                const data = await res.json()
+                if (data.body) {
+                  await navigator.clipboard.writeText(data.body)
+                  if (data.subject && !templateSubject) setTemplateSubject(data.subject)
+                  alert('AI generated email body copied to clipboard!\n\nClick any text block in the editor and paste (Ctrl+V / Cmd+V).\n\n---\n' + data.body)
+                } else { alert(data.error || 'AI generation failed') }
+              } catch { alert('AI request failed') }
+              setAiLoading(false)
+            }} disabled={aiLoading} style={{ fontSize: 11, padding: '6px 10px', borderRadius: 6, border: '1px solid #00B5D6', background: '#00B5D6', color: '#fff', cursor: 'pointer', whiteSpace: 'nowrap', ...S }}>{aiLoading ? '...' : '✨ AI Write Body'}</button>
             <select value={previewLead} onChange={e => setPreviewLead(e.target.value)} style={{ fontSize: 12, padding: '6px 8px', borderRadius: 6, border: '1px solid #E6E6E6', ...S }}>
               <option value="">Preview lead...</option>
               {leads.map((l: any) => <option key={l.id} value={l.id}>{l.first_name} {l.last_name}</option>)}
