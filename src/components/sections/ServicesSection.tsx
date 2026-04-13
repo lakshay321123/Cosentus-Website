@@ -8,7 +8,7 @@ const services = [
   {
     num: '01',
     title: 'Medical Billing & Coding',
-    desc: 'Specialty-trained coders and billers. End-to-end claim submission, denial management, appeals, and follow-up — 98.5% coding accuracy and >99% clean claim rates.',
+    desc: 'Specialty-trained billing, coding, and denial management.',
     href: '/services/billing-coding',
     stat: '98.5%',
     statLabel: 'Coding Accuracy',
@@ -16,7 +16,7 @@ const services = [
   {
     num: '02',
     title: 'Complete Practice Management',
-    desc: 'Front desk operations, credentialing, scheduling, financial counseling, and operational support — so your team can focus on patients.',
+    desc: 'Front desk, operations, credentialing, and financial support.',
     href: '/services/practice-management',
     stat: '5–15%',
     statLabel: 'Additional Revenue',
@@ -24,7 +24,7 @@ const services = [
   {
     num: '03',
     title: 'EHR & Technology',
-    desc: 'EHR agnostic — seamlessly integrated with your existing systems. Or upgrade to Medcloud for real-time analytics and AI-powered workflows.',
+    desc: 'EHR agnostic. Seamlessly integrated with your systems, or upgrade to Medcloud.',
     href: '/services/ehr-technology',
     stat: '20+',
     statLabel: 'EHR Integrations',
@@ -32,7 +32,7 @@ const services = [
   {
     num: '04',
     title: 'Comprehensive RCM',
-    desc: 'The full revenue cycle managed end-to-end: eligibility, coding, submission, denials, payments, patient collections, and reporting.',
+    desc: 'Eligibility, coding, submission, denials, payments, patient collections, and reporting.',
     href: '/services/rcm',
     stat: '>98%',
     statLabel: 'Net Collection',
