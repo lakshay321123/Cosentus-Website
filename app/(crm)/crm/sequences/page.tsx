@@ -20,6 +20,7 @@ export default function SequencesPage() {
   const [leads, setLeads] = useState<LeadOption[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [editing, setEditing] = useState<Sequence | null>(null)
   const [enrolling, setEnrolling] = useState<string | null>(null)
 

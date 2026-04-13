@@ -53,19 +53,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'first_name and last_name are required' }, { status: 400 })
     }
 
-    // Check for duplicates by email
+    // Check for duplicates by email, phone, or practice+name combo
+    let existingId: string | null = null
     if (email) {
-      const { data: existing } = await supabase.from('leads').select('id').eq('email', email).limit(1)
-      if (existing && existing.length > 0) {
-        // Update existing lead's last_activity and add activity log
-        await supabase.from('leads').update({ last_activity: new Date().toISOString() }).eq('id', existing[0].id)
-        await supabase.from('activities').insert({
-          lead_id: existing[0].id,
-          type: source === 'voice_agent' ? 'call' : 'chat',
-          description: `Returning lead — new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
-        })
-        return NextResponse.json({ success: true, lead_id: existing[0].id, duplicate: true })
-      }
+      const { data } = await supabase.from('leads').select('id').eq('email', email).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (!existingId && phone) {
+      const { data } = await supabase.from('leads').select('id').eq('phone', phone).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (!existingId && practice_name && last_name) {
+      const { data } = await supabase.from('leads').select('id').eq('practice_name', practice_name).eq('last_name', last_name).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (existingId) {
+      await supabase.from('leads').update({ last_activity: new Date().toISOString() }).eq('id', existingId)
+      await supabase.from('activities').insert({
+        lead_id: existingId,
+        type: source === 'voice_agent' ? 'call' : 'chat',
+        description: `Returning lead — new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
+      })
+      return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }
 
     // Calculate AI score

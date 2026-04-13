@@ -20,6 +20,7 @@ export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [filter, setFilter] = useState('all')
 
   useEffect(() => {
