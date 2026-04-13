@@ -36,7 +36,7 @@ export default function CRMLogin() {
               WebkitAppearance: 'none',
             }}
           />
-          {error && <div style={{ fontSize: 14, color: '#616161', marginTop: 10 }}>{error}</div>}
+          {error && <div style={{ fontSize: 14, color: '#000000', marginTop: 10 }}>{error}</div>}
           <button type="submit" disabled={loading} style={{
             width: '100%', padding: '14px', marginTop: 18, borderRadius: 14,
             background: '#00B5D6', color: '#fff', border: 'none',

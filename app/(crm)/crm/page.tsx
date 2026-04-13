@@ -32,7 +32,7 @@ function Notification({ lead, onClose }: { lead: Lead; onClose: () => void }) {
         <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#E6E6E6', fontSize: 16 }}>×</button>
       </div>
       <div style={{ fontSize: 15, fontWeight: 600, color: '#000000' }}>{lead.first_name} {lead.last_name}</div>
-      <div style={{ fontSize: 13, color: '#CCCCCC' }}>{lead.practice_name}</div>
+      <div style={{ fontSize: 13, color: '#000000' }}>{lead.practice_name}</div>
     </div>
   )
 }
@@ -84,7 +84,7 @@ export default function CRMDashboard() {
 
   const typeIcons: Record<string, string> = { call: '📞', email: '✉️', chat: '💬', meeting: '📅', note: '📝', status_change: '↻', task: '☑️' }
 
-  if (loading) return <div style={{ padding: 48, color: '#CCCCCC', fontSize: 15 }}>Loading...</div>
+  if (loading) return <div style={{ padding: 48, color: '#000000', fontSize: 15 }}>Loading...</div>
 
   return (
     <>
@@ -126,7 +126,7 @@ export default function CRMDashboard() {
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             {stageData.map((s, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#CCCCCC' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#000000' }}>
                 <div style={{ width: 8, height: 8, borderRadius: 3, background: stageColors[s.stage] }} />
                 <span style={{ textTransform: 'capitalize' }}>{s.stage}</span>
                 <span style={{ fontWeight: 600, color: '#000000' }}>${Math.round(s.value / 1000)}K</span>
@@ -151,7 +151,7 @@ export default function CRMDashboard() {
                   <tr key={l.id}>
                     <td>
                       <Link href={`/crm/leads/${l.id}`} style={{ color: '#000000', textDecoration: 'none', fontWeight: 500, fontSize: 14 }}>{l.first_name} {l.last_name}</Link>
-                      <div style={{ fontSize: 12, color: '#CCCCCC', marginTop: 1 }}>{l.practice_name}</div>
+                      <div style={{ fontSize: 12, color: '#000000', marginTop: 1 }}>{l.practice_name}</div>
                     </td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -182,7 +182,7 @@ export default function CRMDashboard() {
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 13, color: '#000000', lineHeight: 1.4 }}>
                       {a.lead && <strong>{a.lead.first_name} {a.lead.last_name}</strong>}
-                      {a.lead && ' — '}<span style={{ color: '#CCCCCC' }}>{a.description?.substring(0, 60)}{(a.description?.length || 0) > 60 ? '...' : ''}</span>
+                      {a.lead && ' — '}<span style={{ color: '#000000' }}>{a.description?.substring(0, 60)}{(a.description?.length || 0) > 60 ? '...' : ''}</span>
                     </div>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export default function CRMDashboard() {
                   <div style={{ width: 6, height: 6, borderRadius: '50%', background: t.priority === 'high' ? '#616161' : t.priority === 'medium' ? '#68D1E6' : '#36C2DE', flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 14, fontWeight: 500, color: '#000000' }}>{t.title}</div>
-                    {t.lead && <div style={{ fontSize: 12, color: '#CCCCCC' }}>{t.lead.first_name} {t.lead.last_name}</div>}
+                    {t.lead && <div style={{ fontSize: 12, color: '#000000' }}>{t.lead.first_name} {t.lead.last_name}</div>}
                   </div>
                 </div>
               ))}

@@ -11,7 +11,7 @@ export default function AnalyticsPage() {
     supabase.from('leads').select('*').then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
   }, [])
 
-  if (loading) return <div style={{ padding: 48, color: '#CCCCCC' }}>Loading...</div>
+  if (loading) return <div style={{ padding: 48, color: '#000000' }}>Loading...</div>
 
   const total = leads.length
   const won = leads.filter(l => l.status === 'won')
@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
   const statIcon = (d: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div className="crm-animate-in" style={{ marginBottom: 28 }}>
         <h1 className="crm-h1">Analytics</h1>
         <p className="crm-subtitle">All Leads · {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {stageData.map((s, i) => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 80, fontSize: 13, color: '#616161', textAlign: 'right', textTransform: 'capitalize' }}>{s.stage}</div>
+                <div style={{ width: 80, fontSize: 13, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{s.stage}</div>
                 <div style={{ flex: 1, height: 28, background: '#D6EBF2', borderRadius: 8, overflow: 'hidden' }}>
                   <div style={{ width: `${(s.count / maxStage) * 100}%`, height: '100%', background: i === stages.length - 1 ? '#00B5D6' : '#00B5D6', borderRadius: 8, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 10, minWidth: s.count > 0 ? 36 : 0 }}>
                     <span style={{ fontSize: 12, fontWeight: 600, color: '#fff' }}>{s.count}</span>
@@ -123,7 +123,7 @@ export default function AnalyticsPage() {
               {sourceEntries.map((e, i) => (
                 <div key={e[0]} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: donutColors[i % donutColors.length] }} />
-                  <span style={{ color: '#616161', textTransform: 'capitalize' }}>{e[0]}</span>
+                  <span style={{ color: '#000000', textTransform: 'capitalize' }}>{e[0]}</span>
                   <span style={{ fontWeight: 600, color: '#000000' }}>{Math.round((e[1] / donutTotal) * 100)}%</span>
                 </div>
               ))}
@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
             const maxVal = Math.max(...specEntries.map(s => s[1].value), 1)
             return (
               <div key={e[0]} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-                <div style={{ width: 100, fontSize: 13, color: '#616161', textAlign: 'right', textTransform: 'capitalize' }}>{e[0]}</div>
+                <div style={{ width: 100, fontSize: 13, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{e[0]}</div>
                 <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${(e[1].value / maxVal) * 100}%`, height: '100%', background: donutColors[i % donutColors.length], borderRadius: 6, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)' }} />
                 </div>

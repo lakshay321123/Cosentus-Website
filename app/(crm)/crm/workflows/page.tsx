@@ -54,14 +54,14 @@ export default function WorkflowsPage() {
     await supabase.from('workflows').update({ status: s }).eq('id', wf.id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading workflows...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading workflows...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Workflows</h1>
-          <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>Automate actions based on triggers</p>
+          <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Automate actions based on triggers</p>
         </div>
         <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ Create Workflow</button>
       </div>
@@ -78,7 +78,7 @@ export default function WorkflowsPage() {
               <select name="trigger_type" required style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white', marginBottom: 8 }}>
                 {Object.entries(triggerLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
-              <div style={{ fontSize: 11, color: '#CCCCCC', marginBottom: 8 }}>Condition (optional):</div>
+              <div style={{ fontSize: 11, color: '#000000', marginBottom: 8 }}>Condition (optional):</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 1fr', gap: 6 }}>
                 <select name="condition_field" style={{ padding: '6px 8px', borderRadius: 4, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 12, background: 'white' }}>
                   <option value="">Field...</option><option value="ai_score">AI Score</option>
@@ -102,7 +102,7 @@ export default function WorkflowsPage() {
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Workflow</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#CCCCCC', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#000000', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -115,13 +115,13 @@ export default function WorkflowsPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#000000' }}>{wf.name}</div>
-              <div style={{ fontSize: 12, color: '#CCCCCC', marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: '#000000', marginTop: 2 }}>
                 When <strong>{triggerLabels[wf.trigger_type]}</strong>
                 {wf.trigger_config?.field && <> and {wf.trigger_config.field} {wf.trigger_config.operator} {wf.trigger_config.value}</>}
                 {wf.actions?.[0] && <> → <strong>{actionTypes.find(a => a.value === wf.actions[0].type)?.label}</strong>: {wf.actions[0].value}</>}
               </div>
             </div>
-            <div style={{ fontSize: 12, color: '#CCCCCC', textAlign: 'right' }}>
+            <div style={{ fontSize: 12, color: '#000000', textAlign: 'right' }}>
               <div>{wf.executions} runs</div>
             </div>
             <button onClick={() => toggleStatus(wf)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', background: 'white', fontSize: 12, cursor: 'pointer', color: wf.status === 'active' ? '#854F0B' : '#085041' }}>

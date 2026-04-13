@@ -81,14 +81,14 @@ export default function TasksPage() {
 
   const isOverdue = (t: Task) => t.due_date && new Date(t.due_date) < new Date() && t.status === 'pending'
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading tasks...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading tasks...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Tasks</h1>
-          <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>
+          <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>
             {filtered.length} tasks{overdue > 0 && <span style={{ color: '#E24B4A', fontWeight: 600 }}> · {overdue} overdue</span>}
           </p>
         </div>
@@ -125,14 +125,14 @@ export default function TasksPage() {
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Task</button>
-            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#CCCCCC', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#000000', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
 
       {filtered.length === 0 ? (
         <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: '60px 40px', textAlign: 'center' }}>
-          <div style={{ fontSize: 14, color: '#CCCCCC' }}>No {filter === 'all' ? '' : filter} tasks</div>
+          <div style={{ fontSize: 14, color: '#000000' }}>No {filter === 'all' ? '' : filter} tasks</div>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

@@ -47,13 +47,13 @@ export default function ForecastPage() {
     repMap[rep].deals++
   })
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading forecast...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading forecast...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Revenue Forecast</h1>
-        <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>AI-weighted pipeline predictions based on stage probability</p>
+        <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>AI-weighted pipeline predictions based on stage probability</p>
       </div>
 
       {/* Top stats */}
@@ -81,9 +81,9 @@ export default function ForecastPage() {
             { label: 'Next Month', value: month2, pct: 70 },
             { label: 'Month 3', value: month3, pct: 100 },
           ].map((m, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#D6EBF2' }}>
+            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#00B5D6', color: '#fff' }}>
               <div style={{ fontSize: 32, fontWeight: 300, color: '#00B5D6', lineHeight: 1 }}>${Math.round(m.value / 1000)}K</div>
-              <div style={{ fontSize: 13, color: '#CCCCCC', marginTop: 8 }}>{m.label}</div>
+              <div style={{ fontSize: 13, color: '#000000', marginTop: 8 }}>{m.label}</div>
               <div style={{ width: '80%', height: 4, borderRadius: 2, background: '#E6E6E6', margin: '12px auto 0', overflow: 'hidden' }}>
                 <div style={{ width: `${m.pct}%`, height: '100%', background: '#00B5D6', borderRadius: 2 }} />
               </div>
@@ -100,7 +100,7 @@ export default function ForecastPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {stageData.map(s => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 90, fontSize: 12, color: '#CCCCCC', textTransform: 'capitalize', textAlign: 'right' }}>{s.stage}</div>
+                <div style={{ width: 90, fontSize: 12, color: '#000000', textTransform: 'capitalize', textAlign: 'right' }}>{s.stage}</div>
                 <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${rawTotal > 0 ? (s.total / rawTotal) * 100 : 0}%`, height: '100%', background: '#E6E6E6', borderRadius: 4 }} />
                   <div style={{ position: 'absolute', top: 0, left: 0, width: `${rawTotal > 0 ? (s.weighted / rawTotal) * 100 : 0}%`, height: '100%', background: '#00B5D6', borderRadius: 4 }} />
@@ -109,7 +109,7 @@ export default function ForecastPage() {
                   <span style={{ fontWeight: 600, color: '#00B5D6' }}>${Math.round(s.weighted / 1000)}K</span>
                   <span style={{ color: '#E6E6E6' }}> / ${Math.round(s.total / 1000)}K</span>
                 </div>
-                <div style={{ width: 32, fontSize: 11, color: '#CCCCCC', textAlign: 'right' }}>{Math.round(s.pct * 100)}%</div>
+                <div style={{ width: 32, fontSize: 11, color: '#000000', textAlign: 'right' }}>{Math.round(s.pct * 100)}%</div>
               </div>
             ))}
           </div>
@@ -122,7 +122,7 @@ export default function ForecastPage() {
             <thead>
               <tr style={{ borderBottom: '0.5px solid #E6E6E6' }}>
                 {['Rep', 'Deals', 'Raw', 'Weighted'].map(h => (
-                  <th key={h} style={{ textAlign: h === 'Rep' ? 'left' : 'right', padding: '8px 0', fontWeight: 500, color: '#CCCCCC', fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
+                  <th key={h} style={{ textAlign: h === 'Rep' ? 'left' : 'right', padding: '8px 0', fontWeight: 500, color: '#000000', fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -131,7 +131,7 @@ export default function ForecastPage() {
                 <tr key={rep} style={{ borderBottom: '0.5px solid #E6E6E6' }}>
                   <td style={{ padding: '10px 0', fontWeight: 500 }}>{rep}</td>
                   <td style={{ padding: '10px 0', textAlign: 'right' }}>{data.deals}</td>
-                  <td style={{ padding: '10px 0', textAlign: 'right', color: '#CCCCCC' }}>${Math.round(data.total / 1000)}K</td>
+                  <td style={{ padding: '10px 0', textAlign: 'right', color: '#000000' }}>${Math.round(data.total / 1000)}K</td>
                   <td style={{ padding: '10px 0', textAlign: 'right', fontWeight: 600, color: '#00B5D6' }}>${Math.round(data.weighted / 1000)}K</td>
                 </tr>
               ))}

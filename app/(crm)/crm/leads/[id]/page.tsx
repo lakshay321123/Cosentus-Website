@@ -55,15 +55,15 @@ export default function LeadDetailPage() {
     setNote('')
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading lead...</div>
-  if (!lead) return <div style={{ padding: 40, color: '#CCCCCC' }}>Lead not found</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading lead...</div>
+  if (!lead) return <div style={{ padding: 40, color: '#000000' }}>Lead not found</div>
 
   const scoreColor = lead.ai_score >= 80 ? '#00B5D6' : lead.ai_score >= 50 ? '#EF9F27' : '#CCCCCC'
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       {/* Back */}
-      <Link href="/crm/leads" style={{ fontSize: 13, color: '#CCCCCC', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
+      <Link href="/crm/leads" style={{ fontSize: 13, color: '#000000', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Back to Leads
       </Link>
@@ -72,16 +72,16 @@ export default function LeadDetailPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>{lead.first_name} {lead.last_name}</h1>
-          <p style={{ fontSize: 16, color: '#CCCCCC', margin: '4px 0 0' }}>{lead.practice_name}</p>
+          <p style={{ fontSize: 16, color: '#000000', margin: '4px 0 0' }}>{lead.practice_name}</p>
           <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
             <TempBadge temp={lead.temperature} />
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC' }}>{sourceLabels[lead.source] || lead.source}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#000000', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#000000' }}>{sourceLabels[lead.source] || lead.source}</span>
           </div>
         </div>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, fontWeight: 300, color: scoreColor, lineHeight: 1 }}>{lead.ai_score}</div>
-          <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>AI Score</div>
+          <div style={{ fontSize: 11, color: '#000000', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>AI Score</div>
           <button onClick={async () => {
             const res = await fetch('/api/crm/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead_id: lead.id }) })
             const result = await res.json()
@@ -101,7 +101,7 @@ export default function LeadDetailPage() {
               alert(`Enriched! ${result.updates_applied} fields updated.\n\nPractice type: ${result.enriched.practice_type}\nComplexity: ${result.enriched.billing_complexity}\nGrowth: ${result.enriched.growth_potential}\n\nTalking points:\n${(result.enriched.talking_points || []).map((p: string, i: number) => `${i+1}. ${p}`).join('\n')}`)
               window.location.reload()
             } else { alert('Enrichment failed: ' + (result.error || 'unknown')) }
-          }} style={{ marginTop: 4, fontSize: 11, color: '#CCCCCC', background: 'none', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+          }} style={{ marginTop: 4, fontSize: 11, color: '#000000', background: 'none', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
             Enrich Data
           </button>
         </div>
@@ -127,7 +127,7 @@ export default function LeadDetailPage() {
         {/* Left: Contact details */}
         <div>
           <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Contact Details</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Contact Details</h3>
             {[
               { label: 'Email', value: lead.email },
               { label: 'Phone', value: lead.phone },
@@ -137,7 +137,7 @@ export default function LeadDetailPage() {
               { label: 'Assigned To', value: lead.assigned_to },
             ].filter(f => f.value).map(f => (
               <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '0.5px solid #E6E6E6', fontSize: 13 }}>
-                <span style={{ color: '#CCCCCC' }}>{f.label}</span>
+                <span style={{ color: '#000000' }}>{f.label}</span>
                 <span style={{ fontWeight: 500, color: '#000000' }}>{f.value}</span>
               </div>
             ))}
@@ -145,7 +145,7 @@ export default function LeadDetailPage() {
 
           {lead.notes && (
             <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Notes</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Notes</h3>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: '#000000', margin: 0 }}>{lead.notes}</p>
             </div>
           )}
@@ -154,7 +154,7 @@ export default function LeadDetailPage() {
         {/* Right: Activity timeline */}
         <div>
           <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Activity Timeline</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Activity Timeline</h3>
 
             {/* Add note */}
             <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>

@@ -53,20 +53,20 @@ export default function ReportsPage() {
 
   const activeMetrics = metrics.filter(m => selectedMetrics.includes(m.id))
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading report data...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading report data...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Report Builder</h1>
-        <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>Build custom reports from your CRM data</p>
+        <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Build custom reports from your CRM data</p>
       </div>
 
       {/* Controls */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
         {/* Metrics */}
         <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#CCCCCC', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Select Metrics</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Select Metrics</div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {metrics.map(m => (
               <button key={m.id} onClick={() => toggleMetric(m.id)} style={{
@@ -81,7 +81,7 @@ export default function ReportsPage() {
 
         {/* Dimension + Filters */}
         <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#CCCCCC', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Group By & Filters</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Group By & Filters</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <select value={selectedDimension} onChange={e => setSelectedDimension(e.target.value)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 12, background: 'white' }}>
               {dimensions.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
@@ -110,7 +110,7 @@ export default function ReportsPage() {
           return (
             <div key={m.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: '20px', textAlign: 'center' }}>
               <div style={{ fontSize: 32, fontWeight: 300, color: '#00B5D6', lineHeight: 1 }}>{display}</div>
-              <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{m.label}</div>
+              <div style={{ fontSize: 11, color: '#000000', marginTop: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{m.label}</div>
             </div>
           )
         })}
@@ -120,10 +120,10 @@ export default function ReportsPage() {
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '0.5px solid #E6E6E6', background: '#D6EBF2' }}>
-              <th style={{ textAlign: 'left', padding: '12px 16px', fontWeight: 500, color: '#CCCCCC', fontSize: 11, textTransform: 'uppercase' }}>{dim.label.replace('By ', '')}</th>
+            <tr style={{ borderBottom: '0.5px solid #E6E6E6', background: '#00B5D6', color: '#fff' }}>
+              <th style={{ textAlign: 'left', padding: '12px 16px', fontWeight: 500, color: '#000000', fontSize: 11, textTransform: 'uppercase' }}>{dim.label.replace('By ', '')}</th>
               {activeMetrics.map(m => (
-                <th key={m.id} style={{ textAlign: 'right', padding: '12px 16px', fontWeight: 500, color: '#CCCCCC', fontSize: 11, textTransform: 'uppercase' }}>{m.label}</th>
+                <th key={m.id} style={{ textAlign: 'right', padding: '12px 16px', fontWeight: 500, color: '#000000', fontSize: 11, textTransform: 'uppercase' }}>{m.label}</th>
               ))}
             </tr>
           </thead>
@@ -139,7 +139,7 @@ export default function ReportsPage() {
               </tr>
             ))}
             {/* Total row */}
-            <tr style={{ borderTop: '2px solid #E6E6E6', background: '#D6EBF2' }}>
+            <tr style={{ borderTop: '2px solid #E6E6E6', background: '#00B5D6', color: '#fff' }}>
               <td style={{ padding: '12px 16px', fontWeight: 600, color: '#000000' }}>Total</td>
               {activeMetrics.map(m => {
                 const val = m.calc(filtered)
@@ -153,18 +153,18 @@ export default function ReportsPage() {
 
       {/* Visual bars */}
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginTop: 20 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', color: '#CCCCCC', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Distribution</h3>
+        <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Distribution</h3>
         {Object.entries(groups).sort((a, b) => b[1].length - a[1].length).map(([group, groupLeads]) => {
           const pct = filtered.length > 0 ? Math.round((groupLeads.length / filtered.length) * 100) : 0
           return (
             <div key={group} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-              <div style={{ width: 120, fontSize: 12, color: '#CCCCCC', textAlign: 'right', textTransform: 'capitalize' }}>{group}</div>
+              <div style={{ width: 120, fontSize: 12, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{group}</div>
               <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${pct}%`, height: '100%', background: '#00B5D6', borderRadius: 4, minWidth: pct > 0 ? 4 : 0, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 8, transition: 'width 0.6s' }}>
                   {pct > 12 && <span style={{ fontSize: 11, fontWeight: 600, color: 'white' }}>{groupLeads.length}</span>}
                 </div>
               </div>
-              {pct <= 12 && <span style={{ fontSize: 12, fontWeight: 600, color: '#CCCCCC', minWidth: 24 }}>{groupLeads.length}</span>}
+              {pct <= 12 && <span style={{ fontSize: 12, fontWeight: 600, color: '#000000', minWidth: 24 }}>{groupLeads.length}</span>}
               <span style={{ fontSize: 11, color: '#E6E6E6', minWidth: 32 }}>{pct}%</span>
             </div>
           )

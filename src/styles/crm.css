@@ -1,26 +1,23 @@
-/* Cosentus CRM — MedCloud-inspired Design System */
-/* Matches the soft white/gray/teal palette of MedCloud app */
+/* Cosentus CRM — Brand Palette Only */
+/* #00B5D6 #36C2DE #68D1E6 #A1DEED #D6EBF2 */
+/* #E6E6E6 #CCCCCC #616161 #000000 #FFFFFF */
 
 .crm-page {
   font-family: 'Reddit Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #616161;
+  color: #000000;
 }
 
-/* Cards — soft white, barely-there border */
+/* Cards */
 .crm-card {
   background: #fff;
   border-radius: 14px;
   padding: 24px;
   border: 1px solid #E6E6E6;
-  transition: box-shadow 0.3s ease;
 }
-.crm-card:hover {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-}
+.crm-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
 
-/* Stat cards — like MedCloud: label top-left, icon top-right, value bottom */
+/* Stat cards */
 .crm-stat {
   background: #fff;
   border-radius: 14px;
@@ -28,178 +25,61 @@
   border: 1px solid #E6E6E6;
   position: relative;
 }
-.crm-stat-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #c0c6cc;
-}
-.crm-stat-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #616161;
-  margin-bottom: 12px;
-}
-.crm-stat-value {
-  font-size: 28px;
-  font-weight: 600;
-  color: #00B5D6;
-  letter-spacing: -0.01em;
-  line-height: 1;
-}
-.crm-stat-sub {
-  font-size: 13px;
-  color: #CCCCCC;
-  margin-top: 6px;
-}
-.crm-stat.accent {
-  background: linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%);
-  border: none;
-}
-.crm-stat.accent .crm-stat-label { color: rgba(255,255,255,0.7); }
-.crm-stat.accent .crm-stat-value { color: #fff; }
-.crm-stat.accent .crm-stat-sub { color: rgba(255,255,255,0.5); }
+.crm-stat-icon { position: absolute; top: 20px; right: 20px; color: #CCCCCC; }
+.crm-stat-label { font-size: 13px; font-weight: 500; color: #000000; margin-bottom: 12px; }
+.crm-stat-value { font-size: 28px; font-weight: 600; color: #00B5D6; line-height: 1; }
+.crm-stat-sub { font-size: 13px; color: #000000; margin-top: 6px; }
+.crm-stat.accent { background: #00B5D6; border: none; }
+.crm-stat.accent .crm-stat-label,
+.crm-stat.accent .crm-stat-value,
+.crm-stat.accent .crm-stat-sub { color: #fff; }
 .crm-stat.accent .crm-stat-icon { color: rgba(255,255,255,0.3); }
 
-/* Headings — softer, not black */
-.crm-h1 {
-  font-size: 26px;
-  font-weight: 600;
-  color: #000000;
-  margin: 0;
-}
-.crm-h2 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #000000;
-  margin: 0;
-}
-.crm-subtitle {
-  font-size: 14px;
-  color: #CCCCCC;
-  margin: 4px 0 0;
-}
+/* Headings — BLACK */
+.crm-h1 { font-size: 26px; font-weight: 600; color: #000000; margin: 0; }
+.crm-h2 { font-size: 16px; font-weight: 600; color: #000000; margin: 0; }
+.crm-subtitle { font-size: 14px; color: #000000; margin: 4px 0 0; }
 
 /* Segmented control */
-.crm-segment {
-  display: inline-flex;
-  background: #D6EBF2;
-  border-radius: 10px;
-  padding: 3px;
-  gap: 2px;
-}
-.crm-segment button {
-  padding: 7px 16px;
-  border-radius: 8px;
-  border: none;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Reddit Sans', sans-serif;
-  color: #CCCCCC;
-  background: transparent;
-}
-.crm-segment button.active {
-  background: #00B5D6;
-  color: #fff;
-}
+.crm-segment { display: inline-flex; background: #E6E6E6; border-radius: 10px; padding: 3px; gap: 2px; }
+.crm-segment button { padding: 7px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Reddit Sans', sans-serif; color: #000000; background: transparent; }
+.crm-segment button.active { background: #00B5D6; color: #fff; }
 
 /* Buttons */
-.crm-btn {
-  padding: 10px 22px;
-  border-radius: 10px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Reddit Sans', sans-serif;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.crm-btn-primary {
-  background: #00B5D6;
-  color: #fff;
-}
+.crm-btn { padding: 10px 22px; border-radius: 10px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Reddit Sans', sans-serif; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.crm-btn-primary { background: #00B5D6; color: #fff; }
 .crm-btn-primary:hover { background: #36C2DE; }
-.crm-btn-secondary {
-  background: #D6EBF2;
-  color: #616161;
-}
-.crm-btn-secondary:hover { background: #E6E6E6; }
-.crm-btn-ghost {
-  background: transparent;
-  color: #00B5D6;
-  padding: 10px 14px;
-}
+.crm-btn-secondary { background: #E6E6E6; color: #000000; }
+.crm-btn-secondary:hover { background: #CCCCCC; }
+.crm-btn-ghost { background: transparent; color: #00B5D6; padding: 10px 14px; }
 
-/* Table */
-.crm-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
+/* Table — TEAL headers */
+.crm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .crm-table th {
-  text-align: left;
-  padding: 12px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #CCCCCC;
-  border-bottom: 1px solid #E6E6E6;
+  text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600;
+  color: #fff; background: #00B5D6; letter-spacing: 0.03em; text-transform: uppercase;
 }
-.crm-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #D6EBF2;
-  color: #616161;
-}
+.crm-table th:first-child { border-radius: 10px 0 0 10px; }
+.crm-table th:last-child { border-radius: 0 10px 10px 0; }
+.crm-table td { padding: 14px 16px; border-bottom: 1px solid #E6E6E6; color: #000000; }
 .crm-table tbody tr:hover { background: #D6EBF2; }
 
-/* Badges — soft, muted */
-.crm-badge {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 6px;
-  display: inline-block;
-}
-.crm-badge-hot { background: #E6E6E6; color: #616161; }
-.crm-badge-warm { background: #D6EBF2; color: #68D1E6; }
-.crm-badge-cold { background: #D6EBF2; color: #36C2DE; }
-.crm-badge-success { background: #D6EBF2; color: #00B5D6; }
-.crm-badge-neutral { background: #D6EBF2; color: #CCCCCC; }
+/* Badges — teal based */
+.crm-badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; display: inline-block; }
+.crm-badge-hot { background: #00B5D6; color: #fff; }
+.crm-badge-warm { background: #68D1E6; color: #fff; }
+.crm-badge-cold { background: #E6E6E6; color: #000000; }
+.crm-badge-success { background: #00B5D6; color: #fff; }
+.crm-badge-neutral { background: #E6E6E6; color: #000000; }
 
-/* Input — soft border */
-.crm-input {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #E6E6E6;
-  font-size: 14px;
-  font-family: 'Reddit Sans', sans-serif;
-  outline: none;
-  transition: border-color 0.2s;
-  background: #fff;
-  color: #616161;
-}
+/* Input */
+.crm-input { padding: 10px 14px; border-radius: 10px; border: 1px solid #E6E6E6; font-size: 14px; font-family: 'Reddit Sans', sans-serif; outline: none; transition: border-color 0.2s; background: #fff; color: #000000; }
 .crm-input:focus { border-color: #00B5D6; }
-.crm-input::placeholder { color: #E6E6E6; }
-.crm-select {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #E6E6E6;
-  font-size: 14px;
-  font-family: 'Reddit Sans', sans-serif;
-  background: #fff;
-  color: #616161;
-  cursor: pointer;
-}
+.crm-input::placeholder { color: #CCCCCC; }
+.crm-select { padding: 10px 14px; border-radius: 10px; border: 1px solid #E6E6E6; font-size: 14px; font-family: 'Reddit Sans', sans-serif; background: #fff; color: #000000; cursor: pointer; }
 
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 .crm-animate-in { animation: fadeIn 0.35s ease forwards; }
 .crm-animate-in-1 { animation-delay: 0.03s; opacity: 0; }
 .crm-animate-in-2 { animation-delay: 0.06s; opacity: 0; }
@@ -208,47 +88,12 @@
 .crm-animate-in-5 { animation-delay: 0.15s; opacity: 0; }
 
 /* Score bar */
-.crm-score-bar {
-  height: 4px;
-  border-radius: 2px;
-  background: #D6EBF2;
-  overflow: hidden;
-}
-.crm-score-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
+.crm-score-bar { height: 4px; border-radius: 2px; background: #E6E6E6; overflow: hidden; }
+.crm-score-fill { height: 100%; border-radius: 2px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
 
-/* Sidebar — clean white like MedCloud */
-.crm-sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  border-radius: 10px;
-  margin-bottom: 1px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
-  color: #616161;
-  transition: all 0.15s ease;
-}
-.crm-sidebar-item:hover {
-  background: #D6EBF2;
-  color: #616161;
-}
-.crm-sidebar-item.active {
-  background: #00B5D6;
-  color: #fff;
-  font-weight: 500;
-}
+/* Sidebar — black text, teal active */
+.crm-sidebar-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 10px; margin-bottom: 1px; text-decoration: none; font-size: 14px; font-weight: 400; color: #000000; transition: all 0.15s; }
+.crm-sidebar-item:hover { background: #D6EBF2; }
+.crm-sidebar-item.active { background: #00B5D6; color: #fff; font-weight: 500; }
 .crm-sidebar-item.active svg { stroke: #fff; }
-.crm-sidebar-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #E6E6E6;
-  letter-spacing: 0.06em;
-  padding: 16px 14px 6px;
-  text-transform: uppercase;
-}
+.crm-sidebar-label { font-size: 11px; font-weight: 600; color: #CCCCCC; letter-spacing: 0.06em; padding: 16px 14px 6px; text-transform: uppercase; }

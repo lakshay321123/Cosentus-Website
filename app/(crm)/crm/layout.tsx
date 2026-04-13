@@ -100,7 +100,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 return (
                   <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
                     className={`crm-sidebar-item ${active ? 'active' : ''}`}>
-                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#CCCCCC' }}>{item.icon}</span>
+                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#000000' }}>{item.icon}</span>
                     {item.label}
                   </Link>
                 )
@@ -113,11 +113,11 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         <div style={{ padding: '12px 10px', borderTop: '1px solid #E6E6E6' }}>
           <button onClick={async () => { await fetch('/api/crm/auth', { method: 'DELETE' }); window.location.href = '/crm/login' }}
             className="crm-sidebar-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
-            <span style={{ width: 18, display: 'flex', color: '#CCCCCC' }}>{I.signout}</span>
+            <span style={{ width: 18, display: 'flex', color: '#000000' }}>{I.signout}</span>
             Sign Out
           </button>
           <Link href="/" className="crm-sidebar-item">
-            <span style={{ width: 18, display: 'flex', color: '#CCCCCC' }}>{I.back}</span>
+            <span style={{ width: 18, display: 'flex', color: '#000000' }}>{I.back}</span>
             Back to Website
           </Link>
         </div>

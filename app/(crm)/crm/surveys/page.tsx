@@ -59,14 +59,14 @@ export default function SurveysPage() {
     return { promoters, passives, detractors, nps }
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading surveys...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading surveys...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Surveys</h1>
-          <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>Client feedback — NPS, CSAT, custom surveys</p>
+          <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Client feedback — NPS, CSAT, custom surveys</p>
         </div>
         <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ Create Survey</button>
       </div>
@@ -83,7 +83,7 @@ export default function SurveysPage() {
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Survey</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#CCCCCC', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#000000', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -99,9 +99,9 @@ export default function SurveysPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{s.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: s.status === 'active' ? '#E1F5EE' : s.status === 'closed' ? '#E6F1FB' : '#F5F5F5', color: s.status === 'active' ? '#085041' : s.status === 'closed' ? '#185FA5' : '#616161', textTransform: 'capitalize' }}>{s.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC', textTransform: 'uppercase' }}>{s.type}</span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#000000', textTransform: 'uppercase' }}>{s.type}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#CCCCCC', marginTop: 4 }}>{resps.length} responses · {s.questions.length} questions</div>
+                  <div style={{ fontSize: 12, color: '#000000', marginTop: 4 }}>{resps.length} responses · {s.questions.length} questions</div>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button onClick={() => toggleStatus(s)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', background: 'white', fontSize: 12, cursor: 'pointer' }}>{s.status === 'active' ? 'Close' : 'Activate'}</button>
@@ -113,19 +113,19 @@ export default function SurveysPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
                   <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: breakdown.nps >= 50 ? '#085041' : breakdown.nps >= 0 ? '#854F0B' : '#791F1F' }}>{breakdown.nps}</div>
-                    <div style={{ fontSize: 11, color: '#CCCCCC' }}>NPS Score</div>
+                    <div style={{ fontSize: 11, color: '#000000' }}>NPS Score</div>
                   </div>
                   <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#085041' }}>{breakdown.promoters}</div>
-                    <div style={{ fontSize: 11, color: '#CCCCCC' }}>Promoters</div>
+                    <div style={{ fontSize: 11, color: '#000000' }}>Promoters</div>
                   </div>
                   <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#854F0B' }}>{breakdown.passives}</div>
-                    <div style={{ fontSize: 11, color: '#CCCCCC' }}>Passives</div>
+                    <div style={{ fontSize: 11, color: '#000000' }}>Passives</div>
                   </div>
                   <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#791F1F' }}>{breakdown.detractors}</div>
-                    <div style={{ fontSize: 11, color: '#CCCCCC' }}>Detractors</div>
+                    <div style={{ fontSize: 11, color: '#000000' }}>Detractors</div>
                   </div>
                 </div>
               )}
@@ -139,7 +139,7 @@ export default function SurveysPage() {
                       <div style={{ width: 32, height: 32, borderRadius: '50%', background: r.score >= 9 ? '#E1F5EE' : r.score >= 7 ? '#FAEEDA' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: r.score >= 9 ? '#085041' : r.score >= 7 ? '#854F0B' : '#791F1F', flexShrink: 0 }}>{r.score}</div>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 500, color: '#000000' }}>{r.respondent_name || r.respondent_email}</div>
-                        {r.feedback && <div style={{ color: '#CCCCCC', marginTop: 2 }}>{r.feedback}</div>}
+                        {r.feedback && <div style={{ color: '#000000', marginTop: 2 }}>{r.feedback}</div>}
                       </div>
                       <div style={{ fontSize: 11, color: '#E6E6E6' }}>{new Date(r.created_at).toLocaleDateString()}</div>
                     </div>

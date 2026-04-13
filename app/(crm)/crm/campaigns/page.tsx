@@ -55,14 +55,14 @@ export default function CampaignsPage() {
     await supabase.from('campaigns').update({ status }).eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading campaigns...</div>
+  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading campaigns...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Campaigns</h1>
-          <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>Track marketing campaigns and measure ROI</p>
+          <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Track marketing campaigns and measure ROI</p>
         </div>
         <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ New Campaign</button>
       </div>
@@ -76,7 +76,7 @@ export default function CampaignsPage() {
           { label: 'Revenue Attributed', value: `$${Math.round(totalRevenue / 1000)}K` },
         ].map((s, i) => (
           <div key={i} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: '20px' }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: '#CCCCCC', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
+            <div style={{ fontSize: 11, fontWeight: 500, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
             <div style={{ fontSize: 32, fontWeight: 300, color: '#000000', lineHeight: 1 }}>{s.value}</div>
           </div>
         ))}
@@ -114,7 +114,7 @@ export default function CampaignsPage() {
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Campaign</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#CCCCCC', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#000000', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -131,9 +131,9 @@ export default function CampaignsPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{c.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.text, textTransform: 'capitalize' }}>{c.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC' }}>{typeLabels[c.type] || c.type}</span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#000000' }}>{typeLabels[c.type] || c.type}</span>
                   </div>
-                  {c.notes && <div style={{ fontSize: 13, color: '#CCCCCC' }}>{c.notes}</div>}
+                  {c.notes && <div style={{ fontSize: 13, color: '#000000' }}>{c.notes}</div>}
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
@@ -141,11 +141,11 @@ export default function CampaignsPage() {
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, paddingTop: 12, borderTop: '1px solid #F5F5F5', fontSize: 12 }}>
-                <div><span style={{ color: '#CCCCCC' }}>Budget</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.budget || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#CCCCCC' }}>Spent</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.spent || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#CCCCCC' }}>Leads</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>{c.leads_generated}</div></div>
-                <div><span style={{ color: '#CCCCCC' }}>Revenue</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${Math.round((c.revenue_attributed || 0) / 1000)}K</div></div>
-                <div><span style={{ color: '#CCCCCC' }}>ROI</span><div style={{ fontWeight: 600, color: roi > 0 ? '#085041' : '#791F1F', marginTop: 2 }}>{roi > 0 ? '+' : ''}{roi}%</div></div>
+                <div><span style={{ color: '#000000' }}>Budget</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.budget || 0).toLocaleString()}</div></div>
+                <div><span style={{ color: '#000000' }}>Spent</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.spent || 0).toLocaleString()}</div></div>
+                <div><span style={{ color: '#000000' }}>Leads</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>{c.leads_generated}</div></div>
+                <div><span style={{ color: '#000000' }}>Revenue</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${Math.round((c.revenue_attributed || 0) / 1000)}K</div></div>
+                <div><span style={{ color: '#000000' }}>ROI</span><div style={{ fontWeight: 600, color: roi > 0 ? '#085041' : '#791F1F', marginTop: 2 }}>{roi > 0 ? '+' : ''}{roi}%</div></div>
               </div>
             </div>
           )

@@ -57,10 +57,10 @@ export default function EmailsPage() {
   const active = templateList.find(t => t.id === activeTemplate)
 
   return (
-    <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
+    <div style={{ padding: '32px 40px', maxWidth: '100%' }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Email Templates</h1>
-        <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>Branded Cosentus emails with live preview</p>
+        <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Branded Cosentus emails with live preview</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20 }}>
@@ -70,7 +70,7 @@ export default function EmailsPage() {
           <div style={{ marginBottom: 16 }}>
             {['outreach', 'meetings', 'feedback'].map(cat => (
               <div key={cat}>
-                <div style={{ fontSize: 10, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.1em', padding: '12px 0 4px', textTransform: 'uppercase' }}>{cat}</div>
+                <div style={{ fontSize: 10, fontWeight: 600, color: '#000000', letterSpacing: '0.1em', padding: '12px 0 4px', textTransform: 'uppercase' }}>{cat}</div>
                 {templateList.filter(t => t.category === cat).map(t => (
                   <button key={t.id} onClick={() => setActiveTemplate(t.id)} style={{
                     width: '100%', padding: '12px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
@@ -79,7 +79,7 @@ export default function EmailsPage() {
                     outline: activeTemplate === t.id ? '1px solid #00B5D6' : '1px solid #E6E6E6',
                   }}>
                     <div style={{ fontSize: 13, fontWeight: activeTemplate === t.id ? 600 : 400, color: activeTemplate === t.id ? '#00B5D6' : '#000' }}>{t.name}</div>
-                    <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 2 }}>{t.delay}</div>
+                    <div style={{ fontSize: 11, color: '#000000', marginTop: 2 }}>{t.delay}</div>
                   </button>
                 ))}
               </div>
@@ -88,7 +88,7 @@ export default function EmailsPage() {
 
           {/* Send controls */}
           <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Send Options</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Send Options</div>
             <select value={selectedLead} onChange={e => setSelectedLead(e.target.value)} style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, background: 'white', marginBottom: 8 }}>
               <option value="">Preview with sample data</option>
               {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email}</option>)}
@@ -98,7 +98,7 @@ export default function EmailsPage() {
               <button onClick={handleSend} disabled={!selectedLead} style={{ flex: 1, background: sent ? '#E1F5EE' : '#00B5D6', color: sent ? '#085041' : 'white', border: 'none', borderRadius: 6, padding: '8px', fontSize: 12, fontWeight: 600, cursor: selectedLead ? 'pointer' : 'not-allowed', opacity: selectedLead ? 1 : 0.5 }}>
                 {sent ? '✓ Sent!' : 'Send Email'}
               </button>
-              <button onClick={copyHtml} style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>Copy HTML</button>
+              <button onClick={copyHtml} style={{ background: 'white', color: '#000000', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>Copy HTML</button>
             </div>
           </div>
         </div>
@@ -107,13 +107,13 @@ export default function EmailsPage() {
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', overflow: 'hidden' }}>
           {/* Subject bar */}
           <div style={{ padding: '12px 20px', borderBottom: '1px solid #E6E6E6', background: '#FAFAFA', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#616161', textTransform: 'uppercase' }}>Subject:</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#000000', textTransform: 'uppercase' }}>Subject:</span>
             <span style={{ fontSize: 13, color: '#000' }}>{previewSubject}</span>
           </div>
           {/* HTML preview in iframe */}
           <div style={{ height: 700, overflow: 'hidden' }}>
             {loading ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#CCCCCC' }}>Loading preview...</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#000000' }}>Loading preview...</div>
             ) : (
               <iframe srcDoc={previewHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
             )}

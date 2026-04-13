@@ -74,10 +74,10 @@ export default function BookingPage() {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <h1 style={{ fontSize: 28, fontWeight: 300, margin: '0 0 12px' }}>You&apos;re Booked!</h1>
-          <p style={{ fontSize: 16, color: '#616161', margin: '0 0 8px' }}>
+          <p style={{ fontSize: 16, color: '#000000', margin: '0 0 8px' }}>
             {meetingTypes.find(m => m.id === meetingType)?.label} · {selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {selectedTime}
           </p>
-          <p style={{ fontSize: 14, color: '#CCCCCC', marginBottom: 32 }}>Check your email for a calendar invite and confirmation.</p>
+          <p style={{ fontSize: 14, color: '#000000', marginBottom: 32 }}>Check your email for a calendar invite and confirmation.</p>
           <Link href="/" style={{ color: '#00B5D6', textDecoration: 'none', fontSize: 14, fontWeight: 500 }}>← Back to Cosentus.com</Link>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function BookingPage() {
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 32, marginBottom: 16 }} />
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000', margin: '0 0 8px' }}>Schedule a Call</h1>
-          <p style={{ fontSize: 16, color: '#616161', margin: 0 }}>Pick a time that works. No pressure. Just data.</p>
+          <p style={{ fontSize: 16, color: '#000000', margin: 0 }}>Pick a time that works. No pressure. Just data.</p>
         </div>
 
         {/* Steps */}
@@ -114,7 +114,7 @@ export default function BookingPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <div style={{ fontSize: 16, fontWeight: 600, color: '#000' }}>{t.label}</div>
-                    <div style={{ fontSize: 14, color: '#616161', marginTop: 4 }}>{t.desc}</div>
+                    <div style={{ fontSize: 14, color: '#000000', marginTop: 4 }}>{t.desc}</div>
                   </div>
                   <span style={{ fontSize: 13, color: '#00B5D6', fontWeight: 500, whiteSpace: 'nowrap' }}>{t.duration}</span>
                 </div>
@@ -158,7 +158,7 @@ export default function BookingPage() {
               </>
             )}
 
-            <button onClick={() => setStep(1)} style={{ marginTop: 16, background: 'none', border: 'none', color: '#616161', fontSize: 13, cursor: 'pointer' }}>← Back</button>
+            <button onClick={() => setStep(1)} style={{ marginTop: 16, background: 'none', border: 'none', color: '#000000', fontSize: 13, cursor: 'pointer' }}>← Back</button>
           </div>
         )}
 
@@ -166,7 +166,7 @@ export default function BookingPage() {
         {step === 3 && (
           <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
             <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 4px' }}>Almost Done</h3>
-            <p style={{ fontSize: 13, color: '#616161', marginBottom: 20 }}>
+            <p style={{ fontSize: 13, color: '#000000', marginBottom: 20 }}>
               {meetingTypes.find(m => m.id === meetingType)?.label} · {selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {selectedTime}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -196,12 +196,12 @@ export default function BookingPage() {
                 padding: '14px 32px', fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 opacity: (!formData.name || !formData.email) ? 0.5 : 1,
               }}>Book Meeting</button>
-              <button onClick={() => setStep(2)} style={{ background: 'none', border: '1px solid #E6E6E6', borderRadius: 8, padding: '14px 20px', fontSize: 13, cursor: 'pointer', color: '#616161' }}>← Back</button>
+              <button onClick={() => setStep(2)} style={{ background: 'none', border: '1px solid #E6E6E6', borderRadius: 8, padding: '14px 20px', fontSize: 13, cursor: 'pointer', color: '#000000' }}>← Back</button>
             </div>
           </div>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: 40, fontSize: 12, color: '#CCCCCC' }}>
+        <div style={{ textAlign: 'center', marginTop: 40, fontSize: 12, color: '#000000' }}>
           Cosentus · (877) 806-2286 · cosentus.com
         </div>
       </div>
