@@ -32,19 +32,24 @@ function CindyInner() {
   const [blinking, setBlinking] = useState(false)
   const [actionLabel, setActionLabel] = useState('')
   const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const conversationIdRef = useRef<string | null>(null)
   const router = useRouter()
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: () => { setActionLabel('') },
+    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
-      // Log voice conversation to CRM
-      fetch('/api/crm/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ first_name: 'Voice', last_name: 'Caller', source: 'voice_agent', notes: 'Auto-captured from Cindy voice agent conversation on ' + window.location.pathname }),
-      }).catch(() => {})
+      // Send conversation to CRM for transcript extraction + lead capture
+      const convId = conversationIdRef.current
+      if (convId) {
+        fetch('/api/crm/voice-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ conversationId: convId, pageUrl: window.location.pathname }),
+        }).catch(() => {})
+      }
+      conversationIdRef.current = null
     },
     onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
     onMessage: () => {},
