@@ -1,4 +1,97 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+
+const crmSupabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://twvmglnkahuitvdttawq.supabase.co',
+  process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dm1nbG5rYWh1aXR2ZHR0YXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNzgyODAsImV4cCI6MjA5MTY1NDI4MH0.wjTyUU9Zo-5h9zXroXYRbEZu2zFl6Q0Dpd7f1oT32ko'
+)
+
+/** Silently capture lead info from chat conversation — fire and forget */
+async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]) {
+  try {
+    if (messages.length < 4) return // need at least 2 exchanges
+    const userText = messages.filter(m => m.role === 'user').map(m => m.text).join(' ')
+    const allText = messages.map(m => m.text).join(' ')
+
+    // Extract contact info
+    const emailMatch = allText.match(/[\w.-]+@[\w.-]+\.\w{2,}/i)
+    const phoneMatch = allText.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/)
+    if (!emailMatch && !phoneMatch) return // not enough info
+
+    // Extract name (look for "I'm", "my name is", "this is", "Dr.")
+    let firstName = '', lastName = ''
+    const namePatterns = [
+      /(?:I'm|I am|my name is|this is|name's)\s+(?:Dr\.?\s+)?(\w+)\s+(\w+)/i,
+      /(?:I'm|I am)\s+(?:Dr\.?\s+)?(\w+)/i,
+      /Dr\.?\s+(\w+)\s+(\w+)/i,
+    ]
+    for (const p of namePatterns) {
+      const m = userText.match(p)
+      if (m) { firstName = m[1]; lastName = m[2] || ''; break }
+    }
+    if (!firstName) return // can't create lead without a name
+
+    // Extract specialty
+    let specialty = 'other'
+    const specMap: Record<string, string> = {
+      'anesthesia': 'anesthesia', 'anesthesiology': 'anesthesia',
+      'orthopedic': 'orthopedics', 'ortho': 'orthopedics',
+      'pain management': 'pain_management', 'pain clinic': 'pain_management', 'pain practice': 'pain_management',
+      'surgery center': 'asc', 'ambulatory': 'asc', ' asc ': 'asc',
+      'behavioral': 'behavioral_health', 'mental health': 'behavioral_health', 'psychiatr': 'behavioral_health',
+      'urgent care': 'urgent_care',
+    }
+    const lower = allText.toLowerCase()
+    for (const [kw, spec] of Object.entries(specMap)) {
+      if (lower.includes(kw)) { specialty = spec; break }
+    }
+
+    // Extract practice name
+    let practiceName = ''
+    const practicePatterns = [
+      /(?:practice|clinic|group|center|associates|partners|institute)\s+(?:is\s+)?called\s+"?([^".]+)"?/i,
+      /(?:at|from|with|run|own)\s+([A-Z][\w\s&]+(?:Practice|Clinic|Group|Center|Associates|Partners|Institute|Medical|Health|Surgery|ASC))/,
+    ]
+    for (const p of practicePatterns) {
+      const m = allText.match(p)
+      if (m) { practiceName = m[1].trim(); break }
+    }
+
+    // Check for duplicate
+    if (emailMatch) {
+      const { data: existing } = await crmSupabase.from('leads').select('id').eq('email', emailMatch[0]).limit(1)
+      if (existing && existing.length > 0) {
+        // Update existing lead
+        await crmSupabase.from('leads').update({ last_activity: new Date().toISOString() }).eq('id', existing[0].id)
+        await crmSupabase.from('activities').insert({ lead_id: existing[0].id, type: 'chat', description: 'Returning lead — new website chat conversation' })
+        return
+      }
+    }
+
+    // Calculate score
+    const highValueSpecs = ['anesthesia', 'orthopedics', 'asc', 'pain_management']
+    let score = 40 // base (they chatted = engaged)
+    if (highValueSpecs.includes(specialty)) score += 15
+    if (emailMatch) score += 5
+    if (phoneMatch) score += 5
+    score = Math.min(score, 100)
+
+    const temp = score >= 75 ? 'hot' : score >= 45 ? 'warm' : 'cold'
+
+    await crmSupabase.from('leads').insert({
+      first_name: firstName, last_name: lastName || 'Unknown',
+      email: emailMatch?.[0] || null, phone: phoneMatch?.[0] || null,
+      practice_name: practiceName || null, specialty,
+      source: 'website_chat', ai_score: score, temperature: temp,
+      status: 'new', tags: ['chat-capture', 'auto'],
+      notes: `Auto-captured from website chat. ${messages.length} messages exchanged.`,
+    })
+
+    console.log(`[CRM] Lead captured from chat: ${firstName} ${lastName} (${emailMatch?.[0] || phoneMatch?.[0]})`)
+  } catch (err) {
+    console.error('[CRM] Lead capture error:', err)
+  }
+}
 
 const SYSTEM_PROMPT = `You are COSE AI, the smart assistant on cosentus.com. You talk like a real person. Not a chatbot. Not a corporate brochure. A real, sharp, slightly funny human who genuinely knows healthcare revenue inside and out.
 
@@ -287,6 +380,9 @@ When someone asks about offices, addresses, locations, or "where are you located
       navigate = { route, scroll: scroll || undefined }
       text = rawText.replace(navMatch[0], '').trim()
     }
+
+    // Fire-and-forget: try to capture lead info from conversation
+    tryCaptureLeadFromChat(messages).catch(() => {})
 
     return NextResponse.json({ text, navigate })
   } catch (error) {

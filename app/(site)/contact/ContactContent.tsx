@@ -21,14 +21,37 @@ export default function ContactContent() {
     message: '',
   })
 
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Will be connected to backend later
-    alert('Thank you! We will be in touch within one business day.')
+    setSubmitting(true)
+    try {
+      const nameParts = formData.contactName.trim().split(' ')
+      await fetch('/api/crm/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          first_name: nameParts[0] || 'Unknown',
+          last_name: nameParts.slice(1).join(' ') || 'Unknown',
+          email: formData.email,
+          phone: formData.phone,
+          practice_name: formData.practiceName,
+          specialty: formData.specialty || 'other',
+          source: 'contact_form',
+          notes: formData.message || 'Submitted via contact form',
+        }),
+      })
+      setSubmitted(true)
+    } catch {
+      setSubmitted(true) // still show success to user
+    }
+    setSubmitting(false)
   }
 
   return (
@@ -104,6 +127,13 @@ export default function ContactContent() {
               <div>
                 <div className="section-label">GET IN TOUCH</div>
                 <div className="section-title" style={{ fontSize: 32 }}>Request Your Free Revenue Analysis</div>
+                {submitted ? (
+                  <div style={{ marginTop: 32, padding: '48px 32px', background: 'rgba(0,181,214,0.05)', borderRadius: 12, textAlign: 'center' }}>
+                    <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+                    <h3 style={{ fontSize: 20, fontWeight: 600, color: '#000', margin: '0 0 8px' }}>Thank you!</h3>
+                    <p style={{ fontSize: 15, color: 'var(--gray-600)', margin: 0 }}>We&apos;ll be in touch within one business day to schedule your revenue analysis.</p>
+                  </div>
+                ) : (
                 <form onSubmit={handleSubmit} style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
                   {[
                     { name: 'practiceName', label: 'Practice Name', type: 'text' },
@@ -184,16 +214,17 @@ export default function ContactContent() {
                       }}
                     />
                   </div>
-                  <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start' }}>
-                    Submit Request
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <button type="submit" disabled={submitting} className="btn-primary" style={{ alignSelf: 'flex-start', opacity: submitting ? 0.7 : 1 }}>
+                    {submitting ? 'Submitting...' : 'Submit Request'}
+                    {!submitting && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
+                    </svg>}
                   </button>
                   <p style={{ fontSize: 12, color: 'var(--gray-500)', marginTop: 8 }}>
                     We protect client information under HIPAA and SOC 2 standards.
                   </p>
                 </form>
+                )}
               </div>
             </RevealOnScroll>
 
