@@ -101,7 +101,7 @@ export default function LeadDetailPage() {
               alert(`Enriched! ${result.updates_applied} fields updated.\n\nPractice type: ${result.enriched.practice_type}\nComplexity: ${result.enriched.billing_complexity}\nGrowth: ${result.enriched.growth_potential}\n\nTalking points:\n${(result.enriched.talking_points || []).map((p: string, i: number) => `${i+1}. ${p}`).join('\n')}`)
               window.location.reload()
             } else { alert('Enrichment failed: ' + (result.error || 'unknown')) }
-          }} style={{ marginTop: 4, fontSize: 11, color: '#9ca3af', background: 'none', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+          }} style={{ marginTop: 4, fontSize: 11, color: '#9ca3af', background: 'none', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
             Enrich Data
           </button>
         </div>
@@ -126,7 +126,7 @@ export default function LeadDetailPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* Left: Contact details */}
         <div>
-          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Contact Details</h3>
             {[
               { label: 'Email', value: lead.email },
@@ -136,7 +136,7 @@ export default function LeadDetailPage() {
               { label: 'Revenue Potential', value: lead.revenue_potential ? `$${Math.round(lead.revenue_potential).toLocaleString()}/mo` : null },
               { label: 'Assigned To', value: lead.assigned_to },
             ].filter(f => f.value).map(f => (
-              <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '0.5px solid #eef0f2', fontSize: 13 }}>
+              <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '0.5px solid #e5e7eb', fontSize: 13 }}>
                 <span style={{ color: '#9ca3af' }}>{f.label}</span>
                 <span style={{ fontWeight: 500, color: '#1f2937' }}>{f.value}</span>
               </div>
@@ -144,7 +144,7 @@ export default function LeadDetailPage() {
           </div>
 
           {lead.notes && (
-            <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+            <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
               <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Notes</h3>
               <p style={{ fontSize: 14, lineHeight: 1.6, color: '#1f2937', margin: 0 }}>{lead.notes}</p>
             </div>
@@ -153,13 +153,13 @@ export default function LeadDetailPage() {
 
         {/* Right: Activity timeline */}
         <div>
-          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Activity Timeline</h3>
 
             {/* Add note */}
             <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
               <input value={note} onChange={e => setNote(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddNote()}
-                placeholder="Add a note..." style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, outline: 'none' }} />
+                placeholder="Add a note..." style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, outline: 'none' }} />
               <button onClick={handleAddNote} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Add</button>
             </div>
 

@@ -93,7 +93,7 @@ export default function TasksPage() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <div style={{ display: 'flex', borderRadius: 10, overflow: 'hidden', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6' }}>
+          <div style={{ display: 'flex', borderRadius: 10, overflow: 'hidden', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6' }}>
             {(['pending', 'completed', 'all'] as const).map(v => (
               <button key={v} onClick={() => setFilter(v)} style={{
                 padding: '8px 14px', fontSize: 12, border: 'none', cursor: 'pointer', textTransform: 'capitalize',
@@ -109,29 +109,29 @@ export default function TasksPage() {
         <form onSubmit={handleAdd} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Task</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <input name="title" placeholder="Task title *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
-            <input name="description" placeholder="Description (optional)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
-            <select name="lead_id" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
+            <input name="title" placeholder="Task title *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
+            <input name="description" placeholder="Description (optional)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
+            <select name="lead_id" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="">Link to lead (optional)</option>
               {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.practice_name}</option>)}
             </select>
-            <input name="due_date" type="datetime-local" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
-            <select name="priority" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
+            <input name="due_date" type="datetime-local" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <select name="priority" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="high">High Priority</option>
               <option value="medium" selected>Medium Priority</option>
               <option value="low">Low Priority</option>
             </select>
-            <input name="assigned_to" placeholder="Assigned to" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <input name="assigned_to" placeholder="Assigned to" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Task</button>
-            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
 
       {filtered.length === 0 ? (
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '60px 40px', textAlign: 'center' }}>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: '60px 40px', textAlign: 'center' }}>
           <div style={{ fontSize: 14, color: '#9ca3af' }}>No {filter === 'all' ? '' : filter} tasks</div>
         </div>
       ) : (

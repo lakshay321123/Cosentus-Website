@@ -21,8 +21,8 @@ export default function CRMLogin() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fb', fontFamily: "'Reddit Sans', -apple-system, sans-serif" }}>
-      <div style={{ width: 380, background: '#ffffff',  borderRadius: 20, padding: '48px 36px', textAlign: 'center', boxShadow: '0 4px 24px #eef0f2' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f6f8', fontFamily: "'Reddit Sans', -apple-system, sans-serif" }}>
+      <div style={{ width: 380, background: '#ffffff',  borderRadius: 20, padding: '48px 36px', textAlign: 'center', boxShadow: '0 4px 24px #e5e7eb' }}>
         <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 32, marginBottom: 8 }} />
         <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: '#00B5D6', marginBottom: 36 }}>CRM</div>
 
@@ -31,7 +31,7 @@ export default function CRMLogin() {
             style={{
               width: '100%', padding: '14px 18px', borderRadius: 14, fontSize: 16, outline: 'none',
               border: error ? '1.5px solid #ef4444' : '1px solid rgba(0,0,0,0.08)',
-              boxShadow: 'inset 0 1px 2px #eef0f2',
+              boxShadow: 'inset 0 1px 2px #e5e7eb',
               fontFamily: "'Reddit Sans', sans-serif", color: '#1f2937', boxSizing: 'border-box',
               WebkitAppearance: 'none',
             }}

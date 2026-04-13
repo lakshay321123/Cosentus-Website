@@ -18,7 +18,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Lead Capture */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Lead Capture API</h3>
         <p style={{ fontSize: 13, color: '#d1d5db', marginBottom: 16 }}>Use this endpoint to send leads from your chat widget, voice agent, or external forms.</p>
         <div style={{ background: '#f3f4f6', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 13, color: '#1f2937', marginBottom: 12, overflowX: 'auto' as const }}>
@@ -44,12 +44,12 @@ export default function SettingsPage() {
       </div>
 
       {/* AI Scoring */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>AI Lead Scoring Rules</h3>
         <p style={{ fontSize: 13, color: '#d1d5db', marginBottom: 16 }}>How leads are automatically scored (0-100)</p>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '0.5px solid #eef0f2' }}>
+            <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
               <th style={{ textAlign: 'left', padding: '8px 0', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase' }}>Signal</th>
               <th style={{ textAlign: 'right', padding: '8px 0', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase' }}>Points</th>
             </tr>
@@ -67,7 +67,7 @@ export default function SettingsPage() {
               { signal: 'Has phone', points: '+5' },
               { signal: 'High-intent source (chat, form, voice)', points: '+10' },
             ].map((r, i) => (
-              <tr key={i} style={{ borderBottom: '0.5px solid #eef0f2' }}>
+              <tr key={i} style={{ borderBottom: '0.5px solid #e5e7eb' }}>
                 <td style={{ padding: '8px 0', color: '#1f2937' }}>{r.signal}</td>
                 <td style={{ padding: '8px 0', textAlign: 'right', fontWeight: 600, color: '#00B5D6' }}>{r.points}</td>
               </tr>
@@ -80,7 +80,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Pipeline Stages */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Pipeline Stages</h3>
         <div style={{ display: 'flex', gap: 4 }}>
           {['New', 'Qualified', 'Discovery', 'Proposal', 'Negotiation', 'Won'].map((s, i) => (
@@ -90,7 +90,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Database */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Database</h3>
         <p style={{ fontSize: 13, color: '#d1d5db', marginBottom: 16 }}>Supabase connection</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 13 }}>

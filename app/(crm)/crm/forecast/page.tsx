@@ -73,7 +73,7 @@ export default function ForecastPage() {
       </div>
 
       {/* Monthly projection */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 20px' }}>Monthly Revenue Projection</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {[
@@ -95,7 +95,7 @@ export default function ForecastPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* By stage */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Forecast by Stage</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {stageData.map(s => (
@@ -116,11 +116,11 @@ export default function ForecastPage() {
         </div>
 
         {/* By rep */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Forecast by Rep</h2>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ borderBottom: '0.5px solid #eef0f2' }}>
+              <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
                 {['Rep', 'Deals', 'Raw', 'Weighted'].map(h => (
                   <th key={h} style={{ textAlign: h === 'Rep' ? 'left' : 'right', padding: '8px 0', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
                 ))}
@@ -128,7 +128,7 @@ export default function ForecastPage() {
             </thead>
             <tbody>
               {Object.entries(repMap).sort((a, b) => b[1].weighted - a[1].weighted).map(([rep, data]) => (
-                <tr key={rep} style={{ borderBottom: '0.5px solid #eef0f2' }}>
+                <tr key={rep} style={{ borderBottom: '0.5px solid #e5e7eb' }}>
                   <td style={{ padding: '10px 0', fontWeight: 500 }}>{rep}</td>
                   <td style={{ padding: '10px 0', textAlign: 'right' }}>{data.deals}</td>
                   <td style={{ padding: '10px 0', textAlign: 'right', color: '#9ca3af' }}>${Math.round(data.total / 1000)}K</td>

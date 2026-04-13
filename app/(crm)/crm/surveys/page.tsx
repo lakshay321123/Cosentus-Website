@@ -74,8 +74,8 @@ export default function SurveysPage() {
       {showCreate && (
         <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <input name="name" placeholder="Survey name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
-            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
+            <input name="name" placeholder="Survey name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="nps">NPS (Net Promoter Score)</option>
               <option value="csat">CSAT (Customer Satisfaction)</option>
               <option value="custom">Custom Survey</option>
@@ -83,7 +83,7 @@ export default function SurveysPage() {
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Survey</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -93,7 +93,7 @@ export default function SurveysPage() {
           const resps = surveyResponses(s.id)
           const breakdown = s.type === 'nps' ? getNPSBreakdown(resps) : null
           return (
-            <div key={s.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '20px 24px' }}>
+            <div key={s.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: '20px 24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -104,7 +104,7 @@ export default function SurveysPage() {
                   <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 4 }}>{resps.length} responses · {s.questions.length} questions</div>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
-                  <button onClick={() => toggleStatus(s)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer' }}>{s.status === 'active' ? 'Close' : 'Activate'}</button>
+                  <button onClick={() => toggleStatus(s)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer' }}>{s.status === 'active' ? 'Close' : 'Activate'}</button>
                   <button onClick={() => viewResponses(s.id)} style={{ padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(0,181,214,0.3)', background: 'white', fontSize: 12, cursor: 'pointer', color: '#00B5D6' }}>{viewing === s.id ? 'Hide' : 'Responses'}</button>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function SurveysPage() {
                   {resps.length === 0 ? (
                     <div style={{ fontSize: 13, color: '#d1d5db', textAlign: 'center', padding: 16 }}>No responses yet</div>
                   ) : resps.map(r => (
-                    <div key={r.id} style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '0.5px solid #eef0f2', fontSize: 13 }}>
+                    <div key={r.id} style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '0.5px solid #e5e7eb', fontSize: 13 }}>
                       <div style={{ width: 32, height: 32, borderRadius: '50%', background: r.score >= 9 ? '#E1F5EE' : r.score >= 7 ? '#FAEEDA' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: r.score >= 9 ? '#085041' : r.score >= 7 ? '#854F0B' : '#791F1F', flexShrink: 0 }}>{r.score}</div>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 500, color: '#1f2937' }}>{r.respondent_name || r.respondent_email}</div>

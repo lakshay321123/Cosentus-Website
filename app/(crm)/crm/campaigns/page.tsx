@@ -75,7 +75,7 @@ export default function CampaignsPage() {
           { label: 'Leads Generated', value: totalLeads.toString() },
           { label: 'Revenue Attributed', value: `$${Math.round(totalRevenue / 1000)}K` },
         ].map((s, i) => (
-          <div key={i} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '20px' }}>
+          <div key={i} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: '20px' }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
             <div style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', lineHeight: 1 }}>{s.value}</div>
           </div>
@@ -96,25 +96,25 @@ export default function CampaignsPage() {
         <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Campaign</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-            <input name="name" placeholder="Campaign name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
-            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
+            <input name="name" placeholder="Campaign name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1' }} />
+            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="email">Email Campaign</option><option value="event">Event</option>
               <option value="content">Content</option><option value="ad">Advertising</option>
               <option value="referral">Referral</option><option value="other">Other</option>
             </select>
-            <input name="budget" type="number" placeholder="Budget ($)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
-            <select name="target_specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
+            <input name="budget" type="number" placeholder="Budget ($)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <select name="target_specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="">All Specialties</option><option value="anesthesia">Anesthesia</option>
               <option value="orthopedics">Orthopedics</option><option value="pain_management">Pain Management</option>
               <option value="asc">ASC</option><option value="behavioral_health">Behavioral Health</option>
             </select>
-            <input name="start_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
-            <input name="end_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
-            <textarea name="notes" placeholder="Campaign notes..." rows={2} style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1', fontFamily: "'Reddit Sans', sans-serif", resize: 'vertical' }} />
+            <input name="start_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <input name="end_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <textarea name="notes" placeholder="Campaign notes..." rows={2} style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, gridColumn: '1 / -1', fontFamily: "'Reddit Sans', sans-serif", resize: 'vertical' }} />
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Campaign</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -125,7 +125,7 @@ export default function CampaignsPage() {
           const sc = statusColors[c.status] || statusColors.draft
           const roi = c.spent > 0 ? Math.round(((c.revenue_attributed - c.spent) / c.spent) * 100) : 0
           return (
-            <div key={c.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '20px 24px' }}>
+            <div key={c.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: '20px 24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -136,8 +136,8 @@ export default function CampaignsPage() {
                   {c.notes && <div style={{ fontSize: 13, color: '#9ca3af' }}>{c.notes}</div>}
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
-                  {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
-                  {c.status === 'active' && <button onClick={() => updateStatus(c.id, 'completed')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#185FA5' }}>Complete</button>}
+                  {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
+                  {c.status === 'active' && <button onClick={() => updateStatus(c.id, 'completed')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#185FA5' }}>Complete</button>}
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, paddingTop: 12, borderTop: '1px solid #F5F5F5', fontSize: 12 }}>

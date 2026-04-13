@@ -108,7 +108,7 @@ export default function LeadsPage() {
           <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>{filtered.length} of {leads.length} leads</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <label style={{ background: 'white', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+          <label style={{ background: 'white', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
             Import CSV
             <input type="file" accept=".csv" style={{ display: 'none' }} onChange={async (e) => {
@@ -124,7 +124,7 @@ export default function LeadsPage() {
               } else { alert('Import failed: ' + result.error) }
             }} />
           </label>
-          <a href="/api/crm/export" style={{ background: 'white', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <a href="/api/crm/export" style={{ background: 'white', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Export CSV
           </a>
@@ -161,9 +161,9 @@ export default function LeadsPage() {
               { name: 'practice_name', placeholder: 'Practice Name' },
             ].map(f => (
               <input key={f.name} name={f.name} placeholder={f.placeholder} required={f.required}
-                style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, outline: 'none' }} />
+                style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, outline: 'none' }} />
             ))}
-            <select name="specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
+            <select name="specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
               <option value="anesthesia">Anesthesia</option>
               <option value="orthopedics">Orthopedics</option>
               <option value="pain_management">Pain Management</option>
@@ -176,15 +176,15 @@ export default function LeadsPage() {
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" form="add-lead-form"
               style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Save Lead</button>
-            <button onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         <input type="text" placeholder="Search leads..." value={search} onChange={e => setSearch(e.target.value)}
-          style={{ padding: '8px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, width: 240, outline: 'none' }} />
-        <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
+          style={{ padding: '8px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, width: 240, outline: 'none' }} />
+        <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
           <option value="all">All Specialties</option>
           <option value="anesthesia">Anesthesia</option>
           <option value="orthopedics">Orthopedics</option>
@@ -193,29 +193,29 @@ export default function LeadsPage() {
           <option value="behavioral_health">Behavioral Health</option>
           <option value="urgent_care">Urgent Care</option>
         </select>
-        <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
+        <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
           <option value="all">All Temps</option>
           <option value="hot">Hot</option>
           <option value="warm">Warm</option>
           <option value="cold">Cold</option>
         </select>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
           <option value="all">All Stages</option>
           <option value="new">New</option><option value="qualified">Qualified</option>
           <option value="discovery">Discovery</option><option value="proposal">Proposal</option>
           <option value="negotiation">Negotiation</option><option value="won">Won</option><option value="lost">Lost</option>
         </select>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
+        <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
           <option value="score">Sort: AI Score</option>
           <option value="value">Sort: Value</option>
           <option value="created">Sort: Newest</option>
         </select>
       </div>
 
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', overflow: 'hidden' }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '0.5px solid #eef0f2', background: '#fafbfc' }}>
+            <tr style={{ borderBottom: '0.5px solid #e5e7eb', background: '#fafbfc' }}>
               <th style={{ padding: '12px 16px', width: 40 }}>
                 <input type="checkbox" onChange={selectAll} checked={selected.size === filtered.length && filtered.length > 0} style={{ cursor: 'pointer' }} />
               </th>
@@ -226,7 +226,7 @@ export default function LeadsPage() {
           </thead>
           <tbody>
             {filtered.map(lead => (
-              <tr key={lead.id} style={{ borderBottom: '0.5px solid #eef0f2', cursor: 'pointer', transition: 'background 0.15s', background: selected.has(lead.id) ? 'rgba(0,181,214,0.04)' : 'transparent' }}
+              <tr key={lead.id} style={{ borderBottom: '0.5px solid #e5e7eb', cursor: 'pointer', transition: 'background 0.15s', background: selected.has(lead.id) ? 'rgba(0,181,214,0.04)' : 'transparent' }}
                 onMouseEnter={e => { if (!selected.has(lead.id)) (e.currentTarget as HTMLElement).style.background = '#FAFAFA' }}
                 onMouseLeave={e => { if (!selected.has(lead.id)) (e.currentTarget as HTMLElement).style.background = 'transparent' }}>
                 <td style={{ padding: '14px 16px', width: 40 }}>
