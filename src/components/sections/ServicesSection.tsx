@@ -57,6 +57,8 @@ function ServiceCard({ svc }: { svc: typeof services[0] }) {
         borderRadius: 16,
         overflow: 'hidden',
         height: '100%',
+        display: 'flex',
+        flexDirection: 'column' as const,
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         transform: hovered ? 'translateY(-6px)' : 'none',
         boxShadow: hovered ? '0 16px 40px rgba(0,181,214,0.15)' : 'none',
@@ -86,11 +88,11 @@ function ServiceCard({ svc }: { svc: typeof services[0] }) {
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px 24px 28px' }}>
+        <div style={{ padding: '24px 24px 28px', flex: 1, display: 'flex', flexDirection: 'column' as const }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: hovered ? '#00B5D6' : 'var(--gray-400)', letterSpacing: '0.05em', marginBottom: 8, transition: 'color 0.3s', fontFamily: 'var(--font-display)' }}>{svc.num}</div>
           <h4 style={{ fontSize: 20, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 8, transition: 'color 0.3s', ...(hovered ? { color: '#00B5D6' } : {}) }}>{svc.title}</h4>
           <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-500)', margin: 0 }}>{svc.desc}</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 20, fontSize: 13, fontWeight: 500, color: '#00B5D6' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 20, fontSize: 13, fontWeight: 500, color: '#00B5D6' }}>
             Learn More
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
               style={{ transition: 'transform 0.3s', transform: hovered ? 'translateX(4px)' : 'none' }}>

@@ -5,7 +5,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export default function StatementSection() {
   return (
-    <section style={{ position: 'relative', overflow: 'hidden', background: '#0a1628' }}>
+    <section style={{ position: 'relative', overflow: 'hidden', background: '#000' }}>
       {/* Video background */}
       <video autoPlay loop muted playsInline style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',

@@ -6,12 +6,6 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { useChat } from '@/components/ui/ChatContext'
 import { BotMessage } from '@/components/ui/ChatMessage'
 
-const features = [
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, title: 'Scalable AI Built for Growth', desc: 'Enterprise-scale capacity that grows with your practice.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>, title: 'Specialized AI Voice Agents', desc: 'Automate eligibility, claims, prior auth, scheduling, and billing.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>, title: 'Up to 30% Revenue Growth', desc: 'Real results. Not just reports.' },
-]
-
 const placeholders = [
   'How does R+A reduce denials?',
   'What is my expected revenue lift?',
@@ -29,7 +23,6 @@ function AIPanel() {
   const [deleting, setDeleting] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Typing placeholder animation (only when input is empty and not expanded)
   useEffect(() => {
     if (expanded || input.length > 0) return
     const current = placeholders[phIdx]
@@ -50,37 +43,18 @@ function AIPanel() {
     return () => clearTimeout(timeout)
   }, [charIdx, deleting, phIdx, expanded, input])
 
-  const handleFocus = () => {
-    setExpanded(true)
-    setPlaceholder('')
-  }
-
-  const handleSend = () => {
-    if (!input.trim() || isLoading) return
-    sendMessage(input)
-    setInput('')
-  }
-
-  const handleClose = () => {
-    setExpanded(false)
-    setInput('')
-    setCharIdx(0)
-    setPhIdx(0)
-    setDeleting(false)
-  }
+  const handleFocus = () => { setExpanded(true); setPlaceholder('') }
+  const handleSend = () => { if (!input.trim() || isLoading) return; sendMessage(input); setInput('') }
+  const handleClose = () => { setExpanded(false); setInput(''); setCharIdx(0); setPhIdx(0); setDeleting(false) }
 
   return (
     <div style={{
       background: expanded ? 'white' : '#00B5D6',
-      borderRadius: 'var(--radius-lg)',
-      padding: expanded ? '0' : '56px 40px',
+      borderRadius: 'var(--radius-lg)', padding: expanded ? '0' : '56px 40px',
       color: expanded ? '#1a1a1a' : 'white',
       transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-      height: 520,
-      display: 'flex',
-      flexDirection: 'column',
-      border: expanded ? '2px solid #00B5D6' : 'none',
-      overflow: 'hidden',
+      height: 520, display: 'flex', flexDirection: 'column',
+      border: expanded ? '2px solid #00B5D6' : 'none', overflow: 'hidden',
     }}>
       {!expanded ? (
         <>
@@ -88,39 +62,22 @@ function AIPanel() {
             Ask Anything About<br />Your Revenue Cycle
           </h3>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 32 }}>
-            Cosentus.ai — your always-on revenue intelligence assistant, powered by Real&nbsp;+&nbsp;Artificial Intelligence.
+            Cosentus.ai — your always-on revenue intelligence assistant.
           </p>
-
-          {/* Real input with animated placeholder */}
           <div style={{
-            background: 'rgba(255,255,255,0.1)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: 'var(--radius-md)',
-            padding: '16px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            cursor: 'text',
+            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: 'var(--radius-md)', padding: '16px 24px',
+            display: 'flex', alignItems: 'center', gap: 12, cursor: 'text',
           }} onClick={() => inputRef.current?.focus()}>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.5)" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
             </svg>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onFocus={handleFocus}
-              onKeyDown={e => { if (e.key === 'Enter') { handleFocus(); setTimeout(() => handleSend(), 100) } }}
-              placeholder={placeholder || 'Ask anything...'}
-              className="ra-search-input"
-              style={{
-                flex: 1, background: 'transparent', border: 'none', outline: 'none',
-                color: 'white', fontSize: 15, fontFamily: 'var(--font-body)',
-              }}
+            <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)}
+              onFocus={handleFocus} onKeyDown={e => { if (e.key === 'Enter') { handleFocus(); setTimeout(() => handleSend(), 100) } }}
+              placeholder={placeholder || 'Ask anything...'} className="ra-search-input"
+              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 15, fontFamily: 'var(--font-body)' }}
             />
           </div>
-
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 32 }}>
             {[{ n: '~3,000', l: 'Calls/Day' }, { n: '8', l: 'AI Agents' }, { n: '50+', l: 'Languages' }, { n: '24/7', l: 'Coverage' }].map((s, i) => (
               <div key={i} style={{ textAlign: 'center', padding: '12px 0' }}>
@@ -132,7 +89,6 @@ function AIPanel() {
         </>
       ) : (
         <>
-          {/* Blue header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: '#00B5D6', flexShrink: 0 }}>
             <div>
               <h4 style={{ fontSize: 18, fontWeight: 600, color: 'white', margin: 0 }}>COSE AI</h4>
@@ -140,8 +96,6 @@ function AIPanel() {
             </div>
             <button onClick={handleClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 14 }}>✕</button>
           </div>
-
-          {/* White message area — scrollable */}
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, padding: 16, background: 'white' }}>
             <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', fontSize: 14, lineHeight: 1.6, color: 'white', maxWidth: '85%' }}>
               Hey! I&apos;m COSE AI. How can I help you today?
@@ -155,31 +109,24 @@ function AIPanel() {
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 fontWeight: msg.role === 'user' ? 500 : 400,
               }}>
-                {msg.role === 'bot' ? (
-                  <BotMessage text={msg.text} animate={i === messages.length - 1} />
-                ) : msg.text}
+                {msg.role === 'bot' ? <BotMessage text={msg.text} animate={i === messages.length - 1} /> : msg.text}
               </div>
             ))}
             {isLoading && (
               <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '14px 18px', maxWidth: '60%', display: 'flex', gap: 4, alignItems: 'center' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0s' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.2s' }} />
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'white', animation: 'dotBounce 1.4s infinite', animationDelay: '0.4s' }} />
               </div>
             )}
           </div>
-
-          {/* Input area — pinned to bottom */}
           <div style={{ padding: '12px 16px', borderTop: '1px solid #E6E6E6', background: 'white', flexShrink: 0 }}>
             <div style={{ display: 'flex', gap: 8, background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', border: '1px solid #E6E6E6' }}>
-            <input
-              autoFocus
-              type="text" value={input} onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSend()}
-              placeholder="Type your question..."
-              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 14, fontFamily: 'var(--font-body)' }}
-            />
-            <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '8px 20px', color: 'white', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
+              <input autoFocus type="text" value={input} onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSend()} placeholder="Type your question..."
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 14, fontFamily: 'var(--font-body)' }}
+              />
+              <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '8px 20px', color: 'white', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
             </div>
           </div>
         </>
@@ -195,32 +142,45 @@ export default function RASection() {
         <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
           <div>
             <RevealOnScroll direction="left">
-              <div className="section-label">COSENTUS.AI</div>
+              <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.15}>
-              <div className="section-title">Real + Artificial<br />Intelligence</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
+                Not Just a Billing Company.<br /><span style={{ color: '#00B5D6', fontStyle: 'italic' }}>A Platform.</span>
+              </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
-              <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginTop: 16, marginBottom: 32 }}>
+              <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 36 }}>
                 Claims chased before you notice them. Denials overturned before they cost you. Collections handled while you see patients.
               </p>
             </RevealOnScroll>
 
-            {features.map((f, i) => (
-              <RevealOnScroll key={i} direction="left" delay={0.35 + i * 0.15}>
-                <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: 24 }}>
-                  <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-sm)', background: 'var(--primary-ghost)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{f.icon}</div>
-                  <div>
-                    <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 4 }}>{f.title}</div>
-                    <div style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{f.desc}</div>
+            {/* Platform stats inline */}
+            <RevealOnScroll direction="left" delay={0.35}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, marginBottom: 36 }}>
+                {[
+                  { n: '23', l: 'Modules' },
+                  { n: '15', l: 'AI Features' },
+                  { n: '8', l: 'Voice Agents' },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    background: '#00B5D6', padding: '24px 16px', textAlign: 'center',
+                    borderRadius: i === 0 ? '12px 0 0 12px' : i === 2 ? '0 12px 12px 0' : '0',
+                    transition: 'background 0.3s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#000' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6' }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 28, color: 'white', lineHeight: 1 }}>{item.n}</div>
+                    <div style={{ fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{item.l}</div>
                   </div>
-                </div>
-              </RevealOnScroll>
-            ))}
+                ))}
+              </div>
+            </RevealOnScroll>
 
-            <RevealOnScroll direction="left" delay={0.8}>
-              <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', marginTop: 8, display: 'inline-flex' }}>
-                See How R+A Works
+            <RevealOnScroll direction="left" delay={0.45}>
+              <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
+                Explore The Platform
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </RevealOnScroll>
