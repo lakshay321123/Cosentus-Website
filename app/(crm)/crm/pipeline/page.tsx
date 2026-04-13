@@ -117,6 +117,18 @@ export default function PipelinePage() {
                         </div>
                         {lead.assigned_to && <span style={{ fontSize: 11, color: '#000000' }}>{lead.assigned_to}</span>}
                       </div>
+                      {/* Keyboard accessible stage changer */}
+                      <select value={stage} onChange={async (e) => {
+                        e.preventDefault(); e.stopPropagation()
+                        const newStage = e.target.value
+                        const prev = lead.status
+                        setLeads(p => p.map(l => l.id === lead.id ? { ...l, status: newStage as Lead['status'] } : l))
+                        const { error } = await supabase.from('leads').update({ status: newStage }).eq('id', lead.id)
+                        if (error) { setLeads(p => p.map(l => l.id === lead.id ? { ...l, status: prev as Lead['status'] } : l)); alert('Failed') }
+                        else { await supabase.from('activities').insert({ lead_id: lead.id, type: 'status_change', description: `Moved to ${newStage}` }) }
+                      }} onClick={e => e.preventDefault()} style={{ width: '100%', marginTop: 8, fontSize: 11, padding: '4px 6px', borderRadius: 6, border: '1px solid #E6E6E6', background: '#fff', color: '#000', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
+                        {stages.map(s => <option key={s} value={s}>{stageLabels[s]}</option>)}
+                      </select>
                     </div>
                   </Link>
                 ))}
