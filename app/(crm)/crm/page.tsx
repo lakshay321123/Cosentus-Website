@@ -1,8 +1,34 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { supabase, Lead } from '@/lib/supabase'
+
+function Notification({ lead, onClose }: { lead: Lead; onClose: () => void }) {
+  useEffect(() => { const t = setTimeout(onClose, 6000); return () => clearTimeout(t) }, [onClose])
+  return (
+    <div style={{
+      position: 'fixed', top: 20, right: 20, zIndex: 1000,
+      background: 'white', borderRadius: 12, border: '1px solid #00B5D6',
+      padding: '16px 20px', boxShadow: '0 8px 30px rgba(0,181,214,0.15)',
+      maxWidth: 360, animation: 'slideIn 0.3s ease',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em' }}>New Lead</span>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#CCCCCC', fontSize: 16 }}>×</button>
+      </div>
+      <div style={{ fontSize: 14, fontWeight: 600, color: '#000' }}>{lead.first_name} {lead.last_name}</div>
+      <div style={{ fontSize: 13, color: '#616161' }}>{lead.practice_name} · {lead.specialty?.replace('_', ' ')}</div>
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <span style={{ fontSize: 11, fontWeight: 600, padding: '2px 6px', borderRadius: 4, background: lead.ai_score >= 75 ? '#FAECE7' : '#FAEEDA', color: lead.ai_score >= 75 ? '#993C1D' : '#854F0B' }}>
+          Score: {lead.ai_score}
+        </span>
+        <Link href={`/crm/leads/${lead.id}`} style={{ fontSize: 12, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View →</Link>
+      </div>
+      <style>{`@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`}</style>
+    </div>
+  )
+}
 
 function StatCard({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
   return (
@@ -58,10 +84,26 @@ function timeAgo(d: string) {
 export default function CRMDashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
+  const [newLeadNotif, setNewLeadNotif] = useState<Lead | null>(null)
 
   useEffect(() => {
     supabase.from('leads').select('*').order('ai_score', { ascending: false })
       .then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
+
+    // Real-time: listen for new leads
+    const channel = supabase
+      .channel('crm-dashboard')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, (payload) => {
+        const newLead = payload.new as Lead
+        setLeads(prev => [newLead, ...prev])
+        setNewLeadNotif(newLead)
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'leads' }, (payload) => {
+        setLeads(prev => prev.map(l => l.id === (payload.new as Lead).id ? payload.new as Lead : l))
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
   }, [])
 
   const totalLeads = leads.length
@@ -83,6 +125,8 @@ export default function CRMDashboard() {
   if (loading) return <div style={{ padding: 40, color: '#616161' }}>Loading dashboard...</div>
 
   return (
+    <>
+      {newLeadNotif && <Notification lead={newLeadNotif} onClose={() => setNewLeadNotif(null)} />}
     <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div>
@@ -158,5 +202,6 @@ export default function CRMDashboard() {
         </table>
       </div>
     </div>
+    </>
   )
 }

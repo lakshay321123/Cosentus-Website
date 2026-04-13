@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,14 +15,27 @@ const navItems = [
 
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: "'Reddit Sans', sans-serif" }}>
+      {/* Mobile header */}
+      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: 'white', borderBottom: '1px solid #E6E6E6', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 24 }} />
+        <button onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.5"><path d={mobileOpen ? "M6 6l12 12M6 18L18 6" : "M4 6h16M4 12h16M4 18h16"} /></svg>
+        </button>
+      </div>
+
+      {/* Sidebar overlay for mobile */}
+      {mobileOpen && <div onClick={() => setMobileOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 99 }} className="crm-overlay" />}
+
       {/* Sidebar */}
-      <aside style={{
+      <aside className="crm-sidebar" style={{
         width: 240, background: '#fff', borderRight: '1px solid #E6E6E6',
         padding: '20px 0', display: 'flex', flexDirection: 'column', flexShrink: 0,
-        position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 100,
+        position: 'fixed', top: 0, left: mobileOpen ? 0 : -240, bottom: 0, zIndex: 100,
+        transition: 'left 0.3s ease',
       }}>
         {/* Logo */}
         <div style={{ padding: '0 20px 24px', borderBottom: '1px solid #E6E6E6' }}>
@@ -36,7 +50,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           {navItems.map(item => {
             const active = pathname === item.href
             return (
-              <Link key={item.href} href={item.href} style={{
+              <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: 12,
                 padding: '10px 14px', borderRadius: 8, marginBottom: 4,
                 textDecoration: 'none', fontSize: 14, fontWeight: active ? 600 : 400,
@@ -70,9 +84,22 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main */}
-      <main style={{ flex: 1, marginLeft: 240, background: '#FAFAFA', minHeight: '100vh' }}>
+      <main className="crm-main" style={{ flex: 1, marginLeft: 240, background: '#FAFAFA', minHeight: '100vh' }}>
         {children}
       </main>
+
+      <style>{`
+        @media (min-width: 769px) {
+          .crm-sidebar { left: 0 !important; }
+          .crm-mobile-header { display: none !important; }
+          .crm-overlay { display: none !important; }
+        }
+        @media (max-width: 768px) {
+          .crm-mobile-header { display: flex !important; }
+          .crm-main { margin-left: 0 !important; padding-top: 56px !important; }
+          .crm-main > div { padding: 16px !important; }
+        }
+      `}</style>
     </div>
   )
 }
