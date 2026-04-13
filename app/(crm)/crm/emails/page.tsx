@@ -188,7 +188,16 @@ export default function EmailsPage() {
               <div>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.08em', marginBottom: 12 }}>SAVE TEMPLATE</div>
                 <input value={templateName} onChange={e => setTemplateName(e.target.value)} placeholder="Template name" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 6, boxSizing: 'border-box', ...S }} />
-                <input value={templateSubject} onChange={e => setTemplateSubject(e.target.value)} placeholder="Subject line" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 8, boxSizing: 'border-box', ...S }} />
+                <input value={templateSubject} onChange={e => setTemplateSubject(e.target.value)} placeholder="Subject line" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 4, boxSizing: 'border-box', ...S }} />
+                <button onClick={async () => {
+                  const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'subject_lines', lead_id: previewLead || undefined, context: { purpose: 'marketing' } }) })
+                  const data = await res.json()
+                  if (data.subject_lines?.length) {
+                    const pick = data.subject_lines[Math.floor(Math.random() * data.subject_lines.length)]
+                    setTemplateSubject(pick)
+                    alert('AI suggestions:\n\n' + data.subject_lines.map((s: string, i: number) => `${i+1}. ${s}`).join('\n') + '\n\nFirst one auto-filled. Copy another if preferred.')
+                  }
+                }} style={{ width: '100%', fontSize: 11, padding: '6px', borderRadius: 6, border: '1px solid #00B5D6', background: '#D6EBF2', color: '#00B5D6', cursor: 'pointer', marginBottom: 8, fontWeight: 500, ...S }}>✨ AI Subject Lines</button>
                 <button onClick={saveTemplate} disabled={saving} style={{ width: '100%', padding: '10px', borderRadius: 8, background: '#00B5D6', color: '#fff', border: 'none', fontSize: 13, fontWeight: 600, cursor: 'pointer', ...S }}>{saving ? 'Saving...' : 'Save Template'}</button>
                 <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 16, textAlign: 'center' }}>Select a block to edit its properties</div>
               </div>
@@ -202,7 +211,26 @@ export default function EmailsPage() {
                 {/* Content */}
                 {['text', 'heading', 'button', 'testimonial', 'footer', 'columns'].includes(selectedBlock.type) && (
                   <div style={{ marginBottom: 12 }}>
-                    <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Content</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Content</label>
+                      <div style={{ display: 'flex', gap: 4 }}>
+                        <button onClick={async () => {
+                          const purpose = selectedBlock.type === 'heading' ? 'email heading' : selectedBlock.type === 'button' ? 'CTA button text' : selectedBlock.type === 'testimonial' ? 'testimonial quote' : 'email body paragraph'
+                          const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'write_block', lead_id: previewLead || undefined, context: { block_type: selectedBlock.type, purpose } }) })
+                          const data = await res.json()
+                          if (data.content) updateBlock(selected!, { content: data.content })
+                          else alert(data.error || 'AI generation failed')
+                        }} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 4, border: '1px solid #00B5D6', background: '#fff', color: '#00B5D6', cursor: 'pointer', ...S }}>✨ AI Write</button>
+                        {selectedBlock.content && selectedBlock.content.length > 10 && (
+                          <button onClick={async () => {
+                            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'improve_text', context: { text: selectedBlock.content, instruction: 'make it more compelling and professional for a medical practice audience' } }) })
+                            const data = await res.json()
+                            if (data.content) updateBlock(selected!, { content: data.content })
+                            else alert(data.error || 'AI improvement failed')
+                          }} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 4, border: '1px solid #00B5D6', background: '#D6EBF2', color: '#00B5D6', cursor: 'pointer', ...S }}>✨ Improve</button>
+                        )}
+                      </div>
+                    </div>
                     <textarea value={selectedBlock.content} onChange={e => updateBlock(selected!, { content: e.target.value })} rows={3} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, resize: 'vertical', boxSizing: 'border-box', marginTop: 4, ...S }} />
                   </div>
                 )}

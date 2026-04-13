@@ -33,16 +33,18 @@ function CindyInner() {
   const [actionLabel, setActionLabel] = useState('')
   const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const conversationIdRef = useRef<string | null>(null)
+  const connectTimeRef = useRef<number>(0)
   const router = useRouter()
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId },
+    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now() },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
       // Send conversation to CRM for transcript extraction + lead capture
       const convId = conversationIdRef.current
-      if (convId) {
+      const duration = Date.now() - connectTimeRef.current
+      if (convId && duration > 10000) {
         fetch('/api/crm/voice-capture', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
