@@ -201,7 +201,86 @@ export default function CRMDashboard() {
           </tbody>
         </table>
       </div>
+
+      {/* Bottom row: Activity Feed + Tasks Due */}
+      <ActivityFeed />
     </div>
     </>
+  )
+}
+
+function ActivityFeed() {
+  const [activities, setActivities] = useState<any[]>([])
+  const [tasks, setTasks] = useState<any[]>([])
+
+  useEffect(() => {
+    Promise.all([
+      supabase.from('activities').select('*, lead:leads(first_name, last_name)').order('created_at', { ascending: false }).limit(10),
+      supabase.from('tasks').select('*, lead:leads(first_name, last_name)').eq('status', 'pending').order('due_date', { ascending: true }).limit(5),
+    ]).then(([aRes, tRes]) => {
+      if (aRes.data) setActivities(aRes.data)
+      if (tRes.data) setTasks(tRes.data)
+    })
+  }, [])
+
+  const typeIcons: Record<string, string> = { call: '📞', email: '📧', chat: '💬', meeting: '📅', note: '📝', status_change: '🔄', task: '✅' }
+  const priorityColors: Record<string, string> = { high: '#E24B4A', medium: '#EF9F27', low: '#85B7EB' }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20, marginTop: 20 }}>
+      {/* Activity Feed */}
+      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: '0 0 16px' }}>Activity Feed</h2>
+        {activities.length === 0 ? (
+          <div style={{ fontSize: 13, color: '#CCCCCC', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {activities.map((a, i) => (
+              <div key={a.id} style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: i < activities.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
+                <div style={{ fontSize: 14, width: 20, textAlign: 'center', flexShrink: 0 }}>{typeIcons[a.type] || '📋'}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, color: '#000' }}>
+                    {a.lead && <span style={{ fontWeight: 600 }}>{a.lead.first_name} {a.lead.last_name}</span>}
+                    {a.lead && ' — '}{a.description}
+                  </div>
+                  <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 2 }}>
+                    {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {new Date(a.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Tasks Due */}
+      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: 0 }}>Tasks Due</h2>
+          <Link href="/crm/tasks" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View All →</Link>
+        </div>
+        {tasks.length === 0 ? (
+          <div style={{ fontSize: 13, color: '#CCCCCC', padding: '20px 0', textAlign: 'center' }}>No pending tasks</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {tasks.map(t => {
+              const isOverdue = t.due_date && new Date(t.due_date) < new Date()
+              return (
+                <div key={t.id} style={{ padding: '12px', borderRadius: 8, border: `1px solid ${isOverdue ? '#E24B4A' : '#E6E6E6'}` }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: priorityColors[t.priority] || '#CCCCCC' }} />
+                    <span style={{ fontSize: 13, fontWeight: 500, color: '#000' }}>{t.title}</span>
+                  </div>
+                  {t.lead && <div style={{ fontSize: 11, color: '#616161' }}>{t.lead.first_name} {t.lead.last_name}</div>}
+                  {t.due_date && <div style={{ fontSize: 11, color: isOverdue ? '#E24B4A' : '#CCCCCC', marginTop: 4 }}>
+                    {isOverdue ? 'OVERDUE — ' : ''}{new Date(t.due_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                  </div>}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
