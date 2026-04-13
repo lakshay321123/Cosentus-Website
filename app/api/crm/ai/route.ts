@@ -49,16 +49,16 @@ export async function POST(req: NextRequest) {
     if (action === 'write_email') {
       const tone = context.tone || 'professional'
       const purpose = context.purpose || 'follow-up'
-      const text = await askClaude(`You are a sales rep at Cosentus. Write a ${tone} ${purpose} email.\n\n${leadContext}\n\n${cosentusContext}\n\nWrite ONLY the email body. Under 150 words. Specific to their specialty. Include CTA to book a call.`)
-      const subject = await askClaude(`Write one email subject line under 50 chars for a ${purpose} email to a ${lead?.specialty || 'healthcare'} practice. Return ONLY the subject line.`)
-      return NextResponse.json({ subject: subject.trim(), body: text.trim() })
+      const text = await askClaude(`You are a sales rep at Cosentus. Write a ${tone} ${purpose} email.\n\n${leadContext}\n\n${cosentusContext}\n\nWrite ONLY the email body as plain text. No markdown, no # headers, no ** bold. Under 150 words. Specific to their specialty. Include CTA to book a call.`)
+      const subject = await askClaude(`Write one email subject line under 50 chars for a ${purpose} email to a ${lead?.specialty || 'healthcare'} practice. Return ONLY the subject line, no quotes, no markdown.`)
+      return NextResponse.json({ subject: subject.trim().replace(/^#+\s*/gm, '').replace(/\*\*/g, ''), body: text.trim().replace(/^#+\s*/gm, '').replace(/\*\*/g, '') })
     }
 
     if (action === 'write_block') {
       const blockType = context.block_type || 'text'
       const purpose = context.purpose || 'marketing email body'
-      const text = await askClaude(`Write content for a ${blockType} block in a marketing email for Cosentus.\nPurpose: ${purpose}\n${leadContext ? `\nTarget: ${leadContext}` : ''}\n${cosentusContext}\n\nWrite ONLY the content. ${blockType === 'heading' ? 'One line, under 10 words.' : 'Under 80 words. Conversational, not salesy.'}`)
-      return NextResponse.json({ content: text.trim() })
+      const text = await askClaude(`Write content for a ${blockType} block in a marketing email for Cosentus.\nPurpose: ${purpose}\n${leadContext ? `\nTarget: ${leadContext}` : ''}\n${cosentusContext}\n\nWrite ONLY the content as plain text. No markdown, no # headers, no ** bold. ${blockType === 'heading' ? 'One line, under 10 words.' : 'Under 80 words. Conversational, not salesy.'}`)
+      return NextResponse.json({ content: text.trim().replace(/^#+\s*/gm, '').replace(/\*\*/g, '') })
     }
 
     if (action === 'improve_text') {

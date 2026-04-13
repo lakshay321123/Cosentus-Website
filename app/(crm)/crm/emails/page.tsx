@@ -17,7 +17,7 @@ interface Block {
 }
 
 const defaultBlocks: Record<BlockType, Partial<Block>> = {
-  header: { content: 'Cosentus', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 },
+  header: { content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 },
   text: { content: 'Write your message here. Click to edit. Use variables like {{first_name}} for personalization.', fontSize: 15, color: '#333333', padding: 20, align: 'left', bgColor: '#ffffff' },
   heading: { content: 'Section Heading', fontSize: 24, fontWeight: 'bold', color: '#000000', padding: 20, align: 'left', bgColor: '#ffffff' },
   image: { imgUrl: '', imgWidth: 100, imgHeight: 200, imgAlt: 'Image', padding: 16, align: 'center', bgColor: '#ffffff' },
@@ -50,6 +50,9 @@ export default function EmailsPage() {
   const [leads, setLeads] = useState<any[]>([])
   const [previewLead, setPreviewLead] = useState('')
   const [showPreview, setShowPreview] = useState(false)
+  const [history, setHistory] = useState<Block[][]>([])
+
+  const pushHistory = () => setHistory(prev => [...prev.slice(-19), blocks])
 
   useEffect(() => {
     supabase.from('email_templates').select('*').eq('category', 'custom').order('created_at', { ascending: false }).then(({ data }) => { if (data) setSaved(data) })
@@ -64,8 +67,8 @@ export default function EmailsPage() {
   }
 
   const updateBlock = (id: string, updates: Partial<Block>) => setBlocks(blocks.map(b => b.id === id ? { ...b, ...updates } : b))
-  const removeBlock = (id: string) => { setBlocks(blocks.filter(b => b.id !== id)); if (selected === id) setSelected(null) }
-  const moveBlock = (idx: number, dir: -1 | 1) => { const n = idx + dir; if (n < 0 || n >= blocks.length) return; const a = [...blocks]; [a[idx], a[n]] = [a[n], a[idx]]; setBlocks(a) }
+  const removeBlock = (id: string) => { pushHistory(); setBlocks(blocks.filter(b => b.id !== id)); if (selected === id) setSelected(null) }
+  const moveBlock = (idx: number, dir: -1 | 1) => { pushHistory(); const n = idx + dir; if (n < 0 || n >= blocks.length) return; const a = [...blocks]; [a[idx], a[n]] = [a[n], a[idx]]; setBlocks(a) }
   const duplicateBlock = (b: Block) => { const dup = { ...b, id: `blk-${Date.now()}` }; const idx = blocks.findIndex(x => x.id === b.id); const a = [...blocks]; a.splice(idx + 1, 0, dup); setBlocks(a); setSelected(dup.id) }
 
   const fillVars = (text: string) => {
@@ -80,7 +83,7 @@ export default function EmailsPage() {
       const pad = `padding:${b.padding || 16}px 32px`
       const bg = `background:${b.bgColor || '#fff'}`
       const align = `text-align:${b.align || 'left'}`
-      if (b.type === 'header') html += `<div style="${bg};${pad};text-align:${b.align||'center'}"><img src="https://cosentus-website.vercel.app/images/cosentus-logo.png" alt="Cosentus" style="height:28px;display:block;margin:0 auto 6px"><div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.8)">REAL + ARTIFICIAL INTELLIGENCE</div></div>`
+      if (b.type === 'header') html += `<div style="${bg};${pad};text-align:${b.align||'center'}"><img src="${b.imgUrl || 'https://cosentus-website.vercel.app/images/cosentus-logo.png'}" alt="Logo" style="height:28px;display:block;margin:0 auto 6px"><div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.8)">${b.content || ''}</div></div>`
       else if (b.type === 'text') html += `<div style="${pad};${bg};${align};font-size:${b.fontSize||15}px;line-height:1.7;color:${b.color||'#333'};${b.fontWeight === 'bold' ? 'font-weight:bold;' : ''}">${fillVars(b.content)}</div>`
       else if (b.type === 'heading') html += `<div style="${pad};${bg};${align}"><h2 style="margin:0;font-size:${b.fontSize||24}px;color:${b.color||'#000'};font-weight:${b.fontWeight||'bold'}">${fillVars(b.content)}</h2></div>`
       else if (b.type === 'image') html += `<div style="${pad};${bg};text-align:${b.align||'center'}"><img src="${b.imgUrl}" alt="${b.imgAlt||''}" style="width:${b.imgWidth||100}%;max-width:600px;height:auto;border-radius:${b.borderRadius||0}px"></div>`
@@ -88,7 +91,7 @@ export default function EmailsPage() {
       else if (b.type === 'divider') html += `<div style="padding:${b.padding||8}px 32px;${bg}"><hr style="border:none;border-top:${b.height||1}px solid ${b.dividerColor||'#e5e5e5'};margin:0"></div>`
       else if (b.type === 'spacer') html += `<div style="height:${b.height||32}px;${bg}"></div>`
       else if (b.type === 'stats') html += `<div style="${pad};display:flex;gap:24px;${bg}">${[{v:b.stat1,l:b.stat1Label},{v:b.stat2,l:b.stat2Label},{v:b.stat3,l:b.stat3Label}].map(s=>`<div style="text-align:center;flex:1"><div style="font-size:28px;font-weight:700;color:#00B5D6">${s.v||''}</div><div style="font-size:12px;color:#666">${s.l||''}</div></div>`).join('')}</div>`
-      else if (b.type === 'testimonial') html += `<div style="${pad};${bg};border-left:4px solid #00B5D6;margin:0 32px;border-radius:4px"><div style="font-style:italic;font-size:${b.fontSize||14}px;color:${b.color||'#333'};margin-bottom:8px">"${fillVars(b.content)}"</div><div style="font-size:13px;color:#666;font-weight:600">— ${b.content2||''}</div></div>`
+      else if (b.type === 'testimonial') html += `<div style="${pad};${bg};border-left:4px solid #00B5D6;margin:0 32px;border-radius:4px"><div style="font-style:italic;font-size:${b.fontSize||14}px;color:${b.color||'#333'};margin-bottom:8px">"${fillVars(b.content)}"</div><div style="font-size:13px;color:${b.color||'#333'};font-weight:600">— ${b.content2||''}</div></div>`
       else if (b.type === 'footer') html += `<div style="${pad};text-align:center;font-size:${b.fontSize||12}px;color:${b.color||'#999'};border-top:1px solid #e5e5e5"><div>${fillVars(b.content)}</div><div style="margin-top:4px">SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</div></div>`
       else if (b.type === 'columns') html += `<div style="${pad};${bg};display:flex;gap:16px"><div style="flex:1;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${fillVars(b.content)}</div><div style="flex:1;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${fillVars(b.content2||'')}</div></div>`
     }
@@ -98,11 +101,22 @@ export default function EmailsPage() {
   const saveTemplate = async () => {
     if (!templateName) { alert('Enter a template name'); return }
     setSaving(true)
-    const { data, error } = await supabase.from('email_templates').insert({ name: templateName, subject: templateSubject || templateName, html_content: toHtml(), category: 'custom' }).select()
+    const { data, error } = await supabase.from('email_templates').insert({ name: templateName, subject: templateSubject || templateName, html_content: toHtml(), design_json: JSON.stringify(blocks), category: 'custom' }).select()
     if (error) { alert('Save failed: ' + error.message); setSaving(false); return }
     if (data) { setSaved(prev => [data[0], ...prev]); alert('Saved!') }
     setSaving(false)
   }
+
+  const loadBlocks = (tpl: any) => {
+    if (tpl.design_json) {
+      try { setBlocks(JSON.parse(tpl.design_json)); setTemplateName(tpl.name); setTemplateSubject(tpl.subject); setTab('builder'); return } catch {}
+    }
+    alert('This template has no editable design data')
+  }
+
+  const copyHtml = () => { navigator.clipboard.writeText(toHtml()); alert('HTML copied to clipboard!') }
+
+  const undo = () => { if (history.length > 0) { setBlocks(history[history.length - 1]); setHistory(history.slice(0, -1)) } }
 
   const S: React.CSSProperties = { fontFamily: "'Reddit Sans', sans-serif" }
 
@@ -123,6 +137,8 @@ export default function EmailsPage() {
             {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name}</option>)}
           </select>
           <button onClick={() => setShowPreview(!showPreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: showPreview ? '#00B5D6' : '#fff', color: showPreview ? '#fff' : '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Preview</button>
+          <button onClick={copyHtml} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Copy HTML</button>
+          {history.length > 0 && <button onClick={undo} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>↩ Undo</button>}
         </div>
       </div>
 
@@ -131,6 +147,7 @@ export default function EmailsPage() {
           {saved.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: '#000' }}>No saved templates yet</div> : saved.map(t => (
             <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 16px', border: '1px solid #E6E6E6', borderRadius: 10, marginBottom: 8 }}>
               <div style={{ flex: 1 }}><div style={{ fontWeight: 600, color: '#000' }}>{t.name}</div><div style={{ fontSize: 12, color: '#000' }}>Subject: {t.subject}</div></div>
+              {t.design_json && <button onClick={() => loadBlocks(t)} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, border: '1px solid #00B5D6', background: '#fff', color: '#00B5D6', cursor: 'pointer', ...S }}>Edit</button>}
               <button onClick={() => { const lead = leads.find(l => l.id === previewLead); if (!lead?.email) { alert('Select a lead first'); return }; window.open(`mailto:${lead.email}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent('Hi ' + (lead.first_name || '') + ',\n\nPlease find our latest update below.\n\nBest regards,\nCosentus Team\n(877) 806-2286')}`, '_blank') }} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, background: '#00B5D6', color: '#fff', border: 'none', cursor: 'pointer', ...S }}>Send</button>
             </div>
           ))}
@@ -166,7 +183,7 @@ export default function EmailsPage() {
                     </div>
                   )}
                   {/* Block render */}
-                  {b.type === 'header' && <div style={{ background: b.bgColor, padding: `${b.padding}px 32px`, textAlign: (b.align || 'center') as any }}><img src="https://cosentus-website.vercel.app/images/cosentus-logo.png" alt="Cosentus" style={{ height: 28, marginBottom: 6, display: 'block', margin: '0 auto 6px' }} /><div style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.8)' }}>REAL + ARTIFICIAL INTELLIGENCE</div></div>}
+                  {b.type === 'header' && <div style={{ background: b.bgColor, padding: `${b.padding}px 32px`, textAlign: (b.align || 'center') as any }}><img src={b.imgUrl || 'https://cosentus-website.vercel.app/images/cosentus-logo.png'} alt="Logo" style={{ height: 28, display: 'block', margin: '0 auto 6px' }} /><div style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.8)' }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{b.content}</div></div>}
                   {b.type === 'text' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any, fontSize: b.fontSize, color: b.color, fontWeight: b.fontWeight as any, lineHeight: 1.7 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div>}
                   {b.type === 'heading' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><div style={{ fontSize: b.fontSize, fontWeight: b.fontWeight as any, color: b.color, margin: 0 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
                   {b.type === 'image' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt} style={{ width: `${b.imgWidth}%`, borderRadius: b.borderRadius }} /> : <div style={{ height: 120, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 13 }}>Click to select → Upload image in right panel</div>}</div>}
@@ -174,7 +191,7 @@ export default function EmailsPage() {
                   {b.type === 'divider' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor }}><hr style={{ border: 'none', borderTop: `${b.height}px solid ${b.dividerColor}`, margin: 0 }} /></div>}
                   {b.type === 'spacer' && <div style={{ height: b.height, background: b.bgColor }} />}
                   {b.type === 'stats' && <div style={{ padding: `${b.padding}px 32px`, display: 'flex', gap: 24, background: b.bgColor }}>{[{v:b.stat1,l:b.stat1Label},{v:b.stat2,l:b.stat2Label},{v:b.stat3,l:b.stat3Label}].map((s,i) => <div key={i} style={{ textAlign: 'center', flex: 1 }}><div style={{ fontSize: 28, fontWeight: 700, color: '#00B5D6' }}>{s.v}</div><div style={{ fontSize: 12, color: '#666' }}>{s.l}</div></div>)}</div>}
-                  {b.type === 'testimonial' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, borderLeft: '4px solid #00B5D6', margin: '0 32px', borderRadius: 4 }}><div style={{ fontStyle: 'italic', fontSize: b.fontSize, color: b.color, marginBottom: 8 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>"{fillVars(b.content)}"</div><div style={{ fontSize: 13, color: '#666', fontWeight: 600 }}>— {b.content2}</div></div>}
+                  {b.type === 'testimonial' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, borderLeft: '4px solid #00B5D6', margin: '0 32px', borderRadius: 4 }}><div style={{ fontStyle: 'italic', fontSize: b.fontSize, color: b.color, marginBottom: 8 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>"{fillVars(b.content)}"</div><div style={{ fontSize: 13, color: b.color, fontWeight: 600 }}>— {b.content2}</div></div>}
                   {b.type === 'footer' && <div style={{ padding: `${b.padding}px 32px`, textAlign: 'center', fontSize: b.fontSize, color: b.color, borderTop: '1px solid #e5e5e5' }}><div contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{b.content}</div><div style={{ marginTop: 4 }}>SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</div></div>}
                   {b.type === 'columns' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, display: 'flex', gap: 16 }}><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content2: e.currentTarget.innerText })}>{fillVars(b.content2 || '')}</div></div>}
                 </div>
@@ -250,6 +267,30 @@ export default function EmailsPage() {
                     <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Column 2</label>
                     <textarea value={selectedBlock.content2 || ''} onChange={e => updateBlock(selected!, { content2: e.target.value })} rows={3} style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, resize: 'vertical', boxSizing: 'border-box', marginTop: 4, ...S }} />
                   </div>
+                )}
+
+                {/* Header: logo upload + subtitle */}
+                {selectedBlock.type === 'header' && (
+                  <>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Logo Image</label>
+                      <input type="file" accept="image/*" onChange={async (e) => {
+                        const file = e.target.files?.[0]; if (!file) return
+                        if (file.size > 5 * 1024 * 1024) { alert('Max 5MB'); return }
+                        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+                        const fileName = `email-images/${Date.now()}-${safeName}`
+                        const { error } = await supabase.storage.from('crm-documents').upload(fileName, file)
+                        if (error) { alert('Upload failed'); return }
+                        const { data: urlData } = supabase.storage.from('crm-documents').getPublicUrl(fileName)
+                        updateBlock(selected!, { imgUrl: urlData.publicUrl })
+                      }} style={{ width: '100%', fontSize: 11, marginTop: 4 }} />
+                      <input value={selectedBlock.imgUrl || ''} onChange={e => updateBlock(selected!, { imgUrl: e.target.value })} placeholder="Or paste logo URL" style={{ width: '100%', padding: 6, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 11, boxSizing: 'border-box', marginTop: 4, ...S }} />
+                    </div>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Subtitle</label>
+                      <input value={selectedBlock.content || ''} onChange={e => updateBlock(selected!, { content: e.target.value })} style={{ width: '100%', padding: 6, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 12, boxSizing: 'border-box', marginTop: 4, ...S }} />
+                    </div>
+                  </>
                 )}
 
                 {/* Image: upload + URL + dimensions */}
@@ -380,7 +421,7 @@ export default function EmailsPage() {
                 {/* Common: background color */}
                 <div style={{ marginBottom: 12 }}>
                   <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Background</label>
-                  <input type="color" value={selectedBlock.bgColor || '#ffffff'} onChange={e => updateBlock(selected!, { bgColor: e.target.value })} style={{ width: '100%', height: 28, border: 'none', cursor: 'pointer', marginTop: 4 }} />
+                  <input type="color" value={selectedBlock.bgColor || '#ffffff'} onChange={e => { pushHistory(); updateBlock(selected!, { bgColor: e.target.value }) }} style={{ width: '100%', height: 28, border: 'none', cursor: 'pointer', marginTop: 4 }} />
                 </div>
 
                 {/* Common: padding */}
