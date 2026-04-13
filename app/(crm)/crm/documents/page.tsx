@@ -51,14 +51,14 @@ export default function DocumentsPage() {
     await supabase.from('documents').update({ status }).eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading documents...</div>
+  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading documents...</div>
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Documents</h1>
-          <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>{docs.length} documents · Proposals, contracts, case studies</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>Documents</h1>
+          <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>{docs.length} documents · Proposals, contracts, case studies</p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ Add Document</button>
       </div>
@@ -75,31 +75,31 @@ export default function DocumentsPage() {
       {showAdd && (
         <form onSubmit={handleAdd} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-            <input name="name" placeholder="Document name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
-            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, background: 'white' }}>
+            <input name="name" placeholder="Document name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="proposal">Proposal</option><option value="contract">Contract</option>
               <option value="case_study">Case Study</option><option value="presentation">Presentation</option>
               <option value="invoice">Invoice</option><option value="other">Other</option>
             </select>
-            <select name="lead_id" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, background: 'white' }}>
+            <select name="lead_id" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
               <option value="">Link to lead (optional)</option>
               {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.practice_name}</option>)}
             </select>
-            <input name="uploaded_by" placeholder="Uploaded by" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
+            <input name="uploaded_by" placeholder="Uploaded by" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Add Document</button>
-            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
 
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '0.5px solid rgba(0,0,0,0.06)', background: 'rgba(0,0,0,0.02)' }}>
+            <tr style={{ borderBottom: '0.5px solid #eef0f2', background: '#fafbfc' }}>
               {['Document', 'Type', 'Lead', 'Status', 'Uploaded By', 'Date'].map(h => (
-                <th key={h} style={{ textAlign: 'left', padding: '12px 16px', fontWeight: 500, color: '#8E8E93', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                <th key={h} style={{ textAlign: 'left', padding: '12px 16px', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -107,14 +107,14 @@ export default function DocumentsPage() {
             {filtered.map(d => {
               const sc = statusColors[d.status] || statusColors.draft
               return (
-                <tr key={d.id} style={{ borderBottom: '0.5px solid rgba(0,0,0,0.04)' }}>
+                <tr key={d.id} style={{ borderBottom: '0.5px solid #eef0f2' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ fontSize: 18 }}>{typeIcons[d.type] || '📎'}</span>
-                      <span style={{ fontWeight: 500, color: '#1C1C1E' }}>{d.name}</span>
+                      <span style={{ fontWeight: 500, color: '#1f2937' }}>{d.name}</span>
                     </div>
                   </td>
-                  <td style={{ padding: '14px 16px', color: '#8E8E93', textTransform: 'capitalize' }}>{d.type.replace('_', ' ')}</td>
+                  <td style={{ padding: '14px 16px', color: '#9ca3af', textTransform: 'capitalize' }}>{d.type.replace('_', ' ')}</td>
                   <td style={{ padding: '14px 16px', color: '#00B5D6' }}>{d.lead ? `${d.lead.first_name} ${d.lead.last_name}` : '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <select value={d.status} onChange={e => updateStatus(d.id, e.target.value)}
@@ -122,8 +122,8 @@ export default function DocumentsPage() {
                       {['draft', 'sent', 'viewed', 'signed', 'expired'].map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </td>
-                  <td style={{ padding: '14px 16px', color: '#8E8E93' }}>{d.uploaded_by || '—'}</td>
-                  <td style={{ padding: '14px 16px', color: '#C7C7CC', fontSize: 12 }}>{new Date(d.created_at).toLocaleDateString()}</td>
+                  <td style={{ padding: '14px 16px', color: '#9ca3af' }}>{d.uploaded_by || '—'}</td>
+                  <td style={{ padding: '14px 16px', color: '#d1d5db', fontSize: 12 }}>{new Date(d.created_at).toLocaleDateString()}</td>
                 </tr>
               )
             })}

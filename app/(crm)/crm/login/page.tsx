@@ -21,8 +21,8 @@ export default function CRMLogin() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F2F2F7', fontFamily: "'Reddit Sans', -apple-system, sans-serif" }}>
-      <div style={{ width: 380, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderRadius: 20, padding: '48px 36px', textAlign: 'center', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fb', fontFamily: "'Reddit Sans', -apple-system, sans-serif" }}>
+      <div style={{ width: 380, background: '#ffffff',  borderRadius: 20, padding: '48px 36px', textAlign: 'center', boxShadow: '0 4px 24px #eef0f2' }}>
         <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 32, marginBottom: 8 }} />
         <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: '#00B5D6', marginBottom: 36 }}>CRM</div>
 
@@ -30,13 +30,13 @@ export default function CRMLogin() {
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" autoFocus
             style={{
               width: '100%', padding: '14px 18px', borderRadius: 14, fontSize: 16, outline: 'none',
-              border: error ? '1.5px solid #FF453A' : '1px solid rgba(0,0,0,0.08)',
-              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
-              fontFamily: "'Reddit Sans', sans-serif", color: '#1C1C1E', boxSizing: 'border-box',
+              border: error ? '1.5px solid #ef4444' : '1px solid rgba(0,0,0,0.08)',
+              boxShadow: 'inset 0 1px 2px #eef0f2',
+              fontFamily: "'Reddit Sans', sans-serif", color: '#1f2937', boxSizing: 'border-box',
               WebkitAppearance: 'none',
             }}
           />
-          {error && <div style={{ fontSize: 14, color: '#FF453A', marginTop: 10 }}>{error}</div>}
+          {error && <div style={{ fontSize: 14, color: '#ef4444', marginTop: 10 }}>{error}</div>}
           <button type="submit" disabled={loading} style={{
             width: '100%', padding: '14px', marginTop: 18, borderRadius: 14,
             background: '#00B5D6', color: '#fff', border: 'none',
@@ -51,7 +51,7 @@ export default function CRMLogin() {
           </button>
         </form>
 
-        <div style={{ fontSize: 13, color: '#C7C7CC', marginTop: 28 }}>Authorized access only</div>
+        <div style={{ fontSize: 13, color: '#d1d5db', marginTop: 28 }}>Authorized access only</div>
       </div>
     </div>
   )

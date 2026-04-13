@@ -26,19 +26,19 @@ function AnimatedNumber({ value, prefix = '', suffix = '' }: { value: number; pr
 function Notification({ lead, onClose }: { lead: Lead; onClose: () => void }) {
   useEffect(() => { const t = setTimeout(onClose, 6000); return () => clearTimeout(t) }, [onClose])
   return (
-    <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderRadius: 16, padding: '16px 20px', boxShadow: '0 8px 40px rgba(0,0,0,0.12)', maxWidth: 340, animation: 'fadeIn 0.3s ease' }}>
+    <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000, background: '#ffffff',  borderRadius: 16, padding: '16px 20px', boxShadow: '0 8px 40px rgba(0,0,0,0.08)', maxWidth: 340, animation: 'fadeIn 0.3s ease' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6' }}>New Lead</span>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C7C7CC', fontSize: 16 }}>×</button>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#d1d5db', fontSize: 16 }}>×</button>
       </div>
-      <div style={{ fontSize: 15, fontWeight: 600, color: '#1C1C1E' }}>{lead.first_name} {lead.last_name}</div>
-      <div style={{ fontSize: 13, color: '#8E8E93' }}>{lead.practice_name}</div>
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#1f2937' }}>{lead.first_name} {lead.last_name}</div>
+      <div style={{ fontSize: 13, color: '#9ca3af' }}>{lead.practice_name}</div>
     </div>
   )
 }
 
 const stageColors: Record<string, string> = {
-  new: '#C7C7CC', qualified: '#5AC8FA', discovery: '#00B5D6', proposal: '#009BB8', negotiation: '#007AFF', won: '#30D158',
+  new: '#d1d5db', qualified: '#60a5fa', discovery: '#00B5D6', proposal: '#009BB8', negotiation: '#3b82f6', won: '#22c55e',
 }
 
 export default function CRMDashboard() {
@@ -84,7 +84,7 @@ export default function CRMDashboard() {
 
   const typeIcons: Record<string, string> = { call: '📞', email: '✉️', chat: '💬', meeting: '📅', note: '📝', status_change: '↻', task: '☑️' }
 
-  if (loading) return <div style={{ padding: 48, color: '#8E8E93', fontSize: 15 }}>Loading...</div>
+  if (loading) return <div style={{ padding: 48, color: '#9ca3af', fontSize: 15 }}>Loading...</div>
 
   return (
     <>
@@ -126,10 +126,10 @@ export default function CRMDashboard() {
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             {stageData.map((s, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#8E8E93' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#9ca3af' }}>
                 <div style={{ width: 8, height: 8, borderRadius: 3, background: stageColors[s.stage] }} />
                 <span style={{ textTransform: 'capitalize' }}>{s.stage}</span>
-                <span style={{ fontWeight: 600, color: '#1C1C1E' }}>${Math.round(s.value / 1000)}K</span>
+                <span style={{ fontWeight: 600, color: '#1f2937' }}>${Math.round(s.value / 1000)}K</span>
               </div>
             ))}
           </div>
@@ -150,15 +150,15 @@ export default function CRMDashboard() {
                 {leads.slice(0, 6).map(l => (
                   <tr key={l.id}>
                     <td>
-                      <Link href={`/crm/leads/${l.id}`} style={{ color: '#1C1C1E', textDecoration: 'none', fontWeight: 500, fontSize: 14 }}>{l.first_name} {l.last_name}</Link>
-                      <div style={{ fontSize: 12, color: '#8E8E93', marginTop: 1 }}>{l.practice_name}</div>
+                      <Link href={`/crm/leads/${l.id}`} style={{ color: '#1f2937', textDecoration: 'none', fontWeight: 500, fontSize: 14 }}>{l.first_name} {l.last_name}</Link>
+                      <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 1 }}>{l.practice_name}</div>
                     </td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <div className="crm-score-bar" style={{ width: 40 }}>
-                          <div className="crm-score-fill" style={{ width: `${l.ai_score}%`, background: l.ai_score >= 80 ? '#30D158' : l.ai_score >= 50 ? '#FF9F0A' : '#C7C7CC' }} />
+                          <div className="crm-score-fill" style={{ width: `${l.ai_score}%`, background: l.ai_score >= 80 ? '#22c55e' : l.ai_score >= 50 ? '#f59e0b' : '#d1d5db' }} />
                         </div>
-                        <span style={{ fontSize: 12, fontWeight: 600, color: l.ai_score >= 80 ? '#30D158' : l.ai_score >= 50 ? '#FF9F0A' : '#C7C7CC' }}>{l.ai_score}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: l.ai_score >= 80 ? '#22c55e' : l.ai_score >= 50 ? '#f59e0b' : '#d1d5db' }}>{l.ai_score}</span>
                       </div>
                     </td>
                     <td><span className={`crm-badge crm-badge-${l.temperature}`}>{l.temperature}</span></td>
@@ -175,14 +175,14 @@ export default function CRMDashboard() {
             <div className="crm-card crm-animate-in crm-animate-in-4" style={{ flex: 1 }}>
               <h2 className="crm-h2" style={{ marginBottom: 14 }}>Activity</h2>
               {activities.length === 0 ? (
-                <div style={{ fontSize: 14, color: '#C7C7CC', textAlign: 'center', padding: 24 }}>No activity yet</div>
+                <div style={{ fontSize: 14, color: '#d1d5db', textAlign: 'center', padding: 24 }}>No activity yet</div>
               ) : activities.map((a, i) => (
                 <div key={a.id} style={{ display: 'flex', gap: 10, padding: '8px 0', borderBottom: i < activities.length - 1 ? '0.5px solid rgba(0,0,0,0.04)' : 'none' }}>
                   <span style={{ fontSize: 13, width: 18 }}>{typeIcons[a.type] || '•'}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, color: '#1C1C1E', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: 13, color: '#1f2937', lineHeight: 1.4 }}>
                       {a.lead && <strong>{a.lead.first_name} {a.lead.last_name}</strong>}
-                      {a.lead && ' — '}<span style={{ color: '#8E8E93' }}>{a.description?.substring(0, 60)}{(a.description?.length || 0) > 60 ? '...' : ''}</span>
+                      {a.lead && ' — '}<span style={{ color: '#9ca3af' }}>{a.description?.substring(0, 60)}{(a.description?.length || 0) > 60 ? '...' : ''}</span>
                     </div>
                   </div>
                 </div>
@@ -196,13 +196,13 @@ export default function CRMDashboard() {
                 <Link href="/crm/tasks" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none' }}>All →</Link>
               </div>
               {tasks.length === 0 ? (
-                <div style={{ fontSize: 14, color: '#C7C7CC', textAlign: 'center', padding: 16 }}>No pending tasks</div>
+                <div style={{ fontSize: 14, color: '#d1d5db', textAlign: 'center', padding: 16 }}>No pending tasks</div>
               ) : tasks.map(t => (
                 <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '0.5px solid rgba(0,0,0,0.04)' }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: t.priority === 'high' ? '#FF453A' : t.priority === 'medium' ? '#FF9F0A' : '#5AC8FA', flexShrink: 0 }} />
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: t.priority === 'high' ? '#ef4444' : t.priority === 'medium' ? '#f59e0b' : '#60a5fa', flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: '#1C1C1E' }}>{t.title}</div>
-                    {t.lead && <div style={{ fontSize: 12, color: '#8E8E93' }}>{t.lead.first_name} {t.lead.last_name}</div>}
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#1f2937' }}>{t.title}</div>
+                    {t.lead && <div style={{ fontSize: 12, color: '#9ca3af' }}>{t.lead.first_name} {t.lead.last_name}</div>}
                   </div>
                 </div>
               ))}

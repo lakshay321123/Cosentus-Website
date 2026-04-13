@@ -6,7 +6,7 @@ import { supabase, Lead } from '@/lib/supabase'
 type LeadStatus = 'new' | 'qualified' | 'discovery' | 'proposal' | 'negotiation' | 'won'
 
 const columns: { key: LeadStatus; label: string; color: string }[] = [
-  { key: 'new', label: 'New Leads', color: '#C7C7CC' },
+  { key: 'new', label: 'New Leads', color: '#d1d5db' },
   { key: 'qualified', label: 'Qualified', color: '#68D1E6' },
   { key: 'discovery', label: 'Discovery', color: '#36C2DE' },
   { key: 'proposal', label: 'Proposal', color: '#00B5D6' },
@@ -49,17 +49,17 @@ export default function PipelinePage() {
   const getColumnLeads = (status: LeadStatus) => filtered.filter(l => l.status === status)
   const getColumnValue = (status: LeadStatus) => getColumnLeads(status).reduce((sum, l) => sum + (l.revenue_potential || 0), 0)
 
-  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading pipeline...</div>
+  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading pipeline...</div>
 
   return (
     <div style={{ padding: '36px 44px', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexShrink: 0 }}>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Pipeline</h1>
-          <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>Drag leads between stages — saves to database instantly</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>Pipeline</h1>
+          <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>Drag leads between stages — saves to database instantly</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
+          <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
             <option value="all">All Specialties</option>
             <option value="anesthesia">Anesthesia</option>
             <option value="orthopedics">Orthopedics</option>
@@ -67,7 +67,7 @@ export default function PipelinePage() {
             <option value="asc">ASC</option>
             <option value="behavioral_health">Behavioral Health</option>
           </select>
-          <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
+          <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, color: '#9ca3af', background: 'white' }}>
             <option value="all">All Temps</option>
             <option value="hot">Hot</option>
             <option value="warm">Warm</option>
@@ -82,27 +82,27 @@ export default function PipelinePage() {
           const colValue = getColumnValue(col.key)
           return (
             <div key={col.key} onDragOver={handleDragOver} onDrop={() => handleDrop(col.key)}
-              style={{ background: 'rgba(0,0,0,0.03)', borderRadius: 16, padding: 12, display: 'flex', flexDirection: 'column', minHeight: 200 }}>
+              style={{ background: '#f3f4f6', borderRadius: 16, padding: 12, display: 'flex', flexDirection: 'column', minHeight: 200 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 8px 12px', borderBottom: `2px solid ${col.color}`, marginBottom: 12 }}>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{col.label}</div>
-                  <div style={{ fontSize: 11, color: '#8E8E93', marginTop: 2 }}>{colLeads.length} · ${Math.round(colValue / 1000)}K</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1f2937' }}>{col.label}</div>
+                  <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{colLeads.length} · ${Math.round(colValue / 1000)}K</div>
                 </div>
                 <div style={{ width: 24, height: 24, borderRadius: 10, background: col.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'white' }}>{colLeads.length}</div>
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8, overflow: 'auto' }}>
                 {colLeads.map(lead => (
                   <div key={lead.id} draggable onDragStart={() => handleDragStart(lead.id)}
-                    style={{ background: 'white', borderRadius: 12, padding: 14, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', cursor: 'grab', opacity: dragging === lead.id ? 0.5 : 1, transition: 'box-shadow 0.2s' }}
+                    style={{ background: 'white', borderRadius: 12, padding: 14, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', cursor: 'grab', opacity: dragging === lead.id ? 0.5 : 1, transition: 'box-shadow 0.2s' }}
                     onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)' }}
                     onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{lead.first_name} {lead.last_name}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#1f2937' }}>{lead.first_name} {lead.last_name}</div>
                       <TempDot temp={lead.temperature} />
                     </div>
-                    <div style={{ fontSize: 12, color: '#8E8E93', marginBottom: 8 }}>{lead.practice_name}</div>
+                    <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 8 }}>{lead.practice_name}</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 11, color: '#8E8E93', background: 'rgba(0,0,0,0.03)', padding: '2px 6px', borderRadius: 4 }}>{lead.specialty?.replace('_', ' ')}</span>
+                      <span style={{ fontSize: 11, color: '#9ca3af', background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>{lead.specialty?.replace('_', ' ')}</span>
                       <span style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6' }}>${lead.revenue_potential ? Math.round(lead.revenue_potential / 1000) + 'K' : '—'}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F5' }}>
@@ -110,9 +110,9 @@ export default function PipelinePage() {
                         <div style={{ width: 28, height: 3, borderRadius: 2, background: '#E6E6E6', overflow: 'hidden' }}>
                           <div style={{ width: `${lead.ai_score}%`, height: '100%', background: lead.ai_score >= 80 ? '#00B5D6' : '#EF9F27', borderRadius: 2 }} />
                         </div>
-                        <span style={{ fontSize: 10, color: '#8E8E93' }}>{lead.ai_score}</span>
+                        <span style={{ fontSize: 10, color: '#9ca3af' }}>{lead.ai_score}</span>
                       </div>
-                      {lead.assigned_to && <span style={{ fontSize: 10, color: '#C7C7CC' }}>{lead.assigned_to}</span>}
+                      {lead.assigned_to && <span style={{ fontSize: 10, color: '#d1d5db' }}>{lead.assigned_to}</span>}
                     </div>
                   </div>
                 ))}

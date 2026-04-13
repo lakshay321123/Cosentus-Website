@@ -10,7 +10,7 @@ interface Meeting {
 }
 interface Lead { id: string; first_name: string; last_name: string; practice_name: string }
 
-const typeColors: Record<string, string> = { discovery: '#5AC8FA', demo: '#00B5D6', proposal: '#FF9F0A', follow_up: '#8E8E93' }
+const typeColors: Record<string, string> = { discovery: '#60a5fa', demo: '#00B5D6', proposal: '#f59e0b', follow_up: '#9ca3af' }
 
 export default function SchedulePage() {
   const [meetings, setMeetings] = useState<Meeting[]>([])
@@ -47,7 +47,7 @@ export default function SchedulePage() {
     await supabase.from('meetings').update({ status }).eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 48, color: '#8E8E93' }}>Loading...</div>
+  if (loading) return <div style={{ padding: 48, color: '#9ca3af' }}>Loading...</div>
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
@@ -94,30 +94,30 @@ export default function SchedulePage() {
 
       {filtered.length === 0 ? (
         <div className="crm-card" style={{ padding: '80px 40px', textAlign: 'center' }}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C7C7CC" strokeWidth="1" style={{ marginBottom: 16 }}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <div style={{ fontSize: 16, color: '#8E8E93', marginBottom: 12 }}>No {view} meetings</div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="1" style={{ marginBottom: 16 }}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <div style={{ fontSize: 16, color: '#9ca3af', marginBottom: 12 }}>No {view} meetings</div>
           <button onClick={() => setShowBook(true)} className="crm-btn crm-btn-primary">Book your first meeting</button>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {filtered.map((m, i) => (
             <div key={m.id} className={`crm-card crm-animate-in crm-animate-in-${Math.min(i + 1, 5)}`} style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div style={{ minWidth: 72, textAlign: 'center', padding: '14px 8px', background: 'rgba(0,0,0,0.02)', borderRadius: 12 }}>
-                <div style={{ fontSize: 12, fontWeight: 500, color: '#8E8E93' }}>{new Date(m.scheduled_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
-                <div style={{ fontSize: 20, fontWeight: 600, color: '#1C1C1E', marginTop: 2 }}>{new Date(m.scheduled_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+              <div style={{ minWidth: 72, textAlign: 'center', padding: '14px 8px', background: '#fafbfc', borderRadius: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 500, color: '#9ca3af' }}>{new Date(m.scheduled_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                <div style={{ fontSize: 20, fontWeight: 600, color: '#1f2937', marginTop: 2 }}>{new Date(m.scheduled_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: '#1C1C1E' }}>{m.lead ? `${m.lead.first_name} ${m.lead.last_name}` : 'Unknown'}</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: '#1f2937' }}>{m.lead ? `${m.lead.first_name} ${m.lead.last_name}` : 'Unknown'}</span>
                   <span style={{ fontSize: 12, fontWeight: 500, padding: '3px 10px', borderRadius: 8, background: `${typeColors[m.type]}18`, color: typeColors[m.type], textTransform: 'capitalize' }}>{m.type.replace('_', ' ')}</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#8E8E93', marginTop: 4 }}>{m.lead?.practice_name} · {m.duration_minutes} min{m.assigned_to ? ` · ${m.assigned_to}` : ''}</div>
+                <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4 }}>{m.lead?.practice_name} · {m.duration_minutes} min{m.assigned_to ? ` · ${m.assigned_to}` : ''}</div>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
                 {m.status === 'scheduled' && view === 'upcoming' && <>
-                  <button onClick={() => handleStatus(m.id, 'completed')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#30D158' }}>Complete</button>
-                  <button onClick={() => handleStatus(m.id, 'no_show')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#FF9F0A' }}>No Show</button>
-                  <button onClick={() => handleStatus(m.id, 'cancelled')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#FF453A' }}>Cancel</button>
+                  <button onClick={() => handleStatus(m.id, 'completed')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#22c55e' }}>Complete</button>
+                  <button onClick={() => handleStatus(m.id, 'no_show')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#f59e0b' }}>No Show</button>
+                  <button onClick={() => handleStatus(m.id, 'cancelled')} className="crm-btn crm-btn-secondary" style={{ padding: '6px 14px', fontSize: 13, color: '#ef4444' }}>Cancel</button>
                 </>}
                 {m.status !== 'scheduled' && <span className={`crm-badge ${m.status === 'completed' ? 'crm-badge-success' : m.status === 'cancelled' ? 'crm-badge-hot' : 'crm-badge-warm'}`} style={{ textTransform: 'capitalize' }}>{m.status.replace('_', ' ')}</span>}
               </div>

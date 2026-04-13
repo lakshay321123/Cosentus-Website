@@ -18,13 +18,13 @@ function BarChart({ data, color }: { data: { label: string; value: number; pct: 
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {data.map((d, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 100, fontSize: 12, color: '#8E8E93', textAlign: 'right', flexShrink: 0 }}>{d.label}</div>
-          <div style={{ flex: 1, height: 24, background: 'rgba(0,0,0,0.03)', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ width: 100, fontSize: 12, color: '#9ca3af', textAlign: 'right', flexShrink: 0 }}>{d.label}</div>
+          <div style={{ flex: 1, height: 24, background: '#f3f4f6', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ width: `${d.pct}%`, height: '100%', background: color, borderRadius: 4, minWidth: d.pct > 0 ? 4 : 0, transition: 'width 0.6s ease', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 8 }}>
               {d.pct > 15 && <span style={{ fontSize: 11, fontWeight: 600, color: 'white' }}>{d.value}</span>}
             </div>
           </div>
-          {d.pct <= 15 && <span style={{ fontSize: 12, fontWeight: 600, color: '#8E8E93', minWidth: 24 }}>{d.value}</span>}
+          {d.pct <= 15 && <span style={{ fontSize: 12, fontWeight: 600, color: '#9ca3af', minWidth: 24 }}>{d.value}</span>}
         </div>
       ))}
     </div>
@@ -36,7 +36,7 @@ function FunnelChart({ data }: { data: { stage: string; count: number; pct: numb
     <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {data.map((d, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 90, fontSize: 12, color: '#8E8E93', textAlign: 'right', textTransform: 'capitalize', flexShrink: 0 }}>{d.stage}</div>
+          <div style={{ width: 90, fontSize: 12, color: '#9ca3af', textAlign: 'right', textTransform: 'capitalize', flexShrink: 0 }}>{d.stage}</div>
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <div style={{
               width: `${Math.max(d.pct, 10)}%`, height: 32, borderRadius: 4,
@@ -61,7 +61,7 @@ export default function AnalyticsPage() {
     supabase.from('leads').select('*').then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
   }, [])
 
-  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading analytics...</div>
+  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading analytics...</div>
 
   const total = leads.length
   const hotCount = leads.filter(l => l.temperature === 'hot').length
@@ -104,8 +104,8 @@ export default function AnalyticsPage() {
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Analytics</h1>
-        <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>Pipeline intelligence — {total} leads analyzed</p>
+        <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>Analytics</h1>
+        <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>Pipeline intelligence — {total} leads analyzed</p>
       </div>
 
       {/* Top stats */}
@@ -126,46 +126,46 @@ export default function AnalyticsPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
         {/* Source breakdown */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: 24 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8E8E93' }}>Lead Sources</h3>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Lead Sources</h3>
           <BarChart data={sourceData} color="#00B5D6" />
         </div>
 
         {/* Specialty breakdown */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: 24 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8E8E93' }}>By Specialty</h3>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>By Specialty</h3>
           <BarChart data={specData} color="#36C2DE" />
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
         {/* Conversion funnel */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: 24 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8E8E93' }}>Conversion Funnel</h3>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Conversion Funnel</h3>
           <FunnelChart data={funnelData} />
         </div>
 
         {/* Revenue by specialty */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: 24 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8E8E93' }}>Revenue by Specialty ($K/mo)</h3>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Revenue by Specialty ($K/mo)</h3>
           <BarChart data={specRevData} color="#009BB8" />
         </div>
       </div>
 
       {/* Rep performance */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: 24 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8E8E93' }}>Rep Performance</h3>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: 24 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Rep Performance</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '0.5px solid rgba(0,0,0,0.06)' }}>
+            <tr style={{ borderBottom: '0.5px solid #eef0f2' }}>
               {['Rep', 'Total Leads', 'Won', 'Win Rate', 'Pipeline Value'].map(h => (
-                <th key={h} style={{ textAlign: h === 'Pipeline Value' ? 'right' : 'left', padding: '8px 0', fontWeight: 500, color: '#8E8E93', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                <th key={h} style={{ textAlign: h === 'Pipeline Value' ? 'right' : 'left', padding: '8px 0', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {Object.entries(repCounts).sort((a, b) => b[1].pipeline - a[1].pipeline).map(([rep, data]) => (
-              <tr key={rep} style={{ borderBottom: '0.5px solid rgba(0,0,0,0.04)' }}>
+              <tr key={rep} style={{ borderBottom: '0.5px solid #eef0f2' }}>
                 <td style={{ padding: '10px 0', fontWeight: 500 }}>{rep}</td>
                 <td style={{ padding: '10px 0' }}>{data.total}</td>
                 <td style={{ padding: '10px 0' }}>{data.won}</td>

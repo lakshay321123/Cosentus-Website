@@ -63,21 +63,21 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="crm-page" style={{ display: 'flex', minHeight: '100vh' }}>
       {/* Mobile header */}
-      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '0.5px solid rgba(0,0,0,0.08)', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: '#ffffff',  borderBottom: '0.5px solid #eef0f2', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
         <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 24 }} />
         <button onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" strokeWidth="1.5"><path d={mobileOpen ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} /></svg>
         </button>
       </div>
 
-      {mobileOpen && <div onClick={() => setMobileOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.2)', zIndex: 99, backdropFilter: 'blur(4px)' }} />}
+      {mobileOpen && <div onClick={() => setMobileOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.15)', zIndex: 99, backdropFilter: 'blur(4px)' }} />}
 
       {/* Sidebar */}
       <aside className="crm-sidebar" style={{
-        width: 240, background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-        borderRight: '0.5px solid rgba(0,0,0,0.06)',
+        width: 220, background: '#ffffff',
+        borderRight: '1px solid #eef0f2',
         padding: '16px 0', display: 'flex', flexDirection: 'column', flexShrink: 0,
-        position: 'fixed', top: 0, left: mobileOpen ? 0 : -240, bottom: 0, zIndex: 100,
+        position: 'fixed', top: 0, left: mobileOpen ? 0 : -220, bottom: 0, zIndex: 100,
         transition: 'left 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
       }}>
         {/* Logo */}
@@ -100,7 +100,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 return (
                   <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
                     className={`crm-sidebar-item ${active ? 'active' : ''}`}>
-                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: active ? 1 : 0.45, color: active ? '#00B5D6' : '#8E8E93' }}>{item.icon}</span>
+                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#9ca3af' }}>{item.icon}</span>
                     {item.label}
                   </Link>
                 )
@@ -110,21 +110,21 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Bottom */}
-        <div style={{ padding: '12px 10px', borderTop: '0.5px solid rgba(0,0,0,0.06)' }}>
+        <div style={{ padding: '12px 10px', borderTop: '1px solid #eef0f2' }}>
           <button onClick={async () => { await fetch('/api/crm/auth', { method: 'DELETE' }); window.location.href = '/crm/login' }}
             className="crm-sidebar-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
-            <span style={{ width: 18, display: 'flex', opacity: 0.45, color: '#8E8E93' }}>{I.signout}</span>
+            <span style={{ width: 18, display: 'flex', color: '#9ca3af' }}>{I.signout}</span>
             Sign Out
           </button>
           <Link href="/" className="crm-sidebar-item">
-            <span style={{ width: 18, display: 'flex', opacity: 0.45, color: '#8E8E93' }}>{I.back}</span>
+            <span style={{ width: 18, display: 'flex', color: '#9ca3af' }}>{I.back}</span>
             Back to Website
           </Link>
         </div>
       </aside>
 
       {/* Main */}
-      <main className="crm-main" style={{ flex: 1, marginLeft: 240, background: '#F2F2F7', minHeight: '100vh' }}>
+      <main className="crm-main" style={{ flex: 1, marginLeft: 220, background: '#f8f9fb', minHeight: '100vh' }}>
         {children}
       </main>
 

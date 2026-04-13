@@ -68,7 +68,7 @@ export default function BookingPage() {
 
   if (booked) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FAFAFA', fontFamily: "'Reddit Sans', sans-serif" }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fb', fontFamily: "'Reddit Sans', sans-serif" }}>
         <div style={{ maxWidth: 500, textAlign: 'center', padding: 40 }}>
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#00B5D6', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
@@ -85,7 +85,7 @@ export default function BookingPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FAFAFA', fontFamily: "'Reddit Sans', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#f8f9fb', fontFamily: "'Reddit Sans', sans-serif" }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '60px 20px' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 40 }}>

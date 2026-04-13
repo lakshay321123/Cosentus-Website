@@ -69,14 +69,14 @@ export default function SequencesPage() {
     await supabase.from('email_sequences').delete().eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading sequences...</div>
+  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading sequences...</div>
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Email Sequences</h1>
-          <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>{sequences.length} sequences · Automated multi-step outreach</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>Email Sequences</h1>
+          <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>{sequences.length} sequences · Automated multi-step outreach</p>
         </div>
         <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ Create Sequence</button>
       </div>
@@ -86,30 +86,30 @@ export default function SequencesPage() {
         <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Sequence</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
-            <input name="name" placeholder="Sequence name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
-            <input name="description" placeholder="Description" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
+            <input name="name" placeholder="Sequence name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+            <input name="description" placeholder="Description" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
           </div>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} style={{ background: 'rgba(0,0,0,0.02)', borderRadius: 12, padding: 16, marginBottom: 12 }}>
+            <div key={i} style={{ background: '#fafbfc', borderRadius: 12, padding: 16, marginBottom: 12 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', marginBottom: 8 }}>Step {i} {i === 1 ? '(immediate)' : ''}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 100px', gap: 8, marginBottom: 8 }}>
-                <input name={`step${i}_subject`} placeholder={`Email ${i} subject${i === 1 ? ' *' : ''}`} required={i === 1} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
-                {i > 1 && <input name={`step${i}_delay`} type="number" placeholder="Days" defaultValue={i === 2 ? '3' : i === 3 ? '7' : '14'} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />}
+                <input name={`step${i}_subject`} placeholder={`Email ${i} subject${i === 1 ? ' *' : ''}`} required={i === 1} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />
+                {i > 1 && <input name={`step${i}_delay`} type="number" placeholder="Days" defaultValue={i === 2 ? '3' : i === 3 ? '7' : '14'} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13 }} />}
               </div>
-              <textarea name={`step${i}_body`} placeholder={`Email ${i} body...`} rows={3} required={i === 1} style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, resize: 'vertical', fontFamily: "'Reddit Sans', sans-serif" }} />
+              <textarea name={`step${i}_body`} placeholder={`Email ${i} body...`} rows={3} required={i === 1} style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, resize: 'vertical', fontFamily: "'Reddit Sans', sans-serif" }} />
             </div>
           ))}
           <div style={{ display: 'flex', gap: 8 }}>
             <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Sequence</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#9ca3af', border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
 
       {/* Sequence list */}
       {sequences.length === 0 ? (
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: '60px', textAlign: 'center' }}>
-          <div style={{ fontSize: 14, color: '#8E8E93', marginBottom: 8 }}>No sequences yet</div>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '60px', textAlign: 'center' }}>
+          <div style={{ fontSize: 14, color: '#9ca3af', marginBottom: 8 }}>No sequences yet</div>
           <button onClick={() => setShowCreate(true)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create your first sequence</button>
         </div>
       ) : (
@@ -117,28 +117,28 @@ export default function SequencesPage() {
           {sequences.map(seq => {
             const sc = statusColors[seq.status] || statusColors.draft
             return (
-              <div key={seq.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: '20px 24px' }}>
+              <div key={seq.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', padding: '20px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <span style={{ fontSize: 16, fontWeight: 600, color: '#1C1C1E' }}>{seq.name}</span>
+                      <span style={{ fontSize: 16, fontWeight: 600, color: '#1f2937' }}>{seq.name}</span>
                       <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.text, textTransform: 'capitalize' }}>{seq.status}</span>
                     </div>
-                    {seq.description && <div style={{ fontSize: 13, color: '#8E8E93' }}>{seq.description}</div>}
+                    {seq.description && <div style={{ fontSize: 13, color: '#9ca3af' }}>{seq.description}</div>}
                   </div>
                   <div style={{ display: 'flex', gap: 6 }}>
-                    <button onClick={() => toggleStatus(seq)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', background: 'white', fontSize: 12, cursor: 'pointer', color: seq.status === 'active' ? '#854F0B' : '#085041' }}>
+                    <button onClick={() => toggleStatus(seq)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: seq.status === 'active' ? '#854F0B' : '#085041' }}>
                       {seq.status === 'active' ? 'Pause' : 'Activate'}
                     </button>
                     <button onClick={() => setEnrolling(enrolling === seq.id ? null : seq.id)} style={{ padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(0,181,214,0.3)', background: 'white', fontSize: 12, cursor: 'pointer', color: '#00B5D6' }}>+ Enroll Lead</button>
-                    <button onClick={() => deleteSeq(seq.id)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', background: 'white', fontSize: 12, cursor: 'pointer', color: '#E24B4A' }}>Delete</button>
+                    <button onClick={() => deleteSeq(seq.id)} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#E24B4A' }}>Delete</button>
                   </div>
                 </div>
 
                 {/* Enroll dropdown */}
                 {enrolling === seq.id && (
-                  <div style={{ background: 'rgba(0,0,0,0.02)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-                    <select onChange={e => { if (e.target.value) enrollLead(seq.id, e.target.value) }} style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, background: 'white' }}>
+                  <div style={{ background: '#fafbfc', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+                    <select onChange={e => { if (e.target.value) enrollLead(seq.id, e.target.value) }} style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #eef0f2, 0 4px 12px #f3f4f6', fontSize: 13, background: 'white' }}>
                       <option value="">Select a lead to enroll...</option>
                       {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email}</option>)}
                     </select>
@@ -148,17 +148,17 @@ export default function SequencesPage() {
                 {/* Steps preview */}
                 <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
                   {(seq.steps || []).map((step: any, i: number) => (
-                    <div key={i} style={{ flex: 1, padding: '10px 12px', borderRadius: 10, background: 'rgba(0,0,0,0.03)', fontSize: 12 }}>
+                    <div key={i} style={{ flex: 1, padding: '10px 12px', borderRadius: 10, background: '#f3f4f6', fontSize: 12 }}>
                       <div style={{ fontWeight: 600, color: '#00B5D6', marginBottom: 2 }}>Step {i + 1}{step.delay_days > 0 ? ` (+${step.delay_days}d)` : ' (now)'}</div>
-                      <div style={{ color: '#8E8E93', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{step.subject}</div>
+                      <div style={{ color: '#9ca3af', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{step.subject}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Stats */}
-                <div style={{ display: 'flex', gap: 24, fontSize: 12, color: '#8E8E93' }}>
-                  <span><strong style={{ color: '#1C1C1E' }}>{seq.enrolled_count}</strong> enrolled</span>
-                  <span><strong style={{ color: '#1C1C1E' }}>{seq.steps?.length || 0}</strong> steps</span>
+                <div style={{ display: 'flex', gap: 24, fontSize: 12, color: '#9ca3af' }}>
+                  <span><strong style={{ color: '#1f2937' }}>{seq.enrolled_count}</strong> enrolled</span>
+                  <span><strong style={{ color: '#1f2937' }}>{seq.steps?.length || 0}</strong> steps</span>
                 </div>
               </div>
             )
