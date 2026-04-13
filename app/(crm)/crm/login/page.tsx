@@ -14,54 +14,44 @@ export default function CRMLogin() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('/api/crm/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      })
-      if (res.ok) {
-        router.push('/crm')
-        router.refresh()
-      } else {
-        setError('Invalid password')
-      }
-    } catch {
-      setError('Connection error')
-    }
+      const res = await fetch('/api/crm/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) })
+      if (res.ok) { router.push('/crm'); router.refresh() } else setError('Incorrect password')
+    } catch { setError('Connection error') }
     setLoading(false)
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FAFAFA' }}>
-      <div style={{ width: 400, background: 'white', borderRadius: 16, border: '1px solid #E6E6E6', padding: '48px 40px', textAlign: 'center' }}>
-        <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 36, marginBottom: 8 }} />
-        <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: '#00B5D6', textTransform: 'uppercase', marginBottom: 32 }}>CRM Platform</div>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F2F2F7', fontFamily: "'Reddit Sans', -apple-system, sans-serif" }}>
+      <div style={{ width: 380, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderRadius: 20, padding: '48px 36px', textAlign: 'center', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 32, marginBottom: 8 }} />
+        <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', color: '#00B5D6', marginBottom: 36 }}>CRM</div>
 
         <form onSubmit={handleLogin}>
-          <input
-            type="password" value={password} onChange={e => setPassword(e.target.value)}
-            placeholder="Enter CRM password"
-            autoFocus
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" autoFocus
             style={{
-              width: '100%', padding: '14px 16px', borderRadius: 8,
-              border: error ? '1px solid #E24B4A' : '1px solid #E6E6E6',
-              fontSize: 14, outline: 'none', boxSizing: 'border-box',
-              fontFamily: "'Reddit Sans', sans-serif",
+              width: '100%', padding: '14px 18px', borderRadius: 14, fontSize: 16, outline: 'none',
+              border: error ? '1.5px solid #FF453A' : '1px solid rgba(0,0,0,0.08)',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
+              fontFamily: "'Reddit Sans', sans-serif", color: '#1C1C1E', boxSizing: 'border-box',
+              WebkitAppearance: 'none',
             }}
           />
-          {error && <div style={{ fontSize: 13, color: '#E24B4A', marginTop: 8 }}>{error}</div>}
+          {error && <div style={{ fontSize: 14, color: '#FF453A', marginTop: 10 }}>{error}</div>}
           <button type="submit" disabled={loading} style={{
-            width: '100%', padding: '14px', marginTop: 16, borderRadius: 8,
-            background: '#00B5D6', color: 'white', border: 'none',
-            fontSize: 14, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
-            fontFamily: "'Reddit Sans', sans-serif",
-            opacity: loading ? 0.7 : 1,
-          }}>
-            {loading ? 'Signing in...' : 'Sign In'}
+            width: '100%', padding: '14px', marginTop: 18, borderRadius: 14,
+            background: '#00B5D6', color: '#fff', border: 'none',
+            fontSize: 16, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
+            fontFamily: "'Reddit Sans', sans-serif", opacity: loading ? 0.6 : 1,
+            transition: 'opacity 0.2s, transform 0.1s',
+          }}
+          onMouseDown={e => { if (!loading) (e.target as HTMLElement).style.transform = 'scale(0.98)' }}
+          onMouseUp={e => { (e.target as HTMLElement).style.transform = 'scale(1)' }}
+          >
+            {loading ? 'Signing in...' : 'Continue'}
           </button>
         </form>
 
-        <div style={{ fontSize: 12, color: '#CCCCCC', marginTop: 24 }}>Protected area — authorized Cosentus team only</div>
+        <div style={{ fontSize: 13, color: '#C7C7CC', marginTop: 28 }}>Authorized access only</div>
       </div>
     </div>
   )

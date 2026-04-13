@@ -98,17 +98,17 @@ export default function LeadsPage() {
     if (data) { setLeads(prev => [data[0] as Lead, ...prev]); setShowAdd(false) }
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#616161' }}>Loading leads...</div>
+  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading leads...</div>
 
   return (
-    <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Leads</h1>
-          <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>{filtered.length} of {leads.length} leads</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Leads</h1>
+          <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>{filtered.length} of {leads.length} leads</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <label style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+          <label style={{ background: 'white', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
             Import CSV
             <input type="file" accept=".csv" style={{ display: 'none' }} onChange={async (e) => {
@@ -124,11 +124,11 @@ export default function LeadsPage() {
               } else { alert('Import failed: ' + result.error) }
             }} />
           </label>
-          <a href="/api/crm/export" style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <a href="/api/crm/export" style={{ background: 'white', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 12, padding: '10px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Export CSV
           </a>
-          <button onClick={() => setShowAdd(!showAdd)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 8, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => setShowAdd(!showAdd)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
             + Add Lead
           </button>
         </div>
@@ -136,21 +136,21 @@ export default function LeadsPage() {
 
       {/* Bulk action bar */}
       {selected.size > 0 && (
-        <div style={{ background: '#00B5D6', borderRadius: 8, padding: '12px 20px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ background: '#00B5D6', borderRadius: 12, padding: '12px 20px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ color: 'white', fontSize: 14, fontWeight: 500 }}>{selected.size} lead{selected.size > 1 ? 's' : ''} selected</span>
           <div style={{ display: 'flex', gap: 8 }}>
             {['qualified', 'discovery', 'proposal', 'won', 'lost'].map(s => (
-              <button key={s} onClick={() => handleBulkStatus(s)} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: 'white', fontSize: 12, cursor: 'pointer', textTransform: 'capitalize' }}>→ {s}</button>
+              <button key={s} onClick={() => handleBulkStatus(s)} style={{ padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: 'white', fontSize: 12, cursor: 'pointer', textTransform: 'capitalize' }}>→ {s}</button>
             ))}
-            <button onClick={handleBulkDelete} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.3)', background: 'rgba(255,0,0,0.2)', color: 'white', fontSize: 12, cursor: 'pointer' }}>Delete</button>
-            <button onClick={() => setSelected(new Set())} style={{ padding: '6px 12px', borderRadius: 6, border: 'none', background: 'rgba(255,255,255,0.2)', color: 'white', fontSize: 12, cursor: 'pointer' }}>Clear</button>
+            <button onClick={handleBulkDelete} style={{ padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.3)', background: 'rgba(255,0,0,0.2)', color: 'white', fontSize: 12, cursor: 'pointer' }}>Delete</button>
+            <button onClick={() => setSelected(new Set())} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', background: 'rgba(255,255,255,0.2)', color: 'white', fontSize: 12, cursor: 'pointer' }}>Clear</button>
           </div>
         </div>
       )}
 
       {/* Add lead form */}
       {showAdd && (
-        <div style={{ background: 'white', borderRadius: 12, border: '1px solid #00B5D6', padding: 24, marginBottom: 20 }}>
+        <div style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Lead</h3>
           <form id="add-lead-form" onSubmit={handleAddLead} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
             {[
@@ -161,9 +161,9 @@ export default function LeadsPage() {
               { name: 'practice_name', placeholder: 'Practice Name' },
             ].map(f => (
               <input key={f.name} name={f.name} placeholder={f.placeholder} required={f.required}
-                style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, outline: 'none' }} />
+                style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, outline: 'none' }} />
             ))}
-            <select name="specialty" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, color: '#616161', background: 'white' }}>
+            <select name="specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
               <option value="anesthesia">Anesthesia</option>
               <option value="orthopedics">Orthopedics</option>
               <option value="pain_management">Pain Management</option>
@@ -175,16 +175,16 @@ export default function LeadsPage() {
           </form>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
             <button type="submit" form="add-lead-form"
-              style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Save Lead</button>
-            <button onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+              style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Save Lead</button>
+            <button onClick={() => setShowAdd(false)} style={{ background: 'transparent', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         <input type="text" placeholder="Search leads..." value={search} onChange={e => setSearch(e.target.value)}
-          style={{ padding: '8px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, width: 240, outline: 'none' }} />
-        <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, color: '#616161', background: 'white' }}>
+          style={{ padding: '8px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, width: 240, outline: 'none' }} />
+        <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
           <option value="all">All Specialties</option>
           <option value="anesthesia">Anesthesia</option>
           <option value="orthopedics">Orthopedics</option>
@@ -193,51 +193,51 @@ export default function LeadsPage() {
           <option value="behavioral_health">Behavioral Health</option>
           <option value="urgent_care">Urgent Care</option>
         </select>
-        <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, color: '#616161', background: 'white' }}>
+        <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
           <option value="all">All Temps</option>
           <option value="hot">Hot</option>
           <option value="warm">Warm</option>
           <option value="cold">Cold</option>
         </select>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, color: '#616161', background: 'white' }}>
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
           <option value="all">All Stages</option>
           <option value="new">New</option><option value="qualified">Qualified</option>
           <option value="discovery">Discovery</option><option value="proposal">Proposal</option>
           <option value="negotiation">Negotiation</option><option value="won">Won</option><option value="lost">Lost</option>
         </select>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, color: '#616161', background: 'white' }}>
+        <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, color: '#8E8E93', background: 'white' }}>
           <option value="score">Sort: AI Score</option>
           <option value="value">Sort: Value</option>
           <option value="created">Sort: Newest</option>
         </select>
       </div>
 
-      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', overflow: 'hidden' }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid #E6E6E6', background: '#FAFAFA' }}>
+            <tr style={{ borderBottom: '0.5px solid rgba(0,0,0,0.06)', background: 'rgba(0,0,0,0.02)' }}>
               <th style={{ padding: '12px 16px', width: 40 }}>
                 <input type="checkbox" onChange={selectAll} checked={selected.size === filtered.length && filtered.length > 0} style={{ cursor: 'pointer' }} />
               </th>
               {['Contact', 'Specialty', 'AI Score', 'Temp', 'Stage', 'Source', 'Assigned', 'MRR'].map(h => (
-                <th key={h} style={{ textAlign: h === 'MRR' ? 'right' : 'left', padding: '12px 16px', fontWeight: 500, color: '#616161', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                <th key={h} style={{ textAlign: h === 'MRR' ? 'right' : 'left', padding: '12px 16px', fontWeight: 500, color: '#8E8E93', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {filtered.map(lead => (
-              <tr key={lead.id} style={{ borderBottom: '1px solid #F5F5F5', cursor: 'pointer', transition: 'background 0.15s', background: selected.has(lead.id) ? 'rgba(0,181,214,0.04)' : 'transparent' }}
+              <tr key={lead.id} style={{ borderBottom: '0.5px solid rgba(0,0,0,0.04)', cursor: 'pointer', transition: 'background 0.15s', background: selected.has(lead.id) ? 'rgba(0,181,214,0.04)' : 'transparent' }}
                 onMouseEnter={e => { if (!selected.has(lead.id)) (e.currentTarget as HTMLElement).style.background = '#FAFAFA' }}
                 onMouseLeave={e => { if (!selected.has(lead.id)) (e.currentTarget as HTMLElement).style.background = 'transparent' }}>
                 <td style={{ padding: '14px 16px', width: 40 }}>
                   <input type="checkbox" checked={selected.has(lead.id)} onChange={() => toggleSelect(lead.id)} style={{ cursor: 'pointer' }} />
                 </td>
                 <td style={{ padding: '14px 16px' }}>
-                  <Link href={`/crm/leads/${lead.id}`} style={{ fontWeight: 500, color: '#000', textDecoration: 'none' }}>{lead.first_name} {lead.last_name}</Link>
-                  <div style={{ fontSize: 12, color: '#616161' }}>{lead.practice_name}</div>
-                  <div style={{ fontSize: 11, color: '#CCCCCC' }}>{lead.email}</div>
+                  <Link href={`/crm/leads/${lead.id}`} style={{ fontWeight: 500, color: '#1C1C1E', textDecoration: 'none' }}>{lead.first_name} {lead.last_name}</Link>
+                  <div style={{ fontSize: 12, color: '#8E8E93' }}>{lead.practice_name}</div>
+                  <div style={{ fontSize: 11, color: '#C7C7CC' }}>{lead.email}</div>
                 </td>
-                <td style={{ padding: '14px 16px', color: '#616161', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</td>
+                <td style={{ padding: '14px 16px', color: '#8E8E93', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</td>
                 <td style={{ padding: '14px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <div style={{ width: 36, height: 4, borderRadius: 2, background: '#E6E6E6', overflow: 'hidden' }}>
@@ -248,9 +248,9 @@ export default function LeadsPage() {
                 </td>
                 <td style={{ padding: '14px 16px' }}><TempBadge temp={lead.temperature} /></td>
                 <td style={{ padding: '14px 16px' }}><StatusBadge status={lead.status} /></td>
-                <td style={{ padding: '14px 16px', color: '#616161' }}>{sourceLabels[lead.source] || lead.source}</td>
-                <td style={{ padding: '14px 16px', color: '#616161', fontSize: 12 }}>{lead.assigned_to || '—'}</td>
-                <td style={{ padding: '14px 16px', textAlign: 'right', fontWeight: 600, color: '#000' }}>${lead.revenue_potential ? Math.round(lead.revenue_potential / 1000) + 'K' : '—'}</td>
+                <td style={{ padding: '14px 16px', color: '#8E8E93' }}>{sourceLabels[lead.source] || lead.source}</td>
+                <td style={{ padding: '14px 16px', color: '#8E8E93', fontSize: 12 }}>{lead.assigned_to || '—'}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'right', fontWeight: 600, color: '#1C1C1E' }}>${lead.revenue_potential ? Math.round(lead.revenue_potential / 1000) + 'K' : '—'}</td>
               </tr>
             ))}
           </tbody>

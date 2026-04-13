@@ -55,16 +55,16 @@ export default function CampaignsPage() {
     await supabase.from('campaigns').update({ status }).eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#616161' }}>Loading campaigns...</div>
+  if (loading) return <div style={{ padding: 40, color: '#8E8E93' }}>Loading campaigns...</div>
 
   return (
-    <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
+    <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Campaigns</h1>
-          <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>Track marketing campaigns and measure ROI</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', margin: 0 }}>Campaigns</h1>
+          <p style={{ fontSize: 14, color: '#8E8E93', margin: '4px 0 0' }}>Track marketing campaigns and measure ROI</p>
         </div>
-        <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 8, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ New Campaign</button>
+        <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ New Campaign</button>
       </div>
 
       {/* Stats */}
@@ -75,9 +75,9 @@ export default function CampaignsPage() {
           { label: 'Leads Generated', value: totalLeads.toString() },
           { label: 'Revenue Attributed', value: `$${Math.round(totalRevenue / 1000)}K` },
         ].map((s, i) => (
-          <div key={i} style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: '20px' }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
-            <div style={{ fontSize: 28, fontWeight: 300, color: '#000', lineHeight: 1 }}>{s.value}</div>
+          <div key={i} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: '20px' }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
+            <div style={{ fontSize: 32, fontWeight: 300, color: '#1C1C1E', lineHeight: 1 }}>{s.value}</div>
           </div>
         ))}
       </div>
@@ -86,35 +86,35 @@ export default function CampaignsPage() {
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
         {['all', 'draft', 'active', 'completed'].map(f => (
           <button key={f} onClick={() => setFilter(f)} style={{
-            padding: '6px 14px', borderRadius: 6, border: 'none', fontSize: 12, cursor: 'pointer', textTransform: 'capitalize',
+            padding: '6px 14px', borderRadius: 10, border: 'none', fontSize: 12, cursor: 'pointer', textTransform: 'capitalize',
             background: filter === f ? '#00B5D6' : '#F5F5F5', color: filter === f ? 'white' : '#616161', fontWeight: filter === f ? 600 : 400,
           }}>{f}</button>
         ))}
       </div>
 
       {showCreate && (
-        <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 12, border: '1px solid #00B5D6', padding: 24, marginBottom: 20 }}>
+        <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
           <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Campaign</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-            <input name="name" placeholder="Campaign name *" required style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, gridColumn: '1 / -1' }} />
-            <select name="type" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, background: 'white' }}>
+            <input name="name" placeholder="Campaign name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, gridColumn: '1 / -1' }} />
+            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, background: 'white' }}>
               <option value="email">Email Campaign</option><option value="event">Event</option>
               <option value="content">Content</option><option value="ad">Advertising</option>
               <option value="referral">Referral</option><option value="other">Other</option>
             </select>
-            <input name="budget" type="number" placeholder="Budget ($)" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13 }} />
-            <select name="target_specialty" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, background: 'white' }}>
+            <input name="budget" type="number" placeholder="Budget ($)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
+            <select name="target_specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, background: 'white' }}>
               <option value="">All Specialties</option><option value="anesthesia">Anesthesia</option>
               <option value="orthopedics">Orthopedics</option><option value="pain_management">Pain Management</option>
               <option value="asc">ASC</option><option value="behavioral_health">Behavioral Health</option>
             </select>
-            <input name="start_date" type="date" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13 }} />
-            <input name="end_date" type="date" style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13 }} />
-            <textarea name="notes" placeholder="Campaign notes..." rows={2} style={{ padding: '10px 14px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, gridColumn: '1 / -1', fontFamily: "'Reddit Sans', sans-serif", resize: 'vertical' }} />
+            <input name="start_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
+            <input name="end_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13 }} />
+            <textarea name="notes" placeholder="Campaign notes..." rows={2} style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', fontSize: 13, gridColumn: '1 / -1', fontFamily: "'Reddit Sans', sans-serif", resize: 'vertical' }} />
           </div>
           <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-            <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Campaign</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+            <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Campaign</button>
+            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#8E8E93', border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
           </div>
         </form>
       )}
@@ -125,27 +125,27 @@ export default function CampaignsPage() {
           const sc = statusColors[c.status] || statusColors.draft
           const roi = c.spent > 0 ? Math.round(((c.revenue_attributed - c.spent) / c.spent) * 100) : 0
           return (
-            <div key={c.id} style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: '20px 24px' }}>
+            <div key={c.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', padding: '20px 24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 16, fontWeight: 600, color: '#000' }}>{c.name}</span>
+                    <span style={{ fontSize: 16, fontWeight: 600, color: '#1C1C1E' }}>{c.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.text, textTransform: 'capitalize' }}>{c.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#F5F5F5', color: '#616161' }}>{typeLabels[c.type] || c.type}</span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: 'rgba(0,0,0,0.03)', color: '#8E8E93' }}>{typeLabels[c.type] || c.type}</span>
                   </div>
-                  {c.notes && <div style={{ fontSize: 13, color: '#616161' }}>{c.notes}</div>}
+                  {c.notes && <div style={{ fontSize: 13, color: '#8E8E93' }}>{c.notes}</div>}
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
-                  {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #E6E6E6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
-                  {c.status === 'active' && <button onClick={() => updateStatus(c.id, 'completed')} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #E6E6E6', background: 'white', fontSize: 12, cursor: 'pointer', color: '#185FA5' }}>Complete</button>}
+                  {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
+                  {c.status === 'active' && <button onClick={() => updateStatus(c.id, 'completed')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)', background: 'white', fontSize: 12, cursor: 'pointer', color: '#185FA5' }}>Complete</button>}
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, paddingTop: 12, borderTop: '1px solid #F5F5F5', fontSize: 12 }}>
-                <div><span style={{ color: '#616161' }}>Budget</span><div style={{ fontWeight: 600, color: '#000', marginTop: 2 }}>${(c.budget || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#616161' }}>Spent</span><div style={{ fontWeight: 600, color: '#000', marginTop: 2 }}>${(c.spent || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#616161' }}>Leads</span><div style={{ fontWeight: 600, color: '#000', marginTop: 2 }}>{c.leads_generated}</div></div>
-                <div><span style={{ color: '#616161' }}>Revenue</span><div style={{ fontWeight: 600, color: '#000', marginTop: 2 }}>${Math.round((c.revenue_attributed || 0) / 1000)}K</div></div>
-                <div><span style={{ color: '#616161' }}>ROI</span><div style={{ fontWeight: 600, color: roi > 0 ? '#085041' : '#791F1F', marginTop: 2 }}>{roi > 0 ? '+' : ''}{roi}%</div></div>
+                <div><span style={{ color: '#8E8E93' }}>Budget</span><div style={{ fontWeight: 600, color: '#1C1C1E', marginTop: 2 }}>${(c.budget || 0).toLocaleString()}</div></div>
+                <div><span style={{ color: '#8E8E93' }}>Spent</span><div style={{ fontWeight: 600, color: '#1C1C1E', marginTop: 2 }}>${(c.spent || 0).toLocaleString()}</div></div>
+                <div><span style={{ color: '#8E8E93' }}>Leads</span><div style={{ fontWeight: 600, color: '#1C1C1E', marginTop: 2 }}>{c.leads_generated}</div></div>
+                <div><span style={{ color: '#8E8E93' }}>Revenue</span><div style={{ fontWeight: 600, color: '#1C1C1E', marginTop: 2 }}>${Math.round((c.revenue_attributed || 0) / 1000)}K</div></div>
+                <div><span style={{ color: '#8E8E93' }}>ROI</span><div style={{ fontWeight: 600, color: roi > 0 ? '#085041' : '#791F1F', marginTop: 2 }}>{roi > 0 ? '+' : ''}{roi}%</div></div>
               </div>
             </div>
           )
