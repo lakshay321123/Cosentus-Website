@@ -32,12 +32,27 @@ function CindyInner() {
   const [blinking, setBlinking] = useState(false)
   const [actionLabel, setActionLabel] = useState('')
   const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const conversationIdRef = useRef<string | null>(null)
+  const connectTimeRef = useRef<number>(0)
   const router = useRouter()
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: () => { setActionLabel('') },
-    onDisconnect: () => { setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000) },
+    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now() },
+    onDisconnect: () => {
+      setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      // Send conversation to CRM for transcript extraction + lead capture
+      const convId = conversationIdRef.current
+      const duration = Date.now() - connectTimeRef.current
+      if (convId && duration > 10000) {
+        fetch('/api/crm/voice-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ conversationId: convId, pageUrl: window.location.pathname }),
+        }).catch(() => {})
+      }
+      conversationIdRef.current = null
+    },
     onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
     onMessage: () => {},
     clientTools: {
