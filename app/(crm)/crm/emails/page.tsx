@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
 type BlockType = 'header' | 'text' | 'heading' | 'image' | 'button' | 'divider' | 'spacer' | 'stats' | 'testimonial' | 'footer' | 'columns'
@@ -98,7 +98,8 @@ export default function EmailsPage() {
   const saveTemplate = async () => {
     if (!templateName) { alert('Enter a template name'); return }
     setSaving(true)
-    const { data } = await supabase.from('email_templates').insert({ name: templateName, subject: templateSubject || templateName, html_content: toHtml(), category: 'custom' }).select()
+    const { data, error } = await supabase.from('email_templates').insert({ name: templateName, subject: templateSubject || templateName, html_content: toHtml(), category: 'custom' }).select()
+    if (error) { alert('Save failed: ' + error.message); setSaving(false); return }
     if (data) { setSaved(prev => [data[0], ...prev]); alert('Saved!') }
     setSaving(false)
   }
@@ -130,7 +131,7 @@ export default function EmailsPage() {
           {saved.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: '#000' }}>No saved templates yet</div> : saved.map(t => (
             <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 16px', border: '1px solid #E6E6E6', borderRadius: 10, marginBottom: 8 }}>
               <div style={{ flex: 1 }}><div style={{ fontWeight: 600, color: '#000' }}>{t.name}</div><div style={{ fontSize: 12, color: '#000' }}>Subject: {t.subject}</div></div>
-              <button onClick={() => { const lead = leads.find(l => l.id === previewLead); if (!lead?.email) { alert('Select a lead first'); return }; window.open(`mailto:${lead.email}?subject=${encodeURIComponent(t.subject)}`, '_blank') }} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, background: '#00B5D6', color: '#fff', border: 'none', cursor: 'pointer', ...S }}>Send</button>
+              <button onClick={() => { const lead = leads.find(l => l.id === previewLead); if (!lead?.email) { alert('Select a lead first'); return }; window.open(`mailto:${lead.email}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent('Hi ' + (lead.first_name || '') + ',\n\nPlease find our latest update below.\n\nBest regards,\nCosentus Team\n(877) 806-2286')}`, '_blank') }} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, background: '#00B5D6', color: '#fff', border: 'none', cursor: 'pointer', ...S }}>Send</button>
             </div>
           ))}
         </div>
@@ -259,6 +260,7 @@ export default function EmailsPage() {
                       <input type="file" accept="image/*" onChange={async (e) => {
                         const file = e.target.files?.[0]
                         if (!file) return
+                        if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return }
                         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
                         const fileName = `email-images/${Date.now()}-${safeName}`
                         const { error } = await supabase.storage.from('crm-documents').upload(fileName, file)
