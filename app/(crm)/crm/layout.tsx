@@ -52,6 +52,8 @@ const navSections = [
   { label: 'Reporting', items: [
     { href: '/crm/analytics', label: 'Analytics', icon: I.analytics },
     { href: '/crm/reports', label: 'Reports', icon: I.reports },
+    { href: '/crm/seo', label: 'SEO', icon: I.analytics },
+    { href: '/crm/pages', label: 'Landing Pages', icon: I.documents },
   ]},
   { label: '', items: [
     { href: '/crm/settings', label: 'Settings', icon: I.settings },

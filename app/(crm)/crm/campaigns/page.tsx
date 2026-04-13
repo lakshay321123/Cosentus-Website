@@ -3,52 +3,44 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
-interface Campaign {
-  id: string; name: string; type: string; status: string; start_date: string | null
-  end_date: string | null; budget: number; spent: number; leads_generated: number
-  deals_influenced: number; revenue_attributed: number; target_specialty: string | null
-  notes: string | null; created_at: string
-}
-
-const typeLabels: Record<string, string> = { email: 'Email', event: 'Event', content: 'Content', ad: 'Advertising', referral: 'Referral', other: 'Other' }
-const statusColors: Record<string, { bg: string; text: string }> = {
-  draft: { bg: '#F5F5F5', text: '#616161' }, active: { bg: '#E1F5EE', text: '#085041' },
-  completed: { bg: '#E6F1FB', text: '#185FA5' }, cancelled: { bg: '#FCEBEB', text: '#791F1F' },
-}
+interface Campaign { id: string; name: string; type: string; status: string; budget: number; spent: number; leads_generated: number; deals_influenced: number; revenue_attributed: number; created_at: string }
+interface Lead { id: string; first_name: string; last_name: string; email: string | null; practice_name: string | null; specialty: string; temperature: string }
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [filter, setFilter] = useState('all')
+  const [filterStatus, setFilterStatus] = useState('all')
+  const [showBulkEmail, setShowBulkEmail] = useState(false)
+  const [selectedLeads, setSelectedLeads] = useState<string[]>([])
+  const [emailSubject, setEmailSubject] = useState('')
+  const [emailBody, setEmailBody] = useState('')
+  const [templates, setTemplates] = useState<{id:string;name:string;subject:string;body:string}[]>([])
 
   useEffect(() => {
-    supabase.from('campaigns').select('*').order('created_at', { ascending: false })
-      .then(({ data }) => { if (data) setCampaigns(data as Campaign[]); setLoading(false) })
+    Promise.all([
+      supabase.from('campaigns').select('*').order('created_at', { ascending: false }),
+      supabase.from('leads').select('id, first_name, last_name, email, practice_name, specialty, temperature').not('email', 'is', null).order('first_name'),
+    ]).then(([cRes, lRes]) => {
+      if (cRes.data) setCampaigns(cRes.data as Campaign[])
+      if (lRes.data) setLeads(lRes.data as Lead[])
+      setLoading(false)
+    })
   }, [])
 
-  const filtered = filter === 'all' ? campaigns : campaigns.filter(c => c.status === filter)
-  const totalBudget = campaigns.filter(c => c.status === 'active').reduce((s, c) => s + (c.budget || 0), 0)
-  const totalSpent = campaigns.reduce((s, c) => s + (c.spent || 0), 0)
-  const totalLeads = campaigns.reduce((s, c) => s + (c.leads_generated || 0), 0)
-  const totalRevenue = campaigns.reduce((s, c) => s + (c.revenue_attributed || 0), 0)
+  const filtered = filterStatus === 'all' ? campaigns : campaigns.filter(c => c.status === filterStatus)
 
   const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (saving) return
+    setSaving(true)
     const fd = new FormData(e.currentTarget)
-    const campaign = {
-      name: fd.get('name') as string,
-      type: fd.get('type') as string,
-      budget: parseFloat(fd.get('budget') as string) || 0,
-      start_date: fd.get('start_date') as string || null,
-      end_date: fd.get('end_date') as string || null,
-      target_specialty: fd.get('target_specialty') as string || null,
-      notes: fd.get('notes') as string || null,
-      status: 'draft',
-    }
-    const { data } = await supabase.from('campaigns').insert(campaign).select()
+    const camp = { name: fd.get('name') as string, type: fd.get('type') as string, status: 'draft', budget: Number(fd.get('budget')) || 0, spent: 0, leads_generated: 0, deals_influenced: 0, revenue_attributed: 0 }
+    const { data } = await supabase.from('campaigns').insert(camp).select()
     if (data) { setCampaigns(prev => [data[0] as Campaign, ...prev]); setShowCreate(false) }
+    setSaving(false)
   }
 
   const updateStatus = async (id: string, status: string) => {
@@ -56,102 +48,127 @@ export default function CampaignsPage() {
     await supabase.from('campaigns').update({ status }).eq('id', id)
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading campaigns...</div>
+  const toggleLead = (id: string) => setSelectedLeads(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
+  const selectAll = () => setSelectedLeads(selectedLeads.length === leads.length ? [] : leads.map(l => l.id))
+
+  const openBulkOutlook = () => {
+    const recipients = leads.filter(l => selectedLeads.includes(l.id) && l.email).map(l => l.email).join(',')
+    if (!recipients) { alert('No leads with email addresses selected'); return }
+    const subject = encodeURIComponent(emailSubject || 'From Cosentus')
+    const body = encodeURIComponent(emailBody || '')
+    window.open(`mailto:${recipients}?subject=${subject}&body=${body}`, '_blank')
+  }
+
+  if (loading) return <div style={{ padding: 48, color: '#000' }}>Loading campaigns...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Campaigns</h1>
-          <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Track marketing campaigns and measure ROI</p>
+          <h1 style={{ fontSize: 26, fontWeight: 600, color: '#000', margin: 0 }}>Campaigns</h1>
+          <p style={{ fontSize: 14, fontWeight: 500, color: '#000', margin: '4px 0 0' }}>{campaigns.length} campaigns · Track ROI and attribution</p>
         </div>
-        <button onClick={() => setShowCreate(!showCreate)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 12, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ New Campaign</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => setShowBulkEmail(!showBulkEmail)} className="crm-btn crm-btn-secondary">Bulk Email</button>
+          <button onClick={() => setShowCreate(!showCreate)} className="crm-btn crm-btn-primary">+ Create Campaign</button>
+        </div>
       </div>
 
-      {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
-        {[
-          { label: 'Active Budget', value: `$${Math.round(totalBudget / 1000)}K` },
-          { label: 'Total Spent', value: `$${Math.round(totalSpent / 1000)}K` },
-          { label: 'Leads Generated', value: totalLeads.toString() },
-          { label: 'Revenue Attributed', value: `$${Math.round(totalRevenue / 1000)}K` },
-        ].map((s, i) => (
-          <div key={i} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: '20px' }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
-            <div style={{ fontSize: 32, fontWeight: 300, color: '#000000', lineHeight: 1 }}>{s.value}</div>
+      {showBulkEmail && (
+        <div className="crm-card" style={{ marginBottom: 20, border: '1px solid #00B5D6' }}>
+          <h3 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: '0 0 16px' }}>Bulk Email via Outlook</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#000', marginBottom: 8 }}>
+                Select Leads ({selectedLeads.length} of {leads.length})
+                <button onClick={selectAll} style={{ marginLeft: 8, fontSize: 11, color: '#00B5D6', background: 'none', border: 'none', cursor: 'pointer' }}>{selectedLeads.length === leads.length ? 'Deselect all' : 'Select all'}</button>
+              </div>
+              <div style={{ maxHeight: 240, overflowY: 'auto', border: '1px solid #E6E6E6', borderRadius: 10 }}>
+                {leads.map(l => (
+                  <label key={l.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderBottom: '1px solid #E6E6E6', cursor: 'pointer', fontSize: 13, background: selectedLeads.includes(l.id) ? '#D6EBF2' : 'transparent' }}>
+                    <input type="checkbox" checked={selectedLeads.includes(l.id)} onChange={() => toggleLead(l.id)} />
+                    <span style={{ fontWeight: 500, color: '#000' }}>{l.first_name} {l.last_name}</span>
+                    <span style={{ color: '#000', fontSize: 12 }}>{l.email}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 11, padding: '1px 6px', borderRadius: 4, background: l.temperature === 'hot' ? '#00B5D6' : l.temperature === 'warm' ? '#68D1E6' : '#E6E6E6', color: l.temperature === 'hot' || l.temperature === 'warm' ? '#fff' : '#000' }}>{l.temperature}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#000', marginBottom: 8 }}>Compose Email</div>
+              <input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Subject line" className="crm-input" style={{ marginBottom: 8 }} />
+              <textarea value={emailBody} onChange={e => setEmailBody(e.target.value)} placeholder="Email body (plain text for Outlook)" rows={8}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: 10, border: '1px solid #E6E6E6', fontSize: 13, fontFamily: "'Reddit Sans', sans-serif", boxSizing: 'border-box', resize: 'vertical' }} />
+              <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                <button onClick={openBulkOutlook} disabled={selectedLeads.length === 0} className="crm-btn crm-btn-primary" style={{ opacity: selectedLeads.length === 0 ? 0.5 : 1 }}>
+                  Open in Outlook ({selectedLeads.length} recipients)
+                </button>
+                <button onClick={() => setShowBulkEmail(false)} className="crm-btn crm-btn-secondary">Cancel</button>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      {/* Filter */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+      <div className="crm-segment" style={{ marginBottom: 20 }}>
         {['all', 'draft', 'active', 'completed'].map(f => (
-          <button key={f} onClick={() => setFilter(f)} style={{
-            padding: '6px 14px', borderRadius: 10, border: 'none', fontSize: 12, cursor: 'pointer', textTransform: 'capitalize',
-            background: filter === f ? '#00B5D6' : '#F5F5F5', color: filter === f ? 'white' : '#616161', fontWeight: filter === f ? 600 : 400,
-          }}>{f}</button>
+          <button key={f} className={filterStatus === f ? 'active' : ''} onClick={() => setFilterStatus(f)} style={{ textTransform: 'capitalize' }}>{f}</button>
         ))}
       </div>
 
       {showCreate && (
-        <form onSubmit={handleCreate} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,181,214,0.3)', padding: 24, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>New Campaign</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-            <input name="name" placeholder="Campaign name *" required style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, gridColumn: '1 / -1' }} />
-            <select name="type" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white' }}>
-              <option value="email">Email Campaign</option><option value="event">Event</option>
-              <option value="content">Content</option><option value="ad">Advertising</option>
-              <option value="referral">Referral</option><option value="other">Other</option>
+        <form onSubmit={handleCreate} className="crm-card" style={{ marginBottom: 20, border: '1px solid #00B5D6' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+            <input name="name" placeholder="Campaign name *" required className="crm-input" />
+            <select name="type" className="crm-select">
+              <option value="email">Email</option><option value="event">Event</option><option value="content">Content</option>
+              <option value="ad">Advertising</option><option value="referral">Referral</option>
             </select>
-            <input name="budget" type="number" placeholder="Budget ($)" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13 }} />
-            <select name="target_specialty" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white' }}>
-              <option value="">All Specialties</option><option value="anesthesia">Anesthesia</option>
-              <option value="orthopedics">Orthopedics</option><option value="pain_management">Pain Management</option>
-              <option value="asc">ASC</option><option value="behavioral_health">Behavioral Health</option>
-            </select>
-            <input name="start_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13 }} />
-            <input name="end_date" type="date" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13 }} />
-            <textarea name="notes" placeholder="Campaign notes..." rows={2} style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, gridColumn: '1 / -1', fontFamily: "'Reddit Sans', sans-serif", resize: 'vertical' }} />
+            <input name="budget" placeholder="Budget ($)" type="number" className="crm-input" />
           </div>
-          <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-            <button type="submit" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Create Campaign</button>
-            <button type="button" onClick={() => setShowCreate(false)} style={{ background: 'transparent', color: '#000000', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 10, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>Cancel</button>
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <button type="submit" disabled={saving} className="crm-btn crm-btn-primary">{saving ? 'Creating...' : 'Create Campaign'}</button>
+            <button type="button" onClick={() => setShowCreate(false)} className="crm-btn crm-btn-secondary">Cancel</button>
           </div>
         </form>
       )}
 
-      {/* Campaign list */}
-      <div style={{ display: 'grid', gap: 10 }}>
-        {filtered.map(c => {
-          const sc = statusColors[c.status] || statusColors.draft
-          const roi = c.spent > 0 ? Math.round(((c.revenue_attributed - c.spent) / c.spent) * 100) : 0
-          return (
-            <div key={c.id} style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: '20px 24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{c.name}</span>
-                    <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.text, textTransform: 'capitalize' }}>{c.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#f7f7f7', color: '#000000' }}>{typeLabels[c.type] || c.type}</span>
-                  </div>
-                  {c.notes && <div style={{ fontSize: 13, color: '#000000' }}>{c.notes}</div>}
-                </div>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {c.status === 'draft' && <button onClick={() => updateStatus(c.id, 'active')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', background: 'white', fontSize: 12, cursor: 'pointer', color: '#085041' }}>Launch</button>}
-                  {c.status === 'active' && <button onClick={() => updateStatus(c.id, 'completed')} style={{ padding: '6px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', background: 'white', fontSize: 12, cursor: 'pointer', color: '#185FA5' }}>Complete</button>}
-                </div>
+      {filtered.length === 0 ? (
+        <div className="crm-card" style={{ padding: 60, textAlign: 'center' }}>
+          <div style={{ fontSize: 14, color: '#000', marginBottom: 12 }}>No campaigns yet</div>
+          <button onClick={() => setShowCreate(true)} className="crm-btn crm-btn-primary">Create your first campaign</button>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gap: 10 }}>
+          {filtered.map(c => (
+            <div key={c.id} className="crm-card" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr auto', alignItems: 'center', gap: 16 }}>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{c.name}</div>
+                <div style={{ fontSize: 12, color: '#000', marginTop: 2 }}>{c.type} · Created {new Date(c.created_at).toLocaleDateString()}</div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, paddingTop: 12, borderTop: '1px solid #F5F5F5', fontSize: 12 }}>
-                <div><span style={{ color: '#000000' }}>Budget</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.budget || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#000000' }}>Spent</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${(c.spent || 0).toLocaleString()}</div></div>
-                <div><span style={{ color: '#000000' }}>Leads</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>{c.leads_generated}</div></div>
-                <div><span style={{ color: '#000000' }}>Revenue</span><div style={{ fontWeight: 600, color: '#000000', marginTop: 2 }}>${Math.round((c.revenue_attributed || 0) / 1000)}K</div></div>
-                <div><span style={{ color: '#000000' }}>ROI</span><div style={{ fontWeight: 600, color: roi > 0 ? '#085041' : '#791F1F', marginTop: 2 }}>{roi > 0 ? '+' : ''}{roi}%</div></div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#00B5D6' }}>${c.budget?.toLocaleString() || 0}</div>
+                <div style={{ fontSize: 11, color: '#000' }}>Budget</div>
               </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#00B5D6' }}>{c.leads_generated}</div>
+                <div style={{ fontSize: 11, color: '#000' }}>Leads</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#00B5D6' }}>{c.deals_influenced}</div>
+                <div style={{ fontSize: 11, color: '#000' }}>Deals</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#00B5D6' }}>${c.revenue_attributed?.toLocaleString() || 0}</div>
+                <div style={{ fontSize: 11, color: '#000' }}>Revenue</div>
+              </div>
+              <select value={c.status} onChange={e => updateStatus(c.id, e.target.value)} style={{ fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 6, background: c.status === 'active' ? '#00B5D6' : c.status === 'completed' ? '#68D1E6' : '#E6E6E6', color: c.status === 'draft' ? '#000' : '#fff', border: 'none', cursor: 'pointer', textTransform: 'capitalize' }}>
+                {['draft', 'active', 'completed'].map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
