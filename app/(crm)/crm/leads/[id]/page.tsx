@@ -55,15 +55,15 @@ export default function LeadDetailPage() {
     setNote('')
   }
 
-  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading lead...</div>
-  if (!lead) return <div style={{ padding: 40, color: '#9ca3af' }}>Lead not found</div>
+  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading lead...</div>
+  if (!lead) return <div style={{ padding: 40, color: '#CCCCCC' }}>Lead not found</div>
 
   const scoreColor = lead.ai_score >= 80 ? '#00B5D6' : lead.ai_score >= 50 ? '#EF9F27' : '#CCCCCC'
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1200 }}>
       {/* Back */}
-      <Link href="/crm/leads" style={{ fontSize: 13, color: '#9ca3af', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
+      <Link href="/crm/leads" style={{ fontSize: 13, color: '#CCCCCC', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Back to Leads
       </Link>
@@ -71,17 +71,17 @@ export default function LeadDetailPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32 }}>
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>{lead.first_name} {lead.last_name}</h1>
-          <p style={{ fontSize: 16, color: '#9ca3af', margin: '4px 0 0' }}>{lead.practice_name}</p>
+          <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>{lead.first_name} {lead.last_name}</h1>
+          <p style={{ fontSize: 16, color: '#CCCCCC', margin: '4px 0 0' }}>{lead.practice_name}</p>
           <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
             <TempBadge temp={lead.temperature} />
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#f3f4f6', color: '#9ca3af', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#f3f4f6', color: '#9ca3af' }}>{sourceLabels[lead.source] || lead.source}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#CCCCCC' }}>{sourceLabels[lead.source] || lead.source}</span>
           </div>
         </div>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, fontWeight: 300, color: scoreColor, lineHeight: 1 }}>{lead.ai_score}</div>
-          <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>AI Score</div>
+          <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>AI Score</div>
           <button onClick={async () => {
             const res = await fetch('/api/crm/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead_id: lead.id }) })
             const result = await res.json()
@@ -101,7 +101,7 @@ export default function LeadDetailPage() {
               alert(`Enriched! ${result.updates_applied} fields updated.\n\nPractice type: ${result.enriched.practice_type}\nComplexity: ${result.enriched.billing_complexity}\nGrowth: ${result.enriched.growth_potential}\n\nTalking points:\n${(result.enriched.talking_points || []).map((p: string, i: number) => `${i+1}. ${p}`).join('\n')}`)
               window.location.reload()
             } else { alert('Enrichment failed: ' + (result.error || 'unknown')) }
-          }} style={{ marginTop: 4, fontSize: 11, color: '#9ca3af', background: 'none', border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+          }} style={{ marginTop: 4, fontSize: 11, color: '#CCCCCC', background: 'none', border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
             Enrich Data
           </button>
         </div>
@@ -117,7 +117,7 @@ export default function LeadDetailPage() {
               flex: 1, padding: '10px 8px', borderRadius: 10, border: 'none', cursor: 'pointer',
               background: isActive ? '#00B5D6' : '#F5F5F5', color: isActive ? 'white' : '#CCCCCC',
               fontSize: 12, fontWeight: isCurrent ? 700 : 500, textTransform: 'capitalize',
-              outline: isCurrent ? '2px solid #009BB8' : 'none', outlineOffset: 2,
+              outline: isCurrent ? '2px solid #36C2DE' : 'none', outlineOffset: 2,
             }}>{s}</button>
           )
         })}
@@ -126,8 +126,8 @@ export default function LeadDetailPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* Left: Contact details */}
         <div>
-          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Contact Details</h3>
+          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Contact Details</h3>
             {[
               { label: 'Email', value: lead.email },
               { label: 'Phone', value: lead.phone },
@@ -136,36 +136,36 @@ export default function LeadDetailPage() {
               { label: 'Revenue Potential', value: lead.revenue_potential ? `$${Math.round(lead.revenue_potential).toLocaleString()}/mo` : null },
               { label: 'Assigned To', value: lead.assigned_to },
             ].filter(f => f.value).map(f => (
-              <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '0.5px solid #e5e7eb', fontSize: 13 }}>
-                <span style={{ color: '#9ca3af' }}>{f.label}</span>
-                <span style={{ fontWeight: 500, color: '#1f2937' }}>{f.value}</span>
+              <div key={f.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '0.5px solid #E6E6E6', fontSize: 13 }}>
+                <span style={{ color: '#CCCCCC' }}>{f.label}</span>
+                <span style={{ fontWeight: 500, color: '#000000' }}>{f.value}</span>
               </div>
             ))}
           </div>
 
           {lead.notes && (
-            <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Notes</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: '#1f2937', margin: 0 }}>{lead.notes}</p>
+            <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Notes</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.6, color: '#000000', margin: 0 }}>{lead.notes}</p>
             </div>
           )}
         </div>
 
         {/* Right: Activity timeline */}
         <div>
-          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Activity Timeline</h3>
+          <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#CCCCCC' }}>Activity Timeline</h3>
 
             {/* Add note */}
             <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
               <input value={note} onChange={e => setNote(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddNote()}
-                placeholder="Add a note..." style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', fontSize: 13, outline: 'none' }} />
+                placeholder="Add a note..." style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, outline: 'none' }} />
               <button onClick={handleAddNote} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Add</button>
             </div>
 
             {/* Timeline */}
             {activities.length === 0 ? (
-              <div style={{ fontSize: 13, color: '#d1d5db', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
+              <div style={{ fontSize: 13, color: '#E6E6E6', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {activities.map((a, i) => {
@@ -174,8 +174,8 @@ export default function LeadDetailPage() {
                     <div key={a.id} style={{ display: 'flex', gap: 12, padding: '12px 0', borderBottom: i < activities.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
                       <div style={{ fontSize: 16, width: 24, textAlign: 'center', flexShrink: 0 }}>{typeIcons[a.type] || '📋'}</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 13, color: '#1f2937' }}>{a.description}</div>
-                        <div style={{ fontSize: 11, color: '#d1d5db', marginTop: 4 }}>
+                        <div style={{ fontSize: 13, color: '#000000' }}>{a.description}</div>
+                        <div style={{ fontSize: 11, color: '#E6E6E6', marginTop: 4 }}>
                           {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {new Date(a.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </div>
                       </div>

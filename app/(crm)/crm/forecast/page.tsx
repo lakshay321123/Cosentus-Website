@@ -47,13 +47,13 @@ export default function ForecastPage() {
     repMap[rep].deals++
   })
 
-  if (loading) return <div style={{ padding: 40, color: '#9ca3af' }}>Loading forecast...</div>
+  if (loading) return <div style={{ padding: 40, color: '#CCCCCC' }}>Loading forecast...</div>
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 32, fontWeight: 300, color: '#1f2937', margin: 0 }}>Revenue Forecast</h1>
-        <p style={{ fontSize: 14, color: '#9ca3af', margin: '4px 0 0' }}>AI-weighted pipeline predictions based on stage probability</p>
+        <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Revenue Forecast</h1>
+        <p style={{ fontSize: 14, color: '#CCCCCC', margin: '4px 0 0' }}>AI-weighted pipeline predictions based on stage probability</p>
       </div>
 
       {/* Top stats */}
@@ -73,7 +73,7 @@ export default function ForecastPage() {
       </div>
 
       {/* Monthly projection */}
-      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24, marginBottom: 20 }}>
+      <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 20px' }}>Monthly Revenue Projection</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {[
@@ -81,13 +81,13 @@ export default function ForecastPage() {
             { label: 'Next Month', value: month2, pct: 70 },
             { label: 'Month 3', value: month3, pct: 100 },
           ].map((m, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#fafbfc' }}>
+            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#D6EBF2' }}>
               <div style={{ fontSize: 32, fontWeight: 300, color: '#00B5D6', lineHeight: 1 }}>${Math.round(m.value / 1000)}K</div>
-              <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 8 }}>{m.label}</div>
+              <div style={{ fontSize: 13, color: '#CCCCCC', marginTop: 8 }}>{m.label}</div>
               <div style={{ width: '80%', height: 4, borderRadius: 2, background: '#E6E6E6', margin: '12px auto 0', overflow: 'hidden' }}>
                 <div style={{ width: `${m.pct}%`, height: '100%', background: '#00B5D6', borderRadius: 2 }} />
               </div>
-              <div style={{ fontSize: 11, color: '#d1d5db', marginTop: 6 }}>{m.pct}% of pipeline</div>
+              <div style={{ fontSize: 11, color: '#E6E6E6', marginTop: 6 }}>{m.pct}% of pipeline</div>
             </div>
           ))}
         </div>
@@ -95,43 +95,43 @@ export default function ForecastPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* By stage */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Forecast by Stage</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {stageData.map(s => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 90, fontSize: 12, color: '#9ca3af', textTransform: 'capitalize', textAlign: 'right' }}>{s.stage}</div>
-                <div style={{ flex: 1, height: 24, background: '#f3f4f6', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                <div style={{ width: 90, fontSize: 12, color: '#CCCCCC', textTransform: 'capitalize', textAlign: 'right' }}>{s.stage}</div>
+                <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${rawTotal > 0 ? (s.total / rawTotal) * 100 : 0}%`, height: '100%', background: '#E6E6E6', borderRadius: 4 }} />
                   <div style={{ position: 'absolute', top: 0, left: 0, width: `${rawTotal > 0 ? (s.weighted / rawTotal) * 100 : 0}%`, height: '100%', background: '#00B5D6', borderRadius: 4 }} />
                 </div>
                 <div style={{ minWidth: 60, textAlign: 'right', fontSize: 12 }}>
                   <span style={{ fontWeight: 600, color: '#00B5D6' }}>${Math.round(s.weighted / 1000)}K</span>
-                  <span style={{ color: '#d1d5db' }}> / ${Math.round(s.total / 1000)}K</span>
+                  <span style={{ color: '#E6E6E6' }}> / ${Math.round(s.total / 1000)}K</span>
                 </div>
-                <div style={{ width: 32, fontSize: 11, color: '#9ca3af', textAlign: 'right' }}>{Math.round(s.pct * 100)}%</div>
+                <div style={{ width: 32, fontSize: 11, color: '#CCCCCC', textAlign: 'right' }}>{Math.round(s.pct * 100)}%</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* By rep */}
-        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #e5e7eb, 0 4px 12px #f3f4f6', padding: 24 }}>
+        <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
           <h2 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Forecast by Rep</h2>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
+              <tr style={{ borderBottom: '0.5px solid #E6E6E6' }}>
                 {['Rep', 'Deals', 'Raw', 'Weighted'].map(h => (
-                  <th key={h} style={{ textAlign: h === 'Rep' ? 'left' : 'right', padding: '8px 0', fontWeight: 500, color: '#9ca3af', fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
+                  <th key={h} style={{ textAlign: h === 'Rep' ? 'left' : 'right', padding: '8px 0', fontWeight: 500, color: '#CCCCCC', fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {Object.entries(repMap).sort((a, b) => b[1].weighted - a[1].weighted).map(([rep, data]) => (
-                <tr key={rep} style={{ borderBottom: '0.5px solid #e5e7eb' }}>
+                <tr key={rep} style={{ borderBottom: '0.5px solid #E6E6E6' }}>
                   <td style={{ padding: '10px 0', fontWeight: 500 }}>{rep}</td>
                   <td style={{ padding: '10px 0', textAlign: 'right' }}>{data.deals}</td>
-                  <td style={{ padding: '10px 0', textAlign: 'right', color: '#9ca3af' }}>${Math.round(data.total / 1000)}K</td>
+                  <td style={{ padding: '10px 0', textAlign: 'right', color: '#CCCCCC' }}>${Math.round(data.total / 1000)}K</td>
                   <td style={{ padding: '10px 0', textAlign: 'right', fontWeight: 600, color: '#00B5D6' }}>${Math.round(data.weighted / 1000)}K</td>
                 </tr>
               ))}

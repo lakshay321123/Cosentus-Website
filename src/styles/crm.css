@@ -5,7 +5,7 @@
   font-family: 'Reddit Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #3a3f47;
+  color: #616161;
 }
 
 /* Cards — soft white, barely-there border */
@@ -13,7 +13,7 @@
   background: #fff;
   border-radius: 14px;
   padding: 24px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #E6E6E6;
   transition: box-shadow 0.3s ease;
 }
 .crm-card:hover {
@@ -25,7 +25,7 @@
   background: #fff;
   border-radius: 14px;
   padding: 22px 24px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #E6E6E6;
   position: relative;
 }
 .crm-stat-icon {
@@ -37,7 +37,7 @@
 .crm-stat-label {
   font-size: 13px;
   font-weight: 500;
-  color: #6b7280;
+  color: #616161;
   margin-bottom: 12px;
 }
 .crm-stat-value {
@@ -49,11 +49,11 @@
 }
 .crm-stat-sub {
   font-size: 13px;
-  color: #9ca3af;
+  color: #CCCCCC;
   margin-top: 6px;
 }
 .crm-stat.accent {
-  background: linear-gradient(135deg, #00B5D6 0%, #009BB8 100%);
+  background: linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%);
   border: none;
 }
 .crm-stat.accent .crm-stat-label { color: rgba(255,255,255,0.7); }
@@ -65,25 +65,25 @@
 .crm-h1 {
   font-size: 26px;
   font-weight: 600;
-  color: #1f2937;
+  color: #000000;
   margin: 0;
 }
 .crm-h2 {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #000000;
   margin: 0;
 }
 .crm-subtitle {
   font-size: 14px;
-  color: #9ca3af;
+  color: #CCCCCC;
   margin: 4px 0 0;
 }
 
 /* Segmented control */
 .crm-segment {
   display: inline-flex;
-  background: #f3f4f6;
+  background: #D6EBF2;
   border-radius: 10px;
   padding: 3px;
   gap: 2px;
@@ -97,7 +97,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Reddit Sans', sans-serif;
-  color: #9ca3af;
+  color: #CCCCCC;
   background: transparent;
 }
 .crm-segment button.active {
@@ -123,12 +123,12 @@
   background: #00B5D6;
   color: #fff;
 }
-.crm-btn-primary:hover { background: #009BB8; }
+.crm-btn-primary:hover { background: #36C2DE; }
 .crm-btn-secondary {
-  background: #f3f4f6;
-  color: #4b5563;
+  background: #D6EBF2;
+  color: #616161;
 }
-.crm-btn-secondary:hover { background: #e5e7eb; }
+.crm-btn-secondary:hover { background: #E6E6E6; }
 .crm-btn-ghost {
   background: transparent;
   color: #00B5D6;
@@ -146,15 +146,15 @@
   padding: 12px 16px;
   font-size: 12px;
   font-weight: 500;
-  color: #9ca3af;
-  border-bottom: 1px solid #e5e7eb;
+  color: #CCCCCC;
+  border-bottom: 1px solid #E6E6E6;
 }
 .crm-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #f9fafb;
-  color: #3a3f47;
+  border-bottom: 1px solid #D6EBF2;
+  color: #616161;
 }
-.crm-table tbody tr:hover { background: #fafbfc; }
+.crm-table tbody tr:hover { background: #D6EBF2; }
 
 /* Badges — soft, muted */
 .crm-badge {
@@ -164,34 +164,34 @@
   border-radius: 6px;
   display: inline-block;
 }
-.crm-badge-hot { background: #fef2f2; color: #ef4444; }
-.crm-badge-warm { background: #fffbeb; color: #f59e0b; }
-.crm-badge-cold { background: #eff6ff; color: #3b82f6; }
-.crm-badge-success { background: #f0fdf4; color: #22c55e; }
-.crm-badge-neutral { background: #f3f4f6; color: #9ca3af; }
+.crm-badge-hot { background: #E6E6E6; color: #616161; }
+.crm-badge-warm { background: #D6EBF2; color: #68D1E6; }
+.crm-badge-cold { background: #D6EBF2; color: #36C2DE; }
+.crm-badge-success { background: #D6EBF2; color: #00B5D6; }
+.crm-badge-neutral { background: #D6EBF2; color: #CCCCCC; }
 
 /* Input — soft border */
 .crm-input {
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #E6E6E6;
   font-size: 14px;
   font-family: 'Reddit Sans', sans-serif;
   outline: none;
   transition: border-color 0.2s;
   background: #fff;
-  color: #3a3f47;
+  color: #616161;
 }
 .crm-input:focus { border-color: #00B5D6; }
-.crm-input::placeholder { color: #d1d5db; }
+.crm-input::placeholder { color: #E6E6E6; }
 .crm-select {
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #E6E6E6;
   font-size: 14px;
   font-family: 'Reddit Sans', sans-serif;
   background: #fff;
-  color: #3a3f47;
+  color: #616161;
   cursor: pointer;
 }
 
@@ -211,7 +211,7 @@
 .crm-score-bar {
   height: 4px;
   border-radius: 2px;
-  background: #f3f4f6;
+  background: #D6EBF2;
   overflow: hidden;
 }
 .crm-score-fill {
@@ -231,12 +231,12 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
-  color: #6b7280;
+  color: #616161;
   transition: all 0.15s ease;
 }
 .crm-sidebar-item:hover {
-  background: #f3f4f6;
-  color: #3a3f47;
+  background: #D6EBF2;
+  color: #616161;
 }
 .crm-sidebar-item.active {
   background: #00B5D6;
@@ -247,7 +247,7 @@
 .crm-sidebar-label {
   font-size: 11px;
   font-weight: 600;
-  color: #d1d5db;
+  color: #E6E6E6;
   letter-spacing: 0.06em;
   padding: 16px 14px 6px;
   text-transform: uppercase;

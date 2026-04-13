@@ -63,7 +63,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="crm-page" style={{ display: 'flex', minHeight: '100vh' }}>
       {/* Mobile header */}
-      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: '#ffffff',  borderBottom: '0.5px solid #e5e7eb', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: '#ffffff',  borderBottom: '0.5px solid #E6E6E6', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
         <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 24 }} />
         <button onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" strokeWidth="1.5"><path d={mobileOpen ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} /></svg>
@@ -75,7 +75,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside className="crm-sidebar" style={{
         width: 220, background: '#ffffff',
-        borderRight: '1px solid #e5e7eb',
+        borderRight: '1px solid #E6E6E6',
         padding: '16px 0', display: 'flex', flexDirection: 'column', flexShrink: 0,
         position: 'fixed', top: 0, left: mobileOpen ? 0 : -220, bottom: 0, zIndex: 100,
         transition: 'left 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -100,7 +100,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 return (
                   <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
                     className={`crm-sidebar-item ${active ? 'active' : ''}`}>
-                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#9ca3af' }}>{item.icon}</span>
+                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#CCCCCC' }}>{item.icon}</span>
                     {item.label}
                   </Link>
                 )
@@ -110,21 +110,21 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Bottom */}
-        <div style={{ padding: '12px 10px', borderTop: '1px solid #e5e7eb' }}>
+        <div style={{ padding: '12px 10px', borderTop: '1px solid #E6E6E6' }}>
           <button onClick={async () => { await fetch('/api/crm/auth', { method: 'DELETE' }); window.location.href = '/crm/login' }}
             className="crm-sidebar-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
-            <span style={{ width: 18, display: 'flex', color: '#9ca3af' }}>{I.signout}</span>
+            <span style={{ width: 18, display: 'flex', color: '#CCCCCC' }}>{I.signout}</span>
             Sign Out
           </button>
           <Link href="/" className="crm-sidebar-item">
-            <span style={{ width: 18, display: 'flex', color: '#9ca3af' }}>{I.back}</span>
+            <span style={{ width: 18, display: 'flex', color: '#CCCCCC' }}>{I.back}</span>
             Back to Website
           </Link>
         </div>
       </aside>
 
       {/* Main */}
-      <main className="crm-main" style={{ flex: 1, marginLeft: 220, background: '#f5f6f8', minHeight: '100vh' }}>
+      <main className="crm-main" style={{ flex: 1, marginLeft: 220, background: '#ffffff', minHeight: '100vh' }}>
         {children}
       </main>
 

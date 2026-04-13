@@ -21,8 +21,8 @@ interface EmailData {
 
 const BRAND = {
   primary: '#00B5D6',
-  dark: '#009BB8',
-  black: '#1a1a1a',
+  dark: '#36C2DE',
+  black: '#000000',
   gray: '#616161',
   lightGray: '#F5F5F5',
   border: '#E6E6E6',

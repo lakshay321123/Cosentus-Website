@@ -11,7 +11,7 @@ export default function AnalyticsPage() {
     supabase.from('leads').select('*').then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
   }, [])
 
-  if (loading) return <div style={{ padding: 48, color: '#9ca3af' }}>Loading...</div>
+  if (loading) return <div style={{ padding: 48, color: '#CCCCCC' }}>Loading...</div>
 
   const total = leads.length
   const won = leads.filter(l => l.status === 'won')
@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
   leads.forEach(l => { const r = l.assigned_to || 'Unassigned'; if (!reps[r]) reps[r] = { count: 0, won: 0, value: 0 }; reps[r].count++; if (l.status === 'won') reps[r].won++; reps[r].value += l.revenue_potential || 0 })
 
   // Donut chart colors
-  const donutColors = ['#00B5D6', '#009BB8', '#60a5fa', '#9ca3af', '#f59e0b', '#22c55e', '#ef4444', '#d1d5db']
+  const donutColors = ['#00B5D6', '#36C2DE', '#36C2DE', '#CCCCCC', '#68D1E6', '#00B5D6', '#616161', '#E6E6E6']
 
   // Build donut SVG
   const donutTotal = sourceEntries.reduce((s, e) => s + e[1], 0) || 1
@@ -63,7 +63,7 @@ export default function AnalyticsPage() {
     return { d: `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`, color: donutColors[i % donutColors.length], label: e[0], pct: Math.round(pct * 100) }
   })
 
-  const statIcon = (d: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
+  const statIcon = (d: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
@@ -98,9 +98,9 @@ export default function AnalyticsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {stageData.map((s, i) => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 80, fontSize: 13, color: '#6b7280', textAlign: 'right', textTransform: 'capitalize' }}>{s.stage}</div>
-                <div style={{ flex: 1, height: 28, background: '#f3f4f6', borderRadius: 8, overflow: 'hidden' }}>
-                  <div style={{ width: `${(s.count / maxStage) * 100}%`, height: '100%', background: i === stages.length - 1 ? '#22c55e' : '#00B5D6', borderRadius: 8, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 10, minWidth: s.count > 0 ? 36 : 0 }}>
+                <div style={{ width: 80, fontSize: 13, color: '#616161', textAlign: 'right', textTransform: 'capitalize' }}>{s.stage}</div>
+                <div style={{ flex: 1, height: 28, background: '#D6EBF2', borderRadius: 8, overflow: 'hidden' }}>
+                  <div style={{ width: `${(s.count / maxStage) * 100}%`, height: '100%', background: i === stages.length - 1 ? '#00B5D6' : '#00B5D6', borderRadius: 8, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 10, minWidth: s.count > 0 ? 36 : 0 }}>
                     <span style={{ fontSize: 12, fontWeight: 600, color: '#fff' }}>{s.count}</span>
                   </div>
                 </div>
@@ -116,15 +116,15 @@ export default function AnalyticsPage() {
             <svg viewBox="0 0 200 200" width="180" height="180">
               {donutSlices.map((s, i) => <path key={i} d={s.d} fill={s.color} opacity={0.85} />)}
               <circle cx="100" cy="100" r="45" fill="#fff" />
-              <text x="100" y="96" textAnchor="middle" fontSize="22" fontWeight="600" fill="#1f2937">{total}</text>
-              <text x="100" y="114" textAnchor="middle" fontSize="11" fill="#9ca3af">Total</text>
+              <text x="100" y="96" textAnchor="middle" fontSize="22" fontWeight="600" fill="#000000">{total}</text>
+              <text x="100" y="114" textAnchor="middle" fontSize="11" fill="#CCCCCC">Total</text>
             </svg>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {sourceEntries.map((e, i) => (
                 <div key={e[0]} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: donutColors[i % donutColors.length] }} />
-                  <span style={{ color: '#6b7280', textTransform: 'capitalize' }}>{e[0]}</span>
-                  <span style={{ fontWeight: 600, color: '#1f2937' }}>{Math.round((e[1] / donutTotal) * 100)}%</span>
+                  <span style={{ color: '#616161', textTransform: 'capitalize' }}>{e[0]}</span>
+                  <span style={{ fontWeight: 600, color: '#000000' }}>{Math.round((e[1] / donutTotal) * 100)}%</span>
                 </div>
               ))}
             </div>
@@ -141,11 +141,11 @@ export default function AnalyticsPage() {
             const maxVal = Math.max(...specEntries.map(s => s[1].value), 1)
             return (
               <div key={e[0]} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-                <div style={{ width: 100, fontSize: 13, color: '#6b7280', textAlign: 'right', textTransform: 'capitalize' }}>{e[0]}</div>
-                <div style={{ flex: 1, height: 24, background: '#f3f4f6', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
+                <div style={{ width: 100, fontSize: 13, color: '#616161', textAlign: 'right', textTransform: 'capitalize' }}>{e[0]}</div>
+                <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${(e[1].value / maxVal) * 100}%`, height: '100%', background: donutColors[i % donutColors.length], borderRadius: 6, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)' }} />
                 </div>
-                <div style={{ minWidth: 56, textAlign: 'right', fontSize: 13, fontWeight: 600, color: '#1f2937' }}>${Math.round(e[1].value / 1000)}K</div>
+                <div style={{ minWidth: 56, textAlign: 'right', fontSize: 13, fontWeight: 600, color: '#000000' }}>${Math.round(e[1].value / 1000)}K</div>
               </div>
             )
           })}
@@ -163,7 +163,7 @@ export default function AnalyticsPage() {
                 <tr key={rep}>
                   <td style={{ fontWeight: 500 }}>{rep}</td>
                   <td style={{ textAlign: 'right' }}>{d.count}</td>
-                  <td style={{ textAlign: 'right', color: '#22c55e', fontWeight: 600 }}>{d.won}</td>
+                  <td style={{ textAlign: 'right', color: '#00B5D6', fontWeight: 600 }}>{d.won}</td>
                   <td style={{ textAlign: 'right' }}>{d.count > 0 ? Math.round((d.won / d.count) * 100) : 0}%</td>
                   <td style={{ textAlign: 'right', fontWeight: 600, color: '#00B5D6' }}>${Math.round(d.value / 1000)}K</td>
                 </tr>
