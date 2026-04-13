@@ -30,7 +30,7 @@ export default function HeroSection() {
         <h1>Think <span className="accent">Growth.</span></h1>
 
         <p className="hero-sub">
-          25 years of specialty RCM expertise, amplified by Real&nbsp;+&nbsp;Artificial&nbsp;Intelligence.
+          Your billing team is leaving money on the table. We pick it up.
         </p>
 
         <div className="hero-actions">

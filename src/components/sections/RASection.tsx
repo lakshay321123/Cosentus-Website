@@ -202,8 +202,7 @@ export default function RASection() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginTop: 16, marginBottom: 32 }}>
-                What if your billing team never missed a claim? What if denials were resolved before you knew about them?
-                Practices that refuse to settle for average collections use Real&nbsp;+&nbsp;Artificial&nbsp;Intelligence.
+                Claims chased before you notice them. Denials overturned before they cost you. Collections handled while you see patients.
               </p>
             </RevealOnScroll>
 
