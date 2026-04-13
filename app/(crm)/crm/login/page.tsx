@@ -1,14 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function CRMLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,7 +16,11 @@ export default function CRMLogin() {
     try {
       const res = await fetch('/api/crm/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email || undefined, password }) })
       const data = await res.json()
-      if (res.ok) { router.push('/crm'); router.refresh() } else setError(data.error || 'Invalid credentials')
+      if (res.ok) { 
+        window.location.href = '/crm'
+        return
+      }
+      setError(data.error || 'Invalid credentials')
     } catch { setError('Connection error') }
     setLoading(false)
   }
