@@ -27,9 +27,16 @@ export default function PipelinePage() {
 
   const handleDrop = async (stage: string) => {
     if (!dragId) return
-    setLeads(prev => prev.map(l => l.id === dragId ? { ...l, status: stage as Lead['status'] } : l))
-    await supabase.from('leads').update({ status: stage }).eq('id', dragId)
-    await supabase.from('activities').insert({ lead_id: dragId, type: 'status_change', description: `Moved to ${stage}` })
+    const prev = leads.find(l => l.id === dragId)?.status
+    setLeads(p => p.map(l => l.id === dragId ? { ...l, status: stage as Lead['status'] } : l))
+    const { error } = await supabase.from('leads').update({ status: stage }).eq('id', dragId)
+    if (error) {
+      // Rollback on failure
+      setLeads(p => p.map(l => l.id === dragId ? { ...l, status: (prev || 'new') as Lead['status'] } : l))
+      alert('Failed to update stage')
+    } else {
+      await supabase.from('activities').insert({ lead_id: dragId, type: 'status_change', description: `Moved to ${stage}` })
+    }
     setDragId(null)
   }
 
@@ -50,7 +57,7 @@ export default function PipelinePage() {
             <option value="all">All Specialties</option>
             <option value="anesthesia">Anesthesia</option><option value="orthopedics">Orthopedics</option>
             <option value="pain_management">Pain Mgmt</option><option value="asc">ASC</option>
-            <option value="behavioral_health">Behavioral</option>
+            <option value="behavioral_health">Behavioral</option><option value="obgyn">OBGYN</option>
           </select>
           <select value={filterTemp} onChange={e => setFilterTemp(e.target.value)} className="crm-select" style={{ fontSize: 13 }}>
             <option value="all">All Temps</option>

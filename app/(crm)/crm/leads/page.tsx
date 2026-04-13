@@ -82,20 +82,25 @@ export default function LeadsPage() {
   const handleAddLead = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const fd = new FormData(e.currentTarget)
-    const newLead = {
-      first_name: fd.get('first_name') as string,
-      last_name: fd.get('last_name') as string,
-      email: fd.get('email') as string,
-      phone: fd.get('phone') as string,
-      practice_name: fd.get('practice_name') as string,
-      specialty: fd.get('specialty') as string || 'other',
-      source: 'other' as const,
-      ai_score: 50,
-      temperature: 'warm' as const,
-      status: 'new' as const,
+    const res = await fetch('/api/crm/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        first_name: fd.get('first_name'),
+        last_name: fd.get('last_name'),
+        email: fd.get('email'),
+        phone: fd.get('phone'),
+        practice_name: fd.get('practice_name'),
+        specialty: fd.get('specialty') || 'other',
+        source: 'other',
+      }),
+    })
+    if (res.ok) {
+      // Refresh leads from DB to get proper AI score + assignment
+      const { data } = await supabase.from('leads').select('*').order('created_at', { ascending: false })
+      if (data) setLeads(data as Lead[])
+      setShowAdd(false)
     }
-    const { data } = await supabase.from('leads').insert(newLead).select()
-    if (data) { setLeads(prev => [data[0] as Lead, ...prev]); setShowAdd(false) }
   }
 
   if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading leads...</div>

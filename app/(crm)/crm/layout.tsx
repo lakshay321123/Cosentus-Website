@@ -96,7 +96,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
             <div key={si}>
               {section.label && <div className="crm-sidebar-label">{section.label}</div>}
               {section.items.map(item => {
-                const active = pathname === item.href
+                const active = item.href === '/crm' ? pathname === '/crm' : pathname.startsWith(item.href)
                 return (
                   <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
                     className={`crm-sidebar-item ${active ? 'active' : ''}`}>

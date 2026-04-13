@@ -50,7 +50,7 @@ export default function CRMDashboard() {
 
   useEffect(() => {
     Promise.all([
-      supabase.from('leads').select('*').order('ai_score', { ascending: false }),
+      supabase.from('leads').select('*').order('created_at', { ascending: false }),
       supabase.from('activities').select('*, lead:leads(first_name, last_name)').order('created_at', { ascending: false }).limit(8),
       supabase.from('tasks').select('*, lead:leads(first_name, last_name)').eq('status', 'pending').order('due_date', { ascending: true }).limit(5),
     ]).then(([lRes, aRes, tRes]) => {
