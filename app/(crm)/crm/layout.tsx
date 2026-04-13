@@ -124,18 +124,19 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main */}
-      <main className="crm-main" style={{ flex: 1, marginLeft: 220, background: '#ffffff', minHeight: '100vh', overflow: 'hidden', maxWidth: 'calc(100vw - 220px)', boxSizing: 'border-box' as const }}>
+      <main className="crm-main" style={{ marginLeft: 220, background: '#ffffff', minHeight: '100vh', overflowX: 'hidden', width: 'calc(100vw - 220px)' }}>
         {children}
       </main>
 
       <style>{`
+        html, body { overflow-x: hidden; }
         @media (min-width: 769px) {
           .crm-sidebar { left: 0 !important; }
           .crm-mobile-header { display: none !important; }
         }
         @media (max-width: 768px) {
           .crm-mobile-header { display: flex !important; }
-          .crm-main { margin-left: 0 !important; padding-top: 56px !important; max-width: 100vw !important; }
+          .crm-main { margin-left: 0 !important; padding-top: 56px !important; width: 100vw !important; }
         }
       `}</style>
     </div>
