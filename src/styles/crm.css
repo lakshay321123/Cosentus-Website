@@ -1,0 +1,284 @@
+/* Cosentus CRM — Apple-inspired Design System */
+/* Font: Reddit Sans (Cosentus brand) */
+
+.crm-page {
+  font-family: 'Reddit Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Cards — no borders, subtle shadows */
+.crm-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border: none;
+}
+.crm-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+}
+.crm-card-flat {
+  background: rgba(0,0,0,0.02);
+  border-radius: 14px;
+  padding: 24px;
+  border: none;
+}
+
+/* Stat cards */
+.crm-stat {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+}
+.crm-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8E8E93;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.crm-stat-value {
+  font-size: 34px;
+  font-weight: 300;
+  color: #1C1C1E;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.crm-stat-sub {
+  font-size: 13px;
+  color: #AEAEB2;
+  margin-top: 6px;
+}
+.crm-stat.accent {
+  background: linear-gradient(135deg, #00B5D6 0%, #009BB8 100%);
+}
+.crm-stat.accent .crm-stat-label { color: rgba(255,255,255,0.65); }
+.crm-stat.accent .crm-stat-value { color: #fff; }
+.crm-stat.accent .crm-stat-sub { color: rgba(255,255,255,0.5); }
+
+/* Headings */
+.crm-h1 {
+  font-size: 32px;
+  font-weight: 300;
+  color: #1C1C1E;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.crm-h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.crm-subtitle {
+  font-size: 15px;
+  color: #8E8E93;
+  margin: 4px 0 0;
+}
+
+/* Segmented control */
+.crm-segment {
+  display: inline-flex;
+  background: rgba(0,0,0,0.04);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+.crm-segment button {
+  padding: 7px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Reddit Sans', sans-serif;
+  color: #8E8E93;
+  background: transparent;
+}
+.crm-segment button.active {
+  background: #fff;
+  color: #1C1C1E;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Buttons */
+.crm-btn {
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Reddit Sans', sans-serif;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.crm-btn-primary {
+  background: #00B5D6;
+  color: #fff;
+}
+.crm-btn-primary:hover {
+  background: #009BB8;
+  transform: scale(1.02);
+}
+.crm-btn-secondary {
+  background: rgba(0,0,0,0.04);
+  color: #1C1C1E;
+}
+.crm-btn-secondary:hover {
+  background: rgba(0,0,0,0.08);
+}
+.crm-btn-ghost {
+  background: transparent;
+  color: #00B5D6;
+  padding: 10px 16px;
+}
+
+/* Table */
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.crm-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8E8E93;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.crm-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+  color: #1C1C1E;
+}
+.crm-table tr {
+  transition: background 0.15s ease;
+}
+.crm-table tbody tr:hover {
+  background: rgba(0,0,0,0.015);
+}
+
+/* Badges */
+.crm-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}
+.crm-badge-hot { background: rgba(255,69,58,0.1); color: #FF453A; }
+.crm-badge-warm { background: rgba(255,159,10,0.1); color: #FF9F0A; }
+.crm-badge-cold { background: rgba(10,132,255,0.1); color: #0A84FF; }
+.crm-badge-success { background: rgba(48,209,88,0.1); color: #30D158; }
+.crm-badge-neutral { background: rgba(0,0,0,0.04); color: #8E8E93; }
+
+/* Input */
+.crm-input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  font-size: 14px;
+  font-family: 'Reddit Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  color: #1C1C1E;
+}
+.crm-input:focus {
+  border-color: #00B5D6;
+  box-shadow: 0 0 0 3px rgba(0,181,214,0.12);
+}
+.crm-input::placeholder { color: #C7C7CC; }
+
+.crm-select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  font-size: 14px;
+  font-family: 'Reddit Sans', sans-serif;
+  background: #fff;
+  color: #1C1C1E;
+  cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideRight {
+  from { width: 0; }
+  to { width: var(--target-width); }
+}
+.crm-animate-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+.crm-animate-in-1 { animation-delay: 0.05s; opacity: 0; }
+.crm-animate-in-2 { animation-delay: 0.1s; opacity: 0; }
+.crm-animate-in-3 { animation-delay: 0.15s; opacity: 0; }
+.crm-animate-in-4 { animation-delay: 0.2s; opacity: 0; }
+.crm-animate-in-5 { animation-delay: 0.25s; opacity: 0; }
+
+/* Score bar */
+.crm-score-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+.crm-score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Chart bar animation */
+.crm-chart-bar {
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Sidebar */
+.crm-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8E8E93;
+  transition: all 0.2s ease;
+}
+.crm-sidebar-item:hover {
+  background: rgba(0,0,0,0.03);
+  color: #1C1C1E;
+}
+.crm-sidebar-item.active {
+  background: rgba(0,181,214,0.08);
+  color: #00B5D6;
+  font-weight: 600;
+}
+.crm-sidebar-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #C7C7CC;
+  letter-spacing: 0.08em;
+  padding: 16px 14px 6px;
+  text-transform: uppercase;
+}

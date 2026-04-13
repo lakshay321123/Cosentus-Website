@@ -1,286 +1,215 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { supabase, Lead } from '@/lib/supabase'
+
+function AnimatedNumber({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
+  const [display, setDisplay] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    let start = 0
+    const duration = 800
+    const startTime = performance.now()
+    const animate = (now: number) => {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplay(Math.round(start + (value - start) * eased))
+      if (progress < 1) requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
+  }, [value])
+  return <span>{prefix}{display.toLocaleString()}{suffix}</span>
+}
 
 function Notification({ lead, onClose }: { lead: Lead; onClose: () => void }) {
   useEffect(() => { const t = setTimeout(onClose, 6000); return () => clearTimeout(t) }, [onClose])
   return (
-    <div style={{
-      position: 'fixed', top: 20, right: 20, zIndex: 1000,
-      background: 'white', borderRadius: 12, border: '1px solid #00B5D6',
-      padding: '16px 20px', boxShadow: '0 8px 30px rgba(0,181,214,0.15)',
-      maxWidth: 360, animation: 'slideIn 0.3s ease',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em' }}>New Lead</span>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#CCCCCC', fontSize: 16 }}>×</button>
+    <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderRadius: 16, padding: '16px 20px', boxShadow: '0 8px 40px rgba(0,0,0,0.12)', maxWidth: 340, animation: 'fadeIn 0.3s ease' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6' }}>New Lead</span>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C7C7CC', fontSize: 16 }}>×</button>
       </div>
-      <div style={{ fontSize: 14, fontWeight: 600, color: '#000' }}>{lead.first_name} {lead.last_name}</div>
-      <div style={{ fontSize: 13, color: '#616161' }}>{lead.practice_name} · {lead.specialty?.replace('_', ' ')}</div>
-      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '2px 6px', borderRadius: 4, background: lead.ai_score >= 75 ? '#FAECE7' : '#FAEEDA', color: lead.ai_score >= 75 ? '#993C1D' : '#854F0B' }}>
-          Score: {lead.ai_score}
-        </span>
-        <Link href={`/crm/leads/${lead.id}`} style={{ fontSize: 12, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View →</Link>
-      </div>
-      <style>{`@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`}</style>
-    </div>
-  )
-}
-
-function StatCard({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
-  return (
-    <div style={{
-      background: accent ? '#00B5D6' : 'white',
-      borderRadius: 12, padding: '24px 20px',
-      border: accent ? 'none' : '1px solid #E6E6E6',
-    }}>
-      <div style={{ fontSize: 12, fontWeight: 500, color: accent ? 'rgba(255,255,255,0.7)' : '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>{label}</div>
-      <div style={{ fontSize: 32, fontWeight: 300, color: accent ? 'white' : '#000', lineHeight: 1 }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: accent ? 'rgba(255,255,255,0.6)' : '#CCCCCC', marginTop: 6 }}>{sub}</div>}
-    </div>
-  )
-}
-
-function TempBadge({ temp }: { temp: string }) {
-  const colors: Record<string, { bg: string; text: string }> = { hot: { bg: '#FAECE7', text: '#993C1D' }, warm: { bg: '#FAEEDA', text: '#854F0B' }, cold: { bg: '#E6F1FB', text: '#185FA5' } }
-  const c = colors[temp] || colors.cold
-  return <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 4, background: c.bg, color: c.text, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{temp}</span>
-}
-
-function ScoreBadge({ score }: { score: number }) {
-  const color = score >= 80 ? '#00B5D6' : score >= 50 ? '#EF9F27' : '#CCCCCC'
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <div style={{ width: 40, height: 4, borderRadius: 2, background: '#E6E6E6', overflow: 'hidden' }}>
-        <div style={{ width: `${score}%`, height: '100%', background: color, borderRadius: 2 }} />
-      </div>
-      <span style={{ fontSize: 12, fontWeight: 600, color }}>{score}</span>
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#1C1C1E' }}>{lead.first_name} {lead.last_name}</div>
+      <div style={{ fontSize: 13, color: '#8E8E93' }}>{lead.practice_name}</div>
     </div>
   )
 }
 
 const stageColors: Record<string, string> = {
-  new: '#CCCCCC', qualified: '#68D1E6', discovery: '#36C2DE',
-  proposal: '#00B5D6', negotiation: '#009BB8', won: '#00B5D6',
-}
-
-const sourceLabels: Record<string, string> = {
-  website_chat: 'Website Chat', voice_agent: 'Voice Agent', contact_form: 'Contact Form',
-  referral: 'Referral', linkedin: 'LinkedIn', event: 'Event', email: 'Email', other: 'Other',
-}
-
-function timeAgo(d: string) {
-  const diff = Date.now() - new Date(d).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 60) return `${mins}m ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs}h ago`
-  return `${Math.floor(hrs / 24)}d ago`
+  new: '#C7C7CC', qualified: '#5AC8FA', discovery: '#00B5D6', proposal: '#009BB8', negotiation: '#007AFF', won: '#30D158',
 }
 
 export default function CRMDashboard() {
   const [leads, setLeads] = useState<Lead[]>([])
+  const [activities, setActivities] = useState<any[]>([])
+  const [tasks, setTasks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [newLeadNotif, setNewLeadNotif] = useState<Lead | null>(null)
 
   useEffect(() => {
-    supabase.from('leads').select('*').order('ai_score', { ascending: false })
-      .then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
+    Promise.all([
+      supabase.from('leads').select('*').order('ai_score', { ascending: false }),
+      supabase.from('activities').select('*, lead:leads(first_name, last_name)').order('created_at', { ascending: false }).limit(8),
+      supabase.from('tasks').select('*, lead:leads(first_name, last_name)').eq('status', 'pending').order('due_date', { ascending: true }).limit(5),
+    ]).then(([lRes, aRes, tRes]) => {
+      if (lRes.data) setLeads(lRes.data as Lead[])
+      if (aRes.data) setActivities(aRes.data)
+      if (tRes.data) setTasks(tRes.data)
+      setLoading(false)
+    })
 
-    // Real-time: listen for new leads
-    const channel = supabase
-      .channel('crm-dashboard')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, (payload) => {
-        const newLead = payload.new as Lead
-        setLeads(prev => [newLead, ...prev])
-        setNewLeadNotif(newLead)
+    const channel = supabase.channel('crm-dash')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, (p) => {
+        setLeads(prev => [p.new as Lead, ...prev])
+        setNewLeadNotif(p.new as Lead)
       })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'leads' }, (payload) => {
-        setLeads(prev => prev.map(l => l.id === (payload.new as Lead).id ? payload.new as Lead : l))
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'leads' }, (p) => {
+        setLeads(prev => prev.map(l => l.id === (p.new as Lead).id ? p.new as Lead : l))
       })
       .subscribe()
-
     return () => { supabase.removeChannel(channel) }
   }, [])
 
-  const totalLeads = leads.length
-  const hotLeads = leads.filter(l => l.temperature === 'hot').length
-  const pipelineValue = leads.filter(l => !['won', 'lost'].includes(l.status)).reduce((s, l) => s + (l.revenue_potential || 0), 0)
-  const wonLeads = leads.filter(l => l.status === 'won').length
-  const conversionRate = totalLeads > 0 ? Math.round((wonLeads / totalLeads) * 100) : 0
+  const total = leads.length
+  const hot = leads.filter(l => l.temperature === 'hot').length
+  const pipeline = leads.filter(l => !['won', 'lost'].includes(l.status))
+  const pipelineVal = pipeline.reduce((s, l) => s + (l.revenue_potential || 0), 0)
+  const wonVal = leads.filter(l => l.status === 'won').reduce((s, l) => s + (l.revenue_potential || 0), 0)
+  const convRate = total > 0 ? Math.round((leads.filter(l => l.status === 'won').length / total) * 100) : 0
 
   const stages = ['new', 'qualified', 'discovery', 'proposal', 'negotiation', 'won']
-  const pipelineData = stages.map(s => ({
-    stage: s.charAt(0).toUpperCase() + s.slice(1),
-    count: leads.filter(l => l.status === s).length,
-    value: leads.filter(l => l.status === s).reduce((sum, l) => sum + (l.revenue_potential || 0), 0),
-    color: stageColors[s] || '#CCCCCC',
-  }))
+  const stageData = stages.map(s => ({ stage: s, count: leads.filter(l => l.status === s).length, value: leads.filter(l => l.status === s).reduce((sum, l) => sum + (l.revenue_potential || 0), 0) }))
 
-  const recentLeads = leads.slice(0, 6)
+  const typeIcons: Record<string, string> = { call: '📞', email: '✉️', chat: '💬', meeting: '📅', note: '📝', status_change: '↻', task: '☑️' }
 
-  if (loading) return <div style={{ padding: 40, color: '#616161' }}>Loading dashboard...</div>
+  if (loading) return <div style={{ padding: 48, color: '#8E8E93', fontSize: 15 }}>Loading...</div>
 
   return (
     <>
       {newLeadNotif && <Notification lead={newLeadNotif} onClose={() => setNewLeadNotif(null)} />}
-    <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div>
-          <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Dashboard</h1>
-          <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>Real-time overview — powered by Supabase</p>
+      <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
+        {/* Header */}
+        <div className="crm-animate-in" style={{ marginBottom: 32 }}>
+          <h1 className="crm-h1">Dashboard</h1>
+          <p className="crm-subtitle">Overview of your sales pipeline</p>
         </div>
-        <Link href="/crm/leads" style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 8, padding: '10px 24px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
-          + Add Lead
-        </Link>
-      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 32 }}>
-        <StatCard label="Total Leads" value={totalLeads.toString()} />
-        <StatCard label="Hot Leads" value={hotLeads.toString()} accent />
-        <StatCard label="Pipeline Value" value={`$${Math.round(pipelineValue / 1000)}K`} sub="Monthly potential" />
-        <StatCard label="Won" value={wonLeads.toString()} sub="Closed deals" />
-        <StatCard label="Conversion" value={`${conversionRate}%`} sub="Win rate" />
-      </div>
-
-      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24, marginBottom: 32 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: 0 }}>Pipeline Overview</h2>
-          <Link href="/crm/pipeline" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View Full Pipeline →</Link>
-        </div>
-        <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', height: 32, marginBottom: 16 }}>
-          {pipelineData.filter(s => s.count > 0).map((s, i) => (
-            <div key={i} style={{ flex: s.count, background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: 'white', minWidth: 40 }}>{s.count}</div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          {pipelineData.map((s, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#616161' }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: s.color }} />
-              {s.stage} <span style={{ fontWeight: 600, color: '#000' }}>${Math.round(s.value / 1000)}K</span>
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14, marginBottom: 28 }}>
+          {[
+            { label: 'Total Leads', value: total, prefix: '' },
+            { label: 'Hot Leads', value: hot, accent: true },
+            { label: 'Pipeline', value: Math.round(pipelineVal / 1000), prefix: '$', suffix: 'K' },
+            { label: 'Won Revenue', value: Math.round(wonVal / 1000), prefix: '$', suffix: 'K' },
+            { label: 'Win Rate', value: convRate, suffix: '%' },
+          ].map((s, i) => (
+            <div key={i} className={`crm-stat crm-animate-in crm-animate-in-${i + 1} ${s.accent ? 'accent' : ''}`}>
+              <div className="crm-stat-label">{s.label}</div>
+              <div className="crm-stat-value"><AnimatedNumber value={s.value} prefix={s.prefix || ''} suffix={s.suffix || ''} /></div>
             </div>
           ))}
         </div>
-      </div>
 
-      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: 0 }}>Recent Leads</h2>
-          <Link href="/crm/leads" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View All →</Link>
-        </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #E6E6E6' }}>
-              {['Contact', 'Specialty', 'Score', 'Temp', 'Stage', 'Source', 'Value'].map(h => (
-                <th key={h} style={{ textAlign: h === 'Value' ? 'right' : 'left', padding: '8px 0', fontWeight: 500, color: '#616161', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {recentLeads.map(lead => (
-              <tr key={lead.id} style={{ borderBottom: '1px solid #F5F5F5', cursor: 'pointer' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FAFAFA' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}>
-                <td style={{ padding: '12px 0' }}>
-                  <div style={{ fontWeight: 500, color: '#000' }}>{lead.first_name} {lead.last_name}</div>
-                  <div style={{ fontSize: 12, color: '#616161' }}>{lead.practice_name}</div>
-                </td>
-                <td style={{ padding: '12px 0', color: '#616161' }}>{lead.specialty?.replace('_', ' ')}</td>
-                <td style={{ padding: '12px 0' }}><ScoreBadge score={lead.ai_score} /></td>
-                <td style={{ padding: '12px 0' }}><TempBadge temp={lead.temperature} /></td>
-                <td style={{ padding: '12px 0' }}>
-                  <span style={{ fontSize: 11, fontWeight: 500, padding: '3px 8px', borderRadius: 4, background: '#F5F5F5', color: '#616161', textTransform: 'capitalize' }}>{lead.status}</span>
-                </td>
-                <td style={{ padding: '12px 0', color: '#616161' }}>{sourceLabels[lead.source] || lead.source}</td>
-                <td style={{ padding: '12px 0', textAlign: 'right', fontWeight: 600 }}>${lead.revenue_potential ? Math.round(lead.revenue_potential / 1000) + 'K' : '—'}</td>
-              </tr>
+        {/* Pipeline chart */}
+        <div className="crm-card crm-animate-in crm-animate-in-3" style={{ marginBottom: 20 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+            <h2 className="crm-h2">Pipeline</h2>
+            <Link href="/crm/pipeline" className="crm-btn-ghost" style={{ fontSize: 13, textDecoration: 'none' }}>View Board →</Link>
+          </div>
+          {/* Animated bar */}
+          <div style={{ display: 'flex', borderRadius: 10, overflow: 'hidden', height: 36, marginBottom: 16, background: 'rgba(0,0,0,0.02)' }}>
+            {stageData.filter(s => s.count > 0).map((s, i) => (
+              <div key={i} className="crm-chart-bar" style={{ flex: s.count, background: stageColors[s.stage], display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.9)', minWidth: 36 }}>{s.count}</div>
             ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Bottom row: Activity Feed + Tasks Due */}
-      <ActivityFeed />
-    </div>
-    </>
-  )
-}
-
-function ActivityFeed() {
-  const [activities, setActivities] = useState<any[]>([])
-  const [tasks, setTasks] = useState<any[]>([])
-
-  useEffect(() => {
-    Promise.all([
-      supabase.from('activities').select('*, lead:leads(first_name, last_name)').order('created_at', { ascending: false }).limit(10),
-      supabase.from('tasks').select('*, lead:leads(first_name, last_name)').eq('status', 'pending').order('due_date', { ascending: true }).limit(5),
-    ]).then(([aRes, tRes]) => {
-      if (aRes.data) setActivities(aRes.data)
-      if (tRes.data) setTasks(tRes.data)
-    })
-  }, [])
-
-  const typeIcons: Record<string, string> = { call: '📞', email: '📧', chat: '💬', meeting: '📅', note: '📝', status_change: '🔄', task: '✅' }
-  const priorityColors: Record<string, string> = { high: '#E24B4A', medium: '#EF9F27', low: '#85B7EB' }
-
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20, marginTop: 20 }}>
-      {/* Activity Feed */}
-      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: '0 0 16px' }}>Activity Feed</h2>
-        {activities.length === 0 ? (
-          <div style={{ fontSize: 13, color: '#CCCCCC', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {activities.map((a, i) => (
-              <div key={a.id} style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: i < activities.length - 1 ? '1px solid #F5F5F5' : 'none' }}>
-                <div style={{ fontSize: 14, width: 20, textAlign: 'center', flexShrink: 0 }}>{typeIcons[a.type] || '📋'}</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, color: '#000' }}>
-                    {a.lead && <span style={{ fontWeight: 600 }}>{a.lead.first_name} {a.lead.last_name}</span>}
-                    {a.lead && ' — '}{a.description}
-                  </div>
-                  <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 2 }}>
-                    {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {new Date(a.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-                  </div>
-                </div>
+          </div>
+          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            {stageData.map((s, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#8E8E93' }}>
+                <div style={{ width: 8, height: 8, borderRadius: 3, background: stageColors[s.stage] }} />
+                <span style={{ textTransform: 'capitalize' }}>{s.stage}</span>
+                <span style={{ fontWeight: 600, color: '#1C1C1E' }}>${Math.round(s.value / 1000)}K</span>
               </div>
             ))}
           </div>
-        )}
-      </div>
-
-      {/* Tasks Due */}
-      <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: 0 }}>Tasks Due</h2>
-          <Link href="/crm/tasks" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View All →</Link>
         </div>
-        {tasks.length === 0 ? (
-          <div style={{ fontSize: 13, color: '#CCCCCC', padding: '20px 0', textAlign: 'center' }}>No pending tasks</div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {tasks.map(t => {
-              const isOverdue = t.due_date && new Date(t.due_date) < new Date()
-              return (
-                <div key={t.id} style={{ padding: '12px', borderRadius: 8, border: `1px solid ${isOverdue ? '#E24B4A' : '#E6E6E6'}` }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: priorityColors[t.priority] || '#CCCCCC' }} />
-                    <span style={{ fontSize: 13, fontWeight: 500, color: '#000' }}>{t.title}</span>
-                  </div>
-                  {t.lead && <div style={{ fontSize: 11, color: '#616161' }}>{t.lead.first_name} {t.lead.last_name}</div>}
-                  {t.due_date && <div style={{ fontSize: 11, color: isOverdue ? '#E24B4A' : '#CCCCCC', marginTop: 4 }}>
-                    {isOverdue ? 'OVERDUE — ' : ''}{new Date(t.due_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
-                  </div>}
-                </div>
-              )
-            })}
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
+          {/* Recent leads */}
+          <div className="crm-card crm-animate-in crm-animate-in-4">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <h2 className="crm-h2">Recent Leads</h2>
+              <Link href="/crm/leads" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500 }}>View All →</Link>
+            </div>
+            <table className="crm-table">
+              <thead><tr>
+                <th>Contact</th><th>Score</th><th>Temp</th><th style={{ textAlign: 'right' }}>Value</th>
+              </tr></thead>
+              <tbody>
+                {leads.slice(0, 6).map(l => (
+                  <tr key={l.id}>
+                    <td>
+                      <Link href={`/crm/leads/${l.id}`} style={{ color: '#1C1C1E', textDecoration: 'none', fontWeight: 500, fontSize: 14 }}>{l.first_name} {l.last_name}</Link>
+                      <div style={{ fontSize: 12, color: '#8E8E93', marginTop: 1 }}>{l.practice_name}</div>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <div className="crm-score-bar" style={{ width: 40 }}>
+                          <div className="crm-score-fill" style={{ width: `${l.ai_score}%`, background: l.ai_score >= 80 ? '#30D158' : l.ai_score >= 50 ? '#FF9F0A' : '#C7C7CC' }} />
+                        </div>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: l.ai_score >= 80 ? '#30D158' : l.ai_score >= 50 ? '#FF9F0A' : '#C7C7CC' }}>{l.ai_score}</span>
+                      </div>
+                    </td>
+                    <td><span className={`crm-badge crm-badge-${l.temperature}`}>{l.temperature}</span></td>
+                    <td style={{ textAlign: 'right', fontWeight: 600 }}>${l.revenue_potential ? Math.round(l.revenue_potential / 1000) + 'K' : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        )}
+
+          {/* Right column: activity + tasks */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {/* Activity */}
+            <div className="crm-card crm-animate-in crm-animate-in-4" style={{ flex: 1 }}>
+              <h2 className="crm-h2" style={{ marginBottom: 14 }}>Activity</h2>
+              {activities.length === 0 ? (
+                <div style={{ fontSize: 14, color: '#C7C7CC', textAlign: 'center', padding: 24 }}>No activity yet</div>
+              ) : activities.map((a, i) => (
+                <div key={a.id} style={{ display: 'flex', gap: 10, padding: '8px 0', borderBottom: i < activities.length - 1 ? '0.5px solid rgba(0,0,0,0.04)' : 'none' }}>
+                  <span style={{ fontSize: 13, width: 18 }}>{typeIcons[a.type] || '•'}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, color: '#1C1C1E', lineHeight: 1.4 }}>
+                      {a.lead && <strong>{a.lead.first_name} {a.lead.last_name}</strong>}
+                      {a.lead && ' — '}<span style={{ color: '#8E8E93' }}>{a.description?.substring(0, 60)}{(a.description?.length || 0) > 60 ? '...' : ''}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tasks */}
+            <div className="crm-card crm-animate-in crm-animate-in-5">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                <h2 className="crm-h2">Tasks Due</h2>
+                <Link href="/crm/tasks" style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none' }}>All →</Link>
+              </div>
+              {tasks.length === 0 ? (
+                <div style={{ fontSize: 14, color: '#C7C7CC', textAlign: 'center', padding: 16 }}>No pending tasks</div>
+              ) : tasks.map(t => (
+                <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '0.5px solid rgba(0,0,0,0.04)' }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: t.priority === 'high' ? '#FF453A' : t.priority === 'medium' ? '#FF9F0A' : '#5AC8FA', flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: '#1C1C1E' }}>{t.title}</div>
+                    {t.lead && <div style={{ fontSize: 12, color: '#8E8E93' }}>{t.lead.first_name} {t.lead.last_name}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
