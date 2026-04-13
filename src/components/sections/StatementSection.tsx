@@ -70,7 +70,7 @@ export default function StatementSection() {
                 color: 'white', background: '#00B5D6', textDecoration: 'none',
                 borderRadius: 50, transition: 'all 0.4s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#000' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#00B5D6' }}
               onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6'; e.currentTarget.style.color = 'white' }}
               >
                 {"Let's Talk"}

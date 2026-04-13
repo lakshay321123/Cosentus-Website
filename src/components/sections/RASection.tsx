@@ -168,7 +168,7 @@ export default function RASection() {
                     borderRadius: i === 0 ? '12px 0 0 12px' : i === 2 ? '0 12px 12px 0' : '0',
                     transition: 'background 0.3s',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = '#000' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#009BB8' }}
                   onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6' }}
                   >
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 28, color: 'white', lineHeight: 1 }}>{item.n}</div>
