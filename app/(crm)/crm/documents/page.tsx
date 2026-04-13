@@ -62,32 +62,38 @@ export default function DocumentsPage() {
       status: 'draft',
     }
 
-    const { data } = await supabase.from('documents').insert(doc).select('*, lead:leads(first_name, last_name)')
+    const { data, error: insertError } = await supabase.from('documents').insert(doc).select('*, lead:leads(first_name, last_name)')
+    if (insertError) { alert('Failed to save document: ' + insertError.message); setUploading(false); return }
     if (data) { setDocs(prev => [data[0] as Doc, ...prev]); setShowAdd(false) }
 
     // If marked as email template, also save to email_templates
-    if (isTemplate && file && file.name.endsWith('.html')) {
+    if (isTemplate && file && file.name.toLowerCase().endsWith('.html')) {
       const text = await file.text()
-      await supabase.from('email_templates').insert({
+      const { error: tplError } = await supabase.from('email_templates').insert({
         name: fd.get('name') as string,
         subject: fd.get('name') as string,
         html_content: text,
         category: 'custom',
       })
+      if (tplError) console.error('Email template save failed:', tplError.message)
     }
 
     setUploading(false)
   }
 
   const updateStatus = async (id: string, status: string) => {
-    setDocs(prev => prev.map(d => d.id === id ? { ...d, status } : d))
-    await supabase.from('documents').update({ status }).eq('id', id)
+    const prev = docs.find(d => d.id === id)?.status
+    setDocs(p => p.map(d => d.id === id ? { ...d, status } : d))
+    const { error } = await supabase.from('documents').update({ status }).eq('id', id)
+    if (error) { setDocs(p => p.map(d => d.id === id ? { ...d, status: prev || 'draft' } : d)); alert('Update failed') }
   }
 
   const deleteDoc = async (id: string, fileUrl: string | null) => {
     if (!confirm('Delete this document?')) return
+    const backup = docs
     setDocs(prev => prev.filter(d => d.id !== id))
-    await supabase.from('documents').delete().eq('id', id)
+    const { error } = await supabase.from('documents').delete().eq('id', id)
+    if (error) { setDocs(backup); alert('Delete failed'); return }
     if (fileUrl) {
       const path = fileUrl.split('/crm-documents/')[1]
       if (path) await supabase.storage.from('crm-documents').remove([path])

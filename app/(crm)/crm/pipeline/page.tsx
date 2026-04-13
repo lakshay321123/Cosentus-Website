@@ -15,7 +15,7 @@ export default function PipelinePage() {
   const [filterTemp, setFilterTemp] = useState('all')
 
   useEffect(() => {
-    supabase.from('leads').select('*').not('status', 'eq', 'lost').order('ai_score', { ascending: false })
+    supabase.from('leads').select('*').order('ai_score', { ascending: false })
       .then(({ data }) => { if (data) setLeads(data as Lead[]); setLoading(false) })
   }, [])
 
