@@ -42,7 +42,7 @@ export default function DocumentsPage() {
 
     // Upload file to Supabase Storage if provided
     if (file) {
-      const fileName = `${Date.now()}-${file.name}`
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_'); const fileName = `${Date.now()}-${safeName}`
       const { data: uploadData, error: uploadError } = await supabase.storage.from('crm-documents').upload(fileName, file)
       if (uploadError) { alert('Upload failed: ' + uploadError.message); setUploading(false); return }
       const { data: urlData } = supabase.storage.from('crm-documents').getPublicUrl(fileName)

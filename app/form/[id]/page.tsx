@@ -41,7 +41,7 @@ export default function PublicFormPage({ params }: { params: Promise<{ id: strin
     await supabase.from('crm_forms').update({ submissions_count: (form.submissions_count || 0) + 1 }).eq('id', id)
     setSubmitted(true)
     setSubmitting(false)
-    if (form.redirect_url) window.location.href = form.redirect_url
+    if (form.redirect_url && form.redirect_url.startsWith('/')) window.location.href = form.redirect_url
   }
 
   if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Reddit Sans', sans-serif" }}>Loading...</div>

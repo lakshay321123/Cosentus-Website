@@ -118,7 +118,7 @@ export default function PipelinePage() {
                         {lead.assigned_to && <span style={{ fontSize: 11, color: '#000000' }}>{lead.assigned_to}</span>}
                       </div>
                       {/* Keyboard accessible stage changer */}
-                      <select value={stage} onChange={async (e) => {
+                      <select value={stage} onMouseDown={e => e.stopPropagation()} onChange={async (e) => {
                         e.preventDefault(); e.stopPropagation()
                         const newStage = e.target.value
                         const prev = lead.status

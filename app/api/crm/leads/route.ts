@@ -164,8 +164,11 @@ export async function PATCH(req: NextRequest) {
     const { data: current } = await supabase.from('leads').select('*').eq('id', lead_id).single()
     if (!current) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
 
-    // Apply updates
-    const { error } = await supabase.from('leads').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', lead_id)
+    // Constrain to allowed fields
+    const allowed = ['status', 'temperature', 'ai_score', 'assigned_to', 'notes', 'tags', 'revenue_potential', 'next_follow_up', 'first_name', 'last_name', 'email', 'phone', 'practice_name', 'specialty', 'provider_count', 'monthly_charges', 'campaign_id']
+    const safeUpdates: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(updates)) { if (allowed.includes(k)) safeUpdates[k] = v }
+    const { error } = await supabase.from('leads').update({ ...safeUpdates, updated_at: new Date().toISOString() }).eq('id', lead_id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
     // Log each changed field to audit_log
