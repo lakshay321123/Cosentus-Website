@@ -168,7 +168,7 @@ export default function EmailsPage() {
                   {b.type === 'header' && <div style={{ background: b.bgColor, padding: `${b.padding}px 32px`, textAlign: 'center' }}><img src="https://cosentus-website.vercel.app/images/cosentus-logo.png" alt="Cosentus" style={{ height: 28, marginBottom: 6 }} /><div style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.8)' }}>REAL + ARTIFICIAL INTELLIGENCE</div></div>}
                   {b.type === 'text' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any, fontSize: b.fontSize, color: b.color, fontWeight: b.fontWeight as any, lineHeight: 1.7 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div>}
                   {b.type === 'heading' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><div style={{ fontSize: b.fontSize, fontWeight: b.fontWeight as any, color: b.color, margin: 0 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
-                  {b.type === 'image' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt} style={{ width: `${b.imgWidth}%`, borderRadius: b.borderRadius }} /> : <div style={{ height: 120, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 13 }}>Set image URL in properties →</div>}</div>}
+                  {b.type === 'image' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt} style={{ width: `${b.imgWidth}%`, borderRadius: b.borderRadius }} /> : <div style={{ height: 120, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 13 }}>Click to select → Upload image in right panel</div>}</div>}
                   {b.type === 'button' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><span style={{ display: 'inline-block', padding: '14px 36px', background: b.btnColor, color: b.btnTextColor, borderRadius: b.borderRadius, fontWeight: 600, fontSize: b.fontSize }}>{fillVars(b.content)}</span></div>}
                   {b.type === 'divider' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor }}><hr style={{ border: 'none', borderTop: `${b.height}px solid ${b.dividerColor}`, margin: 0 }} /></div>}
                   {b.type === 'spacer' && <div style={{ height: b.height, background: b.bgColor }} />}
@@ -223,11 +223,24 @@ export default function EmailsPage() {
                   </div>
                 )}
 
-                {/* Image URL + dimensions */}
+                {/* Image: upload + URL + dimensions */}
                 {selectedBlock.type === 'image' && (
                   <>
                     <div style={{ marginBottom: 12 }}>
-                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Image URL</label>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Upload Image</label>
+                      <input type="file" accept="image/*" onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+                        const fileName = `email-images/${Date.now()}-${safeName}`
+                        const { error } = await supabase.storage.from('crm-documents').upload(fileName, file)
+                        if (error) { alert('Upload failed: ' + error.message); return }
+                        const { data: urlData } = supabase.storage.from('crm-documents').getPublicUrl(fileName)
+                        updateBlock(selected!, { imgUrl: urlData.publicUrl })
+                      }} style={{ width: '100%', fontSize: 11, marginTop: 4 }} />
+                    </div>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Or paste URL</label>
                       <input value={selectedBlock.imgUrl || ''} onChange={e => updateBlock(selected!, { imgUrl: e.target.value })} placeholder="https://..." style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, boxSizing: 'border-box', marginTop: 4, ...S }} />
                     </div>
                     <div style={{ marginBottom: 12 }}>
