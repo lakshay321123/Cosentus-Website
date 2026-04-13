@@ -2,11 +2,13 @@
 // All 53 blog posts (v3) — fragments merged, watermarks removed, duplicates resolved
 
 export interface BlogSection { id: string; heading: string; level: number; content: string[] }
-export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[] }
+export interface BlogImage { url: string; alt: string; caption?: string; afterSection: number }
+export interface BlogPost { slug: string; title: string; tag: string; excerpt: string; intro: string[]; sections: BlogSection[]; images?: BlogImage[]; coverImage?: string }
 
 export const blogPosts: BlogPost[] = [
   {
     slug: 'transforming-episode-accountability-model-team-the-future-of-value-based-care',
+    coverImage: '/images/blog/Transforming-Episode-Accountability-Model-TEAM-The-Future-of-ValueBased-Care-01-1.webp',
     title: 'Transforming Episode Accountability Model (TEAM): The Future of Value-Based Care',
     tag: 'Value-Based Care',
     excerpt: 'In recent years, the U.S. healthcare system has increasingly shifted its focus toward value-based care, moving away from traditional fee-for-service models. One of the most significant steps in this d...',
@@ -81,9 +83,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5407206.jpg', alt: 'Medical professionals collaborating on patient care plans in hospital', afterSection: 0 }, { url: '/images/blog-inline/pexels-4386466.jpg', alt: 'Healthcare team discussing value-based care strategy', afterSection: 4 }],
   },
   {
     slug: 'safeguard-your-practice-from-cyberattacks',
+    coverImage: '/images/blog/SAFEGUARD-YOUR-PRACTICE-FROM-CYBERATTACKS-02-01.webp',
     title: 'Safeguard Your Practice From Cyberattacks',
     tag: 'Cybersecurity',
     excerpt: 'In the era of digital technology, the healthcare industry has increasingly attracted cybercriminals, with attacks becoming more frequent, larger in scale, and more financially damaging. Recent cyberat...',
@@ -190,9 +194,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5380642.jpg', alt: 'Cybersecurity monitoring interface for healthcare data protection', afterSection: 0 }, { url: '/images/blog-inline/pexels-5952651.jpg', alt: 'Digital privacy and medical records security concept', afterSection: 6 }],
   },
   {
     slug: 'leverage-rpm-rtm-in-your-telehealth-model',
+    coverImage: '/images/blog/Leverage-RPM-RTM-in-your-Telehealth-Model-01.jpg',
     title: 'Leverage RPM & RTM In Your Telehealth Model',
     tag: 'Telehealth',
     excerpt: 'Offering telehealth services to patients now makes up a significant part of every provider’s daily schedule. The digital interactions through video calls and digital platforms, doctors and therapists...',
@@ -244,9 +250,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7195308.jpg', alt: 'Healthcare provider conducting telehealth consultation via laptop', afterSection: 0 }, { url: '/images/blog-inline/pexels-4031710.jpg', alt: 'Remote patient monitoring with wearable health technology', afterSection: 2 }],
   },
   {
     slug: 'revenue-growth-strategies-in-pain-management',
+    coverImage: '/images/blog/REVENUE-GROWTH-STRATEGIES-IN-PAIN-MANAGEMENT-02.webp',
     title: 'Revenue Growth Strategies In Pain Management',
     tag: 'Pain Management',
     excerpt: 'Running a successful pain management practice isn’t just about providing top-notch patient care—it’s also about ensuring financial stability and growth. With increasing operational costs, insurance co...',
@@ -330,9 +338,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5452291.jpg', alt: 'Pain management physician reviewing patient records on tablet', afterSection: 0 }, { url: '/images/blog-inline/pexels-4266931.jpg', alt: 'Doctor discussing treatment plan with pain management patient', afterSection: 4 }],
   },
   {
     slug: 'strategies-to-handle-interoperability-challenges',
+    coverImage: '/images/blog/STRATEGIES-TO-HANDLE-System-integration-CHALLENGES-1-01.webp',
     title: 'Strategies To Handle Interoperability Challenges',
     tag: 'RCM',
     excerpt: 'Being in the healthcare industry, we know how crucial it is to have accurate and timely availability of patient information. US healthcare mechanisms involve a large amount of data sharing with differ...',
@@ -371,9 +381,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-6010864.jpg', alt: 'Healthcare professional using digital tablet for electronic health records', afterSection: 0 }, { url: '/images/blog-inline/pexels-5380664.jpg', alt: 'Health information technology systems and data integration display', afterSection: 1 }],
   },
   {
     slug: 'final-rule-against-injustice-disguised-as-paper-work',
+    coverImage: '/images/blog/FINAL-RULE-AGAINST-INJUSTICE-DISGUISED-AS-PAPER-WORK-01.jpg',
     title: 'Final Rule Against Injustice Disguised as Paper Work',
     tag: 'RCM',
     excerpt: 'For healthcare providers, prior authorization is an absolute necessity to ensure their claims are paid. But the reality is, physicians are forced to spend countless hours each week completing an avera...',
@@ -407,9 +419,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5668882.jpg', alt: 'Scales of justice and gavel representing healthcare regulation and compliance', afterSection: 0 }, { url: '/images/blog-inline/pexels-5668858.jpg', alt: 'Professional reviewing compliance documents and administrative requirements', afterSection: 1 }],
   },
   {
     slug: 'how-to-turn-cms-rule-into-real-revenue-boost-for-ortho-asc',
+    coverImage: '/images/blog/1-01.png',
     title: 'How to Turn CMS Rule into Real Revenue Boost for Ortho ASC',
     tag: 'Orthopedics',
     excerpt: 'How to Turn CMS Rule into Real Revenue Boost for Ortho ASC',
@@ -458,9 +472,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-1170979.jpg', alt: 'Medical team examining orthopedic X-ray images for surgical planning', afterSection: 0 }, { url: '/images/blog-inline/pexels-247786.jpg', alt: 'Modern ambulatory surgery center operating room with advanced equipment', afterSection: 1 }],
   },
   {
     slug: 'ai-in-medical-billing',
+    coverImage: '/images/blog/Integration-of-AI-in-Healthcare-RCM.png',
     title: 'AI in Medical Billing',
     tag: 'AI & Technology',
     excerpt: 'The past few decades have been asterisked with the metamorphosis of the US healthcare system, fusing various enhancements like a value-based model, no-surprise act, electronic health records, IoT (Int...',
@@ -528,9 +544,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-8386440.jpg', alt: 'Artificial intelligence robotic hand reaching into connected network nodes', afterSection: 0 }, { url: '/images/blog-inline/pexels-8849295.jpg', alt: 'AI concept illustration representing automation in healthcare technology', afterSection: 2 }],
   },
   {
     slug: 'the-ultimate-cardiology-medical-billing-guide',
+    coverImage: '/images/blog/Cardiology-Billing.png',
     title: 'The Ultimate Cardiology Medical Billing Guide',
     tag: 'Cardiology',
     excerpt: 'Today’s Healthcare organizations need to ensure every aspect of their practice is running smoothly and efficiently. As Healthcare organizations strive for excellence in patient care, it is equally imp...',
@@ -711,9 +729,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7108344.jpg', alt: 'Doctor measuring patient blood pressure during cardiovascular examination', afterSection: 0 }, { url: '/images/blog-inline/pexels-3844581.jpg', alt: 'Vital signs monitor displaying heart rhythm in surgical setting', afterSection: 9 }],
   },
   {
     slug: 'ambulatory-surgery-center-asc-billing-guidelines',
+    coverImage: '/images/blog/Ambulatory-Surgical-Billing.png',
     title: 'Ambulatory Surgery Center (ASC) Billing Guidelines',
     tag: 'ASC',
     excerpt: 'The healthcare industry plays a crucial role in our society. While it focuses on the care of patients, many financial aspects of it also need to be taken care of. Every healthcare provider follows a p...',
@@ -966,9 +986,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3938023.jpg', alt: 'Surgical team preparing for ambulatory surgery center procedure', afterSection: 0 }, { url: '/images/blog-inline/pexels-4173251.jpg', alt: 'Healthcare professional with stethoscope in ambulatory care facility', afterSection: 12 }],
   },
   {
     slug: 'what-is-charge-capture-a-physicians-guide',
+    coverImage: '/images/blog/COSENTUS-Blog-Graphics1.png',
     title: 'What Is Charge Capture? A Physician\'s Guide',
     tag: 'RCM',
     excerpt: 'A healthcare practice’s success ultimately hinges on many interconnected factors. While providing sound healthcare services is the primary and most important aspect of a healthcare facility, several o...',
@@ -1137,9 +1159,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5215024.jpg', alt: 'Physician with clipboard and stethoscope documenting patient encounter for charge capture', afterSection: 0 }, { url: '/images/blog-inline/pexels-4021775.jpg', alt: 'Healthcare professional in scrubs ready for clinical documentation', afterSection: 8 }],
   },
   {
     slug: 'radiology-billing-guide-for-medical-practices',
+    coverImage: '/images/blog/outsourcing-radiology-billing.jpeg',
     title: 'Radiology Billing Guide for Medical Practices',
     tag: 'Radiology',
     excerpt: 'It truly is remarkable how something as simple as an image can hold such profound significance and contribute to the field of medicine in such a meaningful way. Radiology is the medical discipline that u...',
@@ -1364,9 +1388,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4226264.jpg', alt: 'Radiologist examining MRI and CT brain scan images on light panel', afterSection: 0 }, { url: '/images/blog-inline/pexels-5723882.jpg', alt: 'Diagnostic X-ray images of hand used in radiology billing', afterSection: 11 }],
   },
   {
     slug: 'health-insurance-verification-tips-for-medical-practices',
+    coverImage: '/images/blog/2.jpg',
     title: 'Health Insurance Verification Tips for Medical Practices',
     tag: 'Insurance',
     excerpt: 'Verifying medical insurance is an essential healthcare process that guarantees a patient’s coverage and benefits before administering any healthcare services or treatments. If you are seeking clarity...',
@@ -1464,9 +1490,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7176026.jpg', alt: 'Medical staff verifying patient insurance information on clipboard', afterSection: 0 }, { url: '/images/blog-inline/pexels-4386464.jpg', alt: 'Stethoscope representing healthcare insurance and patient eligibility verification', afterSection: 1 }],
   },
   {
     slug: 'external-factors-affecting-your-medical-billing',
+    coverImage: '/images/blog/External-Factors-Affecting-Your-RCM.jpg',
     title: 'External Factors Affecting Your Medical Billing',
     tag: 'Medical Billing',
     excerpt: '3. 4. CMS Star Rating 5. FAQs Healthcare business revenue is not only affected by internal loopholes and process inefficiency in your medical but can billing also be deteriorated by external factors...',
@@ -1485,9 +1513,11 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
+    images: [{ url: '/images/blog-inline/pexels-590016.jpg', alt: 'Financial reports and performance charts analyzing external billing factors', afterSection: 1 }, { url: '/images/blog-inline/pexels-6120171.jpg', alt: 'Analyzing healthcare revenue trends with magnifying glass and calculator', afterSection: 3 }],
   },
   {
     slug: 'obgyn-medical-billing-overcoming-complexities',
+    coverImage: '/images/blog/OBGYN-Medical-Billing-Overcoming-Complexities.jpg',
     title: 'OB/GYN Medical Billing: Overcoming Complexities',
     tag: 'OB/GYN',
     excerpt: 'The financial burden of running an OB/GYN practice is increasingly daunting. From prenatal care to gynecological surgeries, and reproductive health management, medical billing and coding for OB/GYN se...',
@@ -1542,9 +1572,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7089401.jpg', alt: 'OB/GYN physician consulting with female patient during office visit', afterSection: 0 }, { url: '/images/blog-inline/pexels-3985170.jpg', alt: 'Healthcare provider administering care to female patient in clinical setting', afterSection: 2 }],
   },
   {
     slug: 'everything-to-know-about-anesthesia-medical-billing',
+    coverImage: '/images/blog/1.png',
     title: 'Everything To Know About Anesthesia Medical Billing',
     tag: 'Anesthesia',
     excerpt: '6. ANESTHESIOLOGIST BILLING FOR MEDICAL DIRECTION VS. BILLING AT MEDICALLY SUPERVISED RATE 7. ROLE AND INVOLVEMENT 8. BILLING CRITERIA 9. DOCUMENTATION FOCUS 10. REIMBURSEMENT LEVELS 11. CODING AND MO...',
@@ -1661,9 +1693,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3376790.jpg', alt: 'Surgical team performing operation requiring anesthesia monitoring and billing', afterSection: 0 }, { url: '/images/blog-inline/pexels-4483340.jpg', alt: 'Anesthesia machine and vital signs monitor in operating room', afterSection: 1 }],
   },
   {
     slug: 'medical-billing-guide-for-healthcare-providers-practices',
+    coverImage: '/images/blog/REVENUE-CYCLE-MANAGEMENT.jpg',
     title: 'Medical Billing Guide For Healthcare Providers & Practices',
     tag: 'Medical Billing',
     excerpt: 'For healthcare providers, managing the revenue cycle becomes allthe-more important because of the multiple aspects it holds, from a patient’s appointment to their billing and payments. This doesn’t on...',
@@ -1834,9 +1868,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7578803.jpg', alt: 'Doctor reviewing billing charts and patient records during consultation', afterSection: 0 }, { url: '/images/blog-inline/pexels-7579828.jpg', alt: 'Physician examining diagnostic images as part of medical documentation', afterSection: 6 }],
   },
   {
     slug: 'a-guide-to-pain-management-medical-billing',
+    coverImage: '/images/blog/How-to-Bill-for-Pain-Management-Services-An-Essential-Guide-for-Practices.jpg',
     title: 'A Guide To Pain Management Medical Billing',
     tag: 'Pain Management',
     excerpt: 'It’s a fact that pain can take a toll on one’s quality of life. Not only that, but it can lead to higher medical bills. It’s no surprise that chronic pain is one of the most common chronic conditions...',
@@ -2010,9 +2046,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3279197.jpg', alt: 'Pain management specialist in clinical setting between procedures', afterSection: 0 }, { url: '/images/blog-inline/pexels-2324837.jpg', alt: 'Healthcare professional reviewing patient treatment records', afterSection: 7 }],
   },
   {
     slug: 'your-guide-to-medical-billing-services',
+    coverImage: '/images/blog/2-1.jpg',
     title: 'Your Guide To Medical Billing Services',
     tag: 'Medical Billing',
     excerpt: 'Are you a practice owner looking to maximize your revenue potential and improve the financial performance of your healthcare practice? If so, you’re not alone. Running a successful practice involves n...',
@@ -2122,9 +2160,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3182812.jpg', alt: 'Medical billing team collaborating on claims processing at computer', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699475.jpg', alt: 'Billing specialist reviewing insurance documentation and forms', afterSection: 3 }],
   },
   {
     slug: 'the-benefits-of-outsourcing-medical-billing',
+    coverImage: '/images/blog/11.jpg',
     title: 'The Benefits Of Outsourcing Medical Billing',
     tag: 'Outsourcing',
     excerpt: 'It can be difficult to decide if outsourcing your medical billing and revenue cycle management is the right thing to do. It can be especially difficult in our current state of the unknown. Many questi...',
@@ -2136,9 +2176,11 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344860.jpg', alt: 'Business handshake representing outsourcing partnership agreement', afterSection: 1 }, { url: '/images/blog-inline/pexels-3184339.jpg', alt: 'Outsourced billing team collaborating on healthcare revenue management', afterSection: 3 }],
   },
   {
     slug: 'still-facing-great-resignation-in-your-business',
+    coverImage: '/images/blog/Still-Facing-Great-Resignation-in-Your-Business.jpg',
     title: 'Still Facing \'Great Resignation\' in Your Business!',
     tag: 'HR & Staffing',
     excerpt: 'The grim reality of Great Resignation has left an alarming 85% (2 out of 3) of healthcare organizations facing catastrophic staffing crises. These facilities are left to operate with only a meager 1:4...',
@@ -2160,9 +2202,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439381.jpg', alt: 'Job interview handshake representing healthcare recruitment and hiring', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344878.jpg', alt: 'Business team meeting to address staffing and workforce retention strategies', afterSection: 1 }],
   },
   {
     slug: 'tips-for-faster-healthcare-processing',
+    coverImage: '/images/blog/Cover-Image-1.png',
     title: 'Tips For Faster Healthcare Processing',
     tag: 'RCM',
     excerpt: 'Securing the fastest payment with minimum hassle is the primary objective of any business to sustain in the long run. The ever-changing dynamics of healthcare have created an aura of uncertainties in...',
@@ -2200,9 +2244,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3184357.jpg', alt: 'Efficient office team processing claims at multiple workstations', afterSection: 0 }, { url: '/images/blog-inline/pexels-7688460.jpg', alt: 'Team analyzing healthcare performance data trends and analytics', afterSection: 1 }],
   },
   {
     slug: 'orthopedic-rcm-how-to-boost-profitability',
+    coverImage: '/images/blog/Cover-Image.png',
     title: 'Orthopedic RCM: How To Boost Profitability',
     tag: 'Orthopedics',
     excerpt: 'Orthopedic practices are under constant pressure to increase revenue and maintain a healthy bottom line,as this is the lifeblood of any successful practice. One of the best ways to do this is to take...',
@@ -2250,9 +2296,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4226216.jpg', alt: 'Physician reviewing orthopedic diagnostic imaging for surgical planning', afterSection: 0 }, { url: '/images/blog-inline/pexels-3845757.jpg', alt: 'Medical professional in clinical setting supporting orthopedic practice operations', afterSection: 2 }],
   },
   {
     slug: 'evaluation-management-em-codes-cheat-sheet',
+    coverImage: '/images/blog/Cover-Image-1.png',
     title: 'Evaluation & Management (E/M) Codes Cheat Sheet',
     tag: 'Medical Coding',
     excerpt: 'Financial losses loom large for physicians across the country due to costly oversights in their billing for evaluation and management (E&M) codes. The monetary differences between the visit levels and...',
@@ -2287,9 +2335,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5214949.jpg', alt: 'Doctor preparing for patient evaluation and management encounter', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184465.jpg', alt: 'Healthcare coding professional documenting E/M service levels', afterSection: 1 }],
   },
   {
     slug: 'understanding-the-value-based-healthcare-model',
+    coverImage: '/images/blog/Understanding-The-Value-Based-Healthcare-Model.jpg',
     title: 'Understanding The Value-Based Healthcare Model',
     tag: 'Value-Based Care',
     excerpt: 'Understanding The Value-Based Healthcare Model',
@@ -2331,9 +2381,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3985163.jpg', alt: 'Medical team collaborating in hospital corridor on patient care quality', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184405.jpg', alt: 'Healthcare leader with team focused on value-based outcomes improvement', afterSection: 1 }],
   },
   {
     slug: 'essential-key-performance-indicators-kpis-in-healthcare',
+    coverImage: '/images/blog/Essential-Key-Performance-Indicators-KPIs-In-Healthcare.jpg',
     title: 'Essential Key Performance Indicators (KPIs) In Healthcare',
     tag: 'Analytics',
     excerpt: 'Implementing a good structural revenue cycle management model in your healthcare practice is not enough if you don’t gauge its performance and effectiveness periodically against key performance indica...',
@@ -2367,9 +2419,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7947663.jpg', alt: 'Healthcare KPI analytics dashboard with charts and performance metrics', afterSection: 0 }, { url: '/images/blog-inline/pexels-187041.jpg', alt: 'Tablet displaying real-time data trends for practice performance tracking', afterSection: 1 }],
   },
   {
     slug: 'revenue-cycle-management-for-ambulatory-surgery-centers',
+    coverImage: '/images/blog/Revenue-Cycle-Management-For-Ambulatory-Surgery-Centers.jpg',
     title: 'Revenue Cycle Management For Ambulatory Surgery Centers',
     tag: 'ASC',
     excerpt: 'Typically, when ASC (Ambulatory Surgery Center) practice started 40 years back in 1970, it was majorly the individual-owned single specialty structure with very limited outpatient procedures. But as t...',
@@ -2431,9 +2485,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3183150.jpg', alt: 'ASC operations team coordinating revenue cycle management on devices', afterSection: 0 }, { url: '/images/blog-inline/pexels-5673488.jpg', alt: 'Healthcare administrator managing ambulatory surgery center billing workflow', afterSection: 3 }],
   },
   {
     slug: 'medical-billing-trends',
+    coverImage: '/images/blog/Revenue-Cycle-Management-Trends.jpg',
     title: 'Medical Billing Trends',
     tag: 'Medical Billing',
     excerpt: 'As the world transitioned to advanced technology to survive in the turbulent environment of COVID-19, the traditional healthcare model was becoming obsolete. The ubiquitous shift is more apparent in t...',
@@ -2475,9 +2531,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3184292.jpg', alt: 'Digital transformation trends reshaping medical billing processes', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344876.jpg', alt: 'Modern technology driving changes in healthcare billing practices', afterSection: 1 }],
   },
   {
     slug: 'know-your-medical-billing-its-importance',
+    coverImage: '/images/blog/Know-Your-RCM-Its-Importance.jpg',
     title: 'Know Your Medical Billing & Its Importance',
     tag: 'Medical Billing',
     excerpt: 'The healthcare ecosystem has drastically changed over the past few years, especially after Covid-19. Affordable Care Act (ACA), Valuebased delivery model, and telemedicine have stimulated the adoption...',
@@ -2538,9 +2596,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3184325.jpg', alt: 'Medical billing team collaborating on claims processing and coding', afterSection: 0 }, { url: '/images/blog-inline/pexels-3760262.jpg', alt: 'Healthcare professional explaining medical billing fundamentals', afterSection: 2 }],
   },
   {
     slug: 'no-surprise-act-cutting-revenue-to-the-bone',
+    coverImage: '/images/blog/No-Surprise-Act-–-Cutting-Revenue-to-the-Bone.jpg',
     title: 'No Surprise Act - Cutting Revenue to the Bone',
     tag: 'Compliance',
     excerpt: 'The world was not over with the trepidation of Covid-19 and then the Russia-Ukraine war hit the global economy. Although the healthcare industry has been the support system during these difficult wave...',
@@ -2585,9 +2645,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5668881.jpg', alt: 'Compliance professional reviewing No Surprises Act regulatory documents', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344874.jpg', alt: 'Patient advocacy and surprise billing protection legislation impact', afterSection: 2 }],
   },
   {
     slug: '2021-year-end-tax-planning-tips-for-individuals-and-businesses',
+    coverImage: '/images/blog/2021-Year-End-Tax-Planning-Tips-for-Individuals-and-Businesses.jpg',
     title: '2021 Year End Tax Planning Tips for Individuals and Businesses',
     tag: 'AR Management',
     excerpt: 'As 2021 draws to a close, you are no doubt looking for strategic ways to minimize your tax burden. It’s been a rollercoaster of a year, with complicated new provisions, credits, and policy changes tha...',
@@ -2621,9 +2683,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-6863183.jpg', alt: 'Tax planning documents with 1040 forms and financial calculations', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699479.jpg', alt: 'Financial advisor reviewing year-end tax strategy and business deductions', afterSection: 1 }],
   },
   {
     slug: '4-tricks-for-profitable-urgent-care-contract-negotiations',
+    coverImage: '/images/blog/4-Tricks-For-Creating-Profitable-Urgent-Care-Contract-Negotiations.jpg',
     title: '4 Tricks for Profitable Urgent Care Contract Negotiations',
     tag: 'Urgent Care',
     excerpt: 'Payer contracts are the financial foundation of every urgent care center. The rates you negotiate directly determine how much revenue your practice retains for every patient encounter — yet most urgen...',
@@ -2786,9 +2850,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344867.jpg', alt: 'Urgent care facility team reviewing payer contract terms and negotiations', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344912.jpg', alt: 'Healthcare administrator negotiating profitable contract agreements', afterSection: 7 }],
   },
   {
     slug: '5-tips-to-maximize-urgent-care-revenue',
+    coverImage: '/images/blog/How-To-Maximize-Revenue.jpg',
     title: '5 Tips to Maximize Urgent Care Revenue',
     tag: 'Urgent Care',
     excerpt: 'The urgent care industry in the United States generates over $38 billion in annual revenue — yet the average urgent care center collects only 75–80 cents of every dollar it bills. The gap between what...',
@@ -2932,9 +2998,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344917.jpg', alt: 'Busy urgent care clinic front desk managing patient flow and revenue', afterSection: 0 }, { url: '/images/blog-inline/pexels-5699460.jpg', alt: 'Medical practice revenue optimization through efficient operations', afterSection: 6 }],
   },
   {
     slug: 'cms-regulations-to-reduce-administrative-burden-on-physicians',
+    coverImage: '/images/blog/17.jpg',
     title: 'CMS Regulations to Reduce Administrative Burden on Physicians',
     tag: 'Compliance',
     excerpt: 'Administrative burden is one of the leading causes of physician burnout in the United States. Studies show that physicians spend an average of 15–20 hours per week on administrative tasks — including...',
@@ -3149,9 +3217,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3184306.jpg', alt: 'Administrative team working to reduce physician documentation burden', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344870.jpg', alt: 'CMS regulatory compliance review and administrative simplification', afterSection: 10 }],
   },
   {
     slug: 'clinical-coding-optimization-tips',
+    coverImage: '/images/blog/Clinical-Coding-Optimization-Tips.jpg',
     title: 'Clinical Coding Optimization Tips',
     tag: 'Medical Coding',
     excerpt: 'Here at Cosentus , we bring you fresh perspectives, effective advice, and applicable tips for fully optimizing your revenue cycle and maximizing collections for your medical practice. By following the...',
@@ -3170,9 +3240,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344916.jpg', alt: 'Medical coder optimizing clinical coding accuracy at workstation', afterSection: 0 }, { url: '/images/blog-inline/pexels-669996.jpg', alt: 'Healthcare coding professional reviewing documentation for optimization', afterSection: 1 }],
   },
   {
     slug: 'community-health-topic-covid-19',
+    coverImage: '/images/blog/Community-Health-Topic.jpg',
     title: 'Community Health Topic – COVID-19',
     tag: 'Public Health',
     excerpt: 'As COVID-19 has been officially declared a pandemic, we have seen overwhelming reactions from the community – ranging from nonchalant to full on panic-mode to everything in between. Schools, business,...',
@@ -3205,9 +3277,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-3993239.jpg', alt: 'Healthcare worker in protective equipment providing community health care during pandemic', afterSection: 0 }, { url: '/images/blog-inline/pexels-3952234.jpg', alt: 'Public health response and COVID-19 safety measures in medical setting', afterSection: 1 }],
   },
   {
     slug: 'denial-management-strategies-in-medical-billing',
+    coverImage: '/images/blog/Denial-Management-Strategies-in-Medical-Billing.jpg',
     title: 'Denial Management Strategies in Medical Billing',
     tag: 'Denial Management',
     excerpt: 'Table of Contents 1. Download FREE Medical Billing and AR checklist: The Ultimate Accounts Receivable Checklist! 2. Strategy#1: Denial Tracking And Management 3. Strategy#2: Work Denials On Priority 4...',
@@ -3231,9 +3305,11 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
+    images: [{ url: '/images/blog-inline/pexels-5699481.jpg', alt: 'Billing specialist reviewing denied claims documentation and appeal strategies', afterSection: 1 }, { url: '/images/blog-inline/pexels-4344880.jpg', alt: 'Healthcare team analyzing denial trends and developing prevention plans', afterSection: 3 }],
   },
   {
     slug: 'effective-accounts-receivable-management-in-healthcare',
+    coverImage: '/images/blog/Effective-Accounts-Receivable-Management-Do-It-the-Cosentus-Way.jpg',
     title: 'Effective Accounts Receivable Management in Healthcare',
     tag: 'AR Management',
     excerpt: 'Healthcare practices across the United States — from pain management clinics in Dallas and Houston, orthopedic groups in Phoenix and Atlanta, urgent care centers in Tampa and Orlando, anesthesia pract...',
@@ -3391,9 +3467,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344882.jpg', alt: 'Accounts receivable manager reviewing aging reports and collection metrics', afterSection: 0 }, { url: '/images/blog-inline/pexels-3938022.jpg', alt: 'Medical billing department tracking AR performance and payment timelines', afterSection: 8 }],
   },
   {
     slug: 'how-to-improve-medical-billing-for-your-medical-practice',
+    coverImage: '/images/blog/How-To-Improve-RCM-For-Your-Medical-Practice.jpg',
     title: 'How To Improve Medical Billing For Your Medical Practice',
     tag: 'Medical Billing',
     excerpt: 'With the introduction of EMR and advanced practice management software the general belief is that the standards of billing and collection will be like never before and every claim should be billed out...',
@@ -3456,9 +3534,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5699477.jpg', alt: 'Practice manager implementing billing process improvements and best practices', afterSection: 0 }, { url: '/images/blog-inline/pexels-3184418.jpg', alt: 'Medical billing team collaborating on workflow efficiency and accuracy', afterSection: 3 }],
   },
   {
     slug: 'how-to-increase-revenue-in-your-primary-care-office',
+    coverImage: '/images/blog/How-To-Increase-Revenue-In-Your-Primary-Care-Office.jpg',
     title: 'How To Increase Revenue In Your Primary Care Office',
     tag: 'Revenue Growth',
     excerpt: 'Maintaining a profitable medical practice can be highly demanding, specially when your best focus is on ensuring quality care for your patients. Like any other business your practice needs to operate...',
@@ -3515,9 +3595,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-7579831.jpg', alt: 'Primary care physician consulting with patient during office visit', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344884.jpg', alt: 'Family medicine practice focused on revenue growth and patient volume', afterSection: 3 }],
   },
   {
     slug: 'how-to-reduce-ar-days-in-medical-billing',
+    coverImage: '/images/blog/How-To-Reduce-AR-Days-In-Medical-Billing.jpg',
     title: 'How To Reduce AR Days In Medical Billing',
     tag: 'AR Management',
     excerpt: '3.1. 4. Tip #3: Manage Your Denials Effectively 5. Tip #4: Understand and Define your AR Ageing Benchmarks Clearly 6. Tip #5: Perform AR follow-up and keep up your Follow-up Promises 7. Conclusion 8....',
@@ -3555,9 +3637,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344886.jpg', alt: 'Healthcare financial analyst tracking accounts receivable aging and days outstanding', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344888.jpg', alt: 'Medical billing team implementing strategies to accelerate AR collections', afterSection: 1 }],
   },
   {
     slug: 'how-to-prepare-your-technology-for-2022',
+    coverImage: '/images/blog/How-to-Prepare-your-Technology.jpg',
     title: 'How to Prepare your Technology for 2022',
     tag: 'Technology',
     excerpt: 'As 2021 winds to a close, it’s time to assess what major tech updates you should be aware of as we head into the new year. Some of these changes might seem small, but they can have a huge impact on yo...',
@@ -3578,9 +3662,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5473955.jpg', alt: 'Healthcare IT professional upgrading practice management technology systems', afterSection: 0 }, { url: '/images/blog-inline/pexels-5473957.jpg', alt: 'Modern EHR technology infrastructure powering medical practice operations', afterSection: 1 }],
   },
   {
     slug: 'key-features-of-effective-accounts-receivable-management',
+    coverImage: '/images/blog/Key-Features-Of-Effective-Accounts-Receivable-Management.jpg',
     title: 'Key Features Of Effective Accounts Receivable Management',
     tag: 'AR Management',
     excerpt: '3.1. Incorporate the following in your Coding Initiatives to Collect More and stay away from Denials: 3.2. 4. Key Element#2: Submit Clean Claims 4.1. If your first pass acceptance rate is not over 97%...',
@@ -3648,9 +3734,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344890.jpg', alt: 'AR management dashboard displaying key collection metrics and aging reports', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344894.jpg', alt: 'Healthcare revenue team reviewing accounts receivable performance features', afterSection: 1 }],
   },
   {
     slug: 'medical-billing-and-collection-tips',
+    coverImage: '/images/blog/Medical-Billing-And-Collection-Tips.jpg',
     title: 'Medical Billing And Collection Tips',
     tag: 'Medical Billing',
     excerpt: '1.1. Incorporate the following in your coding initiatives to collect more and stay away from Denials: 2. Tip 2: Submit Clean Claims 2.1. If your first pass acceptance rate is not over 97% we recommend...',
@@ -3694,9 +3782,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439387.jpg', alt: 'Patient billing specialist processing payments and managing collection workflows', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439389.jpg', alt: 'Medical practice front desk handling patient payment and billing inquiries', afterSection: 1 }],
   },
   {
     slug: 'medical-coding-optimization-strategies',
+    coverImage: '/images/blog/Medical-Coding-Optimization-Strategie.jpg',
     title: 'Medical Coding Optimization Strategies',
     tag: 'Medical Coding',
     excerpt: '3.1. 4. Workflow – When was the last time you restructured your Coding Workflow? 4.1. What Cosentus recommends for an improved workflow Strategy 5. Skilled and Certified Coders – Deploy learned and ce...',
@@ -3746,9 +3836,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344900.jpg', alt: 'Medical coding specialist reviewing CPT and ICD documentation for accuracy', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344898.jpg', alt: 'Healthcare coding team optimizing clinical documentation and code selection', afterSection: 1 }],
   },
   {
     slug: 'optimize-medical-billing-and-collections-in-6-steps',
+    coverImage: '/images/blog/Optimize-your-medical-billing-and-collections-in-6-Simple-Steps.jpg',
     title: 'Optimize Medical Billing and Collections in 6 Steps',
     tag: 'Medical Billing',
     excerpt: 'Medical billing inefficiency is one of the most pervasive — and most correctable — sources of revenue loss in healthcare. Across the United States, healthcare providers lose an estimated $125 billion...',
@@ -3926,9 +4018,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344904.jpg', alt: 'Medical billing optimization workflow with step-by-step process improvement', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344906.jpg', alt: 'Healthcare collections team implementing systematic billing optimization', afterSection: 8 }],
   },
   {
     slug: 'preventive-denial-management-the-key-to-sustained-practice-cashflow',
+    coverImage: '/images/blog/Preventive-Denial-Management-Sustained-Cashflow.jpg',
     title: 'Preventive Denial Management: The Key to Sustained Practice Cashflow',
     tag: 'Denial Management',
     excerpt: '1.1. Download FREE White Paper: 7 Key Elements Of Effective Accounts Receivable Management 2. Know Your Denials 3. Training and Process Optimization 4. Key Takeaway 5. FAQs Cash flow is the lifeline...',
@@ -3955,9 +4049,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-4344908.jpg', alt: 'Proactive denial prevention team reviewing clean claims submission process', afterSection: 0 }, { url: '/images/blog-inline/pexels-4344914.jpg', alt: 'Medical practice sustaining cashflow through preventive denial strategies', afterSection: 1 }],
   },
   {
     slug: 'revenue-cycle-outsourcing-for-healthcare-practices',
+    coverImage: '/images/blog/11.jpg',
     title: 'Revenue Cycle Outsourcing for Healthcare Practices',
     tag: 'RCM',
     excerpt: 'The Benefits Of Outsourcing Medical Billing Running an independent medical practice brings many benefits to your table, but it also comes with its fair share of challenges. From managing patient care...',
@@ -4148,9 +4244,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439391.jpg', alt: 'Healthcare practice evaluating revenue cycle outsourcing partnership options', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439393.jpg', alt: 'Outsourced RCM team managing end-to-end billing operations remotely', afterSection: 8 }],
   },
   {
     slug: 'revenue-leakage-in-healthcare-signs-to-watch-out-for',
+    coverImage: '/images/blog/Revenue-Leakage-In-Healthcare.jpg',
     title: 'Revenue Leakage In Healthcare: Signs To Watch Out For',
     tag: 'Revenue Growth',
     excerpt: 'At Cosentus , we often sign new clients who have a very messy accounts receivable. Sometimes these clients will tell us that they are barely able to stay afloat, as their medical billing company has n...',
@@ -4187,9 +4285,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439395.jpg', alt: 'Healthcare financial analyst identifying revenue leakage warning signs', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439397.jpg', alt: 'Medical practice audit revealing revenue gaps and missed collections', afterSection: 1 }],
   },
   {
     slug: 'should-i-find-a-new-medical-billing-company',
+    coverImage: '/images/blog/Should-I-Find-A-New-Medical-Billing-Company.jpg',
     title: 'Should I Find A New Medical Billing Company:',
     tag: 'Medical Billing',
     excerpt: 'The two most important positions in the success of any healthcare practice when it comes to increasing revenue is the physician and the medical biller. While the physicians work hard to provide the be...',
@@ -4227,9 +4327,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439399.jpg', alt: 'Practice manager evaluating medical billing company performance and alternatives', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439401.jpg', alt: 'Comparing billing service providers for better revenue cycle outcomes', afterSection: 1 }],
   },
   {
     slug: 'tips-to-improve-healthcare-rcm-revenue-cycle-management-model',
+    coverImage: '/images/blog/13.jpg',
     title: 'Tips to improve healthcare RCM (Revenue Cycle Management) Model',
     tag: 'RCM',
     excerpt: 'Table of Contents 1. Here are a few tips to beef up revenue and smooth out the reimbursement process: 2. Negotiate Payer Contract 3. Bells and Whistles of EHR 4. Pre-authorization 5. ICD Codes & Modif...',
@@ -4253,9 +4355,11 @@ export const blogPosts: BlogPost[] = [
     ],
     sections: [
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439403.jpg', alt: 'Healthcare team implementing revenue cycle management improvements', afterSection: 1 }, { url: '/images/blog-inline/pexels-5439405.jpg', alt: 'RCM process optimization driving better financial performance for practices', afterSection: 3 }],
   },
   {
     slug: 'top-mistakes-that-cause-denials-in-medical-billing',
+    coverImage: '/images/blog/16.jpg',
     title: 'Top Mistakes That Cause Denials In Medical Billing',
     tag: 'Denial Management',
     excerpt: 'In Healthcare Revenue Cycle Management , the common meaning of a medical billing denial is, when the insurance carrier refuses to pay for a medical claim/bill submitted to them for the healthcare serv...',
@@ -4296,9 +4400,11 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439407.jpg', alt: 'Medical billing specialist identifying common claim denial errors and mistakes', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439409.jpg', alt: 'Healthcare team reviewing denied claims to prevent recurring billing mistakes', afterSection: 1 }],
   },
   {
     slug: 'urgent-care-revenue-cycle-management-4-key-areas-to-master',
+    coverImage: '/images/blog/17.jpg',
     title: 'Urgent Care Revenue Cycle Management: 4 Key Areas to Master',
     tag: 'Urgent Care',
     excerpt: 'Revenue cycle management (RCM) in urgent care is deceptively complex. Unlike scheduled-care specialties where appointments are pre-verified, authorizations are obtained in advance, and coding follows...',
@@ -4472,6 +4578,7 @@ export const blogPosts: BlogPost[] = [
         ],
       }
     ],
+    images: [{ url: '/images/blog-inline/pexels-5439413.jpg', alt: 'Urgent care facility managing key revenue cycle areas for profitability', afterSection: 0 }, { url: '/images/blog-inline/pexels-5439415.jpg', alt: 'Walk-in clinic operations team mastering revenue cycle management essentials', afterSection: 9 }],
   },
 ]
 

@@ -50,45 +50,68 @@ export default function BlogContent() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
-            {filtered.map((blog, i) => (
+            {filtered.map((blog) => (
               <Link
                 key={blog.slug}
                 href={`/blog/${blog.slug}`}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'flex' }}
               >
-                <article style={{
+                <article className="blog-card" style={{
                   background: 'var(--white)',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
                   overflow: 'hidden',
                   width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                  position: 'relative',
+                  aspectRatio: '4 / 3',
                   cursor: 'pointer',
+                  border: '1px solid var(--gray-200)',
                 }}>
-                  <div style={{ height: 4, background: 'var(--primary)' }} />
-                  <div style={{ padding: 28, flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '4px 12px',
-                      background: 'var(--primary-ghost)',
-                      borderRadius: 'var(--radius-sm)',
-                      fontSize: 11,
-                      fontWeight: 500,
-                      color: 'var(--primary)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      marginBottom: 16,
-                      alignSelf: 'flex-start',
-                    }}>{blog.tag}</span>
-                    <h3 style={{ fontSize: 17, fontWeight: 500, color: 'var(--gray-900)', lineHeight: 1.4, marginBottom: 12 }}>
+                  {/* Cover illustration from cosentus.com */}
+                  {blog.coverImage && (
+                    <img
+                      src={blog.coverImage}
+                      alt={blog.title}
+                      loading="lazy"
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)' }}
+                      className="blog-card-img"
+                    />
+                  )}
+
+                  {/* Tag badge — top left */}
+                  <span style={{
+                    position: 'absolute', top: 16, left: 16, zIndex: 3,
+                    padding: '5px 14px',
+                    background: 'var(--primary)',
+                    borderRadius: 20,
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: 'white',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}>{blog.tag}</span>
+
+                  {/* Bottom gradient overlay + title */}
+                  <div className="blog-card-overlay" style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0,
+                    background: 'linear-gradient(transparent 0%, rgba(0,0,0,0.75) 100%)',
+                    padding: '60px 20px 20px',
+                    transition: 'padding 0.4s cubic-bezier(0.16,1,0.3,1)',
+                    zIndex: 2,
+                  }}>
+                    <h3 style={{
+                      fontSize: 16, fontWeight: 600, color: 'white',
+                      lineHeight: 1.4, margin: 0,
+                      fontFamily: 'var(--font-display)',
+                    }}>
                       {blog.title}
                     </h3>
-                    <p style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.6, flex: 1, marginBottom: 20 }}>
-                      {blog.excerpt}
-                    </p>
-                    <span style={{ fontSize: 14, color: 'var(--primary)', fontWeight: 400, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <span className="blog-card-cta" style={{
+                      fontSize: 13, color: '#68D1E6', fontWeight: 500,
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      marginTop: 8, opacity: 0,
+                      transform: 'translateY(8px)',
+                      transition: 'opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s',
+                    }}>
                       Read Article
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                     </span>
@@ -97,6 +120,15 @@ export default function BlogContent() {
               </Link>
             ))}
           </div>
+
+          <style jsx global>{`
+            .blog-card:hover .blog-card-img { transform: scale(1.05); }
+            .blog-card:hover .blog-card-overlay { padding-bottom: 24px; }
+            .blog-card:hover .blog-card-cta { opacity: 1 !important; transform: translateY(0) !important; }
+            @media (max-width: 768px) {
+              .blog-card { aspect-ratio: 3 / 2 !important; }
+            }
+          `}</style>
           {filtered.length === 0 && (
             <p style={{ textAlign: 'center', color: 'var(--gray-500)', padding: 60, fontSize: 16 }}>
               No articles found for this category.

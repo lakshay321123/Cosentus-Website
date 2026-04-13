@@ -317,6 +317,25 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   })}
                 </nav>
               )}
+              {/* Share Buttons */}
+              <div style={{ marginTop: 24 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--gray-500)', marginBottom: 10 }}>Share</div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  {[
+                    { label: 'LinkedIn', color: '#00B5D6', icon: 'M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zM.02 24h4.96V7.5H.02V24zm7.66-16.5h4.76v2.255h.066c.663-1.255 2.283-2.575 4.698-2.575C21.756 7.18 24 9.75 24 14.69V24h-4.98v-8.26c0-1.97-.036-4.5-2.742-4.5-2.746 0-3.165 2.145-3.165 4.36V24H8.14V7.5h-.46z', url: (slug: string) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://cosentus.com/blog/${slug}`)}` },
+                    { label: 'Facebook', color: '#00B5D6', icon: 'M24 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854V15.47H7.078V12h3.047V9.356c0-3.007 1.792-4.668 4.533-4.668 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.47h-2.796v8.384C19.612 22.954 24 17.99 24 12z', url: (slug: string) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://cosentus.com/blog/${slug}`)}` },
+                    { label: 'X', color: '#00B5D6', icon: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z', url: (slug: string) => `https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://cosentus.com/blog/${slug}`)}&text=${encodeURIComponent('Check out this article from Cosentus')}` },
+                  ].map((s) => (
+                    <a key={s.label} href={s.url(post.slug)} target="_blank" rel="noopener noreferrer" title={`Share on ${s.label}`}
+                      style={{ width: 36, height: 36, borderRadius: 8, background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.2s' }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d={s.icon} /></svg>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </aside>
 
             {/* Main Blog Content */}
@@ -333,7 +352,8 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
 
               {/* Sections */}
               {post.sections.map((section, i) => (
-                <div key={section.id} style={{ marginTop: i === 0 && post.intro.length > 0 ? 40 : 36 }}>
+                <div key={section.id}>
+                <div style={{ marginTop: i === 0 && post.intro.length > 0 ? 40 : 36 }}>
                   {section.level === 2 ? (
                     <h2
                       id={section.id}
@@ -581,6 +601,18 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       </p>
                     )
                   })}
+                </div>
+                {/* Blog image after this section */}
+                {post.images?.filter(img => img.afterSection === i).map((img, imgIdx) => (
+                  <figure key={`img-${i}-${imgIdx}`} style={{ margin: '32px 0', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--gray-200)', background: 'var(--gray-50)' }}>
+                    <img src={img.url} alt={img.alt} loading="lazy" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 400, objectFit: 'cover' }} />
+                    {img.caption && (
+                      <figcaption style={{ padding: '12px 16px', fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, fontStyle: 'italic', borderTop: '1px solid var(--gray-200)' }}>
+                        {img.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
                 </div>
               ))}
 
