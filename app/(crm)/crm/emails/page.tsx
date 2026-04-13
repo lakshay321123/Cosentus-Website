@@ -1,203 +1,122 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
+import { templateList } from '@/lib/email-templates'
 
-const templates = [
-  {
-    id: 'welcome',
-    name: 'Welcome — New Lead',
-    subject: 'Quick question about your {{specialty}} billing',
-    body: `Hi {{first_name}},
-
-Thanks for reaching out to Cosentus. I saw you're running a {{specialty}} practice — that's exactly where we specialize.
-
-Most {{specialty}} practices we work with are leaving 15-30% on the table without knowing it. Modifier errors, missed pass-throughs, and denial patterns that compound over time.
-
-Would it be worth a quick 15-minute call this week to see if that's happening at {{practice_name}}? No pressure — just data.
-
-Best,
-{{sender_name}}
-Cosentus | (877) 806-2286`,
-    delay: 'Immediate',
-    tags: ['new-lead', 'auto'],
-  },
-  {
-    id: 'followup1',
-    name: 'Follow-up #1 — Value Prop',
-    subject: 'How we grew a {{specialty}} practice 46%',
-    body: `Hi {{first_name}},
-
-Wanted to share something relevant. We recently helped a {{specialty}} group grow revenue 46% in 12 months — from $1.5M to $2.2M — just by fixing coding accuracy and renegotiating contracts.
-
-The biggest wins came from:
-→ Catching modifier errors before claims go out
-→ Workers' comp turnaround cut from 45 to 28 days
-→ Dedicated denial appeals with 95%+ success rate
-
-Happy to walk through what this could look like for {{practice_name}} — takes about 15 minutes.
-
-{{sender_name}}
-Cosentus`,
-    delay: '3 days after welcome',
-    tags: ['follow-up', 'auto'],
-  },
-  {
-    id: 'case_study',
-    name: 'Follow-up #2 — Case Study',
-    subject: 'Case study: {{specialty}} practice results',
-    body: `Hi {{first_name}},
-
-I attached our latest {{specialty}} case study — real numbers from a practice similar to yours.
-
-Key results:
-→ Net collection rate over 98%
-→ Clean claim rate over 99%
-→ AR over 120 days under 15%
-
-These aren't projections. They're documented outcomes from practices we manage today.
-
-If you're curious what your numbers could look like, our free revenue analysis takes about a week and shows exactly where money is leaking.
-
-No strings attached.
-
-{{sender_name}}
-Cosentus | (877) 806-2286`,
-    delay: '7 days after follow-up #1',
-    tags: ['follow-up', 'case-study'],
-  },
-  {
-    id: 'breakup',
-    name: 'Follow-up #3 — Breakup',
-    subject: 'Should I close your file?',
-    body: `Hi {{first_name}},
-
-I've reached out a few times and haven't heard back — totally understand, you're busy running a practice.
-
-I don't want to be that person who keeps emailing. So I'll keep your file open for 30 days in case timing changes.
-
-If billing ever becomes a headache — or you just want a second opinion on your current setup — we're here.
-
-All the best,
-{{sender_name}}
-Cosentus`,
-    delay: '14 days after case study',
-    tags: ['breakup', 'final'],
-  },
-  {
-    id: 'meeting_confirm',
-    name: 'Meeting Confirmation',
-    subject: 'Confirmed: {{meeting_type}} call on {{meeting_date}}',
-    body: `Hi {{first_name}},
-
-Looking forward to our {{meeting_type}} call on {{meeting_date}}.
-
-Here's what we'll cover:
-→ Your current billing setup and pain points
-→ Where revenue is likely leaking based on your specialty
-→ What a partnership with Cosentus would look like
-
-If anything comes up, just reply to reschedule. Otherwise, talk soon!
-
-{{sender_name}}
-Cosentus`,
-    delay: 'On meeting scheduled',
-    tags: ['meeting', 'confirmation'],
-  },
-  {
-    id: 'post_meeting',
-    name: 'Post-Meeting Follow-up',
-    subject: 'Great talking today — next steps for {{practice_name}}',
-    body: `Hi {{first_name}},
-
-Thanks for taking the time today. Here's a quick recap:
-
-{{meeting_notes}}
-
-Next steps:
-→ We'll send over the revenue analysis within 5 business days
-→ You'll see exactly where collections are leaking
-→ We'll schedule a follow-up to review the findings
-
-In the meantime, feel free to call us at (877) 806-2286 if anything comes up.
-
-{{sender_name}}
-Cosentus`,
-    delay: 'After meeting completed',
-    tags: ['post-meeting'],
-  },
-]
+interface LeadOption { id: string; first_name: string; last_name: string; email: string; practice_name: string; specialty: string }
 
 export default function EmailsPage() {
-  const [activeId, setActiveId] = useState(templates[0].id)
-  const [copied, setCopied] = useState(false)
+  const [leads, setLeads] = useState<LeadOption[]>([])
+  const [activeTemplate, setActiveTemplate] = useState(templateList[0].id)
+  const [previewHtml, setPreviewHtml] = useState('')
+  const [previewSubject, setPreviewSubject] = useState('')
+  const [selectedLead, setSelectedLead] = useState('')
+  const [senderName, setSenderName] = useState('Allen Ranjan')
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
 
-  const active = templates.find(t => t.id === activeId) || templates[0]
+  useEffect(() => {
+    supabase.from('leads').select('id, first_name, last_name, email, practice_name, specialty').not('email', 'is', null).order('first_name')
+      .then(({ data }) => { if (data) setLeads(data as LeadOption[]) })
+  }, [])
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  useEffect(() => {
+    loadPreview()
+  }, [activeTemplate, selectedLead, senderName])
+
+  const loadPreview = async () => {
+    setLoading(true)
+    const res = await fetch('/api/crm/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ template_id: activeTemplate, lead_id: selectedLead || null, action: 'preview', sender_name: senderName }),
+    })
+    const data = await res.json()
+    setPreviewHtml(data.html || '')
+    setPreviewSubject(data.subject || '')
+    setLoading(false)
   }
+
+  const handleSend = async () => {
+    if (!selectedLead) { alert('Select a lead to send to'); return }
+    const res = await fetch('/api/crm/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ template_id: activeTemplate, lead_id: selectedLead, action: 'send', sender_name: senderName }),
+    })
+    const data = await res.json()
+    if (data.success) { setSent(true); setTimeout(() => setSent(false), 3000) }
+  }
+
+  const copyHtml = () => {
+    navigator.clipboard.writeText(previewHtml)
+    alert('HTML copied to clipboard')
+  }
+
+  const active = templateList.find(t => t.id === activeTemplate)
 
   return (
     <div style={{ padding: '32px 40px', maxWidth: 1400 }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Email Templates</h1>
-        <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>Pre-built sequences for sales outreach. Variables auto-fill from lead data.</p>
+        <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>Branded Cosentus emails with live preview</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20 }}>
-        {/* Template list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {templates.map(t => (
-            <button key={t.id} onClick={() => setActiveId(t.id)} style={{
-              padding: '14px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', textAlign: 'left',
-              background: activeId === t.id ? 'rgba(0,181,214,0.08)' : 'white',
-              outline: activeId === t.id ? '1px solid #00B5D6' : '1px solid #E6E6E6',
-            }}>
-              <div style={{ fontSize: 14, fontWeight: activeId === t.id ? 600 : 400, color: activeId === t.id ? '#00B5D6' : '#000' }}>{t.name}</div>
-              <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 4 }}>{t.delay}</div>
-            </button>
-          ))}
+        {/* Left: template list + controls */}
+        <div>
+          {/* Templates */}
+          <div style={{ marginBottom: 16 }}>
+            {['outreach', 'meetings', 'feedback'].map(cat => (
+              <div key={cat}>
+                <div style={{ fontSize: 10, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.1em', padding: '12px 0 4px', textTransform: 'uppercase' }}>{cat}</div>
+                {templateList.filter(t => t.category === cat).map(t => (
+                  <button key={t.id} onClick={() => setActiveTemplate(t.id)} style={{
+                    width: '100%', padding: '12px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                    textAlign: 'left', marginBottom: 4,
+                    background: activeTemplate === t.id ? 'rgba(0,181,214,0.08)' : 'white',
+                    outline: activeTemplate === t.id ? '1px solid #00B5D6' : '1px solid #E6E6E6',
+                  }}>
+                    <div style={{ fontSize: 13, fontWeight: activeTemplate === t.id ? 600 : 400, color: activeTemplate === t.id ? '#00B5D6' : '#000' }}>{t.name}</div>
+                    <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 2 }}>{t.delay}</div>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Send controls */}
+          <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', padding: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Send Options</div>
+            <select value={selectedLead} onChange={e => setSelectedLead(e.target.value)} style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, background: 'white', marginBottom: 8 }}>
+              <option value="">Preview with sample data</option>
+              {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email}</option>)}
+            </select>
+            <input value={senderName} onChange={e => setSenderName(e.target.value)} placeholder="Sender name" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, marginBottom: 12, boxSizing: 'border-box' }} />
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button onClick={handleSend} disabled={!selectedLead} style={{ flex: 1, background: sent ? '#E1F5EE' : '#00B5D6', color: sent ? '#085041' : 'white', border: 'none', borderRadius: 6, padding: '8px', fontSize: 12, fontWeight: 600, cursor: selectedLead ? 'pointer' : 'not-allowed', opacity: selectedLead ? 1 : 0.5 }}>
+                {sent ? '✓ Sent!' : 'Send Email'}
+              </button>
+              <button onClick={copyHtml} style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>Copy HTML</button>
+            </div>
+          </div>
         </div>
 
-        {/* Preview */}
+        {/* Right: preview */}
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #E6E6E6', overflow: 'hidden' }}>
-          {/* Subject */}
-          <div style={{ padding: '16px 24px', borderBottom: '1px solid #E6E6E6', background: '#FAFAFA' }}>
-            <div style={{ fontSize: 11, color: '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Subject</div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#000' }}>{active.subject}</div>
+          {/* Subject bar */}
+          <div style={{ padding: '12px 20px', borderBottom: '1px solid #E6E6E6', background: '#FAFAFA', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#616161', textTransform: 'uppercase' }}>Subject:</span>
+            <span style={{ fontSize: 13, color: '#000' }}>{previewSubject}</span>
           </div>
-
-          {/* Body */}
-          <div style={{ padding: '24px', fontSize: 14, lineHeight: 1.7, color: '#000', whiteSpace: 'pre-wrap' }}>
-            {active.body}
-          </div>
-
-          {/* Actions */}
-          <div style={{ padding: '16px 24px', borderTop: '1px solid #E6E6E6', display: 'flex', gap: 8, alignItems: 'center' }}>
-            <button onClick={() => copyToClipboard(active.body)} style={{ background: '#00B5D6', color: 'white', border: 'none', borderRadius: 6, padding: '8px 20px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-              {copied ? 'Copied!' : 'Copy Body'}
-            </button>
-            <button onClick={() => copyToClipboard(`Subject: ${active.subject}\n\n${active.body}`)} style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 6, padding: '8px 20px', fontSize: 13, cursor: 'pointer' }}>
-              Copy All
-            </button>
-            <div style={{ flex: 1 }} />
-            <div style={{ display: 'flex', gap: 4 }}>
-              {active.tags.map(tag => (
-                <span key={tag} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 4, background: '#F5F5F5', color: '#616161' }}>{tag}</span>
-              ))}
-            </div>
-          </div>
-
-          {/* Variables guide */}
-          <div style={{ padding: '16px 24px', borderTop: '1px solid #F5F5F5', background: '#FAFAFA' }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Available Variables</div>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {['{{first_name}}', '{{last_name}}', '{{practice_name}}', '{{specialty}}', '{{sender_name}}', '{{meeting_type}}', '{{meeting_date}}', '{{meeting_notes}}'].map(v => (
-                <span key={v} style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: 'rgba(0,181,214,0.08)', color: '#00B5D6', fontFamily: 'monospace' }}>{v}</span>
-              ))}
-            </div>
+          {/* HTML preview in iframe */}
+          <div style={{ height: 700, overflow: 'hidden' }}>
+            {loading ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#CCCCCC' }}>Loading preview...</div>
+            ) : (
+              <iframe srcDoc={previewHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Email Preview" />
+            )}
           </div>
         </div>
       </div>
