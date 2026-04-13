@@ -147,3 +147,37 @@ export async function GET(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ leads: data, count: data?.length || 0 })
 }
+
+// PATCH: update lead with audit logging
+export async function PATCH(req: NextRequest) {
+  try {
+    const { lead_id, updates, changed_by } = await req.json()
+    if (!lead_id) return NextResponse.json({ error: 'lead_id required' }, { status: 400 })
+
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+      process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
+    )
+
+    // Get current values for audit
+    const { data: current } = await supabase.from('leads').select('*').eq('id', lead_id).single()
+    if (!current) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
+
+    // Apply updates
+    const { error } = await supabase.from('leads').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', lead_id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Log each changed field to audit_log
+    for (const [key, value] of Object.entries(updates)) {
+      if (current[key] !== value) {
+        await supabase.from('audit_log').insert({
+          entity_type: 'lead', entity_id: lead_id,
+          action: key === 'status' ? 'stage_change' : key === 'ai_score' ? 'score_change' : key === 'assigned_to' ? 'assign' : 'update',
+          field_changed: key, old_value: String(current[key] ?? ''), new_value: String(value ?? ''), changed_by: changed_by || 'system',
+        })
+      }
+    }
+
+    return NextResponse.json({ success: true })
+  } catch { return NextResponse.json({ error: 'Update failed' }, { status: 500 }) }
+}

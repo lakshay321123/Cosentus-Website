@@ -44,6 +44,7 @@ const navSections = [
     { href: '/crm/sequences', label: 'Sequences', icon: I.sequences },
     { href: '/crm/emails', label: 'Templates', icon: I.templates },
     { href: '/crm/surveys', label: 'Surveys', icon: I.surveys },
+    { href: '/crm/forms', label: 'Forms', icon: I.documents },
   ]},
   { label: 'Automation', items: [
     { href: '/crm/workflows', label: 'Workflows', icon: I.workflows },
