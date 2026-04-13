@@ -82,6 +82,19 @@ export default function LeadDetailPage() {
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, fontWeight: 300, color: scoreColor, lineHeight: 1 }}>{lead.ai_score}</div>
           <div style={{ fontSize: 11, color: '#616161', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>AI Score</div>
+          <button onClick={async () => {
+            const res = await fetch('/api/crm/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead_id: lead.id }) })
+            const result = await res.json()
+            if (result.score !== undefined) {
+              setLead({ ...lead, ai_score: result.score, temperature: result.temperature })
+              alert(`Score: ${result.score} (${result.temperature})\n${result.reasoning}\nNext: ${result.next_action}`)
+              // Refresh activities
+              supabase.from('activities').select('*').eq('lead_id', lead.id).order('created_at', { ascending: false })
+                .then(({ data }) => { if (data) setActivities(data as Activity[]) })
+            }
+          }} style={{ marginTop: 8, fontSize: 11, color: '#00B5D6', background: 'none', border: '1px solid #00B5D6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+            Re-score with AI
+          </button>
         </div>
       </div>
 

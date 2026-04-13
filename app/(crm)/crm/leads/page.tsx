@@ -108,6 +108,22 @@ export default function LeadsPage() {
           <p style={{ fontSize: 14, color: '#616161', margin: '4px 0 0' }}>{filtered.length} of {leads.length} leads</p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
+          <label style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Import CSV
+            <input type="file" accept=".csv" style={{ display: 'none' }} onChange={async (e) => {
+              const file = e.target.files?.[0]
+              if (!file) return
+              const fd = new FormData()
+              fd.append('file', file)
+              const res = await fetch('/api/crm/import', { method: 'POST', body: fd })
+              const result = await res.json()
+              if (result.success) {
+                alert(`Imported ${result.imported} leads. Skipped ${result.skipped} duplicates.`)
+                window.location.reload()
+              } else { alert('Import failed: ' + result.error) }
+            }} />
+          </label>
           <a href="/api/crm/export" style={{ background: 'white', color: '#616161', border: '1px solid #E6E6E6', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             Export CSV
