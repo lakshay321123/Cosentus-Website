@@ -2,167 +2,228 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import { generateEmail, templateList } from '@/lib/email-templates'
 
-interface CustomTemplate { id: string; name: string; subject: string; html_content: string; category: string; variables: string[]; used_count: number; created_at: string }
-interface LeadOption { id: string; first_name: string; last_name: string; email: string; practice_name: string; specialty: string }
+interface Template { id: string; name: string; subject: string; category: string; html_content?: string; usage_count: number }
+
+const variables = ['{{first_name}}', '{{last_name}}', '{{practice_name}}', '{{specialty}}', '{{phone}}', '{{email}}']
+
+const blockTemplates = [
+  { type: 'header', label: 'Header', html: '<div style="background:#00B5D6;padding:24px 32px;text-align:center"><img src="https://cosentus-website.vercel.app/images/cosentus-logo.png" alt="Cosentus" style="height:28px;margin-bottom:8px"><div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.8)">REAL + ARTIFICIAL INTELLIGENCE</div></div>' },
+  { type: 'text', label: 'Text Block', html: '<div style="padding:20px 32px;font-size:15px;line-height:1.7;color:#333">Your text here. Use variables like {{first_name}} for personalization.</div>' },
+  { type: 'heading', label: 'Heading', html: '<div style="padding:20px 32px 8px"><h2 style="margin:0;font-size:22px;color:#000">Section Heading</h2></div>' },
+  { type: 'stats', label: 'Stats Bar', html: '<div style="padding:16px 32px;display:flex;gap:24px;background:#f7f7f7"><div style="text-align:center;flex:1"><div style="font-size:28px;font-weight:700;color:#00B5D6">>98%</div><div style="font-size:12px;color:#666">Net Collection</div></div><div style="text-align:center;flex:1"><div style="font-size:28px;font-weight:700;color:#00B5D6">>99%</div><div style="font-size:12px;color:#666">Clean Claims</div></div><div style="text-align:center;flex:1"><div style="font-size:28px;font-weight:700;color:#00B5D6">30%</div><div style="font-size:12px;color:#666">Revenue Growth</div></div></div>' },
+  { type: 'button', label: 'CTA Button', html: '<div style="padding:20px 32px;text-align:center"><a href="https://cosentus.com/book" style="display:inline-block;padding:14px 36px;background:#00B5D6;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:15px">Get Your Free Revenue Analysis</a></div>' },
+  { type: 'divider', label: 'Divider', html: '<div style="padding:0 32px"><hr style="border:none;border-top:1px solid #e5e5e5;margin:16px 0"></div>' },
+  { type: 'testimonial', label: 'Testimonial', html: '<div style="padding:20px 32px;background:#f7f7f7;border-left:4px solid #00B5D6;margin:0 32px;border-radius:4px"><div style="font-style:italic;font-size:14px;color:#333;margin-bottom:8px">"Their year-over-year collection rate of 97% has been vital for our group."</div><div style="font-size:13px;color:#666;font-weight:600">— Dr. John B. Field Jr.</div></div>' },
+  { type: 'footer', label: 'Footer', html: '<div style="padding:20px 32px;text-align:center;font-size:12px;color:#999;border-top:1px solid #e5e5e5"><div>Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com</div><div style="margin-top:4px">SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</div></div>' },
+]
 
 export default function EmailsPage() {
-  const [leads, setLeads] = useState<LeadOption[]>([])
-  const [customTemplates, setCustomTemplates] = useState<CustomTemplate[]>([])
-  const [tab, setTab] = useState<'branded' | 'custom'>('branded')
-  const [activeTemplate, setActiveTemplate] = useState(templateList[0].id)
-  const [activeCustom, setActiveCustom] = useState<string>('')
-  const [previewHtml, setPreviewHtml] = useState('')
-  const [previewSubject, setPreviewSubject] = useState('')
-  const [selectedLead, setSelectedLead] = useState('')
-  const [senderName, setSenderName] = useState('Allen Ranjan')
-  const [showUpload, setShowUpload] = useState(false)
-  const [newTpl, setNewTpl] = useState({ name: '', subject: '', html_content: '', category: 'custom' })
+  const [tab, setTab] = useState<'branded' | 'custom' | 'designer'>('branded')
+  const [templates, setTemplates] = useState<Template[]>([])
+  const [customTemplates, setCustomTemplates] = useState<Template[]>([])
+  const [selectedTpl, setSelectedTpl] = useState<Template | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [leads, setLeads] = useState<any[]>([])
+  const [selectedLead, setSelectedLead] = useState<string>('')
+
+  // Designer state
+  const [blocks, setBlocks] = useState<{id:string;html:string;type:string}[]>([])
+  const [designerName, setDesignerName] = useState('')
+  const [designerSubject, setDesignerSubject] = useState('')
+  const [editingBlock, setEditingBlock] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     Promise.all([
-      supabase.from('leads').select('id, first_name, last_name, email, practice_name, specialty').not('email', 'is', null).order('first_name'),
-      supabase.from('email_templates').select('*').order('created_at', { ascending: false }),
-    ]).then(([lRes, tRes]) => {
-      if (lRes.data) setLeads(lRes.data as LeadOption[])
-      if (tRes.data) { setCustomTemplates(tRes.data as CustomTemplate[]); if (tRes.data.length > 0) setActiveCustom(tRes.data[0].id) }
+      supabase.from('email_templates').select('*').eq('category', 'custom').order('created_at', { ascending: false }),
+      supabase.from('leads').select('id, first_name, last_name, email, practice_name, specialty, phone').order('first_name'),
+    ]).then(([tRes, lRes]) => {
+      if (tRes.data) setCustomTemplates(tRes.data as Template[])
+      if (lRes.data) setLeads(lRes.data)
+      setLoading(false)
     })
   }, [])
 
-  useEffect(() => { if (tab === 'branded') loadBrandedPreview() }, [activeTemplate, selectedLead, senderName, tab])
-  useEffect(() => { if (tab === 'custom') loadCustomPreview() }, [activeCustom, selectedLead, tab])
+  const brandedTemplates: Template[] = [
+    { id: 'b1', name: 'Welcome — New Lead', subject: 'Welcome to Cosentus, {{first_name}}', category: 'outreach', usage_count: 0 },
+    { id: 'b2', name: 'Follow-up — Value Prop', subject: 'What 98% collection rate looks like', category: 'outreach', usage_count: 0 },
+    { id: 'b3', name: 'Follow-up — Case Study', subject: 'How practices like yours grow 30%+', category: 'outreach', usage_count: 0 },
+    { id: 'b4', name: 'Meeting Confirmation', subject: 'Your meeting with Cosentus is confirmed', category: 'meetings', usage_count: 0 },
+    { id: 'b5', name: 'Breakup Email', subject: 'Should I close your file?', category: 'outreach', usage_count: 0 },
+    { id: 'b6', name: 'NPS Survey', subject: 'Quick question — 30 seconds', category: 'feedback', usage_count: 0 },
+  ]
 
-  const loadBrandedPreview = async () => {
-    const res = await fetch('/api/crm/email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ template_id: activeTemplate, lead_id: selectedLead || null, action: 'preview', sender_name: senderName }) })
-    const data = await res.json()
-    setPreviewHtml(data.html || ''); setPreviewSubject(data.subject || '')
+  const addBlock = (type: string) => {
+    const tpl = blockTemplates.find(b => b.type === type)
+    if (tpl) setBlocks([...blocks, { id: `blk-${Date.now()}-${Math.random()}`, html: tpl.html, type }])
   }
 
-  const loadCustomPreview = () => {
-    const tpl = customTemplates.find(t => t.id === activeCustom)
-    if (!tpl) return
-    let html = tpl.html_content
-    let subject = tpl.subject
+  const removeBlock = (id: string) => setBlocks(blocks.filter(b => b.id !== id))
+  const moveBlock = (idx: number, dir: -1|1) => {
+    const n = idx + dir; if (n < 0 || n >= blocks.length) return
+    const a = [...blocks]; [a[idx], a[n]] = [a[n], a[idx]]; setBlocks(a)
+  }
+
+  const updateBlockHtml = (id: string, html: string) => setBlocks(blocks.map(b => b.id === id ? { ...b, html } : b))
+
+  const getFullHtml = () => `<div style="max-width:600px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;background:#fff">${blocks.map(b => b.html).join('')}</div>`
+
+  const fillVariables = (html: string) => {
     const lead = leads.find(l => l.id === selectedLead)
-    if (lead) {
-      const vars: Record<string, string> = { '{{first_name}}': lead.first_name, '{{last_name}}': lead.last_name, '{{practice_name}}': lead.practice_name, '{{email}}': lead.email, '{{specialty}}': lead.specialty?.replace('_', ' ') || '' }
-      Object.entries(vars).forEach(([k, v]) => { html = html.replace(new RegExp(k.replace(/[{}]/g, '\\$&'), 'g'), v); subject = subject.replace(new RegExp(k.replace(/[{}]/g, '\\$&'), 'g'), v) })
-    }
-    setPreviewHtml(html); setPreviewSubject(subject)
+    if (!lead) return html
+    return html.replace(/\{\{first_name\}\}/g, lead.first_name || '').replace(/\{\{last_name\}\}/g, lead.last_name || '').replace(/\{\{practice_name\}\}/g, lead.practice_name || '').replace(/\{\{specialty\}\}/g, lead.specialty || '').replace(/\{\{phone\}\}/g, lead.phone || '').replace(/\{\{email\}\}/g, lead.email || '')
   }
 
-  const handleUploadTemplate = async () => {
-    if (!newTpl.name || !newTpl.subject || !newTpl.html_content) return
-    const vars = (newTpl.html_content.match(/\{\{[a-z_]+\}\}/g) || []).filter((v, i, a) => a.indexOf(v) === i)
-    const { data } = await supabase.from('email_templates').insert({ ...newTpl, variables: vars }).select()
-    if (data) { setCustomTemplates(prev => [data[0] as CustomTemplate, ...prev]); setActiveCustom(data[0].id); setShowUpload(false); setNewTpl({ name: '', subject: '', html_content: '', category: 'custom' }) }
+  const saveTemplate = async () => {
+    if (!designerName || blocks.length === 0) { alert('Add a name and at least one block'); return }
+    setSaving(true)
+    const { data, error } = await supabase.from('email_templates').insert({ name: designerName, subject: designerSubject || designerName, html_content: getFullHtml(), category: 'custom' }).select()
+    if (data) { setCustomTemplates(prev => [data[0] as Template, ...prev]); setBlocks([]); setDesignerName(''); setDesignerSubject(''); alert('Template saved!') }
+    if (error) alert('Save failed: ' + error.message)
+    setSaving(false)
   }
 
-  const openInOutlook = () => {
+  const openInOutlook = (tpl: Template) => {
     const lead = leads.find(l => l.id === selectedLead)
     if (!lead?.email) { alert('Select a lead with an email address'); return }
-    const subject = encodeURIComponent(previewSubject)
-    const body = encodeURIComponent(previewHtml.replace(/<[^>]*>/g, '').substring(0, 2000))
+    const subject = encodeURIComponent(fillVariables(tpl.subject))
+    const body = encodeURIComponent(`Hi ${lead.first_name},\n\nThank you for your interest in Cosentus.\n\n— Cosentus Team\n(877) 806-2286`)
     window.open(`mailto:${lead.email}?subject=${subject}&body=${body}`, '_blank')
-    // Log activity
-    if (selectedLead) {
-      supabase.from('activities').insert({ lead_id: selectedLead, type: 'email', description: `Email opened in Outlook: "${previewSubject}"` })
-    }
   }
-
-  const copyHtml = () => { navigator.clipboard.writeText(previewHtml); alert('HTML copied — paste into Outlook HTML editor') }
 
   return (
     <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 26, fontWeight: 600, color: '#000', margin: 0 }}>Email Templates</h1>
-          <p style={{ fontSize: 14, fontWeight: 500, color: '#000', margin: '4px 0 0' }}>Branded templates + custom uploads · Opens in Outlook</p>
+          <p style={{ fontSize: 14, fontWeight: 500, color: '#000', margin: '4px 0 0' }}>Design, preview, and send branded emails</p>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <div className="crm-segment">
-            <button className={tab === 'branded' ? 'active' : ''} onClick={() => setTab('branded')}>Branded ({templateList.length})</button>
-            <button className={tab === 'custom' ? 'active' : ''} onClick={() => setTab('custom')}>Custom ({customTemplates.length})</button>
-          </div>
-          {tab === 'custom' && <button onClick={() => setShowUpload(!showUpload)} className="crm-btn crm-btn-primary">+ Upload Template</button>}
-        </div>
+        <select value={selectedLead} onChange={e => setSelectedLead(e.target.value)} className="crm-select" style={{ width: 240 }}>
+          <option value="">Preview with lead...</option>
+          {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email || 'no email'}</option>)}
+        </select>
       </div>
 
-      {/* Upload form */}
-      {showUpload && (
-        <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #00B5D6', padding: 24, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 600, color: '#000', margin: '0 0 16px' }}>Upload Custom Template</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
-            <input value={newTpl.name} onChange={e => setNewTpl({ ...newTpl, name: e.target.value })} placeholder="Template name *" className="crm-input" />
-            <input value={newTpl.subject} onChange={e => setNewTpl({ ...newTpl, subject: e.target.value })} placeholder="Email subject *" className="crm-input" />
+      <div className="crm-segment" style={{ marginBottom: 20 }}>
+        <button className={tab === 'branded' ? 'active' : ''} onClick={() => setTab('branded')}>Branded (6)</button>
+        <button className={tab === 'custom' ? 'active' : ''} onClick={() => setTab('custom')}>Custom ({customTemplates.length})</button>
+        <button className={tab === 'designer' ? 'active' : ''} onClick={() => setTab('designer')}>Designer</button>
+      </div>
+
+      {tab === 'designer' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 16 }}>
+          {/* Left: blocks + settings */}
+          <div>
+            <div className="crm-card" style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#000', marginBottom: 8 }}>Template Info</div>
+              <input value={designerName} onChange={e => setDesignerName(e.target.value)} placeholder="Template name *" className="crm-input" style={{ marginBottom: 6 }} />
+              <input value={designerSubject} onChange={e => setDesignerSubject(e.target.value)} placeholder="Subject line" className="crm-input" />
+            </div>
+
+            <div className="crm-card" style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#000', marginBottom: 8 }}>Add Blocks</div>
+              <div style={{ display: 'grid', gap: 4 }}>
+                {blockTemplates.map(b => (
+                  <button key={b.type} onClick={() => addBlock(b.type)} style={{ fontSize: 12, padding: '8px 12px', borderRadius: 8, border: '1px solid #E6E6E6', background: '#fff', cursor: 'pointer', textAlign: 'left', color: '#000', fontFamily: "'Reddit Sans', sans-serif" }}>+ {b.label}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="crm-card" style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#000', marginBottom: 8 }}>Variables</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {variables.map(v => (
+                  <button key={v} onClick={() => navigator.clipboard.writeText(v)} style={{ fontSize: 11, padding: '3px 8px', borderRadius: 4, border: '1px solid #E6E6E6', background: '#D6EBF2', cursor: 'pointer', color: '#000', fontFamily: 'monospace' }}>{v}</button>
+                ))}
+              </div>
+              <div style={{ fontSize: 11, color: '#CCCCCC', marginTop: 6 }}>Click to copy</div>
+            </div>
+
+            <button onClick={saveTemplate} disabled={saving || blocks.length === 0} className="crm-btn crm-btn-primary" style={{ width: '100%', opacity: saving || blocks.length === 0 ? 0.5 : 1 }}>
+              {saving ? 'Saving...' : 'Save Template'}
+            </button>
           </div>
-          <textarea value={newTpl.html_content} onChange={e => setNewTpl({ ...newTpl, html_content: e.target.value })} placeholder="Paste HTML content here... Use {{first_name}}, {{practice_name}}, {{specialty}} as variables" rows={8}
-            style={{ width: '100%', padding: '12px 14px', borderRadius: 10, border: '1px solid #E6E6E6', fontSize: 13, fontFamily: 'monospace', marginBottom: 12, boxSizing: 'border-box', resize: 'vertical' }} />
-          <div style={{ fontSize: 12, color: '#000', marginBottom: 12 }}>Supported variables: <code>{'{{first_name}} {{last_name}} {{practice_name}} {{email}} {{specialty}}'}</code></div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={handleUploadTemplate} className="crm-btn crm-btn-primary">Save Template</button>
-            <button onClick={() => setShowUpload(false)} className="crm-btn crm-btn-secondary">Cancel</button>
+
+          {/* Right: block list + preview */}
+          <div>
+            {blocks.length === 0 ? (
+              <div className="crm-card" style={{ padding: 60, textAlign: 'center' }}>
+                <div style={{ fontSize: 14, color: '#000', marginBottom: 8 }}>Start building your email</div>
+                <div style={{ fontSize: 13, color: '#CCCCCC' }}>Add blocks from the left panel</div>
+              </div>
+            ) : (
+              <>
+                {/* Block list */}
+                <div style={{ marginBottom: 12 }}>
+                  {blocks.map((b, idx) => (
+                    <div key={b.id} style={{ border: editingBlock === b.id ? '2px solid #00B5D6' : '1px solid #E6E6E6', borderRadius: 10, marginBottom: 6, overflow: 'hidden' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 12px', background: '#f7f7f7' }}>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: '#000' }}>{blockTemplates.find(t => t.type === b.type)?.label || b.type}</span>
+                        <div style={{ display: 'flex', gap: 4 }}>
+                          <button onClick={() => setEditingBlock(editingBlock === b.id ? null : b.id)} style={{ fontSize: 11, padding: '2px 8px', border: '1px solid #E6E6E6', borderRadius: 4, background: editingBlock === b.id ? '#00B5D6' : '#fff', color: editingBlock === b.id ? '#fff' : '#000', cursor: 'pointer' }}>Edit</button>
+                          <button onClick={() => moveBlock(idx, -1)} style={{ fontSize: 11, padding: '2px 6px', border: '1px solid #E6E6E6', borderRadius: 4, background: '#fff', cursor: 'pointer' }}>↑</button>
+                          <button onClick={() => moveBlock(idx, 1)} style={{ fontSize: 11, padding: '2px 6px', border: '1px solid #E6E6E6', borderRadius: 4, background: '#fff', cursor: 'pointer' }}>↓</button>
+                          <button onClick={() => removeBlock(b.id)} style={{ fontSize: 11, padding: '2px 6px', border: '1px solid #E6E6E6', borderRadius: 4, background: '#fff', cursor: 'pointer', color: '#00B5D6' }}>×</button>
+                        </div>
+                      </div>
+                      {editingBlock === b.id && (
+                        <textarea value={b.html} onChange={e => updateBlockHtml(b.id, e.target.value)} rows={6}
+                          style={{ width: '100%', padding: 12, border: 'none', borderTop: '1px solid #E6E6E6', fontSize: 12, fontFamily: 'monospace', resize: 'vertical', boxSizing: 'border-box' }} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {/* Live preview */}
+                <div className="crm-card" style={{ padding: 0, overflow: 'hidden' }}>
+                  <div style={{ padding: '8px 16px', borderBottom: '1px solid #E6E6E6', fontSize: 12, fontWeight: 600, color: '#000' }}>Live Preview</div>
+                  <div style={{ background: '#f0f0f0', padding: 20 }}>
+                    <div dangerouslySetInnerHTML={{ __html: fillVariables(getFullHtml()) }} />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 16 }}>
-        {/* Left: template list + controls */}
+      {tab === 'branded' && (
+        <div style={{ display: 'grid', gap: 10 }}>
+          {brandedTemplates.map(t => (
+            <div key={t.id} className="crm-card" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{t.name}</div>
+                <div style={{ fontSize: 13, color: '#000', marginTop: 2 }}>Subject: {fillVariables(t.subject)}</div>
+              </div>
+              <span style={{ fontSize: 12, padding: '3px 10px', borderRadius: 6, background: '#D6EBF2', color: '#00B5D6', fontWeight: 600 }}>{t.category}</span>
+              <button onClick={() => openInOutlook(t)} className="crm-btn crm-btn-secondary" style={{ fontSize: 12 }}>Open in Outlook</button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === 'custom' && (
         <div>
-          {tab === 'branded' ? (
-            <div style={{ marginBottom: 16 }}>
-              {['outreach', 'meetings', 'feedback'].map(cat => (
-                <div key={cat}>
-                  <div style={{ fontSize: 10, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.08em', padding: '12px 0 4px', textTransform: 'uppercase' }}>{cat}</div>
-                  {templateList.filter(t => t.category === cat).map(t => (
-                    <button key={t.id} onClick={() => setActiveTemplate(t.id)} style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: activeTemplate === t.id ? '1px solid #00B5D6' : '1px solid #E6E6E6', cursor: 'pointer', textAlign: 'left', marginBottom: 4, background: activeTemplate === t.id ? '#D6EBF2' : '#fff' }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{t.name}</div>
-                      <div style={{ fontSize: 11, color: '#000', marginTop: 2 }}>{t.delay}</div>
-                    </button>
-                  ))}
+          {customTemplates.length === 0 ? (
+            <div className="crm-card" style={{ padding: 60, textAlign: 'center' }}>
+              <div style={{ fontSize: 14, color: '#000', marginBottom: 12 }}>No custom templates yet</div>
+              <button onClick={() => setTab('designer')} className="crm-btn crm-btn-primary">Open Designer</button>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gap: 10 }}>
+              {customTemplates.map(t => (
+                <div key={t.id} className="crm-card" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{t.name}</div>
+                    <div style={{ fontSize: 13, color: '#000', marginTop: 2 }}>Subject: {t.subject}</div>
+                  </div>
+                  <button onClick={() => openInOutlook(t)} className="crm-btn crm-btn-secondary" style={{ fontSize: 12 }}>Open in Outlook</button>
                 </div>
               ))}
             </div>
-          ) : (
-            <div style={{ marginBottom: 16 }}>
-              {customTemplates.length === 0 ? (
-                <div style={{ padding: 20, textAlign: 'center', color: '#000', fontSize: 13 }}>No custom templates yet</div>
-              ) : customTemplates.map(t => (
-                <button key={t.id} onClick={() => setActiveCustom(t.id)} style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: activeCustom === t.id ? '1px solid #00B5D6' : '1px solid #E6E6E6', cursor: 'pointer', textAlign: 'left', marginBottom: 4, background: activeCustom === t.id ? '#D6EBF2' : '#fff' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{t.name}</div>
-                  <div style={{ fontSize: 11, color: '#000', marginTop: 2 }}>{t.category} · used {t.used_count}x</div>
-                </button>
-              ))}
-            </div>
           )}
-
-          {/* Send controls */}
-          <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #E6E6E6', padding: 16 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#000', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Send via Outlook</div>
-            <select value={selectedLead} onChange={e => setSelectedLead(e.target.value)} className="crm-select" style={{ width: '100%', fontSize: 12, marginBottom: 8 }}>
-              <option value="">Select lead...</option>
-              {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email}</option>)}
-            </select>
-            <input value={senderName} onChange={e => setSenderName(e.target.value)} placeholder="Sender name" className="crm-input" style={{ width: '100%', fontSize: 12, marginBottom: 10, boxSizing: 'border-box' }} />
-            <div style={{ display: 'flex', gap: 6 }}>
-              <button onClick={openInOutlook} className="crm-btn crm-btn-primary" style={{ flex: 1, fontSize: 12, padding: '8px 12px' }}>Open in Outlook</button>
-              <button onClick={copyHtml} className="crm-btn crm-btn-secondary" style={{ fontSize: 12, padding: '8px 12px' }}>Copy HTML</button>
-            </div>
-          </div>
         </div>
-
-        {/* Right: preview */}
-        <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #E6E6E6', overflow: 'hidden' }}>
-          <div style={{ padding: '10px 16px', borderBottom: '1px solid #E6E6E6', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#000' }}>SUBJECT:</span>
-            <span style={{ fontSize: 13, color: '#000' }}>{previewSubject}</span>
-          </div>
-          <div style={{ height: 600 }}>
-            {previewHtml ? <iframe srcDoc={previewHtml} style={{ width: '100%', height: '100%', border: 'none' }} title="Preview" /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#000' }}>Select a template to preview</div>}
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   )
 }
