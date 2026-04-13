@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://twvmglnkahuitvdttawq.supabase.co',
-  process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dm1nbG5rYWh1aXR2ZHR0YXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNzgyODAsImV4cCI6MjA5MTY1NDI4MH0.wjTyUU9Zo-5h9zXroXYRbEZu2zFl6Q0Dpd7f1oT32ko'
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
 )
 
 // Simple AI scoring based on available data
@@ -53,19 +53,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'first_name and last_name are required' }, { status: 400 })
     }
 
-    // Check for duplicates by email
+    // Check for duplicates by email, phone, or practice+name combo
+    let existingId: string | null = null
     if (email) {
-      const { data: existing } = await supabase.from('leads').select('id').eq('email', email).limit(1)
-      if (existing && existing.length > 0) {
-        // Update existing lead's last_activity and add activity log
-        await supabase.from('leads').update({ last_activity: new Date().toISOString() }).eq('id', existing[0].id)
-        await supabase.from('activities').insert({
-          lead_id: existing[0].id,
-          type: source === 'voice_agent' ? 'call' : 'chat',
-          description: `Returning lead — new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
-        })
-        return NextResponse.json({ success: true, lead_id: existing[0].id, duplicate: true })
-      }
+      const { data } = await supabase.from('leads').select('id').eq('email', email).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (!existingId && phone) {
+      const { data } = await supabase.from('leads').select('id').eq('phone', phone).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (!existingId && practice_name && last_name) {
+      const { data } = await supabase.from('leads').select('id').eq('practice_name', practice_name).eq('last_name', last_name).limit(1)
+      if (data && data.length > 0) existingId = data[0].id
+    }
+    if (existingId) {
+      await supabase.from('leads').update({ last_activity: new Date().toISOString() }).eq('id', existingId)
+      await supabase.from('activities').insert({
+        lead_id: existingId,
+        type: source === 'voice_agent' ? 'call' : 'chat',
+        description: `Returning lead — new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
+      })
+      return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }
 
     // Calculate AI score
@@ -111,6 +120,10 @@ export async function POST(req: NextRequest) {
     await supabase.from('leads').update({ assigned_to: assignee }).eq('id', data.id)
     await supabase.from('activities').insert({ lead_id: data.id, type: 'note', description: `Auto-assigned to ${assignee}` })
 
+    // Create notification
+    const { error: notifError } = await supabase.from('notifications').insert({ type: 'new_lead', title: 'New lead captured', body: `${first_name} ${last_name} from ${practice_name || 'unknown practice'} (${specialty || 'other'})`, lead_id: data.id, link: `/crm/leads/${data.id}`, read: false })
+    if (notifError) console.error('Notification insert failed:', notifError.message)
+
     return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -134,4 +147,41 @@ export async function GET(req: NextRequest) {
   const { data, error } = await query
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ leads: data, count: data?.length || 0 })
+}
+
+// PATCH: update lead with audit logging
+export async function PATCH(req: NextRequest) {
+  try {
+    const { lead_id, updates, changed_by } = await req.json()
+    if (!lead_id) return NextResponse.json({ error: 'lead_id required' }, { status: 400 })
+
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+      process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
+    )
+
+    // Get current values for audit
+    const { data: current } = await supabase.from('leads').select('*').eq('id', lead_id).single()
+    if (!current) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
+
+    // Constrain to allowed fields
+    const allowed = ['status', 'temperature', 'ai_score', 'assigned_to', 'notes', 'tags', 'revenue_potential', 'next_follow_up', 'first_name', 'last_name', 'email', 'phone', 'practice_name', 'specialty', 'provider_count', 'monthly_charges', 'campaign_id']
+    const safeUpdates: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(updates)) { if (allowed.includes(k)) safeUpdates[k] = v }
+    const { error } = await supabase.from('leads').update({ ...safeUpdates, updated_at: new Date().toISOString() }).eq('id', lead_id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Log each changed field to audit_log
+    for (const [key, value] of Object.entries(updates)) {
+      if (current[key] !== value) {
+        await supabase.from('audit_log').insert({
+          entity_type: 'lead', entity_id: lead_id,
+          action: key === 'status' ? 'stage_change' : key === 'ai_score' ? 'score_change' : key === 'assigned_to' ? 'assign' : 'update',
+          field_changed: key, old_value: String(current[key] ?? ''), new_value: String(value ?? ''), changed_by: changed_by || 'system',
+        })
+      }
+    }
+
+    return NextResponse.json({ success: true })
+  } catch { return NextResponse.json({ error: 'Update failed' }, { status: 500 }) }
 }

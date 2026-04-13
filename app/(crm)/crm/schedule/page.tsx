@@ -17,6 +17,7 @@ export default function SchedulePage() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [showBook, setShowBook] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [view, setView] = useState<'upcoming' | 'past'>('upcoming')
 
   useEffect(() => {
@@ -35,11 +36,15 @@ export default function SchedulePage() {
 
   const handleBook = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (saving) return
+    setSaving(true)
+    try {
     const fd = new FormData(e.currentTarget)
     const meeting = { lead_id: fd.get('lead_id') as string, scheduled_at: fd.get('scheduled_at') as string, duration_minutes: parseInt(fd.get('duration') as string) || 30, type: fd.get('type') as string, assigned_to: fd.get('assigned_to') as string, notes: fd.get('notes') as string || null, status: 'scheduled' }
     const { data } = await supabase.from('meetings').insert(meeting).select('*, lead:leads(first_name, last_name, practice_name)')
     if (data) { setMeetings(prev => [...prev, data[0] as Meeting].sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at))); setShowBook(false) }
     if (meeting.lead_id) await supabase.from('activities').insert({ lead_id: meeting.lead_id, type: 'meeting', description: `${meeting.type} call scheduled` })
+    } catch (err) { alert('Failed to book meeting') } finally { setSaving(false) }
   }
 
   const handleStatus = async (id: string, status: string) => {

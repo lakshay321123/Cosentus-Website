@@ -20,6 +20,7 @@ export default function WorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     supabase.from('workflows').select('*').order('created_at', { ascending: false })

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GlobalSearch from '@/components/crm/GlobalSearch'
+import NotificationBell from '@/components/crm/NotificationBell'
 import '@/styles/crm.css'
 
 const I = {
@@ -43,6 +44,7 @@ const navSections = [
     { href: '/crm/sequences', label: 'Sequences', icon: I.sequences },
     { href: '/crm/emails', label: 'Templates', icon: I.templates },
     { href: '/crm/surveys', label: 'Surveys', icon: I.surveys },
+    { href: '/crm/forms', label: 'Forms', icon: I.documents },
   ]},
   { label: 'Automation', items: [
     { href: '/crm/workflows', label: 'Workflows', icon: I.workflows },
@@ -50,6 +52,8 @@ const navSections = [
   { label: 'Reporting', items: [
     { href: '/crm/analytics', label: 'Analytics', icon: I.analytics },
     { href: '/crm/reports', label: 'Reports', icon: I.reports },
+    { href: '/crm/seo', label: 'SEO', icon: I.analytics },
+    { href: '/crm/pages', label: 'Landing Pages', icon: I.documents },
   ]},
   { label: '', items: [
     { href: '/crm/settings', label: 'Settings', icon: I.settings },
@@ -89,6 +93,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <GlobalSearch />
+        <NotificationBell />
 
         {/* Nav */}
         <nav style={{ padding: '4px 10px', flex: 1, overflowY: 'auto' }}>

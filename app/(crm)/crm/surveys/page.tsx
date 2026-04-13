@@ -11,6 +11,7 @@ export default function SurveysPage() {
   const [responses, setResponses] = useState<SurveyResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreate, setShowCreate] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [viewing, setViewing] = useState<string | null>(null)
 
   useEffect(() => {

@@ -72,6 +72,20 @@ export default function CRMDashboard() {
     return () => { supabase.removeChannel(channel) }
   }, [])
 
+  const [customizing, setCustomizing] = useState(false)
+  const defaultWidgets = { stats: true, pipeline: true, activity: true, tasks: true, leads: true }
+  const [widgets, setWidgets] = useState(defaultWidgets)
+
+  useEffect(() => {
+    try { const saved = localStorage.getItem('crm_widgets'); if (saved) setWidgets(JSON.parse(saved)) } catch {}
+  }, [])
+
+  const toggleWidget = (key: string) => {
+    const next = { ...widgets, [key as keyof typeof widgets]: !widgets[key as keyof typeof widgets] }
+    setWidgets(next)
+    try { localStorage.setItem('crm_widgets', JSON.stringify(next)) } catch {}
+  }
+
   const total = leads.length
   const hot = leads.filter(l => l.temperature === 'hot').length
   const pipeline = leads.filter(l => !['won', 'lost'].includes(l.status))
@@ -91,13 +105,30 @@ export default function CRMDashboard() {
       {newLeadNotif && <Notification lead={newLeadNotif} onClose={() => setNewLeadNotif(null)} />}
       <div style={{ padding: '36px 44px', maxWidth: 1400 }}>
         {/* Header */}
-        <div className="crm-animate-in" style={{ marginBottom: 32 }}>
-          <h1 className="crm-h1">Dashboard</h1>
-          <p className="crm-subtitle">Overview of your sales pipeline</p>
+        <div className="crm-animate-in" style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <h1 className="crm-h1">Dashboard</h1>
+            <p className="crm-subtitle">Overview of your sales pipeline</p>
+          </div>
+          <button onClick={() => setCustomizing(!customizing)} className="crm-btn crm-btn-secondary" style={{ fontSize: 13 }}>
+            {customizing ? 'Done' : 'Customize'}
+          </button>
         </div>
 
+        {customizing && (
+          <div className="crm-card" style={{ marginBottom: 20, border: '1px solid #00B5D6', display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>Show widgets:</span>
+            {Object.entries({ stats: 'Stats', pipeline: 'Pipeline', activity: 'Activity Feed', tasks: 'Tasks Due', leads: 'Recent Leads' }).map(([key, label]) => (
+              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#000', cursor: 'pointer' }}>
+                <input type="checkbox" checked={widgets[key as keyof typeof widgets]} onChange={() => toggleWidget(key)} /> {label}
+              </label>
+            ))}
+            <button onClick={() => { setWidgets(defaultWidgets); try { localStorage.removeItem('crm_widgets') } catch {} }} style={{ fontSize: 12, color: '#00B5D6', background: 'none', border: 'none', cursor: 'pointer', marginLeft: 'auto' }}>Reset</button>
+          </div>
+        )}
+
         {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14, marginBottom: 28 }}>
+        <div style={{ display: widgets.stats ? 'grid' : 'none', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14, marginBottom: 28 }}>
           {[
             { label: 'Total Leads', value: total, prefix: '' },
             { label: 'Hot Leads', value: hot, accent: true },

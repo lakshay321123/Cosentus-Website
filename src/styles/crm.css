@@ -97,3 +97,20 @@
 .crm-sidebar-item.active { background: #00B5D6; color: #fff; font-weight: 500; }
 .crm-sidebar-item.active svg { stroke: #fff; }
 .crm-sidebar-label { font-size: 11px; font-weight: 600; color: #CCCCCC; letter-spacing: 0.06em; padding: 16px 14px 6px; text-transform: uppercase; }
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .crm-table { font-size: 12px; }
+  .crm-table th, .crm-table td { padding: 10px 8px; }
+  .crm-stat-value { font-size: 22px; }
+  .crm-h1 { font-size: 22px; }
+  .crm-card { padding: 16px; border-radius: 12px; }
+  .crm-stat { padding: 16px; }
+  .crm-btn { padding: 8px 16px; font-size: 13px; }
+  .crm-input, .crm-select { font-size: 13px; padding: 8px 12px; }
+}
+
+@media (max-width: 480px) {
+  .crm-table th:nth-child(n+5), .crm-table td:nth-child(n+5) { display: none; }
+  .crm-stat-value { font-size: 20px; }
+}
