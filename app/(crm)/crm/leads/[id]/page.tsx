@@ -133,6 +133,44 @@ export default function LeadDetailPage() {
         </div>
       </div>
 
+      {/* AI Actions */}
+      <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
+        {[
+          { label: '✨ AI Summary', action: 'lead_summary', handler: async () => {
+            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'lead_summary', lead_id: lead.id }) })
+            const data = await res.json(); alert(data.summary || 'No summary generated')
+          }},
+          { label: '✉️ Write Email', action: 'write_email', handler: async () => {
+            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'write_email', lead_id: lead.id, context: { purpose: 'follow-up', tone: 'professional' } }) })
+            const data = await res.json()
+            if (data.subject && data.body && lead.email) {
+              window.open(`mailto:${lead.email}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`, '_blank')
+            } else { alert(`Subject: ${data.subject}\n\n${data.body}`) }
+          }},
+          { label: '📋 Meeting Prep', action: 'meeting_prep', handler: async () => {
+            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'meeting_prep', lead_id: lead.id }) })
+            const data = await res.json(); alert(data.prep || 'No prep generated')
+          }},
+          { label: '🎯 Next Action', action: 'next_best_action', handler: async () => {
+            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'next_best_action', lead_id: lead.id }) })
+            const data = await res.json(); const r = data.recommendation
+            alert(`Action: ${r?.action || 'unknown'}\nUrgency: ${r?.urgency || 'medium'}\n\n${r?.reason || ''}\n\n${r?.message || ''}`)
+          }},
+          { label: '🏷️ Auto-Tag', action: 'auto_tag', handler: async () => {
+            const res = await fetch('/api/crm/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'auto_tag', lead_id: lead.id }) })
+            const data = await res.json()
+            if (data.tags?.length) {
+              const newTags = Array.from(new Set([...(lead.tags || []), ...data.tags]))
+              setLead({ ...lead, tags: newTags })
+              await supabase.from('leads').update({ tags: newTags }).eq('id', lead.id)
+              alert(`Added tags: ${data.tags.join(', ')}`)
+            }
+          }},
+        ].map(btn => (
+          <button key={btn.action} onClick={btn.handler} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 8, border: '1px solid #00B5D6', background: '#fff', color: '#00B5D6', cursor: 'pointer', fontWeight: 500, fontFamily: "'Reddit Sans', sans-serif" }}>{btn.label}</button>
+        ))}
+      </div>
+
       {/* Pipeline progress */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 32 }}>
         {statusFlow.map((s, i) => {
