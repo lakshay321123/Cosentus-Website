@@ -72,7 +72,7 @@ export default function SequencesPage() {
   if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading sequences...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Email Sequences</h1>

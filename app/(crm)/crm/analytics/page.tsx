@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
   const statIcon = (d: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={d}/></svg>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       <div className="crm-animate-in" style={{ marginBottom: 28 }}>
         <h1 className="crm-h1">Analytics</h1>
         <p className="crm-subtitle">All Leads · {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>

@@ -50,7 +50,7 @@ export default function SchedulePage() {
   if (loading) return <div style={{ padding: 48, color: '#000000' }}>Loading...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       <div className="crm-animate-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
         <div>
           <h1 className="crm-h1">Schedule</h1>

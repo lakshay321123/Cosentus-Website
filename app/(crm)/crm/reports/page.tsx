@@ -56,7 +56,7 @@ export default function ReportsPage() {
   if (loading) return <div style={{ padding: 40, color: '#000000' }}>Loading report data...</div>
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Report Builder</h1>
         <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Build custom reports from your CRM data</p>

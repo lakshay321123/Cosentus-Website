@@ -61,7 +61,7 @@ export default function LeadDetailPage() {
   const scoreColor = lead.ai_score >= 80 ? '#00B5D6' : lead.ai_score >= 50 ? '#EF9F27' : '#CCCCCC'
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: '100%' }}>
+    <div style={{ padding: '36px 44px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       {/* Back */}
       <Link href="/crm/leads" style={{ fontSize: 13, color: '#000000', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>

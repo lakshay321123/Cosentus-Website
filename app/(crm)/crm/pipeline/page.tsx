@@ -39,7 +39,7 @@ export default function PipelinePage() {
   if (loading) return <div style={{ padding: 48, color: '#000000' }}>Loading pipeline...</div>
 
   return (
-    <div style={{ padding: '32px 36px', maxWidth: '100%' }}>
+    <div style={{ padding: '32px 24px', overflow: 'hidden' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 26, fontWeight: 600, color: '#000000', margin: 0 }}>Pipeline</h1>
@@ -59,7 +59,7 @@ export default function PipelinePage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${stages.length}, 1fr)`, gap: 12, overflowX: 'auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${stages.length}, minmax(0, 1fr))`, gap: 8 }}>
         {stages.map(stage => {
           const stageLeads = filtered.filter(l => l.status === stage)
           const stageVal = stageLeads.reduce((s, l) => s + (l.revenue_potential || 0), 0)
@@ -67,7 +67,6 @@ export default function PipelinePage() {
             <div key={stage}
               onDragOver={e => e.preventDefault()}
               onDrop={() => handleDrop(stage)}
-              style={{ minWidth: 200 }}
             >
               {/* Column header */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, padding: '0 4px' }}>

@@ -57,7 +57,7 @@ export default function EmailsPage() {
   const active = templateList.find(t => t.id === activeTemplate)
 
   return (
-    <div style={{ padding: '32px 40px', maxWidth: '100%' }}>
+    <div style={{ padding: '32px 40px', maxWidth: '100%', boxSizing: 'border-box' as const }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 300, color: '#000', margin: 0 }}>Email Templates</h1>
         <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>Branded Cosentus emails with live preview</p>
