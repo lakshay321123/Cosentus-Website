@@ -21,10 +21,10 @@ export default function SettingsPage() {
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Lead Capture API</h3>
         <p style={{ fontSize: 13, color: '#E6E6E6', marginBottom: 16 }}>Use this endpoint to send leads from your chat widget, voice agent, or external forms.</p>
-        <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 13, color: '#000000', marginBottom: 12, overflowX: 'auto' as const }}>
+        <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 13, color: '#000000', marginBottom: 12, overflowX: 'auto' as const }}>
           POST /api/crm/leads
         </div>
-        <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 12, color: '#000000', overflowX: 'auto' as const, whiteSpace: 'pre' as const }}>
+        <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 12, color: '#000000', overflowX: 'auto' as const, whiteSpace: 'pre' as const }}>
 {`{
   "first_name": "John",
   "last_name": "Smith",
@@ -39,7 +39,7 @@ export default function SettingsPage() {
 }`}
         </div>
         <p style={{ fontSize: 12, color: '#000000', marginTop: 12 }}>
-          Returns: <code style={{ background: '#D6EBF2', padding: '2px 6px', borderRadius: 4 }}>{'{ success, lead_id, ai_score, temperature, duplicate }'}</code>
+          Returns: <code style={{ background: '#f7f7f7', padding: '2px 6px', borderRadius: 4 }}>{'{ success, lead_id, ai_score, temperature, duplicate }'}</code>
         </p>
       </div>
 

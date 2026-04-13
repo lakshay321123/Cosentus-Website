@@ -73,7 +73,7 @@ export default function WorkflowsPage() {
           <input name="description" placeholder="Description" style={{ width: '100%', padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, marginBottom: 16, boxSizing: 'border-box' as const }} />
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-            <div style={{ background: '#D6EBF2', borderRadius: 12, padding: 16 }}>
+            <div style={{ background: '#f7f7f7', borderRadius: 12, padding: 16 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', marginBottom: 8 }}>WHEN (Trigger)</div>
               <select name="trigger_type" required style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white', marginBottom: 8 }}>
                 {Object.entries(triggerLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
@@ -92,7 +92,7 @@ export default function WorkflowsPage() {
                 <input name="condition_value" placeholder="Value" style={{ padding: '6px 8px', borderRadius: 4, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 12 }} />
               </div>
             </div>
-            <div style={{ background: '#D6EBF2', borderRadius: 12, padding: 16 }}>
+            <div style={{ background: '#f7f7f7', borderRadius: 12, padding: 16 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', marginBottom: 8 }}>THEN (Action)</div>
               <select name="action_type" required style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white', marginBottom: 8 }}>
                 {actionTypes.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}

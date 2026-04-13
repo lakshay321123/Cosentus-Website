@@ -102,7 +102,7 @@ export default function SchedulePage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {filtered.map((m, i) => (
             <div key={m.id} className={`crm-card crm-animate-in crm-animate-in-${Math.min(i + 1, 5)}`} style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div style={{ minWidth: 72, textAlign: 'center', padding: '14px 8px', background: '#D6EBF2', borderRadius: 12 }}>
+              <div style={{ minWidth: 72, textAlign: 'center', padding: '14px 8px', background: '#f7f7f7', borderRadius: 12 }}>
                 <div style={{ fontSize: 12, fontWeight: 500, color: '#000000' }}>{new Date(m.scheduled_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
                 <div style={{ fontSize: 20, fontWeight: 600, color: '#000000', marginTop: 2 }}>{new Date(m.scheduled_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
               </div>

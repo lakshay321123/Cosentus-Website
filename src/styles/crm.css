@@ -62,7 +62,7 @@
 .crm-table th:first-child { border-radius: 10px 0 0 10px; }
 .crm-table th:last-child { border-radius: 0 10px 10px 0; }
 .crm-table td { padding: 14px 16px; border-bottom: 1px solid #E6E6E6; color: #000000; }
-.crm-table tbody tr:hover { background: #D6EBF2; }
+.crm-table tbody tr:hover { background: #f7f7f7; }
 
 /* Badges — teal based */
 .crm-badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; display: inline-block; }
@@ -93,7 +93,7 @@
 
 /* Sidebar — black text, teal active */
 .crm-sidebar-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 10px; margin-bottom: 1px; text-decoration: none; font-size: 14px; font-weight: 400; color: #000000; transition: all 0.15s; }
-.crm-sidebar-item:hover { background: #D6EBF2; }
+.crm-sidebar-item:hover { background: #f7f7f7; }
 .crm-sidebar-item.active { background: #00B5D6; color: #fff; font-weight: 500; }
 .crm-sidebar-item.active svg { stroke: #fff; }
 .crm-sidebar-label { font-size: 11px; font-weight: 600; color: #CCCCCC; letter-spacing: 0.06em; padding: 16px 14px 6px; text-transform: uppercase; }

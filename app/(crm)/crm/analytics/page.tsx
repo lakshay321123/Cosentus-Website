@@ -99,7 +99,7 @@ export default function AnalyticsPage() {
             {stageData.map((s, i) => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 80, fontSize: 13, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{s.stage}</div>
-                <div style={{ flex: 1, height: 28, background: '#D6EBF2', borderRadius: 8, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 28, background: '#f7f7f7', borderRadius: 8, overflow: 'hidden' }}>
                   <div style={{ width: `${(s.count / maxStage) * 100}%`, height: '100%', background: i === stages.length - 1 ? '#00B5D6' : '#00B5D6', borderRadius: 8, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 10, minWidth: s.count > 0 ? 36 : 0 }}>
                     <span style={{ fontSize: 12, fontWeight: 600, color: '#fff' }}>{s.count}</span>
                   </div>
@@ -142,7 +142,7 @@ export default function AnalyticsPage() {
             return (
               <div key={e[0]} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
                 <div style={{ width: 100, fontSize: 13, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{e[0]}</div>
-                <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
+                <div style={{ flex: 1, height: 24, background: '#f7f7f7', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${(e[1].value / maxVal) * 100}%`, height: '100%', background: donutColors[i % donutColors.length], borderRadius: 6, transition: 'width 0.8s cubic-bezier(0.16, 1, 0.3, 1)' }} />
                 </div>
                 <div style={{ minWidth: 56, textAlign: 'right', fontSize: 13, fontWeight: 600, color: '#000000' }}>${Math.round(e[1].value / 1000)}K</div>

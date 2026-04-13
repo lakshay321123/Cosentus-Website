@@ -131,7 +131,7 @@ export default function CampaignsPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{c.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.text, textTransform: 'capitalize' }}>{c.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#000000' }}>{typeLabels[c.type] || c.type}</span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#f7f7f7', color: '#000000' }}>{typeLabels[c.type] || c.type}</span>
                   </div>
                   {c.notes && <div style={{ fontSize: 13, color: '#000000' }}>{c.notes}</div>}
                 </div>

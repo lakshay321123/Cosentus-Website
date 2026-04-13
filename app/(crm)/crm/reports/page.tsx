@@ -159,7 +159,7 @@ export default function ReportsPage() {
           return (
             <div key={group} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
               <div style={{ width: 120, fontSize: 12, color: '#000000', textAlign: 'right', textTransform: 'capitalize' }}>{group}</div>
-              <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 4, overflow: 'hidden' }}>
+              <div style={{ flex: 1, height: 24, background: '#f7f7f7', borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${pct}%`, height: '100%', background: '#00B5D6', borderRadius: 4, minWidth: pct > 0 ? 4 : 0, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 8, transition: 'width 0.6s' }}>
                   {pct > 12 && <span style={{ fontSize: 11, fontWeight: 600, color: 'white' }}>{groupLeads.length}</span>}
                 </div>

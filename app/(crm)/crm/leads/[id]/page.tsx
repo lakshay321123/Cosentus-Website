@@ -75,8 +75,8 @@ export default function LeadDetailPage() {
           <p style={{ fontSize: 16, color: '#000000', margin: '4px 0 0' }}>{lead.practice_name}</p>
           <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
             <TempBadge temp={lead.temperature} />
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#000000', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
-            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#D6EBF2', color: '#000000' }}>{sourceLabels[lead.source] || lead.source}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#f7f7f7', color: '#000000', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</span>
+            <span style={{ fontSize: 12, padding: '4px 10px', borderRadius: 4, background: '#f7f7f7', color: '#000000' }}>{sourceLabels[lead.source] || lead.source}</span>
           </div>
         </div>
         <div style={{ textAlign: 'center' }}>

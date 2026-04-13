@@ -90,7 +90,7 @@ export default function SequencesPage() {
             <input name="description" placeholder="Description" style={{ padding: '10px 14px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13 }} />
           </div>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} style={{ background: '#D6EBF2', borderRadius: 12, padding: 16, marginBottom: 12 }}>
+            <div key={i} style={{ background: '#f7f7f7', borderRadius: 12, padding: 16, marginBottom: 12 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#00B5D6', marginBottom: 8 }}>Step {i} {i === 1 ? '(immediate)' : ''}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 100px', gap: 8, marginBottom: 8 }}>
                 <input name={`step${i}_subject`} placeholder={`Email ${i} subject${i === 1 ? ' *' : ''}`} required={i === 1} style={{ padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13 }} />
@@ -137,7 +137,7 @@ export default function SequencesPage() {
 
                 {/* Enroll dropdown */}
                 {enrolling === seq.id && (
-                  <div style={{ background: '#D6EBF2', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+                  <div style={{ background: '#f7f7f7', borderRadius: 12, padding: 12, marginBottom: 12 }}>
                     <select onChange={e => { if (e.target.value) enrollLead(seq.id, e.target.value) }} style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', fontSize: 13, background: 'white' }}>
                       <option value="">Select a lead to enroll...</option>
                       {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name} — {l.email}</option>)}
@@ -148,7 +148,7 @@ export default function SequencesPage() {
                 {/* Steps preview */}
                 <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
                   {(seq.steps || []).map((step: any, i: number) => (
-                    <div key={i} style={{ flex: 1, padding: '10px 12px', borderRadius: 10, background: '#D6EBF2', fontSize: 12 }}>
+                    <div key={i} style={{ flex: 1, padding: '10px 12px', borderRadius: 10, background: '#f7f7f7', fontSize: 12 }}>
                       <div style={{ fontWeight: 600, color: '#00B5D6', marginBottom: 2 }}>Step {i + 1}{step.delay_days > 0 ? ` (+${step.delay_days}d)` : ' (now)'}</div>
                       <div style={{ color: '#000000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{step.subject}</div>
                     </div>

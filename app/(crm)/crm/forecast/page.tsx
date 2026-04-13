@@ -81,8 +81,8 @@ export default function ForecastPage() {
             { label: 'Next Month', value: month2, pct: 70 },
             { label: 'Month 3', value: month3, pct: 100 },
           ].map((m, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#00B5D6', color: '#fff' }}>
-              <div style={{ fontSize: 32, fontWeight: 300, color: '#00B5D6', lineHeight: 1 }}>${Math.round(m.value / 1000)}K</div>
+            <div key={i} style={{ textAlign: 'center', padding: '24px 16px', borderRadius: 12, background: '#fff', border: '1px solid #E6E6E6' }}>
+              <div style={{ fontSize: 32, fontWeight: 600, color: '#00B5D6', lineHeight: 1 }}>${Math.round(m.value / 1000)}K</div>
               <div style={{ fontSize: 13, color: '#000000', marginTop: 8 }}>{m.label}</div>
               <div style={{ width: '80%', height: 4, borderRadius: 2, background: '#E6E6E6', margin: '12px auto 0', overflow: 'hidden' }}>
                 <div style={{ width: `${m.pct}%`, height: '100%', background: '#00B5D6', borderRadius: 2 }} />
@@ -101,7 +101,7 @@ export default function ForecastPage() {
             {stageData.map(s => (
               <div key={s.stage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 90, fontSize: 12, color: '#000000', textTransform: 'capitalize', textAlign: 'right' }}>{s.stage}</div>
-                <div style={{ flex: 1, height: 24, background: '#D6EBF2', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                <div style={{ flex: 1, height: 24, background: '#f7f7f7', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ width: `${rawTotal > 0 ? (s.total / rawTotal) * 100 : 0}%`, height: '100%', background: '#E6E6E6', borderRadius: 4 }} />
                   <div style={{ position: 'absolute', top: 0, left: 0, width: `${rawTotal > 0 ? (s.weighted / rawTotal) * 100 : 0}%`, height: '100%', background: '#00B5D6', borderRadius: 4 }} />
                 </div>

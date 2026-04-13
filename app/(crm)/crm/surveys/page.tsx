@@ -99,7 +99,7 @@ export default function SurveysPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{s.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: s.status === 'active' ? '#E1F5EE' : s.status === 'closed' ? '#E6F1FB' : '#F5F5F5', color: s.status === 'active' ? '#085041' : s.status === 'closed' ? '#185FA5' : '#616161', textTransform: 'capitalize' }}>{s.status}</span>
-                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#D6EBF2', color: '#000000', textTransform: 'uppercase' }}>{s.type}</span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#f7f7f7', color: '#000000', textTransform: 'uppercase' }}>{s.type}</span>
                   </div>
                   <div style={{ fontSize: 12, color: '#000000', marginTop: 4 }}>{resps.length} responses · {s.questions.length} questions</div>
                 </div>
@@ -111,19 +111,19 @@ export default function SurveysPage() {
 
               {breakdown && resps.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
-                  <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
+                  <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: breakdown.nps >= 50 ? '#085041' : breakdown.nps >= 0 ? '#854F0B' : '#791F1F' }}>{breakdown.nps}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>NPS Score</div>
                   </div>
-                  <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
+                  <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#085041' }}>{breakdown.promoters}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Promoters</div>
                   </div>
-                  <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
+                  <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#854F0B' }}>{breakdown.passives}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Passives</div>
                   </div>
-                  <div style={{ background: '#D6EBF2', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
+                  <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 300, color: '#791F1F' }}>{breakdown.detractors}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Detractors</div>
                   </div>

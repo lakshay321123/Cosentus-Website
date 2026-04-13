@@ -78,7 +78,7 @@ export default function PipelinePage() {
               </div>
 
               {/* Cards */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 100, padding: 4, borderRadius: 12, background: '#00B5D6', color: '#fff' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 100, padding: 6, borderRadius: 12, background: '#f5f5f5' }}>
                 {stageLeads.map(lead => (
                   <Link href={`/crm/leads/${lead.id}`} key={lead.id} style={{ textDecoration: 'none' }}
                     draggable onDragStart={() => setDragId(lead.id)}>
@@ -98,7 +98,7 @@ export default function PipelinePage() {
 
                       {/* Specialty + value */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                        <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: '#D6EBF2', color: '#000000' }}>{lead.specialty?.replace('_', ' ')}</span>
+                        <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: '#f7f7f7', color: '#000000' }}>{lead.specialty?.replace('_', ' ')}</span>
                         {lead.revenue_potential && <span style={{ fontSize: 14, fontWeight: 700, color: '#00B5D6' }}>${Math.round(lead.revenue_potential / 1000)}K</span>}
                       </div>
 
