@@ -37,7 +37,15 @@ function CindyInner() {
 
   const conversation = useConversation({
     onConnect: () => { setActionLabel('') },
-    onDisconnect: () => { setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000) },
+    onDisconnect: () => {
+      setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      // Log voice conversation to CRM
+      fetch('/api/crm/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first_name: 'Voice', last_name: 'Caller', source: 'voice_agent', notes: 'Auto-captured from Cindy voice agent conversation on ' + window.location.pathname }),
+      }).catch(() => {})
+    },
     onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
     onMessage: () => {},
     clientTools: {
