@@ -98,7 +98,7 @@ export default function SurveysPage() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 16, fontWeight: 600, color: '#000000' }}>{s.name}</span>
-                    <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: s.status === 'active' ? '#E1F5EE' : s.status === 'closed' ? '#E6F1FB' : '#F5F5F5', color: s.status === 'active' ? '#085041' : s.status === 'closed' ? '#185FA5' : '#616161', textTransform: 'capitalize' }}>{s.status}</span>
+                    <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: s.status === 'active' ? '#E1F5EE' : s.status === 'closed' ? '#E6F1FB' : '#F5F5F5', color: s.status === 'active' ? '#00B5D6' : s.status === 'closed' ? '#185FA5' : '#616161', textTransform: 'capitalize' }}>{s.status}</span>
                     <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: '#f7f7f7', color: '#000000', textTransform: 'uppercase' }}>{s.type}</span>
                   </div>
                   <div style={{ fontSize: 12, color: '#000000', marginTop: 4 }}>{resps.length} responses · {s.questions.length} questions</div>
@@ -112,19 +112,19 @@ export default function SurveysPage() {
               {breakdown && resps.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
                   <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 24, fontWeight: 300, color: breakdown.nps >= 50 ? '#085041' : breakdown.nps >= 0 ? '#854F0B' : '#791F1F' }}>{breakdown.nps}</div>
+                    <div style={{ fontSize: 24, fontWeight: 300, color: breakdown.nps >= 50 ? '#00B5D6' : breakdown.nps >= 0 ? '#68D1E6' : '#000000' }}>{breakdown.nps}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>NPS Score</div>
                   </div>
                   <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 24, fontWeight: 300, color: '#085041' }}>{breakdown.promoters}</div>
+                    <div style={{ fontSize: 24, fontWeight: 300, color: '#00B5D6' }}>{breakdown.promoters}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Promoters</div>
                   </div>
                   <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 24, fontWeight: 300, color: '#854F0B' }}>{breakdown.passives}</div>
+                    <div style={{ fontSize: 24, fontWeight: 300, color: '#68D1E6' }}>{breakdown.passives}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Passives</div>
                   </div>
                   <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 24, fontWeight: 300, color: '#791F1F' }}>{breakdown.detractors}</div>
+                    <div style={{ fontSize: 24, fontWeight: 300, color: '#000000' }}>{breakdown.detractors}</div>
                     <div style={{ fontSize: 11, color: '#000000' }}>Detractors</div>
                   </div>
                 </div>
@@ -133,15 +133,15 @@ export default function SurveysPage() {
               {viewing === s.id && (
                 <div style={{ borderTop: '1px solid #F5F5F5', paddingTop: 12 }}>
                   {resps.length === 0 ? (
-                    <div style={{ fontSize: 13, color: '#E6E6E6', textAlign: 'center', padding: 16 }}>No responses yet</div>
+                    <div style={{ fontSize: 13, color: '#000000', textAlign: 'center', padding: 16 }}>No responses yet</div>
                   ) : resps.map(r => (
                     <div key={r.id} style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '0.5px solid #E6E6E6', fontSize: 13 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: r.score >= 9 ? '#E1F5EE' : r.score >= 7 ? '#FAEEDA' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: r.score >= 9 ? '#085041' : r.score >= 7 ? '#854F0B' : '#791F1F', flexShrink: 0 }}>{r.score}</div>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: r.score >= 9 ? '#E1F5EE' : r.score >= 7 ? '#FAEEDA' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, color: r.score >= 9 ? '#00B5D6' : r.score >= 7 ? '#68D1E6' : '#000000', flexShrink: 0 }}>{r.score}</div>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 500, color: '#000000' }}>{r.respondent_name || r.respondent_email}</div>
                         {r.feedback && <div style={{ color: '#000000', marginTop: 2 }}>{r.feedback}</div>}
                       </div>
-                      <div style={{ fontSize: 11, color: '#E6E6E6' }}>{new Date(r.created_at).toLocaleDateString()}</div>
+                      <div style={{ fontSize: 11, color: '#000000' }}>{new Date(r.created_at).toLocaleDateString()}</div>
                     </div>
                   ))}
                 </div>

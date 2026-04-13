@@ -123,7 +123,7 @@ export default function DocumentsPage() {
                     </select>
                   </td>
                   <td style={{ padding: '14px 16px', color: '#000000' }}>{d.uploaded_by || '—'}</td>
-                  <td style={{ padding: '14px 16px', color: '#E6E6E6', fontSize: 12 }}>{new Date(d.created_at).toLocaleDateString()}</td>
+                  <td style={{ padding: '14px 16px', color: '#000000', fontSize: 12 }}>{new Date(d.created_at).toLocaleDateString()}</td>
                 </tr>
               )
             })}

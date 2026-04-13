@@ -89,7 +89,7 @@ export default function TasksPage() {
         <div>
           <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Tasks</h1>
           <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>
-            {filtered.length} tasks{overdue > 0 && <span style={{ color: '#E24B4A', fontWeight: 600 }}> · {overdue} overdue</span>}
+            {filtered.length} tasks{overdue > 0 && <span style={{ color: '#00B5D6', fontWeight: 600 }}> · {overdue} overdue</span>}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -138,7 +138,7 @@ export default function TasksPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {filtered.map(task => (
             <div key={task.id} style={{
-              background: 'white', borderRadius: 10, border: `1px solid ${isOverdue(task) ? '#E24B4A' : '#E6E6E6'}`,
+              background: 'white', borderRadius: 10, border: `1px solid ${isOverdue(task) ? '#00B5D6' : '#E6E6E6'}`,
               padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16,
               opacity: task.status === 'completed' ? 0.6 : 1,
             }}>
@@ -161,17 +161,17 @@ export default function TasksPage() {
                     </Link>
                   )}
                   {task.due_date && (
-                    <span style={{ fontSize: 11, color: isOverdue(task) ? '#E24B4A' : '#616161', fontWeight: isOverdue(task) ? 600 : 400 }}>
+                    <span style={{ fontSize: 11, color: isOverdue(task) ? '#00B5D6' : '#616161', fontWeight: isOverdue(task) ? 600 : 400 }}>
                       Due {new Date(task.due_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
                     </span>
                   )}
-                  {task.assigned_to && <span style={{ fontSize: 11, color: '#E6E6E6' }}>{task.assigned_to}</span>}
+                  {task.assigned_to && <span style={{ fontSize: 11, color: '#000000' }}>{task.assigned_to}</span>}
                 </div>
               </div>
 
               <PriorityBadge p={task.priority} />
 
-              <button onClick={() => deleteTask(task.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#E6E6E6', fontSize: 16, padding: '4px 8px' }} title="Delete">×</button>
+              <button onClick={() => deleteTask(task.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#000000', fontSize: 16, padding: '4px 8px' }} title="Delete">×</button>
             </div>
           ))}
         </div>

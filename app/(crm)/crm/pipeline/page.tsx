@@ -108,7 +108,7 @@ export default function PipelinePage() {
                           <div style={{ width: 28, height: 3, borderRadius: 2, background: scoreColor(lead.ai_score) }} />
                           <span style={{ fontSize: 11, color: '#000000' }}>{lead.ai_score}</span>
                         </div>
-                        {lead.assigned_to && <span style={{ fontSize: 11, color: '#E6E6E6' }}>{lead.assigned_to}</span>}
+                        {lead.assigned_to && <span style={{ fontSize: 11, color: '#000000' }}>{lead.assigned_to}</span>}
                       </div>
                     </div>
                   </Link>

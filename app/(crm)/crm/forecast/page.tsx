@@ -87,7 +87,7 @@ export default function ForecastPage() {
               <div style={{ width: '80%', height: 4, borderRadius: 2, background: '#E6E6E6', margin: '12px auto 0', overflow: 'hidden' }}>
                 <div style={{ width: `${m.pct}%`, height: '100%', background: '#00B5D6', borderRadius: 2 }} />
               </div>
-              <div style={{ fontSize: 11, color: '#E6E6E6', marginTop: 6 }}>{m.pct}% of pipeline</div>
+              <div style={{ fontSize: 11, color: '#000000', marginTop: 6 }}>{m.pct}% of pipeline</div>
             </div>
           ))}
         </div>
@@ -107,7 +107,7 @@ export default function ForecastPage() {
                 </div>
                 <div style={{ minWidth: 60, textAlign: 'right', fontSize: 12 }}>
                   <span style={{ fontWeight: 600, color: '#00B5D6' }}>${Math.round(s.weighted / 1000)}K</span>
-                  <span style={{ color: '#E6E6E6' }}> / ${Math.round(s.total / 1000)}K</span>
+                  <span style={{ color: '#000000' }}> / ${Math.round(s.total / 1000)}K</span>
                 </div>
                 <div style={{ width: 32, fontSize: 11, color: '#000000', textAlign: 'right' }}>{Math.round(s.pct * 100)}%</div>
               </div>

@@ -14,13 +14,13 @@ export default function SettingsPage() {
     <div style={{ padding: '36px 44px', maxWidth: 900 }}>
       <div style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 32, fontWeight: 300, color: '#000000', margin: 0 }}>Settings</h1>
-        <p style={{ fontSize: 14, color: '#000000', margin: '4px 0 0' }}>CRM configuration and integrations</p>
+        <p style={{ fontSize: 14, fontWeight: 500, color: '#000000', margin: '4px 0 0' }}>CRM configuration and integrations</p>
       </div>
 
       {/* Lead Capture */}
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Lead Capture API</h3>
-        <p style={{ fontSize: 13, color: '#E6E6E6', marginBottom: 16 }}>Use this endpoint to send leads from your chat widget, voice agent, or external forms.</p>
+        <p style={{ fontSize: 13, color: '#000000', marginBottom: 16 }}>Use this endpoint to send leads from your chat widget, voice agent, or external forms.</p>
         <div style={{ background: '#f7f7f7', borderRadius: 12, padding: '14px 16px', fontFamily: 'monospace', fontSize: 13, color: '#000000', marginBottom: 12, overflowX: 'auto' as const }}>
           POST /api/crm/leads
         </div>
@@ -46,7 +46,7 @@ export default function SettingsPage() {
       {/* AI Scoring */}
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24, marginBottom: 20 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>AI Lead Scoring Rules</h3>
-        <p style={{ fontSize: 13, color: '#E6E6E6', marginBottom: 16 }}>How leads are automatically scored (0-100)</p>
+        <p style={{ fontSize: 13, color: '#000000', marginBottom: 16 }}>How leads are automatically scored (0-100)</p>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
             <tr style={{ borderBottom: '0.5px solid #E6E6E6' }}>
@@ -75,7 +75,7 @@ export default function SettingsPage() {
           </tbody>
         </table>
         <div style={{ marginTop: 12, fontSize: 12, color: '#000000' }}>
-          Temperature: <span style={{ color: '#D85A30', fontWeight: 600 }}>Hot</span> = 75+, <span style={{ color: '#EF9F27', fontWeight: 600 }}>Warm</span> = 45-74, <span style={{ color: '#85B7EB', fontWeight: 600 }}>Cold</span> = 0-44
+          Temperature: <span style={{ color: '#00B5D6', fontWeight: 600 }}>Hot</span> = 75+, <span style={{ color: '#68D1E6', fontWeight: 600 }}>Warm</span> = 45-74, <span style={{ color: '#CCCCCC', fontWeight: 600 }}>Cold</span> = 0-44
         </div>
       </div>
 
@@ -92,7 +92,7 @@ export default function SettingsPage() {
       {/* Database */}
       <div style={{ background: 'white', borderRadius: 16, border: 'none', boxShadow: '0 1px 3px #E6E6E6, 0 4px 12px #D6EBF2', padding: 24 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#000000' }}>Database</h3>
-        <p style={{ fontSize: 13, color: '#E6E6E6', marginBottom: 16 }}>Supabase connection</p>
+        <p style={{ fontSize: 13, color: '#000000', marginBottom: 16 }}>Supabase connection</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 13 }}>
           <div>
             <div style={{ color: '#000000', marginBottom: 4 }}>Project</div>
@@ -108,7 +108,7 @@ export default function SettingsPage() {
           </div>
           <div>
             <div style={{ color: '#000000', marginBottom: 4 }}>Status</div>
-            <div style={{ fontWeight: 500, color: '#0F6E56' }}>Active & Healthy</div>
+            <div style={{ fontWeight: 500, color: '#00B5D6' }}>Active & Healthy</div>
           </div>
         </div>
       </div>

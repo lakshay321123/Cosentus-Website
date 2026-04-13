@@ -51,7 +51,7 @@ export default function CRMLogin() {
           </button>
         </form>
 
-        <div style={{ fontSize: 13, color: '#E6E6E6', marginTop: 28 }}>Authorized access only</div>
+        <div style={{ fontSize: 13, color: '#000000', marginTop: 28 }}>Authorized access only</div>
       </div>
     </div>
   )

@@ -235,7 +235,7 @@ export default function LeadsPage() {
                 <td style={{ padding: '14px 16px' }}>
                   <Link href={`/crm/leads/${lead.id}`} style={{ fontWeight: 500, color: '#000000', textDecoration: 'none' }}>{lead.first_name} {lead.last_name}</Link>
                   <div style={{ fontSize: 12, color: '#000000' }}>{lead.practice_name}</div>
-                  <div style={{ fontSize: 11, color: '#E6E6E6' }}>{lead.email}</div>
+                  <div style={{ fontSize: 11, color: '#000000' }}>{lead.email}</div>
                 </td>
                 <td style={{ padding: '14px 16px', color: '#000000', textTransform: 'capitalize' }}>{lead.specialty?.replace('_', ' ')}</td>
                 <td style={{ padding: '14px 16px' }}>

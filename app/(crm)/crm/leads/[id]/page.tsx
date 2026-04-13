@@ -165,7 +165,7 @@ export default function LeadDetailPage() {
 
             {/* Timeline */}
             {activities.length === 0 ? (
-              <div style={{ fontSize: 13, color: '#E6E6E6', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
+              <div style={{ fontSize: 13, color: '#000000', padding: '20px 0', textAlign: 'center' }}>No activity yet</div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {activities.map((a, i) => {
@@ -175,7 +175,7 @@ export default function LeadDetailPage() {
                       <div style={{ fontSize: 16, width: 24, textAlign: 'center', flexShrink: 0 }}>{typeIcons[a.type] || '📋'}</div>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 13, color: '#000000' }}>{a.description}</div>
-                        <div style={{ fontSize: 11, color: '#E6E6E6', marginTop: 4 }}>
+                        <div style={{ fontSize: 11, color: '#000000', marginTop: 4 }}>
                           {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {new Date(a.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </div>
                       </div>

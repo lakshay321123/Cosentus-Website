@@ -165,7 +165,7 @@ export default function ReportsPage() {
                 </div>
               </div>
               {pct <= 12 && <span style={{ fontSize: 12, fontWeight: 600, color: '#000000', minWidth: 24 }}>{groupLeads.length}</span>}
-              <span style={{ fontSize: 11, color: '#E6E6E6', minWidth: 32 }}>{pct}%</span>
+              <span style={{ fontSize: 11, color: '#000000', minWidth: 32 }}>{pct}%</span>
             </div>
           )
         })}
