@@ -88,12 +88,21 @@ export default function LeadDetailPage() {
             if (result.score !== undefined) {
               setLead({ ...lead, ai_score: result.score, temperature: result.temperature })
               alert(`Score: ${result.score} (${result.temperature})\n${result.reasoning}\nNext: ${result.next_action}`)
-              // Refresh activities
               supabase.from('activities').select('*').eq('lead_id', lead.id).order('created_at', { ascending: false })
                 .then(({ data }) => { if (data) setActivities(data as Activity[]) })
             }
           }} style={{ marginTop: 8, fontSize: 11, color: '#00B5D6', background: 'none', border: '1px solid #00B5D6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
             Re-score with AI
+          </button>
+          <button onClick={async () => {
+            const res = await fetch('/api/crm/enrich', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead_id: lead.id }) })
+            const result = await res.json()
+            if (result.success) {
+              alert(`Enriched! ${result.updates_applied} fields updated.\n\nPractice type: ${result.enriched.practice_type}\nComplexity: ${result.enriched.billing_complexity}\nGrowth: ${result.enriched.growth_potential}\n\nTalking points:\n${(result.enriched.talking_points || []).map((p: string, i: number) => `${i+1}. ${p}`).join('\n')}`)
+              window.location.reload()
+            } else { alert('Enrichment failed: ' + (result.error || 'unknown')) }
+          }} style={{ marginTop: 4, fontSize: 11, color: '#616161', background: 'none', border: '1px solid #E6E6E6', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+            Enrich Data
           </button>
         </div>
       </div>
