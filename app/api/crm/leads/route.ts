@@ -96,7 +96,22 @@ export async function POST(req: NextRequest) {
       description: `New lead captured via ${source?.replace('_', ' ') || 'manual entry'}${notes ? ': ' + notes : ''}`,
     })
 
-    return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, duplicate: false })
+    // Auto-assign based on specialty
+    const assignmentRules: Record<string, string[]> = {
+      anesthesia: ['Logan Lowry', 'Allen Ranjan'],
+      orthopedics: ['Mark Wines', 'Allen Ranjan'],
+      pain_management: ['Allen Ranjan'],
+      asc: ['Mark Wines', 'Allen Ranjan'],
+      behavioral_health: ['Allen Ranjan'],
+      urgent_care: ['Allen Ranjan'],
+      other: ['Allen Ranjan'],
+    }
+    const reps = assignmentRules[specialty || 'other'] || assignmentRules.other
+    const assignee = reps[Math.floor(Math.random() * reps.length)]
+    await supabase.from('leads').update({ assigned_to: assignee }).eq('id', data.id)
+    await supabase.from('activities').insert({ lead_id: data.id, type: 'note', description: `Auto-assigned to ${assignee}` })
+
+    return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

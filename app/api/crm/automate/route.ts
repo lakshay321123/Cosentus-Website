@@ -32,6 +32,62 @@ function getAssignee(specialty: string): string {
 export async function POST(req: NextRequest) {
   const { action } = await req.json()
 
+  if (action === 'run_workflows') {
+    // Execute all active workflows
+    const { data: workflows } = await supabase.from('workflows').select('*').eq('status', 'active')
+    if (!workflows || workflows.length === 0) return NextResponse.json({ executed: 0 })
+
+    let totalExecuted = 0
+    for (const wf of workflows) {
+      let leads: any[] = []
+
+      // Get leads matching trigger
+      if (wf.trigger_type === 'lead_created') {
+        const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+        const { data } = await supabase.from('leads').select('*').gte('created_at', fiveMinAgo)
+        leads = data || []
+      } else if (wf.trigger_type === 'score_change') {
+        const { data } = await supabase.from('leads').select('*').not('status', 'in', '("won","lost")')
+        leads = data || []
+      } else if (wf.trigger_type === 'stage_change') {
+        const { data } = await supabase.from('leads').select('*').not('status', 'in', '("won","lost")')
+        leads = data || []
+      }
+
+      // Apply conditions
+      if (wf.trigger_config?.field && wf.trigger_config?.value) {
+        const { field, operator, value } = wf.trigger_config
+        leads = leads.filter(l => {
+          const v = l[field]
+          if (operator === 'equals') return String(v) === String(value)
+          if (operator === 'gt') return Number(v) > Number(value)
+          if (operator === 'lt') return Number(v) < Number(value)
+          if (operator === 'contains') return String(v).includes(String(value))
+          return true
+        })
+      }
+
+      // Execute actions for matching leads
+      for (const lead of leads) {
+        for (const act of (wf.actions || [])) {
+          if (act.type === 'assign_rep') await supabase.from('leads').update({ assigned_to: act.value }).eq('id', lead.id)
+          if (act.type === 'change_stage') await supabase.from('leads').update({ status: act.value }).eq('id', lead.id)
+          if (act.type === 'create_task') await supabase.from('tasks').insert({ lead_id: lead.id, title: act.value || `Follow up with ${lead.first_name}`, priority: 'medium' })
+          if (act.type === 'add_tag') {
+            const tags = [...(lead.tags || []), act.value].filter((v: string, i: number, a: string[]) => a.indexOf(v) === i)
+            await supabase.from('leads').update({ tags }).eq('id', lead.id)
+          }
+          if (act.type === 'notify') await supabase.from('activities').insert({ lead_id: lead.id, type: 'note', description: `Workflow "${wf.name}": ${act.value}` })
+          totalExecuted++
+        }
+      }
+
+      await supabase.from('workflows').update({ executions: (wf.executions || 0) + leads.length, last_executed_at: new Date().toISOString() }).eq('id', wf.id)
+    }
+
+    return NextResponse.json({ success: true, executed: totalExecuted })
+  }
+
   if (action === 'auto_assign') {
     // Assign all unassigned leads based on specialty
     const { data: unassigned } = await supabase.from('leads').select('id, specialty').is('assigned_to', null)

@@ -107,6 +107,32 @@ export default function LeadDetailPage() {
         </div>
       </div>
 
+      {/* Tags */}
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          {(lead.tags || []).map((tag: string) => (
+            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 500, padding: '4px 10px', borderRadius: 8, background: '#D6EBF2', color: '#000' }}>
+              {tag}
+              <button onClick={async () => {
+                const newTags = (lead.tags || []).filter((t: string) => t !== tag)
+                setLead({ ...lead, tags: newTags })
+                await supabase.from('leads').update({ tags: newTags }).eq('id', lead.id)
+              }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#00B5D6', fontSize: 14, padding: 0, lineHeight: 1 }}>×</button>
+            </span>
+          ))}
+          <input placeholder="+ Add tag" onKeyDown={async (e) => {
+            if (e.key === 'Enter') {
+              const val = (e.target as HTMLInputElement).value.trim()
+              if (!val) return
+              const newTags = [...(lead.tags || []), val].filter((v: string, i: number, a: string[]) => a.indexOf(v) === i)
+              setLead({ ...lead, tags: newTags })
+              await supabase.from('leads').update({ tags: newTags }).eq('id', lead.id)
+              ;(e.target as HTMLInputElement).value = ''
+            }
+          }} style={{ fontSize: 12, padding: '4px 8px', border: '1px solid #E6E6E6', borderRadius: 8, width: 100, fontFamily: "'Reddit Sans', sans-serif" }} />
+        </div>
+      </div>
+
       {/* Pipeline progress */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 32 }}>
         {statusFlow.map((s, i) => {
