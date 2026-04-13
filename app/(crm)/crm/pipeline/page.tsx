@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { supabase, Lead } from '@/lib/supabase'
 import Link from 'next/link'
 
-const stages = ['new', 'qualified', 'discovery', 'proposal', 'negotiation', 'won']
-const stageLabels: Record<string, string> = { new: 'New Leads', qualified: 'Qualified', discovery: 'Discovery', proposal: 'Proposal', negotiation: 'Negotiation', won: 'Won' }
+const stages = ['new', 'qualified', 'discovery', 'proposal', 'negotiation', 'won', 'lost']
+const stageLabels: Record<string, string> = { new: 'New Leads', qualified: 'Qualified', discovery: 'Discovery', proposal: 'Proposal', negotiation: 'Negotiation', won: 'Won', lost: 'Lost' }
 
 export default function PipelinePage() {
   const [leads, setLeads] = useState<Lead[]>([])

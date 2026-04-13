@@ -35,6 +35,7 @@ export default function LeadsPage() {
   const [filterStatus, setFilterStatus] = useState('all')
   const [sortBy, setSortBy] = useState<'score' | 'value' | 'created'>('score')
   const [showAdd, setShowAdd] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
   useEffect(() => {
@@ -80,6 +81,8 @@ export default function LeadsPage() {
   }, [leads, search, filterSpec, filterTemp, filterStatus, sortBy])
 
   const handleAddLead = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (saving) return
+    setSaving(true)
     e.preventDefault()
     const fd = new FormData(e.currentTarget)
     const res = await fetch('/api/crm/leads', {
