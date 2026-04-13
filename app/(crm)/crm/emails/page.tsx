@@ -3,16 +3,16 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
-type BlockType = 'header' | 'text' | 'heading' | 'image' | 'button' | 'divider' | 'spacer' | 'stats' | 'testimonial' | 'footer' | 'columns'
+type BlockType = 'header' | 'text' | 'heading' | 'image' | 'button' | 'divider' | 'spacer' | 'stats' | 'testimonial' | 'footer' | 'columns' | 'image_text'
 
 interface Block {
   id: string; type: BlockType
   content: string; content2?: string; content3?: string
-  fontSize?: number; fontWeight?: string; color?: string; align?: string
+  fontSize?: number; fontWeight?: string; fontStyle?: string; fontFamily?: string; color?: string; align?: string
   bgColor?: string; padding?: number; borderRadius?: number
   imgUrl?: string; imgWidth?: number; imgHeight?: number; imgAlt?: string
   btnUrl?: string; btnColor?: string; btnTextColor?: string
-  height?: number; dividerColor?: string
+  height?: number; dividerColor?: string; linkUrl?: string
   stat1?: string; stat1Label?: string; stat2?: string; stat2Label?: string; stat3?: string; stat3Label?: string
 }
 
@@ -27,10 +27,13 @@ const defaultBlocks: Record<BlockType, Partial<Block>> = {
   stats: { stat1: '>98%', stat1Label: 'Net Collection', stat2: '>99%', stat2Label: 'Clean Claims', stat3: '30%', stat3Label: 'Revenue Growth', bgColor: '#f7f7f7', padding: 16 },
   testimonial: { content: 'Their year-over-year collection rate of 97% has been vital for our group.', content2: 'Dr. John B. Field Jr.', bgColor: '#f7f7f7', padding: 20, color: '#333333', fontSize: 14 },
   footer: { content: 'Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com', bgColor: '#ffffff', color: '#999999', fontSize: 12, padding: 20, align: 'center' },
-  columns: { content: 'Column 1 text', content2: 'Column 2 text', padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333' },
+  columns: { content: 'Column 1 text', content2: 'Column 2 text', padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial' },
+  image_text: { content: 'Add your description here. This text appears next to the image.', imgUrl: '', imgWidth: 40, padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial', align: 'left' },
 }
 
-const blockLabels: Record<BlockType, string> = { header: '🏢 Header', text: '📝 Text', heading: '🔤 Heading', image: '🖼 Image', button: '🔘 Button', divider: '➖ Divider', spacer: '⬜ Spacer', stats: '📊 Stats Bar', testimonial: '💬 Testimonial', footer: '📌 Footer', columns: '▐▌ Two Columns' }
+const blockLabels: Record<BlockType, string> = { header: '🏢 Header', text: '📝 Text', heading: '🔤 Heading', image: '🖼 Image', button: '🔘 Button', divider: '➖ Divider', spacer: '⬜ Spacer', stats: '📊 Stats Bar', testimonial: '💬 Testimonial', footer: '📌 Footer', columns: '▐▌ Two Columns', image_text: '🖼📝 Image + Text' }
+
+const emailFonts = ['Arial', 'Helvetica', 'Georgia', 'Times New Roman', 'Courier New', 'Verdana', 'Tahoma', 'Trebuchet MS']
 
 const variables = ['{{first_name}}', '{{last_name}}', '{{practice_name}}', '{{specialty}}', '{{phone}}', '{{email}}']
 
@@ -51,7 +54,7 @@ export default function EmailsPage() {
   const [previewLead, setPreviewLead] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const [history, setHistory] = useState<Block[][]>([])
-
+  const [mobilePreview, setMobilePreview] = useState(false)
   const pushHistory = () => setHistory(prev => [...prev.slice(-19), blocks])
 
   useEffect(() => {
@@ -84,8 +87,8 @@ export default function EmailsPage() {
       const bg = `background:${b.bgColor || '#fff'}`
       const align = `text-align:${b.align || 'left'}`
       if (b.type === 'header') html += `<div style="${bg};${pad};text-align:${b.align||'center'}"><img src="${b.imgUrl || 'https://cosentus-website.vercel.app/images/cosentus-logo.png'}" alt="Logo" style="height:28px;display:block;margin:0 auto 6px"><div style="font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.8)">${b.content || ''}</div></div>`
-      else if (b.type === 'text') html += `<div style="${pad};${bg};${align};font-size:${b.fontSize||15}px;line-height:1.7;color:${b.color||'#333'};${b.fontWeight === 'bold' ? 'font-weight:bold;' : ''}">${fillVars(b.content)}</div>`
-      else if (b.type === 'heading') html += `<div style="${pad};${bg};${align}"><h2 style="margin:0;font-size:${b.fontSize||24}px;color:${b.color||'#000'};font-weight:${b.fontWeight||'bold'}">${fillVars(b.content)}</h2></div>`
+      else if (b.type === 'text') { const txt = `<div style="${pad};${bg};${align};font-size:${b.fontSize||15}px;line-height:1.7;color:${b.color||'#333'};font-family:${b.fontFamily||'Arial'},sans-serif;${b.fontWeight === 'bold' ? 'font-weight:bold;' : ''}${b.fontStyle === 'italic' ? 'font-style:italic;' : ''}">${fillVars(b.content)}</div>`; html += b.linkUrl ? `<a href="${b.linkUrl}" style="text-decoration:none;color:inherit">${txt}</a>` : txt }
+      else if (b.type === 'heading') { const txt = `<div style="${pad};${bg};${align}"><h2 style="margin:0;font-size:${b.fontSize||24}px;color:${b.color||'#000'};font-weight:${b.fontWeight||'bold'};font-family:${b.fontFamily||'Arial'},sans-serif;${b.fontStyle === 'italic' ? 'font-style:italic;' : ''}">${fillVars(b.content)}</h2></div>`; html += b.linkUrl ? `<a href="${b.linkUrl}" style="text-decoration:none;color:inherit">${txt}</a>` : txt }
       else if (b.type === 'image') html += `<div style="${pad};${bg};text-align:${b.align||'center'}"><img src="${b.imgUrl}" alt="${b.imgAlt||''}" style="width:${b.imgWidth||100}%;max-width:600px;height:auto;border-radius:${b.borderRadius||0}px"></div>`
       else if (b.type === 'button') html += `<div style="${pad};${bg};text-align:${b.align||'center'}"><a href="${b.btnUrl||'#'}" style="display:inline-block;padding:14px 36px;background:${b.btnColor||'#00B5D6'};color:${b.btnTextColor||'#fff'};text-decoration:none;border-radius:${b.borderRadius||8}px;font-weight:600;font-size:${b.fontSize||15}px">${fillVars(b.content)}</a></div>`
       else if (b.type === 'divider') html += `<div style="padding:${b.padding||8}px 32px;${bg}"><hr style="border:none;border-top:${b.height||1}px solid ${b.dividerColor||'#e5e5e5'};margin:0"></div>`
@@ -94,6 +97,7 @@ export default function EmailsPage() {
       else if (b.type === 'testimonial') html += `<div style="${pad};${bg};border-left:4px solid #00B5D6;margin:0 32px;border-radius:4px"><div style="font-style:italic;font-size:${b.fontSize||14}px;color:${b.color||'#333'};margin-bottom:8px">"${fillVars(b.content)}"</div><div style="font-size:13px;color:${b.color||'#333'};font-weight:600">— ${b.content2||''}</div></div>`
       else if (b.type === 'footer') html += `<div style="${pad};text-align:center;font-size:${b.fontSize||12}px;color:${b.color||'#999'};border-top:1px solid #e5e5e5"><div>${fillVars(b.content)}</div><div style="margin-top:4px">SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</div></div>`
       else if (b.type === 'columns') html += `<div style="${pad};${bg};display:flex;gap:16px"><div style="flex:1;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${fillVars(b.content)}</div><div style="flex:1;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${fillVars(b.content2||'')}</div></div>`
+      else if (b.type === 'image_text') html += `<div style="${pad};${bg};display:flex;gap:16px;align-items:center"><div style="width:${b.imgWidth||40}%;flex-shrink:0"><img src="${b.imgUrl||''}" alt="${b.imgAlt||''}" style="width:100%;border-radius:${b.borderRadius||0}px"></div><div style="flex:1;font-size:${b.fontSize||14}px;color:${b.color||'#333'};font-family:${b.fontFamily||'Arial'},sans-serif">${fillVars(b.content)}</div></div>`
     }
     html += '</div>'; return html
   }
@@ -138,6 +142,7 @@ export default function EmailsPage() {
           </select>
           <button onClick={() => setShowPreview(!showPreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: showPreview ? '#00B5D6' : '#fff', color: showPreview ? '#fff' : '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Preview</button>
           <button onClick={copyHtml} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Copy HTML</button>
+          <button onClick={() => setMobilePreview(!mobilePreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: mobilePreview ? '#00B5D6' : '#fff', color: mobilePreview ? '#fff' : '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>{mobilePreview ? '📱 Mobile' : '🖥 Desktop'}</button>
           {history.length > 0 && <button onClick={undo} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>↩ Undo</button>}
         </div>
       </div>
@@ -171,7 +176,7 @@ export default function EmailsPage() {
 
           {/* Center: Email canvas */}
           <div style={{ flex: 1, overflowY: 'auto', background: '#f0f0f0', padding: 24 }}>
-            <div style={{ maxWidth: 600, margin: '0 auto', background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+            <div style={{ maxWidth: mobilePreview ? 360 : 600, margin: '0 auto', background: '#fff', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', overflow: 'hidden', transition: 'max-width 0.3s' }}>
               {blocks.map((b, idx) => (
                 <div key={b.id} onClick={() => setSelected(b.id)} style={{ position: 'relative', outline: selected === b.id ? '2px solid #00B5D6' : '1px solid transparent', cursor: 'pointer', transition: 'outline 0.15s' }}>
                   {/* Block toolbar */}
@@ -184,8 +189,8 @@ export default function EmailsPage() {
                   )}
                   {/* Block render */}
                   {b.type === 'header' && <div style={{ background: b.bgColor, padding: `${b.padding}px 32px`, textAlign: (b.align || 'center') as any }}><img src={b.imgUrl || 'https://cosentus-website.vercel.app/images/cosentus-logo.png'} alt="Logo" style={{ height: 28, display: 'block', margin: '0 auto 6px' }} /><div style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.8)' }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{b.content}</div></div>}
-                  {b.type === 'text' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any, fontSize: b.fontSize, color: b.color, fontWeight: b.fontWeight as any, lineHeight: 1.7 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div>}
-                  {b.type === 'heading' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><div style={{ fontSize: b.fontSize, fontWeight: b.fontWeight as any, color: b.color, margin: 0 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
+                  {b.type === 'text' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any, fontSize: b.fontSize, color: b.color, fontWeight: b.fontWeight as any, fontStyle: b.fontStyle as any, fontFamily: b.fontFamily || 'Arial', lineHeight: 1.7 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div>}
+                  {b.type === 'heading' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><div style={{ fontSize: b.fontSize, fontWeight: b.fontWeight as any, fontStyle: b.fontStyle as any, fontFamily: b.fontFamily || 'Arial', color: b.color, margin: 0 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
                   {b.type === 'image' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt} style={{ width: `${b.imgWidth}%`, borderRadius: b.borderRadius }} /> : <div style={{ height: 120, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 13 }}>Click to select → Upload image in right panel</div>}</div>}
                   {b.type === 'button' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, textAlign: b.align as any }}><span style={{ display: 'inline-block', padding: '14px 36px', background: b.btnColor, color: b.btnTextColor, borderRadius: b.borderRadius, fontWeight: 600, fontSize: b.fontSize }}>{fillVars(b.content)}</span></div>}
                   {b.type === 'divider' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor }}><hr style={{ border: 'none', borderTop: `${b.height}px solid ${b.dividerColor}`, margin: 0 }} /></div>}
@@ -194,6 +199,7 @@ export default function EmailsPage() {
                   {b.type === 'testimonial' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, borderLeft: '4px solid #00B5D6', margin: '0 32px', borderRadius: 4 }}><div style={{ fontStyle: 'italic', fontSize: b.fontSize, color: b.color, marginBottom: 8 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>"{fillVars(b.content)}"</div><div style={{ fontSize: 13, color: b.color, fontWeight: 600 }}>— {b.content2}</div></div>}
                   {b.type === 'footer' && <div style={{ padding: `${b.padding}px 32px`, textAlign: 'center', fontSize: b.fontSize, color: b.color, borderTop: '1px solid #e5e5e5' }}><div contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{b.content}</div><div style={{ marginTop: 4 }}>SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work</div></div>}
                   {b.type === 'columns' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, display: 'flex', gap: 16 }}><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content2: e.currentTarget.innerText })}>{fillVars(b.content2 || '')}</div></div>}
+                  {b.type === 'image_text' && <div style={{ padding: `${b.padding}px 32px`, background: b.bgColor, display: 'flex', gap: 16, alignItems: 'center' }}><div style={{ width: `${b.imgWidth || 40}%`, flexShrink: 0 }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt || ''} style={{ width: '100%', borderRadius: b.borderRadius || 0 }} /> : <div style={{ height: 100, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 12 }}>Upload image →</div>}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color, fontFamily: b.fontFamily }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
                 </div>
               ))}
               {blocks.length === 0 && <div style={{ padding: 60, textAlign: 'center', color: '#CCCCCC' }}>Click blocks on the left to start building</div>}
@@ -381,8 +387,18 @@ export default function EmailsPage() {
                   </div>
                 )}
 
+                {/* Common: font family */}
+                {['text', 'heading', 'button', 'testimonial', 'footer', 'columns', 'image_text'].includes(selectedBlock.type) && (
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Font</label>
+                    <select value={selectedBlock.fontFamily || 'Arial'} onChange={e => updateBlock(selected!, { fontFamily: e.target.value })} style={{ width: '100%', padding: '6px 8px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 12, marginTop: 4, ...S }}>
+                      {emailFonts.map(f => <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>)}
+                    </select>
+                  </div>
+                )}
+
                 {/* Common: font size */}
-                {['text', 'heading', 'button', 'testimonial', 'footer', 'columns'].includes(selectedBlock.type) && (
+                {['text', 'heading', 'button', 'testimonial', 'footer', 'columns', 'image_text'].includes(selectedBlock.type) && (
                   <div style={{ marginBottom: 12 }}>
                     <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Font size: {selectedBlock.fontSize || 15}px</label>
                     <input type="range" min={10} max={36} value={selectedBlock.fontSize || 15} onChange={e => updateBlock(selected!, { fontSize: Number(e.target.value) })} style={{ width: '100%' }} />
@@ -390,20 +406,59 @@ export default function EmailsPage() {
                 )}
 
                 {/* Common: text color */}
-                {['text', 'heading', 'testimonial', 'footer', 'columns'].includes(selectedBlock.type) && (
+                {['text', 'heading', 'testimonial', 'footer', 'columns', 'image_text'].includes(selectedBlock.type) && (
                   <div style={{ marginBottom: 12 }}>
                     <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Text color</label>
                     <input type="color" value={selectedBlock.color || '#333333'} onChange={e => updateBlock(selected!, { color: e.target.value })} style={{ width: '100%', height: 28, border: 'none', cursor: 'pointer', marginTop: 4 }} />
                   </div>
                 )}
 
-                {/* Common: bold */}
-                {['text', 'heading'].includes(selectedBlock.type) && (
-                  <div style={{ marginBottom: 12 }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, cursor: 'pointer', color: '#000' }}>
-                      <input type="checkbox" checked={selectedBlock.fontWeight === 'bold'} onChange={e => updateBlock(selected!, { fontWeight: e.target.checked ? 'bold' : 'normal' })} /> Bold
+                {/* Common: bold + italic */}
+                {['text', 'heading', 'image_text'].includes(selectedBlock.type) && (
+                  <div style={{ marginBottom: 12, display: 'flex', gap: 12 }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer', color: '#000' }}>
+                      <input type="checkbox" checked={selectedBlock.fontWeight === 'bold'} onChange={e => updateBlock(selected!, { fontWeight: e.target.checked ? 'bold' : 'normal' })} /> <strong>B</strong>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer', color: '#000' }}>
+                      <input type="checkbox" checked={selectedBlock.fontStyle === 'italic'} onChange={e => updateBlock(selected!, { fontStyle: e.target.checked ? 'italic' : 'normal' })} /> <em>I</em>
                     </label>
                   </div>
+                )}
+
+                {/* Link URL */}
+                {['text', 'heading'].includes(selectedBlock.type) && (
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Link URL <span style={{ fontWeight: 400, color: '#CCCCCC' }}>(wraps text in link)</span></label>
+                    <input value={selectedBlock.linkUrl || ''} onChange={e => updateBlock(selected!, { linkUrl: e.target.value })} placeholder="https://..." style={{ width: '100%', padding: 6, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 12, boxSizing: 'border-box', marginTop: 4, ...S }} />
+                  </div>
+                )}
+
+                {/* Image+Text: image controls */}
+                {selectedBlock.type === 'image_text' && (
+                  <>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Image</label>
+                      <input type="file" accept="image/*" onChange={async (e) => {
+                        const file = e.target.files?.[0]; if (!file) return
+                        if (file.size > 5 * 1024 * 1024) { alert('Max 5MB'); return }
+                        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+                        const fileName = `email-images/${Date.now()}-${safeName}`
+                        const { error } = await supabase.storage.from('crm-documents').upload(fileName, file)
+                        if (error) { alert('Upload failed'); return }
+                        const { data: urlData } = supabase.storage.from('crm-documents').getPublicUrl(fileName)
+                        updateBlock(selected!, { imgUrl: urlData.publicUrl })
+                      }} style={{ width: '100%', fontSize: 11, marginTop: 4 }} />
+                      <input value={selectedBlock.imgUrl || ''} onChange={e => updateBlock(selected!, { imgUrl: e.target.value })} placeholder="Or paste URL" style={{ width: '100%', padding: 6, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 11, boxSizing: 'border-box', marginTop: 4, ...S }} />
+                    </div>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Image width: {selectedBlock.imgWidth || 40}%</label>
+                      <input type="range" min={20} max={60} value={selectedBlock.imgWidth || 40} onChange={e => updateBlock(selected!, { imgWidth: Number(e.target.value) })} style={{ width: '100%' }} />
+                    </div>
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Corner radius: {selectedBlock.borderRadius || 0}px</label>
+                      <input type="range" min={0} max={24} value={selectedBlock.borderRadius || 0} onChange={e => updateBlock(selected!, { borderRadius: Number(e.target.value) })} style={{ width: '100%' }} />
+                    </div>
+                  </>
                 )}
 
                 {/* Common: alignment */}
