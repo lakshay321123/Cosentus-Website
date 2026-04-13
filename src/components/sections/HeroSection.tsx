@@ -1,20 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
   </svg>
 )
-
-const testimonials = [
-  { tag: 'Anesthesia', title: '"Year-over-year collection rate of 97% from commercial payors and 98% overall."', author: '— Dr. John B. Field Jr., MD' },
-  { tag: 'Orthopedic', title: '"My reimbursements increased after they started coding for me."', author: '— Dr. Morteza Farr, DO' },
-  { tag: 'Pain Management', title: '"Nearly 20 years in practice — Cosentus has provided nothing but positive experiences."', author: '— Justin Lo, MD' },
-  { tag: 'ASC', title: '"The job they have done on the outstanding balances saved our surgery center."', author: '— John Welsh, M.D.' },
-]
 
 export default function HeroSection() {
   return (
@@ -45,29 +37,7 @@ export default function HeroSection() {
           </Link>
         </div>
 
-        {/* Desktop testimonials */}
-        <div className="hero-cases hero-cases-desktop">
-          {testimonials.map((t, i) => (
-            <div key={i} className="hero-case">
-              <div className="hero-case-tag">{t.tag}</div>
-              <div className="hero-case-title">{t.title}</div>
-              <span className="hero-case-link">{t.author}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile testimonials carousel */}
-        <div className="hero-cases-mobile" style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
-          <MobileCarousel autoScrollInterval={4000} darkMode>
-            {testimonials.map((t, i) => (
-              <div key={i} className="hero-case" style={{ height: 'auto' }}>
-                <div className="hero-case-tag">{t.tag}</div>
-                <div className="hero-case-title">{t.title}</div>
-                <span className="hero-case-link">{t.author}</span>
-              </div>
-            ))}
-          </MobileCarousel>
-        </div>
+        {/* Scroll indicator below */}
       </div>
 
       {/* Scroll indicator */}
