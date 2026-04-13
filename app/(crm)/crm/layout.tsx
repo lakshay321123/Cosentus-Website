@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GlobalSearch from '@/components/crm/GlobalSearch'
+import NotificationBell from '@/components/crm/NotificationBell'
 import '@/styles/crm.css'
 
 const I = {
@@ -89,6 +90,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <GlobalSearch />
+        <NotificationBell />
 
         {/* Nav */}
         <nav style={{ padding: '4px 10px', flex: 1, overflowY: 'auto' }}>

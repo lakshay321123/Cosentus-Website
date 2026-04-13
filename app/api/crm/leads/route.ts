@@ -111,6 +111,9 @@ export async function POST(req: NextRequest) {
     await supabase.from('leads').update({ assigned_to: assignee }).eq('id', data.id)
     await supabase.from('activities').insert({ lead_id: data.id, type: 'note', description: `Auto-assigned to ${assignee}` })
 
+    // Create notification
+    await supabase.from('notifications').insert({ type: 'new_lead', title: 'New lead captured', body: `${first_name} ${last_name} from ${practice_name || 'unknown practice'} (${specialty || 'other'})`, lead_id: data.id, link: `/crm/leads/${data.id}` })
+
     return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
