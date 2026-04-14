@@ -56,15 +56,16 @@ const navSections = [
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
 
   return (
     <div className="crm-page" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Top header — search left, logo RIGHT */}
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 20px', borderBottom: '1px solid #E6E6E6', background: '#fff', flexShrink: 0, zIndex: 150, position: 'sticky', top: 0 }}>
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 20px', borderBottom: '1px solid #E6E6E6', background: '#fff', flexShrink: 0, zIndex: 150 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="crm-hamburger" onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, display: 'none' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.5"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          <button onClick={() => { setSidebarOpen(!sidebarOpen); setMobileOpen(!mobileOpen) }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.5"><path d={sidebarOpen ? "M4 7h16M4 12h16M4 17h16" : "M4 7h16M4 12h16M4 17h16"} /></svg>
           </button>
           <GlobalSearch />
         </div>
@@ -83,7 +84,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         <aside className="crm-sidebar" style={{
           width: 200, background: '#fff', borderRight: '1px solid #E6E6E6',
           display: 'flex', flexDirection: 'column', flexShrink: 0,
-          position: 'fixed', top: 49, left: mobileOpen ? 0 : -200, bottom: 0, zIndex: 100,
+          position: 'fixed', top: 49, left: (sidebarOpen || mobileOpen) ? 0 : -200, bottom: 0, zIndex: 100,
           transition: 'left 0.3s cubic-bezier(0.16, 1, 0.3, 1)', overflowY: 'auto',
         }}>
           <nav style={{ padding: '6px 8px', flex: 1 }}>
@@ -131,15 +132,15 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
 
-        <main className="crm-main" style={{ marginLeft: 200, background: '#fff', minHeight: 'calc(100vh - 49px)', overflowX: 'hidden', flex: 1 }}>
+        <main className="crm-main" style={{ marginLeft: sidebarOpen ? 200 : 0, background: '#fff', transition: 'margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1)', minHeight: 'calc(100vh - 49px)', overflowX: 'hidden', flex: 1, paddingTop: 0 }}>
           {children}
         </main>
       </div>
 
       <style>{`
         html, body { overflow-x: hidden; }
-        @media (min-width: 769px) { .crm-sidebar { left: 0 !important; } .crm-hamburger { display: none !important; } }
-        @media (max-width: 768px) { .crm-hamburger { display: block !important; } .crm-main { margin-left: 0 !important; width: 100vw !important; } }
+        @media (max-width: 768px) { .crm-sidebar { top: 49px !important; } }
+        
       `}</style>
     </div>
   )

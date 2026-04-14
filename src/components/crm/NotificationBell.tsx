@@ -61,15 +61,14 @@ export default function NotificationBell() {
   const typeIcon: Record<string, string> = { new_lead: '👤', task_overdue: '⚠', meeting_soon: '📅', deal_won: '🎉', workflow: '⚡', system: 'ℹ' }
 
   return (
-    <div style={{ position: 'relative', padding: '0 14px', marginBottom: 8 }}>
-      <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 14px', borderRadius: 10, border: 'none', background: open ? '#D6EBF2' : 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif", fontSize: 14, color: '#000' }}>
+    <div style={{ position: 'relative' }}>
+      <button onClick={() => setOpen(!open)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, border: 'none', background: open ? '#D6EBF2' : 'transparent', cursor: 'pointer', position: 'relative' }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        Notifications
-        {unread > 0 && <span style={{ marginLeft: 'auto', background: '#00B5D6', color: '#fff', fontSize: 11, fontWeight: 600, padding: '1px 7px', borderRadius: 10, minWidth: 18, textAlign: 'center' }}>{unread}</span>}
+        {unread > 0 && <span style={{ position: 'absolute', top: 4, right: 4, background: '#00B5D6', color: '#fff', fontSize: 9, fontWeight: 700, padding: '0 4px', borderRadius: 8, minWidth: 14, height: 14, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{unread}</span>}
       </button>
 
       {open && (
-        <div style={{ position: 'absolute', left: 14, right: 14, top: '100%', marginTop: 4, background: '#fff', borderRadius: 14, border: '1px solid #E6E6E6', boxShadow: '0 8px 24px rgba(0,0,0,0.08)', zIndex: 50, maxHeight: 400, overflowY: 'auto' }}>
+        <div style={{ position: 'absolute', right: 0, top: '100%', marginTop: 8, width: 340, background: '#fff', borderRadius: 14, border: '1px solid #E6E6E6', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', zIndex: 200, maxHeight: 400, overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid #E6E6E6' }}>
             <span style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>Notifications</span>
             {unread > 0 && <button onClick={markAllRead} style={{ fontSize: 12, color: '#00B5D6', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>Mark all read</button>}
