@@ -109,61 +109,62 @@ function CindyInner() {
         return `Clicked on "${params.text}"`
       },
 
-      fill_form: (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
+      fill_form: async (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
         setActionLabel('Filling form...')
         const needsNav = window.location.pathname !== '/contact'
         if (needsNav) router.push('/contact')
-        setTimeout(() => {
-          // Scroll to form first
-          const formSection = document.getElementById('contact-form')
-          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' })
 
-          const fieldMap: Record<string, string> = {
-            practiceName: params.practice_name || '', contactName: params.contact_name || '',
-            email: params.email || '', phone: params.phone || '', message: params.message || '',
-          }
-          let filled = 0
-          for (const [name, value] of Object.entries(fieldMap)) {
-            if (!value) continue
-            const el = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
-            if (el) {
-              const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
-              const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
-              if (setter) { setter.call(el, value); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
-            }
-          }
-          if (params.specialty) {
-            const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
-            if (select) {
-              const specialtyMap: Record<string, string> = {
-                'anesthesia': 'anesthesia', 'orthopedics': 'orthopedics', 'orthopedic': 'orthopedics',
-                'pain management': 'pain-management', 'pain': 'pain-management',
-                'asc': 'asc', 'ambulatory surgery': 'asc', 'surgery center': 'asc',
-                'behavioral health': 'behavioral-health', 'behavioral': 'behavioral-health', 'mental health': 'behavioral-health',
-                'urgent care': 'urgent-care', 'urgent': 'urgent-care', 'other': 'other',
-              }
-              const key = params.specialty.toLowerCase()
-              const val = specialtyMap[key] || Object.values(specialtyMap).find(v => v.includes(key)) || key
-              const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
-              if (setter) { setter.call(select, val); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
-            }
-          }
+        // Wait for page to load if we navigated
+        await new Promise(r => setTimeout(r, needsNav ? 1800 : 300))
 
-          // Auto-submit the form after filling
-          if (filled > 0) {
-            setTimeout(() => {
-              const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null
-              if (submitBtn && !submitBtn.disabled) {
-                setActionLabel('Submitting...')
-                submitBtn.click()
-              }
-              setTimeout(() => setActionLabel(''), 1500)
-            }, 500)
-          } else {
-            setActionLabel('')
+        // Scroll to form
+        const formSection = document.getElementById('contact-form')
+        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' })
+
+        const fieldMap: Record<string, string> = {
+          practiceName: params.practice_name || '', contactName: params.contact_name || '',
+          email: params.email || '', phone: params.phone || '', message: params.message || '',
+        }
+        let filled = 0
+        for (const [name, value] of Object.entries(fieldMap)) {
+          if (!value) continue
+          const el = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
+          if (el) {
+            const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
+            const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
+            if (setter) { setter.call(el, value); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
           }
-        }, needsNav ? 1500 : 200)
-        return 'Filling and submitting contact form'
+        }
+        if (params.specialty) {
+          const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
+          if (select) {
+            const specialtyMap: Record<string, string> = {
+              'anesthesia': 'anesthesia', 'orthopedics': 'orthopedics', 'orthopedic': 'orthopedics',
+              'pain management': 'pain-management', 'pain': 'pain-management',
+              'asc': 'asc', 'ambulatory surgery': 'asc', 'surgery center': 'asc',
+              'behavioral health': 'behavioral-health', 'behavioral': 'behavioral-health', 'mental health': 'behavioral-health',
+              'urgent care': 'urgent-care', 'urgent': 'urgent-care', 'other': 'other',
+            }
+            const key = params.specialty.toLowerCase()
+            const val = specialtyMap[key] || Object.values(specialtyMap).find(v => v.includes(key)) || key
+            const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
+            if (setter) { setter.call(select, val); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
+          }
+        }
+
+        // Submit the form
+        if (filled > 0) {
+          await new Promise(r => setTimeout(r, 500))
+          const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null
+          if (submitBtn && !submitBtn.disabled) {
+            setActionLabel('Submitting...')
+            submitBtn.click()
+            await new Promise(r => setTimeout(r, 1500))
+          }
+        }
+
+        setActionLabel('')
+        return filled > 0 ? `Form filled and submitted successfully with ${filled} fields` : 'Could not find form fields on this page'
       },
 
       scroll_to: (params: { section_id: string }) => {
