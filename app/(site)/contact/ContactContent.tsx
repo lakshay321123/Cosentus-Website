@@ -114,7 +114,7 @@ export default function ContactContent() {
       </section>
 
       {/* Contact Form + Details */}
-      <section className="section section-alt">
+      <section id="contact-form" className="section section-alt">
         <div className="container">
           <div className="ra-main-grid" style={{
             display: 'grid',

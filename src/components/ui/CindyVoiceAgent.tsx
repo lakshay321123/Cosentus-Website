@@ -59,12 +59,14 @@ function CindyInner() {
       navigate: async (params: { path: string; section?: string }) => {
         setActionLabel('Navigating...')
         router.push(params.path)
-        if (params.section) {
-          const el = await waitForElement(params.section)
+        // Auto-scroll to form on contact page if no specific section requested
+        const scrollTarget = params.section || (params.path === '/contact' ? 'contact-form' : null)
+        if (scrollTarget) {
+          const el = await waitForElement(scrollTarget)
           if (el) el.scrollIntoView({ behavior: 'smooth' })
         }
         setActionLabel('')
-        return `Navigated to ${params.path}${params.section ? '#' + params.section : ''}`
+        return `Navigated to ${params.path}${scrollTarget ? '#' + scrollTarget : ''}`
       },
 
       click_element: (params: { text: string; page?: string }) => {
@@ -109,8 +111,13 @@ function CindyInner() {
 
       fill_form: (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
         setActionLabel('Filling form...')
-        if (window.location.pathname !== '/contact') router.push('/contact')
+        const needsNav = window.location.pathname !== '/contact'
+        if (needsNav) router.push('/contact')
         setTimeout(() => {
+          // Scroll to form first
+          const formSection = document.getElementById('contact-form')
+          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' })
+
           const fieldMap: Record<string, string> = {
             practiceName: params.practice_name || '', contactName: params.contact_name || '',
             email: params.email || '', phone: params.phone || '', message: params.message || '',
@@ -141,9 +148,22 @@ function CindyInner() {
               if (setter) { setter.call(select, val); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
             }
           }
-          setActionLabel('')
-        }, window.location.pathname !== '/contact' ? 1500 : 200)
-        return 'Filling contact form'
+
+          // Auto-submit the form after filling
+          if (filled > 0) {
+            setTimeout(() => {
+              const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null
+              if (submitBtn && !submitBtn.disabled) {
+                setActionLabel('Submitting...')
+                submitBtn.click()
+              }
+              setTimeout(() => setActionLabel(''), 1500)
+            }, 500)
+          } else {
+            setActionLabel('')
+          }
+        }, needsNav ? 1500 : 200)
+        return 'Filling and submitting contact form'
       },
 
       scroll_to: (params: { section_id: string }) => {
