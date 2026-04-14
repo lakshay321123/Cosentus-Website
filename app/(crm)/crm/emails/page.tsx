@@ -3,19 +3,20 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
-type BlockType = 'header' | 'text' | 'heading' | 'image' | 'button' | 'divider' | 'spacer' | 'stats' | 'testimonial' | 'footer' | 'columns' | 'image_text'
+type BlockType = 'header' | 'text' | 'heading' | 'image' | 'button' | 'divider' | 'spacer' | 'stats' | 'testimonial' | 'footer' | 'columns' | 'image_text' | 'social' | 'three_col'
 
 interface Block {
   id: string; type: BlockType
   content: string; content2?: string; content3?: string
-  fontSize?: number; fontWeight?: string; fontStyle?: string; fontFamily?: string; color?: string; align?: string
-  bgColor?: string; bgImage?: string; bgOverlay?: string; bgSize?: string; padding?: number; borderRadius?: number
+  fontSize?: number; fontWeight?: string; fontStyle?: string; textDecoration?: string; fontFamily?: string; color?: string; align?: string
+  bgColor?: string; bgColor2?: string; bgGradientDir?: string; bgImage?: string; bgOverlay?: string; bgSize?: string; opacity?: number; padding?: number; borderRadius?: number
   imgUrl?: string; imgWidth?: number; imgHeight?: number; imgAlt?: string
   btnUrl?: string; btnColor?: string; btnTextColor?: string; btnPadX?: number; btnPadY?: number
   height?: number; dividerColor?: string; linkUrl?: string
   lineHeight?: number; letterSpacing?: number; borderColor?: string; borderWidth?: number
   stat1?: string; stat1Label?: string; stat2?: string; stat2Label?: string; stat3?: string; stat3Label?: string
   statColor?: string; statLabelColor?: string
+  socialFb?: string; socialLi?: string; socialTw?: string; socialIg?: string; socialYt?: string; socialWeb?: string
 }
 
 const defaultBlocks: Record<BlockType, Partial<Block>> = {
@@ -31,15 +32,21 @@ const defaultBlocks: Record<BlockType, Partial<Block>> = {
   footer: { content: 'Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com', content2: 'SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work', bgColor: '#ffffff', color: '#999999', fontSize: 12, padding: 20, align: 'center' },
   columns: { content: 'Column 1 text', content2: 'Column 2 text', padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial' },
   image_text: { content: 'Add your description here. This text appears next to the image.', imgUrl: '', imgWidth: 40, padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial', align: 'left' },
+  social: { content: 'Follow us', bgColor: '#ffffff', padding: 16, align: 'center', socialFb: 'https://facebook.com', socialLi: 'https://linkedin.com', socialTw: '', socialIg: '', socialYt: '', socialWeb: 'https://cosentus.com', color: '#00B5D6' },
+  three_col: { content: 'Column 1', content2: 'Column 2', content3: 'Column 3', padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial' },
 }
 
-const blockLabels: Record<BlockType, string> = { header: '🏢 Header', text: '📝 Text', heading: '🔤 Heading', image: '🖼 Image', button: '🔘 Button', divider: '➖ Divider', spacer: '⬜ Spacer', stats: '📊 Stats Bar', testimonial: '💬 Testimonial', footer: '📌 Footer', columns: '▐▌ Two Columns', image_text: '🖼📝 Image + Text' }
+const blockLabels: Record<BlockType, string> = { header: '🏢 Header', text: '📝 Text', heading: '🔤 Heading', image: '🖼 Image', button: '🔘 Button', divider: '➖ Divider', spacer: '⬜ Spacer', stats: '📊 Stats Bar', testimonial: '💬 Testimonial', footer: '📌 Footer', columns: '▐▌ 2 Columns', image_text: '🖼📝 Image + Text', social: '🔗 Social Icons', three_col: '▐▌▌ 3 Columns' }
 
 const emailFonts = ['Arial', 'Helvetica', 'Georgia', 'Times New Roman', 'Courier New', 'Verdana', 'Tahoma', 'Trebuchet MS']
+const brandColors = ['#00B5D6', '#36C2DE', '#68D1E6', '#A1DEED', '#D6EBF2', '#000000', '#333333', '#666666', '#999999', '#FFFFFF']
 
-// Background: solid color OR image with overlay
+// Background: solid / gradient / image with overlay
 const bgStyle = (b: Partial<Block>): React.CSSProperties => {
-  const base: React.CSSProperties = { background: b.bgColor || '#fff' }
+  const base: React.CSSProperties = {}
+  if (b.bgColor2 && b.bgColor) {
+    base.background = `linear-gradient(${b.bgGradientDir || 'to bottom'}, ${b.bgColor}, ${b.bgColor2})`
+  } else { base.background = b.bgColor || '#fff' }
   if (b.bgImage) {
     base.backgroundImage = b.bgOverlay
       ? `linear-gradient(${b.bgOverlay}, ${b.bgOverlay}), url(${b.bgImage})`
@@ -49,16 +56,21 @@ const bgStyle = (b: Partial<Block>): React.CSSProperties => {
     base.backgroundRepeat = 'no-repeat'
   }
   if (b.borderColor && b.borderWidth) { base.border = `${b.borderWidth}px solid ${b.borderColor}` }
+  if (b.opacity !== undefined && b.opacity < 100) { base.opacity = b.opacity / 100 }
   return base
 }
 const bgHtml = (b: Partial<Block>): string => {
-  let s = `background:${b.bgColor || '#fff'}`
+  let s = ''
+  if (b.bgColor2 && b.bgColor) {
+    s = `background:linear-gradient(${b.bgGradientDir || 'to bottom'},${b.bgColor},${b.bgColor2})`
+  } else { s = `background:${b.bgColor || '#fff'}` }
   if (b.bgImage) {
     s = b.bgOverlay
       ? `background:linear-gradient(${b.bgOverlay},${b.bgOverlay}),url(${b.bgImage});background-size:${b.bgSize||'cover'};background-position:center`
       : `background:url(${b.bgImage});background-size:${b.bgSize||'cover'};background-position:center`
   }
   if (b.borderColor && b.borderWidth) s += `;border:${b.borderWidth}px solid ${b.borderColor}`
+  if (b.opacity !== undefined && b.opacity < 100) s += `;opacity:${b.opacity/100}`
   return s
 }
 
@@ -109,6 +121,7 @@ export default function EmailsPage() {
   const [showPreview, setShowPreview] = useState(false)
   const [history, setHistory] = useState<Block[][]>([])
   const [mobilePreview, setMobilePreview] = useState(false)
+  const [preheader, setPreheader] = useState('')
   const pushHistory = () => setHistory(prev => [...prev.slice(-19), blocks])
 
   useEffect(() => {
@@ -136,6 +149,7 @@ export default function EmailsPage() {
 
   const toHtml = (forPreview = false) => {
     let html = '<div style="max-width:600px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;background:#fff">'
+    if (preheader) html += `<div style="display:none;max-height:0;overflow:hidden;font-size:1px;color:#fff">${preheader}</div>`
     const resolve = (text: string): string => forPreview ? fillVars(text) : text
     for (const b of blocks) {
       const pad = `padding:${b.padding || 16}px 32px`
@@ -153,6 +167,8 @@ export default function EmailsPage() {
       else if (b.type === 'footer') html += `<div style="${pad};text-align:center;font-size:${b.fontSize||12}px;color:${b.color||'#999'};font-family:${b.fontFamily||'Arial'},sans-serif;border-top:1px solid #e5e5e5"><div>${resolve(b.content)}</div><div style="margin-top:4px">${b.content2||''}</div></div>`
       else if (b.type === 'columns') html += `<table width="100%" cellpadding="0" cellspacing="0" style="${pad};${bg}"><tr><td style="width:50%;vertical-align:top;padding-right:8px;font-size:${b.fontSize||14}px;font-family:${b.fontFamily||'Arial'},sans-serif;color:${b.color||'#333'}">${resolve(b.content)}</td><td style="width:50%;vertical-align:top;padding-left:8px;font-size:${b.fontSize||14}px;font-family:${b.fontFamily||'Arial'},sans-serif;color:${b.color||'#333'}">${resolve(b.content2||'')}</td></tr></table>`
       else if (b.type === 'image_text') html += `<table width="100%" cellpadding="0" cellspacing="0" style="${pad};${bg}"><tr><td style="width:${b.imgWidth||40}%;vertical-align:middle;padding-right:8px"><img src="${b.imgUrl||''}" alt="${b.imgAlt||''}" style="width:100%;border-radius:${b.borderRadius||0}px"></td><td style="vertical-align:middle;font-size:${b.fontSize||14}px;color:${b.color||'#333'};font-family:${b.fontFamily||'Arial'},sans-serif;${b.fontWeight === 'bold' ? 'font-weight:bold;' : ''}${b.fontStyle === 'italic' ? 'font-style:italic;' : ''}">${resolve(b.content)}</td></tr></table>`
+      else if (b.type === 'social') { const icons = [{k:'socialFb',l:'Facebook',c:'#1877F2'},{k:'socialLi',l:'LinkedIn',c:'#0A66C2'},{k:'socialTw',l:'Twitter',c:'#1DA1F2'},{k:'socialIg',l:'Instagram',c:'#E4405F'},{k:'socialYt',l:'YouTube',c:'#FF0000'},{k:'socialWeb',l:'Website',c:'#333'}].filter(i => (b as any)[i.k]); html += `<div style="${pad};${bg};text-align:center">${b.content ? `<div style="font-size:13px;color:${b.color||'#333'};margin-bottom:8px">${b.content}</div>` : ''}${icons.map(i => `<a href="${(b as any)[i.k]}" style="display:inline-block;margin:0 6px;padding:8px 14px;background:${i.c};color:#fff;text-decoration:none;border-radius:4px;font-size:12px;font-weight:600">${i.l}</a>`).join('')}</div>` }
+      else if (b.type === 'three_col') html += `<table width="100%" cellpadding="0" cellspacing="0" style="${pad};${bg}"><tr><td style="width:33%;vertical-align:top;padding-right:6px;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${resolve(b.content)}</td><td style="width:33%;vertical-align:top;padding:0 3px;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${resolve(b.content2||'')}</td><td style="width:33%;vertical-align:top;padding-left:6px;font-size:${b.fontSize||14}px;color:${b.color||'#333'}">${resolve(b.content3||'')}</td></tr></table>`
     }
     html += '</div>'; return html
   }
@@ -208,6 +224,7 @@ export default function EmailsPage() {
             <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 16px', border: '1px solid #E6E6E6', borderRadius: 10, marginBottom: 8 }}>
               <div style={{ flex: 1 }}><div style={{ fontWeight: 600, color: '#000' }}>{t.name}</div><div style={{ fontSize: 12, color: '#000' }}>Subject: {t.subject}</div></div>
               {t.design_json && <button onClick={() => loadBlocks(t)} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, border: '1px solid #00B5D6', background: '#fff', color: '#00B5D6', cursor: 'pointer', ...S }}>Edit</button>}
+              <button onClick={async () => { const { data } = await supabase.from('email_templates').insert({ name: t.name + ' (copy)', subject: t.subject, html_content: t.html_content, design_json: t.design_json, category: 'custom' }).select(); if (data) setSaved(prev => [data[0], ...prev]) }} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, border: '1px solid #E6E6E6', background: '#fff', color: '#000', cursor: 'pointer', ...S }}>Duplicate</button>
               <button onClick={() => { const lead = leads.find(l => l.id === previewLead); if (!lead?.email) { alert('Select a lead first'); return }; window.open(`mailto:${lead.email}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent('Hi ' + (lead.first_name || '') + ',\n\nPlease find our latest update below.\n\nBest regards,\nCosentus Team\n(877) 806-2286')}`, '_blank') }} style={{ fontSize: 12, padding: '6px 12px', borderRadius: 6, background: '#00B5D6', color: '#fff', border: 'none', cursor: 'pointer', ...S }}>Send</button>
             </div>
           ))}
@@ -261,6 +278,8 @@ export default function EmailsPage() {
                   {b.type === 'footer' && <div style={{ padding: `${b.padding}px 32px`, textAlign: 'center', fontSize: b.fontSize, color: b.color, borderTop: '1px solid #e5e5e5', fontFamily: b.fontFamily || 'Arial', ...bgStyle(b) }}><div contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{b.content}</div><div style={{ marginTop: 4, fontSize: 10, opacity: 0.7 }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content2: e.currentTarget.innerText })}>{b.content2 || ''}</div></div>}
                   {b.type === 'columns' && <div style={{ padding: `${b.padding}px 32px`, ...bgStyle(b), display: 'flex', gap: 16 }}><div style={{ flex: 1, fontSize: b.fontSize, color: b.color, fontFamily: b.fontFamily || 'Arial' }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color, fontFamily: b.fontFamily || 'Arial' }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content2: e.currentTarget.innerText })}>{fillVars(b.content2 || '')}</div></div>}
                   {b.type === 'image_text' && <div style={{ padding: `${b.padding}px 32px`, ...bgStyle(b), display: 'flex', gap: 16, alignItems: 'center' }}><div style={{ width: `${b.imgWidth || 40}%`, flexShrink: 0 }}>{b.imgUrl ? <img src={b.imgUrl} alt={b.imgAlt || ''} style={{ width: '100%', borderRadius: b.borderRadius || 0 }} /> : <div style={{ height: 100, background: '#f0f0f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCCCCC', fontSize: 12 }}>Upload image →</div>}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color, fontFamily: b.fontFamily, fontWeight: b.fontWeight as any, fontStyle: b.fontStyle as any }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div></div>}
+                  {b.type === 'social' && <div style={{ padding: `${b.padding}px 32px`, ...bgStyle(b), textAlign: 'center' }}>{b.content && <div style={{ fontSize: 13, color: b.color, marginBottom: 8 }}>{b.content}</div>}{[{k:'socialFb',l:'FB',c:'#1877F2'},{k:'socialLi',l:'in',c:'#0A66C2'},{k:'socialTw',l:'X',c:'#000'},{k:'socialIg',l:'IG',c:'#E4405F'},{k:'socialYt',l:'YT',c:'#FF0000'},{k:'socialWeb',l:'Web',c:'#333'}].filter(i => (b as any)[i.k]).map(i => <span key={i.k} style={{ display: 'inline-block', margin: '0 4px', padding: '6px 12px', background: i.c, color: '#fff', borderRadius: 4, fontSize: 11, fontWeight: 600 }}>{i.l}</span>)}</div>}
+                  {b.type === 'three_col' && <div style={{ padding: `${b.padding}px 32px`, ...bgStyle(b), display: 'flex', gap: 12 }}><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content: e.currentTarget.innerText })}>{fillVars(b.content)}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content2: e.currentTarget.innerText })}>{fillVars(b.content2 || '')}</div><div style={{ flex: 1, fontSize: b.fontSize, color: b.color }} contentEditable suppressContentEditableWarning onBlur={e => updateBlock(b.id, { content3: e.currentTarget.innerText })}>{fillVars(b.content3 || '')}</div></div>}
                 </div>
               ))}
               {blocks.length === 0 && <div style={{ padding: 60, textAlign: 'center', color: '#CCCCCC' }}>Click blocks on the left to start building</div>}
@@ -272,6 +291,7 @@ export default function EmailsPage() {
             {!selectedBlock ? (
               <div>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.08em', marginBottom: 12 }}>SAVE TEMPLATE</div>
+                <input value={preheader} onChange={e => setPreheader(e.target.value)} placeholder="Preheader (inbox preview text)" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 6, boxSizing: 'border-box', ...S }} />
                 <input value={templateName} onChange={e => setTemplateName(e.target.value)} placeholder="Template name" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 6, boxSizing: 'border-box', ...S }} />
                 <input value={templateSubject} onChange={e => setTemplateSubject(e.target.value)} placeholder="Subject line" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 4, boxSizing: 'border-box', ...S }} />
                 <button onClick={async () => {
@@ -474,14 +494,17 @@ export default function EmailsPage() {
                   </div>
                 )}
 
-                {/* Common: bold + italic */}
+                {/* Common: bold + italic + underline */}
                 {['text', 'heading', 'image_text'].includes(selectedBlock.type) && (
-                  <div style={{ marginBottom: 12, display: 'flex', gap: 12 }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer', color: '#000' }}>
+                  <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, cursor: 'pointer', color: '#000' }}>
                       <input type="checkbox" checked={selectedBlock.fontWeight === 'bold'} onChange={e => updateBlock(selected!, { fontWeight: e.target.checked ? 'bold' : 'normal' })} /> <strong>B</strong>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer', color: '#000' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, cursor: 'pointer', color: '#000' }}>
                       <input type="checkbox" checked={selectedBlock.fontStyle === 'italic'} onChange={e => updateBlock(selected!, { fontStyle: e.target.checked ? 'italic' : 'normal' })} /> <em>I</em>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, cursor: 'pointer', color: '#000' }}>
+                      <input type="checkbox" checked={selectedBlock.textDecoration === 'underline'} onChange={e => updateBlock(selected!, { textDecoration: e.target.checked ? 'underline' : 'none' })} /> <span style={{ textDecoration: 'underline' }}>U</span>
                     </label>
                   </div>
                 )}
@@ -522,6 +545,24 @@ export default function EmailsPage() {
                   </>
                 )}
 
+                {/* Social links */}
+                {selectedBlock.type === 'social' && (
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ fontSize: 11, color: '#000', fontWeight: 600, marginBottom: 4, display: 'block' }}>Social Links</label>
+                    {[{k:'socialFb',l:'Facebook'},{k:'socialLi',l:'LinkedIn'},{k:'socialTw',l:'X / Twitter'},{k:'socialIg',l:'Instagram'},{k:'socialYt',l:'YouTube'},{k:'socialWeb',l:'Website'}].map(s => (
+                      <input key={s.k} value={(selectedBlock as any)[s.k] || ''} onChange={e => updateBlock(selected!, { [s.k]: e.target.value })} placeholder={s.l} style={{ width: '100%', padding: 5, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 11, boxSizing: 'border-box', marginBottom: 3, ...S }} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Three column content3 */}
+                {selectedBlock.type === 'three_col' && (
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Column 3</label>
+                    <textarea value={selectedBlock.content3 || ''} onChange={e => updateBlock(selected!, { content3: e.target.value })} rows={2} style={{ width: '100%', padding: 6, borderRadius: 4, border: '1px solid #E6E6E6', fontSize: 12, resize: 'vertical', boxSizing: 'border-box', marginTop: 4, ...S }} />
+                  </div>
+                )}
+
                 {/* Common: alignment */}
                 {!['divider', 'spacer', 'stats'].includes(selectedBlock.type) && (
                   <div style={{ marginBottom: 12 }}>
@@ -534,10 +575,33 @@ export default function EmailsPage() {
                   </div>
                 )}
 
-                {/* Common: background color */}
+                {/* Common: background color + brand palette */}
                 <div style={{ marginBottom: 12 }}>
                   <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Background</label>
                   <input type="color" value={selectedBlock.bgColor || '#ffffff'} onChange={e => { pushHistory(); updateBlock(selected!, { bgColor: e.target.value }) }} style={{ width: '100%', height: 28, border: 'none', cursor: 'pointer', marginTop: 4 }} />
+                  <div style={{ display: 'flex', gap: 3, marginTop: 4, flexWrap: 'wrap' }}>
+                    {brandColors.map(c => (
+                      <button key={c} onClick={() => { pushHistory(); updateBlock(selected!, { bgColor: c }) }} style={{ width: 20, height: 20, borderRadius: 4, border: selectedBlock.bgColor === c ? '2px solid #00B5D6' : '1px solid #E6E6E6', background: c, cursor: 'pointer', padding: 0 }} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Gradient */}
+                <div style={{ marginBottom: 12 }}>
+                  <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Gradient</label>
+                  <div style={{ display: 'flex', gap: 4, marginTop: 4, alignItems: 'center' }}>
+                    <input type="color" value={selectedBlock.bgColor2 || '#ffffff'} onChange={e => updateBlock(selected!, { bgColor2: e.target.value })} style={{ width: 28, height: 22, border: 'none', cursor: 'pointer' }} />
+                    <select value={selectedBlock.bgGradientDir || 'to bottom'} onChange={e => updateBlock(selected!, { bgGradientDir: e.target.value })} style={{ flex: 1, fontSize: 10, padding: '3px', borderRadius: 4, border: '1px solid #E6E6E6', ...S }}>
+                      {['to bottom', 'to right', 'to bottom right', 'to top', 'to left'].map(d => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                    {selectedBlock.bgColor2 && <button onClick={() => updateBlock(selected!, { bgColor2: '', bgGradientDir: '' })} style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, border: '1px solid #E6E6E6', background: '#fff', cursor: 'pointer', color: '#000', ...S }}>Clear</button>}
+                  </div>
+                </div>
+
+                {/* Opacity */}
+                <div style={{ marginBottom: 12 }}>
+                  <label style={{ fontSize: 11, color: '#000', fontWeight: 600 }}>Opacity: {selectedBlock.opacity ?? 100}%</label>
+                  <input type="range" min={10} max={100} value={selectedBlock.opacity ?? 100} onChange={e => updateBlock(selected!, { opacity: Number(e.target.value) })} style={{ width: '100%' }} />
                 </div>
 
                 {/* Background image */}
