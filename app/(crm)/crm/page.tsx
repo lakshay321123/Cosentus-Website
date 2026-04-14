@@ -131,12 +131,12 @@ export default function CRMDashboard() {
         <div style={{ display: widgets.stats ? 'grid' : 'none', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14, marginBottom: 28 }}>
           {[
             { label: 'Total Leads', value: total, prefix: '' },
-            { label: 'Hot Leads', value: hot, accent: true },
+            { label: 'Hot Leads', value: hot },
             { label: 'Pipeline', value: Math.round(pipelineVal / 1000), prefix: '$', suffix: 'K' },
             { label: 'Won Revenue', value: Math.round(wonVal / 1000), prefix: '$', suffix: 'K' },
             { label: 'Win Rate', value: convRate, suffix: '%' },
           ].map((s, i) => (
-            <div key={i} className={`crm-stat crm-animate-in crm-animate-in-${i + 1} ${s.accent ? 'accent' : ''}`}>
+            <div key={i} className={`crm-stat crm-animate-in crm-animate-in-${i + 1}`}>
               <div className="crm-stat-label">{s.label}</div>
               <div className="crm-stat-value"><AnimatedNumber value={s.value} prefix={s.prefix || ''} suffix={s.suffix || ''} /></div>
             </div>
@@ -144,6 +144,7 @@ export default function CRMDashboard() {
         </div>
 
         {/* Pipeline chart */}
+        {widgets.pipeline && (
         <div className="crm-card crm-animate-in crm-animate-in-3" style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h2 className="crm-h2">Pipeline</h2>
@@ -165,9 +166,12 @@ export default function CRMDashboard() {
             ))}
           </div>
         </div>
+        )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
+        {(widgets.leads || widgets.activity || widgets.tasks) && (
+        <div style={{ display: 'grid', gridTemplateColumns: widgets.leads && (widgets.activity || widgets.tasks) ? '1.5fr 1fr' : '1fr', gap: 16 }}>
           {/* Recent leads */}
+          {widgets.leads && (
           <div className="crm-card crm-animate-in crm-animate-in-4">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
               <h2 className="crm-h2">Recent Leads</h2>
@@ -199,10 +203,13 @@ export default function CRMDashboard() {
               </tbody>
             </table>
           </div>
+          )}
 
           {/* Right column: activity + tasks */}
+          {(widgets.activity || widgets.tasks) && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {/* Activity */}
+            {widgets.activity && (
             <div className="crm-card crm-animate-in crm-animate-in-4" style={{ flex: 1 }}>
               <h2 className="crm-h2" style={{ marginBottom: 14 }}>Activity</h2>
               {activities.length === 0 ? (
@@ -219,8 +226,10 @@ export default function CRMDashboard() {
                 </div>
               ))}
             </div>
+            )}
 
             {/* Tasks */}
+            {widgets.tasks && (
             <div className="crm-card crm-animate-in crm-animate-in-5">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
                 <h2 className="crm-h2">Tasks Due</h2>
@@ -238,8 +247,11 @@ export default function CRMDashboard() {
                 </div>
               ))}
             </div>
+            )}
           </div>
+          )}
         </div>
+        )}
       </div>
     </>
   )

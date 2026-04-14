@@ -29,11 +29,12 @@
 .crm-stat-label { font-size: 13px; font-weight: 500; color: #000000; margin-bottom: 12px; }
 .crm-stat-value { font-size: 28px; font-weight: 600; color: #00B5D6; line-height: 1; }
 .crm-stat-sub { font-size: 13px; color: #000000; margin-top: 6px; }
-.crm-stat.accent { background: #00B5D6; border: none; }
-.crm-stat.accent .crm-stat-label,
-.crm-stat.accent .crm-stat-value,
-.crm-stat.accent .crm-stat-sub { color: #fff; }
-.crm-stat.accent .crm-stat-icon { color: rgba(255,255,255,0.3); }
+.crm-stat { transition: background 0.2s, border-color 0.2s; cursor: default; }
+.crm-stat:hover { background: #00B5D6; border-color: #00B5D6; }
+.crm-stat:hover .crm-stat-label,
+.crm-stat:hover .crm-stat-value,
+.crm-stat:hover .crm-stat-sub { color: #fff; }
+.crm-stat:hover .crm-stat-icon { color: rgba(255,255,255,0.3); }
 
 /* Headings — BLACK */
 .crm-h1 { font-size: 26px; font-weight: 600; color: #000000; margin: 0; }
