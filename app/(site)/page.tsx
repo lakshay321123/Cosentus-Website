@@ -1,10 +1,11 @@
 import HeroSection from '@/components/sections/HeroSection'
 import RASection from '@/components/sections/RASection'
 import ResultsSection from '@/components/sections/ResultsSection'
+import StatementSection from '@/components/sections/StatementSection'
 import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
-import AdvantagesSection from '@/components/sections/AdvantagesSection'
 import ServicesSection from '@/components/sections/ServicesSection'
 import PartnersSection from '@/components/sections/PartnersSection'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import CTASection from '@/components/sections/CTASection'
 
 export default function Home() {
@@ -13,10 +14,11 @@ export default function Home() {
       <HeroSection />
       <RASection />
       <ResultsSection />
+      <StatementSection />
       <CaseStudiesSection />
-      <AdvantagesSection />
       <ServicesSection />
       <PartnersSection />
+      <TestimonialsSection />
       <CTASection />
     </main>
   )

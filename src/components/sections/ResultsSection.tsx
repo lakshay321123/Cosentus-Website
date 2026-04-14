@@ -91,7 +91,7 @@ export default function ResultsSection() {
 
         <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
-            Verified client results. Every figure is documented and linked to case studies with full methodology.
+            Verified client results. Linked to case studies with full methodology.
           </p>
         </RevealOnScroll>
       </div>
