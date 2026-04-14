@@ -27,10 +27,11 @@ const I = {
   back: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
 }
 
+const SIDEBAR_W = 200
+const TRANSITION = '0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+
 const navSections = [
-  { label: '', items: [
-    { href: '/crm', label: 'Dashboard', icon: I.dashboard },
-  ]},
+  { label: '', items: [{ href: '/crm', label: 'Dashboard', icon: I.dashboard }] },
   { label: 'Sales', items: [
     { href: '/crm/pipeline', label: 'Pipeline', icon: I.pipeline },
     { href: '/crm/leads', label: 'Leads', icon: I.leads },
@@ -46,104 +47,95 @@ const navSections = [
     { href: '/crm/surveys', label: 'Surveys', icon: I.surveys },
     { href: '/crm/forms', label: 'Forms', icon: I.documents },
   ]},
-  { label: 'Automation', items: [
-    { href: '/crm/workflows', label: 'Workflows', icon: I.workflows },
-  ]},
+  { label: 'Automation', items: [{ href: '/crm/workflows', label: 'Workflows', icon: I.workflows }] },
   { label: 'Reporting', items: [
     { href: '/crm/analytics', label: 'Analytics', icon: I.analytics },
     { href: '/crm/reports', label: 'Reports', icon: I.reports },
     { href: '/crm/seo', label: 'SEO', icon: I.analytics },
     { href: '/crm/pages', label: 'Landing Pages', icon: I.documents },
   ]},
-  { label: '', items: [
-    { href: '/crm/settings', label: 'Settings', icon: I.settings },
-  ]},
 ]
 
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [open, setOpen] = useState(true)
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
 
   return (
-    <div className="crm-page" style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Mobile header */}
-      <div className="crm-mobile-header" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: '#ffffff',  borderBottom: '0.5px solid #E6E6E6', padding: '12px 16px', alignItems: 'center', justifyContent: 'space-between' }}>
-        <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 24 }} />
-        <button onClick={() => setMobileOpen(!mobileOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" strokeWidth="1.5"><path d={mobileOpen ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} /></svg>
-        </button>
-      </div>
-
-      {mobileOpen && <div onClick={() => setMobileOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.15)', zIndex: 99, backdropFilter: 'blur(4px)' }} />}
-
-      {/* Sidebar */}
-      <aside className="crm-sidebar" style={{
-        width: 220, background: '#ffffff',
-        borderRight: '1px solid #E6E6E6',
-        padding: '16px 0', display: 'flex', flexDirection: 'column', flexShrink: 0,
-        position: 'fixed', top: 0, left: mobileOpen ? 0 : -220, bottom: 0, zIndex: 100,
-        transition: 'left 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}>
-        {/* Logo */}
-        <div style={{ padding: '4px 20px 16px' }}>
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 26, width: 'auto' }} />
-          </Link>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', color: '#00B5D6', marginTop: 6 }}>CRM</div>
-        </div>
-
-        <GlobalSearch />
-        <NotificationBell />
-
-        {/* Nav */}
-        <nav style={{ padding: '4px 10px', flex: 1, overflowY: 'auto' }}>
-          {navSections.map((section, si) => (
-            <div key={si}>
-              {section.label && <div className="crm-sidebar-label">{section.label}</div>}
-              {section.items.map(item => {
-                const active = item.href === '/crm' ? pathname === '/crm' : pathname.startsWith(item.href)
-                return (
-                  <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
-                    className={`crm-sidebar-item ${active ? 'active' : ''}`}>
-                    <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#000000' }}>{item.icon}</span>
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </div>
-          ))}
-        </nav>
-
-        {/* Bottom */}
-        <div style={{ padding: '12px 10px', borderTop: '1px solid #E6E6E6' }}>
-          <button onClick={async () => { await fetch('/api/crm/auth', { method: 'DELETE' }); window.location.href = '/crm/login' }}
-            className="crm-sidebar-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
-            <span style={{ width: 18, display: 'flex', color: '#000000' }}>{I.signout}</span>
-            Sign Out
+    <div style={{ minHeight: '100vh' }}>
+      {/* Header */}
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 49, padding: '0 16px', borderBottom: '1px solid #E6E6E6', background: '#fff', zIndex: 50 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button onClick={() => setOpen(!open)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 6, borderRadius: 6, display: 'flex' }} title={open ? 'Close sidebar' : 'Open sidebar'}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
-          <Link href="/" className="crm-sidebar-item">
-            <span style={{ width: 18, display: 'flex', color: '#000000' }}>{I.back}</span>
-            Back to Website
-          </Link>
+          <GlobalSearch />
         </div>
-      </aside>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <NotificationBell />
+          <Link href="/"><img src="/images/cosentus-logo.png" alt="Cosentus" style={{ height: 26 }} /></Link>
+        </div>
+      </header>
 
-      {/* Main */}
-      <main className="crm-main" style={{ marginLeft: 220, background: '#ffffff', minHeight: '100vh', overflowX: 'hidden', width: 'calc(100vw - 220px)' }}>
-        {children}
-      </main>
+      <div style={{ display: 'flex' }}>
+        {/* Sidebar */}
+        <aside style={{
+          width: open ? SIDEBAR_W : 0,
+          minWidth: open ? SIDEBAR_W : 0,
+          overflow: 'hidden',
+          transition: `width ${TRANSITION}, min-width ${TRANSITION}`,
+          borderRight: open ? '1px solid #E6E6E6' : 'none',
+          display: 'flex', flexDirection: 'column',
+          height: 'calc(100vh - 49px)',
+          background: '#fff',
+        }}>
+          <nav style={{ padding: '6px 8px', flex: 1, overflowY: 'auto', overflowX: 'hidden', whiteSpace: 'nowrap' }}>
+            {navSections.map((section, si) => {
+              const isOpen = !collapsed[section.label]
+              return (
+                <div key={si}>
+                  {section.label && (
+                    <div onClick={() => setCollapsed(p => ({ ...p, [section.label]: !p[section.label] }))}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 10px 4px', cursor: 'pointer', userSelect: 'none' }}>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: '#999', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{section.label}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5" strokeLinecap="round"
+                        style={{ transition: 'transform 0.2s', transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                  )}
+                  <div style={{ overflow: 'hidden', maxHeight: isOpen ? 500 : 0, transition: 'max-height 0.25s ease' }}>
+                    {section.items.map(item => {
+                      const active = item.href === '/crm' ? pathname === '/crm' : pathname.startsWith(item.href)
+                      return (
+                        <Link key={item.href} href={item.href} className={`crm-sidebar-item ${active ? 'active' : ''}`}>
+                          <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: active ? '#fff' : '#000' }}>{item.icon}</span>
+                          {item.label}
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+          </nav>
+          <div style={{ padding: '8px', borderTop: '1px solid #E6E6E6' }}>
+            <Link href="/crm/settings" className={`crm-sidebar-item ${pathname === '/crm/settings' ? 'active' : ''}`}>
+              <span style={{ width: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', color: pathname === '/crm/settings' ? '#fff' : '#000' }}>{I.settings}</span>Settings
+            </Link>
+            <button onClick={async () => { await fetch('/api/crm/auth', { method: 'DELETE' }); window.location.href = '/crm/login' }}
+              className="crm-sidebar-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: "'Reddit Sans', sans-serif" }}>
+              <span style={{ width: 18, display: 'flex', color: '#000' }}>{I.signout}</span>Sign Out
+            </button>
+            <Link href="/" className="crm-sidebar-item">
+              <span style={{ width: 18, display: 'flex', color: '#000' }}>{I.back}</span>Back to Website
+            </Link>
+          </div>
+        </aside>
 
-      <style>{`
-        html, body { overflow-x: hidden; }
-        @media (min-width: 769px) {
-          .crm-sidebar { left: 0 !important; }
-          .crm-mobile-header { display: none !important; }
-        }
-        @media (max-width: 768px) {
-          .crm-mobile-header { display: flex !important; }
-          .crm-main { margin-left: 0 !important; padding-top: 56px !important; width: 100vw !important; }
-        }
-      `}</style>
+        {/* Main */}
+        <main style={{ flex: 1, background: '#fff', minHeight: 'calc(100vh - 49px)', overflowX: 'hidden' }}>
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
