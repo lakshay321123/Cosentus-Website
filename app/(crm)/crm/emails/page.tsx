@@ -20,7 +20,7 @@ interface Block {
 }
 
 const defaultBlocks: Record<BlockType, Partial<Block>> = {
-  header: { content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 },
+  header: { content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'right', fontSize: 11 },
   text: { content: 'Write your message here. Click to edit. Use variables like {{first_name}} for personalization.', fontSize: 15, color: '#333333', padding: 20, align: 'left', bgColor: '#ffffff' },
   heading: { content: 'Section Heading', fontSize: 24, fontWeight: 'bold', color: '#000000', padding: 20, align: 'left', bgColor: '#ffffff' },
   image: { imgUrl: '', imgWidth: 100, imgHeight: 200, imgAlt: 'Image', padding: 16, align: 'center', bgColor: '#ffffff' },
@@ -91,7 +91,7 @@ const bgHtml = (b: Partial<Block>): string => {
 
 const premadeTemplates: Record<string, Block[]> = {
   'Outreach': [
-    { id: 'p1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 } as Block,
+    { id: 'p1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'right', fontSize: 11 } as Block,
     { id: 'p2', type: 'heading', content: 'Is Your Practice Leaving Revenue on the Table?', fontSize: 22, fontWeight: 'bold', color: '#000000', padding: 24, align: 'left', bgColor: '#ffffff' } as Block,
     { id: 'p3', type: 'text', content: 'Hi {{first_name}},\n\nMost {{specialty}} practices lose 15-30% of their revenue to billing inefficiencies. Our Real + Artificial Intelligence model recovers that — with named teams who know your specialty.', fontSize: 15, color: '#333333', padding: 20, align: 'left', bgColor: '#ffffff', lineHeight: 170 } as Block,
     { id: 'p4', type: 'stats', stat1: '98%+', stat1Label: 'Net Collection', stat2: '99%+', stat2Label: 'Clean Claims', stat3: '30%', stat3Label: 'Revenue Growth', bgColor: '#f7f7f7', padding: 16, statColor: '#00B5D6', statLabelColor: '#666666' } as Block,
@@ -99,7 +99,7 @@ const premadeTemplates: Record<string, Block[]> = {
     { id: 'p6', type: 'footer', content: 'Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com', content2: 'SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work', bgColor: '#ffffff', color: '#999999', fontSize: 12, padding: 20, align: 'center' } as Block,
   ],
   'Case Study': [
-    { id: 'c1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 } as Block,
+    { id: 'c1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'right', fontSize: 11 } as Block,
     { id: 'c2', type: 'heading', content: 'How {{practice_name}} Grew Revenue 46%', fontSize: 22, fontWeight: 'bold', color: '#000000', padding: 24, align: 'left', bgColor: '#ffffff' } as Block,
     { id: 'c3', type: 'text', content: 'See how a {{specialty}} practice eliminated billing leakage and achieved measurable revenue growth with Cosentus.', fontSize: 15, color: '#333333', padding: 20, align: 'left', bgColor: '#ffffff' } as Block,
     { id: 'c4', type: 'testimonial', content: 'Their year-over-year collection rate of 97% has been vital for our group.', content2: 'Dr. John B. Field Jr.', bgColor: '#f7f7f7', padding: 20, color: '#333333', fontSize: 14 } as Block,
@@ -107,7 +107,7 @@ const premadeTemplates: Record<string, Block[]> = {
     { id: 'c6', type: 'footer', content: 'Cosentus · Irvine, CA · (877) 806-2286 · cosentus.com', content2: 'SOC 2 · HIPAA · HBMA · Inc. 5000 · Great Place to Work', bgColor: '#ffffff', color: '#999999', fontSize: 12, padding: 20, align: 'center' } as Block,
   ],
   'Follow-up': [
-    { id: 'f1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'center', fontSize: 11 } as Block,
+    { id: 'f1', type: 'header', content: 'REAL + ARTIFICIAL INTELLIGENCE', imgUrl: 'https://cosentus-website.vercel.app/images/cosentus-logo.png', bgColor: '#00B5D6', color: '#ffffff', padding: 24, align: 'right', fontSize: 11 } as Block,
     { id: 'f2', type: 'text', content: 'Hi {{first_name}},\n\nWanted to follow up on our conversation. I know managing a {{specialty}} practice keeps you busy — thats exactly why we handle the billing complexity so you can focus on patients.', fontSize: 15, color: '#333333', padding: 24, align: 'left', bgColor: '#ffffff' } as Block,
     { id: 'f3', type: 'text', content: 'Here is what practices like yours typically see in the first 90 days with Cosentus:', fontSize: 15, color: '#333333', padding: 12, align: 'left', bgColor: '#ffffff', fontWeight: 'bold' } as Block,
     { id: 'f4', type: 'stats', stat1: '98%+', stat1Label: 'Net Collection', stat2: '48hr', stat2Label: 'Charge Lag', stat3: '95%+', stat3Label: 'Appeal Success', bgColor: '#f7f7f7', padding: 16, statColor: '#00B5D6', statLabelColor: '#666666' } as Block,
