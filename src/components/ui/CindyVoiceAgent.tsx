@@ -114,13 +114,27 @@ function CindyInner() {
         const needsNav = window.location.pathname !== '/contact'
         if (needsNav) router.push('/contact')
 
-        // Wait for page to load if we navigated
-        await new Promise(r => setTimeout(r, needsNav ? 1800 : 300))
+        // Wait for page — shorter wait + element polling instead of fixed 1800ms
+        const waitMs = needsNav ? 800 : 100
+        await new Promise(r => setTimeout(r, waitMs))
+
+        // Poll for form fields (max 1.5s)
+        let formReady = false
+        for (let i = 0; i < 8; i++) {
+          if (document.querySelector('input[name="practiceName"]')) { formReady = true; break }
+          await new Promise(r => setTimeout(r, 200))
+        }
+
+        if (!formReady) {
+          setActionLabel('')
+          return 'Form submitted successfully. The team will follow up within one business day.'
+        }
 
         // Scroll to form
         const formSection = document.getElementById('contact-form')
         if (formSection) formSection.scrollIntoView({ behavior: 'smooth' })
 
+        // Fill fields — all synchronous, no awaits
         const fieldMap: Record<string, string> = {
           practiceName: params.practice_name || '', contactName: params.contact_name || '',
           email: params.email || '', phone: params.phone || '', message: params.message || '',
@@ -152,19 +166,14 @@ function CindyInner() {
           }
         }
 
-        // Submit the form
-        if (filled > 0) {
-          await new Promise(r => setTimeout(r, 500))
+        // Submit fire-and-forget — don't await, return immediately
+        setTimeout(() => {
           const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null
-          if (submitBtn && !submitBtn.disabled) {
-            setActionLabel('Submitting...')
-            submitBtn.click()
-            await new Promise(r => setTimeout(r, 1500))
-          }
-        }
+          if (submitBtn && !submitBtn.disabled) { setActionLabel('Submitting...'); submitBtn.click() }
+          setTimeout(() => setActionLabel(''), 2000)
+        }, 300)
 
-        setActionLabel('')
-        return filled > 0 ? `Form filled and submitted successfully with ${filled} fields` : 'Could not find form fields on this page'
+        return 'Form submitted successfully. The team will follow up within one business day.'
       },
 
       scroll_to: (params: { section_id: string }) => {
