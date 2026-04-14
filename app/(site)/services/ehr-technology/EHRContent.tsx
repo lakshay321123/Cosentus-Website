@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { SplineScene } from '@/components/ui/splite'
 import MotionReveal from '@/components/ui/MotionReveal'
 
 /* ───────────────────────────────────────────
@@ -694,12 +696,46 @@ export default function EHRContent() {
         </div>
       </section>
 
+      {/* ── FLOATING 3D ROBOT — desktop only ── */}
+      <motion.div
+        className="ehr-floating-robot"
+        initial={{ opacity: 0, scale: 0.5, y: 40 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 80, damping: 14, delay: 2 }}
+        style={{
+          position: 'fixed',
+          bottom: 100,
+          right: 24,
+          width: 180,
+          height: 180,
+          zIndex: 30,
+          pointerEvents: 'none',
+          filter: 'drop-shadow(0 8px 24px rgba(0,181,214,0.25))',
+        }}
+      >
+        <motion.div
+          animate={{ y: [0, -12, 0], rotate: [0, 3, -3, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ width: '100%', height: '100%' }}
+        >
+          <SplineScene
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w-full h-full"
+          />
+        </motion.div>
+      </motion.div>
+
       {/* ── RESPONSIVE OVERRIDES ── */}
       <style jsx>{`
         @media (max-width: 768px) {
           .ehr-ops-grid {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
+          }
+        }
+        @media (max-width: 1024px) {
+          .ehr-floating-robot {
+            display: none !important;
           }
         }
       `}</style>
