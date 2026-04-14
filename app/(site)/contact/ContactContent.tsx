@@ -15,6 +15,7 @@ export default function ContactContent() {
   const [formData, setFormData] = useState({
     practiceName: '',
     specialty: '',
+    customSpecialty: '',
     contactName: '',
     email: '',
     phone: '',
@@ -42,7 +43,7 @@ export default function ContactContent() {
           email: formData.email,
           phone: formData.phone,
           practice_name: formData.practiceName,
-          specialty: formData.specialty || 'other',
+          specialty: formData.specialty === 'other' ? (formData.customSpecialty || 'other') : (formData.specialty || 'other'),
           source: 'contact_form',
           notes: formData.message || 'Submitted via contact form',
         }),
@@ -184,14 +185,86 @@ export default function ContactContent() {
                       }}
                     >
                       <option value="">Select your specialty</option>
+                      <option value="allergy-immunology">Allergy & Immunology</option>
                       <option value="anesthesia">Anesthesia</option>
+                      <option value="asc">Ambulatory Surgery Center (ASC)</option>
+                      <option value="bariatric-surgery">Bariatric Surgery</option>
+                      <option value="behavioral-health">Behavioral Health</option>
+                      <option value="cardiology">Cardiology</option>
+                      <option value="cardiothoracic-surgery">Cardiothoracic Surgery</option>
+                      <option value="chiropractic">Chiropractic</option>
+                      <option value="colorectal-surgery">Colorectal Surgery</option>
+                      <option value="critical-care">Critical Care / Intensivist</option>
+                      <option value="dentistry">Dentistry</option>
+                      <option value="dermatology">Dermatology</option>
+                      <option value="dme">Durable Medical Equipment (DME)</option>
+                      <option value="emergency-medicine">Emergency Medicine</option>
+                      <option value="endocrinology">Endocrinology</option>
+                      <option value="endoscopy">Endoscopy</option>
+                      <option value="ent">ENT / Otolaryngology</option>
+                      <option value="family-medicine">Family Medicine</option>
+                      <option value="gastroenterology">Gastroenterology</option>
+                      <option value="general-surgery">General Surgery</option>
+                      <option value="geriatrics">Geriatrics</option>
+                      <option value="hematology-oncology">Hematology / Oncology</option>
+                      <option value="home-health">Home Health</option>
+                      <option value="hospice-palliative">Hospice & Palliative Care</option>
+                      <option value="infectious-disease">Infectious Disease</option>
+                      <option value="internal-medicine">Internal Medicine</option>
+                      <option value="interventional-radiology">Interventional Radiology</option>
+                      <option value="maternal-fetal-medicine">Maternal-Fetal Medicine</option>
+                      <option value="nephrology">Nephrology</option>
+                      <option value="neurology">Neurology</option>
+                      <option value="neurosurgery">Neurosurgery</option>
+                      <option value="obgyn">OB/GYN</option>
+                      <option value="occupational-medicine">Occupational Medicine</option>
+                      <option value="ophthalmology">Ophthalmology</option>
+                      <option value="optometry">Optometry</option>
+                      <option value="oral-maxillofacial-surgery">Oral & Maxillofacial Surgery</option>
                       <option value="orthopedics">Orthopedics</option>
                       <option value="pain-management">Pain Management</option>
-                      <option value="asc">Ambulatory Surgery Center</option>
-                      <option value="behavioral-health">Behavioral Health</option>
+                      <option value="pathology">Pathology</option>
+                      <option value="pediatrics">Pediatrics</option>
+                      <option value="physical-medicine-rehab">Physical Medicine & Rehabilitation</option>
+                      <option value="physical-therapy">Physical Therapy</option>
+                      <option value="plastic-surgery">Plastic Surgery</option>
+                      <option value="podiatry">Podiatry</option>
+                      <option value="primary-care">Primary Care</option>
+                      <option value="psychiatry">Psychiatry</option>
+                      <option value="pulmonology">Pulmonology</option>
+                      <option value="radiation-oncology">Radiation Oncology</option>
+                      <option value="radiology">Radiology</option>
+                      <option value="reproductive-endocrinology">Reproductive Endocrinology / Fertility</option>
+                      <option value="rheumatology">Rheumatology</option>
+                      <option value="sleep-medicine">Sleep Medicine</option>
+                      <option value="sports-medicine">Sports Medicine</option>
+                      <option value="substance-abuse">Substance Abuse / Addiction Medicine</option>
                       <option value="urgent-care">Urgent Care</option>
+                      <option value="urology">Urology</option>
+                      <option value="vascular-surgery">Vascular Surgery</option>
+                      <option value="wound-care">Wound Care</option>
                       <option value="other">Other</option>
                     </select>
+                    {formData.specialty === 'other' && (
+                      <input
+                        type="text"
+                        name="customSpecialty"
+                        value={formData.customSpecialty}
+                        onChange={handleChange}
+                        placeholder="Enter your specialty"
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          border: '1px solid var(--gray-200)',
+                          borderRadius: 'var(--radius-sm)',
+                          fontSize: 15,
+                          fontFamily: 'var(--font-body)',
+                          outline: 'none',
+                          marginTop: 10,
+                          transition: 'border-color var(--transition-fast)',
+                        }}
+                      />
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: 13, fontWeight: 400, color: 'var(--gray-700)', marginBottom: 6 }}>
