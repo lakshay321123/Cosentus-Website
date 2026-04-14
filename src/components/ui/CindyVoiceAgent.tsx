@@ -166,12 +166,22 @@ function CindyInner() {
           }
         }
 
-        // Submit fire-and-forget — don't await, return immediately
-        setTimeout(() => {
-          const submitBtn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null
-          if (submitBtn && !submitBtn.disabled) { setActionLabel('Submitting...'); submitBtn.click() }
-          setTimeout(() => setActionLabel(''), 2000)
-        }, 300)
+        // Submit with retry — needs time for React to process field changes
+        const trySubmit = (attempt: number) => {
+          const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+          if (submitBtn) {
+            setActionLabel('Submitting...')
+            submitBtn.click()
+            setTimeout(() => setActionLabel(''), 2000)
+          } else if (attempt < 3) {
+            setTimeout(() => trySubmit(attempt + 1), 500)
+          } else {
+            // Last resort: submit the form element directly
+            const form = document.querySelector('form') as HTMLFormElement | null
+            if (form) { setActionLabel('Submitting...'); form.requestSubmit(); setTimeout(() => setActionLabel(''), 2000) }
+          }
+        }
+        setTimeout(() => trySubmit(0), 800)
 
         return 'Form submitted successfully. The team will follow up within one business day.'
       },
