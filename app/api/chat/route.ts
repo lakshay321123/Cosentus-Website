@@ -343,28 +343,48 @@ When someone asks about offices, addresses, locations, or "where are you located
 
     const systemPrompt = voiceMode ? CINDY_PREFIX + SYSTEM_PROMPT : SYSTEM_PROMPT
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: voiceMode ? 200 : 300,
-        system: systemPrompt,
-        messages: messages.map((m: { role: string; text: string }) => ({
-          role: m.role === 'bot' ? 'assistant' : 'user',
-          content: m.text,
-        })),
-      }),
-    })
+    const modelPrimary = 'claude-sonnet-4-6'
+    const modelFallback = 'claude-haiku-4-5-20251001'
+
+    const makeRequest = async (model: string) => {
+      return fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: voiceMode ? 200 : 300,
+          system: systemPrompt,
+          messages: messages.map((m: { role: string; text: string }) => ({
+            role: m.role === 'bot' ? 'assistant' : 'user',
+            content: m.text,
+          })),
+        }),
+      })
+    }
+
+    let response = await makeRequest(modelPrimary)
 
     if (!response.ok) {
-      const err = await response.text()
-      console.error('Anthropic API error:', err)
-      return NextResponse.json({ error: 'AI service error' }, { status: 500 })
+      const errText = await response.text()
+      let errType = 'unknown'
+      try { errType = JSON.parse(errText)?.error?.type || 'unknown' } catch {}
+      console.error(`Anthropic API error [${response.status}] type=${errType} model=${modelPrimary}`)
+
+      // Fallback to Haiku
+      console.log('Falling back to Haiku...')
+      response = await makeRequest(modelFallback)
+
+      if (!response.ok) {
+        const err2 = await response.text()
+        let err2Type = 'unknown'
+        try { err2Type = JSON.parse(err2)?.error?.type || 'unknown' } catch {}
+        console.error(`Anthropic fallback error [${response.status}] type=${err2Type} model=${modelFallback}`)
+        return NextResponse.json({ error: 'AI service error', detail: err2Type }, { status: 500 })
+      }
     }
 
     const data = await response.json()
