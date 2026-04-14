@@ -60,14 +60,14 @@ export default function ForecastPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
         {[
           { label: 'Raw Pipeline', value: `$${Math.round(rawTotal / 1000)}K`, sub: `${pipeline.length} deals` },
-          { label: 'Weighted Forecast', value: `$${Math.round(weightedTotal / 1000)}K`, accent: true },
+          { label: 'Weighted Forecast', value: `$${Math.round(weightedTotal / 1000)}K` },
           { label: 'Won Revenue', value: `$${Math.round(wonTotal / 1000)}K`, sub: `${won.length} closed` },
           { label: 'Avg Deal Size', value: `$${Math.round(avgDealSize / 1000)}K`, sub: '/month' },
         ].map((s, i) => (
-          <div key={i} style={{ background: s.accent ? '#00B5D6' : 'white', borderRadius: 16, border: s.accent ? 'none' : '1px solid #E6E6E6', padding: '24px 20px' }}>
-            <div style={{ fontSize: 11, fontWeight: 500, color: s.accent ? 'rgba(255,255,255,0.7)' : '#616161', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{s.label}</div>
-            <div style={{ fontSize: 32, fontWeight: 300, color: s.accent ? 'white' : '#000', lineHeight: 1 }}>{s.value}</div>
-            {s.sub && <div style={{ fontSize: 12, color: s.accent ? 'rgba(255,255,255,0.6)' : '#CCCCCC', marginTop: 4 }}>{s.sub}</div>}
+          <div key={i} className="crm-stat">
+            <div className="crm-stat-label">{s.label}</div>
+            <div className="crm-stat-value">{s.value}</div>
+            {s.sub && <div className="crm-stat-sub">{s.sub}</div>}
           </div>
         ))}
       </div>
