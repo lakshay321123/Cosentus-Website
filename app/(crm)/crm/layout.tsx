@@ -63,6 +63,9 @@ const navSections = [
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
+
+  const toggleSection = (label: string) => setCollapsed(prev => ({ ...prev, [label]: !prev[label] }))
 
   return (
     <div className="crm-page" style={{ display: 'flex', minHeight: '100vh' }}>
@@ -99,8 +102,13 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         <nav style={{ padding: '4px 10px', flex: 1, overflowY: 'auto' }}>
           {navSections.map((section, si) => (
             <div key={si}>
-              {section.label && <div className="crm-sidebar-label">{section.label}</div>}
-              {section.items.map(item => {
+              {section.label ? (
+                <button onClick={() => toggleSection(section.label)} className="crm-sidebar-label" style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '10px 10px 4px', fontFamily: "'Reddit Sans', sans-serif" }}>
+                  <span>{section.label}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ transition: 'transform 0.2s', transform: collapsed[section.label] ? 'rotate(-90deg)' : 'rotate(0deg)' }}><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              ) : null}
+              {!collapsed[section.label] && section.items.map(item => {
                 const active = item.href === '/crm' ? pathname === '/crm' : pathname.startsWith(item.href)
                 return (
                   <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
