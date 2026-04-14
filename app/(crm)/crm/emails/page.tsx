@@ -36,9 +36,24 @@ const defaultBlocks: Record<BlockType, Partial<Block>> = {
   three_col: { content: 'Column 1', content2: 'Column 2', content3: 'Column 3', padding: 16, bgColor: '#ffffff', fontSize: 14, color: '#333333', fontFamily: 'Arial' },
 }
 
-const blockLabels: Record<BlockType, string> = { header: '🏢 Header', text: '📝 Text', heading: '🔤 Heading', image: '🖼 Image', button: '🔘 Button', divider: '➖ Divider', spacer: '⬜ Spacer', stats: '📊 Stats Bar', testimonial: '💬 Testimonial', footer: '📌 Footer', columns: '▐▌ 2 Columns', image_text: '🖼📝 Image + Text', social: '🔗 Social Icons', three_col: '▐▌▌ 3 Columns' }
+const blockLabels: Record<BlockType, { icon: string; label: string }> = {
+  header: { icon: '⬒', label: 'Header' },
+  text: { icon: 'Aa', label: 'Text' },
+  heading: { icon: 'H', label: 'Heading' },
+  image: { icon: '▣', label: 'Image' },
+  button: { icon: '▢', label: 'Button' },
+  divider: { icon: '—', label: 'Divider' },
+  spacer: { icon: '⊞', label: 'Spacer' },
+  stats: { icon: '#', label: 'Stats Bar' },
+  testimonial: { icon: '"', label: 'Testimonial' },
+  footer: { icon: '⊥', label: 'Footer' },
+  columns: { icon: '▮▮', label: '2 Columns' },
+  image_text: { icon: '▣Aa', label: 'Image + Text' },
+  social: { icon: '@', label: 'Social Icons' },
+  three_col: { icon: '▮▮▮', label: '3 Columns' },
+}
 
-const emailFonts = ['Arial', 'Helvetica', 'Georgia', 'Times New Roman', 'Courier New', 'Verdana', 'Tahoma', 'Trebuchet MS']
+const emailFonts = ['Reddit Sans', 'Arial', 'Helvetica', 'Georgia', 'Times New Roman', 'Courier New', 'Verdana', 'Tahoma', 'Trebuchet MS']
 const brandColors = ['#00B5D6', '#36C2DE', '#68D1E6', '#A1DEED', '#D6EBF2', '#000000', '#333333', '#666666', '#999999', '#FFFFFF']
 
 // Background: solid / gradient / image with overlay
@@ -197,8 +212,11 @@ export default function EmailsPage() {
 
   return (
     <div style={{ ...S, display: 'flex', flexDirection: 'column', height: 'calc(100vh - 0px)', overflow: 'hidden' }}>
+      {/* Google Fonts */}
+      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+      <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
       {/* Top bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderBottom: '1px solid #E6E6E6', background: '#fff', flexShrink: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', borderBottom: '1px solid #f0f0f0', background: '#fff', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <h1 style={{ fontSize: 18, fontWeight: 600, color: '#000', margin: 0 }}>Email Builder</h1>
           <div className="crm-segment" style={{ margin: 0 }}>
@@ -211,10 +229,10 @@ export default function EmailsPage() {
             <option value="">Preview with lead...</option>
             {leads.map(l => <option key={l.id} value={l.id}>{l.first_name} {l.last_name}</option>)}
           </select>
-          <button onClick={() => setShowPreview(!showPreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: showPreview ? '#00B5D6' : '#fff', color: showPreview ? '#fff' : '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Preview</button>
-          <button onClick={copyHtml} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>Copy HTML</button>
-          <button onClick={() => setMobilePreview(!mobilePreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: mobilePreview ? '#00B5D6' : '#fff', color: mobilePreview ? '#fff' : '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>{mobilePreview ? '📱 Mobile' : '🖥 Desktop'}</button>
-          {history.length > 0 && <button onClick={undo} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, background: '#fff', color: '#000', border: '1px solid #E6E6E6', cursor: 'pointer', ...S }}>↩ Undo</button>}
+          <button onClick={() => setShowPreview(!showPreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, background: showPreview ? '#00B5D6' : '#fff', color: showPreview ? '#fff' : '#000', border: '1px solid #eee', cursor: 'pointer', ...S }}>Preview</button>
+          <button onClick={copyHtml} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, background: '#fff', color: '#000', border: '1px solid #eee', cursor: 'pointer', ...S }}>Copy HTML</button>
+          <button onClick={() => setMobilePreview(!mobilePreview)} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, background: mobilePreview ? '#00B5D6' : '#fff', color: mobilePreview ? '#fff' : '#000', border: '1px solid #eee', cursor: 'pointer', ...S }}>{mobilePreview ? '📱 Mobile' : '🖥 Desktop'}</button>
+          {history.length > 0 && <button onClick={undo} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 8, background: '#fff', color: '#000', border: '1px solid #eee', cursor: 'pointer', ...S }}>↩ Undo</button>}
         </div>
       </div>
 
@@ -232,33 +250,34 @@ export default function EmailsPage() {
       ) : (
         <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
           {/* Left: Block palette */}
-          <div style={{ width: 170, borderRight: '1px solid #E6E6E6', overflowY: 'auto', padding: '8px 8px', flexShrink: 0 }}>
+          <div style={{ width: 170, borderRight: '1px solid #f0f0f0', overflowY: 'auto', padding: '12px 10px', flexShrink: 0, background: '#fafafa' }}>
             {[
-              { label: 'CONTENT', types: ['text', 'heading', 'image', 'button'] as BlockType[] },
-              { label: 'LAYOUT', types: ['columns', 'three_col', 'image_text', 'divider', 'spacer'] as BlockType[] },
-              { label: 'SECTIONS', types: ['header', 'stats', 'testimonial', 'social', 'footer'] as BlockType[] },
+              { label: 'Content', types: ['text', 'heading', 'image', 'button'] as BlockType[] },
+              { label: 'Layout', types: ['columns', 'three_col', 'image_text', 'divider', 'spacer'] as BlockType[] },
+              { label: 'Sections', types: ['header', 'stats', 'testimonial', 'social', 'footer'] as BlockType[] },
             ].map(group => (
-              <div key={group.label} style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#CCCCCC', letterSpacing: '0.1em', marginBottom: 4, padding: '0 4px' }}>{group.label}</div>
+              <div key={group.label} style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#999', marginBottom: 6, padding: '0 4px' }}>{group.label}</div>
                 {group.types.map(type => (
-                  <button key={type} onClick={() => addBlock(type)} style={{ width: '100%', fontSize: 12, padding: '6px 8px', borderRadius: 6, border: '1px solid #E6E6E6', background: '#fff', cursor: 'pointer', textAlign: 'left', marginBottom: 2, color: '#000', ...S }}>
-                    {blockLabels[type]}
+                  <button key={type} onClick={() => addBlock(type)} style={{ width: '100%', fontSize: 12, padding: '7px 8px', borderRadius: 8, border: '1px solid #f0f0f0', background: '#fff', cursor: 'pointer', textAlign: 'left', marginBottom: 2, color: '#000', display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.15s', ...S }}>
+                    <span style={{ width: 24, height: 24, borderRadius: 6, background: '#f5f5f5', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#00B5D6', fontWeight: 700, flexShrink: 0, letterSpacing: '-0.5px' }}>{blockLabels[type].icon}</span>
+                    <span>{blockLabels[type].label}</span>
                   </button>
                 ))}
               </div>
             ))}
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#CCCCCC', letterSpacing: '0.1em', marginBottom: 4, padding: '0 4px' }}>VARIABLES</div>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#999', marginBottom: 6, padding: '0 4px' }}>Variables</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
                 {variables.map(v => (
-                  <button key={v} onClick={() => navigator.clipboard.writeText(v)} style={{ fontSize: 9, padding: '2px 5px', borderRadius: 4, border: '1px solid #E6E6E6', background: '#D6EBF2', cursor: 'pointer', color: '#000', fontFamily: 'monospace' }}>{v.replace(/\{\{|\}\}/g, '')}</button>
+                  <button key={v} onClick={() => navigator.clipboard.writeText(v)} style={{ fontSize: 9, padding: '3px 6px', borderRadius: 6, border: 'none', background: '#D6EBF2', cursor: 'pointer', color: '#00B5D6', fontFamily: 'monospace', fontWeight: 600 }}>{v.replace(/\{\{|\}\}/g, '')}</button>
                 ))}
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#CCCCCC', letterSpacing: '0.1em', marginBottom: 4, padding: '0 4px' }}>TEMPLATES</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#999', marginBottom: 6, padding: '0 4px' }}>Templates</div>
               {Object.keys(premadeTemplates).map(name => (
-                <button key={name} onClick={() => { pushHistory(); setBlocks(premadeTemplates[name].map(b => ({ ...b, id: `t-${Date.now()}-${Math.random().toString(36).slice(2,6)}` }))); setSelected(null) }} style={{ width: '100%', fontSize: 11, padding: '5px 8px', borderRadius: 6, border: '1px solid #00B5D6', background: '#D6EBF2', cursor: 'pointer', textAlign: 'left', marginBottom: 2, color: '#00B5D6', fontWeight: 500, ...S }}>
+                <button key={name} onClick={() => { pushHistory(); setBlocks(premadeTemplates[name].map(b => ({ ...b, id: `t-${Date.now()}-${Math.random().toString(36).slice(2,6)}` }))); setSelected(null) }} style={{ width: '100%', fontSize: 12, padding: '7px 8px', borderRadius: 8, border: '1px solid #D6EBF2', background: '#fff', cursor: 'pointer', textAlign: 'left', marginBottom: 2, color: '#00B5D6', fontWeight: 500, ...S }}>
                   {name}
                 </button>
               ))}
@@ -300,10 +319,10 @@ export default function EmailsPage() {
           </div>
 
           {/* Right: Properties panel */}
-          <div style={{ width: 260, borderLeft: '1px solid #E6E6E6', overflowY: 'auto', padding: 12, flexShrink: 0 }}>
+          <div style={{ width: 260, borderLeft: '1px solid #f0f0f0', overflowY: 'auto', padding: 14, flexShrink: 0, background: '#fafafa' }}>
             {!selectedBlock ? (
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#CCCCCC', letterSpacing: '0.08em', marginBottom: 12 }}>SAVE TEMPLATE</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#999', marginBottom: 12 }}>Save Template</div>
                 <input value={preheader} onChange={e => setPreheader(e.target.value)} placeholder="Preheader (inbox preview text)" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 6, boxSizing: 'border-box', ...S }} />
                 <input value={templateName} onChange={e => setTemplateName(e.target.value)} placeholder="Template name" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 6, boxSizing: 'border-box', ...S }} />
                 <input value={templateSubject} onChange={e => setTemplateSubject(e.target.value)} placeholder="Subject line" style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #E6E6E6', fontSize: 13, marginBottom: 4, boxSizing: 'border-box', ...S }} />
@@ -322,7 +341,7 @@ export default function EmailsPage() {
             ) : (
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{blockLabels[selectedBlock.type]}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{blockLabels[selectedBlock.type].label}</div>
                   <button onClick={() => setSelected(null)} style={{ fontSize: 11, color: '#00B5D6', background: 'none', border: 'none', cursor: 'pointer' }}>Done</button>
                 </div>
 
