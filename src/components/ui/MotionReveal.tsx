@@ -8,7 +8,7 @@ import {
   revealRight,
   revealScale,
   fadeIn,
-  smooth,
+  springGentle,
 } from '@/lib/animations'
 
 interface MotionRevealProps {
@@ -37,13 +37,15 @@ export default function MotionReveal({
   direction = 'up',
   variants,
   transition,
-  threshold = 0.15,
+  threshold = 0.12,
   once = true,
 }: MotionRevealProps) {
   const resolvedVariants = variants || directionMap[direction] || revealUp
 
-  const resolvedTransition: Transition = {
-    ...(transition || smooth),
+  const resolvedTransition: Transition = transition || {
+    type: 'spring',
+    stiffness: 80,
+    damping: 18,
     delay,
   }
 

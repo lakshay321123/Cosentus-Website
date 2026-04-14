@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -78,14 +79,32 @@ export default function CaseStudiesSection() {
           <div className="section-title">Case Studies</div>
         </MotionReveal>
 
-        {/* Desktop — flip cards */}
-        <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, marginTop: 48 }}>
+        {/* Desktop — flip cards with cascade */}
+        <motion.div
+          className="cases-desktop"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, marginTop: 48 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.15 } },
+          }}
+        >
           {caseStudies.map((cs, i) => (
-            <MotionReveal key={i} direction="scale" delay={0.2 + i * 0.12}>
+            <motion.div
+              key={i}
+              variants={{
+                hidden: { opacity: 0, scale: 0.8, y: 50, rotateY: -8 },
+                visible: { opacity: 1, scale: 1, y: 0, rotateY: 0 },
+              }}
+              transition={{ type: 'spring', stiffness: 70, damping: 14 }}
+              style={{ perspective: 1000 }}
+            >
               <FlipCard cs={cs} delay={i * 0.1} />
-            </MotionReveal>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Mobile */}
         <div className="cases-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>

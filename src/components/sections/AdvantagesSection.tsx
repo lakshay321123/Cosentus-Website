@@ -28,31 +28,67 @@ export default function AdvantagesSection() {
     <section className="section" id="advantage" style={{ overflow: 'hidden' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="advantage-split">
-          {/* Left: Image collage */}
+          {/* Left: Image collage with stagger + floating badge */}
           <MotionReveal direction="left">
             <div style={{ position: 'relative' }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 12,
-                borderRadius: 16,
-                overflow: 'hidden',
-              }}>
-                <img src="/images/homepage/doctor-consult.jpg" alt="Doctor consultation" style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 12 }} />
-                <img src="/images/homepage/team-meeting.jpg" alt="Team collaboration" style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 12 }} />
-                <img src="/images/homepage/medical-tech.jpg" alt="Medical technology" style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 12 }} />
-                <img src="/images/homepage/analytics.jpg" alt="Healthcare analytics" style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 12 }} />
-              </div>
-              {/* Floating stat badge */}
-              <div style={{
-                position: 'absolute', bottom: -20, right: -20,
-                background: '#00B5D6', color: 'white',
-                borderRadius: 16, padding: '20px 28px',
-                boxShadow: '0 12px 40px rgba(0,181,214,0.3)',
-              }}>
-                <div style={{ fontSize: 32, fontWeight: 300, fontFamily: 'var(--font-display)', lineHeight: 1 }}>25+</div>
-                <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
-              </div>
+              <motion.div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: 12,
+                  borderRadius: 16,
+                  overflow: 'hidden',
+                }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+                }}
+              >
+                {[
+                  { src: '/images/homepage/doctor-consult.jpg', alt: 'Doctor consultation' },
+                  { src: '/images/homepage/team-meeting.jpg', alt: 'Team collaboration' },
+                  { src: '/images/homepage/medical-tech.jpg', alt: 'Medical technology' },
+                  { src: '/images/homepage/analytics.jpg', alt: 'Healthcare analytics' },
+                ].map((img, i) => (
+                  <motion.img
+                    key={i}
+                    src={img.src}
+                    alt={img.alt}
+                    style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 12 }}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.85 },
+                      visible: { opacity: 1, scale: 1 },
+                    }}
+                    transition={{ type: 'spring', stiffness: 80, damping: 14 }}
+                  />
+                ))}
+              </motion.div>
+              {/* Floating stat badge with bounce */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0, rotate: -10 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.6 }}
+                style={{
+                  position: 'absolute', bottom: -20, right: -20,
+                }}
+              >
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{
+                    background: '#00B5D6', color: 'white',
+                    borderRadius: 16, padding: '20px 28px',
+                    boxShadow: '0 12px 40px rgba(0,181,214,0.3)',
+                  }}
+                >
+                  <div style={{ fontSize: 32, fontWeight: 300, fontFamily: 'var(--font-display)', lineHeight: 1 }}>25+</div>
+                  <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
+                </motion.div>
+              </motion.div>
             </div>
           </MotionReveal>
 
@@ -65,33 +101,48 @@ export default function AdvantagesSection() {
               <div className="section-title">The Cosentus Advantage</div>
             </MotionReveal>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 36 }} className="advantage-compact-grid">
+            <motion.div
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 36 }}
+              className="advantage-compact-grid"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+              }}
+            >
               {advantages.map((adv, i) => (
-                <MotionReveal key={i} direction="right" delay={0.15 + i * 0.08}>
-                  <motion.div
-                    style={{
-                      padding: '20px',
-                      borderRadius: 12,
-                      border: '1px solid var(--gray-200)',
-                      background: 'var(--white)',
-                      height: '100%',
-                    }}
-                    whileHover={{
-                      y: -4,
-                      borderColor: '#00B5D6',
-                      boxShadow: '0 8px 24px rgba(0,181,214,0.14)',
-                    }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                  >
-                    <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--primary-ghost)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-                      <div style={{ width: 18, height: 18, color: '#00B5D6' }}>{adv.icon}</div>
-                    </div>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>{adv.title}</h4>
-                    <p style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, margin: 0 }}>{adv.desc}</p>
-                  </motion.div>
-                </MotionReveal>
+                <motion.div
+                  key={i}
+                  variants={{
+                    hidden: { opacity: 0, x: 60, y: 20, scale: 0.9 },
+                    visible: { opacity: 1, x: 0, y: 0, scale: 1 },
+                  }}
+                  transition={{ type: 'spring', stiffness: 80, damping: 14 }}
+                  whileHover={{
+                    y: -8,
+                    scale: 1.03,
+                    borderColor: '#00B5D6',
+                    boxShadow: '0 12px 32px rgba(0,181,214,0.2)',
+                  }}
+                  style={{
+                    padding: '20px',
+                    borderRadius: 12,
+                    border: '1px solid var(--gray-200)',
+                    background: 'var(--white)',
+                    height: '100%',
+                    cursor: 'default',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--primary-ghost)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                    <div style={{ width: 18, height: 18, color: '#00B5D6' }}>{adv.icon}</div>
+                  </div>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>{adv.title}</h4>
+                  <p style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, margin: 0 }}>{adv.desc}</p>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

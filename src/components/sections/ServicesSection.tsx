@@ -107,14 +107,31 @@ export default function ServicesSection() {
           <div className="section-title">Three Services.<br />One Result: Growth.</div>
         </MotionReveal>
 
-        {/* Desktop: 3 visual cards */}
-        <div className="services-visual-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
+        {/* Desktop: 3 visual cards with stagger cascade */}
+        <motion.div
+          className="services-visual-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
+          }}
+        >
           {services.map((svc, i) => (
-            <MotionReveal key={i} delay={0.15 + i * 0.12}>
+            <motion.div
+              key={i}
+              variants={{
+                hidden: { opacity: 0, y: 80, scale: 0.9 },
+                visible: { opacity: 1, y: 0, scale: 1 },
+              }}
+              transition={{ type: 'spring', stiffness: 70, damping: 15 }}
+            >
               <ServiceCard svc={svc} />
-            </MotionReveal>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Mobile: carousel */}
         <div className="services-visual-mobile" style={{ marginTop: 32 }}>

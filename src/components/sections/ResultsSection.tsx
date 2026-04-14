@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -71,14 +72,32 @@ export default function ResultsSection() {
           <div className="results-header"><h2>Results Our Clients See</h2></div>
         </MotionReveal>
 
-        {/* Desktop: grid layout */}
-        <div className="results-grid results-desktop">
+        {/* Desktop: grid layout with stagger cascade */}
+        <motion.div
+          className="results-grid results-desktop"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+          }}
+        >
           {stats.map((stat, i) => (
-            <MotionReveal key={i} direction="scale" delay={0.2 + i * 0.25}>
+            <motion.div
+              key={i}
+              variants={{
+                hidden: { opacity: 0, y: 60, scale: 0.85, rotateX: 15 },
+                visible: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
+              }}
+              transition={{ type: 'spring', stiffness: 80, damping: 14 }}
+              whileHover={{ y: -8, scale: 1.03, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+              style={{ perspective: 600 }}
+            >
               <StatCard stat={stat} />
-            </MotionReveal>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Mobile: carousel */}
         <div className="results-mobile" style={{ overflow: "hidden", width: "100%" }}>
