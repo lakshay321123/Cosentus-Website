@@ -257,7 +257,7 @@ export default function Navbar() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>
-          <a href="tel:8772669040" className="drawer-phone">(877) 266-9040</a>
+          <a href="tel:8778062286" className="drawer-phone">(877) 806-2286</a>
         </div>
       </div>
     </>

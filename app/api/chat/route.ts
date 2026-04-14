@@ -18,12 +18,14 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
     const phoneMatch = allText.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/)
     if (!emailMatch && !phoneMatch) return // not enough info
 
-    // Extract name (look for "I'm", "my name is", "this is", "Dr.")
+    // Extract name (expanded patterns for conversational capture)
     let firstName = '', lastName = ''
     const namePatterns = [
-      /(?:I'm|I am|my name is|this is|name's)\s+(?:Dr\.?\s+)?(\w+)\s+(\w+)/i,
-      /(?:I'm|I am)\s+(?:Dr\.?\s+)?(\w+)/i,
+      /(?:I'm|I am|my name is|this is|name's|it's|call me)\s+(?:Dr\.?\s+)?(\w+)\s+(\w+)/i,
+      /(?:I'm|I am|it's|call me)\s+(?:Dr\.?\s+)?(\w+)/i,
       /Dr\.?\s+(\w+)\s+(\w+)/i,
+      /(\w+)\s+(\w+)\s+here\b/i,
+      /(?:hey|hi|hello)[,!]?\s+(?:I'm|this is|it's)\s+(\w+)/i,
     ]
     for (const p of namePatterns) {
       const m = userText.match(p)
@@ -46,15 +48,29 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       if (lower.includes(kw)) { specialty = spec; break }
     }
 
-    // Extract practice name
+    // Extract practice name (expanded for conversational capture)
     let practiceName = ''
     const practicePatterns = [
-      /(?:practice|clinic|group|center|associates|partners|institute)\s+(?:is\s+)?called\s+"?([^".]+)"?/i,
-      /(?:at|from|with|run|own)\s+([A-Z][\w\s&]+(?:Practice|Clinic|Group|Center|Associates|Partners|Institute|Medical|Health|Surgery|ASC))/,
+      /(?:practice|clinic|group|center|associates|partners|institute)\s+(?:is\s+)?(?:called\s+)?"?([^".]+)"?/i,
+      /(?:at|from|with|run|own|manage)\s+([A-Z][\w\s&]+(?:Practice|Clinic|Group|Center|Associates|Partners|Institute|Medical|Health|Surgery|ASC|Anesthesia|Ortho))/,
+      /(?:we're|we are|it's called|called)\s+"?([A-Z][\w\s&]{2,40})"?/,
+      /(?:our|my)\s+(?:practice|clinic|group|center)\s+(?:is\s+)?([A-Z][\w\s&]{2,40})/i,
     ]
     for (const p of practicePatterns) {
       const m = allText.match(p)
       if (m) { practiceName = m[1].trim(); break }
+    }
+
+    // Extract provider count
+    let providerCount: number | null = null
+    const providerPatterns = [
+      /(\d+)\s+(?:providers?|physicians?|doctors?|surgeons?|anesthesiologists?|practitioners?)/i,
+      /(?:we have|there are|about|around|roughly)\s+(\d+)\s+(?:providers?|docs?|physicians?)/i,
+      /(\d+)\s*(?:-|\s)(?:person|member|provider)\s+(?:group|practice|team)/i,
+    ]
+    for (const p of providerPatterns) {
+      const m = allText.match(p)
+      if (m) { providerCount = parseInt(m[1]); break }
     }
 
     // Check for duplicate
@@ -68,12 +84,14 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       }
     }
 
-    // Calculate score
+    // Calculate score (more info gathered = higher score)
     const highValueSpecs = ['anesthesia', 'orthopedics', 'asc', 'pain_management']
     let score = 40 // base (they chatted = engaged)
     if (highValueSpecs.includes(specialty)) score += 15
     if (emailMatch) score += 5
     if (phoneMatch) score += 5
+    if (practiceName) score += 5
+    if (providerCount && providerCount >= 5) score += 5
     score = Math.min(score, 100)
 
     const temp = score >= 75 ? 'hot' : score >= 45 ? 'warm' : 'cold'
@@ -82,6 +100,7 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       first_name: firstName, last_name: lastName || 'Unknown',
       email: emailMatch?.[0] || null, phone: phoneMatch?.[0] || null,
       practice_name: practiceName || null, specialty,
+      provider_count: providerCount,
       source: 'website_chat', ai_score: score, temperature: temp,
       status: 'new', tags: ['chat-capture', 'auto'],
       notes: `Auto-captured from website chat. ${messages.length} messages exchanged.`,
@@ -131,7 +150,7 @@ Full service practice growth partner. 25+ years in healthcare revenue cycle mana
 CO SENT US means "Together we Conquer."
 
 HQ: Irvine, California. Offices in Phoenix, Mission TX, Napa, Dallas, Utah, Olathe KS.
-Phone: (877) 266-9040. Email: sales@cosentus.com
+Phone: (877) 806-2286. Email: sales@cosentus.com
 Careers: hr@cosentus.com
 
 REAL + ARTIFICIAL INTELLIGENCE (R+A):
@@ -239,7 +258,7 @@ PARTNERSHIP:
 Preferred partner for billing companies. 1,000+ RCM experts. 19 successful acquisitions integrated. Inc 5000 four years running. Great Place to Work three consecutive years.
 
 FOR PATIENTS:
-If someone has a billing question, be empathetic and helpful. Direct them to (877) 266-9040 or sales@cosentus.com. Don't try to resolve billing disputes yourself.
+If someone has a billing question, be empathetic and helpful. Direct them to (877) 806-2286 or sales@cosentus.com. Don't try to resolve billing disputes yourself.
 
 FOR JOB SEEKERS:
 Be enthusiastic. "We're independently owned, Great Place to Work certified three years running, and 80% of our founding team is still here. That says something." Direct to careers page or hr@cosentus.com.
@@ -254,11 +273,81 @@ WHAT TO NEVER DO:
 - Never make up numbers. Only use the stats listed above
 - Never diagnose, give medical advice, or pretend to be a doctor
 
+CONVERSATIONAL INFO GATHERING — Your secondary goal (after genuinely helping them) is to naturally learn these details during the conversation. Never interrogate. Never ask more than one thing per message. Space these across the whole conversation:
+
+1. SPECIALTY — Ask early, it shapes everything: "What specialty are you in? That'll help me give you real numbers instead of generic stuff."
+2. NAME — After a couple of exchanges: "By the way, who am I chatting with?" or "What should I call you?"
+3. PRACTICE NAME — When discussing their situation: "What's your practice called?" or "How big is your group?"
+4. EMAIL — Only AFTER you've given them something valuable: "Want me to have someone send you those numbers? What's a good email?" or "I can get you that case study — where should I send it?"
+5. PHONE — Only if the conversation is warm and they seem interested: "If you'd rather just talk to someone directly, I can have them call you. What's a good number?"
+
+RULES FOR INFO GATHERING:
+- Always provide value FIRST. Answer their question, then ask one thing.
+- If they dodge or ignore a question, move on. Zero pressure. Never ask twice.
+- Tie every ask to something useful for THEM, not for you.
+- Never say "can I get your details" or "fill out this form" or anything that sounds like data collection.
+- If they volunteer info unprompted, acknowledge it naturally: "Got it, Dr. Chen" not "Thank you for providing your name."
+- For patients or job seekers, skip the practice/specialty questions. Just help them and offer the right contact.
+
 VOICE NAVIGATION (for voice agent mode):
 When the user explicitly asks to GO somewhere or SEE something, include a navigation tag at the END of your response. Format: [NAV:/path] or [NAV:/path#section]
 Available routes:
 / (homepage), /about, /about#leadership, /specialties/anesthesia, /specialties/orthopedics, /specialties/pain-management, /specialties/asc, /specialties/behavioral-health, /services/billing-coding, /services/practice-management, /services/ehr-technology, /services/rcm, /cosentus-ai, /resources, /contact, /careers
-ONLY navigate when they clearly want to go somewhere. "Tell me about anesthesia billing" = answer the question, no nav. "Take me to the anesthesia page" or "Show me anesthesia" = navigate. "Go to contact" = navigate. Never navigate just because someone mentions a topic. The nav tag must be at the very end after your spoken response.`
+ONLY navigate when they clearly want to go somewhere. "Tell me about anesthesia billing" = answer the question, no nav. "Take me to the anesthesia page" or "Show me anesthesia" = navigate. "Go to contact" = navigate. Never navigate just because someone mentions a topic. The nav tag must be at the very end after your spoken response.
+
+COMPLETE SITE MAP — You know EVERY page and section on this website:
+
+HOMEPAGE (/):
+- Hero: "Think Growth" banner with 3D particle animation
+- Testimonials from doctors (anesthesia, orthopedic, pain management, ASC, behavioral health)
+- Cosentus.ai R+A section with AI search bar
+- Results bar: 30% revenue growth, >98% net collection, >99% clean claims, 98.5% coding accuracy, <15% AR>120 days, 80%+ patient collection
+- Case Studies cards (anesthesia, behavioral health, orthopedic, DME)
+- Cosentus Advantage section (6 advantages)
+- Services snapshot (4 services)
+- Partners bar (ASCA, HIMSS, ASA, UCA, CDA)
+
+ABOUT US (/about):
+- Company description, beliefs (customers first, transparency, accountability, specialty focus)
+- Company numbers: 25+ years, 99% retention, up to 30% revenue growth
+- Why independent matters section
+- Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CRO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
+- Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
+  * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
+  * Phoenix, AZ — (877) 806-2286
+  * Mission, TX — (877) 806-2286
+  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 806-2286
+  * Dallas, TX — (888) 521-0055
+  * Salt Lake City, UT — (877) 806-2286
+  * Olathe, KS — (913) 262-2323
+  Each office card links to Google Maps when clicked. Hover turns them blue.
+
+SPECIALTIES:
+- Anesthesia (/specialties/anesthesia) — Accreda division, 23+ years, 8 solution cards, Why Accreda callout
+- Orthopedics (/specialties/orthopedics) — Stats bar (46% growth, 95% appeal, 28-day WC, $2.2M), 7 service cards, Alta acquisition, testimonials
+- Pain Management (/specialties/pain-management) — Interventional coding, medical necessity, pre-payment defense, behavioral health integration, 8 service cards
+- ASCs (/specialties/asc) — Facility + professional fee billing, case costing, implant billing, 8 service cards, Alta integration
+- Behavioral Health (/specialties/behavioral-health) — Therapy coding, psychiatric billing, IOP/PHP, telehealth, authorization management, 8 service cards
+
+SERVICES:
+- Medical Billing & Coding (/services/billing-coding) — 3 differentiators, 6-step billing process, specialty ticker (12 specialties)
+- Practice Management (/services/practice-management) — Front desk, financial reporting, credentialing, consulting, 5 service cards
+- EHR & Technology (/services/ehr-technology) — EHR agnostic, compatible systems (Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, Medcloud), 5 capability cards
+- Comprehensive RCM (/services/rcm) — 10-step revenue cycle with AI agents (Harper, Olivia, Emily, Michael, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth)
+
+COSENTUS AI (/cosentus-ai):
+- 8 AI voice agents with 3D avatars: Harper (eligibility), Olivia (prior auth), Emily (pre-service payment), Sarah (scheduling), Chris (claims), Michael (payment reconciliation), Cindy (patient collections — that's YOU!), Allison (customer service)
+- The Problem section, How R+A Works (5 steps), Why R+A Can't Be Replicated
+
+RESOURCES (/resources):
+- 3 case studies with embedded PDF viewer (ASC, Pain Management, Orthopedic)
+- 3 white papers (coming soon)
+- Click any case study to view the PDF inside the website
+
+CONTACT (/contact) — Phone: (877) 806-2286, Email: sales@cosentus.com
+CAREERS (/careers) — Job listings, Join Our Team button (mailto hr@cosentus.com)
+
+When someone asks about offices, addresses, locations, or "where are you located", tell them the specific addresses and offer to show the offices section. When they ask about a team member, tell them the name and title and offer to show the leadership section.`
 
 export async function POST(req: NextRequest) {
   try {
@@ -306,11 +395,11 @@ ABOUT US (/about):
 - Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CRO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
 - Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
   * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
-  * Phoenix, AZ — (877) 266-9040
-  * Mission, TX — (877) 266-9040
-  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 266-9040
+  * Phoenix, AZ — (877) 806-2286
+  * Mission, TX — (877) 806-2286
+  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 806-2286
   * Dallas, TX — (888) 521-0055
-  * Salt Lake City, UT — (877) 266-9040
+  * Salt Lake City, UT — (877) 806-2286
   * Olathe, KS — (913) 262-2323
   Each office card links to Google Maps when clicked. Hover turns them blue.
 
@@ -336,55 +425,126 @@ RESOURCES (/resources):
 - 3 white papers (coming soon)
 - Click any case study to view the PDF inside the website
 
-CONTACT (/contact) — Phone: (877) 266-9040, Email: sales@cosentus.com
+CONTACT (/contact) — Phone: (877) 806-2286, Email: sales@cosentus.com
 CAREERS (/careers) — Job listings, Join Our Team button (mailto hr@cosentus.com)
 
 When someone asks about offices, addresses, locations, or "where are you located", tell them the specific addresses and offer to show the offices section. When they ask about a team member, tell them the name and title and offer to show the leadership section.\n\n`
 
     const systemPrompt = voiceMode ? CINDY_PREFIX + SYSTEM_PROMPT : SYSTEM_PROMPT
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: voiceMode ? 200 : 300,
-        system: systemPrompt,
-        messages: messages.map((m: { role: string; text: string }) => ({
-          role: m.role === 'bot' ? 'assistant' : 'user',
-          content: m.text,
-        })),
-      }),
-    })
+    const modelPrimary = 'claude-sonnet-4-6'
+    const modelFallback = 'claude-haiku-4-5-20251001'
+
+    const makeRequest = async (model: string) => {
+      return fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: voiceMode ? 200 : 300,
+          stream: true,
+          system: systemPrompt,
+          messages: messages.map((m: { role: string; text: string }) => ({
+            role: m.role === 'bot' ? 'assistant' : 'user',
+            content: m.text,
+          })),
+        }),
+      })
+    }
+
+    let response = await makeRequest(modelPrimary)
 
     if (!response.ok) {
-      const err = await response.text()
-      console.error('Anthropic API error:', err)
-      return NextResponse.json({ error: 'AI service error' }, { status: 500 })
+      const errText = await response.text()
+      let errType = 'unknown'
+      try { errType = JSON.parse(errText)?.error?.type || 'unknown' } catch {}
+      console.error(`Anthropic API error [${response.status}] type=${errType} model=${modelPrimary}`)
+
+      // Fallback to Haiku
+      console.log('Falling back to Haiku...')
+      response = await makeRequest(modelFallback)
+
+      if (!response.ok) {
+        const err2 = await response.text()
+        let err2Type = 'unknown'
+        try { err2Type = JSON.parse(err2)?.error?.type || 'unknown' } catch {}
+        console.error(`Anthropic fallback error [${response.status}] type=${err2Type} model=${modelFallback}`)
+        return NextResponse.json({ error: 'AI service error', detail: err2Type }, { status: 500 })
+      }
     }
 
-    const data = await response.json()
-    const rawText = data.content?.[0]?.text || "Having a moment here. Call us at (877) 266-9040 and the team will sort you out!"
+    // Stream the response to the client
+    const encoder = new TextEncoder()
+    const decoder = new TextDecoder()
+    let fullText = ''
 
-    // Parse navigation commands: [NAV:/path] or [NAV:/path#section]
-    const navMatch = rawText.match(/\[NAV:(\/[^\]]*)\]/)
-    let navigate = null
-    let text = rawText
-    if (navMatch) {
-      const navStr = navMatch[1]
-      const [route, scroll] = navStr.split('#')
-      navigate = { route, scroll: scroll || undefined }
-      text = rawText.replace(navMatch[0], '').trim()
-    }
+    const stream = new ReadableStream({
+      async start(controller) {
+        const reader = response.body?.getReader()
+        if (!reader) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', text: "Having a moment here. Call us at (877) 806-2286!" })}\n\n`))
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', navigate: null })}\n\n`))
+          controller.close()
+          return
+        }
 
-    // Fire-and-forget: try to capture lead info from conversation
-    tryCaptureLeadFromChat(messages).catch(() => {})
+        let buffer = ''
+        try {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            buffer += decoder.decode(value, { stream: true })
 
-    return NextResponse.json({ text, navigate })
+            const lines = buffer.split('\n')
+            buffer = lines.pop() || ''
+
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue
+              const jsonStr = line.slice(6)
+              if (jsonStr === '[DONE]') continue
+              try {
+                const event = JSON.parse(jsonStr)
+                if (event.type === 'content_block_delta' && event.delta?.text) {
+                  const chunk = event.delta.text
+                  fullText += chunk
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', text: chunk })}\n\n`))
+                }
+              } catch {}
+            }
+          }
+        } catch (err) {
+          console.error('Stream read error:', err)
+        }
+
+        // Parse navigation from complete response
+        let navigate = null
+        let cleanText = fullText
+        const navMatch = fullText.match(/\[NAV:(\/[^\]]*)\]/)
+        if (navMatch) {
+          const [route, scroll] = navMatch[1].split('#')
+          navigate = { route, scroll: scroll || undefined }
+          cleanText = fullText.replace(navMatch[0], '').trim()
+        }
+
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', navigate })}\n\n`))
+        controller.close()
+
+        // Fire-and-forget: capture lead info
+        tryCaptureLeadFromChat(messages).catch(() => {})
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    })
   } catch (error) {
     console.error('Chat API error:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
