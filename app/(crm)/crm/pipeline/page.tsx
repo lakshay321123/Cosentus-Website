@@ -42,23 +42,21 @@ function initials(name: string | null): string {
 // Confetti burst for Won deals
 function WonConfetti({ onDone }: { onDone: () => void }) {
   useEffect(() => { const t = setTimeout(onDone, 2500); return () => clearTimeout(t) }, [onDone])
+  const particles = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
+    id: i, left: Math.random() * 100, w: 8 + Math.random() * 8, h: 8 + Math.random() * 8,
+    round: Math.random() > 0.5, color: ['#00B5D6', '#36C2DE', '#68D1E6', '#FFD700', '#FF6B6B', '#4CAF50'][Math.floor(Math.random() * 6)],
+    dur: 1.5 + Math.random() * 1.5, delay: Math.random() * 0.5, rot: 360 + Math.random() * 720,
+  })), [])
   return (
     <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999, overflow: 'hidden' }}>
-      {Array.from({ length: 40 }).map((_, i) => (
-        <div key={i} style={{
-          position: 'absolute',
-          left: `${Math.random() * 100}%`,
-          top: -10,
-          width: 8 + Math.random() * 8,
-          height: 8 + Math.random() * 8,
-          borderRadius: Math.random() > 0.5 ? '50%' : 2,
-          background: ['#00B5D6', '#36C2DE', '#68D1E6', '#FFD700', '#FF6B6B', '#4CAF50'][Math.floor(Math.random() * 6)],
-          animation: `confettiFall ${1.5 + Math.random() * 1.5}s ease-in forwards`,
-          animationDelay: `${Math.random() * 0.5}s`,
-          opacity: 0.9,
+      {particles.map(p => (
+        <div key={p.id} style={{
+          position: 'absolute', left: `${p.left}%`, top: -10, width: p.w, height: p.h,
+          borderRadius: p.round ? '50%' : 2, background: p.color, opacity: 0.9,
+          animation: `cf${p.id} ${p.dur}s ease-in ${p.delay}s forwards`,
         }} />
       ))}
-      <style>{`@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(${360 + Math.random() * 720}deg); opacity: 0; } }`}</style>
+      <style>{particles.map(p => `@keyframes cf${p.id} { 0% { transform: translateY(0) rotate(0deg); opacity:1; } 100% { transform: translateY(100vh) rotate(${p.rot}deg); opacity:0; } }`).join('\n')}</style>
     </div>
   )
 }
@@ -139,6 +137,7 @@ export default function PipelinePage() {
   const [lostModal, setLostModal] = useState<string | null>(null) // lead id pending lost reason
   const [quickAdd, setQuickAdd] = useState<string | null>(null) // stage for inline add
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban')
+  const dragCounter = useRef<Record<string, number>>({})
 
   useEffect(() => {
     supabase.from('leads').select('*').order('ai_score', { ascending: false })
@@ -363,9 +362,10 @@ export default function PipelinePage() {
 
             return (
               <div key={stage} style={{ flex: '1 1 0', minWidth: 190 }}
-                onDragOver={e => { e.preventDefault(); setDragOverStage(stage) }}
-                onDragLeave={() => setDragOverStage(null)}
-                onDrop={() => handleDrop(stage)}
+                onDragOver={e => { e.preventDefault() }}
+                onDragEnter={() => { dragCounter.current[stage] = (dragCounter.current[stage] || 0) + 1; setDragOverStage(stage) }}
+                onDragLeave={() => { dragCounter.current[stage] = (dragCounter.current[stage] || 1) - 1; if (dragCounter.current[stage] <= 0) { dragCounter.current[stage] = 0; setDragOverStage(prev => prev === stage ? null : prev) } }}
+                onDrop={() => { dragCounter.current[stage] = 0; handleDrop(stage) }}
               >
                 {/* Column header */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, padding: '0 4px' }}>
@@ -466,6 +466,16 @@ export default function PipelinePage() {
                                 {lostReasons.find(r => r.value === lead.lost_reason)?.label || lead.lost_reason}
                               </div>
                             )}
+
+                            {/* Stage dropdown (keyboard accessible) */}
+                            <select value={lead.status} onMouseDown={e => e.stopPropagation()} onChange={async (e) => {
+                              e.stopPropagation()
+                              const newStage = e.target.value
+                              if (newStage === 'lost') { setLostModal(lead.id); return }
+                              moveToStage(lead.id, newStage)
+                            }} onClick={e => e.preventDefault()} style={{ width: '100%', marginTop: 8, fontSize: 11, padding: '4px 6px', borderRadius: 6, border: '1px solid #E6E6E6', background: '#fff', color: '#616161', cursor: 'pointer', ...S }}>
+                              {stages.map(s => <option key={s} value={s}>{stageLabels[s]}</option>)}
+                            </select>
                           </>
                         )}
                       </div>

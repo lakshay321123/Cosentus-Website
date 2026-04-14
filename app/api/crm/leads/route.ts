@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 
-    const { first_name, last_name, email, phone, practice_name, specialty, provider_count, monthly_charges, source, notes } = body
+    const { first_name, last_name, email, phone, practice_name, specialty, provider_count, monthly_charges, source, notes, status: requestedStatus, revenue_potential: requestedRevenue } = body
 
     if (!first_name || !last_name) {
       return NextResponse.json({ error: 'first_name and last_name are required' }, { status: 400 })
@@ -80,7 +80,10 @@ export async function POST(req: NextRequest) {
     // Calculate AI score
     const ai_score = calculateAIScore(body)
     const temperature = calculateTemperature(ai_score)
-    const revenue_potential = monthly_charges ? Math.round(monthly_charges * 0.08) : null // ~8% of monthly charges
+    const revenue_potential = requestedRevenue != null ? requestedRevenue : (monthly_charges ? Math.round(monthly_charges * 0.08) : null)
+
+    const validStatuses = ['new', 'qualified', 'discovery', 'proposal', 'negotiation', 'won', 'lost']
+    const leadStatus = requestedStatus && validStatuses.includes(requestedStatus) ? requestedStatus : 'new'
 
     const { data, error } = await supabase.from('leads').insert({
       first_name, last_name, email, phone, practice_name,
@@ -89,7 +92,7 @@ export async function POST(req: NextRequest) {
       monthly_charges: monthly_charges || null,
       source: source || 'other',
       ai_score, temperature, revenue_potential,
-      status: 'new',
+      status: leadStatus,
       notes: notes || null,
       tags: source === 'website_chat' ? ['chat-capture'] : source === 'voice_agent' ? ['voice-capture'] : ['manual'],
     }).select().single()
@@ -124,7 +127,7 @@ export async function POST(req: NextRequest) {
     const { error: notifError } = await supabase.from('notifications').insert({ type: 'new_lead', title: 'New lead captured', body: `${first_name} ${last_name} from ${practice_name || 'unknown practice'} (${specialty || 'other'})`, lead_id: data.id, link: `/crm/leads/${data.id}`, read: false })
     if (notifError) console.error('Notification insert failed:', notifError.message)
 
-    return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
+    return NextResponse.json({ success: true, lead_id: data.id, lead: data, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
