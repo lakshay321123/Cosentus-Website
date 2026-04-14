@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 interface PageHeroProps {
   label?: string
@@ -40,26 +40,26 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
       {/* Content */}
       <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
         {label && (
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="hero-badge">
               <div className="hero-badge-dot" />
               <span>{label}</span>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         )}
 
-        <RevealOnScroll delay={0.1}>
+        <MotionReveal delay={0.1}>
           <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white', marginBottom: 24 }}>{title}</h1>
-        </RevealOnScroll>
+        </MotionReveal>
 
         {subtitle && (
-          <RevealOnScroll delay={0.2}>
+          <MotionReveal delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
-          </RevealOnScroll>
+          </MotionReveal>
         )}
 
         {ctaText && ctaHref && (
-          <RevealOnScroll delay={0.3}>
+          <MotionReveal delay={0.3}>
             <div className="hero-actions">
               <Link href={ctaHref} className="btn-primary">
                 {ctaText}
@@ -68,7 +68,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
                 </svg>
               </Link>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         )}
       </div>
     </section>

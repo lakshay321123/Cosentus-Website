@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import { eventsData, CosentusEvent } from '@/data/eventsData'
 
 // Gallery photos — replace gradients with real photos when provided
@@ -849,9 +849,9 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
           {items.map((item, i) => {
             if (item.type === 'year' && item.year) {
               return (
-                <RevealOnScroll key={`year-${item.year}`}>
+                <MotionReveal key={`year-${item.year}`}>
                   <YearMarker year={item.year} />
-                </RevealOnScroll>
+                </MotionReveal>
               )
             }
 
@@ -863,7 +863,7 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
 
               return (
                 <React.Fragment key={item.event.slug}>
-                  <RevealOnScroll delay={0.05}>
+                  <MotionReveal delay={0.05}>
                     <div className={`zigzag-row ${isLeft ? 'left' : 'right'}`}>
                       <EventCard
                         event={item.event}
@@ -872,7 +872,7 @@ export default function EventsContent({ galleryPhotos = [] }: EventsContentProps
                         onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
                       />
                     </div>
-                  </RevealOnScroll>
+                  </MotionReveal>
                   {hasNext && (
                     <div className={`zigzag-connector ${isLeft ? 'left-to-right' : 'right-to-left'}`}>
                       <div className="zigzag-vert-end" />

@@ -1,6 +1,7 @@
 'use client'
 
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import { motion } from 'framer-motion'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const advantages = [
@@ -28,7 +29,7 @@ export default function AdvantagesSection() {
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="advantage-split">
           {/* Left: Image collage */}
-          <RevealOnScroll direction="left">
+          <MotionReveal direction="left">
             <div style={{ position: 'relative' }}>
               <div style={{
                 display: 'grid',
@@ -53,38 +54,42 @@ export default function AdvantagesSection() {
                 <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
               </div>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           {/* Right: Advantages */}
           <div>
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div className="section-label">WHY COSENTUS</div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.1}>
               <div className="section-title">The Cosentus Advantage</div>
-            </RevealOnScroll>
+            </MotionReveal>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 36 }} className="advantage-compact-grid">
               {advantages.map((adv, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.15 + i * 0.08}>
-                  <div style={{
-                    padding: '20px',
-                    borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    transition: 'all 0.3s ease',
-                    background: 'var(--white)',
-                    height: '100%',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#00B5D6'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,181,214,0.12)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--gray-200)'; e.currentTarget.style.boxShadow = 'none' }}
+                <MotionReveal key={i} direction="right" delay={0.15 + i * 0.08}>
+                  <motion.div
+                    style={{
+                      padding: '20px',
+                      borderRadius: 12,
+                      border: '1px solid var(--gray-200)',
+                      background: 'var(--white)',
+                      height: '100%',
+                    }}
+                    whileHover={{
+                      y: -4,
+                      borderColor: '#00B5D6',
+                      boxShadow: '0 8px 24px rgba(0,181,214,0.14)',
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                   >
                     <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--primary-ghost)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
                       <div style={{ width: 18, height: 18, color: '#00B5D6' }}>{adv.icon}</div>
                     </div>
                     <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>{adv.title}</h4>
                     <p style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, margin: 0 }}>{adv.desc}</p>
-                  </div>
-                </RevealOnScroll>
+                  </motion.div>
+                </MotionReveal>
               ))}
             </div>
           </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
@@ -67,16 +67,16 @@ export default function ResultsSection() {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
-        <RevealOnScroll>
+        <MotionReveal>
           <div className="results-header"><h2>Results Our Clients See</h2></div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         {/* Desktop: grid layout */}
         <div className="results-grid results-desktop">
           {stats.map((stat, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.25}>
+            <MotionReveal key={i} direction="scale" delay={0.2 + i * 0.25}>
               <StatCard stat={stat} />
-            </RevealOnScroll>
+            </MotionReveal>
           ))}
         </div>
 
@@ -89,11 +89,11 @@ export default function ResultsSection() {
           </MobileCarousel>
         </div>
 
-        <RevealOnScroll delay={2}>
+        <MotionReveal delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
             Verified client results. Linked to case studies with full methodology.
           </p>
-        </RevealOnScroll>
+        </MotionReveal>
       </div>
     </section>
   )

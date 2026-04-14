@@ -1,6 +1,6 @@
 'use client'
 
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const advantages = [
@@ -59,36 +59,36 @@ export default function AnesthesiaContent() {
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="section-label">WHY ACCREDA EXISTS</div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.1}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
                 Generic RCM Teams Miss Details That Cost Thousands Per Case
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.2}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
                 Base units, time-unit accuracy, medical direction modifiers, concurrency rules, implant pass-throughs — the details that define anesthesia billing are the same ones generic teams get wrong.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
 
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>THE ACCREDA DIFFERENCE</div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 20 }}>
                 Anesthesia-Exclusive. Specialty-Obsessed.
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
                 Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, every workflow — built for anesthesia and nothing else.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
@@ -97,18 +97,18 @@ export default function AnesthesiaContent() {
       {/* The Cosentus Advantage — 6 animated cards */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">THE COSENTUS ADVANTAGE</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Sets Accreda Apart</div></RevealOnScroll>
+          <MotionReveal><div className="section-label">THE COSENTUS ADVANTAGE</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">What Sets Accreda Apart</div></MotionReveal>
 
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
             {advantages.map((a, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
+              <MotionReveal key={i} direction="scale" delay={0.15 + i * 0.1}>
                 <div className="advantage-card">
                   <div className="advantage-icon">{a.icon}</div>
                   <h4>{a.t}</h4>
                   <p>{a.d}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
@@ -129,17 +129,17 @@ export default function AnesthesiaContent() {
       {/* Solutions for Every Step */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">END-TO-END</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Solutions for Every Step</div></RevealOnScroll>
+          <MotionReveal><div className="section-label">END-TO-END</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">Solutions for Every Step</div></MotionReveal>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 48 }}>
             {solutions.map((s, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.06}>
+              <MotionReveal key={i} delay={0.1 + i * 0.06}>
                 <div className="solution-card" style={{ padding: '24px 28px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', height: '100%' }}>
                   <h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{s.t}</h4>
                   <p style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--gray-600)', margin: 0 }}>{s.d}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function AnesthesiaContent() {
       <section className="section">
         <div className="container">
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div>
                 <div className="section-label">AI AGENT SPOTLIGHT</div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
@@ -170,8 +170,8 @@ export default function AnesthesiaContent() {
                   </div>
                 </div>
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.2}>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
@@ -183,7 +183,7 @@ export default function AnesthesiaContent() {
                   </div>
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
@@ -192,22 +192,22 @@ export default function AnesthesiaContent() {
       {/* Leadership — 250+ years */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          <MotionReveal><div className="section-label">LEADERSHIP</div></MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Leadership Combined Experience</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
-          <RevealOnScroll delay={0.2}>
+          <MotionReveal delay={0.2}>
             <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
               <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>250+</span>
               <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years exclusively in anesthesia RCM</span>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           {/* All leaders in one grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 0 }}>
             {leaders.map((leader, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.05}>
+              <MotionReveal key={i} delay={0.1 + i * 0.05}>
                 <div style={{
                   background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
                   overflow: 'hidden', transition: 'all 0.3s ease', cursor: 'default', height: '100%',
@@ -223,7 +223,7 @@ export default function AnesthesiaContent() {
                     <p style={{ fontSize: 12, color: 'var(--gray-500)', margin: 0 }}>{leader.role}</p>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -233,12 +233,12 @@ export default function AnesthesiaContent() {
       {/* Client Reviews */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
+          <MotionReveal><div className="section-label">CLIENT REVIEWS</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">What Our Clients Say</div></MotionReveal>
 
           <div className="testimonials-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
             {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
+              <MotionReveal key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
                 <div className="testimonial-card" style={{
                   padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
                   border: '1px solid var(--gray-200)', position: 'relative', height: '100%',
@@ -263,7 +263,7 @@ export default function AnesthesiaContent() {
                     </div>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>

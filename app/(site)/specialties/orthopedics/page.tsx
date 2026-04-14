@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import OrthopedicsContent from './OrthopedicsContent'
 
 export const metadata: Metadata = {

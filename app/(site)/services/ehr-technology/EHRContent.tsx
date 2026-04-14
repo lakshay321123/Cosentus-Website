@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 /* ───────────────────────────────────────────
    DATA
@@ -458,20 +458,20 @@ export default function EHRContent() {
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,30,50,0.75) 0%, rgba(0,80,100,0.6) 50%, rgba(0,40,60,0.7) 100%)', zIndex: 1 }} />
         <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="hero-badge"><div className="hero-badge-dot" /><span>EHR & TECHNOLOGY</span></div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white', marginBottom: 24 }}>
               EHR Agnostic. Seamlessly<br />Integrated.
             </h1>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>
               Works with your existing EHR — Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, and more. No migrations. No disruption. For practices that want a purpose-built option, Medcloud supports cleaner claims and faster revenue.
             </p>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.3}>
+          </MotionReveal>
+          <MotionReveal delay={0.3}>
             <div className="hero-actions" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn-primary">
                 Schedule a Technology Assessment
@@ -482,14 +482,14 @@ export default function EHRContent() {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── MEDCLOUD INTRO ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div>
               <div className="section-label">MEDCLOUD</div>
               <div className="section-title">
@@ -499,25 +499,25 @@ export default function EHRContent() {
                 Enter Medcloud, our innovative EHR and Practice Management Software. Designed with your needs in mind, Medcloud integrates seamlessly into your practice, offering a user-friendly interface and cutting-edge features. It&apos;s not just software; it&apos;s a tool that empowers your practice to operate at its peak efficiency.
               </p>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── INTERACTIVE 360° DIAGRAM + HIGHLIGHTS ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white', overflow: 'hidden' }}>
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 56, lineHeight: 1.3 }}>
               How We Are Enhancing Healthcare Operations:
             </h2>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="ehr-ops-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <Interactive360Wheel />
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
                   <span style={{ fontSize: 24, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
@@ -539,7 +539,7 @@ export default function EHRContent() {
                   ))}
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
@@ -547,16 +547,16 @@ export default function EHRContent() {
       {/* ── MEDCLOUD 7 FEATURES ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">MEDCLOUD</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">The Future of EHR & Practice Management</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {medcloudFeatures.map((f, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.08}>
+              <MotionReveal key={i} direction="scale" delay={0.1 + i * 0.08}>
                 <div className="advantage-card" style={{ height: '100%' }}>
                   <div className="advantage-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -572,7 +572,7 @@ export default function EHRContent() {
                   <h4>{f.title}</h4>
                   <p>{f.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -581,20 +581,20 @@ export default function EHRContent() {
       {/* ── COMPATIBLE SYSTEMS ── */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">COMPATIBLE SYSTEMS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">We Connect to What You Already Use</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">
               EHR agnostic — integrates with Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, and others. We connect to what you already use.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 32 }}>
             {ehrs.map((ehr, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.05}>
+              <MotionReveal key={i} direction="scale" delay={0.1 + i * 0.05}>
                 <span style={{
                   padding: '14px 28px',
                   background: ehr === 'Medcloud' ? 'var(--primary)' : 'var(--white)',
@@ -606,7 +606,7 @@ export default function EHRContent() {
                   boxShadow: ehr === 'Medcloud' ? 'var(--shadow-glow)' : 'var(--shadow-sm)',
                   transition: 'all var(--transition-base)',
                 }}>{ehr}</span>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -615,26 +615,26 @@ export default function EHRContent() {
       {/* ── KEY CAPABILITIES ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">KEY CAPABILITIES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Technology That Works for You</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">
               Revenue-first design — documentation prompts capture every billable element, supporting accurate coding and maximum reimbursement regardless of which EHR you use. AI-integrated real-time data exchange with Cosentus billing and AI agents enables contextual, accurate patient and payer interactions.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
             {capabilities.map((c, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
+              <MotionReveal key={i} direction="scale" delay={0.15 + i * 0.1}>
                 <div className="advantage-card">
                   <div className="advantage-icon">{c.icon}</div>
                   <h4>{c.title}</h4>
                   <p>{c.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -643,28 +643,28 @@ export default function EHRContent() {
       {/* ── PARTNERSHIP PITCH ── */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-title">
               Growth with Cosentus: A Partnership for Success
             </div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
+          </MotionReveal>
+          <MotionReveal delay={0.15}>
             <p style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--gray-600)' }}>
               Choosing Cosentus means more than just selecting a service provider; it&apos;s a partnership for growth. Our expertise, combined with your passion for healthcare, creates a synergy that propels your practice to new heights. With Cosentus, you&apos;re not just surviving in the healthcare industry; you&apos;re thriving.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── FAQ SECTION ── */}
       <section className="section" id="faq">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Frequently Asked Questions</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div style={{ marginTop: 48 }}>
             <FAQSection title="EHR Software" faqs={ehrPageFaqs} />
@@ -676,7 +676,7 @@ export default function EHRContent() {
       {/* ── BOTTOM CTA ── */}
       <section className="cta-section">
         <div className="container">
-          <RevealOnScroll direction="scale">
+          <MotionReveal direction="scale">
             <div className="cta-box">
               <h2>See What Your Practice<br />Is Leaving on the Table</h2>
               <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -690,7 +690,7 @@ export default function EHRContent() {
                 </Link>
               </div>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 

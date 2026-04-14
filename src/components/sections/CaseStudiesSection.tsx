@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const caseStudies = [
@@ -71,19 +71,19 @@ export default function CaseStudiesSection() {
   return (
     <section className="section" id="cases" style={{ overflow: 'hidden' }}>
       <div className="container">
-        <RevealOnScroll direction="left">
+        <MotionReveal direction="left">
           <div className="section-label">PROVEN RESULTS</div>
-        </RevealOnScroll>
-        <RevealOnScroll direction="left" delay={0.1}>
+        </MotionReveal>
+        <MotionReveal direction="left" delay={0.1}>
           <div className="section-title">Case Studies</div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         {/* Desktop — flip cards */}
         <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, marginTop: 48 }}>
           {caseStudies.map((cs, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
+            <MotionReveal key={i} direction="scale" delay={0.2 + i * 0.12}>
               <FlipCard cs={cs} delay={i * 0.1} />
-            </RevealOnScroll>
+            </MotionReveal>
           ))}
         </div>
 

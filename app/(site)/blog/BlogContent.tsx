@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import { blogPosts } from '@/data/blogPosts'
 
 const allTags = ['All', ...Array.from(new Set(blogPosts.map(b => b.tag))).sort()]
@@ -17,7 +17,7 @@ export default function BlogContent() {
       {/* Tag Filters */}
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="blog-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
               {allTags.map((tag) => (
                 <button
@@ -42,7 +42,7 @@ export default function BlogContent() {
                 </button>
               ))}
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 

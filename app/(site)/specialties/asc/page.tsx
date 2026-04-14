@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export default function ASCPage() {
         <div className="container">
           <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden', minHeight: 340 }}>
             {/* Problem */}
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="ps-panel ps-problem" style={{ background: 'var(--white)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--gray-400)', marginBottom: 16 }}>THE PROBLEM</div>
                 <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.25, marginBottom: 20 }}>
@@ -56,9 +56,9 @@ export default function ASCPage() {
                   ))}
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
             {/* Solution */}
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div className="ps-panel ps-solution" style={{ background: 'var(--primary)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', borderRadius: '0 var(--radius-md) var(--radius-md) 0', position: 'relative' as const, overflow: 'hidden' }}>
                 <div className="ps-shimmer" />
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>THE SOLUTION</div>
@@ -79,28 +79,28 @@ export default function ASCPage() {
                   ))}
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
 
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Complete ASC Revenue Cycle</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {services.map((s, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div className="advantage-card">
                   <div className="advantage-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
                   <h4>{s.title}</h4>
                   <p>{s.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           {/* Mobile */}
@@ -120,9 +120,9 @@ export default function ASCPage() {
 
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          <MotionReveal><div className="section-label">CLIENT REVIEWS</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">What Our Clients Say</div></MotionReveal>
+          <MotionReveal delay={0.2}>
             <div className="testimonial-card" style={{
               padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
               border: '1px solid var(--gray-200)', position: 'relative', maxWidth: 680, marginTop: 48,
@@ -144,7 +144,7 @@ export default function ASCPage() {
                 </div>
               </div>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 

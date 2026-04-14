@@ -1,6 +1,6 @@
 'use client'
 
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const rcmSteps = [
@@ -31,21 +31,21 @@ export default function RCMContent() {
       <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
           <div>
-            <RevealOnScroll>
+            <MotionReveal>
               <div className="section-label">THE CHALLENGE</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
+            </MotionReveal>
+            <MotionReveal delay={0.1}>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 24, fontFamily: 'var(--font-display)' }}>
                 Disconnected Revenue Cycles Leak Revenue
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.2}>
+            </MotionReveal>
+            <MotionReveal delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)' }}>
                 Most practices manage their revenue cycle in disconnected pieces. Every handoff is a gap. Every gap is lost revenue. Comprehensive RCM eliminates those gaps with one accountable team, end-to-end.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
-          <RevealOnScroll delay={0.2}>
+          <MotionReveal delay={0.2}>
             <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', aspectRatio: '4/3' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -54,23 +54,23 @@ export default function RCMContent() {
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,181,214,0.15) 0%, transparent 60%)' }} />
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* The 10-Step RCM Timeline */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">THE COMPLETE REVENUE CYCLE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
             {rcmSteps.map((step, i) => (
-              <RevealOnScroll key={i} delay={i * 0.06}>
+              <MotionReveal key={i} delay={i * 0.06}>
                 <div
                   style={{
                     display: 'flex', gap: 16, padding: 24,
@@ -110,7 +110,7 @@ export default function RCMContent() {
                     <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', margin: 0 }}>{step.desc}</p>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
@@ -133,15 +133,15 @@ export default function RCMContent() {
       {/* Key Results — interactive cards */}
       <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">KEY RESULTS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Measurable Outcomes</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
             {keyResults.map((r, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
+              <MotionReveal key={i} delay={i * 0.12}>
                 <div
                   style={{
                     padding: '32px 16px', background: 'var(--white)', borderRadius: 12,
@@ -162,7 +162,7 @@ export default function RCMContent() {
                   <div style={{ fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 300, color: '#00B5D6', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
                   <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.3 }}>{r.label}</div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="results-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>

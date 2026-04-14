@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const steps = [
@@ -53,26 +53,26 @@ export default function RAPageContent() {
       {/* The 8 AI Voice Agents */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">THE 8 AI VOICE AGENTS</div>
-          </RevealOnScroll>
+          </MotionReveal>
           {/* AI Agents Section */}
 
           {/* AI Agents Grid — cosentus.com style */}
           <div style={{ marginTop: 48 }}>
-            <RevealOnScroll>
+            <MotionReveal>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
                 COSENTUS AI Agents
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 15, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to learn more
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
 
             {/* Desktop */}
             <div className="agents-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
               {allAgents.map((agent, i) => (
-                <RevealOnScroll key={i} delay={i * 0.08}>
+                <MotionReveal key={i} delay={i * 0.08}>
                   <div
                     role="button" tabIndex={0} onClick={() => setSelectedAgent(agent)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelectedAgent(agent) }}
                     style={{ cursor: 'pointer', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.3s ease', height: '100%' }}
@@ -87,7 +87,7 @@ export default function RAPageContent() {
                       <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>{agent.shortRole}</div>
                     </div>
                   </div>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
             {/* Mobile */}
@@ -158,24 +158,24 @@ export default function RAPageContent() {
               <svg viewBox="0 0 80 80" fill="none"><path d="M0 0h80v80" stroke="#616161" strokeWidth="1" /></svg>
             </div>
 
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
                 THE PROBLEM
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="left" delay={0.1}>
+            <MotionReveal direction="left" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
                 Why Specialty Practices Deserve Better
               </h2>
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="left" delay={0.2}>
+            <MotionReveal direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 480, marginBottom: 32 }}>
                 Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
 
             {/* Animated bullet points */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -184,12 +184,12 @@ export default function RAPageContent() {
                 'AI-only solutions lack clinical judgment',
                 'Revenue leaks at every handoff',
               ].map((item, i) => (
-                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
+                <MotionReveal key={i} direction="left" delay={0.3 + i * 0.12}>
                   <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
                     <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
                   </div>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
           </div>
@@ -199,24 +199,24 @@ export default function RAPageContent() {
             {/* Animated shimmer overlay */}
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
 
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 THE SOLUTION
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="right" delay={0.1}>
+            <MotionReveal direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
                 Real + Artificial Intelligence
               </h2>
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="right" delay={0.2}>
+            <MotionReveal direction="right" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 32 }}>
                 Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
 
             {/* Animated solution points */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -225,14 +225,14 @@ export default function RAPageContent() {
                 '8 AI agents automating volume workflows',
                 'Up to 30% revenue growth within 12 months',
               ].map((item, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
+                <MotionReveal key={i} direction="right" delay={0.3 + i * 0.12}>
                   <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div className="ps-check" style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.4s ease' }}>
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                     <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
                   </div>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
           </div>
@@ -243,14 +243,14 @@ export default function RAPageContent() {
       {/* How R+A Works — Interactive 5-Step Timeline */}
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">HOW R+A WORKS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">The 5-Step Process</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
-          <RevealOnScroll delay={0.25}>
+          <MotionReveal delay={0.25}>
             <div style={{ marginTop: 56 }}>
               {/* Timeline bar with step nodes */}
               <div className="step-timeline" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, padding: '0 20px' }}>
@@ -344,7 +344,7 @@ export default function RAPageContent() {
                 </div>
               </div>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 

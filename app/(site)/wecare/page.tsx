@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
@@ -82,34 +82,34 @@ export default function WeCarePage() {
 
       <section className="section">
         <div className="container" style={{ maxWidth: 900 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
               WeCare represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
               When practices get paid accurately and on time, they can focus fully on patient care —
               and we can focus on making a difference beyond healthcare.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">OUR IMPACT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Community Initiatives</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="initiatives-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {initiatives.map((init, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all var(--transition-base)' }}>
                   <div style={{ display: 'inline-block', padding: '4px 12px', background: 'var(--primary-ghost)', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, color: 'var(--primary)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: 16, alignSelf: 'flex-start' }}>{init.highlight}</div>
                   <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>{init.name}</h4>
                   <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', flex: 1 }}>{init.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="initiatives-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>

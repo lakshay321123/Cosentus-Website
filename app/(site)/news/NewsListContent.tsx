@@ -1,23 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import { newsArticlesMeta } from '@/data/newsArticles'
 
 export default function NewsListContent() {
   return (
     <section className="section">
       <div className="container">
-        <RevealOnScroll>
+        <MotionReveal>
           <div className="section-label">LATEST NEWS</div>
-        </RevealOnScroll>
-        <RevealOnScroll delay={0.1}>
+        </MotionReveal>
+        <MotionReveal delay={0.1}>
           <div className="section-title">Healthcare RCM, AI & Medical Billing Updates</div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginTop: 48 }}>
           {newsArticlesMeta.map((article, i) => (
-            <RevealOnScroll key={article.slug} delay={Math.min(i * 0.05, 0.4)}>
+            <MotionReveal key={article.slug} delay={Math.min(i * 0.05, 0.4)}>
               <Link href={`/news/${encodeURIComponent(article.slug)}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <article style={{
                   display: 'grid',
@@ -63,7 +63,7 @@ export default function NewsListContent() {
                   </div>
                 </article>
               </Link>
-            </RevealOnScroll>
+            </MotionReveal>
           ))}
         </div>
       </div>

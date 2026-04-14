@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import CTASection from '@/components/sections/CTASection'
 import PageHero from '@/components/sections/PageHero'
@@ -75,7 +75,7 @@ export default function BehavioralHealthContent() {
       <section className="section" style={{ overflow: 'hidden' }}>
         <div className="container">
           <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden', minHeight: 340 }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="ps-panel ps-problem" style={{ background: 'var(--white)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gray-400)', marginBottom: 16 }}>THE PROBLEM</div>
                 <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--gray-900)', lineHeight: 1.25, marginBottom: 20 }}>
@@ -95,8 +95,8 @@ export default function BehavioralHealthContent() {
                   ))}
                 </div>
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right">
+            </MotionReveal>
+            <MotionReveal direction="right">
               <div className="ps-panel ps-solution" style={{ background: 'var(--primary)', padding: 'clamp(32px, 4vw, 56px)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: '0 var(--radius-md) var(--radius-md) 0', position: 'relative', overflow: 'hidden' }}>
                 <div className="ps-shimmer" />
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>THE SOLUTION</div>
@@ -117,7 +117,7 @@ export default function BehavioralHealthContent() {
                   ))}
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
@@ -125,17 +125,17 @@ export default function BehavioralHealthContent() {
       {/* Services */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">WHAT WE MANAGE</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
+          <MotionReveal><div className="section-label">WHAT WE MANAGE</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">Complete Behavioral Health Revenue Cycle</div></MotionReveal>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {services.map((s, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div className="advantage-card">
                   <div className="advantage-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
                   <h4>{s.title}</h4>
                   <p>{s.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
@@ -155,16 +155,16 @@ export default function BehavioralHealthContent() {
       {/* Leadership */}
       <section className="section" id="leadership">
         <div className="container">
-          <RevealOnScroll><div className="section-label">OUR TEAM</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Behavioral Health Leadership</div></RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
+          <MotionReveal><div className="section-label">OUR TEAM</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">Behavioral Health Leadership</div></MotionReveal>
+          <MotionReveal delay={0.15}>
             <p className="section-desc">150+ years combined in behavioral health RCM</p>
-          </RevealOnScroll>
+          </MotionReveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 32, marginTop: 48 }}>
             {leaders.map((leader, i) => (
-              <RevealOnScroll key={i} delay={i * 0.08}>
+              <MotionReveal key={i} delay={i * 0.08}>
                 <LeaderCard leader={leader} />
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -173,11 +173,11 @@ export default function BehavioralHealthContent() {
       {/* Testimonials */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
+          <MotionReveal><div className="section-label">CLIENT REVIEWS</div></MotionReveal>
+          <MotionReveal delay={0.1}><div className="section-title">What Our Clients Say</div></MotionReveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, marginTop: 48 }}>
             {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} delay={0.2 + i * 0.15}>
+              <MotionReveal key={i} delay={0.2 + i * 0.15}>
                 <div className="testimonial-card" style={{
                   padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
                   border: '1px solid var(--gray-200)', position: 'relative',
@@ -199,7 +199,7 @@ export default function BehavioralHealthContent() {
                     </div>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>

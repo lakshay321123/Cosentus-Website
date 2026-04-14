@@ -1,6 +1,6 @@
 'use client'
 
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 const partnerQuotes = [
   { quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', author: 'Alex Cushman', title: 'CEO, AllianceMed' },
@@ -240,7 +240,7 @@ export default function PartnershipContent() {
       {/* Giant Stats */}
       <section style={{ padding: '40px 0' }}>
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="partnership-stats">
               <div className="stat-block">
                 <div className="stat-number">1,000<span className="stat-suffix">+</span></div>
@@ -255,33 +255,33 @@ export default function PartnershipContent() {
                 <div className="stat-label">Years of Excellence</div>
               </div>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* Intro */}
       <section style={{ padding: '0 0 60px' }}>
         <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', textAlign: 'center' }}>
               With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* Partner Testimonials */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll direction="left">
+          <MotionReveal direction="left">
             <div className="section-label">PARTNER PERSPECTIVES</div>
-          </RevealOnScroll>
-          <RevealOnScroll direction="left" delay={0.1}>
+          </MotionReveal>
+          <MotionReveal direction="left" delay={0.1}>
             <div className="section-title">Our Partner&apos;s Perspective</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))', gap: 24, marginTop: 48 }}>
             {partnerQuotes.map((q, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
+              <MotionReveal key={i} direction="scale" delay={i * 0.08}>
                 <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
@@ -297,7 +297,7 @@ export default function PartnershipContent() {
                     </div>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -307,22 +307,22 @@ export default function PartnershipContent() {
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
                 THE CHALLENGE
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.1}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
                 Is Your Journey to Growth Facing These Challenges?
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.2}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500, marginBottom: 32 }}>
                 Medical billing companies face mounting pressure from all sides — rising costs, technology shifts, and aggressive PE consolidation.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
             <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
               {[
                 'Scaling operations without losing quality or client relationships',
@@ -330,34 +330,34 @@ export default function PartnershipContent() {
                 'Managing rising costs while maintaining profitability',
                 'Competing against private equity-backed consolidators',
               ].map((item, i) => (
-                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
+                <MotionReveal key={i} direction="left" delay={0.3 + i * 0.12}>
                   <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
                     <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
                   </div>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
           </div>
 
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 THE SOLUTION
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
                 25 Years of RCM Expertise + Real + Artificial Intelligence
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
+            </MotionReveal>
+            <MotionReveal direction="right" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500, marginBottom: 32 }}>
                 One of the largest non-PE-backed RCM companies in America. 19 successful acquisitions. We know how to grow together.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
             <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
               {[
                 '1,000+ dedicated RCM experts ensuring cost-effectiveness',
@@ -366,12 +366,12 @@ export default function PartnershipContent() {
                 'Upfront capital investments to de-risk owners',
                 'Inc. 5000 and Great Place to Work certified',
               ].map((item, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
+                <MotionReveal key={i} direction="right" delay={0.3 + i * 0.12}>
                   <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
                   </div>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
           </div>
@@ -386,7 +386,7 @@ export default function PartnershipContent() {
       <section style={{ padding: '80px 0', background: 'white' }}>
         <div className="container">
           <div className="cta-grid" style={{ display: 'grid', gap: 48, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
-            <RevealOnScroll>
+            <MotionReveal>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Get Started</div>
                 <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 20 }}>Partner with Cosentus</h2>
@@ -394,8 +394,8 @@ export default function PartnershipContent() {
                   At Cosentus, we understand the unique challenges faced by medical billing companies. Our tailored solutions and innovative approach ensure that our partners can overcome these hurdles and achieve sustainable growth.
                 </p>
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.15}>
+            </MotionReveal>
+            <MotionReveal delay={0.15}>
               <form className="partnership-form" onSubmit={(e) => e.preventDefault()}>
                 <input type="text" placeholder="First Name *" aria-label="First Name" required />
                 <input type="text" placeholder="Last Name *" aria-label="Last Name" required />
@@ -409,7 +409,7 @@ export default function PartnershipContent() {
                   </button>
                 </div>
               </form>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>

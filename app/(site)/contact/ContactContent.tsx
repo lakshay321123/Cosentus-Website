@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const steps = [
@@ -59,12 +59,12 @@ export default function ContactContent() {
       {/* Process Steps */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">WHAT HAPPENS NEXT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">What Happens After You Reach Out</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div className="steps-desktop" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -72,7 +72,7 @@ export default function ContactContent() {
             marginTop: 48,
           }}>
             {steps.map((step, i) => (
-              <RevealOnScroll key={i} delay={i * 0.1}>
+              <MotionReveal key={i} delay={i * 0.1}>
                 <div style={{
                   padding: 32,
                   background: 'var(--white)',
@@ -97,7 +97,7 @@ export default function ContactContent() {
                   </div>
                   <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="steps-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
@@ -123,7 +123,7 @@ export default function ContactContent() {
             alignItems: 'start',
           }}>
             {/* Form */}
-            <RevealOnScroll>
+            <MotionReveal>
               <div>
                 <div className="section-label">GET IN TOUCH</div>
                 <div className="section-title" style={{ fontSize: 32 }}>Request Your Free Revenue Analysis</div>
@@ -226,10 +226,10 @@ export default function ContactContent() {
                 </form>
                 )}
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
 
             {/* Contact Details */}
-            <RevealOnScroll delay={0.2}>
+            <MotionReveal delay={0.2}>
               <div style={{ paddingTop: 60 }}>
                 <div style={{ marginBottom: 40 }}>
                   <h3 style={{ fontSize: 20, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 24 }}>Contact Details</h3>
@@ -267,7 +267,7 @@ export default function ContactContent() {
                   </p>
                 </div>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>

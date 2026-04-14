@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const caseStudies = [
@@ -48,19 +48,19 @@ export default function ResourcesContent() {
       {/* Case Studies */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">PROVEN RESULTS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Case Studies</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">Real outcomes from real practices. Every figure is documented with full methodology.</p>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="cases-cards-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
-              <RevealOnScroll key={i} delay={i * 0.1}>
+              <MotionReveal key={i} delay={i * 0.1}>
                 <div role="button" tabIndex={0} onClick={() => setViewingPdf({ title: cs.title, pdf: cs.pdf })} onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") setViewingPdf({ title: cs.title, pdf: cs.pdf }) }} style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease', height: '100%', display: 'flex', flexDirection: 'column' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,181,214,0.15)' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}>
@@ -82,7 +82,7 @@ export default function ResourcesContent() {
                     <div style={{ fontSize: 14, fontWeight: 500, color: '#00B5D6' }}>Read Case Study →</div>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="cases-cards-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
@@ -111,19 +111,19 @@ export default function ResourcesContent() {
       {/* White Papers */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">KNOWLEDGE BASE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">White Papers</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">Free resources to help your practice grow revenue and optimize operations.</p>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24, marginTop: 48 }}>
             {whitepapers.map((wp, i) => (
-              <RevealOnScroll key={i} delay={i * 0.1}>
+              <MotionReveal key={i} delay={i * 0.1}>
                 <div style={{
                   background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
                   padding: 28, transition: 'all 0.3s ease', height: '100%',
@@ -141,7 +141,7 @@ export default function ResourcesContent() {
                   <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-600)', marginBottom: 20, flex: 1 }}>{wp.desc}</p>
                   <div style={{ fontSize: 13, color: 'var(--gray-400)', fontStyle: 'italic' }}>Coming soon</div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>

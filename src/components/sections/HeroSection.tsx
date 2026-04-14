@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -48,32 +49,51 @@ export default function HeroSection() {
           <span style={{ display: 'inline-block', width: 4, height: '0.7em', background: '#00B5D6', marginLeft: 4, verticalAlign: 'baseline', opacity: showSub ? 0 : 1, animation: 'blink 0.6s step-end infinite' }} />
         </h1>
 
-        <p className="hero-sub" style={{
-          opacity: showSub ? 1 : 0,
-          transform: showSub ? 'translateY(0)' : 'translateY(12px)',
-          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
-        }}>
-          Your billing team is leaving money on the table. We pick it up.
-        </p>
+        <AnimatePresence>
+          {showSub && (
+            <motion.p
+              className="hero-sub"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, duration: 0.8 }}
+            >
+              Your billing team is leaving money on the table. We pick it up.
+            </motion.p>
+          )}
+        </AnimatePresence>
 
-        <div className="hero-actions" style={{
-          opacity: showCta ? 1 : 0,
-          transform: showCta ? 'translateY(0)' : 'translateY(16px)',
-          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
-        }}>
-          <Link href="/contact" className="btn-primary">
-            Get Your Free Revenue Analysis <ArrowIcon />
-          </Link>
-          <Link href="/cosentus-ai" className="btn-ghost">
-            See How R+A Works
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
-        </div>
+        <AnimatePresence>
+          {showCta && (
+            <motion.div
+              className="hero-actions"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, duration: 0.8 }}
+            >
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/contact" className="btn-primary">
+                  Get Your Free Revenue Analysis <ArrowIcon />
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/cosentus-ai" className="btn-ghost">
+                  See How R+A Works
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <div className="scroll-indicator">
+      <motion.div
+        className="scroll-indicator"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3, duration: 1 }}
+      >
         <svg width="24" height="40" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="1" y="1" width="22" height="38" rx="11" stroke="rgba(255,255,255,0.4)" strokeWidth="2"/>
           <circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.8)">
@@ -81,7 +101,7 @@ export default function HeroSection() {
             <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
           </circle>
         </svg>
-      </div>
+      </motion.div>
 
       <style>{`
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import { useChat } from '@/components/ui/ChatContext'
 import { BotMessage } from '@/components/ui/ChatMessage'
 
@@ -141,22 +141,22 @@ export default function RASection() {
       <div className="container">
         <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
           <div>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.15}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.15}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
                 Not Just a Billing Company.<br /><span style={{ color: '#00B5D6', fontStyle: 'italic' }}>A Platform.</span>
               </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.25}>
+            </MotionReveal>
+            <MotionReveal direction="left" delay={0.25}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 36 }}>
                 Claims chased before you notice them. Denials overturned before they cost you. Collections handled while you see patients.
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
 
             {/* Platform stats inline */}
-            <RevealOnScroll direction="left" delay={0.35}>
+            <MotionReveal direction="left" delay={0.35}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, marginBottom: 36 }}>
                 {[
                   { n: '23', l: 'Modules' },
@@ -176,19 +176,19 @@ export default function RASection() {
                   </div>
                 ))}
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="left" delay={0.45}>
+            <MotionReveal direction="left" delay={0.45}>
               <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
                 Explore The Platform
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
 
-          <RevealOnScroll direction="right" delay={0.3}>
+          <MotionReveal direction="right" delay={0.3}>
             <AIPanel />
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </div>
     </section>

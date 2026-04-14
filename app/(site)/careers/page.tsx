@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
@@ -28,21 +28,21 @@ export default function CareersPage() {
 
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">WHY COSENTUS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Why Join Us</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
             {reasons.map((r, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div className="advantage-card">
                   <h4>{r.title}</h4>
                   <p>{r.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
@@ -60,15 +60,15 @@ export default function CareersPage() {
 
       <section className="section section-alt">
         <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-title">Open Roles</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <p className="section-desc" style={{ margin: '20px auto 40px', textAlign: 'center' }}>
               We&apos;re always looking for talented people. Send us your CV and we&apos;ll get back to you.
             </p>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <Link
               href="mailto:hr@cosentus.com?subject=Job%20Application%20%E2%80%94%20Please%20see%20attached%20CV%2FResume&body=Dear%20HR%20Team%2C%0A%0AI%20am%20interested%20in%20joining%20the%20Cosentus%20team.%20Please%20find%20my%20CV%2FResume%20attached%20for%20your%20consideration.%0A%0AI%20look%20forward%20to%20hearing%20from%20you.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D"
               className="btn-primary"
@@ -78,7 +78,7 @@ export default function CareersPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </Link>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
     </main>

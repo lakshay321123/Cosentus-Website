@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 /* ───────────────────────────────────────────
    DATA
@@ -258,62 +258,62 @@ export default function PracticeManagementContent() {
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,30,50,0.75) 0%, rgba(0,80,100,0.6) 50%, rgba(0,40,60,0.7) 100%)', zIndex: 1 }} />
         <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="hero-badge"><div className="hero-badge-dot" /><span>COMPLETE PRACTICE MANAGEMENT</span></div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white', marginBottom: 24 }}>
               Run a More Profitable Practice<br />Without Adding to Your Workload.
             </h1>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>
               We manage the operational complexity of running a medical practice — front desk to credentialing, reporting, and consulting — so your clinical team focuses on patients.
             </p>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.3}>
+          </MotionReveal>
+          <MotionReveal delay={0.3}>
             <div className="hero-actions">
               <Link href="/contact" className="btn-primary">
                 Get Your Free Practice Assessment
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── INTRO ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">PRACTICE MANAGEMENT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Practice Management Services</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">
               Beyond billing, our Complete Practice Management encompasses every administrative aspect of your practice. From patient scheduling to data management, we handle it all. This holistic approach means more time for patient care and less time worrying about paperwork.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── BENEFITS — teal section with mind map ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white', overflow: 'hidden' }}>
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <h2 style={{ textAlign: 'center', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 56, lineHeight: 1.3 }}>
               Benefits of Our Practice Management Services
             </h2>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="pm-benefits-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-            <RevealOnScroll direction="left">
+            <MotionReveal direction="left">
               <InteractiveMindMap />
-            </RevealOnScroll>
+            </MotionReveal>
 
-            <RevealOnScroll direction="right">
+            <MotionReveal direction="right">
               <div>
                 <h3 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, marginBottom: 32, fontFamily: 'var(--font-display)' }}>
                   Complete Practice<br />Management
@@ -326,7 +326,7 @@ export default function PracticeManagementContent() {
                   </div>
                 ))}
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           </div>
         </div>
       </section>
@@ -334,22 +334,22 @@ export default function PracticeManagementContent() {
       {/* ── STREAMLINED OPERATIONS ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">STREAMLINED OPERATIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Streamlined Operations for Peak Efficiency</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
             {operations.map((op, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.08}>
+              <MotionReveal key={i} direction="scale" delay={0.1 + i * 0.08}>
                 <div className="advantage-card" style={{ height: '100%' }}>
                   <div className="advantage-icon">{op.icon}</div>
                   <h4>{op.title}</h4>
                   <p>{op.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -358,20 +358,20 @@ export default function PracticeManagementContent() {
       {/* ── WHAT WE MANAGE (from v5 messaging doc) ── */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Everything Behind the Scenes</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
             {whatWeManage.map((s, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.1 + i * 0.08}>
+              <MotionReveal key={i} direction="scale" delay={0.1 + i * 0.08}>
                 <div className="advantage-card">
                   <h4>{s.title}</h4>
                   <p>{s.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -380,29 +380,29 @@ export default function PracticeManagementContent() {
       {/* ── WHY OUTSOURCE ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">WHY OUTSOURCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Why Outsource Practice Management</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc">
               Reduce administrative overhead, improve front-end revenue capture, and gain predictable financial performance. Your clinical team stays focused on patients while we handle operations, reporting, and growth.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* ── FAQ ── */}
       <section className="section section-alt" id="faq">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Frequently Asked Questions</div>
-          </RevealOnScroll>
+          </MotionReveal>
           <div style={{ marginTop: 48 }}>
             <FAQGroup title="Practice Management" faqs={pageFaqs} />
             <FAQGroup title="Complete Practice Management — Operations & Accounting" faqs={faqsPagePM} />
@@ -413,7 +413,7 @@ export default function PracticeManagementContent() {
       {/* ── CTA ── */}
       <section className="cta-section">
         <div className="container">
-          <RevealOnScroll direction="scale">
+          <MotionReveal direction="scale">
             <div className="cta-box">
               <h2>See What Your Practice<br />Is Leaving on the Table</h2>
               <Link href="/contact" className="btn-primary">
@@ -421,7 +421,7 @@ export default function PracticeManagementContent() {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 

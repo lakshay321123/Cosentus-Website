@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 const testimonials = [
   { tag: 'Anesthesia', quote: 'Year-over-year collection rate of 97% from commercial payors and 98% overall. I can wholeheartedly recommend Accreda.', author: 'Dr. John B. Field Jr.', title: 'Vice President, Anesthesia Associates' },
@@ -24,9 +24,9 @@ export default function TestimonialsSection() {
   return (
     <section style={{ background: '#00B5D6', padding: 'clamp(64px, 8vw, 100px) 0', overflow: 'hidden' }}>
       <div className="container" style={{ textAlign: 'center', maxWidth: 800 }}>
-        <RevealOnScroll>
+        <MotionReveal>
           <div style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 32 }}>WHAT OUR CLIENTS SAY</div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         <div style={{ minHeight: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <div key={active} style={{ animation: 'fadeUp 0.5s ease forwards' }}>

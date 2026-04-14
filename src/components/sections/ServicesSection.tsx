@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import { motion } from 'framer-motion'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const services = [
@@ -99,19 +100,19 @@ export default function ServicesSection() {
   return (
     <section className="section" id="services" style={{ overflow: 'hidden' }}>
       <div className="container">
-        <RevealOnScroll direction="right">
+        <MotionReveal direction="right">
           <div className="section-label">WHAT WE DO</div>
-        </RevealOnScroll>
-        <RevealOnScroll direction="right" delay={0.1}>
+        </MotionReveal>
+        <MotionReveal direction="right" delay={0.1}>
           <div className="section-title">Three Services.<br />One Result: Growth.</div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         {/* Desktop: 3 visual cards */}
         <div className="services-visual-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
           {services.map((svc, i) => (
-            <RevealOnScroll key={i} delay={0.15 + i * 0.12}>
+            <MotionReveal key={i} delay={0.15 + i * 0.12}>
               <ServiceCard svc={svc} />
-            </RevealOnScroll>
+            </MotionReveal>
           ))}
         </div>
 

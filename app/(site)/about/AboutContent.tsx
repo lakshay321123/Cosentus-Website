@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const beliefs = [
@@ -54,25 +54,25 @@ export default function AboutContent() {
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 48, alignItems: 'start' }} className="about-intro-grid">
-            <RevealOnScroll>
+            <MotionReveal>
               <div className="section-label" style={{ marginBottom: 0 }}>WHO WE ARE</div>
-            </RevealOnScroll>
+            </MotionReveal>
             <div>
-              <RevealOnScroll>
+              <MotionReveal>
                 <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
                   Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
                   For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
                   eliminate billing inefficiencies, and scale operations — end-to-end, from patient registration to final payment,
                   with Real + Artificial Intelligence and specialty-trained teams.
                 </p>
-              </RevealOnScroll>
-              <RevealOnScroll delay={0.1}>
+              </MotionReveal>
+              <MotionReveal delay={0.1}>
                 <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', marginTop: 24, margin: '24px 0 0' }}>
                   Built on its R+A approach — Real + Artificial Intelligence — Cosentus combines experienced revenue cycle
                   professionals with specialised AI agents to help healthcare organisations manage administrative complexity
                   more efficiently and improve operational efficiency and financial performance.
                 </p>
-              </RevealOnScroll>
+              </MotionReveal>
             </div>
           </div>
         </div>
@@ -81,22 +81,22 @@ export default function AboutContent() {
       {/* What We Believe */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">OUR VALUES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">What We Believe</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           {/* Desktop */}
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {beliefs.map((b, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div className="advantage-card">
                   <h4>{b.title}</h4>
                   <p>{b.desc}</p>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           {/* Mobile */}
@@ -118,7 +118,7 @@ export default function AboutContent() {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
+              <MotionReveal key={i} delay={i * 0.12}>
                 <div style={{
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
@@ -126,7 +126,7 @@ export default function AboutContent() {
                   <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
                   <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
         </div>
@@ -135,30 +135,30 @@ export default function AboutContent() {
       {/* Why Independent Matters */}
       <section className="section section-alt">
         <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">INDEPENDENCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Why Independent Matters</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
+          </MotionReveal>
+          <MotionReveal delay={0.2}>
             <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
               Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
               not quarterly investor returns. Our stability shows: 80% of our founding team remains with the company.
             </p>
-          </RevealOnScroll>
+          </MotionReveal>
         </div>
       </section>
 
       {/* Leadership */}
       <section className="section section-alt" id="leadership">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">OUR TEAM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Executive Leadership</div>
-          </RevealOnScroll>
+          </MotionReveal>
 
           <div className="leadership-grid" style={{
             display: 'grid',
@@ -167,7 +167,7 @@ export default function AboutContent() {
             marginTop: 48,
           }}>
             {leadership.map((person, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <div
                   data-name={person.name.toLowerCase()}
                   onClick={() => setSelectedPerson(person)}
@@ -197,7 +197,7 @@ export default function AboutContent() {
                     <p style={{ fontSize: 12, color: 'var(--gray-500)' }}>{person.title}</p>
                   </div>
                 </div>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
 
@@ -231,16 +231,16 @@ export default function AboutContent() {
       {/* Offices */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
+          <MotionReveal>
             <div className="section-label">OUR OFFICES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          </MotionReveal>
+          <MotionReveal delay={0.1}>
             <div className="section-title">Where We Are</div>
-          </RevealOnScroll>
+          </MotionReveal>
           {/* Desktop */}
           <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
             {offices.map((office, i) => (
-              <RevealOnScroll key={i}>
+              <MotionReveal key={i}>
                 <a href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none', transition: 'all 0.3s ease', height: '100%' }}
                   onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 8px 24px rgba(0,181,214,0.2)'; el.style.background = '#00B5D6'; el.style.color = 'white'; el.style.borderColor = '#00B5D6' }}
                   onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}>
@@ -250,7 +250,7 @@ export default function AboutContent() {
                   <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
                   <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
                 </a>
-              </RevealOnScroll>
+              </MotionReveal>
             ))}
           </div>
           {/* Mobile */}

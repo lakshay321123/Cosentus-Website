@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 
 const partners = [
   { name: 'ASCA', src: '/images/11-300x173.png', width: 140, height: 80 },
@@ -23,11 +23,11 @@ export default function PartnersSection() {
   return (
     <section style={{ padding: '48px 0', borderTop: '1px solid var(--gray-200)' }}>
       <div className="container">
-        <RevealOnScroll>
+        <MotionReveal>
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--gray-400)' }}>Our Partners</div>
           </div>
-        </RevealOnScroll>
+        </MotionReveal>
 
         {/* Desktop */}
         <div className="partners-desktop" style={{

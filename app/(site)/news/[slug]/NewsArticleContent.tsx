@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MotionReveal from '@/components/ui/MotionReveal'
 import CTASection from '@/components/sections/CTASection'
 import { newsArticles, NewsArticle } from '@/data/newsArticles'
 
@@ -222,7 +222,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
           zIndex: 1,
         }} />
         <div className="hero-content" style={{ paddingTop: 140, paddingBottom: 50, position: 'relative', zIndex: 2, maxWidth: 'var(--container)', margin: '0 auto', width: '100%' }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <button
               onClick={() => router.push('/news')}
               style={{
@@ -238,9 +238,9 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
               </svg>
               Back to News
             </button>
-          </RevealOnScroll>
+          </MotionReveal>
 
-          <RevealOnScroll delay={0.1}>
+          <MotionReveal delay={0.1}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
               <span style={{
                 padding: '4px 12px', background: 'rgba(0,181,214,0.2)', borderRadius: 'var(--radius-sm)',
@@ -248,9 +248,9 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
               }}>{article.tag}</span>
               <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>{article.date}</span>
             </div>
-          </RevealOnScroll>
+          </MotionReveal>
 
-          <RevealOnScroll delay={0.2}>
+          <MotionReveal delay={0.2}>
             <h1 style={{
               fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, fontStyle: 'italic',
               letterSpacing: '-0.02em', lineHeight: 1.1, color: 'white', marginBottom: 16,
@@ -258,15 +258,15 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
             }}>
               {article.title}
             </h1>
-          </RevealOnScroll>
+          </MotionReveal>
 
           {article.featuredIn && (
-            <RevealOnScroll delay={0.3}>
+            <MotionReveal delay={0.3}>
               <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
                 Featured in — {article.featuredIn}
                 {article.featuredDate && ` | ${article.featuredDate}`}
               </p>
-            </RevealOnScroll>
+            </MotionReveal>
           )}
         </div>
       </section>
@@ -274,14 +274,14 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
       {/* Article Body */}
       <section className="section" style={{ paddingTop: 60, paddingBottom: 60 }}>
         <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
+          <MotionReveal>
             <article>
               {renderMarkdown(article.body)}
             </article>
-          </RevealOnScroll>
+          </MotionReveal>
 
           {safeSourceUrl && (
-            <RevealOnScroll delay={0.1}>
+            <MotionReveal delay={0.1}>
               <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--gray-200)' }}>
                 <a
                   href={safeSourceUrl}
@@ -296,7 +296,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
                   </svg>
                 </a>
               </div>
-            </RevealOnScroll>
+            </MotionReveal>
           )}
 
 
@@ -307,16 +307,16 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
       {relatedArticles.length > 0 && (
         <section className="section section-alt" style={{ paddingTop: 60, paddingBottom: 60 }}>
           <div className="container">
-            <RevealOnScroll>
+            <MotionReveal>
               <div className="section-label">MORE NEWS</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
+            </MotionReveal>
+            <MotionReveal delay={0.1}>
               <div className="section-title" style={{ marginBottom: 32 }}>Related Articles</div>
-            </RevealOnScroll>
+            </MotionReveal>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
               {relatedArticles.map((related, i) => (
-                <RevealOnScroll key={related.slug} delay={0.15 + i * 0.1}>
+                <MotionReveal key={related.slug} delay={0.15 + i * 0.1}>
                   <Link href={`/news/${encodeURIComponent(related.slug)}`} style={{ textDecoration: 'none' }}>
                     <div className="case-card" style={{
                       padding: '28px 24px', background: 'white',
@@ -336,7 +336,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
                       <p style={{ fontSize: 13, color: 'var(--gray-500)', marginTop: 12 }}>{related.date}</p>
                     </div>
                   </Link>
-                </RevealOnScroll>
+                </MotionReveal>
               ))}
             </div>
           </div>
