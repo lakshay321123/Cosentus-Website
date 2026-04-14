@@ -14,6 +14,8 @@ export type Temperature = 'hot' | 'warm' | 'cold'
 export type LeadStatus = 'new' | 'qualified' | 'discovery' | 'proposal' | 'negotiation' | 'won' | 'lost'
 export type LeadSource = 'website_chat' | 'voice_agent' | 'contact_form' | 'referral' | 'linkedin' | 'event' | 'email' | 'other'
 
+export type LostReason = 'competitor' | 'budget' | 'timing' | 'no_response' | 'not_a_fit' | 'went_in_house' | 'other'
+
 export interface Lead {
   id: string
   created_at: string
@@ -37,6 +39,9 @@ export interface Lead {
   notes: string | null
   tags: string[]
   campaign_id: string | null
+  lost_reason: LostReason | null
+  stage_changed_at: string | null
+  expected_close_date: string | null
 }
 
 export interface Activity {

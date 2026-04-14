@@ -47,7 +47,10 @@ CREATE TABLE IF NOT EXISTS leads (
   next_follow_up TIMESTAMPTZ,
   notes TEXT,
   tags TEXT[] DEFAULT '{}',
-  campaign_id UUID REFERENCES campaigns(id) ON DELETE SET NULL
+  campaign_id UUID REFERENCES campaigns(id) ON DELETE SET NULL,
+  lost_reason TEXT CHECK (lost_reason IS NULL OR lost_reason IN ('competitor','budget','timing','no_response','not_a_fit','went_in_house','other')),
+  stage_changed_at TIMESTAMPTZ DEFAULT NOW(),
+  expected_close_date TIMESTAMPTZ
 );
 
 -- ============================================================
