@@ -18,12 +18,14 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
     const phoneMatch = allText.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/)
     if (!emailMatch && !phoneMatch) return // not enough info
 
-    // Extract name (look for "I'm", "my name is", "this is", "Dr.")
+    // Extract name (expanded patterns for conversational capture)
     let firstName = '', lastName = ''
     const namePatterns = [
-      /(?:I'm|I am|my name is|this is|name's)\s+(?:Dr\.?\s+)?(\w+)\s+(\w+)/i,
-      /(?:I'm|I am)\s+(?:Dr\.?\s+)?(\w+)/i,
+      /(?:I'm|I am|my name is|this is|name's|it's|call me)\s+(?:Dr\.?\s+)?(\w+)\s+(\w+)/i,
+      /(?:I'm|I am|it's|call me)\s+(?:Dr\.?\s+)?(\w+)/i,
       /Dr\.?\s+(\w+)\s+(\w+)/i,
+      /(\w+)\s+(\w+)\s+here\b/i,
+      /(?:hey|hi|hello)[,!]?\s+(?:I'm|this is|it's)\s+(\w+)/i,
     ]
     for (const p of namePatterns) {
       const m = userText.match(p)
@@ -46,15 +48,29 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       if (lower.includes(kw)) { specialty = spec; break }
     }
 
-    // Extract practice name
+    // Extract practice name (expanded for conversational capture)
     let practiceName = ''
     const practicePatterns = [
-      /(?:practice|clinic|group|center|associates|partners|institute)\s+(?:is\s+)?called\s+"?([^".]+)"?/i,
-      /(?:at|from|with|run|own)\s+([A-Z][\w\s&]+(?:Practice|Clinic|Group|Center|Associates|Partners|Institute|Medical|Health|Surgery|ASC))/,
+      /(?:practice|clinic|group|center|associates|partners|institute)\s+(?:is\s+)?(?:called\s+)?"?([^".]+)"?/i,
+      /(?:at|from|with|run|own|manage)\s+([A-Z][\w\s&]+(?:Practice|Clinic|Group|Center|Associates|Partners|Institute|Medical|Health|Surgery|ASC|Anesthesia|Ortho))/,
+      /(?:we're|we are|it's called|called)\s+"?([A-Z][\w\s&]{2,40})"?/,
+      /(?:our|my)\s+(?:practice|clinic|group|center)\s+(?:is\s+)?([A-Z][\w\s&]{2,40})/i,
     ]
     for (const p of practicePatterns) {
       const m = allText.match(p)
       if (m) { practiceName = m[1].trim(); break }
+    }
+
+    // Extract provider count
+    let providerCount: number | null = null
+    const providerPatterns = [
+      /(\d+)\s+(?:providers?|physicians?|doctors?|surgeons?|anesthesiologists?|practitioners?)/i,
+      /(?:we have|there are|about|around|roughly)\s+(\d+)\s+(?:providers?|docs?|physicians?)/i,
+      /(\d+)\s*(?:-|\s)(?:person|member|provider)\s+(?:group|practice|team)/i,
+    ]
+    for (const p of providerPatterns) {
+      const m = allText.match(p)
+      if (m) { providerCount = parseInt(m[1]); break }
     }
 
     // Check for duplicate
@@ -68,12 +84,14 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       }
     }
 
-    // Calculate score
+    // Calculate score (more info gathered = higher score)
     const highValueSpecs = ['anesthesia', 'orthopedics', 'asc', 'pain_management']
     let score = 40 // base (they chatted = engaged)
     if (highValueSpecs.includes(specialty)) score += 15
     if (emailMatch) score += 5
     if (phoneMatch) score += 5
+    if (practiceName) score += 5
+    if (providerCount && providerCount >= 5) score += 5
     score = Math.min(score, 100)
 
     const temp = score >= 75 ? 'hot' : score >= 45 ? 'warm' : 'cold'
@@ -82,6 +100,7 @@ async function tryCaptureLeadFromChat(messages: { role: string; text: string }[]
       first_name: firstName, last_name: lastName || 'Unknown',
       email: emailMatch?.[0] || null, phone: phoneMatch?.[0] || null,
       practice_name: practiceName || null, specialty,
+      provider_count: providerCount,
       source: 'website_chat', ai_score: score, temperature: temp,
       status: 'new', tags: ['chat-capture', 'auto'],
       notes: `Auto-captured from website chat. ${messages.length} messages exchanged.`,
@@ -253,6 +272,22 @@ WHAT TO NEVER DO:
 - Never repeat your intro if you already said hi
 - Never make up numbers. Only use the stats listed above
 - Never diagnose, give medical advice, or pretend to be a doctor
+
+CONVERSATIONAL INFO GATHERING — Your secondary goal (after genuinely helping them) is to naturally learn these details during the conversation. Never interrogate. Never ask more than one thing per message. Space these across the whole conversation:
+
+1. SPECIALTY — Ask early, it shapes everything: "What specialty are you in? That'll help me give you real numbers instead of generic stuff."
+2. NAME — After a couple of exchanges: "By the way, who am I chatting with?" or "What should I call you?"
+3. PRACTICE NAME — When discussing their situation: "What's your practice called?" or "How big is your group?"
+4. EMAIL — Only AFTER you've given them something valuable: "Want me to have someone send you those numbers? What's a good email?" or "I can get you that case study — where should I send it?"
+5. PHONE — Only if the conversation is warm and they seem interested: "If you'd rather just talk to someone directly, I can have them call you. What's a good number?"
+
+RULES FOR INFO GATHERING:
+- Always provide value FIRST. Answer their question, then ask one thing.
+- If they dodge or ignore a question, move on. Zero pressure. Never ask twice.
+- Tie every ask to something useful for THEM, not for you.
+- Never say "can I get your details" or "fill out this form" or anything that sounds like data collection.
+- If they volunteer info unprompted, acknowledge it naturally: "Got it, Dr. Chen" not "Thank you for providing your name."
+- For patients or job seekers, skip the practice/specialty questions. Just help them and offer the right contact.
 
 VOICE NAVIGATION (for voice agent mode):
 When the user explicitly asks to GO somewhere or SEE something, include a navigation tag at the END of your response. Format: [NAV:/path] or [NAV:/path#section]
