@@ -177,8 +177,23 @@ function CindyInner() {
           }
         }
 
-        setActionLabel('')
-        return `I've filled in the form with the information you provided. Please review the details and click the Submit button when you're ready.`
+        // Submit with retry — needs time for React to process field changes
+        const trySubmit = (attempt: number) => {
+          const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+          if (submitBtn) {
+            setActionLabel('Submitting...')
+            submitBtn.click()
+            setTimeout(() => setActionLabel(''), 2000)
+          } else if (attempt < 3) {
+            setTimeout(() => trySubmit(attempt + 1), 500)
+          } else {
+            const form = document.querySelector('form') as HTMLFormElement | null
+            if (form) { setActionLabel('Submitting...'); form.requestSubmit(); setTimeout(() => setActionLabel(''), 2000) }
+          }
+        }
+        setTimeout(() => trySubmit(0), 800)
+
+        return `I've filled in the form and pressed the Submit button for you. The Cosentus team will follow up within one business day.`
       },
 
       scroll_to: (params: { section_id: string }) => {
