@@ -15,6 +15,7 @@ export default function ContactContent() {
   const [formData, setFormData] = useState({
     practiceName: '',
     specialty: '',
+    customSpecialty: '',
     contactName: '',
     email: '',
     phone: '',
@@ -28,11 +29,21 @@ export default function ContactContent() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const DB_SPECIALTIES = ['anesthesia', 'orthopedics', 'pain_management', 'asc', 'behavioral_health', 'urgent_care', 'obgyn', 'other']
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     try {
       const nameParts = formData.contactName.trim().split(' ')
+      const selectedSpecialty = formData.specialty || 'other'
+      const isDbEnum = DB_SPECIALTIES.includes(selectedSpecialty)
+      const actualSpecialtyLabel = selectedSpecialty === 'other'
+        ? (formData.customSpecialty || 'Other')
+        : selectedSpecialty.replace(/_/g, ' ')
+      const specialtyNote = !isDbEnum ? `Specialty: ${actualSpecialtyLabel}` : (selectedSpecialty === 'other' && formData.customSpecialty ? `Specialty: ${formData.customSpecialty}` : '')
+      const notes = [specialtyNote, formData.message || 'Submitted via contact form'].filter(Boolean).join(' | ')
+
       await fetch('/api/crm/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,9 +53,9 @@ export default function ContactContent() {
           email: formData.email,
           phone: formData.phone,
           practice_name: formData.practiceName,
-          specialty: formData.specialty || 'other',
+          specialty: isDbEnum ? selectedSpecialty : 'other',
           source: 'contact_form',
-          notes: formData.message || 'Submitted via contact form',
+          notes,
         }),
       })
       setSubmitted(true)
@@ -184,14 +195,89 @@ export default function ContactContent() {
                       }}
                     >
                       <option value="">Select your specialty</option>
+                      <option value="allergy_immunology">Allergy & Immunology</option>
                       <option value="anesthesia">Anesthesia</option>
+                      <option value="asc">Ambulatory Surgery Center (ASC)</option>
+                      <option value="bariatric_surgery">Bariatric Surgery</option>
+                      <option value="behavioral_health">Behavioral Health</option>
+                      <option value="cardiology">Cardiology</option>
+                      <option value="cardiothoracic_surgery">Cardiothoracic Surgery</option>
+                      <option value="chiropractic">Chiropractic</option>
+                      <option value="colorectal_surgery">Colorectal Surgery</option>
+                      <option value="critical_care">Critical Care / Intensivist</option>
+                      <option value="dentistry">Dentistry</option>
+                      <option value="dermatology">Dermatology</option>
+                      <option value="dme">Durable Medical Equipment (DME)</option>
+                      <option value="emergency_medicine">Emergency Medicine</option>
+                      <option value="endocrinology">Endocrinology</option>
+                      <option value="endoscopy">Endoscopy</option>
+                      <option value="ent">ENT / Otolaryngology</option>
+                      <option value="family_medicine">Family Medicine</option>
+                      <option value="gastroenterology">Gastroenterology</option>
+                      <option value="general_surgery">General Surgery</option>
+                      <option value="geriatrics">Geriatrics</option>
+                      <option value="hematology_oncology">Hematology / Oncology</option>
+                      <option value="home_health">Home Health</option>
+                      <option value="hospice_palliative">Hospice & Palliative Care</option>
+                      <option value="infectious_disease">Infectious Disease</option>
+                      <option value="internal_medicine">Internal Medicine</option>
+                      <option value="interventional_radiology">Interventional Radiology</option>
+                      <option value="maternal_fetal_medicine">Maternal-Fetal Medicine</option>
+                      <option value="nephrology">Nephrology</option>
+                      <option value="neurology">Neurology</option>
+                      <option value="neurosurgery">Neurosurgery</option>
+                      <option value="obgyn">OB/GYN</option>
+                      <option value="occupational_medicine">Occupational Medicine</option>
+                      <option value="ophthalmology">Ophthalmology</option>
+                      <option value="optometry">Optometry</option>
+                      <option value="oral_maxillofacial_surgery">Oral & Maxillofacial Surgery</option>
                       <option value="orthopedics">Orthopedics</option>
-                      <option value="pain-management">Pain Management</option>
-                      <option value="asc">Ambulatory Surgery Center</option>
-                      <option value="behavioral-health">Behavioral Health</option>
-                      <option value="urgent-care">Urgent Care</option>
+                      <option value="pain_management">Pain Management</option>
+                      <option value="pathology">Pathology</option>
+                      <option value="pediatrics">Pediatrics</option>
+                      <option value="physical_medicine_rehab">Physical Medicine & Rehabilitation</option>
+                      <option value="physical_therapy">Physical Therapy</option>
+                      <option value="plastic_surgery">Plastic Surgery</option>
+                      <option value="podiatry">Podiatry</option>
+                      <option value="primary_care">Primary Care</option>
+                      <option value="psychiatry">Psychiatry</option>
+                      <option value="pulmonology">Pulmonology</option>
+                      <option value="radiation_oncology">Radiation Oncology</option>
+                      <option value="radiology">Radiology</option>
+                      <option value="reproductive_endocrinology">Reproductive Endocrinology / Fertility</option>
+                      <option value="rheumatology">Rheumatology</option>
+                      <option value="sleep_medicine">Sleep Medicine</option>
+                      <option value="sports_medicine">Sports Medicine</option>
+                      <option value="substance_abuse">Substance Abuse / Addiction Medicine</option>
+                      <option value="urgent_care">Urgent Care</option>
+                      <option value="urology">Urology</option>
+                      <option value="vascular_surgery">Vascular Surgery</option>
+                      <option value="wound_care">Wound Care</option>
                       <option value="other">Other</option>
                     </select>
+                    {formData.specialty === 'other' && (
+                      <input
+                        type="text"
+                        name="customSpecialty"
+                        value={formData.customSpecialty}
+                        onChange={handleChange}
+                        placeholder="Enter your specialty"
+                        required
+                        maxLength={100}
+                        aria-label="Other specialty"
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          border: '1px solid var(--gray-200)',
+                          borderRadius: 'var(--radius-sm)',
+                          fontSize: 15,
+                          fontFamily: 'var(--font-body)',
+                          outline: 'none',
+                          marginTop: 10,
+                          transition: 'border-color var(--transition-fast)',
+                        }}
+                      />
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: 13, fontWeight: 400, color: 'var(--gray-700)', marginBottom: 6 }}>
