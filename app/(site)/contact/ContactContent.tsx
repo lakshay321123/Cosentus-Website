@@ -29,11 +29,21 @@ export default function ContactContent() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const DB_SPECIALTIES = ['anesthesia', 'orthopedics', 'pain_management', 'asc', 'behavioral_health', 'urgent_care', 'obgyn', 'other']
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     try {
       const nameParts = formData.contactName.trim().split(' ')
+      const selectedSpecialty = formData.specialty || 'other'
+      const isDbEnum = DB_SPECIALTIES.includes(selectedSpecialty)
+      const actualSpecialtyLabel = selectedSpecialty === 'other'
+        ? (formData.customSpecialty || 'Other')
+        : selectedSpecialty.replace(/_/g, ' ')
+      const specialtyNote = !isDbEnum ? `Specialty: ${actualSpecialtyLabel}` : (selectedSpecialty === 'other' && formData.customSpecialty ? `Specialty: ${formData.customSpecialty}` : '')
+      const notes = [specialtyNote, formData.message || 'Submitted via contact form'].filter(Boolean).join(' | ')
+
       await fetch('/api/crm/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,9 +53,9 @@ export default function ContactContent() {
           email: formData.email,
           phone: formData.phone,
           practice_name: formData.practiceName,
-          specialty: formData.specialty === 'other' ? (formData.customSpecialty || 'other') : (formData.specialty || 'other'),
+          specialty: isDbEnum ? selectedSpecialty : 'other',
           source: 'contact_form',
-          notes: formData.message || 'Submitted via contact form',
+          notes,
         }),
       })
       setSubmitted(true)
@@ -254,6 +264,7 @@ export default function ContactContent() {
                         placeholder="Enter your specialty"
                         required
                         maxLength={100}
+                        aria-label="Other specialty"
                         style={{
                           width: '100%',
                           padding: '12px 16px',
