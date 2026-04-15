@@ -152,38 +152,33 @@ function CindyInner() {
         if (params.specialty) {
           const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
           if (select) {
-            const specialtyMap: Record<string, string> = {
-              'anesthesia': 'anesthesia', 'orthopedics': 'orthopedics', 'orthopedic': 'orthopedics',
-              'pain management': 'pain-management', 'pain': 'pain-management',
-              'asc': 'asc', 'ambulatory surgery': 'asc', 'surgery center': 'asc',
-              'behavioral health': 'behavioral-health', 'behavioral': 'behavioral-health', 'mental health': 'behavioral-health',
-              'urgent care': 'urgent-care', 'urgent': 'urgent-care', 'other': 'other',
+            const spoken = params.specialty.toLowerCase().trim()
+            // Dynamic match: read all option values from the DOM and fuzzy-match
+            let bestMatch = ''
+            for (const opt of Array.from(select.options)) {
+              if (!opt.value) continue
+              const label = opt.textContent?.toLowerCase().trim() || ''
+              const val = opt.value.toLowerCase()
+              if (label === spoken || val === spoken) { bestMatch = opt.value; break }
+              if (label.includes(spoken) || spoken.includes(label) || val.includes(spoken.replace(/[\s-]/g, '_'))) { bestMatch = opt.value }
             }
-            const key = params.specialty.toLowerCase()
-            const val = specialtyMap[key] || Object.values(specialtyMap).find(v => v.includes(key)) || key
+            const matchedValue = bestMatch || 'other'
             const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
-            if (setter) { setter.call(select, val); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
+            if (setter) { setter.call(select, matchedValue); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
+            // If matched to "other", fill the custom specialty text input
+            if (matchedValue === 'other' && params.specialty) {
+              await new Promise(r => setTimeout(r, 300))
+              const customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+              if (customInput) {
+                const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+                if (inputSetter) { inputSetter.call(customInput, params.specialty); customInput.dispatchEvent(new Event('input', { bubbles: true })); customInput.dispatchEvent(new Event('change', { bubbles: true })) }
+              }
+            }
           }
         }
 
-        // Submit with retry — needs time for React to process field changes
-        const trySubmit = (attempt: number) => {
-          const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
-          if (submitBtn) {
-            setActionLabel('Submitting...')
-            submitBtn.click()
-            setTimeout(() => setActionLabel(''), 2000)
-          } else if (attempt < 3) {
-            setTimeout(() => trySubmit(attempt + 1), 500)
-          } else {
-            // Last resort: submit the form element directly
-            const form = document.querySelector('form') as HTMLFormElement | null
-            if (form) { setActionLabel('Submitting...'); form.requestSubmit(); setTimeout(() => setActionLabel(''), 2000) }
-          }
-        }
-        setTimeout(() => trySubmit(0), 800)
-
-        return 'Form submitted successfully. The team will follow up within one business day.'
+        setActionLabel('')
+        return `I've filled in the form with the information you provided. Please review the details and click the Submit button when you're ready.`
       },
 
       scroll_to: (params: { section_id: string }) => {
@@ -210,7 +205,7 @@ function CindyInner() {
         return done('Section not found, scrolled down')
       },
 
-      // Read current page content — headings + paragraphs + key data, capped for speed
+      // Read current page content — headings + paragraphs + key data + form fields, capped for speed
       read_page: () => {
         const main = document.querySelector('main')
         if (!main) return `Page: ${window.location.pathname}`
@@ -220,10 +215,32 @@ function CindyInner() {
           'h1, h2, h3, .section-label, .section-title, p, li, ' +
           '.result-number span, .result-label, .hero-sub'
         ))) {
-          if (charCount >= 1200) break
+          if (charCount >= 2500) break
           if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 200) { parts.push(text); charCount += text.length + 1 }
+          if (text.length > 1 && text.length < 300) { parts.push(text); charCount += text.length + 1 }
+        }
+        // Detect forms and their fields
+        const forms = main.querySelectorAll('form')
+        if (forms.length > 0) {
+          parts.push('\n--- Form fields on this page ---')
+          for (const form of Array.from(forms)) {
+            for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
+              const name = input.getAttribute('name') || ''
+              const tag = input.tagName.toLowerCase()
+              if (tag === 'select') {
+                const options = Array.from((input as HTMLSelectElement).options)
+                  .filter(o => o.value)
+                  .map(o => o.textContent?.trim())
+                  .slice(0, 20) // cap at 20 to avoid bloat
+                const total = (input as HTMLSelectElement).options.length - 1 // exclude placeholder
+                parts.push(`Dropdown "${name}": ${total} options including: ${options.join(', ')}${total > 20 ? '... and more' : ''}. If the specialty is not listed, select "Other" and a text box will appear to type it in manually.`)
+              } else {
+                const type = input.getAttribute('type') || tag
+                parts.push(`Field "${name}" (${type})`)
+              }
+            }
+          }
         }
         return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n')}`
       },
