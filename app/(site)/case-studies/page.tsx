@@ -16,7 +16,7 @@ export default function CaseStudiesPage() {
         title="Real Practices. Real Revenue Growth."
         subtitle="Every practice we partner with has a unique revenue story. Below are outcome-first case studies demonstrating the concrete impact of our Real + Artificial Intelligence model."
       />
-      <CaseStudiesSection />
+      <CaseStudiesSection mode="viewer" />
       <CTASection />
     </main>
   )

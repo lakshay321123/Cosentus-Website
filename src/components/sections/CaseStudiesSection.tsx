@@ -6,13 +6,41 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const caseStudies = [
-  { tag: 'Anesthesia', stat: '<48hr', statLabel: 'Turnaround', title: '50+ site group. Zero revenue leakage. Sub-48-hour charge turnaround.', href: '/case-studies', image: '/images/homepage/surgery-center.jpg' },
-  { tag: 'Behavioral Health', stat: '700%', statLabel: 'Revenue Growth', title: '$2M to $16M. 3,500+ individuals served. Automated Medi-Cal billing.', href: '/case-studies', image: '/images/homepage/healthcare-pro.jpg' },
-  { tag: 'Orthopedic', stat: '46%', statLabel: 'Revenue Growth', title: '$1.5M to $2.2M. Workers\u2019 Comp turnaround cut from 45 to 28 days.', href: '/case-studies', image: '/images/homepage/doctor-consult.jpg' },
-  { tag: 'DME', stat: '2x', statLabel: 'Sales Doubled', title: '$82M to $165M. DSO down 56%. Denial rates slashed 31%.', href: '/case-studies', image: '/images/homepage/medical-tech.jpg' },
+  {
+    tag: 'ASC',
+    stat: '129%',
+    statLabel: 'Collection Increase',
+    title: '15-surgeon ASC. Days in AR 75 → 37. Clean claims 83% → 98%. Collections doubled.',
+    image: '/images/homepage/surgery-center.jpg',
+    pdf: '/downloads/case-studies/asc-case-study.pdf',
+  },
+  {
+    tag: 'Pain Management',
+    stat: '26%',
+    statLabel: 'Revenue Increase',
+    title: 'Multi-modality pain clinic. E&M documentation + ultrasound coding + electronic WC submission.',
+    image: '/images/homepage/doctor-consult.jpg',
+    pdf: '/downloads/case-studies/pain-management-case-study.pdf',
+  },
+  {
+    tag: 'Orthopedic',
+    stat: '46%',
+    statLabel: 'Revenue Growth',
+    title: '$1.5M to $2.2M. Workers’ Comp turnaround cut from 45 to 28 days.',
+    image: '/images/homepage/medical-tech.jpg',
+    pdf: '/downloads/case-studies/orthopedic-case-study.pdf',
+  },
 ]
 
-function FlipCard({ cs, delay }: { cs: typeof caseStudies[0]; delay: number }) {
+type CaseStudy = typeof caseStudies[0]
+
+type Mode = 'teaser' | 'viewer'
+
+/**
+ * Inner card body — pure visual, no click handler.
+ * Parent decides click behavior: teaser wraps in <Link>, viewer wraps in clickable div.
+ */
+function FlipCardBody({ cs }: { cs: CaseStudy }) {
   const [flipped, setFlipped] = useState(false)
 
   return (
@@ -53,49 +81,130 @@ function FlipCard({ cs, delay }: { cs: typeof caseStudies[0]; delay: number }) {
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>{cs.tag}</div>
           <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 20 }}>{cs.stat}</div>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 24 }}>{cs.title}</p>
-          <Link href={cs.href} style={{
+          <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, fontWeight: 600, color: 'white', textDecoration: 'none',
+            fontSize: 13, fontWeight: 600, color: 'white',
             letterSpacing: '0.05em', textTransform: 'uppercase' as const,
           }}>
             Read Case Study
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </Link>
+          </span>
         </div>
       </div>
     </div>
   )
 }
 
-export default function CaseStudiesSection() {
+/** Card wrapper — teaser mode navigates, viewer mode opens PDF modal. */
+function FlipCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (cs: CaseStudy) => void }) {
+  if (mode === 'teaser') {
+    return (
+      <Link
+        href="/case-studies"
+        aria-label={`View ${cs.tag} case study`}
+        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+      >
+        <FlipCardBody cs={cs} />
+      </Link>
+    )
+  }
+  // viewer mode
   return (
-    <section className="section" id="cases" style={{ overflow: 'hidden' }}>
-      <div className="container">
-        <RevealOnScroll direction="left">
-          <div className="section-label">PROVEN RESULTS</div>
-        </RevealOnScroll>
-        <RevealOnScroll direction="left" delay={0.1}>
-          <div className="section-title">Case Studies</div>
-        </RevealOnScroll>
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${cs.tag} case study`}
+      onClick={() => onOpen?.(cs)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen?.(cs) } }}
+    >
+      <FlipCardBody cs={cs} />
+    </div>
+  )
+}
 
-        {/* Desktop — flip cards */}
-        <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, marginTop: 48 }}>
-          {caseStudies.map((cs, i) => (
-            <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
-              <FlipCard cs={cs} delay={i * 0.1} />
-            </RevealOnScroll>
-          ))}
-        </div>
+export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } = {}) {
+  const [viewingPdf, setViewingPdf] = useState<CaseStudy | null>(null)
 
-        {/* Mobile */}
-        <div className="cases-mobile" style={{ overflow: "hidden", width: "100%", marginTop: 32 }}>
-          <MobileCarousel autoScrollInterval={5000}>
+  return (
+    <>
+      <section className="section" id="cases" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <RevealOnScroll direction="left">
+            <div className="section-label">PROVEN RESULTS</div>
+          </RevealOnScroll>
+          <RevealOnScroll direction="left" delay={0.1}>
+            <div className="section-title">Case Studies</div>
+          </RevealOnScroll>
+
+          {/* Desktop — flip cards */}
+          <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
-              <FlipCard key={i} cs={cs} delay={0} />
+              <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
+                <FlipCard cs={cs} mode={mode} onOpen={setViewingPdf} />
+              </RevealOnScroll>
             ))}
-          </MobileCarousel>
+          </div>
+
+          {/* Mobile */}
+          <div className="cases-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={5000}>
+              {caseStudies.map((cs, i) => (
+                <FlipCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Embedded PDF Viewer Overlay — only mounts in viewer mode */}
+      {mode === 'viewer' && viewingPdf && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 10000,
+          background: 'rgba(0,0,0,0.85)',
+          display: 'flex', flexDirection: 'column',
+          animation: 'cs-fadeIn 0.3s ease',
+        }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            padding: '12px 24px', background: '#1a1a1a', flexShrink: 0,
+          }}>
+            <h3 style={{ fontSize: 15, fontWeight: 500, color: 'white', margin: 0 }}>
+              {viewingPdf.tag} — {viewingPdf.statLabel}
+            </h3>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <a
+                href={viewingPdf.pdf}
+                download
+                style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500, padding: '6px 16px', border: '1px solid #00B5D6', borderRadius: 6 }}
+              >
+                Download PDF
+              </a>
+              <button
+                onClick={() => setViewingPdf(null)}
+                aria-label="Close PDF viewer"
+                style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 18 }}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '0 24px 24px' }}>
+            <iframe
+              src={viewingPdf.pdf}
+              style={{ width: '100%', maxWidth: 900, height: '100%', border: 'none', borderRadius: 8, background: 'white' }}
+              title={`${viewingPdf.tag} case study`}
+            />
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes cs-fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+    </>
   )
 }
