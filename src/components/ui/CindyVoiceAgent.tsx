@@ -24,8 +24,19 @@ function CindyInner() {
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
-  // Delay Cindy popup by 4 seconds
+  // Persisted dismissal — respects user's choice across refreshes + 24h across sessions.
+  // Key stores epoch ms of expiry. If now < expiry, stay dismissed.
+  const DISMISS_KEY = 'cindy-dismissed-until'
+  const DISMISS_TTL_MS = 24 * 60 * 60 * 1000 // 24h
+
+  // Delay Cindy popup by 4 seconds — but skip entirely if recently dismissed.
   useEffect(() => {
+    let dismissedUntil = 0
+    try {
+      const raw = typeof window !== 'undefined' ? window.localStorage.getItem(DISMISS_KEY) : null
+      if (raw) dismissedUntil = parseInt(raw, 10) || 0
+    } catch { /* localStorage blocked — fall through to default behavior */ }
+    if (dismissedUntil > Date.now()) { setDismissed(true); return }
     const timer = setTimeout(() => setShowPopup(true), 4000)
     return () => clearTimeout(timer)
   }, [])
@@ -365,6 +376,12 @@ function CindyInner() {
   const dismissCindy = () => {
     if (isConnected) conversation.endSession()
     setDismissed(true); setShowPopup(false)
+    try { window.localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_TTL_MS)) } catch {}
+  }
+
+  const restoreCindy = () => {
+    setDismissed(false); setShowPopup(true)
+    try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
   }
 
   const stateLabel = actionLabel || (!isConnected ? 'Cindy — AI Guide' : isSpeaking ? 'Speaking...' : 'Listening...')
@@ -372,7 +389,7 @@ function CindyInner() {
   return (
     <>
       {dismissed && (
-        <button onClick={() => { setDismissed(false); setShowPopup(true) }} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+        <button onClick={restoreCindy} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
