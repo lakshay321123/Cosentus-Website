@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -33,19 +34,20 @@ const caseStudies = [
 
 type CaseStudy = typeof caseStudies[0]
 
-function FlipCard({ cs, onOpen }: { cs: CaseStudy; onOpen: (cs: CaseStudy) => void }) {
+type Mode = 'teaser' | 'viewer'
+
+/**
+ * Inner card body — pure visual, no click handler.
+ * Parent decides click behavior: teaser wraps in <Link>, viewer wraps in clickable div.
+ */
+function FlipCardBody({ cs }: { cs: CaseStudy }) {
   const [flipped, setFlipped] = useState(false)
 
   return (
     <div
-      role="button"
-      tabIndex={0}
-      aria-label={`Open ${cs.tag} case study`}
       style={{ perspective: 1000, height: 380, cursor: 'pointer' }}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
-      onClick={() => onOpen(cs)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(cs) } }}
     >
       <div style={{
         position: 'relative', width: '100%', height: '100%',
@@ -93,7 +95,34 @@ function FlipCard({ cs, onOpen }: { cs: CaseStudy; onOpen: (cs: CaseStudy) => vo
   )
 }
 
-export default function CaseStudiesSection() {
+/** Card wrapper — teaser mode navigates, viewer mode opens PDF modal. */
+function FlipCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (cs: CaseStudy) => void }) {
+  if (mode === 'teaser') {
+    return (
+      <Link
+        href="/case-studies"
+        aria-label={`View ${cs.tag} case study`}
+        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+      >
+        <FlipCardBody cs={cs} />
+      </Link>
+    )
+  }
+  // viewer mode
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${cs.tag} case study`}
+      onClick={() => onOpen?.(cs)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen?.(cs) } }}
+    >
+      <FlipCardBody cs={cs} />
+    </div>
+  )
+}
+
+export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } = {}) {
   const [viewingPdf, setViewingPdf] = useState<CaseStudy | null>(null)
 
   return (
@@ -111,7 +140,7 @@ export default function CaseStudiesSection() {
           <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
-                <FlipCard cs={cs} onOpen={setViewingPdf} />
+                <FlipCard cs={cs} mode={mode} onOpen={setViewingPdf} />
               </RevealOnScroll>
             ))}
           </div>
@@ -120,15 +149,15 @@ export default function CaseStudiesSection() {
           <div className="cases-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={5000}>
               {caseStudies.map((cs, i) => (
-                <FlipCard key={i} cs={cs} onOpen={setViewingPdf} />
+                <FlipCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
               ))}
             </MobileCarousel>
           </div>
         </div>
       </section>
 
-      {/* Embedded PDF Viewer Overlay */}
-      {viewingPdf && (
+      {/* Embedded PDF Viewer Overlay — only mounts in viewer mode */}
+      {mode === 'viewer' && viewingPdf && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 10000,
           background: 'rgba(0,0,0,0.85)',
