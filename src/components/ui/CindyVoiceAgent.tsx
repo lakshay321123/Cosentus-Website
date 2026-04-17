@@ -80,44 +80,76 @@ function CindyInner() {
         return `Navigated to ${params.path}${scrollTarget ? '#' + scrollTarget : ''}`
       },
 
-      click_element: (params: { text: string; page?: string }) => {
+      click_element: async (params: { text: string; page?: string }) => {
         setActionLabel('Clicking...')
-        if (params.page && params.page !== window.location.pathname) router.push(params.page)
-        const delay = params.page ? 1500 : 100
-        setTimeout(() => {
-          const searchText = params.text.toLowerCase().trim()
-          let found = false
-          for (const el of Array.from(document.querySelectorAll('[data-name]'))) {
-            if ((el.getAttribute('data-name') || '').toLowerCase().includes(searchText)) {
-              ;(el as HTMLElement).click(); found = true; break
-            }
+        if (params.page && params.page !== window.location.pathname) {
+          router.push(params.page)
+          // Poll for a "page loaded" signal instead of a fixed delay.
+          for (let i = 0; i < 12; i++) { // up to 1.2s
+            if (window.location.pathname === params.page) break
+            await new Promise(r => setTimeout(r, 100))
           }
-          if (!found) {
-            for (const el of Array.from(document.querySelectorAll('button, a, [role="button"], [onclick], [style*="cursor: pointer"], [style*="cursor:pointer"]'))) {
-              if ((el.textContent || '').toLowerCase().trim().includes(searchText)) {
-                ;(el as HTMLElement).click(); found = true; break
+          // Small extra beat for React to paint new content
+          await new Promise(r => setTimeout(r, 200))
+        } else {
+          await new Promise(r => setTimeout(r, 50))
+        }
+
+        const searchText = params.text.toLowerCase().trim()
+        // Ranked candidates — higher rank wins. 0 = unusable.
+        type Candidate = { el: HTMLElement; rank: number }
+        let best: Candidate | null = null
+        const consider = (el: HTMLElement, rank: number) => {
+          if (!best || rank > best.rank) best = { el, rank }
+        }
+
+        // Pass 1 — data-name attribute (exact and startsWith beat contains)
+        for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-name]'))) {
+          const dn = (el.getAttribute('data-name') || '').toLowerCase()
+          if (!dn) continue
+          if (dn === searchText) consider(el, 100)
+          else if (dn.startsWith(searchText)) consider(el, 80)
+          else if (dn.includes(searchText)) consider(el, 60)
+        }
+        // Pass 2 — interactive elements by visible text
+        for (const el of Array.from(document.querySelectorAll<HTMLElement>('button, a, [role="button"], [onclick]'))) {
+          const text = (el.textContent || '').toLowerCase().trim()
+          if (!text) continue
+          if (text === searchText) consider(el, 90)
+          else if (text.startsWith(searchText)) consider(el, 70)
+          else if (text.includes(searchText)) consider(el, 50)
+        }
+        // Pass 3 — cursor:pointer fallback
+        if (!best || (best as Candidate).rank < 50) {
+          for (const el of Array.from(document.querySelectorAll<HTMLElement>('[style*="cursor: pointer"], [style*="cursor:pointer"]'))) {
+            const text = (el.textContent || '').toLowerCase().trim()
+            if (text && text.includes(searchText)) consider(el, 40)
+          }
+        }
+        // Pass 4 — text walker as last resort, walk up to find a clickable ancestor
+        if (!best) {
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+          while (walker.nextNode()) {
+            const node = walker.currentNode
+            if (!(node.textContent || '').toLowerCase().includes(searchText)) continue
+            let parent = node.parentElement
+            for (let i = 0; i < 5 && parent; i++) {
+              const cs = window.getComputedStyle(parent)
+              if (cs.cursor === 'pointer' || (parent as HTMLElement).onclick || parent.tagName === 'BUTTON' || parent.tagName === 'A') {
+                consider(parent as HTMLElement, 20); break
               }
+              parent = parent.parentElement
             }
+            if (best) break
           }
-          if (!found) {
-            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-            while (walker.nextNode()) {
-              if ((walker.currentNode.textContent || '').toLowerCase().includes(searchText)) {
-                let parent = walker.currentNode.parentElement
-                for (let i = 0; i < 5 && parent; i++) {
-                  const cs = window.getComputedStyle(parent)
-                  if (cs.cursor === 'pointer' || parent.onclick || parent.tagName === 'BUTTON' || parent.tagName === 'A') {
-                    ;(parent as HTMLElement).click(); found = true; break
-                  }
-                  parent = parent.parentElement
-                }
-                if (found) break
-              }
-            }
-          }
-          setActionLabel('')
-        }, delay)
-        return `Clicked on "${params.text}"`
+        }
+
+        setActionLabel('')
+        if (best) {
+          ;(best as Candidate).el.click()
+          return `Clicked "${params.text}"`
+        }
+        return `Couldn\'t find anything matching "${params.text}" on this page.`
       },
 
       fill_form: async (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
