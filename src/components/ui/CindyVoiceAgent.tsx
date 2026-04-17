@@ -330,20 +330,35 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // PAGE AWARENESS: Notify agent of navigation — debounced, skips during active speech
+  // PAGE AWARENESS: Notify agent of navigation.
+  // - Debounce: 1s (was 3s) so fast clicks don't desync her context.
+  // - Queue during speech: if debounce fires while she's talking, stash and flush
+  //   after she finishes. Previously these updates were silently dropped.
   const lastSentPath = useRef('')
+  const pendingPathRef = useRef<string | null>(null)
   const contextTimerRef = useRef<NodeJS.Timeout | null>(null)
   useEffect(() => {
-    if (!isConnected || !pathname || isSpeaking) return
+    if (!isConnected || !pathname) return
     if (pathname === lastSentPath.current) return
     if (contextTimerRef.current) clearTimeout(contextTimerRef.current)
     contextTimerRef.current = setTimeout(() => {
-      if (!isConnected || isSpeaking) return
+      if (!isConnected) return
+      if (isSpeaking) { pendingPathRef.current = pathname; return }
       lastSentPath.current = pathname
       try { conversation.sendContextualUpdate(`User is now on: ${pathname}`) } catch {}
-    }, 3000)
+    }, 1000)
     return () => { if (contextTimerRef.current) clearTimeout(contextTimerRef.current) }
   }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Flush queued update once she stops speaking.
+  useEffect(() => {
+    if (!isConnected || isSpeaking) return
+    const pending = pendingPathRef.current
+    if (!pending || pending === lastSentPath.current) return
+    pendingPathRef.current = null
+    lastSentPath.current = pending
+    try { conversation.sendContextualUpdate(`User is now on: ${pending}`) } catch {}
+  }, [isSpeaking, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Blink (PR fix: cleanup nested timeout to prevent memory leak)
   useEffect(() => {
