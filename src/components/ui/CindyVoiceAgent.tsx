@@ -152,17 +152,39 @@ function CindyInner() {
         if (params.specialty) {
           const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
           if (select) {
-            const specialtyMap: Record<string, string> = {
-              'anesthesia': 'anesthesia', 'orthopedics': 'orthopedics', 'orthopedic': 'orthopedics',
-              'pain management': 'pain-management', 'pain': 'pain-management',
-              'asc': 'asc', 'ambulatory surgery': 'asc', 'surgery center': 'asc',
-              'behavioral health': 'behavioral-health', 'behavioral': 'behavioral-health', 'mental health': 'behavioral-health',
-              'urgent care': 'urgent-care', 'urgent': 'urgent-care', 'other': 'other',
+            const spoken = params.specialty.toLowerCase().trim()
+            // Normalize both sides symmetrically (space/hyphen -> underscore) so
+            // "pain management" <-> "pain_management" matches in either direction.
+            const normalize = (s: string) => s.replace(/[\s-]+/g, '_')
+            const nSpoken = normalize(spoken)
+            // Ranked match: exact > startsWith > contains. Break on exact.
+            let bestMatch = ''
+            let bestRank = 0 // 0=none, 1=contains, 2=startsWith, 3=exact
+            for (const opt of Array.from(select.options)) {
+              if (!opt.value) continue
+              const label = (opt.textContent || '').toLowerCase().trim()
+              const val = opt.value.toLowerCase()
+              const nVal = normalize(val)
+              const nLabel = normalize(label)
+              let rank = 0
+              if (label === spoken || val === spoken || nVal === nSpoken || nLabel === nSpoken) rank = 3
+              else if (label.startsWith(spoken) || nVal.startsWith(nSpoken)) rank = 2
+              else if (label.includes(spoken) || spoken.includes(label) || nVal.includes(nSpoken) || nSpoken.includes(nVal)) rank = 1
+              if (rank > bestRank) { bestMatch = opt.value; bestRank = rank; if (rank === 3) break }
             }
-            const key = params.specialty.toLowerCase()
-            const val = specialtyMap[key] || Object.values(specialtyMap).find(v => v.includes(key)) || key
+            const matchedValue = bestMatch || 'other'
             const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
-            if (setter) { setter.call(select, val); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
+            if (setter) { setter.call(select, matchedValue); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
+            // If matched to "other" (or no match), fill the customSpecialty text input.
+            // This field only exists in ContactContent — null check prevents errors on other forms.
+            if (matchedValue === 'other') {
+              await new Promise(r => setTimeout(r, 300))
+              const customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+              if (customInput) {
+                const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+                if (inputSetter) { inputSetter.call(customInput, params.specialty); customInput.dispatchEvent(new Event('input', { bubbles: true })); customInput.dispatchEvent(new Event('change', { bubbles: true })) }
+              }
+            }
           }
         }
 
@@ -210,7 +232,7 @@ function CindyInner() {
         return done('Section not found, scrolled down')
       },
 
-      // Read current page content — headings + paragraphs + key data, capped for speed
+      // Read current page content — headings + paragraphs + key data + form fields, capped for speed
       read_page: () => {
         const main = document.querySelector('main')
         if (!main) return `Page: ${window.location.pathname}`
@@ -220,10 +242,40 @@ function CindyInner() {
           'h1, h2, h3, .section-label, .section-title, p, li, ' +
           '.result-number span, .result-label, .hero-sub'
         ))) {
-          if (charCount >= 1200) break
+          if (charCount >= 2500) break
           if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 200) { parts.push(text); charCount += text.length + 1 }
+          if (text.length > 1 && text.length < 300) { parts.push(text); charCount += text.length + 1 }
+        }
+        // Detect forms and their fields (bounded to avoid bloat)
+        const forms = main.querySelectorAll('form')
+        if (forms.length > 0) {
+          parts.push('\n--- Form fields on this page ---')
+          for (const form of Array.from(forms)) {
+            for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
+              const name = input.getAttribute('name') || ''
+              const tag = input.tagName.toLowerCase()
+              if (tag === 'select') {
+                const realOptions = Array.from((input as HTMLSelectElement).options)
+                  .filter(o => o.value) // exclude placeholder/empty
+                  .map(o => o.textContent?.trim())
+                  .filter((o): o is string => !!o)
+                const total = realOptions.length
+                const sample = realOptions.slice(0, 20)
+                const hasOther = realOptions.some(o => o.toLowerCase() === 'other')
+                let desc = `Dropdown "${name}": ${total} option${total === 1 ? '' : 's'}`
+                desc += total > 0 ? ` including: ${sample.join(', ')}${total > 20 ? '... and more' : ''}.` : '.'
+                // Only append the "Other → custom text" guidance when it's actually applicable.
+                if (name === 'specialty' && hasOther) {
+                  desc += ' If not listed, select "Other" and a text box will appear.'
+                }
+                parts.push(desc)
+              } else {
+                const type = input.getAttribute('type') || tag
+                parts.push(`Field "${name}" (${type})`)
+              }
+            }
+          }
         }
         return `Page: ${window.location.pathname}\nContent:\n${parts.join('\n')}`
       },
