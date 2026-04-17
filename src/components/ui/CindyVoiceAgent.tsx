@@ -88,13 +88,14 @@ function CindyInner() {
         setActionLabel('Clicking...')
         if (params.page && params.page !== window.location.pathname) {
           router.push(params.page)
-          // Poll for a "page loaded" signal instead of a fixed delay.
-          for (let i = 0; i < 12; i++) { // up to 1.2s
+          // Poll for URL update (fast path) up to 1.2s.
+          for (let i = 0; i < 12; i++) {
             if (window.location.pathname === params.page) break
             await new Promise(r => setTimeout(r, 100))
           }
-          // Small extra beat for React to paint new content
-          await new Promise(r => setTimeout(r, 200))
+          // Paint buffer — URL updating doesn't mean the page's DOM is ready.
+          // 400ms gives React time to hydrate the new route before we try to click.
+          await new Promise(r => setTimeout(r, 400))
         } else {
           await new Promise(r => setTimeout(r, 50))
         }
@@ -417,19 +418,11 @@ function CindyInner() {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       lastSentPath.current = pathname || '/'
-      // Try to resume an existing conversation (same tab only) to skip the greeting
-      // and preserve context. ElevenLabs accepts conversationId on startSession.
-      let resumeId: string | undefined
-      try {
-        const saved = window.sessionStorage.getItem('cindy-conversation-id')
-        if (saved) resumeId = saved
-      } catch {}
       conversation.startSession({
         agentId: AGENT_ID,
         connectionType: 'websocket',
         dynamicVariables: { current_page: pathname || '/' },
-        ...(resumeId ? { conversationId: resumeId } : {}),
-      } as Parameters<typeof conversation.startSession>[0])
+      })
     } catch (e) {
       console.error('Failed to start conversation:', e)
       // Map common errors to user-facing messages
