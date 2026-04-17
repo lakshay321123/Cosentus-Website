@@ -49,9 +49,13 @@ function CindyInner() {
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now() },
+    onConnect: ({ conversationId }: { conversationId: string }) => {
+      setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now()
+      try { window.sessionStorage.setItem('cindy-conversation-id', conversationId) } catch {}
+    },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
       // Send conversation to CRM for transcript extraction + lead capture
       const convId = conversationIdRef.current
       const duration = Date.now() - connectTimeRef.current
@@ -304,8 +308,8 @@ function CindyInner() {
           const label = s.querySelector('.section-label, .section-title, h2, h3')
           if (label && (label.textContent || '').toLowerCase().includes(target)) { s.scrollIntoView({ behavior: 'smooth', block: 'start' }); return done(`Scrolled to: ${label.textContent}`) }
         }
-        window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
-        return done('Section not found, scrolled down')
+        // No match — don't silently scroll somewhere misleading. Let the agent recover.
+        return done(`I couldn\'t find a section called "${params.section_id}" on this page. Could you tell me what you want to see?`)
       },
 
       // Read current page content — headings + paragraphs + key data + form fields, capped for speed
@@ -392,8 +396,10 @@ function CindyInner() {
     try { conversation.sendContextualUpdate(`User is now on: ${pending}`) } catch {}
   }, [isSpeaking, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Blink (PR fix: cleanup nested timeout to prevent memory leak)
+  // Blink (PR fix: cleanup nested timeout to prevent memory leak).
+  // Only runs while Cindy is visible — no point animating a hidden component.
   useEffect(() => {
+    if (dismissed || !showPopup) return
     const intervalId = setInterval(() => {
       setBlinking(true)
       blinkTimeoutRef.current = setTimeout(() => setBlinking(false), 150)
@@ -402,19 +408,39 @@ function CindyInner() {
       clearInterval(intervalId)
       if (blinkTimeoutRef.current) clearTimeout(blinkTimeoutRef.current)
     }
-  }, [])
+  }, [dismissed, showPopup])
+
+  const [startError, setStartError] = useState<string | null>(null)
 
   const startConversation = useCallback(async () => {
+    setStartError(null)
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       lastSentPath.current = pathname || '/'
+      // Try to resume an existing conversation (same tab only) to skip the greeting
+      // and preserve context. ElevenLabs accepts conversationId on startSession.
+      let resumeId: string | undefined
+      try {
+        const saved = window.sessionStorage.getItem('cindy-conversation-id')
+        if (saved) resumeId = saved
+      } catch {}
       conversation.startSession({
         agentId: AGENT_ID,
         connectionType: 'websocket',
         dynamicVariables: { current_page: pathname || '/' },
-      })
+        ...(resumeId ? { conversationId: resumeId } : {}),
+      } as Parameters<typeof conversation.startSession>[0])
     } catch (e) {
       console.error('Failed to start conversation:', e)
+      // Map common errors to user-facing messages
+      const name = (e as { name?: string })?.name || ''
+      if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+        setStartError('Microphone permission was blocked. Enable it in your browser settings to talk with Cindy.')
+      } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+        setStartError('No microphone was found. Plug one in and try again.')
+      } else {
+        setStartError('Couldn\'t start the conversation. Please try again.')
+      }
     }
   }, [conversation, pathname])
 
@@ -463,6 +489,11 @@ function CindyInner() {
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
                   Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Cindy</strong>, your AI voice guide. I can navigate, fill forms, and answer any questions. Ready?
                 </p>
+                {startError && (
+                  <p role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', border: '1px solid #F5C5C5', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px' }}>
+                    {startError}
+                  </p>
+                )}
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={startConversation} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
                   <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 14, cursor: 'pointer' }}>Later</button>
