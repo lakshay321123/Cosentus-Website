@@ -8,7 +8,7 @@ const footerNav = [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
-      { label: 'WeCare', href: '/about#wecare' },
+      { label: 'WeCare', href: '/wecare' },
       { label: 'Careers', href: '/careers' },
     ],
   },
@@ -36,7 +36,8 @@ const footerNav = [
     links: [
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },
-      { label: 'News & Events', href: '/news-events' },
+      { label: 'News', href: '/news' },
+      { label: 'Events', href: '/events' },
       { label: 'Contact', href: '/contact' },
     ],
   },
