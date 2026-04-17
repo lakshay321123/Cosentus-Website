@@ -127,7 +127,9 @@ function CindyInner() {
 
         if (!formReady) {
           setActionLabel('')
-          return 'Form submitted successfully. The team will follow up within one business day.'
+          // Truthful failure — form didn't load. Give agent a workable path
+          // instead of falsely claiming success. Phone matches site-wide CTA.
+          return 'I couldn\'t reach the contact form — you can call the team directly at (877) 806-2286 or I can try again.'
         }
 
         // Scroll to form
@@ -188,24 +190,55 @@ function CindyInner() {
           }
         }
 
-        // Submit with retry — needs time for React to process field changes
-        const trySubmit = (attempt: number) => {
-          const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
-          if (submitBtn) {
-            setActionLabel('Submitting...')
-            submitBtn.click()
-            setTimeout(() => setActionLabel(''), 2000)
-          } else if (attempt < 3) {
-            setTimeout(() => trySubmit(attempt + 1), 500)
-          } else {
-            // Last resort: submit the form element directly
-            const form = document.querySelector('form') as HTMLFormElement | null
-            if (form) { setActionLabel('Submitting...'); form.requestSubmit(); setTimeout(() => setActionLabel(''), 2000) }
-          }
-        }
-        setTimeout(() => trySubmit(0), 800)
+        // Bounded submit + truthful confirmation.
+        // Constraint: must return within ~2s to avoid ElevenLabs tool-call timeout,
+        // so we race submission against a short watcher instead of waiting forever.
+        // We also have to detect success from the DOM because the submit is fire-and-forget
+        // from this function's perspective (React handles the POST, we observe the result).
 
-        return 'Form submitted successfully. The team will follow up within one business day.'
+        // Step 1 — try to actually click submit, up to 3 retries. Returns true if we
+        // clicked a button or called requestSubmit; false if no submit path was ever found.
+        const attemptSubmit = async (): Promise<boolean> => {
+          for (let attempt = 0; attempt < 3; attempt++) {
+            if (attempt > 0) await new Promise(r => setTimeout(r, 300))
+            const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+            if (submitBtn) { setActionLabel('Submitting...'); submitBtn.click(); return true }
+          }
+          // Last resort: requestSubmit bypasses visual button but still triggers React onSubmit
+          const form = document.querySelector('form') as HTMLFormElement | null
+          if (form) { setActionLabel('Submitting...'); form.requestSubmit(); return true }
+          return false
+        }
+
+        // Step 2 — watch for success signal. ContactContent renders a "Thank you!" h3
+        // and removes the <form> once submitted successfully. We poll up to 1500ms.
+        const watchForSuccess = async (): Promise<boolean> => {
+          for (let i = 0; i < 15; i++) { // 15 × 100ms = 1500ms
+            await new Promise(r => setTimeout(r, 100))
+            const thankYou = Array.from(document.querySelectorAll('h3')).some(h => (h.textContent || '').includes('Thank you'))
+            if (thankYou) return true
+            // Form gone without a thankYou heading = navigation happened; count as success.
+            if (!document.querySelector('form')) return true
+          }
+          return false
+        }
+
+        // Give React a beat to process field changes before we click submit.
+        await new Promise(r => setTimeout(r, 400))
+
+        const clicked = await attemptSubmit()
+        if (!clicked) {
+          setTimeout(() => setActionLabel(''), 1500)
+          return 'I\'ve filled in your details, but the Submit button wasn\'t available. Please click Submit to send it through.'
+        }
+
+        const confirmed = await watchForSuccess()
+        setTimeout(() => setActionLabel(''), 1500)
+        if (confirmed) {
+          return `I\'ve filled and submitted the form with ${filled} field${filled === 1 ? '' : 's'}. The team will follow up within one business day.`
+        }
+        // Submit clicked but no confirmation within the window. Don't claim success.
+        return 'I\'ve filled in and sent the form. The team will follow up within one business day if it went through.'
       },
 
       scroll_to: (params: { section_id: string }) => {
