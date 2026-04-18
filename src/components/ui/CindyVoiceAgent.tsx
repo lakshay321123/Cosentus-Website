@@ -107,7 +107,26 @@ function CindyInner() {
         // Ranked candidates — higher rank wins. 0 = unusable.
         type Candidate = { el: HTMLElement; rank: number }
         let best: Candidate | null = null
+        // Gate before ranking: exclude hidden, disabled, or non-interactive elements.
+        // Without this, mobile drawer clones, pointer-events:none decorative elements,
+        // and disabled buttons all rank as candidates and we claim "Clicked X" when
+        // nothing actually happens.
+        const isClickable = (el: HTMLElement): boolean => {
+          if (el.hasAttribute('hidden')) return false
+          if (el.getAttribute('aria-hidden') === 'true') return false
+          if (el.getAttribute('aria-disabled') === 'true') return false
+          if ((el as HTMLButtonElement).disabled === true) return false
+          // offsetParent is null when element or any ancestor is display:none
+          // (doesn't catch visibility:hidden, computed style below handles that)
+          if (el.offsetParent === null && window.getComputedStyle(el).position !== 'fixed') return false
+          const cs = window.getComputedStyle(el)
+          if (cs.visibility === 'hidden' || cs.display === 'none') return false
+          if (cs.pointerEvents === 'none') return false
+          return true
+        }
+
         const consider = (el: HTMLElement, rank: number) => {
+          if (!isClickable(el)) return
           if (!best || rank > best.rank) best = { el, rank }
         }
 
