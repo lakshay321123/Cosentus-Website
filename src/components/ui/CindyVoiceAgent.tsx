@@ -259,14 +259,15 @@ function CindyInner() {
         }
 
         // Step 2 — watch for success signal. ContactContent renders a "Thank you!" h3
-        // and removes the <form> once submitted successfully. We poll up to 1500ms.
+        // once submitted successfully. We poll up to 1500ms.
+        // We intentionally do NOT treat form-removal as success — a re-render,
+        // route change, or unmount could also remove the form without it being
+        // a successful submission. Only the explicit Thank-you heading confirms.
         const watchForSuccess = async (): Promise<boolean> => {
           for (let i = 0; i < 15; i++) { // 15 × 100ms = 1500ms
             await new Promise(r => setTimeout(r, 100))
             const thankYou = Array.from(document.querySelectorAll('h3')).some(h => (h.textContent || '').includes('Thank you'))
             if (thankYou) return true
-            // Form gone without a thankYou heading = navigation happened; count as success.
-            if (!document.querySelector('form')) return true
           }
           return false
         }
@@ -329,6 +330,18 @@ function CindyInner() {
         if (!main) return `Page: ${window.location.pathname}`
         const parts: string[] = []
         let charCount = 0
+        // Unified budget gate — 2500 char total, 300 char per item.
+        // Returns true if the part was added, false if it was skipped or truncated away.
+        const pushPart = (text: string): boolean => {
+          const normalized = text.trim()
+          if (!normalized) return false
+          if (normalized.length > 300) return false
+          const nextSize = normalized.length + 1 // +1 for the newline join
+          if (charCount + nextSize > 2500) return false
+          parts.push(normalized)
+          charCount += nextSize
+          return true
+        }
         for (const el of Array.from(main.querySelectorAll(
           'h1, h2, h3, .section-label, .section-title, p, li, ' +
           '.result-number span, .result-label, .hero-sub'
@@ -336,34 +349,38 @@ function CindyInner() {
           if (charCount >= 2500) break
           if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 300) { parts.push(text); charCount += text.length + 1 }
+          if (text.length > 1) pushPart(text)
         }
-        // Detect forms and their fields (bounded to avoid bloat)
+        // Detect forms and their fields — same budget gate as content above.
         const forms = main.querySelectorAll('form')
         if (forms.length > 0) {
-          parts.push('\n--- Form fields on this page ---')
-          for (const form of Array.from(forms)) {
-            for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
-              const name = input.getAttribute('name') || ''
-              const tag = input.tagName.toLowerCase()
-              if (tag === 'select') {
-                const realOptions = Array.from((input as HTMLSelectElement).options)
-                  .filter(o => o.value) // exclude placeholder/empty
-                  .map(o => o.textContent?.trim())
-                  .filter((o): o is string => !!o)
-                const total = realOptions.length
-                const sample = realOptions.slice(0, 20)
-                const hasOther = realOptions.some(o => o.toLowerCase() === 'other')
-                let desc = `Dropdown "${name}": ${total} option${total === 1 ? '' : 's'}`
-                desc += total > 0 ? ` including: ${sample.join(', ')}${total > 20 ? '... and more' : ''}.` : '.'
-                // Only append the "Other → custom text" guidance when it's actually applicable.
-                if (name === 'specialty' && hasOther) {
-                  desc += ' If not listed, select "Other" and a text box will appear.'
+          // If the header won't fit, skip the form section entirely.
+          if (pushPart('--- Form fields on this page ---')) {
+            outer: for (const form of Array.from(forms)) {
+              for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
+                const name = input.getAttribute('name') || ''
+                const tag = input.tagName.toLowerCase()
+                if (tag === 'select') {
+                  const realOptions = Array.from((input as HTMLSelectElement).options)
+                    .filter(o => o.value) // exclude placeholder/empty
+                    .map(o => o.textContent?.trim())
+                    .filter((o): o is string => !!o)
+                  const total = realOptions.length
+                  const sample = realOptions.slice(0, 20)
+                  const hasOther = realOptions.some(o => o.toLowerCase() === 'other')
+                  let desc = `Dropdown "${name}": ${total} option${total === 1 ? '' : 's'}`
+                  desc += total > 0 ? ` including: ${sample.join(', ')}${total > 20 ? '... and more' : ''}.` : '.'
+                  // Only append the "Other → custom text" guidance when it's actually applicable.
+                  if (name === 'specialty' && hasOther) {
+                    desc += ' If not listed, select "Other" and a text box will appear.'
+                  }
+                  // If desc exceeds per-item cap, trim to a shorter summary and retry.
+                  if (desc.length > 300) desc = `Dropdown "${name}": ${total} options (list too long to include).`
+                  if (!pushPart(desc)) break outer
+                } else {
+                  const type = input.getAttribute('type') || tag
+                  if (!pushPart(`Field "${name}" (${type})`)) break outer
                 }
-                parts.push(desc)
-              } else {
-                const type = input.getAttribute('type') || tag
-                parts.push(`Field "${name}" (${type})`)
               }
             }
           }
