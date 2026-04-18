@@ -274,19 +274,29 @@ function CindyInner() {
         // Give React a beat to process field changes before we click submit.
         await new Promise(r => setTimeout(r, 400))
 
+        // Build a recap of what was filled so Cindy can read it back.
+        const filledSummary: string[] = []
+        if (params.practice_name) filledSummary.push(`practice name as ${params.practice_name}`)
+        if (params.contact_name) filledSummary.push(`contact as ${params.contact_name}`)
+        if (params.email) filledSummary.push(`email as ${params.email}`)
+        if (params.phone) filledSummary.push(`phone as ${params.phone}`)
+        if (params.specialty) filledSummary.push(`specialty as ${params.specialty}`)
+        if (params.message) filledSummary.push(`a short message`)
+        const recap = filledSummary.length ? filledSummary.join(', ') : `${filled} field${filled === 1 ? '' : 's'}`
+
         const clicked = await attemptSubmit()
         if (!clicked) {
           setTimeout(() => setActionLabel(''), 1500)
-          return 'I\'ve filled in your details, but the Submit button wasn\'t available. Please click Submit to send it through.'
+          return `I've filled in ${recap}. Please take a quick look — if it all looks right, click Submit to send it through. If anything needs changing, edit it directly in the form.`
         }
 
         const confirmed = await watchForSuccess()
         setTimeout(() => setActionLabel(''), 1500)
         if (confirmed) {
-          return `I\'ve filled and submitted the form with ${filled} field${filled === 1 ? '' : 's'}. The team will follow up within one business day.`
+          return `I've filled in ${recap} and clicked Submit. Please glance at the confirmation on screen to make sure it went through — and if anything was off, let me know or reach out to the team directly.`
         }
         // Submit clicked but no confirmation within the window. Don't claim success.
-        return 'I\'ve filled in and sent the form. The team will follow up within one business day if it went through.'
+        return `I've filled in ${recap} and clicked Submit. Please check the screen to confirm it went through — if it didn't, you can edit anything and click Submit yourself, otherwise the team will follow up within one business day.`
       },
 
       scroll_to: (params: { section_id: string }) => {
