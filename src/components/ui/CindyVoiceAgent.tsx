@@ -24,8 +24,19 @@ function CindyInner() {
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
-  // Delay Cindy popup by 4 seconds
+  // Persisted dismissal — respects user's choice across refreshes + 24h across sessions.
+  // Key stores epoch ms of expiry. If now < expiry, stay dismissed.
+  const DISMISS_KEY = 'cindy-dismissed-until'
+  const DISMISS_TTL_MS = 24 * 60 * 60 * 1000 // 24h
+
+  // Delay Cindy popup by 4 seconds — but skip entirely if recently dismissed.
   useEffect(() => {
+    let dismissedUntil = 0
+    try {
+      const raw = typeof window !== 'undefined' ? window.localStorage.getItem(DISMISS_KEY) : null
+      if (raw) dismissedUntil = parseInt(raw, 10) || 0
+    } catch { /* localStorage blocked — fall through to default behavior */ }
+    if (dismissedUntil > Date.now()) { setDismissed(true); return }
     const timer = setTimeout(() => setShowPopup(true), 4000)
     return () => clearTimeout(timer)
   }, [])
@@ -38,9 +49,16 @@ function CindyInner() {
   const pathname = usePathname()
 
   const conversation = useConversation({
-    onConnect: ({ conversationId }: { conversationId: string }) => { setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now() },
+    onConnect: ({ conversationId }: { conversationId: string }) => {
+      setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now()
+      try { window.sessionStorage.setItem('cindy-conversation-id', conversationId) } catch {}
+    },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
+      // Drop any pathname update that was queued while speaking — it refers
+      // to the old session's context and would mislead a new session.
+      pendingPathRef.current = null
       // Send conversation to CRM for transcript extraction + lead capture
       const convId = conversationIdRef.current
       const duration = Date.now() - connectTimeRef.current
@@ -69,44 +87,96 @@ function CindyInner() {
         return `Navigated to ${params.path}${scrollTarget ? '#' + scrollTarget : ''}`
       },
 
-      click_element: (params: { text: string; page?: string }) => {
+      click_element: async (params: { text: string; page?: string }) => {
         setActionLabel('Clicking...')
-        if (params.page && params.page !== window.location.pathname) router.push(params.page)
-        const delay = params.page ? 1500 : 100
-        setTimeout(() => {
-          const searchText = params.text.toLowerCase().trim()
-          let found = false
-          for (const el of Array.from(document.querySelectorAll('[data-name]'))) {
-            if ((el.getAttribute('data-name') || '').toLowerCase().includes(searchText)) {
-              ;(el as HTMLElement).click(); found = true; break
-            }
+        if (params.page && params.page !== window.location.pathname) {
+          router.push(params.page)
+          // Poll for URL update (fast path) up to 1.2s.
+          for (let i = 0; i < 12; i++) {
+            if (window.location.pathname === params.page) break
+            await new Promise(r => setTimeout(r, 100))
           }
-          if (!found) {
-            for (const el of Array.from(document.querySelectorAll('button, a, [role="button"], [onclick], [style*="cursor: pointer"], [style*="cursor:pointer"]'))) {
-              if ((el.textContent || '').toLowerCase().trim().includes(searchText)) {
-                ;(el as HTMLElement).click(); found = true; break
+          // Paint buffer — URL updating doesn't mean the page's DOM is ready.
+          // 400ms gives React time to hydrate the new route before we try to click.
+          await new Promise(r => setTimeout(r, 400))
+        } else {
+          await new Promise(r => setTimeout(r, 50))
+        }
+
+        const searchText = params.text.toLowerCase().trim()
+        // Ranked candidates — higher rank wins. 0 = unusable.
+        type Candidate = { el: HTMLElement; rank: number }
+        let best: Candidate | null = null
+        // Gate before ranking: exclude hidden, disabled, or non-interactive elements.
+        // Without this, mobile drawer clones, pointer-events:none decorative elements,
+        // and disabled buttons all rank as candidates and we claim "Clicked X" when
+        // nothing actually happens.
+        const isClickable = (el: HTMLElement): boolean => {
+          if (el.hasAttribute('hidden')) return false
+          if (el.getAttribute('aria-hidden') === 'true') return false
+          if (el.getAttribute('aria-disabled') === 'true') return false
+          if ((el as HTMLButtonElement).disabled === true) return false
+          // offsetParent is null when element or any ancestor is display:none
+          // (doesn't catch visibility:hidden, computed style below handles that)
+          if (el.offsetParent === null && window.getComputedStyle(el).position !== 'fixed') return false
+          const cs = window.getComputedStyle(el)
+          if (cs.visibility === 'hidden' || cs.display === 'none') return false
+          if (cs.pointerEvents === 'none') return false
+          return true
+        }
+
+        const consider = (el: HTMLElement, rank: number) => {
+          if (!isClickable(el)) return
+          if (!best || rank > best.rank) best = { el, rank }
+        }
+
+        // Pass 1 — data-name attribute (exact and startsWith beat contains)
+        for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-name]'))) {
+          const dn = (el.getAttribute('data-name') || '').toLowerCase()
+          if (!dn) continue
+          if (dn === searchText) consider(el, 100)
+          else if (dn.startsWith(searchText)) consider(el, 80)
+          else if (dn.includes(searchText)) consider(el, 60)
+        }
+        // Pass 2 — interactive elements by visible text
+        for (const el of Array.from(document.querySelectorAll<HTMLElement>('button, a, [role="button"], [onclick]'))) {
+          const text = (el.textContent || '').toLowerCase().trim()
+          if (!text) continue
+          if (text === searchText) consider(el, 90)
+          else if (text.startsWith(searchText)) consider(el, 70)
+          else if (text.includes(searchText)) consider(el, 50)
+        }
+        // Pass 3 — cursor:pointer fallback
+        if (!best || (best as Candidate).rank < 50) {
+          for (const el of Array.from(document.querySelectorAll<HTMLElement>('[style*="cursor: pointer"], [style*="cursor:pointer"]'))) {
+            const text = (el.textContent || '').toLowerCase().trim()
+            if (text && text.includes(searchText)) consider(el, 40)
+          }
+        }
+        // Pass 4 — text walker as last resort, walk up to find a clickable ancestor
+        if (!best) {
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+          while (walker.nextNode()) {
+            const node = walker.currentNode
+            if (!(node.textContent || '').toLowerCase().includes(searchText)) continue
+            let parent = node.parentElement
+            for (let i = 0; i < 5 && parent; i++) {
+              const cs = window.getComputedStyle(parent)
+              if (cs.cursor === 'pointer' || (parent as HTMLElement).onclick || parent.tagName === 'BUTTON' || parent.tagName === 'A') {
+                consider(parent as HTMLElement, 20); break
               }
+              parent = parent.parentElement
             }
+            if (best) break
           }
-          if (!found) {
-            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-            while (walker.nextNode()) {
-              if ((walker.currentNode.textContent || '').toLowerCase().includes(searchText)) {
-                let parent = walker.currentNode.parentElement
-                for (let i = 0; i < 5 && parent; i++) {
-                  const cs = window.getComputedStyle(parent)
-                  if (cs.cursor === 'pointer' || parent.onclick || parent.tagName === 'BUTTON' || parent.tagName === 'A') {
-                    ;(parent as HTMLElement).click(); found = true; break
-                  }
-                  parent = parent.parentElement
-                }
-                if (found) break
-              }
-            }
-          }
-          setActionLabel('')
-        }, delay)
-        return `Clicked on "${params.text}"`
+        }
+
+        setActionLabel('')
+        if (best) {
+          ;(best as Candidate).el.click()
+          return `Clicked "${params.text}"`
+        }
+        return `Couldn\'t find anything matching "${params.text}" on this page.`
       },
 
       fill_form: async (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
@@ -127,7 +197,9 @@ function CindyInner() {
 
         if (!formReady) {
           setActionLabel('')
-          return 'Form submitted successfully. The team will follow up within one business day.'
+          // Truthful failure — form didn't load. Give agent a workable path
+          // instead of falsely claiming success. Phone matches site-wide CTA.
+          return 'I couldn\'t reach the contact form — you can call the team directly at (877) 806-2286 or I can try again.'
         }
 
         // Scroll to form
@@ -153,22 +225,42 @@ function CindyInner() {
           const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
           if (select) {
             const spoken = params.specialty.toLowerCase().trim()
-            // Dynamic match: read all option values from the DOM and fuzzy-match
+            // Normalize both sides symmetrically (space/hyphen -> underscore) so
+            // "pain management" <-> "pain_management" matches in either direction.
+            const normalize = (s: string) => s.replace(/[\s-]+/g, '_')
+            const nSpoken = normalize(spoken)
+            // Ranked match: exact > startsWith > contains. Break on exact.
             let bestMatch = ''
+            let bestRank = 0 // 0=none, 1=contains, 2=startsWith, 3=exact
             for (const opt of Array.from(select.options)) {
               if (!opt.value) continue
-              const label = opt.textContent?.toLowerCase().trim() || ''
+              const label = (opt.textContent || '').toLowerCase().trim()
               const val = opt.value.toLowerCase()
-              if (label === spoken || val === spoken) { bestMatch = opt.value; break }
-              if (label.includes(spoken) || spoken.includes(label) || val.includes(spoken.replace(/[\s-]/g, '_'))) { bestMatch = opt.value }
+              const nVal = normalize(val)
+              const nLabel = normalize(label)
+              let rank = 0
+              if (label === spoken || val === spoken || nVal === nSpoken || nLabel === nSpoken) rank = 3
+              else if (label.startsWith(spoken) || val.startsWith(spoken) || nLabel.startsWith(nSpoken) || nVal.startsWith(nSpoken)) rank = 2
+              else if (
+                label.includes(spoken) || val.includes(spoken) ||
+                nLabel.includes(nSpoken) || nVal.includes(nSpoken) ||
+                spoken.includes(label) || nSpoken.includes(nLabel)
+              ) rank = 1
+              if (rank > bestRank) { bestMatch = opt.value; bestRank = rank; if (rank === 3) break }
             }
             const matchedValue = bestMatch || 'other'
             const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
             if (setter) { setter.call(select, matchedValue); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
-            // If matched to "other", fill the custom specialty text input
-            if (matchedValue === 'other' && params.specialty) {
-              await new Promise(r => setTimeout(r, 300))
-              const customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+            // If matched to "other" (or no match), fill the customSpecialty text input.
+            // This field only exists in ContactContent and is conditionally rendered
+            // when "Other" is selected, so we poll for it instead of relying on a
+            // fixed delay. Null check at the end prevents errors on other forms.
+            if (matchedValue === 'other') {
+              let customInput: HTMLInputElement | null = null
+              for (let i = 0; i < 5 && !customInput; i++) {
+                if (i > 0) await new Promise(r => setTimeout(r, 100))
+                customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+              }
               if (customInput) {
                 const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
                 if (inputSetter) { inputSetter.call(customInput, params.specialty); customInput.dispatchEvent(new Event('input', { bubbles: true })); customInput.dispatchEvent(new Event('change', { bubbles: true })) }
@@ -177,23 +269,66 @@ function CindyInner() {
           }
         }
 
-        // Submit with retry — needs time for React to process field changes
-        const trySubmit = (attempt: number) => {
-          const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
-          if (submitBtn) {
-            setActionLabel('Submitting...')
-            submitBtn.click()
-            setTimeout(() => setActionLabel(''), 2000)
-          } else if (attempt < 3) {
-            setTimeout(() => trySubmit(attempt + 1), 500)
-          } else {
-            const form = document.querySelector('form') as HTMLFormElement | null
-            if (form) { setActionLabel('Submitting...'); form.requestSubmit(); setTimeout(() => setActionLabel(''), 2000) }
-          }
-        }
-        setTimeout(() => trySubmit(0), 800)
+        // Bounded submit + truthful confirmation.
+        // Constraint: must return within ~2s to avoid ElevenLabs tool-call timeout,
+        // so we race submission against a short watcher instead of waiting forever.
+        // We also have to detect success from the DOM because the submit is fire-and-forget
+        // from this function's perspective (React handles the POST, we observe the result).
 
-        return `I've filled in the form and pressed the Submit button for you. The Cosentus team will follow up within one business day.`
+        // Step 1 — try to actually click submit, up to 3 retries. Returns true if we
+        // clicked a button or called requestSubmit; false if no submit path was ever found.
+        const attemptSubmit = async (): Promise<boolean> => {
+          for (let attempt = 0; attempt < 3; attempt++) {
+            if (attempt > 0) await new Promise(r => setTimeout(r, 300))
+            const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+            if (submitBtn) { setActionLabel('Submitting...'); submitBtn.click(); return true }
+          }
+          // Last resort: requestSubmit bypasses visual button but still triggers React onSubmit
+          const form = document.querySelector('form') as HTMLFormElement | null
+          if (form) { setActionLabel('Submitting...'); form.requestSubmit(); return true }
+          return false
+        }
+
+        // Step 2 — watch for success signal. ContactContent renders a "Thank you!" h3
+        // once submitted successfully. We poll up to 1500ms.
+        // We intentionally do NOT treat form-removal as success — a re-render,
+        // route change, or unmount could also remove the form without it being
+        // a successful submission. Only the explicit Thank-you heading confirms.
+        const watchForSuccess = async (): Promise<boolean> => {
+          for (let i = 0; i < 15; i++) { // 15 × 100ms = 1500ms
+            await new Promise(r => setTimeout(r, 100))
+            const thankYou = Array.from(document.querySelectorAll('h3')).some(h => (h.textContent || '').includes('Thank you'))
+            if (thankYou) return true
+          }
+          return false
+        }
+
+        // Give React a beat to process field changes before we click submit.
+        await new Promise(r => setTimeout(r, 400))
+
+        // Build a recap of what was filled so Cindy can read it back.
+        const filledSummary: string[] = []
+        if (params.practice_name) filledSummary.push(`practice name as ${params.practice_name}`)
+        if (params.contact_name) filledSummary.push(`contact as ${params.contact_name}`)
+        if (params.email) filledSummary.push(`email as ${params.email}`)
+        if (params.phone) filledSummary.push(`phone as ${params.phone}`)
+        if (params.specialty) filledSummary.push(`specialty as ${params.specialty}`)
+        if (params.message) filledSummary.push(`a short message`)
+        const recap = filledSummary.length ? filledSummary.join(', ') : `${filled} field${filled === 1 ? '' : 's'}`
+
+        const clicked = await attemptSubmit()
+        if (!clicked) {
+          setTimeout(() => setActionLabel(''), 1500)
+          return `I've filled in ${recap}. Please take a quick look — if it all looks right, click Submit to send it through. If anything needs changing, edit it directly in the form.`
+        }
+
+        const confirmed = await watchForSuccess()
+        setTimeout(() => setActionLabel(''), 1500)
+        if (confirmed) {
+          return `I've filled in ${recap} and clicked Submit. Please glance at the confirmation on screen to make sure it went through — and if anything was off, let me know or reach out to the team directly.`
+        }
+        // Submit clicked but no confirmation within the window. Don't claim success.
+        return `I've filled in ${recap} and clicked Submit. Please check the screen to confirm it went through — if it didn't, you can edit anything and click Submit yourself, otherwise the team will follow up within one business day.`
       },
 
       scroll_to: (params: { section_id: string }) => {
@@ -216,8 +351,8 @@ function CindyInner() {
           const label = s.querySelector('.section-label, .section-title, h2, h3')
           if (label && (label.textContent || '').toLowerCase().includes(target)) { s.scrollIntoView({ behavior: 'smooth', block: 'start' }); return done(`Scrolled to: ${label.textContent}`) }
         }
-        window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
-        return done('Section not found, scrolled down')
+        // No match — don't silently scroll somewhere misleading. Let the agent recover.
+        return done(`I couldn\'t find a section called "${params.section_id}" on this page. Could you tell me what you want to see?`)
       },
 
       // Read current page content — headings + paragraphs + key data + form fields, capped for speed
@@ -226,6 +361,18 @@ function CindyInner() {
         if (!main) return `Page: ${window.location.pathname}`
         const parts: string[] = []
         let charCount = 0
+        // Unified budget gate — 2500 char total, 300 char per item.
+        // Returns true if the part was added, false if it was skipped or truncated away.
+        const pushPart = (text: string): boolean => {
+          const normalized = text.trim()
+          if (!normalized) return false
+          if (normalized.length > 300) return false
+          const nextSize = normalized.length + 1 // +1 for the newline join
+          if (charCount + nextSize > 2500) return false
+          parts.push(normalized)
+          charCount += nextSize
+          return true
+        }
         for (const el of Array.from(main.querySelectorAll(
           'h1, h2, h3, .section-label, .section-title, p, li, ' +
           '.result-number span, .result-label, .hero-sub'
@@ -233,26 +380,38 @@ function CindyInner() {
           if (charCount >= 2500) break
           if (el.closest('nav, footer, [style*="position: fixed"]')) continue
           const text = (el.textContent || '').trim().replace(/\s+/g, ' ')
-          if (text.length > 1 && text.length < 300) { parts.push(text); charCount += text.length + 1 }
+          if (text.length > 1) pushPart(text)
         }
-        // Detect forms and their fields
+        // Detect forms and their fields — same budget gate as content above.
         const forms = main.querySelectorAll('form')
         if (forms.length > 0) {
-          parts.push('\n--- Form fields on this page ---')
-          for (const form of Array.from(forms)) {
-            for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
-              const name = input.getAttribute('name') || ''
-              const tag = input.tagName.toLowerCase()
-              if (tag === 'select') {
-                const options = Array.from((input as HTMLSelectElement).options)
-                  .filter(o => o.value)
-                  .map(o => o.textContent?.trim())
-                  .slice(0, 20) // cap at 20 to avoid bloat
-                const total = (input as HTMLSelectElement).options.length - 1 // exclude placeholder
-                parts.push(`Dropdown "${name}": ${total} options including: ${options.join(', ')}${total > 20 ? '... and more' : ''}. If the specialty is not listed, select "Other" and a text box will appear to type it in manually.`)
-              } else {
-                const type = input.getAttribute('type') || tag
-                parts.push(`Field "${name}" (${type})`)
+          // If the header won't fit, skip the form section entirely.
+          if (pushPart('--- Form fields on this page ---')) {
+            outer: for (const form of Array.from(forms)) {
+              for (const input of Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))) {
+                const name = input.getAttribute('name') || ''
+                const tag = input.tagName.toLowerCase()
+                if (tag === 'select') {
+                  const realOptions = Array.from((input as HTMLSelectElement).options)
+                    .filter(o => o.value) // exclude placeholder/empty
+                    .map(o => o.textContent?.trim())
+                    .filter((o): o is string => !!o)
+                  const total = realOptions.length
+                  const sample = realOptions.slice(0, 20)
+                  const hasOther = realOptions.some(o => o.toLowerCase() === 'other')
+                  let desc = `Dropdown "${name}": ${total} option${total === 1 ? '' : 's'}`
+                  desc += total > 0 ? ` including: ${sample.join(', ')}${total > 20 ? '... and more' : ''}.` : '.'
+                  // Only append the "Other → custom text" guidance when it's actually applicable.
+                  if (name === 'specialty' && hasOther) {
+                    desc += ' If not listed, select "Other" and a text box will appear.'
+                  }
+                  // If desc exceeds per-item cap, trim to a shorter summary and retry.
+                  if (desc.length > 300) desc = `Dropdown "${name}": ${total} options (list too long to include).`
+                  if (!pushPart(desc)) break outer
+                } else {
+                  const type = input.getAttribute('type') || tag
+                  if (!pushPart(`Field "${name}" (${type})`)) break outer
+                }
               }
             }
           }
@@ -266,23 +425,40 @@ function CindyInner() {
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
-  // PAGE AWARENESS: Notify agent of navigation — debounced, skips during active speech
+  // PAGE AWARENESS: Notify agent of navigation.
+  // - Debounce: 1s (was 3s) so fast clicks don't desync her context.
+  // - Queue during speech: if debounce fires while she's talking, stash and flush
+  //   after she finishes. Previously these updates were silently dropped.
   const lastSentPath = useRef('')
+  const pendingPathRef = useRef<string | null>(null)
   const contextTimerRef = useRef<NodeJS.Timeout | null>(null)
   useEffect(() => {
-    if (!isConnected || !pathname || isSpeaking) return
+    if (!isConnected || !pathname) return
     if (pathname === lastSentPath.current) return
     if (contextTimerRef.current) clearTimeout(contextTimerRef.current)
     contextTimerRef.current = setTimeout(() => {
-      if (!isConnected || isSpeaking) return
+      if (!isConnected) return
+      if (isSpeaking) { pendingPathRef.current = pathname; return }
       lastSentPath.current = pathname
       try { conversation.sendContextualUpdate(`User is now on: ${pathname}`) } catch {}
-    }, 3000)
+    }, 1000)
     return () => { if (contextTimerRef.current) clearTimeout(contextTimerRef.current) }
   }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Blink (PR fix: cleanup nested timeout to prevent memory leak)
+  // Flush queued update once she stops speaking.
   useEffect(() => {
+    if (!isConnected || isSpeaking) return
+    const pending = pendingPathRef.current
+    if (!pending || pending === lastSentPath.current) return
+    pendingPathRef.current = null
+    lastSentPath.current = pending
+    try { conversation.sendContextualUpdate(`User is now on: ${pending}`) } catch {}
+  }, [isSpeaking, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Blink (PR fix: cleanup nested timeout to prevent memory leak).
+  // Only runs while Cindy is visible — no point animating a hidden component.
+  useEffect(() => {
+    if (dismissed || !showPopup) return
     const intervalId = setInterval(() => {
       setBlinking(true)
       blinkTimeoutRef.current = setTimeout(() => setBlinking(false), 150)
@@ -291,9 +467,14 @@ function CindyInner() {
       clearInterval(intervalId)
       if (blinkTimeoutRef.current) clearTimeout(blinkTimeoutRef.current)
     }
-  }, [])
+  }, [dismissed, showPopup])
+
+  const [startError, setStartError] = useState<string | null>(null)
 
   const startConversation = useCallback(async () => {
+    setStartError(null)
+    // Drop any stale queued pathname from a prior session.
+    pendingPathRef.current = null
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       lastSentPath.current = pathname || '/'
@@ -304,6 +485,15 @@ function CindyInner() {
       })
     } catch (e) {
       console.error('Failed to start conversation:', e)
+      // Map common errors to user-facing messages
+      const name = (e as { name?: string })?.name || ''
+      if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+        setStartError('Microphone permission was blocked. Enable it in your browser settings to talk with Cindy.')
+      } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+        setStartError('No microphone was found. Plug one in and try again.')
+      } else {
+        setStartError('Couldn\'t start the conversation. Please try again.')
+      }
     }
   }, [conversation, pathname])
 
@@ -312,6 +502,12 @@ function CindyInner() {
   const dismissCindy = () => {
     if (isConnected) conversation.endSession()
     setDismissed(true); setShowPopup(false)
+    try { window.localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_TTL_MS)) } catch {}
+  }
+
+  const restoreCindy = () => {
+    setDismissed(false); setShowPopup(true)
+    try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
   }
 
   const stateLabel = actionLabel || (!isConnected ? 'Cindy — AI Guide' : isSpeaking ? 'Speaking...' : 'Listening...')
@@ -319,14 +515,14 @@ function CindyInner() {
   return (
     <>
       {dismissed && (
-        <button onClick={() => { setDismissed(false); setShowPopup(true) }} aria-label="Talk to Cindy" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+        <button onClick={restoreCindy} aria-label="Talk to Cindy" className="cindy-avatar" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/cindy.png" alt="Cindy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
       {showPopup && !dismissed && (
-        <div style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
+        <div className="cindy-panel" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} aria-label="Close Cindy" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(0,0,0,0.1)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#666', fontSize: 14 }}>✕</button>
 
           <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
@@ -346,6 +542,11 @@ function CindyInner() {
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
                   Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Cindy</strong>, your AI voice guide. I can navigate, fill forms, and answer any questions. Ready?
                 </p>
+                {startError && (
+                  <p role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', border: '1px solid #F5C5C5', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px' }}>
+                    {startError}
+                  </p>
+                )}
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={startConversation} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
                   <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 14, cursor: 'pointer' }}>Later</button>
@@ -376,6 +577,10 @@ function CindyInner() {
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
+        @media (max-width: 480px) {
+          .cindy-panel { right: 12px !important; left: 12px !important; bottom: 80px !important; width: auto !important; }
+          .cindy-avatar { right: 16px !important; bottom: 80px !important; }
+        }
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0s !important; } }
       `}</style>
     </>
