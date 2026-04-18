@@ -56,6 +56,9 @@ function CindyInner() {
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
       try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
+      // Drop any pathname update that was queued while speaking — it refers
+      // to the old session's context and would mislead a new session.
+      pendingPathRef.current = null
       // Send conversation to CRM for transcript extraction + lead capture
       const convId = conversationIdRef.current
       const duration = Date.now() - connectTimeRef.current
@@ -218,18 +221,27 @@ function CindyInner() {
               const nLabel = normalize(label)
               let rank = 0
               if (label === spoken || val === spoken || nVal === nSpoken || nLabel === nSpoken) rank = 3
-              else if (label.startsWith(spoken) || nVal.startsWith(nSpoken)) rank = 2
-              else if (label.includes(spoken) || spoken.includes(label) || nVal.includes(nSpoken) || nSpoken.includes(nVal)) rank = 1
+              else if (label.startsWith(spoken) || val.startsWith(spoken) || nLabel.startsWith(nSpoken) || nVal.startsWith(nSpoken)) rank = 2
+              else if (
+                label.includes(spoken) || val.includes(spoken) ||
+                nLabel.includes(nSpoken) || nVal.includes(nSpoken) ||
+                spoken.includes(label) || nSpoken.includes(nLabel)
+              ) rank = 1
               if (rank > bestRank) { bestMatch = opt.value; bestRank = rank; if (rank === 3) break }
             }
             const matchedValue = bestMatch || 'other'
             const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
             if (setter) { setter.call(select, matchedValue); select.dispatchEvent(new Event('change', { bubbles: true })); filled++ }
             // If matched to "other" (or no match), fill the customSpecialty text input.
-            // This field only exists in ContactContent — null check prevents errors on other forms.
+            // This field only exists in ContactContent and is conditionally rendered
+            // when "Other" is selected, so we poll for it instead of relying on a
+            // fixed delay. Null check at the end prevents errors on other forms.
             if (matchedValue === 'other') {
-              await new Promise(r => setTimeout(r, 300))
-              const customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+              let customInput: HTMLInputElement | null = null
+              for (let i = 0; i < 5 && !customInput; i++) {
+                if (i > 0) await new Promise(r => setTimeout(r, 100))
+                customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+              }
               if (customInput) {
                 const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
                 if (inputSetter) { inputSetter.call(customInput, params.specialty); customInput.dispatchEvent(new Event('input', { bubbles: true })); customInput.dispatchEvent(new Event('change', { bubbles: true })) }
@@ -442,6 +454,8 @@ function CindyInner() {
 
   const startConversation = useCallback(async () => {
     setStartError(null)
+    // Drop any stale queued pathname from a prior session.
+    pendingPathRef.current = null
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       lastSentPath.current = pathname || '/'
