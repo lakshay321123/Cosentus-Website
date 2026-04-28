@@ -86,6 +86,16 @@ export default function AnesthesiaContent() {
                 Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, every workflow — built for anesthesia and nothing else.
               </p>
             </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.3}>
+              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 20 }}>
+                Not just denial recovery — denial prevention. We perform root cause analysis on every denied claim to stop future denials before they happen. Your denial rate improves every quarter.
+              </p>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.4}>
+              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
+                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane — that&apos;s why they know every payer game specific to your specialty.
+              </p>
+            </RevealOnScroll>
           </div>
         </div>
       </section>

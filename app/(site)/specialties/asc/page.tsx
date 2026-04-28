@@ -24,7 +24,7 @@ export default function ASCPage() {
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
-        label="AMBULATORY SURGERY CENTERS"
+        label="ASC BY COSENTUS — PURPOSE BUILT"
         title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
         subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
         ctaText="Get Your Free ASC Revenue Analysis"
@@ -71,6 +71,8 @@ export default function ASCPage() {
                     'Real-time case cost tracking and underpayment detection',
                     'AI handles authorizations and follow-ups at scale',
                     'Specialists handle payer negotiation and recovery',
+                    'Root cause analysis on every denial — facility and professional fee streams',
+                    'Dedicated team — case costing, implants, multi-payer contracts, no specialty switching',
                   ].map((item, i) => (
                     <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                       <svg aria-hidden="true" className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
@@ -115,6 +117,62 @@ export default function ASCPage() {
               ))}
             </MobileCarousel>
           </div>
+        </div>
+      </section>
+
+      {/* AI Agent Spotlight — Priya */}
+      <section className="section">
+        <div className="container">
+          <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <RevealOnScroll direction="left">
+              <div>
+                <div className="section-label">AI AGENT SPOTLIGHT</div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                  Pre-Service Payment Collection
+                </h2>
+                <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
+                  Priya contacts patients before scheduled procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service billing. For ASCs running dozens of cases daily, that&apos;s thousands in accelerated revenue every week.
+                </p>
+                <div style={{ display: 'flex', gap: 32 }}>
+                  <div>
+                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
+                  </div>
+                </div>
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.2}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/images/priya.png" alt="Priya — Pre-Service Payment Collection" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
+                  </div>
+                  <div style={{ background: '#00B5D6', padding: '16px 20px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Priya</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>Pre-Service Cost Estimates</div>
+                  </div>
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership */}
+      <section className="section section-alt">
+        <div className="container">
+          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
+          <RevealOnScroll delay={0.1}><div className="section-title">ASC Leadership</div></RevealOnScroll>
+          <RevealOnScroll delay={0.2}>
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
+              ASC and surgical practice management veterans — strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
+            </p>
+          </RevealOnScroll>
         </div>
       </section>
 
