@@ -20,14 +20,13 @@ const footerNav = [
       { label: 'Pain Management', href: '/specialties/pain-management' },
       { label: 'ASCs', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
+      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
     title: 'Services',
     links: [
-      { label: 'Medical Billing & Coding', href: '/services/billing-coding' },
-      { label: 'Practice Management', href: '/services/practice-management' },
-      { label: 'Comprehensive RCM', href: '/services/rcm' },
+      { label: 'End-to-End RCM', href: '/services/rcm' },
       { label: 'EHR & Technology', href: '/services/ehr-technology' },
     ],
   },
