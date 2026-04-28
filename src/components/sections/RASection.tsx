@@ -58,31 +58,31 @@ function AIPanel() {
     }}>
       {!expanded ? (
         <>
-          <h3 style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 300, lineHeight: 1.3, marginBottom: 16 }}>
+          <h3 style={{ fontSize: 'clamp(26px, 3.2vw, 36px)', fontWeight: 400, lineHeight: 1.25, marginBottom: 18, color: 'white' }}>
             Ask Anything About<br />Your Revenue Cycle
           </h3>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 32 }}>
+          <p style={{ fontSize: 16, color: 'white', marginBottom: 32, lineHeight: 1.55 }}>
             Cosentus.ai — your always-on revenue intelligence assistant.
           </p>
           <div style={{
-            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.4)',
             borderRadius: 'var(--radius-md)', padding: '16px 24px',
             display: 'flex', alignItems: 'center', gap: 12, cursor: 'text',
           }} onClick={() => inputRef.current?.focus()}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.5)" strokeWidth={2}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
             </svg>
             <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)}
               onFocus={handleFocus} onKeyDown={e => { if (e.key === 'Enter') { handleFocus(); setTimeout(() => handleSend(), 100) } }}
               placeholder={placeholder || 'Ask anything...'} className="ra-search-input"
-              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 15, fontFamily: 'var(--font-body)' }}
+              style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'white', fontSize: 16, fontFamily: 'var(--font-body)' }}
             />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 32 }}>
             {[{ n: '~3,000', l: 'Calls/Day' }, { n: '9', l: 'AI Agents' }, { n: '50+', l: 'Languages' }, { n: '24/7', l: 'Coverage' }].map((s, i) => (
               <div key={i} style={{ textAlign: 'center', padding: '12px 0' }}>
-                <div style={{ fontSize: 20, fontWeight: 500, color: 'white' }}>{s.n}</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.l}</div>
+                <div style={{ fontSize: 24, fontWeight: 600, color: 'white', lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: 'white', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 6 }}>{s.l}</div>
               </div>
             ))}
           </div>
@@ -172,7 +172,7 @@ export default function RASection() {
                   onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6' }}
                   >
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 28, color: 'white', lineHeight: 1 }}>{item.n}</div>
-                    <div style={{ fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{item.l}</div>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{item.l}</div>
                   </div>
                 ))}
               </div>

@@ -55,7 +55,7 @@ export default function StatementSection() {
               <RevealOnScroll key={i} delay={0.25 + i * 0.12}>
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: 'white', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{item.q}</h4>
-                  <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.55)' }}>{item.a}</p>
+                  <p style={{ fontSize: 16, lineHeight: 1.7, color: 'white' }}>{item.a}</p>
                 </div>
               </RevealOnScroll>
             ))}

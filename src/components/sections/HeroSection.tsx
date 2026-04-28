@@ -31,18 +31,6 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <div style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 12,
-          fontWeight: 600,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.75)',
-          marginBottom: 24,
-        }}>
-          Purpose Built For Your Specialty
-        </div>
-
         <h1 style={{ fontSize: 'clamp(48px, 8vw, 110px)', fontWeight: 800, fontStyle: 'italic', letterSpacing: '-0.04em', lineHeight: 0.95 }}>
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
@@ -98,12 +86,6 @@ export default function HeroSection() {
         <div className="hero-actions">
           <Link href="/contact" className="btn-primary">
             Get Your Financial MRI <ArrowIcon />
-          </Link>
-          <Link href="/specialties" className="btn-ghost">
-            Choose Your Specialty
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
           </Link>
         </div>
       </div>
