@@ -35,8 +35,8 @@ export default function HeroSection() {
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
-        <p className="hero-sub">
-          We don&apos;t do &ldquo;general billing.&rdquo; Every team, every workflow, every AI agent is built for one thing — your specialty. Choose yours.
+        <p className="hero-sub" style={{ fontSize: 'clamp(16px, 1.6vw, 20px)', fontWeight: 500, letterSpacing: '0.02em', opacity: 0.9, marginTop: 28 }}>
+          Choose your Specialty
         </p>
 
         {/* Specialty selector */}

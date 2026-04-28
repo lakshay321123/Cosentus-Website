@@ -142,7 +142,7 @@ export default function AICodingLivePanel() {
             }}>
               98.5<span style={{ fontSize: '0.6em', verticalAlign: 'baseline', marginLeft: 2 }}>%</span>
             </div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginTop: 6 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'white', marginTop: 6 }}>
               Coding Accuracy · 30-day rolling
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function AICodingLivePanel() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6, flexWrap: 'wrap', gap: 6 }}>
             <div style={{
               fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: 'white', opacity: 0.8,
+              color: 'white',
             }}>
               Encounter #{current.id}
             </div>
@@ -231,7 +231,7 @@ export default function AICodingLivePanel() {
                     {row.code}
                   </span>
                   <span style={{
-                    fontSize: 12, color: 'white', opacity: 0.85,
+                    fontSize: 12, color: 'white',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     minWidth: 0, flex: 1,
                   }}>
@@ -256,33 +256,32 @@ export default function AICodingLivePanel() {
                 alignItems: 'center',
                 gap: 10,
                 padding: '10px 12px',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px dashed rgba(255,255,255,0.4)',
+                background: 'rgba(255,255,255,0.18)',
+                border: '1px dashed rgba(255,255,255,0.7)',
                 borderRadius: 6,
                 animation: `aicl-rowin 0.4s ease-out ${0.15 + current.rows.length * 0.12}s backwards`,
               }}>
                 <div style={{
                   width: 18, height: 18, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.2)',
+                  background: 'white',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
-                  border: '1.5px solid white',
                 }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth="3" strokeLinecap="round">
                     <line x1="12" y1="8" x2="12" y2="12" />
                     <line x1="12" y1="16" x2="12.01" y2="16" />
                   </svg>
                 </div>
                 <div style={{
-                  fontSize: 12, color: 'white', opacity: 0.9,
+                  fontSize: 13, color: 'white', fontWeight: 500,
                   flex: 1, minWidth: 0,
                 }}>
                   {current.flag}
                 </div>
                 <div style={{
-                  fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
-                  color: 'white', background: 'rgba(255,255,255,0.2)',
-                  padding: '2px 6px', borderRadius: 3, flexShrink: 0,
+                  fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
+                  color: '#00B5D6', background: 'white',
+                  padding: '3px 7px', borderRadius: 3, flexShrink: 0,
                 }}>
                   REVIEW
                 </div>
@@ -293,13 +292,13 @@ export default function AICodingLivePanel() {
 
         {/* Footer */}
         <div style={{
-          marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.3)',
+          marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.4)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
         }}>
-          <div style={{ fontSize: 11, color: 'white', opacity: 0.85, letterSpacing: '0.04em' }}>
+          <div style={{ fontSize: 12, color: 'white', fontWeight: 500, letterSpacing: '0.02em' }}>
             AAPC-certified coders verify every suggestion
           </div>
-          <div style={{ fontSize: 10, color: 'white', opacity: 0.7, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 10, color: 'white', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.95 }}>
             Sample data
           </div>
         </div>
