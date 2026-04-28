@@ -15,7 +15,7 @@ export default function CosentusAIPage() {
         label="REAL + ARTIFICIAL INTELLIGENCE"
         title="9 Agents. Zero Excuses. Infinite Follow-Ups."
         subtitle="Cosentus AI agents handle the volume. Named human teams handle the judgment. Up to 30% revenue growth."
-        ctaText="Get Your Free Revenue Analysis"
+        ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />
       <RAPageContent />

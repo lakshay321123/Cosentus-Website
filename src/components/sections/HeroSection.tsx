@@ -65,6 +65,8 @@ export default function HeroSection() {
               href={s.href}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(i)}
+              onBlur={() => setHovered(null)}
               style={{
                 padding: '14px 18px',
                 background: hovered === i ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
