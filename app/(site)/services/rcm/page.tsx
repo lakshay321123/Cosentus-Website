@@ -4,7 +4,7 @@ import CTASection from '@/components/sections/CTASection'
 import RCMContent from './RCMContent'
 
 export const metadata: Metadata = {
-  title: 'Comprehensive Revenue Cycle Management | End-to-End RCM | Cosentus',
+  title: 'End-to-End Revenue Cycle Management | Every Step. Every Dollar. | Cosentus',
   description: 'We manage your entire revenue cycle — patient registration to final payment — with specialty-trained teams and Real + Artificial Intelligence.',
 }
 
@@ -12,10 +12,10 @@ export default function RCMPage() {
   return (
     <main>
       <PageHero
-        label="COMPREHENSIVE RCM"
+        label="END-TO-END RCM"
         title="End-to-End Revenue Cycle Management. Every Step. Every Dollar."
         subtitle="We manage your entire revenue cycle — patient registration to final payment — with specialty-trained teams and Real + Artificial Intelligence eliminating revenue leakage at every stage."
-        ctaText="Get Your Free Comprehensive RCM Assessment"
+        ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />
       <RCMContent />

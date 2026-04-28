@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 }
 
 const process = [
-  { step: '01', title: 'Patient Registration & Eligibility', desc: 'AI verification (Harper) catches issues before service.' },
+  { step: '01', title: 'Patient Registration & Eligibility', desc: 'AI verification (Elly) catches issues before service.' },
   { step: '02', title: 'Charge Capture & Coding', desc: 'AAPC-certified coders ensure accurate CPTs, modifiers and clinical documentation alignment.' },
   { step: '03', title: 'Claim Scrubbing & Submission', desc: 'Payer-specific edits for clean claims.' },
-  { step: '04', title: 'Payment Posting & Reconciliation', desc: 'Identify underpayments and reconcile payments to expected reimbursements (Michael).' },
+  { step: '04', title: 'Payment Posting & Reconciliation', desc: 'Identify underpayments and reconcile payments to expected reimbursements (Ariel).' },
   { step: '05', title: 'AR Follow-Up & Denial Management', desc: 'Dedicated teams pursue claims methodically (Chris and human denials experts).' },
   { step: '06', title: 'Patient Billing & Collections', desc: 'Clear statements and empathetic collections (Cindy).' },
 ]

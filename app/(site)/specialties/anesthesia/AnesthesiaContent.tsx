@@ -143,7 +143,7 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Pre-Service Collection — Emily */}
+      {/* Pre-Service Collection — Priya */}
       <section className="section">
         <div className="container">
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -154,7 +154,7 @@ export default function AnesthesiaContent() {
                   Pre-Service Payment Collection
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
-                  Emily contacts patients before procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service. She handles the volume so your team focuses on clinical care.
+                  Priya contacts patients before procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service. She handles the volume so your team focuses on clinical care.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
@@ -172,10 +172,10 @@ export default function AnesthesiaContent() {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
-                    <img src="/images/emily.png" alt="Emily — Pre-Service Payment Collection" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
+                    <img src="/images/priya.png" alt="Priya — Pre-Service Payment Collection" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
                   </div>
                   <div style={{ background: '#00B5D6', padding: '16px 20px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Emily</div>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Priya</div>
                     <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>Pre-Service Cost Estimates</div>
                   </div>
                 </div>

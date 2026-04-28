@@ -7,20 +7,21 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's — Processes, Procedures, and Protocols — and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
-  { num: '3', title: 'AI agents handle volume', desc: 'Eight agents automate eligibility, prior auth follow-ups, scheduling, patient collection and claim follow-up.' },
+  { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate — when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
 
 const allAgents = [
   { name: 'Cindy', shortRole: 'Patient Support', role: 'Payment & Balance Specialist', type: 'patient', desc: 'Cindy is multilingual and can handle over 20 phone calls at once. She specializes in helping patients understand their outstanding balances and payment options with clear, empathetic assistance.', capabilities: ['Real time balance inquiries and payment history', 'Secure credit card payment processing', 'Balance breakdown by date of service', 'Insurance coverage explanations'], highlight: true },
-  { name: 'Chris', shortRole: 'Claims Follow-Up', role: 'Insurance Claim Specialist', type: 'payer', desc: 'Chris conducts outbound claim status follow ups with insurance carriers. He resolves pending claims, escalates processing delays, and supports denial resolution with persistence.', capabilities: ['Claim status verification with carriers', 'Denial resolution and resubmission support', 'Timely filing tracking and alerts', 'Batch outbound calling to payers'] },
-  { name: 'Emily', shortRole: 'Payment Solutions', role: 'Pre-Service Cost Estimates', type: 'patient', desc: 'Emily contacts patients 3 to 7 days before procedures with verified cost estimates. Pre service collection rates are 30 to 40% higher than post service.', capabilities: ['Anesthesia and procedure cost estimates', 'Provider specific payment structures', 'Pre service payment collection', 'Financial responsibility communication'] },
-  { name: 'Sarah', shortRole: 'Appt. Scheduling', role: 'Medical Scheduling Specialist', type: 'patient', desc: 'Sarah reduces no shows and scheduling friction with inbound and outbound scheduling, confirmations, and follow ups. Available 24/7 for patient convenience.', capabilities: ['Inbound and outbound scheduling', 'Appointment confirmations and reminders', 'Rescheduling and waitlist management', 'Follow up appointment coordination'] },
-  { name: 'Allison', shortRole: 'Customer Support', role: 'General Support & Overflow', type: 'patient', desc: 'Allison handles after hours support, routing, and overflow to guarantee no patient call goes unanswered. She ensures every caller reaches the right department.', capabilities: ['After hours patient support', 'Intelligent call routing', 'Message taking and follow up triggers', 'Overflow handling during peak hours'] },
-  { name: 'Harper', shortRole: 'Eligibility Verification', role: 'Eligibility & Benefits Specialist', type: 'payer', desc: 'Harper verifies insurance eligibility, benefits, deductibles, and network status before every appointment. She eliminates eligibility denials at the source.', capabilities: ['Real time insurance verification', 'Benefits and deductible confirmation', 'Network status validation', 'Pre visit eligibility screening'] },
-  { name: 'Olivia', shortRole: 'Prior Authorization', role: 'Prior Auth Tracking Specialist', type: 'payer', desc: 'Olivia tracks every open authorization, follows up on pending cases, and escalates urgent requests to prevent procedural delays and timely filing lapses.', capabilities: ['Authorization status tracking', 'Pending case follow up with payers', 'Urgency escalation protocols', 'OR schedule coordination'] },
-  { name: 'Michael', shortRole: 'Payment Recovery', role: 'Payment Reconciliation Specialist', type: 'payer', desc: 'Michael investigates missing or underpayments, reconciles expected versus received amounts, and identifies discrepancies in EOBs and ERA files.', capabilities: ['Expected vs received payment analysis', 'Underpayment identification and recovery', 'EOB and ERA reconciliation', 'Contract rate variance detection'] },
+  { name: 'Chris', shortRole: 'Claims Follow-Up', role: 'Insurance Claim Specialist', type: 'payer', desc: 'Chris makes thousands of calls daily to insurance companies for claim status — waits on hold so your team does not have to. He resolves pending claims, escalates processing delays, and supports denial resolution with persistence.', capabilities: ['Claim status verification with carriers', 'Denial resolution and resubmission support', 'Timely filing tracking and alerts', 'Batch outbound calling to payers'] },
+  { name: 'Priya', shortRole: 'Pre-Procedure Payments', role: 'Pre-Service Cost Estimates', type: 'patient', desc: 'Priya contacts patients 3 to 7 days before procedures with verified cost estimates. Pre service collection rates are 30 to 40% higher than post service.', capabilities: ['Anesthesia and procedure cost estimates', 'Provider specific payment structures', 'Pre service payment collection', 'Financial responsibility communication'] },
+  { name: 'April', shortRole: 'Appt. Scheduling', role: 'Medical Scheduling Specialist', type: 'patient', desc: 'April reduces no shows and scheduling friction with inbound and outbound scheduling, confirmations, reminders, and follow ups. Available 24/7 for patient convenience.', capabilities: ['Inbound and outbound scheduling', 'Appointment confirmations and reminders', 'Rescheduling and waitlist management', 'Follow up appointment coordination'] },
+  { name: 'Curtis', shortRole: 'Customer Support', role: 'Front-Line Practice Support', type: 'patient', desc: 'Curtis is front-line support for practice staff — answers questions, routes issues, and provides real-time status updates so nothing stalls.', capabilities: ['Practice staff support', 'Intelligent call routing', 'Real-time status updates', 'Overflow handling during peak hours'] },
+  { name: 'Elly', shortRole: 'Eligibility Verification', role: 'Eligibility & Benefits Specialist', type: 'payer', desc: 'Elly verifies insurance eligibility, benefits, deductibles, and network status before every encounter. She eliminates eligibility denials at the source.', capabilities: ['Real time insurance verification', 'Benefits and deductible confirmation', 'Network status validation', 'Pre visit eligibility screening'] },
+  { name: 'Paige', shortRole: 'Prior Authorization', role: 'Prior Auth Tracking Specialist', type: 'payer', desc: 'Paige tracks, submits, and clears authorizations proactively. She follows up on pending cases and escalates urgent requests to prevent procedural delays and timely filing lapses.', capabilities: ['Authorization status tracking', 'Proactive submission and follow up with payers', 'Urgency escalation protocols', 'OR schedule coordination'] },
+  { name: 'Ariel', shortRole: 'AR Follow-Up', role: 'Accounts Receivable Specialist', type: 'payer', desc: 'Ariel tracks aging claims, identifies payment delays, and escalates issues to specialists for resolution. She keeps your AR moving so cash flow does not stall.', capabilities: ['Aging claim tracking', 'Payment delay identification', 'Escalation to specialists for resolution', 'AR pipeline visibility'] },
+  { name: 'Connie', shortRole: 'Coding Assistant', role: 'Clinical Coding Support', type: 'payer', desc: 'Connie provides code suggestions, documentation review, and accuracy checks powered by clinical AI — supporting AAPC-certified coders with judgment-grade tooling.', capabilities: ['CPT and ICD-10 code suggestions', 'Clinical documentation review', 'Coding accuracy checks', 'Modifier and laterality validation'] },
 ]
 
 export default function RAPageContent() {
@@ -41,12 +42,13 @@ export default function RAPageContent() {
   const avatarColors: Record<string, string> = {
     Cindy: 'linear-gradient(135deg, #00B5D6, #36C2DE)',
     Chris: 'linear-gradient(135deg, #0084A0, #00B5D6)',
-    Emily: 'linear-gradient(135deg, #36C2DE, #68D1E6)',
-    Sarah: 'linear-gradient(135deg, #A1DEED, #68D1E6)',
-    Allison: 'linear-gradient(135deg, #00B5D6, #0084A0)',
-    Harper: 'linear-gradient(135deg, #68D1E6, #00B5D6)',
-    Olivia: 'linear-gradient(135deg, #36C2DE, #0084A0)',
-    Michael: 'linear-gradient(135deg, #0084A0, #36C2DE)',
+    Priya: 'linear-gradient(135deg, #36C2DE, #68D1E6)',
+    April: 'linear-gradient(135deg, #A1DEED, #68D1E6)',
+    Curtis: 'linear-gradient(135deg, #00B5D6, #0084A0)',
+    Elly: 'linear-gradient(135deg, #68D1E6, #00B5D6)',
+    Paige: 'linear-gradient(135deg, #36C2DE, #0084A0)',
+    Ariel: 'linear-gradient(135deg, #0084A0, #36C2DE)',
+    Connie: 'linear-gradient(135deg, #68D1E6, #36C2DE)',
   }
   return (
     <>
@@ -54,7 +56,7 @@ export default function RAPageContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">THE 8 AI VOICE AGENTS</div>
+            <div className="section-label">THE 9 AI VOICE AGENTS</div>
           </RevealOnScroll>
           {/* AI Agents Section */}
 
