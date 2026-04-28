@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import PlatformModulesSection from './PlatformModulesSection'
 
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's — Processes, Procedures, and Protocols — and customize our approach to your specific challenges. No templates." },
@@ -350,6 +351,7 @@ export default function RAPageContent() {
         </div>
       </section>
 
+      <PlatformModulesSection />
 
     </>
   )
