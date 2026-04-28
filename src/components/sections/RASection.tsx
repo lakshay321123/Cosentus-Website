@@ -207,10 +207,10 @@ export default function RASection() {
                 {agents.map((agent, i) => (
                   <div key={agent.name} style={{
                     background: 'var(--white)',
-                    padding: '14px 12px',
+                    padding: '18px 16px',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 10,
+                    gap: 14,
                     cursor: 'default',
                     transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                     animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
@@ -225,31 +225,31 @@ export default function RASection() {
                   }}
                   >
                     <div style={{
-                      width: 32, height: 32, borderRadius: '50%',
+                      width: 56, height: 56, borderRadius: '50%',
                       background: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
                       backgroundImage: `url(/images/${agent.img}), linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       flexShrink: 0,
                       border: '2px solid var(--white)',
-                      boxShadow: '0 2px 6px rgba(0,181,214,0.25)',
+                      boxShadow: '0 3px 10px rgba(0,181,214,0.3)',
                       position: 'relative',
                     }}>
                       {/* Active dot — subtle "online" indicator */}
                       <div style={{
                         position: 'absolute',
-                        bottom: -2, right: -2,
-                        width: 9, height: 9, borderRadius: '50%',
+                        bottom: 0, right: 0,
+                        width: 12, height: 12, borderRadius: '50%',
                         background: '#00B5D6',
-                        border: '2px solid var(--white)',
+                        border: '2.5px solid var(--white)',
                         animation: `ra-agent-pulse 2.4s ease-in-out infinite ${i * 0.3}s`,
                       }} />
                     </div>
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gray-900)', fontFamily: 'var(--font-display)', letterSpacing: '-0.005em', lineHeight: 1.1 }}>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--gray-900)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: 3 }}>
                         {agent.name}
                       </div>
-                      <div style={{ fontSize: 10.5, fontWeight: 500, color: 'var(--gray-600)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 2, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-600)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {agent.role}
                       </div>
                     </div>
