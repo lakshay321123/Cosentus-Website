@@ -79,7 +79,7 @@ function AIPanel() {
             />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 32 }}>
-            {[{ n: '~3,000', l: 'Calls/Day' }, { n: '8', l: 'AI Agents' }, { n: '50+', l: 'Languages' }, { n: '24/7', l: 'Coverage' }].map((s, i) => (
+            {[{ n: '~3,000', l: 'Calls/Day' }, { n: '9', l: 'AI Agents' }, { n: '50+', l: 'Languages' }, { n: '24/7', l: 'Coverage' }].map((s, i) => (
               <div key={i} style={{ textAlign: 'center', padding: '12px 0' }}>
                 <div style={{ fontSize: 20, fontWeight: 500, color: 'white' }}>{s.n}</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.l}</div>
@@ -161,7 +161,7 @@ export default function RASection() {
                 {[
                   { n: '23', l: 'Modules' },
                   { n: '15', l: 'AI Features' },
-                  { n: '8', l: 'Voice Agents' },
+                  { n: '9', l: 'Voice Agents' },
                 ].map((item, i) => (
                   <div key={i} style={{
                     background: '#00B5D6', padding: '24px 16px', textAlign: 'center',

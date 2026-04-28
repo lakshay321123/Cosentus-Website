@@ -63,7 +63,7 @@ export default function ASCPage() {
                 <div className="ps-shimmer" />
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>THE SOLUTION</div>
                 <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 700, color: 'white', lineHeight: 1.25, marginBottom: 20 }}>
-                  Dedicated ASC Team + Alta Management + AI
+                  Dedicated ASC Team + AI
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
                   {[

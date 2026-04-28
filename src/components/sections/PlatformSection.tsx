@@ -30,7 +30,7 @@ export default function PlatformSection() {
           {[
             { n: '23', l: 'Platform Modules' },
             { n: '15', l: 'AI Features' },
-            { n: '8', l: 'Voice AI Agents' },
+            { n: '9', l: 'Voice AI Agents' },
           ].map((item, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.1}>
               <div style={{

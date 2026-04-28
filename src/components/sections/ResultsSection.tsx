@@ -44,7 +44,7 @@ const stats = [
   { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '' },
   { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1 },
-  { target: 15, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '' },
+  { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '' },
 ]
 
@@ -68,7 +68,7 @@ export default function ResultsSection() {
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
         <RevealOnScroll>
-          <div className="results-header"><h2>Results Our Clients See</h2></div>
+          <div className="results-header"><h2>Based on Our Assessments, Here&apos;s What Our Clients Are Seeing.</h2></div>
         </RevealOnScroll>
 
         {/* Desktop: grid layout */}

@@ -13,15 +13,12 @@ const advantages = [
 ]
 
 const leaders = [
-  { name: 'GS Bhalla', role: 'CEO & Chairman', photo: '/images/3-GS.jpg' },
   { name: 'Logan Lowry', role: 'President', photo: '/images/LOGAN LOWRY.jpg' },
   { name: 'Mark Wines', role: 'Chief Growth Officer', photo: '/images/MARK WINES.jpg' },
   { name: 'JR Thompson', role: 'Sr. VP Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
   { name: 'Joseph Demory', role: 'Director Anesthesia Services', photo: '/images/JOSEPH DEMORY.jpg' },
   { name: 'Laurie Allen', role: 'VP Anesthesia Operations', photo: '/images/Laurie Allen.jpg' },
-  { name: 'Kanit Wongyai', role: 'Sr. Director of Operations', photo: '/images/Kanit copy.jpg' },
   { name: 'Melissa George', role: 'Sr. RCM Manager', photo: '/images/Melissa George.jpg' },
-  { name: 'Perla Setya', role: 'Sr. VP of RCM', photo: '/images/Perla-300x300-1.jpg' },
   { name: 'Evan Sewell', role: 'Director RCM', photo: '/images/Evan Sewell.jpg' },
   { name: 'Liz Hussey', role: 'Credentialing Manager', photo: '/images/Liz Hussey.jpg' },
   { name: 'Maisie Villegas', role: 'Director Quality Improvement', photo: '/images/Maicie.jpg' },
