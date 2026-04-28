@@ -138,96 +138,28 @@ function AIPanel() {
 export default function RASection() {
   return (
     <section className="section" id="ra" style={{ overflow: 'hidden', position: 'relative' }}>
-      {/* Futuristic neural mesh backdrop — animated nodes + flowing data lines */}
-      <div aria-hidden="true" className="ra-neural-backdrop" style={{
+      {/* Single focused decorative accent — radial glow behind headline area only.
+          Replaces the noisy random neural mesh per design review. */}
+      <div aria-hidden="true" style={{
         position: 'absolute',
-        inset: 0,
+        top: '8%',
+        left: '-4%',
+        width: 520,
+        height: 520,
         pointerEvents: 'none',
-        overflow: 'hidden',
+        background: 'radial-gradient(circle, rgba(0,181,214,0.08) 0%, rgba(54,194,222,0.04) 40%, transparent 70%)',
         zIndex: 0,
-      }}>
-        <svg viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" style={{ width: '100%', height: '100%', display: 'block' }}>
-          <defs>
-            {/* Radial gradient for node glow */}
-            <radialGradient id="ra-node-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#00B5D6" stopOpacity="0.45" />
-              <stop offset="60%" stopColor="#00B5D6" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
-            </radialGradient>
-            {/* Linear gradient for flowing lines */}
-            <linearGradient id="ra-line-flow" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00B5D6" stopOpacity="0" />
-              <stop offset="50%" stopColor="#00B5D6" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
-            </linearGradient>
-            {/* Subtle grid pattern */}
-            <pattern id="ra-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00B5D6" strokeWidth="0.5" opacity="0.06" />
-            </pattern>
-          </defs>
+      }} />
 
-          {/* Grid backdrop */}
-          <rect width="100%" height="100%" fill="url(#ra-grid)" />
-
-          {/* Connection lines — pulsing dashed flow */}
-          {[
-            { x1: 180, y1: 160, x2: 520, y2: 280, dur: '3.5s' },
-            { x1: 520, y1: 280, x2: 880, y2: 180, dur: '4.2s' },
-            { x1: 880, y1: 180, x2: 1240, y2: 340, dur: '3.8s' },
-            { x1: 180, y1: 160, x2: 320, y2: 540, dur: '4.6s' },
-            { x1: 320, y1: 540, x2: 680, y2: 620, dur: '3.2s' },
-            { x1: 680, y1: 620, x2: 1080, y2: 580, dur: '4.0s' },
-            { x1: 1080, y1: 580, x2: 1240, y2: 340, dur: '3.6s' },
-            { x1: 520, y1: 280, x2: 680, y2: 620, dur: '4.4s' },
-            { x1: 880, y1: 180, x2: 1080, y2: 580, dur: '3.4s' },
-            { x1: 320, y1: 540, x2: 880, y2: 180, dur: '5s' },
-          ].map((l, i) => (
-            <g key={i}>
-              {/* Static faint base line */}
-              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="#00B5D6" strokeWidth="1" opacity="0.15" />
-              {/* Animated dash flow on top */}
-              <line
-                x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
-                stroke="#00B5D6" strokeWidth="1.5" opacity="0.7"
-                strokeDasharray="6 18"
-              >
-                <animate attributeName="stroke-dashoffset" from="0" to="-240" dur={l.dur} repeatCount="indefinite" />
-              </line>
-            </g>
-          ))}
-
-          {/* Nodes — glowing pulsing circles */}
-          {[
-            { cx: 180, cy: 160, r: 5, dur: '2.4s', delay: '0s' },
-            { cx: 520, cy: 280, r: 7, dur: '3s', delay: '0.6s' },
-            { cx: 880, cy: 180, r: 5, dur: '2.8s', delay: '1.1s' },
-            { cx: 1240, cy: 340, r: 6, dur: '3.2s', delay: '0.4s' },
-            { cx: 320, cy: 540, r: 5, dur: '2.6s', delay: '1.5s' },
-            { cx: 680, cy: 620, r: 7, dur: '3.4s', delay: '0.2s' },
-            { cx: 1080, cy: 580, r: 5, dur: '2.9s', delay: '0.9s' },
-          ].map((n, i) => (
-            <g key={i}>
-              {/* Glow halo */}
-              <circle cx={n.cx} cy={n.cy} r={n.r * 6} fill="url(#ra-node-glow)">
-                <animate attributeName="r" values={`${n.r * 4};${n.r * 7};${n.r * 4}`} dur={n.dur} begin={n.delay} repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.5;0.95;0.5" dur={n.dur} begin={n.delay} repeatCount="indefinite" />
-              </circle>
-              {/* Solid core */}
-              <circle cx={n.cx} cy={n.cy} r={n.r} fill="#00B5D6">
-                <animate attributeName="r" values={`${n.r};${n.r * 1.3};${n.r}`} dur={n.dur} begin={n.delay} repeatCount="indefinite" />
-              </circle>
-              {/* Outer ring */}
-              <circle cx={n.cx} cy={n.cy} r={n.r} fill="none" stroke="#00B5D6" strokeWidth="1" opacity="0.6">
-                <animate attributeName="r" values={`${n.r};${n.r * 3};${n.r}`} dur={n.dur} begin={n.delay} repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;0;0.6" dur={n.dur} begin={n.delay} repeatCount="indefinite" />
-              </circle>
-            </g>
-          ))}
-        </svg>
-
-        {/* Sweeping highlight band — left to right */}
-        <div className="ra-scan-sweep" />
-      </div>
+      {/* Thin horizontal scan line — slow, restrained, single moment of motion */}
+      <div aria-hidden="true" className="ra-scanline" style={{
+        position: 'absolute',
+        top: 0, left: 0, right: 0,
+        height: 1,
+        background: 'linear-gradient(90deg, transparent, rgba(0,181,214,0.4) 50%, transparent)',
+        zIndex: 0,
+        pointerEvents: 'none',
+      }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
@@ -246,23 +178,30 @@ export default function RASection() {
               </p>
             </RevealOnScroll>
 
-            {/* Platform stats inline */}
+            {/* Platform stats — animated count-up on scroll-in */}
             <RevealOnScroll direction="left" delay={0.35}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, marginBottom: 36 }}>
                 {[
-                  { n: '23', l: 'Modules' },
-                  { n: '15', l: 'AI Features' },
-                  { n: '9', l: 'Voice Agents' },
+                  { n: 23, l: 'Modules', bg: '#00B5D6' },
+                  { n: 15, l: 'AI Features', bg: '#36C2DE' },
+                  { n: 9, l: 'Voice Agents', bg: '#68D1E6' },
                 ].map((item, i) => (
                   <div key={i} style={{
-                    background: '#00B5D6', padding: '24px 16px', textAlign: 'center',
+                    background: item.bg, padding: '24px 16px', textAlign: 'center',
                     borderRadius: i === 0 ? '12px 0 0 12px' : i === 2 ? '0 12px 12px 0' : '0',
-                    transition: 'background 0.3s',
+                    transition: 'transform 0.3s, box-shadow 0.3s',
+                    cursor: 'default',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = '#009BB8' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6' }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,181,214,0.35)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                   >
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 28, color: 'white', lineHeight: 1 }}>{item.n}</div>
+                    <CountUp end={item.n} duration={1.4 + i * 0.2} />
                     <div style={{ fontSize: 11, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 6 }}>{item.l}</div>
                   </div>
                 ))}
@@ -284,24 +223,56 @@ export default function RASection() {
       </div>
 
       <style>{`
-        .ra-scan-sweep {
-          position: absolute;
-          top: 0;
-          left: -200px;
-          width: 200px;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(0,181,214,0.08), transparent);
-          animation: ra-sweep 8s linear infinite;
+        .ra-scanline {
+          animation: ra-scanline-move 6s ease-in-out infinite;
         }
-        @keyframes ra-sweep {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(calc(100vw + 200px)); }
+        @keyframes ra-scanline-move {
+          0%, 100% { transform: translateY(0); opacity: 0; }
+          10% { opacity: 1; }
+          50% { transform: translateY(80vh); opacity: 1; }
+          60% { opacity: 0; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .ra-neural-backdrop animate { animation-play-state: paused !important; }
-          .ra-scan-sweep { display: none; }
+          .ra-scanline { display: none; }
         }
       `}</style>
     </section>
+  )
+}
+
+// Count-up animation for platform stats
+function CountUp({ end, duration = 1.5 }: { end: number; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  const triggered = useRef(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true
+          const start = performance.now()
+          const tick = (now: number) => {
+            const elapsed = (now - start) / 1000
+            const progress = Math.min(elapsed / duration, 1)
+            // ease-out cubic
+            const eased = 1 - Math.pow(1 - progress, 3)
+            setCount(Math.round(end * eased))
+            if (progress < 1) requestAnimationFrame(tick)
+          }
+          requestAnimationFrame(tick)
+        }
+      })
+    }, { threshold: 0.3 })
+    obs.observe(node)
+    return () => obs.disconnect()
+  }, [end, duration])
+
+  return (
+    <div ref={ref} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 28, color: 'white', lineHeight: 1 }}>
+      {count}
+    </div>
   )
 }

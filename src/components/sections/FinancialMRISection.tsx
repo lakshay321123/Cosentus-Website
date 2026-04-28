@@ -5,40 +5,42 @@ import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 // Three states the scan cycles through — different "sample practices"
+// Severity: high / medium / low — communicated tonally via badge style, NOT red/yellow
 const scanStates = [
   {
     label: 'Multi-Specialty Group',
     readouts: [
-      { label: 'AR Days', value: '47', target: '≤35', status: 'critical' },
-      { label: 'Clean Claim Rate', value: '89%', target: '≥99%', status: 'warning' },
-      { label: 'Denial Rate', value: '14%', target: '≤4%', status: 'critical' },
+      { label: 'AR Days', value: '47', target: '\u226435', delta: '+12d', severity: 'high' },
+      { label: 'Clean Claim Rate', value: '89%', target: '\u226599%', delta: '\u221210pp', severity: 'medium' },
+      { label: 'Denial Rate', value: '14%', target: '\u22644%', delta: '+10pp', severity: 'high' },
     ],
     diagnosis: 'Treatment Recommended',
   },
   {
     label: 'Anesthesia Practice',
     readouts: [
-      { label: 'AR Days', value: '52', target: '≤35', status: 'critical' },
-      { label: 'Net Collection', value: '91%', target: '≥98%', status: 'warning' },
-      { label: 'Underpayments', value: '$184K', target: '$0', status: 'critical' },
+      { label: 'AR Days', value: '52', target: '\u226435', delta: '+17d', severity: 'high' },
+      { label: 'Net Collection', value: '91%', target: '\u226598%', delta: '\u22127pp', severity: 'medium' },
+      { label: 'Underpayments', value: '$184K', target: '$0', delta: '+$184K', severity: 'high' },
     ],
     diagnosis: 'Significant Recovery Available',
   },
   {
     label: 'Orthopedic Group',
     readouts: [
-      { label: 'AR Days', value: '38', target: '≤35', status: 'warning' },
-      { label: 'Clean Claim Rate', value: '94%', target: '≥99%', status: 'warning' },
-      { label: 'Workers\u2019 Comp Lag', value: '45d', target: '≤28d', status: 'critical' },
+      { label: 'AR Days', value: '38', target: '\u226435', delta: '+3d', severity: 'medium' },
+      { label: 'Clean Claim Rate', value: '94%', target: '\u226599%', delta: '\u22125pp', severity: 'medium' },
+      { label: 'Workers\u2019 Comp Lag', value: '45d', target: '\u226428d', delta: '+17d', severity: 'high' },
     ],
     diagnosis: 'Immediate Action Required',
   },
 ]
 
-const statusColor: Record<string, string> = {
-  critical: '#FF4D5E',
-  warning: '#FFB547',
-  healthy: '#3DD68C',
+// Palette-only severity styles — uses tonal weight + position, not semantic colors
+const severityStyles: Record<string, { bg: string; text: string; border: string }> = {
+  high: { bg: '#000000', text: '#FFFFFF', border: '#000000' },          // black — strongest visual weight
+  medium: { bg: '#FFFFFF', text: '#00B5D6', border: '#FFFFFF' },         // white pill, primary blue text — medium weight
+  low: { bg: 'rgba(255,255,255,0.2)', text: '#FFFFFF', border: 'rgba(255,255,255,0.4)' }, // ghost — fades back
 }
 
 export default function FinancialMRISection() {
@@ -47,7 +49,6 @@ export default function FinancialMRISection() {
   const [isPaused, setIsPaused] = useState(false)
   const [activeRow, setActiveRow] = useState<number | null>(null)
 
-  // Auto-cycle through scan states
   useEffect(() => {
     if (isPaused) return
     const timer = setInterval(() => {
@@ -57,7 +58,6 @@ export default function FinancialMRISection() {
     return () => clearInterval(timer)
   }, [isPaused])
 
-  // Manual scan re-run
   const handleRunScan = () => {
     setStateIndex(prev => (prev + 1) % scanStates.length)
     setAnimKey(k => k + 1)
@@ -70,7 +70,7 @@ export default function FinancialMRISection() {
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
-        {/* Left-aligned intro — matches site pattern (RASection, etc.) */}
+        {/* Left-aligned intro */}
         <RevealOnScroll>
           <div className="section-label">YOUR REVENUE DIAGNOSTIC</div>
         </RevealOnScroll>
@@ -95,20 +95,20 @@ export default function FinancialMRISection() {
           </p>
         </RevealOnScroll>
 
-        {/* Two-column layout — diagnostic on left, explanation/CTA on right */}
+        {/* Two-column layout */}
         <div className="financial-mri-layout" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56, alignItems: 'flex-start' }}>
-          {/* LEFT: Interactive diagnostic monitor — Cosentus brand gradient */}
+          {/* LEFT: diagnostic monitor — uses tonal palette range */}
           <RevealOnScroll direction="left" delay={0.2}>
             <div
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               style={{
-                background: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 60%, #68D1E6 100%)',
+                background: 'linear-gradient(140deg, #00B5D6 0%, #36C2DE 70%, #68D1E6 100%)',
                 borderRadius: 'var(--radius-md)',
-                padding: '32px 36px',
+                padding: 0,
                 position: 'relative',
                 overflow: 'hidden',
-                boxShadow: '0 20px 60px rgba(0,181,214,0.3)',
+                boxShadow: '0 24px 60px rgba(0,181,214,0.28)',
               }}
             >
               {/* Subtle scan-line pattern overlay */}
@@ -117,150 +117,169 @@ export default function FinancialMRISection() {
                 background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.025) 3px, rgba(255,255,255,0.025) 4px)',
               }} />
 
-              {/* Corner brackets */}
-              {[
-                { top: 12, left: 12, borderTop: '2px solid white', borderLeft: '2px solid white' },
-                { top: 12, right: 12, borderTop: '2px solid white', borderRight: '2px solid white' },
-                { bottom: 12, left: 12, borderBottom: '2px solid white', borderLeft: '2px solid white' },
-                { bottom: 12, right: 12, borderBottom: '2px solid white', borderRight: '2px solid white' },
-              ].map((c, i) => (
-                <div key={i} style={{ position: 'absolute', width: 18, height: 18, ...c, opacity: 0.7 }} />
-              ))}
-
-              {/* Header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, position: 'relative' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {/* Header strip — solid darker tone (uses #00B5D6 for visual hierarchy) */}
+              <div style={{
+                background: '#00B5D6',
+                padding: '18px 36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                position: 'relative',
+                borderBottom: '1px solid rgba(255,255,255,0.25)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <div style={{
                     width: 8, height: 8, borderRadius: '50%', background: 'white',
-                    boxShadow: '0 0 12px rgba(255,255,255,0.8)',
+                    boxShadow: '0 0 12px rgba(255,255,255,0.9)',
                     animation: 'fmri-pulse 1.6s ease-in-out infinite',
                   }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
                     Live Scan
                   </div>
                 </div>
                 <div key={`label-${animKey}`} style={{
-                  fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white',
+                  fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white',
                   animation: 'fmri-fadein 0.5s ease-out',
+                  background: 'rgba(255,255,255,0.18)',
+                  padding: '4px 10px',
+                  borderRadius: 4,
                 }}>
                   {current.label}
                 </div>
               </div>
 
-              {/* Pulse line */}
-              <div style={{ marginBottom: 28, height: 56, background: 'rgba(255,255,255,0.15)', borderRadius: 8, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.25)' }}>
-                <svg key={`trace-${animKey}`} viewBox="0 0 600 56" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-                  <path
-                    d="M 0,28 L 80,28 L 100,28 L 110,12 L 120,44 L 130,28 L 220,28 L 240,28 L 250,8 L 260,48 L 270,28 L 380,28 L 400,28 L 410,16 L 420,40 L 430,28 L 600,28"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    style={{
-                      strokeDasharray: 1200,
-                      strokeDashoffset: 1200,
-                      animation: 'fmri-trace 3s ease-out forwards',
-                    }}
-                  />
-                </svg>
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, height: '100%', width: 80,
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                  animation: 'fmri-sweep 3s ease-in-out infinite',
-                }} />
-              </div>
-
-              {/* Readouts — clickable rows */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {current.readouts.map((r, i) => {
-                  const isActive = activeRow === i
-                  return (
-                    <div
-                      key={`${animKey}-${i}`}
-                      onMouseEnter={() => setActiveRow(i)}
-                      onMouseLeave={() => setActiveRow(null)}
+              {/* Body */}
+              <div style={{ padding: '28px 36px 32px', position: 'relative' }}>
+                {/* Pulse line */}
+                <div style={{ marginBottom: 28, height: 56, background: 'rgba(255,255,255,0.15)', borderRadius: 8, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.3)' }}>
+                  <svg key={`trace-${animKey}`} viewBox="0 0 600 56" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+                    <path
+                      d="M 0,28 L 80,28 L 100,28 L 110,12 L 120,44 L 130,28 L 220,28 L 240,28 L 250,8 L 260,48 L 270,28 L 380,28 L 400,28 L 410,16 L 420,40 L 430,28 L 600,28"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2"
                       style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr auto auto',
-                        alignItems: 'center',
-                        gap: 16,
-                        padding: '14px 18px',
-                        background: isActive ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)',
-                        border: `1px solid ${isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.3)'}`,
-                        borderRadius: 8,
-                        cursor: 'pointer',
-                        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                        transform: isActive ? 'translateX(4px)' : 'translateX(0)',
-                        animation: `fmri-fadein 0.6s ease-out ${i * 0.1}s backwards`,
+                        strokeDasharray: 1200,
+                        strokeDashoffset: 1200,
+                        animation: 'fmri-trace 3s ease-out forwards',
                       }}
-                    >
-                      <div>
-                        <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white', marginBottom: 4, opacity: 0.85 }}>
-                          {r.label}
-                        </div>
-                        <div style={{ fontSize: 24, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', lineHeight: 1 }}>
-                          {r.value}
-                        </div>
-                      </div>
-                      <div style={{ fontSize: 12, color: 'white', opacity: 0.85, fontWeight: 500 }}>
-                        Target {r.target}
-                      </div>
-                      <div style={{
-                        width: 12, height: 12, borderRadius: '50%',
-                        background: statusColor[r.status],
-                        boxShadow: `0 0 12px ${statusColor[r.status]}`,
-                        animation: 'fmri-pulse 1.8s ease-in-out infinite',
-                      }} />
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Footer + Run Scan button */}
-              <div style={{
-                marginTop: 20, paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.3)',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
-              }}>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 4 }}>
-                    Diagnosis
-                  </div>
-                  <div key={`diag-${animKey}`} style={{
-                    fontSize: 15, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)',
-                    letterSpacing: '-0.01em',
-                    animation: 'fmri-fadein 0.6s ease-out',
-                  }}>
-                    {current.diagnosis}
-                  </div>
-                </div>
-                <button
-                  onClick={handleRunScan}
-                  style={{
-                    background: 'white',
-                    color: '#00B5D6',
-                    border: 'none',
-                    borderRadius: 999,
-                    padding: '10px 20px',
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-display)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    transition: 'all 0.25s ease',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
-                >
-                  Run Scan
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-                    <polyline points="21 3 21 8 16 8" />
+                    />
                   </svg>
-                </button>
+                  <div style={{
+                    position: 'absolute', top: 0, left: 0, height: '100%', width: 80,
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                    animation: 'fmri-sweep 3s ease-in-out infinite',
+                  }} />
+                </div>
+
+                {/* Readouts */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {current.readouts.map((r, i) => {
+                    const isActive = activeRow === i
+                    const sev = severityStyles[r.severity]
+                    return (
+                      <div
+                        key={`${animKey}-${i}`}
+                        onMouseEnter={() => setActiveRow(i)}
+                        onMouseLeave={() => setActiveRow(null)}
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '1fr auto auto',
+                          alignItems: 'center',
+                          gap: 16,
+                          padding: '14px 18px',
+                          background: isActive ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.14)',
+                          border: `1px solid ${isActive ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)'}`,
+                          borderRadius: 8,
+                          cursor: 'pointer',
+                          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                          transform: isActive ? 'translateX(4px)' : 'translateX(0)',
+                          animation: `fmri-fadein 0.6s ease-out ${i * 0.1}s backwards`,
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white', marginBottom: 4, opacity: 0.85 }}>
+                            {r.label}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                            <div style={{ fontSize: 26, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', lineHeight: 1 }}>
+                              {r.value}
+                            </div>
+                            <div style={{ fontSize: 11, color: 'white', opacity: 0.7, fontWeight: 500 }}>
+                              Target {r.target}
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.25)' }} />
+                        {/* Delta badge — palette-only (black / white / ghost), severity via tonal weight */}
+                        <div style={{
+                          background: sev.bg,
+                          color: sev.text,
+                          border: `1px solid ${sev.border}`,
+                          padding: '8px 14px',
+                          borderRadius: 999,
+                          fontSize: 13,
+                          fontWeight: 700,
+                          fontFamily: 'var(--font-display)',
+                          letterSpacing: '-0.01em',
+                          minWidth: 76,
+                          textAlign: 'center',
+                          transition: 'all 0.25s ease',
+                        }}>
+                          {r.delta}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Footer */}
+                <div style={{
+                  marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+                }}>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 4 }}>
+                      Diagnosis
+                    </div>
+                    <div key={`diag-${animKey}`} style={{
+                      fontSize: 16, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)',
+                      letterSpacing: '-0.01em',
+                      animation: 'fmri-fadein 0.6s ease-out',
+                    }}>
+                      {current.diagnosis}
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleRunScan}
+                    style={{
+                      background: 'white',
+                      color: '#00B5D6',
+                      border: 'none',
+                      borderRadius: 999,
+                      padding: '11px 22px',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-display)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      transition: 'all 0.25s ease',
+                      boxShadow: '0 6px 18px rgba(0,0,0,0.2)',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
+                  >
+                    Run Scan
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                      <polyline points="21 3 21 8 16 8" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </RevealOnScroll>
@@ -283,11 +302,10 @@ export default function FinancialMRISection() {
                 You know you have pain, but you don&apos;t know the severity until you run diagnostics. <strong style={{ color: 'var(--gray-900)' }}>In healthcare, information is leverage.</strong>
               </p>
 
-              {/* Quote */}
+              {/* Quote — uses palest palette tone (#D6EBF2) for variety */}
               <div style={{
                 padding: '20px 24px',
-                background: 'var(--white)',
-                border: '1px solid var(--gray-200)',
+                background: '#D6EBF2',
                 borderLeft: '4px solid #00B5D6',
                 borderRadius: 'var(--radius-sm)',
                 marginBottom: 32,
