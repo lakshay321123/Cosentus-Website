@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 const ArrowIcon = () => (
@@ -9,27 +9,17 @@ const ArrowIcon = () => (
   </svg>
 )
 
-export default function HeroSection() {
-  const [typed, setTyped] = useState('')
-  const [showSub, setShowSub] = useState(false)
-  const [showCta, setShowCta] = useState(false)
+const specialties = [
+  { label: 'Anesthesia (Accreda)', href: '/specialties/anesthesia' },
+  { label: 'Orthopedics', href: '/specialties/orthopedics' },
+  { label: 'Pain Management', href: '/specialties/pain-management' },
+  { label: 'ASCs', href: '/specialties/asc' },
+  { label: 'Behavioral Health (SiMed)', href: '/specialties/behavioral-health' },
+  { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
+]
 
-  useEffect(() => {
-    const full = 'Think Growth.'
-    let i = 0
-    const delay = setTimeout(() => {
-      const iv = setInterval(() => {
-        i++
-        setTyped(full.slice(0, i))
-        if (i >= full.length) {
-          clearInterval(iv)
-          setTimeout(() => setShowSub(true), 500)
-          setTimeout(() => setShowCta(true), 1000)
-        }
-      }, 120)
-    }, 600)
-    return () => clearTimeout(delay)
-  }, [])
+export default function HeroSection() {
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
     <section className="hero">
@@ -41,31 +31,74 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <h1 style={{ fontSize: 'clamp(56px, 9vw, 130px)', fontWeight: 800, fontStyle: 'italic', letterSpacing: '-0.04em', lineHeight: 0.95 }}>
-          {typed.includes('Growth') ? (
-            <>{typed.slice(0, 6)}<span className="accent">{typed.slice(6)}</span></>
-          ) : typed}
-          <span style={{ display: 'inline-block', width: 4, height: '0.7em', background: '#00B5D6', marginLeft: 4, verticalAlign: 'baseline', opacity: showSub ? 0 : 1, animation: 'blink 0.6s step-end infinite' }} />
+        <div style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 12,
+          fontWeight: 600,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.75)',
+          marginBottom: 24,
+        }}>
+          Purpose Built For Your Specialty
+        </div>
+
+        <h1 style={{ fontSize: 'clamp(48px, 8vw, 110px)', fontWeight: 800, fontStyle: 'italic', letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+          Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
-        <p className="hero-sub" style={{
-          opacity: showSub ? 1 : 0,
-          transform: showSub ? 'translateY(0)' : 'translateY(12px)',
-          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
-        }}>
-          Your billing team is leaving money on the table. We pick it up.
+        <p className="hero-sub">
+          We don&apos;t do &ldquo;general billing.&rdquo; Every team, every workflow, every AI agent is built for one thing — your specialty. Choose yours.
         </p>
 
-        <div className="hero-actions" style={{
-          opacity: showCta ? 1 : 0,
-          transform: showCta ? 'translateY(0)' : 'translateY(16px)',
-          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
-        }}>
+        {/* Specialty selector */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 12,
+          maxWidth: 720,
+          margin: '36px 0 32px',
+        }} className="hero-specialty-grid">
+          {specialties.map((s, i) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              style={{
+                padding: '14px 18px',
+                background: hovered === i ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.25)',
+                borderRadius: 'var(--radius-md)',
+                color: 'white',
+                textDecoration: 'none',
+                fontSize: 14,
+                fontWeight: 500,
+                fontFamily: 'var(--font-body)',
+                letterSpacing: '0.01em',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 8,
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                backdropFilter: 'blur(8px)',
+                transform: hovered === i ? 'translateY(-2px)' : 'translateY(0)',
+              }}
+            >
+              <span>{s.label}</span>
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          ))}
+        </div>
+
+        <div className="hero-actions">
           <Link href="/contact" className="btn-primary">
-            Get Your Free Revenue Analysis <ArrowIcon />
+            Get Your Financial MRI <ArrowIcon />
           </Link>
-          <Link href="/cosentus-ai" className="btn-ghost">
-            See How R+A Works
+          <Link href="/specialties" className="btn-ghost">
+            Choose Your Specialty
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
@@ -84,7 +117,9 @@ export default function HeroSection() {
       </div>
 
       <style>{`
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @media (max-width: 768px) {
+          .hero-specialty-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
   )
