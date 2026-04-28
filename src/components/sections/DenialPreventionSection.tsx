@@ -2,21 +2,22 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
-// Quarter-over-quarter denial rate data
-const trendData = [
-  { quarter: 'Q1', value: 14, label: '14%', highlight: false },
-  { quarter: 'Q2', value: 10, label: '10%', highlight: false },
-  { quarter: 'Q3', value: 6, label: '6%', highlight: false },
-  { quarter: 'Q4', value: 4, label: '4%', highlight: true },
+// Each quarter pairs a method step with the resulting denial rate
+const quarters = [
+  { q: 'Q1', value: 14, label: '14%', step: 'Identify',  desc: 'Spot the pattern',     icon: 'search'  },
+  { q: 'Q2', value: 10, label: '10%', step: 'Analyze',   desc: 'Find root cause',      icon: 'analyze' },
+  { q: 'Q3', value: 6,  label: '6%',  step: 'Correct',   desc: 'Fix the workflow',     icon: 'check'   },
+  { q: 'Q4', value: 4,  label: '4%',  step: 'Prevent',   desc: 'Category shrinks',     icon: 'shield'  },
 ]
-const maxValue = 16 // chart ceiling
 
-const steps = [
-  { title: 'Identify', desc: 'Spot the pattern.', iconPath: 'M21 21l-4.343-4.343m0 0A8 8 0 104.93 4.93a8 8 0 0011.727 11.727z' },
-  { title: 'Analyze', desc: 'Find the root cause.', iconPath: 'M9 17v-2a4 4 0 014-4h4m-4 0V7a4 4 0 00-4-4H5a4 4 0 00-4 4v8a4 4 0 004 4h4' },
-  { title: 'Correct', desc: 'Fix the workflow.', iconPath: 'M5 13l4 4L19 7' },
-  { title: 'Prevent', desc: 'Category shrinks.', iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-]
+const ICON_PATHS: Record<string, string> = {
+  search:  'M21 21l-4.343-4.343m0 0A8 8 0 104.93 4.93a8 8 0 0011.727 11.727z',
+  analyze: 'M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z',
+  check:   'M5 13l4 4L19 7',
+  shield:  'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+}
+
+const MAX_VALUE = 16
 
 export default function DenialPreventionSection() {
   return (
@@ -42,205 +43,218 @@ export default function DenialPreventionSection() {
           </h2>
         </RevealOnScroll>
         <RevealOnScroll delay={0.2}>
-          <p style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--gray-600)', maxWidth: 640, marginBottom: 56 }}>
-            Most vendors react. We prevent. Root cause analysis on every denial means the category shrinks every quarter.
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--gray-600)', maxWidth: 720, marginBottom: 56 }}>
+            Most vendors react. We prevent. Each quarter we apply this method, and the denial rate shrinks.
           </p>
         </RevealOnScroll>
 
-        {/* Two-column: animated chart on left, 4 steps on right */}
-        <div className="dp-layout" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56, alignItems: 'stretch' }}>
-          {/* LEFT: animated trend chart */}
-          <RevealOnScroll direction="left" delay={0.3}>
+        {/* ONE integrated visual — method steps annotate the quarters of the chart */}
+        <RevealOnScroll delay={0.25}>
+          <div style={{
+            background: 'var(--white)',
+            border: '1px solid var(--gray-200)',
+            borderRadius: 'var(--radius-md)',
+            padding: '40px 48px 32px',
+            position: 'relative',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
+          }} className="dp-panel">
+            {/* Header row — chart title + headline metric */}
             <div style={{
-              background: 'var(--white)',
-              border: '1px solid var(--gray-200)',
-              borderRadius: 'var(--radius-md)',
-              padding: '32px 36px',
-              height: '100%',
               display: 'flex',
-              flexDirection: 'column',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              marginBottom: 48,
+              flexWrap: 'wrap',
+              gap: 24,
             }}>
-              {/* Chart header */}
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-500)', marginBottom: 8 }}>
-                  Denial Rate — Quarter Over Quarter
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gray-500)', marginBottom: 6 }}>
+                  Denial Rate · Quarter Over Quarter
                 </div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                  <div style={{
-                    fontSize: 'clamp(36px, 4vw, 48px)',
-                    fontWeight: 700,
-                    color: '#00B5D6',
-                    fontFamily: 'var(--font-display)',
-                    letterSpacing: '-0.03em',
-                    lineHeight: 1,
-                  }}>
-                    14% <span style={{ fontSize: 24, color: 'var(--gray-400)' }}>→</span> 4%
-                  </div>
-                </div>
-                <div style={{ fontSize: 14, color: 'var(--gray-600)', marginTop: 8 }}>
+                <div style={{ fontSize: 14, color: 'var(--gray-600)' }}>
                   Typical client trajectory after engagement
                 </div>
               </div>
-
-              {/* Bar chart */}
-              <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', gap: 24, paddingBottom: 32, paddingTop: 16, position: 'relative' }}>
-                {/* Horizontal grid lines */}
-                {[0, 0.25, 0.5, 0.75, 1].map((p, i) => (
-                  <div key={i} style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    bottom: `${32 + p * 200}px`,
-                    height: 1,
-                    background: 'var(--gray-200)',
-                    opacity: 0.6,
-                  }} />
-                ))}
-
-                {trendData.map((d, i) => {
-                  const heightPct = (d.value / maxValue) * 100
-                  const barColor = d.highlight ? '#00B5D6' : '#A1DEED'
-                  return (
-                    <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, position: 'relative', zIndex: 1 }}>
-                      {/* Value label above bar */}
-                      <div style={{
-                        fontSize: 18,
-                        fontWeight: 700,
-                        color: d.highlight ? '#00B5D6' : 'var(--gray-700)',
-                        fontFamily: 'var(--font-display)',
-                        animation: `dp-fadein 0.6s ease-out ${0.4 + i * 0.15}s backwards`,
-                      }}>
-                        {d.label}
-                      </div>
-                      {/* Bar */}
-                      <div style={{
-                        width: '100%',
-                        maxWidth: 64,
-                        height: 200,
-                        position: 'relative',
-                        display: 'flex',
-                        alignItems: 'flex-end',
-                      }}>
-                        <div style={{
-                          width: '100%',
-                          height: `${heightPct}%`,
-                          background: d.highlight
-                            ? 'linear-gradient(180deg, #00B5D6 0%, #36C2DE 100%)'
-                            : 'linear-gradient(180deg, #A1DEED 0%, #68D1E6 100%)',
-                          borderRadius: '8px 8px 0 0',
-                          boxShadow: d.highlight ? '0 4px 16px rgba(0,181,214,0.3)' : 'none',
-                          animation: `dp-bargrow 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + i * 0.15}s backwards`,
-                          transformOrigin: 'bottom',
-                        }} />
-                      </div>
-                      {/* Quarter label */}
-                      <div style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: 'var(--gray-500)',
-                        letterSpacing: '0.05em',
-                        position: 'absolute',
-                        bottom: -24,
-                      }}>
-                        {d.quarter}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Footer caption */}
               <div style={{
-                marginTop: 24,
-                paddingTop: 20,
-                borderTop: '1px solid var(--gray-200)',
                 display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                fontSize: 13,
-                color: 'var(--gray-600)',
+                alignItems: 'baseline',
+                gap: 16,
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                letterSpacing: '-0.03em',
               }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth="2.5">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
-                <span>Healthier every quarter, not just busier.</span>
-              </div>
-            </div>
-          </RevealOnScroll>
-
-          {/* RIGHT: 4-step process — compressed */}
-          <RevealOnScroll direction="right" delay={0.4}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, height: '100%' }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-500)', marginBottom: 4 }}>
-                The Cosentus Method
-              </div>
-              {steps.map((step, i) => (
-                <div key={i} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 18,
-                  padding: '18px 20px',
-                  background: 'var(--white)',
-                  border: '1px solid var(--gray-200)',
-                  borderRadius: 'var(--radius-sm)',
-                  flex: 1,
-                  transition: 'all 0.25s ease',
-                  animation: `dp-fadein 0.5s ease-out ${0.5 + i * 0.1}s backwards`,
-                }}>
-                  <div style={{
-                    width: 48,
-                    height: 48,
-                    flexShrink: 0,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    position: 'relative',
-                    boxShadow: '0 4px 12px rgba(0,181,214,0.25)',
-                  }}>
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d={step.iconPath} />
-                    </svg>
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                      <span style={{
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: '#00B5D6',
-                        fontFamily: 'var(--font-display)',
-                      }}>
-                        0{i + 1}
-                      </span>
-                      <h4 style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 18,
-                        fontWeight: 600,
-                        color: 'var(--gray-900)',
-                        margin: 0,
-                        letterSpacing: '-0.01em',
-                      }}>
-                        {step.title}
-                      </h4>
-                    </div>
-                    <p style={{ fontSize: 14, color: 'var(--gray-600)', margin: '4px 0 0 0' }}>
-                      {step.desc}
-                    </p>
-                  </div>
-                  {/* Arrow indicating progression (except on last) */}
-                  {i < steps.length - 1 && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" strokeWidth="2" style={{ flexShrink: 0 }}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                  )}
+                <div style={{ fontSize: 'clamp(36px, 4vw, 52px)', color: 'var(--gray-400)', lineHeight: 1 }}>
+                  14%
                 </div>
-              ))}
+                <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+                  <path d="M2 10 H26 M22 4 L28 10 L22 16" stroke="#00B5D6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <div style={{ fontSize: 'clamp(36px, 4vw, 52px)', color: '#00B5D6', lineHeight: 1 }}>
+                  4%
+                </div>
+              </div>
             </div>
-          </RevealOnScroll>
-        </div>
+
+            {/* THE INTEGRATED CHART — steps connect to bars via dotted lines.
+                4 columns, each column has: step icon + label → connector → bar + quarter */}
+            <div className="dp-chart" style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 16,
+              position: 'relative',
+              paddingTop: 0,
+            }}>
+              {quarters.map((q, i) => {
+                const heightPct = (q.value / MAX_VALUE) * 100
+                const isLast = i === quarters.length - 1
+                return (
+                  <div key={q.q} style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'stretch',
+                    position: 'relative',
+                    animation: `dp-col-fadein 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.4 + i * 0.12}s backwards`,
+                  }}>
+                    {/* STEP CALLOUT — top */}
+                    <div style={{
+                      padding: '14px 14px 12px',
+                      borderRadius: 8,
+                      background: isLast ? 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)' : 'var(--white)',
+                      border: isLast ? 'none' : '1px solid var(--gray-200)',
+                      boxShadow: isLast ? '0 8px 24px rgba(0,181,214,0.25)' : 'none',
+                      marginBottom: 16,
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                        <div style={{
+                          width: 28, height: 28, borderRadius: '50%',
+                          background: isLast ? 'rgba(255,255,255,0.25)' : '#D6EBF2',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          flexShrink: 0,
+                        }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isLast ? 'white' : '#00B5D6'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d={ICON_PATHS[q.icon]} />
+                          </svg>
+                        </div>
+                        <div style={{
+                          fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
+                          color: isLast ? 'rgba(255,255,255,0.85)' : '#00B5D6',
+                          fontFamily: 'var(--font-display)',
+                        }}>
+                          0{i + 1}
+                        </div>
+                      </div>
+                      <div style={{
+                        fontSize: 16, fontWeight: 700,
+                        color: isLast ? 'white' : 'var(--gray-900)',
+                        fontFamily: 'var(--font-display)',
+                        letterSpacing: '-0.01em',
+                        marginBottom: 2,
+                      }}>
+                        {q.step}
+                      </div>
+                      <div style={{
+                        fontSize: 12,
+                        color: isLast ? 'rgba(255,255,255,0.85)' : 'var(--gray-600)',
+                        lineHeight: 1.4,
+                      }}>
+                        {q.desc}
+                      </div>
+                    </div>
+
+                    {/* DOTTED CONNECTOR — step to bar */}
+                    <div style={{
+                      width: 1,
+                      height: 20,
+                      margin: '0 auto',
+                      borderLeft: '1.5px dashed #A1DEED',
+                    }} />
+
+                    {/* VALUE LABEL above bar */}
+                    <div style={{
+                      fontSize: isLast ? 24 : 20,
+                      fontWeight: 700,
+                      color: isLast ? '#00B5D6' : 'var(--gray-700)',
+                      fontFamily: 'var(--font-display)',
+                      letterSpacing: '-0.02em',
+                      textAlign: 'center',
+                      marginTop: 12,
+                      marginBottom: 8,
+                      lineHeight: 1,
+                    }}>
+                      {q.label}
+                    </div>
+
+                    {/* BAR */}
+                    <div style={{
+                      height: 200,
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'center',
+                      position: 'relative',
+                    }}>
+                      {/* Subtle horizontal grid lines */}
+                      {[0, 0.25, 0.5, 0.75, 1].map((p, gi) => (
+                        <div key={gi} style={{
+                          position: 'absolute',
+                          left: -16, right: -16,
+                          bottom: `${p * 100}%`,
+                          height: 1,
+                          background: 'var(--gray-200)',
+                          opacity: gi === 0 ? 0 : 0.5,
+                        }} />
+                      ))}
+                      <div style={{
+                        width: '70%',
+                        maxWidth: 64,
+                        height: `${heightPct}%`,
+                        background: isLast
+                          ? 'linear-gradient(180deg, #00B5D6 0%, #36C2DE 100%)'
+                          : 'linear-gradient(180deg, #A1DEED 0%, #68D1E6 100%)',
+                        borderRadius: '6px 6px 0 0',
+                        boxShadow: isLast ? '0 6px 18px rgba(0,181,214,0.35)' : 'none',
+                        position: 'relative',
+                        zIndex: 1,
+                        animation: `dp-bargrow 1s cubic-bezier(0.16, 1, 0.3, 1) ${0.6 + i * 0.12}s backwards`,
+                        transformOrigin: 'bottom',
+                      }} />
+                    </div>
+
+                    {/* QUARTER LABEL */}
+                    <div style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: 'var(--gray-500)',
+                      letterSpacing: '0.05em',
+                      textAlign: 'center',
+                      marginTop: 10,
+                      paddingTop: 10,
+                      borderTop: '1px solid var(--gray-200)',
+                    }}>
+                      {q.q}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Footer caption */}
+            <div style={{
+              marginTop: 28,
+              paddingTop: 20,
+              borderTop: '1px solid var(--gray-200)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              fontSize: 13,
+              color: 'var(--gray-600)',
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth="2.5">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              <span>Healthier every quarter, not just busier. Most clients see this trajectory within 12 months.</span>
+            </div>
+          </div>
+        </RevealOnScroll>
       </div>
 
       <style>{`
@@ -248,12 +262,16 @@ export default function DenialPreventionSection() {
           from { transform: scaleY(0); }
           to { transform: scaleY(1); }
         }
-        @keyframes dp-fadein {
-          from { opacity: 0; transform: translateY(8px); }
+        @keyframes dp-col-fadein {
+          from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @media (max-width: 1024px) {
-          .dp-layout { grid-template-columns: 1fr !important; gap: 32px !important; }
+        @media (max-width: 900px) {
+          .dp-panel { padding: 28px 24px !important; }
+          .dp-chart { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; row-gap: 32px !important; }
+        }
+        @media (max-width: 520px) {
+          .dp-chart { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
