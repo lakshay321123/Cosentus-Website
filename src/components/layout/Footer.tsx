@@ -31,13 +31,13 @@ const footerNav = [
     ],
   },
   {
-    title: 'Resources',
+    title: 'Insights',
     links: [
+      { label: 'All Insights', href: '/insights' },
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
-      { label: 'Contact', href: '/contact' },
     ],
   },
 ]

@@ -37,8 +37,8 @@ const navItems = [
     ],
   },
   {
-    label: 'Resources',
-    href: '/resources',
+    label: 'Insights',
+    href: '/insights',
     children: [
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },
