@@ -7,6 +7,7 @@ import DenialPreventionSection from '@/components/sections/DenialPreventionSecti
 import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
 import ServicesSection from '@/components/sections/ServicesSection'
 import PartnersSection from '@/components/sections/PartnersSection'
+import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import CTASection from '@/components/sections/CTASection'
 
@@ -22,6 +23,7 @@ export default function Home() {
       <CaseStudiesSection />
       <ServicesSection />
       <PartnersSection />
+      <InsightsTabsSection />
       <TestimonialsSection />
       <CTASection />
     </main>
