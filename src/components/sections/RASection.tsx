@@ -66,12 +66,12 @@ export default function RASection() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.15}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
-                Not Just a Billing Company.<br /><span style={{ color: '#00B5D6', fontStyle: 'italic' }}>A Platform.</span>
+                RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span>
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
-                Claims chased before you notice them. Denials overturned before they cost you. Collections handled while you see patients.
+                Powered by Zeus &mdash; our AI-native platform that watches every claim, predicts every denial, and learns your payers.
               </p>
             </RevealOnScroll>
           </div>
