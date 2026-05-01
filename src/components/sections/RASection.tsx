@@ -113,11 +113,12 @@ export default function RASection() {
                     }}>
                       {agent.name}
                     </div>
-                    {/* Role in lighter, smaller text */}
+                    {/* Role text — bigger and black for readability per Lakshay's review */}
                     <div style={{
-                      fontSize: 12,
-                      color: 'var(--gray-500)',
-                      marginTop: 3,
+                      fontSize: 15,
+                      fontWeight: 500,
+                      color: 'var(--gray-900)',
+                      marginTop: 4,
                       lineHeight: 1.3,
                     }}>
                       {agent.shortRole}
