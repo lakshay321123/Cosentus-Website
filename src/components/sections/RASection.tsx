@@ -1,27 +1,88 @@
 'use client'
 
 
+import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import AIWorkflowPanel from '@/components/sections/AIWorkflowPanel'
+import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 
-// 9 named voice agents — the actual platform, shown as a team
-// Names + shortRoles match the canonical design on the Technology page.
-const agents = [
-  { name: 'Elly',   shortRole: 'Eligibility Verification', img: 'elly.png' },
-  { name: 'Paige',  shortRole: 'Prior Authorization',      img: 'paige.png' },
-  { name: 'Priya',  shortRole: 'Pre-Procedure Payments',   img: 'priya.png' },
-  { name: 'April',  shortRole: 'Appt. Scheduling',         img: 'april.png' },
-  { name: 'Curtis', shortRole: 'Customer Support',         img: 'curtis.png' },
-  { name: 'Chris',  shortRole: 'Claims Follow-Up',         img: 'chris.png' },
-  { name: 'Cindy',  shortRole: 'Patient Support',          img: 'cindy.png' },
-  { name: 'Ariel',  shortRole: 'AR Follow-Up',             img: 'ariel.png' },
-  { name: 'Connie', shortRole: 'Coding Assistant',         img: 'connie.png' },
+// 9 named voice agents — the actual platform, shown as a team.
+// shortRole = displayed under the name on the homepage grid (kept as-is per Lakshay).
+// role = single-word role displayed in the call modal as "{role} Agent" eyebrow,
+//        matching the reference design (INTAKE AGENT / BILLING AGENT etc.).
+// agentId = Retell agent_xxx id from the Cosentus.ai reference repo. Only Chris
+//        and Cindy have exact-name matches (same agentId used for the same
+//        named agent on Cosentus.ai). The other 7 are null and will fall to
+//        'Demo' state on Connect — modal shows fully but no real voice call
+//        until those Retell agents are provisioned.
+// greeting = initial transcript text shown before any SDK update events fire.
+const agents: (VoiceAgent & { shortRole: string })[] = [
+  {
+    name: 'Elly', shortRole: 'Eligibility Verification', role: 'Eligibility',
+    img: 'elly.png',
+    agentId: null,
+    greeting: "Hi, I'm Elly — I verify eligibility and benefits before every appointment so coverage issues don't surface at the desk.",
+  },
+  {
+    name: 'Paige', shortRole: 'Prior Authorization', role: 'Authorization',
+    img: 'paige.png',
+    agentId: null,
+    greeting: "Hey, I'm Paige — I track prior authorizations and close them out before they delay procedures or drop into timely-filing territory.",
+  },
+  {
+    name: 'Priya', shortRole: 'Pre-Procedure Payments', role: 'Payments',
+    img: 'priya.png',
+    agentId: null,
+    greeting: "Hi, I'm Priya — I reach patients three to seven days pre-procedure with verified estimates so collection rates stay 30-40% higher.",
+  },
+  {
+    name: 'April', shortRole: 'Appt. Scheduling', role: 'Scheduling',
+    img: 'april.png',
+    agentId: null,
+    greeting: "Hi, I'm April — I run inbound and outbound scheduling, confirmations, and reminders to cut no-shows and fill the calendar.",
+  },
+  {
+    name: 'Curtis', shortRole: 'Customer Support', role: 'Support',
+    img: 'curtis.png',
+    agentId: null,
+    greeting: "Hey, Curtis here — I cover after-hours and overflow so no patient call goes unanswered. What's on your mind?",
+  },
+  {
+    name: 'Chris', shortRole: 'Claims Follow-Up', role: 'Claims',
+    img: 'chris.png',
+    agentId: 'agent_9571fe9261e3944f33777a1406',
+    greeting: "Hey, Chris here — I specialize in billing workflows and claim follow-up. What do you need?",
+  },
+  {
+    name: 'Cindy', shortRole: 'Patient Support', role: 'Patient',
+    img: 'cindy.png',
+    agentId: 'agent_4510e7416ee31ca808b8546ed7',
+    greeting: "Hi, I'm Cindy — I focus on patient balance collections and AR follow-up in 50+ languages. Want to talk strategy?",
+  },
+  {
+    name: 'Ariel', shortRole: 'AR Follow-Up', role: 'AR',
+    img: 'ariel.png',
+    agentId: null,
+    greeting: "Hi, I'm Ariel — I work AR aging, payer follow-up, and underpayment recovery so cash keeps moving.",
+  },
+  {
+    name: 'Connie', shortRole: 'Coding Assistant', role: 'Coding',
+    img: 'connie.png',
+    agentId: null,
+    greeting: "Hi, I'm Connie — I assist with medical coding accuracy, modifier selection, and CDI. How can I help?",
+  },
 ]
 
 export default function RASection() {
+  const [activeAgent, setActiveAgent] = useState<VoiceAgent | null>(null)
+
   return (
     <section className="section" id="ra" style={{ overflow: 'hidden', position: 'relative' }}>
+      {/* Voice call modal — renders only when an agent is clicked */}
+      {activeAgent && (
+        <VoiceCallModal agent={activeAgent} onClose={() => setActiveAgent(null)} />
+      )}
       {/* Single focused decorative accent — radial glow behind headline area only.
           Replaces the noisy random neural mesh per design review. */}
       <div aria-hidden="true" style={{
@@ -128,17 +189,30 @@ export default function RASection() {
                 gap: '32px 16px',
               }} className="ra-agent-grid">
                 {agents.map((agent, i) => (
-                  <div key={agent.name} style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    transition: 'transform 0.3s ease',
-                    animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
-                    cursor: 'default',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
+                  <div
+                    key={agent.name}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Talk to ${agent.name}, ${agent.shortRole}`}
+                    onClick={() => setActiveAgent(agent)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setActiveAgent(agent)
+                      }
+                    }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      transition: 'transform 0.3s ease',
+                      animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
+                      cursor: 'pointer',
+                      outline: 'none',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
                   >
                     <div className="ra-agent-circle" style={{
                       width: 120,
@@ -157,24 +231,26 @@ export default function RASection() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                       />
                     </div>
-                    {/* Name — Reddit Sans, NOT bold per Lakshay's reference image */}
+                    {/* Name — bold, matches reference voice.html screenshot */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 17,
-                      fontWeight: 500,
+                      fontSize: 18,
+                      fontWeight: 700,
                       color: 'var(--gray-900)',
-                      letterSpacing: '-0.005em',
+                      letterSpacing: '0.01em',
                       lineHeight: 1.2,
                     }}>
                       {agent.name}
                     </div>
-                    {/* Role — readable black, not bold, regular weight */}
+                    {/* Role — medium weight, lighter than name, matches reference */}
                     <div style={{
-                      fontSize: 15,
-                      fontWeight: 400,
-                      color: 'var(--gray-900)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: 'var(--gray-700)',
                       marginTop: 4,
                       lineHeight: 1.3,
+                      letterSpacing: '0.01em',
                     }}>
                       {agent.shortRole}
                     </div>
