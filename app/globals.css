@@ -2600,7 +2600,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   justify-content: center;
   padding: 24px;
-  animation: callBackdropIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
+  animation: callBackdropIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes callBackdropIn {
   0%   { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }

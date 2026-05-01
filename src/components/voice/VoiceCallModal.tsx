@@ -37,6 +37,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 // ---------------------------------------------------------------------------
 // Type declarations for Retell SDK on window
@@ -104,7 +105,13 @@ export default function VoiceCallModal({
   const [muted, setMuted] = useState(false)
   const [transcript, setTranscript] = useState(agent.greeting)
   const [agentTalking, setAgentTalking] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const clientRef = useRef<RetellClient | null>(null)
+
+  // SSR safety — useEffect only runs on client. Once mounted, portal target
+  // (document.body) is available, so flip mounted=true to trigger the
+  // portal-wrapped render. This avoids 'document is not defined' during SSG.
+  useEffect(() => { setMounted(true) }, [])
 
   // ---- Force-stop residual audio playback. ----
   // The Retell SDK creates an <audio> element with srcObject = MediaStream
@@ -287,7 +294,21 @@ export default function VoiceCallModal({
     onClose()
   }
 
-  return (
+  // Don't render anything until mounted on client (SSR safety for portal target)
+  if (!mounted) return null
+
+  // CRITICAL: Render via portal to document.body.
+  //
+  // Why: any ancestor with `transform`, `filter`, or `will-change` creates
+  // a 'containing block' that traps position:fixed descendants. Several
+  // parent components on this site use these properties for entrance
+  // animations (RevealOnScroll uses transform + filter). Without the
+  // portal, the .call-backdrop's `inset: 0` resolves to the bounds of
+  // the closest transformed ancestor instead of the viewport — the dim
+  // layer ends up sized to a column, not the whole page (this was the
+  // bug Lakshay reported: 'when you click it, the page doesn't dim at
+  // all'). Portaling to <body> bypasses this entirely.
+  return createPortal(
     <div className="call-backdrop" onClick={onClose}>
       <div className="call-card" onClick={(e) => e.stopPropagation()}>
         <button className="call-close" onClick={onClose} aria-label="Close">
@@ -370,6 +391,7 @@ export default function VoiceCallModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
