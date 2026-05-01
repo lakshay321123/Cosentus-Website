@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 
 export const metadata: Metadata = {
   title: 'ASC Billing & RCM | Facility + Professional Fee Expertise | Cosentus',
@@ -147,16 +148,11 @@ export default function ASCPage() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/priya.png" alt="Priya — Pre-Service Payment Collection" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
-                  </div>
-                  <div style={{ background: '#00B5D6', padding: '16px 20px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Priya</div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>Pre-Service Cost Estimates</div>
-                  </div>
-                </div>
+                <AgentSpotlightCard
+                  agentName="Priya"
+                  imgAlt="Priya — Pre-Service Payment Collection"
+                  roleLabel="Pre-Service Cost Estimates"
+                />
               </div>
             </RevealOnScroll>
           </div>

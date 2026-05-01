@@ -2,6 +2,7 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 
 const services = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" /></svg>, title: 'Surgical & Procedural Coding', desc: 'Accurate CPT selection, modifier application, and documentation alignment for every orthopedic procedure.' },
@@ -166,16 +167,11 @@ export default function OrthopedicsContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/paige.png" alt="Paige — Prior Authorization Management" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
-                  </div>
-                  <div style={{ background: '#00B5D6', padding: '16px 20px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Paige</div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>Prior Auth Tracking Specialist</div>
-                  </div>
-                </div>
+                <AgentSpotlightCard
+                  agentName="Paige"
+                  imgAlt="Paige — Prior Authorization Management"
+                  roleLabel="Prior Auth Tracking Specialist"
+                />
               </div>
             </RevealOnScroll>
           </div>

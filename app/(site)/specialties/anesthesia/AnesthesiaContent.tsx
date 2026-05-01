@@ -2,6 +2,7 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 
 const advantages = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, t: 'Real + Artificial Intelligence', d: 'Human expertise and AI purpose-built for anesthesia revenue cycle management.' },
@@ -180,15 +181,11 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div className="emily-card" style={{ width: 280, borderRadius: 16, overflow: 'hidden', border: '1px solid var(--gray-200)', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  <div style={{ height: 300, overflow: 'hidden', background: '#f5f9fa' }}>
-                    <img src="/images/priya.png" alt="Priya — Pre-Service Payment Collection" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
-                  </div>
-                  <div style={{ background: '#00B5D6', padding: '16px 20px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white', letterSpacing: '0.03em' }}>Priya</div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>Pre-Service Cost Estimates</div>
-                  </div>
-                </div>
+                <AgentSpotlightCard
+                  agentName="Priya"
+                  imgAlt="Priya — Pre-Service Payment Collection"
+                  roleLabel="Pre-Service Cost Estimates"
+                />
               </div>
             </RevealOnScroll>
           </div>
