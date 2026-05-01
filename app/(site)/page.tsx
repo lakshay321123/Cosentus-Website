@@ -1,9 +1,7 @@
 import HeroSection from '@/components/sections/HeroSection'
 import RASection from '@/components/sections/RASection'
-import FinancialMRISection from '@/components/sections/FinancialMRISection'
 import ResultsSection from '@/components/sections/ResultsSection'
 import StatementSection from '@/components/sections/StatementSection'
-import DenialPreventionSection from '@/components/sections/DenialPreventionSection'
 import ServicesSection from '@/components/sections/ServicesSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
@@ -15,10 +13,8 @@ export default function Home() {
     <main>
       <HeroSection />
       <RASection />
-      <FinancialMRISection />
       <ResultsSection />
       <StatementSection />
-      <DenialPreventionSection />
       <InsightsTabsSection />
       <ServicesSection />
       <PartnersSection />
