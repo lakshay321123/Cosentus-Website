@@ -57,14 +57,22 @@ const stats = [
 function StatCard({ stat }: { stat: typeof stats[0] }) {
   return (
     <div className="result-item">
-      <div className="result-arrow-img" />
-      <div className="result-text">
-        {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
-        <div className="result-number">
-          <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+      <div className="result-flip-card">
+        {/* FRONT — arrow + number + label */}
+        <div className="result-flip-front">
+          <div className="result-arrow-img" />
+          <div className="result-text">
+            {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+            <div className="result-number">
+              <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+            </div>
+            <div className="result-label">{stat.label}</div>
+          </div>
         </div>
-        <div className="result-label">{stat.label}</div>
-        <div className="result-flip">{stat.flip}</div>
+        {/* BACK — dollar-impact copy */}
+        <div className="result-flip-back">
+          <div className="result-flip-text">{stat.flip}</div>
+        </div>
       </div>
     </div>
   )

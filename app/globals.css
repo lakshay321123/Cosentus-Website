@@ -916,32 +916,68 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-transform: uppercase;
 }
 
-/* Hover-reveal flip copy — sits below the label, reserves space so card heights
-   stay uniform, fades in when the user hovers the result item. */
-.result-flip {
-  margin-top: 12px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--gray-700);
-  max-width: 220px;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-  /* Reserve space so the card height does not jump on hover */
-  min-height: 110px;
+/* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
+.result-item {
+  perspective: 1200px;
 }
-.result-item:hover .result-flip {
-  opacity: 1;
-  transform: translateY(0);
+
+/* Inner flip-card — what actually rotates. Front face sits in normal flow
+   so it determines the card height. Back face is absolutely positioned
+   over the same area. preserve-3d places them on opposite faces. */
+.result-flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.result-item:hover .result-flip-card {
+  transform: rotateY(180deg);
+}
+
+/* Front face — keeps the existing layout, in normal flow, so the card
+   has a natural height for the back face to overlay. */
+.result-flip-front {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+}
+
+/* Back face — absolutely positioned overlay that matches the front's box.
+   Rotated 180deg so it sits behind the front in 3D space. */
+.result-flip-back {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  background: linear-gradient(140deg, #00B5D6 0%, #36C2DE 100%);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 181, 214, 0.25);
+}
+
+.result-flip-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Mobile: skip the 3D flip. Show front normally; back is hidden. */
 @media (max-width: 900px) {
-  .result-flip {
-    /* On mobile/touch devices hover doesn't apply — show flip copy by default
-       so users still see the dollar-impact content. */
-    opacity: 1;
-    transform: none;
-  }
+  .result-item { perspective: none; }
+  .result-flip-card { transform: none !important; transform-style: flat; }
+  .result-flip-back { display: none; }
 }
 
 /* ===== ADVANTAGE SECTION ===== */
