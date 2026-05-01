@@ -25,7 +25,7 @@ const wheelSegments = [
 
 const medcloudFeatures = [
   { title: 'Innovative Cloud-Based Solutions', desc: 'Medcloud leverages the power of the cloud for enhanced accessibility and scalability in healthcare management.' },
-  { title: 'Integrated Software Platform', desc: 'A comprehensive suite of tools for patient management, scheduling, and billing, all within a unified software environment.' },
+  { title: 'Integrated Software Suite', desc: 'A comprehensive suite of tools for patient management, scheduling, and billing, all within a unified software environment.' },
   { title: 'Data Security and Compliance', desc: 'Ensures the security of patient data with robust encryption and adherence to healthcare regulations, including HIPAA.' },
   { title: 'Real-Time Data Access', desc: 'Provides immediate access to patient information and practice analytics, enabling informed decision-making.' },
   { title: 'User-Centric Design', desc: 'Features an intuitive interface that simplifies user interaction, making it easier for healthcare providers and staff to adapt.' },

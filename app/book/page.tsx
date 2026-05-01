@@ -10,7 +10,7 @@ const timeSlots = [
 
 const meetingTypes = [
   { id: 'discovery', label: 'Discovery Call', duration: '15 min', desc: 'Learn about your practice and billing needs' },
-  { id: 'demo', label: 'Platform Demo', duration: '30 min', desc: 'See MedCloud and our AI agents in action' },
+  { id: 'demo', label: 'Product Demo', duration: '30 min', desc: 'See MedCloud and our AI agents in action' },
   { id: 'proposal', label: 'Revenue Analysis Review', duration: '45 min', desc: 'Walk through your custom revenue analysis' },
 ]
 

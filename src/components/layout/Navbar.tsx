@@ -48,7 +48,7 @@ const navItems = [
     ],
   },
   {
-    label: 'Technology',
+    label: 'Zeus AI',
     href: '/cosentus-ai',
   },
 ]
