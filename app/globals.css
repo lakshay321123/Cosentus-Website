@@ -1637,7 +1637,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
 }
 .reveal.visible .section-label::after,
-.reveal-left.visible .section-label::after {
+.reveal-left.visible .section-label::after,
+.reveal-right.visible .section-label::after,
+.reveal-scale.visible .section-label::after {
   width: 100%;
 }
 
