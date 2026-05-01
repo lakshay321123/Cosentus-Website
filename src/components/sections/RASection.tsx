@@ -139,7 +139,7 @@ export default function RASection() {
                   { num: '15', label: 'AI Features' },
                   { num: '23', label: 'Modules' },
                 ].map(stat => (
-                  <div key={stat.label} style={{ textAlign: 'left' }}>
+                  <div key={stat.label} style={{ textAlign: 'center' }}>
                     <div style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 'clamp(36px, 4.5vw, 56px)',
@@ -180,6 +180,16 @@ export default function RASection() {
       </div>
 
       <style>{`
+        /* Override globals.css grid+reveal-right rule that forces height: 100% +
+           display: flex on .reveal-right inside any grid. Without this override,
+           the right column wrapper stretches to match the left column's height,
+           and its flex parent stretches the AIWorkflowPanel inside it, leaving
+           large empty blue space below the panel content. */
+        .ra-workflow-wrap {
+          align-self: start !important;
+          height: auto !important;
+          display: block !important;
+        }
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
         }
