@@ -102,21 +102,21 @@ export default function RASection() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                       />
                     </div>
-                    {/* Name in display font, bold */}
+                    {/* Name — Reddit Sans, NOT bold per Lakshay's reference image */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 17,
-                      fontWeight: 700,
+                      fontWeight: 500,
                       color: 'var(--gray-900)',
                       letterSpacing: '-0.005em',
                       lineHeight: 1.2,
                     }}>
                       {agent.name}
                     </div>
-                    {/* Role text — bigger and black for readability per Lakshay's review */}
+                    {/* Role — readable black, not bold, regular weight */}
                     <div style={{
                       fontSize: 15,
-                      fontWeight: 500,
+                      fontWeight: 400,
                       color: 'var(--gray-900)',
                       marginTop: 4,
                       lineHeight: 1.3,
