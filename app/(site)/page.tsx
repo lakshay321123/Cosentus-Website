@@ -19,9 +19,9 @@ export default function Home() {
       <ResultsSection />
       <StatementSection />
       <DenialPreventionSection />
+      <InsightsTabsSection />
       <ServicesSection />
       <PartnersSection />
-      <InsightsTabsSection />
       <TestimonialsSection />
       <CTASection />
     </main>
