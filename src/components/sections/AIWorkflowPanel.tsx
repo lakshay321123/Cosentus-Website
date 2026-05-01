@@ -248,13 +248,15 @@ export default function AIWorkflowPanel() {
           </div>
         </div>
 
-        {/* Pipeline — vertical list of all 9 stages, current highlighted */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0, position: 'relative' }}>
+        {/* Pipeline — vertical list of all 9 stages, current highlighted.
+            justify-content: space-between distributes the 9 stages evenly across
+            available vertical space so the panel naturally fills its container. */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 0, position: 'relative', minHeight: 0 }}>
           {stages.map((s, i) => {
             const isActive = i === active
             const isPast = i < active
             return (
-              <div key={i}>
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', flex: i < stages.length - 1 ? 1 : 'none' }}>
                 <button
                   onClick={() => { setActive(i); setInteracted(true) }}
                   onMouseEnter={() => { setActive(i); setInteracted(true) }}
@@ -327,10 +329,11 @@ export default function AIWorkflowPanel() {
                   </div>
                 </button>
 
-                {/* Connector line + traveling pulse */}
+                {/* Connector line + traveling pulse — grows to fill available space */}
                 {i < stages.length - 1 && (
                   <div style={{
-                    height: 8,
+                    flex: 1,
+                    minHeight: 8,
                     width: 2,
                     marginLeft: 21,
                     background: isPast || isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)',

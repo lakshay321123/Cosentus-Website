@@ -146,8 +146,16 @@ export default function RASection() {
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
         }
-        .ra-workflow-wrap { height: 100%; display: flex; }
-        .ra-workflow-wrap > * { width: 100%; }
+        .ra-workflow-wrap {
+          display: flex;
+          flex-direction: column;
+          align-self: stretch;
+        }
+        .ra-workflow-wrap > * {
+          flex: 1;
+          width: 100%;
+          min-height: 0;
+        }
         @keyframes ra-scanline-move {
           0%, 100% { transform: translateY(0); opacity: 0; }
           10% { opacity: 1; }
