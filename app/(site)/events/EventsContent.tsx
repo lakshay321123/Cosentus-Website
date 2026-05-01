@@ -1,892 +1,181 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import { eventsData, CosentusEvent } from '@/data/eventsData'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { eventsData } from '@/data/eventsData'
 
-// Gallery photos — replace gradients with real photos when provided
-// Just add { src: '/images/events/gallery/photo1.jpg', alt: 'Event photo' }
-const placeholderGradients = [
-  'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)',
-  'linear-gradient(135deg, #36C2DE 0%, #0090AB 100%)',
-  'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)',
-  'linear-gradient(135deg, #0090AB 0%, #68D1E6 100%)',
-  'linear-gradient(135deg, #2A9D8F 0%, #00B5D6 100%)',
-  'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
-  'linear-gradient(135deg, #005F73 0%, #2A9D8F 100%)',
-  'linear-gradient(135deg, #68D1E6 0%, #005F73 100%)',
-  'linear-gradient(135deg, #0090AB 0%, #00B5D6 100%)',
-  'linear-gradient(135deg, #36C2DE 0%, #005F73 100%)',
-  'linear-gradient(135deg, #00B5D6 0%, #2A9D8F 100%)',
-  'linear-gradient(135deg, #005F73 0%, #68D1E6 100%)',
-  'linear-gradient(135deg, #2A9D8F 0%, #0090AB 100%)',
-  'linear-gradient(135deg, #00B5D6 0%, #005F73 100%)',
-  'linear-gradient(135deg, #68D1E6 0%, #36C2DE 100%)',
-  'linear-gradient(135deg, #0090AB 0%, #2A9D8F 100%)',
-  'linear-gradient(135deg, #005F73 0%, #00B5D6 100%)',
-  'linear-gradient(135deg, #36C2DE 0%, #68D1E6 100%)',
-  'linear-gradient(135deg, #00B5D6 0%, #0090AB 100%)',
-  'linear-gradient(135deg, #2A9D8F 0%, #005F73 100%)',
-]
+const eventImages: Record<string, string[]> = {
+  'growth-summit-2025': [
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 030.jpg',
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 034.jpg',
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 035.jpg',
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 044.jpg',
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 047.jpg',
+    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 050.jpg',
+  ],
+}
 
 const tagColors: Record<string, string> = {
-  Conference: '#00B5D6',
-  Summit: '#36C2DE',
-  Company: '#005F73',
-  Webinar: '#68D1E6',
-  Sponsorship: '#0090AB',
-  'Golf Event': '#2A9D8F',
+  Conference: '#00B5D6', Summit: '#36C2DE', Company: '#005F73',
+  Webinar: '#68D1E6', Sponsorship: '#0090AB', 'Golf Event': '#2A9D8F',
 }
 
-function getTagColor(tag: string) {
-  return tagColors[tag] || '#00B5D6'
-}
-
-function getYearFromSort(sortDate: string) {
-  return sortDate.split('-')[0]
-}
-
-interface EventCardProps {
-  event: CosentusEvent
-  index: number
-  isExpanded: boolean
-  onToggle: () => void
-}
-
-function EventCard({ event, index, isExpanded, onToggle }: EventCardProps) {
-  const contentRef = useRef<HTMLDivElement>(null)
-  const [contentHeight, setContentHeight] = useState(0)
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight)
-    }
-  }, [isExpanded])
-
-  const tagColor = getTagColor(event.tag)
+function ImageCarousel({ images, onZoom }: { images: string[]; onZoom: (src: string) => void }) {
+  const [current, setCurrent] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startAuto = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    if (images.length > 1) timerRef.current = setInterval(() => setCurrent(p => (p + 1) % images.length), 4000)
+  }, [images.length])
+  useEffect(() => { startAuto(); return () => { if (timerRef.current) clearInterval(timerRef.current) } }, [startAuto])
+  const go = (dir: number) => { setCurrent(p => (p + dir + images.length) % images.length); startAuto() }
 
   return (
-    <div
-        className={`timeline-card ${isExpanded ? 'expanded' : ''}`}
-        onClick={onToggle}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle() } }}
-        aria-expanded={isExpanded}
-      >
-        {/* Gradient accent strip */}
-        <div className="card-accent" style={{ background: `linear-gradient(135deg, ${tagColor}, ${tagColor}88)` }} />
-
-        <div className="card-body">
-          {/* Header row */}
-          <div className="card-header">
-            <span className="card-tag" style={{ background: `${tagColor}18`, color: tagColor }}>{event.tag}</span>
-            <span className="card-date">{event.date}</span>
-          </div>
-
-          {/* Title */}
-          <h3 className="card-title">{event.title}</h3>
-
-          {/* Location */}
-          {event.location && (
-            <div className="card-location">
-              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={tagColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              {event.location}
-            </div>
-          )}
-
-          {/* Expand indicator */}
-          <div className="card-expand-hint">
-            <svg aria-hidden="true" className={`expand-icon ${isExpanded ? 'rotated' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-
-          {/* Expandable content */}
-          <div className="card-expand" style={{ maxHeight: isExpanded ? contentHeight + 40 /* expand padding */ : 0 }}>
-            <div ref={contentRef} className="card-expand-inner">
-              <p className="card-description">{event.description}</p>
-              {event.learnMoreUrl && (
-                <a
-                  href={event.learnMoreUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card-link"
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ color: tagColor }}
-                >
-                  Learn More
-                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
-                </a>
-              )}
-              {/* Photo gallery placeholder — ready for when images are provided */}
-              {event.photos.length > 0 && (
-                <div className="card-photos">
-                  {event.photos.map((photo, i) => (
-                    <div key={i} className="card-photo">
-                      <img src={`/images/events/${event.slug}/${photo}`} alt={`${event.title} photo ${i + 1}`} loading="lazy" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+    <div className="evt-carousel">
+      <div className="evt-carousel-track" style={{ transform: `translateX(-${current * 100}%)` }}>
+        {images.map((src, i) => (
+          <img key={i} src={src} alt={`Event photo ${i + 1}`} className="evt-carousel-img" loading="lazy" onClick={() => onZoom(src)} />
+        ))}
       </div>
-  )
-}
-
-function YearMarker({ year }: { year: string }) {
-  return (
-    <div className="year-marker">
-      <div className="year-marker-line" />
-      <div className="year-marker-badge">{year}</div>
-      <div className="year-marker-line" />
+      {images.length > 1 && (<>
+        <button className="evt-arrow evt-arrow-left" onClick={(e) => { e.stopPropagation(); go(-1) }} aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button className="evt-arrow evt-arrow-right" onClick={(e) => { e.stopPropagation(); go(1) }} aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div className="evt-dots">{images.map((_, i) => (<button key={i} className={`evt-dot${i === current ? ' active' : ''}`} onClick={(e) => { e.stopPropagation(); setCurrent(i); startAuto() }} aria-label={`Photo ${i + 1}`} />))}</div>
+      </>)}
     </div>
   )
 }
 
-interface EventsContentProps {
-  galleryPhotos?: string[]
-}
-
-export default function EventsContent({ galleryPhotos = [] }: EventsContentProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+export default function EventsContent() {
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null)
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const rowRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
-  // Close lightbox on Escape
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLightboxSrc(null)
-    }
-    if (lightboxSrc) {
-      document.addEventListener('keydown', handleKey)
-      return () => document.removeEventListener('keydown', handleKey)
-    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { const slug = entry.target.getAttribute('data-slug'); if (slug) setExpandedSlug(slug) } })
+    }, { threshold: 0.4, rootMargin: '-10% 0px -30% 0px' })
+    Object.values(rowRefs.current).forEach(el => { if (el) observer.observe(el) })
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!lightboxSrc) return
+    const h = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightboxSrc(null) }
+    document.addEventListener('keydown', h); return () => document.removeEventListener('keydown', h)
   }, [lightboxSrc])
 
-  // Build film frames: real photos first, pad with gradients if needed (min 20 frames)
-  const minFrames = 20
-  const filmFrames: { src?: string; gradient?: string }[] = galleryPhotos.map(src => ({ src }))
-  while (filmFrames.length < minFrames) {
-    filmFrames.push({ gradient: placeholderGradients[filmFrames.length % placeholderGradients.length] })
-  }
-
-  // Group events by year for year markers
   const sortedEvents = [...eventsData].sort((a, b) => b.sortDate.localeCompare(a.sortDate))
-
-  // Build items with year separators
-  const items: { type: 'year' | 'event'; year?: string; event?: CosentusEvent; eventIndex?: number }[] = []
-  let lastYear = ''
-
-  sortedEvents.forEach((event, i) => {
-    const year = getYearFromSort(event.sortDate)
-    if (year !== lastYear) {
-      items.push({ type: 'year', year })
-      lastYear = year
-    }
-    items.push({ type: 'event', event, eventIndex: i })
+  const items: { type: 'year' | 'event'; year?: string; event?: typeof sortedEvents[0]; idx?: number }[] = []
+  let lastYear = '', eventIdx = 0
+  sortedEvents.forEach(event => {
+    const year = event.sortDate.split('-')[0]
+    if (year !== lastYear) { items.push({ type: 'year', year }); lastYear = year }
+    items.push({ type: 'event', event, idx: eventIdx++ })
   })
 
-  return (
-    <>
-      {/* Timeline CSS */}
-      <style>{`
-        /* Zigzag Timeline */
-        .zigzag-timeline {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
-
-        .zigzag-row {
-          display: flex;
-          position: relative;
-        }
-
-        .zigzag-row.left {
-          justify-content: flex-start;
-        }
-
-        .zigzag-row.right {
-          justify-content: flex-end;
-        }
-
-        .zigzag-row .timeline-card {
-          width: 48%;
-        }
-
-        /* Zigzag connector lines */
-        .zigzag-connector {
-          position: relative;
-          height: 50px;
-        }
-
-        .zigzag-connector::before {
-          content: '';
-          position: absolute;
-          background: var(--primary);
-          opacity: 0.3;
-        }
-
-        /* Vertical line down from left card */
-        .zigzag-connector.left-to-right::before {
-          left: 24%;
-          top: 0;
-          width: 2px;
-          height: 50%;
-        }
-
-        .zigzag-connector.left-to-right::after {
-          content: '';
-          position: absolute;
-          background: var(--primary);
-          opacity: 0.3;
-          left: 24%;
-          right: 24%;
-          top: 50%;
-          height: 2px;
-        }
-
-        .zigzag-connector.left-to-right .zigzag-vert-end {
-          position: absolute;
-          right: 24%;
-          top: 50%;
-          bottom: 0;
-          width: 2px;
-          background: var(--primary);
-          opacity: 0.3;
-        }
-
-        /* Vertical line down from right card */
-        .zigzag-connector.right-to-left::before {
-          right: 24%;
-          top: 0;
-          width: 2px;
-          height: 50%;
-        }
-
-        .zigzag-connector.right-to-left::after {
-          content: '';
-          position: absolute;
-          background: var(--primary);
-          opacity: 0.3;
-          left: 24%;
-          right: 24%;
-          top: 50%;
-          height: 2px;
-        }
-
-        .zigzag-connector.right-to-left .zigzag-vert-end {
-          position: absolute;
-          left: 24%;
-          top: 50%;
-          bottom: 0;
-          width: 2px;
-          background: var(--primary);
-          opacity: 0.3;
-        }
-
-        /* Dot at connection points */
-        .zigzag-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: var(--primary);
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-
-        .zigzag-connector.left-to-right .zigzag-dot { right: calc(24% - 4px); }
-        .zigzag-connector.right-to-left .zigzag-dot { left: calc(24% - 4px); }
-
-        .timeline-card {
-          background: white;
-          border: 1px solid var(--gray-200);
-          border-radius: var(--radius-md);
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-          overflow: hidden;
-          position: relative;
-        }
-
-        .timeline-card:hover {
-          border-color: var(--primary);
-          box-shadow: 0 8px 30px rgba(0, 181, 214, 0.1);
-          transform: translateY(-2px);
-        }
-
-        .timeline-card.expanded {
-          border-color: var(--primary);
-          box-shadow: 0 12px 40px rgba(0, 181, 214, 0.15);
-        }
-
-        .card-accent {
-          height: 4px;
-          width: 100%;
-        }
-
-        .card-body {
-          padding: 24px;
-        }
-
-        .card-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 12px;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .card-tag {
-          padding: 3px 10px;
-          border-radius: var(--radius-sm);
-          font-size: 10px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-        }
-
-        .card-date {
-          font-size: 13px;
-          color: var(--gray-500);
-          font-weight: 400;
-        }
-
-        .card-title {
-          font-size: 18px;
-          font-weight: 500;
-          color: var(--gray-900);
-          line-height: 1.35;
-          margin-bottom: 8px;
-          font-family: var(--font-display);
-        }
-
-        .card-location {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 13px;
-          color: var(--gray-500);
-          margin-bottom: 4px;
-        }
-
-        .card-expand-hint {
-          display: flex;
-          justify-content: center;
-          margin-top: 8px;
-        }
-
-        .expand-icon {
-          color: var(--gray-400);
-          transition: all 0.3s ease;
-        }
-
-        .expand-icon.rotated {
-          transform: rotate(180deg);
-          color: var(--primary);
-        }
-
-        .card-expand {
-          overflow: hidden;
-          transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .card-expand-inner {
-          padding-top: 16px;
-          border-top: 1px solid var(--gray-100);
-          margin-top: 8px;
-        }
-
-        .card-description {
-          font-size: 15px;
-          line-height: 1.75;
-          color: var(--gray-600);
-          white-space: pre-line;
-        }
-
-        .card-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 14px;
-          font-weight: 500;
-          margin-top: 16px;
-          text-decoration: none;
-          transition: opacity 0.2s;
-        }
-
-        .card-link:hover { opacity: 0.7; }
-
-        .card-photos {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-          gap: 8px;
-          margin-top: 20px;
-        }
-
-        .card-photo {
-          border-radius: var(--radius-sm);
-          overflow: hidden;
-          aspect-ratio: 4/3;
-        }
-
-        .card-photo img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        /* Year markers */
-        .year-marker {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: 24px 0 16px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .year-marker-line {
-          flex: 1;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, var(--gray-200), transparent);
-        }
-
-        .year-marker-badge {
-          background: var(--primary);
-          color: white;
-          font-size: 14px;
-          font-weight: 600;
-          padding: 6px 24px;
-          border-radius: var(--radius-full);
-          letter-spacing: 0.05em;
-          font-family: var(--font-display);
-          white-space: nowrap;
-          box-shadow: 0 4px 16px rgba(0, 181, 214, 0.25);
-        }
-
-        /* Stats row */
-        .events-stats {
-          display: flex;
-          justify-content: center;
-          gap: 48px;
-          padding: 0;
-          align-items: center;
-          flex-wrap: wrap;
-        }
-
-        .events-stat {
-          text-align: center;
-        }
-
-        .events-stat-number {
-          font-size: clamp(36px, 5vw, 56px);
-          font-weight: 300;
-          color: var(--primary);
-          line-height: 1;
-          font-family: var(--font-display);
-        }
-
-        .events-stat-label {
-          font-size: 13px;
-          color: var(--gray-500);
-          margin-top: 6px;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          font-weight: 500;
-        }
-
-        /* Film Reel */
-        .film-reel-sticky {
-          position: relative;
-          z-index: 10;
-          background: white;
-        }
-
-        .film-reel-inner {
-          background: var(--primary);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .film-reel-inner::before,
-        .film-reel-inner::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 80px;
-          z-index: 5;
-          pointer-events: none;
-        }
-
-        .film-reel-inner::before {
-          left: 0;
-          background: linear-gradient(90deg, var(--primary), transparent);
-        }
-
-        .film-reel-inner::after {
-          right: 0;
-          background: linear-gradient(270deg, var(--primary), transparent);
-        }
-
-        .film-strip:first-of-type {
-          border-top: none;
-        }
-
-        .film-reel-gap-cover {
-          display: none;
-        }
-
-        .film-strip {
-          position: relative;
-          height: 150px;
-          overflow: hidden;
-        }
-
-        .film-strip + .film-strip {
-          border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        /* Sprocket holes */
-        .film-strip::before,
-        .film-strip::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 12px;
-          z-index: 3;
-          background: repeating-linear-gradient(
-            90deg,
-            transparent 0px,
-            transparent 14px,
-            rgba(0,181,214,0.08) 14px,
-            rgba(0,181,214,0.08) 22px,
-            transparent 22px,
-            transparent 50px
-          );
-          pointer-events: none;
-        }
-
-        .film-strip::before { top: 0; }
-        .film-strip::after { bottom: 0; }
-
-        /* Sprocket punch holes */
-        .film-sprockets {
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 12px;
-          z-index: 4;
-          background: repeating-linear-gradient(
-            90deg,
-            transparent 0px,
-            transparent 18px,
-            var(--primary) 18px,
-            var(--primary) 26px,
-            transparent 26px,
-            transparent 50px
-          );
-          pointer-events: none;
-        }
-
-        .film-sprockets.top { top: 0; }
-        .film-sprockets.bottom { bottom: 0; }
-
-        .film-track {
-          display: flex;
-          gap: 6px;
-          padding: 14px 0;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          width: max-content;
-        }
-
-        .film-track-left {
-          animation: scrollLeft 60s linear infinite;
-        }
-
-        .film-track-right {
-          animation: scrollRight 60s linear infinite;
-        }
-
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        @keyframes scrollRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-
-        .film-frame {
-          width: 200px;
-          height: 120px;
-          border-radius: 3px;
-          overflow: hidden;
-          flex-shrink: 0;
-          position: relative;
-        }
-
-        .film-frame img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: all 0.3s ease;
-        }
-
-        .film-frame:hover img {
-          transform: scale(1.05);
-          cursor: pointer;
-        }
-
-        /* Lightbox */
-        .lightbox-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          background: rgba(0,0,0,0.85);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          animation: fadeIn 0.25s ease;
-          backdrop-filter: blur(8px);
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .lightbox-img {
-          max-width: 90vw;
-          max-height: 85vh;
-          border-radius: 8px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-          animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          cursor: default;
-        }
-
-        @keyframes scaleIn {
-          from { transform: scale(0.85); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-
-        .lightbox-close {
-          position: absolute;
-          top: 24px;
-          right: 24px;
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.2);
-          color: white;
-          font-size: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .lightbox-close:hover {
-          background: rgba(255,255,255,0.2);
-        }
-
-        /* Gradient placeholder for frames without images */
-        .film-frame-placeholder {
-          width: 100%;
-          height: 100%;
-          opacity: 0.5;
-        }
-
-        /* Edge fade on the reel */
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-          .zigzag-row .timeline-card {
-            width: 100%;
-          }
-
-          .zigzag-connector {
-            height: 30px;
-          }
-
-          .zigzag-connector::before,
-          .zigzag-connector::after,
-          .zigzag-connector .zigzag-vert-end,
-          .zigzag-connector .zigzag-dot {
-            display: none;
-          }
-
-          .card-body {
-            padding: 18px;
-          }
-
-          .card-title {
-            font-size: 16px;
-          }
-
-          .events-stats {
-            gap: 24px;
-          }
-
-          .film-strip {
-            height: 120px;
-          }
-
-          .film-frame {
-            width: 150px;
-            height: 90px;
-          }
-
-          .film-track-left {
-            animation-duration: 40s;
-          }
-
-          .film-track-right {
-            animation-duration: 40s;
-          }
-        }
-      `}</style>
-
-      {/* Lightbox */}
-      {lightboxSrc && (
-        <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
-          <button className="lightbox-close" onClick={() => setLightboxSrc(null)} aria-label="Close">✕</button>
-          <img
-            className="lightbox-img"
-            src={lightboxSrc}
-            alt="Event photo"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
-
-      {/* Sticky Film Reel with Stats */}
-      <div className="film-reel-sticky">
-        <div className="film-reel-gap-cover" />
-        <div className="film-reel-inner">
-
-        {/* Stats on teal */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 24px', gap: 48, flexWrap: 'wrap' as const }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{eventsData.length}</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Events & Counting</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{(() => { const years = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...years) - Math.min(...years) + 1; })()}+</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Years Active</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>{eventsData.filter(e => e.tag === 'Conference').length}</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Conferences</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, color: 'white', lineHeight: 1 }}>5</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em', fontWeight: 500 }}>Countries</div>
-          </div>
-        </div>
-        {/* Strip 1 — scrolls left */}
-        <div className="film-strip">
-          <div className="film-sprockets top" />
-          <div className="film-track film-track-left">
-            {/* Duplicate the set for seamless loop */}
-            {[...Array(2)].map((_, setIdx) => (
-              <React.Fragment key={setIdx}>
-                {filmFrames.map((frame, i) => (
-                  <div className="film-frame" key={`l-${setIdx}-${i}`} role={frame.src ? "button" : undefined} tabIndex={frame.src ? 0 : undefined} onClick={() => frame.src && setLightboxSrc(frame.src)} onKeyDown={(e) => { if (frame.src && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setLightboxSrc(frame.src) } }}>
-                    {frame.src ? (
-                      <img src={frame.src} alt="Cosentus event" loading="lazy" />
-                    ) : (
-                      <div className="film-frame-placeholder" style={{ background: frame.gradient }} />
-                    )}
-                  </div>
-                ))}
-              </React.Fragment>
-            ))}
-          </div>
-          <div className="film-sprockets bottom" />
-        </div>
-
-        {/* Strip 2 — scrolls right */}
-        <div className="film-strip">
-          <div className="film-sprockets top" />
-          <div className="film-track film-track-right">
-            {[...Array(2)].map((_, setIdx) => (
-              <React.Fragment key={setIdx}>
-                {[...filmFrames].reverse().map((frame, i) => (
-                  <div className="film-frame" key={`r-${setIdx}-${i}`} role={frame.src ? "button" : undefined} tabIndex={frame.src ? 0 : undefined} onClick={() => frame.src && setLightboxSrc(frame.src)} onKeyDown={(e) => { if (frame.src && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setLightboxSrc(frame.src) } }}>
-                    {frame.src ? (
-                      <img src={frame.src} alt="Cosentus event" loading="lazy" />
-                    ) : (
-                      <div className="film-frame-placeholder" style={{ background: frame.gradient }} />
-                    )}
-                  </div>
-                ))}
-              </React.Fragment>
-            ))}
-          </div>
-          <div className="film-sprockets bottom" />
-        </div>
+  return (<>
+    <style>{`
+      .evt-timeline{max-width:1100px;margin:0 auto;padding:0 24px}
+      .evt-year{display:flex;align-items:center;gap:16px;padding:48px 0 24px;font-size:28px;font-weight:200;color:var(--primary);font-family:var(--font-display);letter-spacing:-0.02em}
+      .evt-year::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--primary),transparent)}
+      .evt-row{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:2px;border-radius:12px;overflow:hidden;border:1px solid var(--gray-200);transition:box-shadow 0.4s,border-color 0.4s;cursor:pointer}
+      .evt-row.active{border-color:var(--primary);box-shadow:0 8px 40px rgba(0,181,214,0.1)}
+      .evt-text{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:center;background:white}
+      .evt-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:12px;width:fit-content}
+      .evt-title{font-size:clamp(18px,2vw,24px);font-weight:600;color:var(--gray-900);line-height:1.3;margin-bottom:8px}
+      .evt-date{font-size:13px;color:var(--gray-500);margin-bottom:4px}
+      .evt-location{font-size:13px;color:var(--gray-500);display:flex;align-items:center;gap:6px;margin-bottom:16px}
+      .evt-desc{max-height:0;overflow:hidden;transition:max-height 0.6s cubic-bezier(0.16,1,0.3,1),opacity 0.4s;opacity:0}
+      .evt-row.active .evt-desc{max-height:300px;opacity:1}
+      .evt-desc-inner{font-size:15px;line-height:1.7;color:var(--gray-600);padding-top:8px}
+      .evt-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;margin-top:12px;text-decoration:none;transition:gap 0.3s}
+      .evt-link:hover{gap:10px}
+      .evt-img-panel{background:var(--gray-50);display:flex;align-items:center;justify-content:center;min-height:200px;overflow:hidden;position:relative}
+      .evt-img-panel.empty{background:linear-gradient(135deg,#f0f9fb,#e8f4f8)}
+      .evt-no-img{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gray-300)}
+      .evt-carousel{width:100%;height:100%;position:relative;overflow:hidden;min-height:280px}
+      .evt-carousel-track{display:flex;height:100%;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+      .evt-carousel-img{min-width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+      .evt-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:all 0.2s;color:var(--gray-700);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+      .evt-arrow:hover{background:white;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+      .evt-arrow-left{left:12px}.evt-arrow-right{right:12px}
+      .evt-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+      .evt-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);cursor:pointer;padding:0;transition:all 0.3s}
+      .evt-dot.active{background:white;transform:scale(1.3)}
+      .evt-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:evtFadeIn 0.3s}
+      .evt-lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;cursor:default;animation:evtScaleIn 0.3s}
+      .evt-lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+      @keyframes evtFadeIn{from{opacity:0}to{opacity:1}}
+      @keyframes evtScaleIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+      .evt-stats{display:flex;justify-content:center;gap:48px;padding:40px 24px;flex-wrap:wrap}
+      .evt-stat-num{font-size:clamp(32px,5vw,48px);font-weight:200;color:var(--primary);line-height:1}
+      .evt-stat-label{font-size:11px;color:var(--gray-500);margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+      @media(max-width:768px){
+        .evt-row{grid-template-columns:1fr}
+        .evt-row .evt-img-panel.order-first{order:-1}
+        .evt-carousel{min-height:200px}
+        .evt-stats{gap:24px}
+      }
+    `}</style>
+
+    {lightboxSrc && (
+      <div className="evt-lightbox" onClick={() => setLightboxSrc(null)}>
+        <button className="evt-lightbox-close" onClick={() => setLightboxSrc(null)} aria-label="Close">✕</button>
+        <img src={lightboxSrc} alt="Event photo" onClick={e => e.stopPropagation()} />
+      </div>
+    )}
+
+    <section style={{ background: 'white' }}>
+      <div className="container">
+        <div className="evt-stats">
+          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.length}</div><div className="evt-stat-label">Events & Counting</div></div>
+          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{(() => { const y = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...y) - Math.min(...y) + 1 })()}+</div><div className="evt-stat-label">Years Active</div></div>
+          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.filter(e => e.tag === 'Conference').length}</div><div className="evt-stat-label">Conferences</div></div>
+          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">5</div><div className="evt-stat-label">Countries</div></div>
         </div>
       </div>
+    </section>
 
-      {/* Zigzag Timeline */}
-      <section className="section" style={{ paddingTop: 40, paddingBottom: 60 }}>
-        <div className="zigzag-timeline">
-          {items.map((item, i) => {
-            if (item.type === 'year' && item.year) {
-              return (
-                <RevealOnScroll key={`year-${item.year}`}>
-                  <YearMarker year={item.year} />
-                </RevealOnScroll>
-              )
-            }
+    <section className="section" style={{ paddingTop: 0 }}>
+      <div className="evt-timeline">
+        {items.map((item) => {
+          if (item.type === 'year') return <div key={`y-${item.year}`} className="evt-year">{item.year}</div>
+          const event = item.event!
+          const idx = item.idx!
+          const isReversed = idx % 2 === 1
+          const images = eventImages[event.slug] || []
+          const hasImages = images.length > 0
+          const isActive = expandedSlug === event.slug
+          const tagColor = tagColors[event.tag] || '#00B5D6'
 
-            if (item.type === 'event' && item.event && item.eventIndex !== undefined) {
-              const idx = item.eventIndex
-              const isLeft = idx % 2 === 0
-              const nextItem = items[i + 1]
-              const hasNext = nextItem && nextItem.type === 'event'
+          const textPanel = (
+            <div className="evt-text">
+              <span className="evt-tag" style={{ background: `${tagColor}15`, color: tagColor }}>{event.tag}</span>
+              <div className="evt-date">{event.date}</div>
+              <h3 className="evt-title">{event.title}</h3>
+              {event.location && <div className="evt-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={tagColor} strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>{event.location}</div>}
+              <div className="evt-desc"><div className="evt-desc-inner">{event.description}{event.learnMoreUrl && <a href={event.learnMoreUrl} target="_blank" rel="noopener noreferrer" className="evt-link" style={{ color: tagColor }} onClick={e => e.stopPropagation()}>Learn More <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>}</div></div>
+            </div>
+          )
 
-              return (
-                <React.Fragment key={item.event.slug}>
-                  <RevealOnScroll delay={0.05}>
-                    <div className={`zigzag-row ${isLeft ? 'left' : 'right'}`}>
-                      <EventCard
-                        event={item.event}
-                        index={idx}
-                        isExpanded={expandedIndex === idx}
-                        onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
-                      />
-                    </div>
-                  </RevealOnScroll>
-                  {hasNext && (
-                    <div className={`zigzag-connector ${isLeft ? 'left-to-right' : 'right-to-left'}`}>
-                      <div className="zigzag-vert-end" />
-                      <div className="zigzag-dot" />
-                    </div>
-                  )}
-                </React.Fragment>
-              )
-            }
+          const imagePanel = (
+            <div className={`evt-img-panel ${!hasImages ? 'empty' : ''} ${isReversed ? 'order-first' : ''}`}>
+              {hasImages ? <ImageCarousel images={images} onZoom={setLightboxSrc} /> : <div className="evt-no-img"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>}
+            </div>
+          )
 
-            return null
-          })}
-        </div>
-      </section>
-    </>
-  )
+          return (
+            <div key={event.slug} ref={el => { rowRefs.current[event.slug] = el }} data-slug={event.slug}
+              className={`evt-row ${isActive ? 'active' : ''}`}
+              onClick={() => setExpandedSlug(isActive ? null : event.slug)}
+              role="button" tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedSlug(isActive ? null : event.slug) } }}
+            >
+              {isReversed ? <>{imagePanel}{textPanel}</> : <>{textPanel}{imagePanel}</>}
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  </>)
 }
