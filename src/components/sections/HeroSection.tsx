@@ -84,7 +84,7 @@ export default function HeroSection() {
         </div>
 
         <div className="hero-actions">
-          <Link href="/contact" className="btn-primary">
+          <Link href="/contact" className="btn-glass">
             Get Your Financial MRI <ArrowIcon />
           </Link>
         </div>

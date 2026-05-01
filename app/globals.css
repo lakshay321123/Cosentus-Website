@@ -384,60 +384,79 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin-bottom: 72px;
 }
 
+/* =====================================================================
+   PRIMARY BUTTON — frosted glass, identical effect/transitions to the
+   voice modal Connect button (.call-btn). Only the rgba color palette
+   shifts: white-tint on dark backgrounds (.btn-glass) vs teal-tint here
+   for buttons that sit on white/light page backgrounds.
+   Same shape, same insets, same drop shadow, same hover lift, same
+   :active press feedback. No shimmer.
+===================================================================== */
 .btn-primary {
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   height: 48px;
+  min-width: 48px;
   padding: 0 32px;
-  background: var(--primary);
-  color: var(--white);
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
   border-radius: 999px;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  border: none;
-  /* iOS-style depth — inset highlight, inset bottom shadow, outer drop shadow */
+  background: rgba(0, 181, 214, 0.18);
+  backdrop-filter: blur(5px) saturate(120%);
+  -webkit-backdrop-filter: blur(5px) saturate(120%);
+  border: 1px solid rgba(0, 181, 214, 0.45);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 8px 22px rgba(0, 181, 214, 0.32);
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
+    0 8px 22px rgba(0, 181, 214, 0.22);
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  position: relative;
   transition:
     background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
     transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-
 .btn-primary:hover {
-  background: var(--primary-light);
+  color: #fff;
+  border-color: rgba(0, 181, 214, 0.7);
+  background: rgba(0, 181, 214, 0.85);
   transform: translateY(-1px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.40),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
     0 12px 28px rgba(0, 181, 214, 0.42),
     0 0 24px rgba(0, 181, 214, 0.28);
 }
-
 .btn-primary:active {
   transform: translateY(0) scale(0.98);
   transition-duration: 0.1s;
 }
-
+.btn-primary:focus-visible {
+  outline: none;
+  border-color: rgba(0, 181, 214, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
+    0 8px 22px rgba(0, 181, 214, 0.22),
+    0 0 0 3px rgba(0, 181, 214, 0.20);
+}
 .btn-primary svg {
   width: 18px;
   height: 18px;
+  flex: 0 0 auto;
   transition: transform var(--transition-base);
 }
-
 .btn-primary:hover svg { transform: translateX(3px); }
 
-/* Buttons on blue hero backgrounds — keep solid teal pill, brighter shimmer */
-.hero .btn-primary::before {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-}
+/* Buttons on hero backgrounds use .btn-glass instead of .btn-primary
+   for true frosted-glass over dark video bg. See .btn-glass below. */
 
 .btn-ghost {
   display: inline-flex;
@@ -1197,11 +1216,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: -0.02em;
 }
 
-.cta-box .btn-primary { background: #FFFFFF; color: #00B5D6; box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-  position: relative;
-  z-index: 1;
-  font-size: 16px;
-  padding: 18px 40px;
+/* CTA box has solid teal background — switch button to white-tint
+   frosted glass (identical to Connect / .btn-glass) so it reads. */
+.cta-box .btn-primary {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.40);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 8px 22px rgba(0, 0, 0, 0.18);
+}
+.cta-box .btn-primary:hover {
+  background: rgba(255, 255, 255, 0.20);
+  border-color: rgba(255, 255, 255, 0.60);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 12px 28px rgba(0, 0, 0, 0.30),
+    0 0 24px rgba(255, 255, 255, 0.20);
 }
 
 /* ===== FOOTER ===== */
@@ -1435,27 +1469,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ===== FUTURISTIC BUTTON EFFECTS ===== */
 
-/* Shimmer sweep on primary buttons */
-.btn-primary {
-  position: relative;
-  overflow: hidden;
-}
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: none;
-  animation: shimmer 3s ease-in-out infinite;
-}
-@keyframes shimmer {
-  0%, 100% { left: -100%; }
-  50% { left: 100%; }
-}
-
 /* Ghost button arrow animation */
 .btn-ghost svg {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1665,11 +1678,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 @keyframes ctaGlow {
   0%, 100% { transform: translateX(-10%) translateY(-10%); }
   50% { transform: translateX(10%) translateY(10%); }
-}
-
-/* CTA box button — invert shimmer */
-.cta-box .btn-primary::before {
-  background: linear-gradient(90deg, transparent, rgba(0,181,214,0.15), transparent);
 }
 
 /* ===== SECTION DIVIDER ANIMATIONS ===== */

@@ -184,50 +184,14 @@ export default function InsightsTabsSection() {
           marginTop: 36,
           flexWrap: 'wrap',
         }}>
-          <Link
-            href={active.viewAllHref}
-            style={{
-              padding: '12px 28px',
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'white',
-              background: '#00B5D6',
-              border: '1.5px solid #00B5D6',
-              borderRadius: 999,
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              transition: 'all 0.25s ease',
-              fontFamily: 'var(--font-body)',
-            }}
-            className="primary-pill"
-          >
+          <Link href={active.viewAllHref} className="btn-primary">
             View All {active.label}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
-          <Link
-            href="/insights"
-            style={{
-              padding: '12px 28px',
-              fontSize: 14,
-              fontWeight: 600,
-              color: '#00B5D6',
-              background: 'transparent',
-              border: '1.5px solid #A1DEED',
-              borderRadius: 999,
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              transition: 'all 0.25s ease',
-              fontFamily: 'var(--font-body)',
-            }}
-            className="ghost-pill"
-          >
+          <Link href="/insights" className="btn-primary">
             Browse All Insights
           </Link>
         </div>
@@ -254,8 +218,6 @@ export default function InsightsTabsSection() {
           border-color: #00B5D6 !important;
           background: #D6EBF2 !important;
         }
-        .primary-pill:hover { background: #36C2DE; border-color: #36C2DE; }
-        .ghost-pill:hover { border-color: #00B5D6; background: #D6EBF2; }
       `}</style>
     </section>
   )

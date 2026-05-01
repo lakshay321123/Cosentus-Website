@@ -61,7 +61,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
         {ctaText && ctaHref && (
           <RevealOnScroll delay={0.3}>
             <div className="hero-actions">
-              <Link href={ctaHref} className="btn-primary">
+              <Link href={ctaHref} className="btn-glass">
                 {ctaText}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
