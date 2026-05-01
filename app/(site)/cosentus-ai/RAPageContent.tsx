@@ -57,13 +57,13 @@ export default function RAPageContent() {
             </RevealOnScroll>
 
             {/* Desktop — 5-col first row + 4-col second row not possible with simple grid;
-                use 5 columns, second row centers with col-start hack. Cleaner: 3-col grid
-                like homepage. With 9 agents in 3 columns we get 3 even rows. */}
+                use 3 columns — 9 agents = 3 even rows of 3. Per Lakshay May 2026:
+                'make this is rows of 3 only'. */}
             <div className="agents-desktop ra-tech-agents-grid" style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
-              gap: '40px 24px',
-              maxWidth: 1100,
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '48px 32px',
+              maxWidth: 760,
               margin: '0 auto',
             }}>
               {AGENTS.map((agent, i) => (
@@ -202,14 +202,8 @@ export default function RAPageContent() {
             </div>
           </div>
 
-          {/* Responsive: 5 cols → 3 cols on mid-screens, mobile uses carousel via .agents-mobile */}
+          {/* Responsive: shrink circles on tablet/small screens, mobile uses carousel via .agents-mobile */}
           <style>{`
-            @media (max-width: 1024px) {
-              .ra-tech-agents-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-                max-width: 720px !important;
-              }
-            }
             @media (max-width: 700px) {
               .ra-tech-agents-grid .ra-tech-agent-circle {
                 width: 110px !important;
