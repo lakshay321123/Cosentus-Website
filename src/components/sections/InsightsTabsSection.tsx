@@ -75,7 +75,7 @@ export default function InsightsTabsSection() {
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll>
-          <div className="section-label" style={{ textAlign: 'center' }}>INSIGHTS</div>
+          <div className="section-label">INSIGHTS</div>
         </RevealOnScroll>
         <RevealOnScroll delay={0.1}>
           <h2 style={{
@@ -87,7 +87,6 @@ export default function InsightsTabsSection() {
             color: 'var(--gray-900)',
             marginTop: 12,
             marginBottom: 36,
-            textAlign: 'center',
           }}>
             Everything We're <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Publishing.</span>
           </h2>
@@ -102,7 +101,7 @@ export default function InsightsTabsSection() {
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               gap: 10,
               marginBottom: 40,
             }}
@@ -180,7 +179,7 @@ export default function InsightsTabsSection() {
         {/* CTA row — View this category's index + link to /insights hub */}
         <div style={{
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           gap: 16,
           marginTop: 36,
           flexWrap: 'wrap',

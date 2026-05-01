@@ -6,16 +6,17 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import AICodingLivePanel from '@/components/sections/AICodingLivePanel'
 
 // 9 named voice agents — the actual platform, shown as a team
+// Names + shortRoles match the canonical design on the Technology page.
 const agents = [
-  { name: 'Elly',   role: 'Eligibility',  img: 'elly.png' },
-  { name: 'Paige',  role: 'Prior Auth',   img: 'paige.png' },
-  { name: 'Priya',  role: 'Pre-Service',  img: 'priya.png' },
-  { name: 'April',  role: 'Scheduling',   img: 'april.png' },
-  { name: 'Curtis', role: 'Support',      img: 'curtis.png' },
-  { name: 'Chris',  role: 'Claim F/U',    img: 'chris.png' },
-  { name: 'Cindy',  role: 'Patient Pay',  img: 'cindy.png' },
-  { name: 'Ariel',  role: 'AR Follow-Up', img: 'ariel.png' },
-  { name: 'Connie', role: 'Coding',       img: 'connie.png' },
+  { name: 'Elly',   shortRole: 'Eligibility Verification', img: 'elly.png' },
+  { name: 'Paige',  shortRole: 'Prior Authorization',      img: 'paige.png' },
+  { name: 'Priya',  shortRole: 'Pre-Procedure Payments',   img: 'priya.png' },
+  { name: 'April',  shortRole: 'Appt. Scheduling',         img: 'april.png' },
+  { name: 'Curtis', shortRole: 'Customer Support',         img: 'curtis.png' },
+  { name: 'Chris',  shortRole: 'Claims Follow-Up',         img: 'chris.png' },
+  { name: 'Cindy',  shortRole: 'Patient Support',          img: 'cindy.png' },
+  { name: 'Ariel',  shortRole: 'AR Follow-Up',             img: 'ariel.png' },
+  { name: 'Connie', shortRole: 'Coding Assistant',         img: 'connie.png' },
 ]
 
 export default function RASection() {
@@ -61,66 +62,53 @@ export default function RASection() {
               </p>
             </RevealOnScroll>
 
-            {/* Meet your AI team — 3x3 grid of the 9 named voice agents.
-                Replaces generic stat boxes with the actual platform: real agents, real names, real roles. */}
+            {/* Meet your AI team — 9 agent cards using the SAME design as the Technology page.
+                Image on top + brand-blue footer strip with name and role. */}
             <RevealOnScroll direction="left" delay={0.35}>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 1,
+                gap: 14,
                 marginBottom: 28,
-                background: 'var(--gray-200)',
-                border: '1px solid var(--gray-200)',
-                borderRadius: 12,
-                overflow: 'hidden',
               }} className="ra-agent-grid">
                 {agents.map((agent, i) => (
                   <div key={agent.name} style={{
-                    background: 'var(--white)',
-                    padding: '18px 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 14,
-                    cursor: 'default',
-                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    border: '1px solid var(--gray-200)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                     animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
+                    background: 'var(--white)',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = '#D6EBF2'
-                    e.currentTarget.style.transform = 'scale(1.02)'
+                    e.currentTarget.style.transform = 'translateY(-6px)'
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)'
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = 'var(--white)'
-                    e.currentTarget.style.transform = 'scale(1)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
                   }}
                   >
                     <div style={{
-                      width: 56, height: 56, borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
-                      backgroundImage: `url(/images/${agent.img}), linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      flexShrink: 0,
-                      border: '2px solid var(--white)',
-                      boxShadow: '0 3px 10px rgba(0,181,214,0.3)',
-                      position: 'relative',
-                    }}>
-                      {/* Active dot — subtle "online" indicator */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: 0, right: 0,
-                        width: 12, height: 12, borderRadius: '50%',
-                        background: '#00B5D6',
-                        border: '2.5px solid var(--white)',
-                        animation: `ra-agent-pulse 2.4s ease-in-out infinite ${i * 0.3}s`,
-                      }} />
+                      height: 160,
+                      background: '#f5f9fa',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                    }} className="ra-agent-img-wrap">
+                      <img
+                        src={`/images/${agent.img}`}
+                        alt={agent.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
+                      />
                     </div>
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--gray-900)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: 3 }}>
+                    <div style={{ background: '#00B5D6', padding: '12px 10px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1.2 }}>
                         {agent.name}
                       </div>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-600)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {agent.role}
+                      <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.85)', marginTop: 3, lineHeight: 1.3 }}>
+                        {agent.shortRole}
                       </div>
                     </div>
                   </div>
@@ -168,12 +156,16 @@ export default function RASection() {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes ra-agent-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(0.85); }
+        @media (max-width: 1100px) {
+          .ra-agent-img-wrap { height: 140px !important; }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 700px) {
           .ra-agent-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .ra-agent-img-wrap { height: 200px !important; }
+        }
+        @media (max-width: 420px) {
+          .ra-agent-grid { grid-template-columns: 1fr !important; }
+          .ra-agent-img-wrap { height: 220px !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .ra-scanline { display: none; }
