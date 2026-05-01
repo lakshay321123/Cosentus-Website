@@ -916,6 +916,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-transform: uppercase;
 }
 
+/* Hover-reveal flip copy — sits below the label, reserves space so card heights
+   stay uniform, fades in when the user hovers the result item. */
+.result-flip {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gray-700);
+  max-width: 220px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  /* Reserve space so the card height does not jump on hover */
+  min-height: 110px;
+}
+.result-item:hover .result-flip {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 900px) {
+  .result-flip {
+    /* On mobile/touch devices hover doesn't apply — show flip copy by default
+       so users still see the dollar-impact content. */
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ===== ADVANTAGE SECTION ===== */
 .advantage-grid {
   display: grid;

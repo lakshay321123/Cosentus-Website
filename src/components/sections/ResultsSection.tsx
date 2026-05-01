@@ -40,12 +40,18 @@ function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
 }
 
 const stats = [
-  { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to' },
-  { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '' },
-  { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '' },
-  { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1 },
-  { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '' },
-  { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '' },
+  { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to',
+    flip: 'Our clients don\u2019t just stop the bleeding \u2014 they grow. Practices see tens of thousands more per month within 90 days of onboarding.' },
+  { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '',
+    flip: 'For every $100 your practice earns, we collect $98+. Most practices average $91. That gap is real money sitting uncollected.' },
+  { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '',
+    flip: 'A 10-point improvement in clean claim rate on $3M in charges means up to $300,000 in recovered revenue annually.' },
+  { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1,
+    flip: 'Every coding error triggers a denial or underpayment. At 98.5% accuracy, we eliminate the mistakes that cost you thousands per month.' },
+  { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '',
+    flip: 'The longer a claim sits, the less likely it gets paid. We keep aging claims under control so cash lands in your account faster.' },
+  { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '',
+    flip: 'Most practices collect under 50% of patient balances. Our AI agents handle outreach in 50+ languages, recovering what others write off.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
@@ -58,6 +64,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
           <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
         </div>
         <div className="result-label">{stat.label}</div>
+        <div className="result-flip">{stat.flip}</div>
       </div>
     </div>
   )
