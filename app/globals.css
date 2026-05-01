@@ -966,11 +966,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .result-flip-text {
-  font-size: 13px;
-  line-height: 1.55;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.4;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
+  letter-spacing: -0.005em;
+}
+
+/* When the user hovers ANY result item, dim the others to grey so the
+   hovered one stands out. The hovered card is exempted by the second rule. */
+.results-grid:hover .result-item {
+  filter: grayscale(1);
+  opacity: 0.4;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+.results-grid:hover .result-item:hover {
+  filter: none;
+  opacity: 1;
 }
 
 /* Mobile: skip the 3D flip. Show front normally; back is hidden. */
@@ -978,6 +992,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .result-item { perspective: none; }
   .result-flip-card { transform: none !important; transform-style: flat; }
   .result-flip-back { display: none; }
+  /* Disable grey-out on touch — hover doesn't apply consistently */
+  .results-grid:hover .result-item { filter: none; opacity: 1; }
 }
 
 /* ===== ADVANTAGE SECTION ===== */

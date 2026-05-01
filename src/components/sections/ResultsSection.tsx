@@ -41,17 +41,17 @@ function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
 
 const stats = [
   { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to',
-    flip: 'Our clients don\u2019t just stop the bleeding \u2014 they grow. Practices see tens of thousands more per month within 90 days of onboarding.' },
+    flip: 'Tens of thousands more per month. Within 90 days.' },
   { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '',
-    flip: 'For every $100 your practice earns, we collect $98+. Most practices average $91. That gap is real money sitting uncollected.' },
+    flip: '$98 collected on every $100. Most practices stop at $91.' },
   { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '',
-    flip: 'A 10-point improvement in clean claim rate on $3M in charges means up to $300,000 in recovered revenue annually.' },
+    flip: 'On $3M in charges, that\u2019s $300K recovered every year.' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1,
-    flip: 'Every coding error triggers a denial or underpayment. At 98.5% accuracy, we eliminate the mistakes that cost you thousands per month.' },
+    flip: 'Coding errors cost thousands monthly. We catch 98.5% of them.' },
   { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '',
-    flip: 'The longer a claim sits, the less likely it gets paid. We keep aging claims under control so cash lands in your account faster.' },
+    flip: 'Aging claims rot. We keep cash moving \u2014 fast.' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '',
-    flip: 'Most practices collect under 50% of patient balances. Our AI agents handle outreach in 50+ languages, recovering what others write off.' },
+    flip: 'Most practices collect under 50%. We recover the rest \u2014 in 50+ languages.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
