@@ -4,7 +4,6 @@ import FinancialMRISection from '@/components/sections/FinancialMRISection'
 import ResultsSection from '@/components/sections/ResultsSection'
 import StatementSection from '@/components/sections/StatementSection'
 import DenialPreventionSection from '@/components/sections/DenialPreventionSection'
-import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
 import ServicesSection from '@/components/sections/ServicesSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
@@ -20,7 +19,6 @@ export default function Home() {
       <ResultsSection />
       <StatementSection />
       <DenialPreventionSection />
-      <CaseStudiesSection />
       <ServicesSection />
       <PartnersSection />
       <InsightsTabsSection />
