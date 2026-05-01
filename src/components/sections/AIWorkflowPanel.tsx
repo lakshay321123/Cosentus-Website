@@ -150,7 +150,7 @@ export default function AIWorkflowPanel() {
           border: '1px solid #E6E6E6',
           padding: '5px 10px',
           borderRadius: 6,
-          color: '#616161',
+          color: '#000000',
         }}>
           End-to-End Pipeline
         </div>
@@ -328,12 +328,11 @@ export default function AIWorkflowPanel() {
                   <div style={{
                     fontSize: 13,
                     fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#000000'
-                      : isPast ? '#000000'
-                      : '#616161',
+                    color: '#000000',
+                    opacity: isActive ? 1 : isPast ? 1 : 0.45,
                     fontFamily: 'var(--font-display)',
                     letterSpacing: '-0.005em',
-                    transition: 'color 0.3s ease',
+                    transition: 'color 0.3s ease, opacity 0.3s ease',
                     flex: 1,
                     minWidth: 0,
                     whiteSpace: 'nowrap',
