@@ -3,12 +3,11 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const partners = [
   { name: 'ASCA', src: '/images/11-300x173.png', width: 140, height: 80 },
-  { name: 'HIMSS', src: '/images/10-300x288.png', width: 100, height: 96 },
   { name: 'ASA', src: '/images/06-300x190.png', width: 130, height: 82 },
   { name: 'UCA', src: '/images/09-300x231.png', width: 120, height: 92 },
-  { name: 'CDA', src: '/images/02-295x300.png', width: 100, height: 102 },
   { name: 'Global Chamber', src: '/images/03-300x295.png', width: 100, height: 98 },
   { name: 'NJ AASC', src: '/images/05-300x169.png', width: 140, height: 79 },
+  { name: 'AWS', src: '/images/aws-partner-logo.svg', width: 140, height: 79 },
 ]
 
 function PartnerLogo({ p }: { p: typeof partners[0] }) {

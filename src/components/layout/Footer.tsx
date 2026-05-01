@@ -20,25 +20,24 @@ const footerNav = [
       { label: 'Pain Management', href: '/specialties/pain-management' },
       { label: 'ASCs', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
+      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
     title: 'Services',
     links: [
-      { label: 'Medical Billing & Coding', href: '/services/billing-coding' },
-      { label: 'Practice Management', href: '/services/practice-management' },
-      { label: 'Comprehensive RCM', href: '/services/rcm' },
+      { label: 'End-to-End RCM', href: '/services/rcm' },
       { label: 'EHR & Technology', href: '/services/ehr-technology' },
     ],
   },
   {
-    title: 'Resources',
+    title: 'Insights',
     links: [
+      { label: 'All Insights', href: '/insights' },
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
-      { label: 'Contact', href: '/contact' },
     ],
   },
 ]
@@ -57,7 +56,7 @@ export default function Footer() {
               style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)' }}
             />
             <p>
-              Cut Through the Noise. AI-Native RCM That Delivers.
+              Real People + AI, RCM Redefined.
             </p>
             <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
               (877) 806-2286 &nbsp;|&nbsp;{' '}

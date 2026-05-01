@@ -12,7 +12,7 @@ export default function AnesthesiaPage() {
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
-        label="ANESTHESIA — ACCREDA BY COSENTUS"
+        label="ACCREDA BY COSENTUS — PURPOSE BUILT FOR ANESTHESIA"
         title="Beyond Billing. Built for Anesthesia."
         subtitle="Accreda by Cosentus — 23+ years of anesthesia-specific RCM experience, backed by our Real + Artificial Intelligence operating model to capture every time unit, implant, and billable encounter."
         ctaText="Get Your Free Anesthesia Revenue Analysis"

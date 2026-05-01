@@ -156,9 +156,10 @@ Careers: hr@cosentus.com
 REAL + ARTIFICIAL INTELLIGENCE (R+A):
 Not just AI. Not just people. Both working together. AI handles the volume, humans handle the judgment.
 
-8 AI Voice Agents:
-Pre Service: Harper (eligibility verification), Olivia (prior auth follow up), Emily (pre service payment collection, 30 to 40% higher than post service), Sarah (scheduling, reduces no shows)
-Post Service: Chris (claim follow up with payers), Michael (payment reconciliation, catches underpayments), Cindy (patient collections in 50+ languages, payment plans, real time processing), Allison (after hours support, no call goes unanswered)
+9 AI Voice Agents:
+Patient and Practice Facing: April (appointment scheduling, reminders, confirmations), Cindy (patient support — balances, payment options, 50+ languages), Priya (pre-procedure payment collection, verified cost estimates, 30 to 40% higher pre service rates), Curtis (front line practice staff support, routing, real time status)
+Backend Operations: Paige (prior authorization tracking, submission, follow up), Elly (eligibility and benefits verification before every encounter), Chris (claims follow up with payers — thousands of calls daily, waits on hold so your team does not have to), Ariel (AR follow up, aging claim tracking, escalation to specialists), Connie (coding assistant — code suggestions, documentation review, accuracy checks)
+Note: Denial management is handled by human experts — root cause analysis, clinical rationale appeals, and payer escalations require judgment, not automation.
 
 Processing about 3,000 calls per day. 24/7 coverage. 50+ languages.
 
@@ -214,31 +215,29 @@ Appeal Success Rate: Industry 50 to 55%, our target over 65% AI drafted by month
 Net Collection Rate: Industry about 95%, our target over 98% by month 3
 
 RESULTS:
-Up to 30% revenue growth. Over 98% net collection rate. Over 99% clean claim rate. 98.5% coding accuracy. AR over 120 days under 15%. Patient collection rate over 80%. 48 hour charge lag. 95%+ appeal success rate.
+Up to 30% revenue growth. Over 98% net collection rate. Over 99% clean claim rate. 98.5% coding accuracy. AR over 120 days under 10%. Patient collection rate over 80%. 48 hour charge lag. 95%+ appeal success rate.
 
-SERVICES:
-1. Medical Billing and Coding across 20+ specialties. AAPC certified coders. End to end from charge capture to patient billing.
-2. Complete Practice Management. Front desk, credentialing, scheduling, financial reporting, operational consulting. Yields 5 to 15% additional revenue.
-3. Comprehensive RCM. Full cycle from registration to final payment. One team, one dashboard, every dollar accounted for.
-4. EHR and Technology. EHR agnostic. Optional Medcloud platform.
+SERVICES (Two Services. One Result: Growth):
+1. End-to-End Revenue Cycle Management. From credentialing to final patient payment, we manage the entire cycle. Billing and coding is part of end-to-end RCM, not a separate service. Every step. Every dollar. One team. AAPC certified coders, payer-specific edits, root cause denial analysis, 95%+ appeal success.
+2. EHR and Technology. EHR agnostic. Works with Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, and others. Optional purpose-built platform available for practices that want a deeper connection.
 
 60+ SPECIALTIES WE SERVE:
 Anesthesia (via Accreda, 23+ years dedicated), Orthopedics, Pain Management, Ambulatory Surgery Centers, Behavioral Health, Psychiatry, Urgent Care, OBGYN, Ophthalmology, Endoscopy, General Surgery, ENT, Dermatology, Cardiology, Pulmonology, Neurology, Neurosurgery, Urology, Nephrology, Gastroenterology, Rheumatology, Oncology, Hematology, Radiation Oncology, Radiology, Interventional Radiology, Pathology, Emergency Medicine, Internal Medicine, Family Practice, Pediatrics, Geriatrics, Allergy and Immunology, Infectious Disease, Endocrinology, Physical Medicine and Rehabilitation, Sports Medicine, Podiatry, Chiropractic, Oral Surgery, Plastic Surgery, Vascular Surgery, Thoracic Surgery, Colorectal Surgery, Bariatric Surgery, Hand Surgery, Spine Surgery, Trauma Surgery, DME (Durable Medical Equipment), Home Health, Hospice, Skilled Nursing, Telehealth, Sleep Medicine, Wound Care, Pain Clinics, IOP/PHP Programs, Substance Abuse Treatment, Addiction Medicine, Speech Therapy, Occupational Therapy, Physical Therapy
 
 FULL RCM WORKFLOW (how we actually make practices money):
 1. Patient Scheduling and Registration: Clean data capture, insurance card scanning, demographic verification
-2. Eligibility and Benefits Verification: Harper AI checks coverage before every visit. Catches eligibility issues before they become denials
-3. Prior Authorization: Olivia tracks every open auth, prevents OR delays and timely filing lapses
-4. Pre Service Collections: Emily contacts patients 3 to 7 days before with verified cost estimates. Pre service collection rates are 30 to 40% higher
+2. Eligibility and Benefits Verification: Elly AI checks coverage before every visit. Catches eligibility issues before they become denials
+3. Prior Authorization: Paige tracks every open auth, prevents OR delays and timely filing lapses
+4. Pre Service Collections: Priya contacts patients 3 to 7 days before with verified cost estimates. Pre service collection rates are 30 to 40% higher
 5. Clinical Documentation: CDI specialists ensure documentation supports the codes billed
 6. Charge Capture: Real time capture from EHR, reconciliation with schedules and OR logs
-7. Medical Coding: AAPC certified coders assign CPT, ICD 10, HCPCS codes with correct modifiers
+7. Medical Coding: AAPC certified coders assign CPT, ICD 10, HCPCS codes with correct modifiers — supported by Connie AI for code suggestions and accuracy checks
 8. Claim Scrubbing: Payer specific edits, NCI/CCI checks, modifier validation before submission
 9. Claim Submission: Electronic submission via clearinghouse, tracking confirmation
 10. Payment Posting: ERA/EOB processing, contractual adjustment posting, patient responsibility identification
-11. Denial Management: Root cause analysis, appeal with clinical rationale, 95%+ success rate, prevention strategies
-12. AR Follow Up: Chris AI contacts payers on pending claims, escalation protocols, aging bucket management
-13. Underpayment Recovery: Michael AI reconciles expected vs received, contract rate comparison, variance recovery
+11. Denial Management: Handled by human experts — root cause analysis, clinical rationale appeals, payer escalations. 95%+ success rate, prevention strategies
+12. AR Follow Up: Chris AI contacts payers on pending claims, Ariel AI tracks aging buckets and escalates to specialists
+13. Underpayment Recovery: Reconciliation specialists investigate expected vs received, contract rate comparison, variance recovery
 14. Patient Billing and Collections: Cindy AI handles balances in 50+ languages, payment plans, real time processing
 15. Credentialing: Provider enrollment, re credentialing, CAQH management, payer contract maintenance
 16. Reporting and Analytics: Real time dashboards by provider, payer, procedure, denial category. Weekly reviews, monthly ops meetings, QBRs
@@ -330,13 +329,11 @@ SPECIALTIES:
 - Behavioral Health (/specialties/behavioral-health) — Therapy coding, psychiatric billing, IOP/PHP, telehealth, authorization management, 8 service cards
 
 SERVICES:
-- Medical Billing & Coding (/services/billing-coding) — 3 differentiators, 6-step billing process, specialty ticker (12 specialties)
-- Practice Management (/services/practice-management) — Front desk, financial reporting, credentialing, consulting, 5 service cards
+- End-to-End RCM (/services/rcm) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
 - EHR & Technology (/services/ehr-technology) — EHR agnostic, compatible systems (Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, Medcloud), 5 capability cards
-- Comprehensive RCM (/services/rcm) — 10-step revenue cycle with AI agents (Harper, Olivia, Emily, Michael, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth)
 
 COSENTUS AI (/cosentus-ai):
-- 8 AI voice agents with 3D avatars: Harper (eligibility), Olivia (prior auth), Emily (pre-service payment), Sarah (scheduling), Chris (claims), Michael (payment reconciliation), Cindy (patient collections — that's YOU!), Allison (customer service)
+- 9 AI voice agents with 3D avatars: Elly (eligibility), Paige (prior auth), Priya (pre-procedure payment), April (scheduling), Chris (claims follow-up), Ariel (AR follow-up), Connie (coding assistant), Cindy (patient support — that's YOU!), Curtis (customer support)
 - The Problem section, How R+A Works (5 steps), Why R+A Can't Be Replicated
 
 RESOURCES (/resources):
@@ -411,13 +408,11 @@ SPECIALTIES:
 - Behavioral Health (/specialties/behavioral-health) — Therapy coding, psychiatric billing, IOP/PHP, telehealth, authorization management, 8 service cards
 
 SERVICES:
-- Medical Billing & Coding (/services/billing-coding) — 3 differentiators, 6-step billing process, specialty ticker (12 specialties)
-- Practice Management (/services/practice-management) — Front desk, financial reporting, credentialing, consulting, 5 service cards
+- End-to-End RCM (/services/rcm) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
 - EHR & Technology (/services/ehr-technology) — EHR agnostic, compatible systems (Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, Medcloud), 5 capability cards
-- Comprehensive RCM (/services/rcm) — 10-step revenue cycle with AI agents (Harper, Olivia, Emily, Michael, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth)
 
 COSENTUS AI (/cosentus-ai):
-- 8 AI voice agents with 3D avatars: Harper (eligibility), Olivia (prior auth), Emily (pre-service payment), Sarah (scheduling), Chris (claims), Michael (payment reconciliation), Cindy (patient collections — that's YOU!), Allison (customer service)
+- 9 AI voice agents with 3D avatars: Elly (eligibility), Paige (prior auth), Priya (pre-procedure payment), April (scheduling), Chris (claims follow-up), Ariel (AR follow-up), Connie (coding assistant), Cindy (patient support — that's YOU!), Curtis (customer support)
 - The Problem section, How R+A Works (5 steps), Why R+A Can't Be Replicated
 
 RESOURCES (/resources):

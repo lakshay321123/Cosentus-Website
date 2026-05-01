@@ -25,21 +25,20 @@ const navItems = [
       { label: 'Pain Management', href: '/specialties/pain-management' },
       { label: 'ASCs', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
+      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
     label: 'Services',
     href: '/services',
     children: [
-      { label: 'Medical Billing & Coding', href: '/services/billing-coding' },
-      { label: 'Complete Practice Management', href: '/services/practice-management' },
-      { label: 'Comprehensive RCM', href: '/services/rcm' },
+      { label: 'End-to-End RCM', href: '/services/rcm' },
       { label: 'EHR & Technology', href: '/services/ehr-technology' },
     ],
   },
   {
-    label: 'Resources',
-    href: '/resources',
+    label: 'Insights',
+    href: '/insights',
     children: [
       { label: 'Blog', href: '/blog' },
       { label: 'Case Studies', href: '/case-studies' },

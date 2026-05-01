@@ -8,30 +8,21 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 const services = [
   {
     num: '01',
-    title: 'Medical Billing & Coding',
-    desc: 'Every claim scrubbed. Every denial chased. Every dollar collected.',
-    href: '/services/billing-coding',
-    stat: '98.5%',
-    statLabel: 'Coding Accuracy',
-    image: '/images/homepage/billing-coding.jpg',
-  },
-  {
-    num: '02',
-    title: 'Real + Artificial Intelligence',
-    desc: '8 AI agents. 3,000 calls a day. Your revenue cycle on autopilot.',
-    href: '/cosentus-ai',
-    stat: '8',
-    statLabel: 'AI Agents Live',
-    image: '/images/homepage/ehr-tech.jpg',
-  },
-  {
-    num: '03',
-    title: 'Comprehensive RCM',
-    desc: 'Eligibility to final payment. One team. One dashboard. Zero gaps.',
+    title: 'End-to-End Revenue Cycle Management',
+    desc: 'From credentialing to final patient payment. Every step. Every dollar. One team.',
     href: '/services/rcm',
     stat: '>98%',
     statLabel: 'Net Collection',
     image: '/images/homepage/rcm-full.jpg',
+  },
+  {
+    num: '02',
+    title: 'EHR & Technology',
+    desc: 'EHR agnostic. Works seamlessly with Epic, Athenahealth, eClinicalWorks, and more.',
+    href: '/services/ehr-technology',
+    stat: '23',
+    statLabel: 'Modules',
+    image: '/images/homepage/ehr-tech.jpg',
   },
 ]
 
@@ -103,11 +94,11 @@ export default function ServicesSection() {
           <div className="section-label">WHAT WE DO</div>
         </RevealOnScroll>
         <RevealOnScroll direction="right" delay={0.1}>
-          <div className="section-title">Three Services.<br />One Result: Growth.</div>
+          <div className="section-title">Two Services.<br />One Result: Growth.</div>
         </RevealOnScroll>
 
         {/* Desktop: 3 visual cards */}
-        <div className="services-visual-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
+        <div className="services-visual-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginTop: 48 }}>
           {services.map((svc, i) => (
             <RevealOnScroll key={i} delay={0.15 + i * 0.12}>
               <ServiceCard svc={svc} />

@@ -5,8 +5,8 @@ import ResultsSection from '@/components/sections/ResultsSection'
 import CTASection from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
-  title: 'Services | Revenue Cycle, Billing, Practice Management & Technology | Cosentus',
-  description: 'Four integrated services built for specialty healthcare, powered by Real + Artificial Intelligence.',
+  title: 'Services | End-to-End RCM and EHR & Technology | Cosentus',
+  description: 'Two integrated services built for specialty healthcare, powered by Real + Artificial Intelligence.',
 }
 
 export default function ServicesPage() {
@@ -15,7 +15,7 @@ export default function ServicesPage() {
       <PageHero
         label="OUR SERVICES"
         title="Everything Your Practice Needs to Grow Revenue."
-        subtitle="Four integrated services built for specialty healthcare, powered by Real + Artificial Intelligence. Use individually or combine for a complete revenue ecosystem."
+        subtitle="Two integrated services built for specialty healthcare, powered by Real + Artificial Intelligence. End-to-End Revenue Cycle Management and EHR & Technology."
       />
       <ServicesSection />
       <ResultsSection />

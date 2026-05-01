@@ -40,24 +40,39 @@ function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
 }
 
 const stats = [
-  { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to' },
-  { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '' },
-  { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '' },
-  { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1 },
-  { target: 15, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '' },
-  { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '' },
+  { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to',
+    flip: 'Tens of thousands more per month. Within 90 days.' },
+  { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '',
+    flip: '$98 collected on every $100. Most practices stop at $91.' },
+  { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '',
+    flip: 'On $3M in charges, that\u2019s $300K recovered every year.' },
+  { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1,
+    flip: 'Coding errors cost thousands monthly. We catch 98.5% of them.' },
+  { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '',
+    flip: 'Aging claims rot. We keep cash moving \u2014 fast.' },
+  { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '',
+    flip: 'Most practices collect under 50%. We recover the rest \u2014 in 50+ languages.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
   return (
     <div className="result-item">
-      <div className="result-arrow-img" />
-      <div className="result-text">
-        {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
-        <div className="result-number">
-          <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+      <div className="result-flip-card">
+        {/* FRONT — arrow + number + label */}
+        <div className="result-flip-front">
+          <div className="result-arrow-img" />
+          <div className="result-text">
+            {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+            <div className="result-number">
+              <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+            </div>
+            <div className="result-label">{stat.label}</div>
+          </div>
         </div>
-        <div className="result-label">{stat.label}</div>
+        {/* BACK — dollar-impact copy */}
+        <div className="result-flip-back">
+          <div className="result-flip-text">{stat.flip}</div>
+        </div>
       </div>
     </div>
   )
