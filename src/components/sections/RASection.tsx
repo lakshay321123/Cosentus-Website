@@ -6,73 +6,9 @@ import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import AIWorkflowPanel from '@/components/sections/AIWorkflowPanel'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
+import { AGENTS } from '@/data/voice-agents'
 
-// 9 named voice agents — the actual platform, shown as a team.
-// shortRole = displayed under the name on the homepage grid (kept as-is per Lakshay).
-// role = single-word role displayed in the call modal as "{role} Agent" eyebrow,
-//        matching the reference design (INTAKE AGENT / BILLING AGENT etc.).
-// agentId = Retell agent_xxx id from the Cosentus.ai reference repo. Only Chris
-//        and Cindy have exact-name matches (same agentId used for the same
-//        named agent on Cosentus.ai). The other 7 are null and will fall to
-//        'Demo' state on Connect — modal shows fully but no real voice call
-//        until those Retell agents are provisioned.
-// greeting = initial transcript text shown before any SDK update events fire.
-const agents: (VoiceAgent & { shortRole: string })[] = [
-  {
-    name: 'Elly', shortRole: 'Eligibility Verification', role: 'Eligibility',
-    img: 'elly.png',
-    agentId: null,
-    greeting: "Hi, I'm Elly — I verify eligibility and benefits before every appointment so coverage issues don't surface at the desk.",
-  },
-  {
-    name: 'Paige', shortRole: 'Prior Authorization', role: 'Authorization',
-    img: 'paige.png',
-    agentId: null,
-    greeting: "Hey, I'm Paige — I track prior authorizations and close them out before they delay procedures or drop into timely-filing territory.",
-  },
-  {
-    name: 'Priya', shortRole: 'Pre-Procedure Payments', role: 'Payments',
-    img: 'priya.png',
-    agentId: null,
-    greeting: "Hi, I'm Priya — I reach patients three to seven days pre-procedure with verified estimates so collection rates stay 30-40% higher.",
-  },
-  {
-    name: 'April', shortRole: 'Appt. Scheduling', role: 'Scheduling',
-    img: 'april.png',
-    agentId: null,
-    greeting: "Hi, I'm April — I run inbound and outbound scheduling, confirmations, and reminders to cut no-shows and fill the calendar.",
-  },
-  {
-    name: 'Curtis', shortRole: 'Customer Support', role: 'Support',
-    img: 'curtis.png',
-    agentId: null,
-    greeting: "Hey, Curtis here — I cover after-hours and overflow so no patient call goes unanswered. What's on your mind?",
-  },
-  {
-    name: 'Chris', shortRole: 'Claims Follow-Up', role: 'Claims',
-    img: 'chris.png',
-    agentId: 'agent_9571fe9261e3944f33777a1406',
-    greeting: "Hey, Chris here — I specialize in billing workflows and claim follow-up. What do you need?",
-  },
-  {
-    name: 'Cindy', shortRole: 'Patient Support', role: 'Patient',
-    img: 'cindy.png',
-    agentId: 'agent_4510e7416ee31ca808b8546ed7',
-    greeting: "Hi, I'm Cindy — I focus on patient balance collections and AR follow-up in 50+ languages. Want to talk strategy?",
-  },
-  {
-    name: 'Ariel', shortRole: 'AR Follow-Up', role: 'AR',
-    img: 'ariel.png',
-    agentId: null,
-    greeting: "Hi, I'm Ariel — I work AR aging, payer follow-up, and underpayment recovery so cash keeps moving.",
-  },
-  {
-    name: 'Connie', shortRole: 'Coding Assistant', role: 'Coding',
-    img: 'connie.png',
-    agentId: null,
-    greeting: "Hi, I'm Connie — I assist with medical coding accuracy, modifier selection, and CDI. How can I help?",
-  },
-]
+const agents = AGENTS
 
 export default function RASection() {
   const [activeAgent, setActiveAgent] = useState<VoiceAgent | null>(null)

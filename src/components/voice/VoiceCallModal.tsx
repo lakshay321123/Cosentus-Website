@@ -106,6 +106,31 @@ export default function VoiceCallModal({
   const [agentTalking, setAgentTalking] = useState(false)
   const clientRef = useRef<RetellClient | null>(null)
 
+  // ---- Force-stop residual audio playback. ----
+  // The Retell SDK creates an <audio> element with srcObject = MediaStream
+  // for the WebRTC remote audio track. When stopCall() is called the peer
+  // connection closes, but the audio element + MediaStream tracks are NOT
+  // automatically stopped — they continue playing whatever is buffered
+  // (this is the disconnect bug Lakshay reported: "when I disconnect, also
+  // it's still speaking"). Calling track.stop() on every active audio
+  // MediaStream cuts the audio at its source. Targeted to audio elements
+  // with srcObject set, so it won't affect any future <audio src=...> usage.
+  const teardownAudio = () => {
+    if (typeof document === 'undefined') return
+    document.querySelectorAll('audio').forEach(audio => {
+      const stream = audio.srcObject as MediaStream | null
+      if (stream && typeof stream.getTracks === 'function') {
+        try {
+          stream.getTracks().forEach(track => {
+            try { track.stop() } catch { /* ignore individual track */ }
+          })
+        } catch { /* ignore */ }
+      }
+      try { audio.pause() } catch { /* ignore */ }
+      try { audio.srcObject = null } catch { /* ignore */ }
+    })
+  }
+
   // ---- Load Retell SDK once on first mount of any modal instance ----
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -163,6 +188,7 @@ export default function VoiceCallModal({
       client.on('call_ended', () => {
         setStatus('ended')
         setAgentTalking(false)
+        teardownAudio()  // stop residual MediaStream playback immediately
       })
       client.on('error', (err: unknown) => {
         setStatus('error')
@@ -197,7 +223,7 @@ export default function VoiceCallModal({
     }
   }
 
-  // ---- Cleanup on unmount: stop call if still active ----
+  // ---- Cleanup on unmount: stop call + force-stop residual audio ----
   useEffect(() => {
     return () => {
       const c = clientRef.current
@@ -205,6 +231,7 @@ export default function VoiceCallModal({
         try { c.stopCall() } catch { /* ignore */ }
       }
       clientRef.current = null
+      teardownAudio()
     }
   }, [])
 
@@ -249,8 +276,14 @@ export default function VoiceCallModal({
   }
 
   const handleEnd = () => {
+    // Freeze visual state immediately so rings/waveform stop animating
+    setAgentTalking(false)
+    // Stop the SDK call (closes WebRTC peer)
     const c = clientRef.current
     if (c) { try { c.stopCall() } catch { /* ignore */ } }
+    clientRef.current = null
+    // Force-kill any residual MediaStream audio playback
+    teardownAudio()
     onClose()
   }
 
