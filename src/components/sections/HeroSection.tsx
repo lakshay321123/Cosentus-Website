@@ -71,7 +71,15 @@ export default function HeroSection() {
         </div>
 
         <div className="hero-actions">
-          <Link href="/contact" className="btn-glass">
+          <Link
+            href="/contact"
+            className="btn-glass hero-cta-dark"
+            style={{
+              background: 'rgba(0, 0, 0, 0.35)',
+              borderColor: 'rgba(255, 255, 255, 0.18)',
+              color: '#fff',
+            }}
+          >
             Get Your Financial MRI <ArrowIcon />
           </Link>
         </div>
@@ -91,7 +99,8 @@ export default function HeroSection() {
         @media (max-width: 768px) {
           .hero-specialty-grid { grid-template-columns: 1fr !important; }
         }
-        .hero-specialty-tile:hover {
+        .hero-specialty-tile:hover,
+        .hero-cta-dark:hover {
           background: rgba(0, 0, 0, 0.50) !important;
           border-color: rgba(255, 255, 255, 0.30) !important;
           color: #fff !important;
