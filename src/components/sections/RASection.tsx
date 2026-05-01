@@ -3,7 +3,7 @@
 
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import AICodingLivePanel from '@/components/sections/AICodingLivePanel'
+import AIWorkflowPanel from '@/components/sections/AIWorkflowPanel'
 
 // 9 named voice agents — the actual platform, shown as a team
 // Names + shortRoles match the canonical design on the Technology page.
@@ -137,7 +137,7 @@ export default function RASection() {
           </div>
 
           <RevealOnScroll direction="right" delay={0.3}>
-            <AICodingLivePanel />
+            <AIWorkflowPanel />
           </RevealOnScroll>
         </div>
       </div>
