@@ -31,7 +31,7 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02 }}>
+        <h1>
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
