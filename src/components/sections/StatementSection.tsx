@@ -63,16 +63,7 @@ export default function StatementSection() {
 
           <RevealOnScroll delay={0.6}>
             <div style={{ textAlign: 'center', marginTop: 56 }}>
-              <Link href="/contact" style={{
-                display: 'inline-block', padding: '18px 52px',
-                fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600,
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: 'white', background: '#00B5D6', textDecoration: 'none',
-                borderRadius: 50, transition: 'all 0.4s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#00B5D6' }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6'; e.currentTarget.style.color = 'white' }}
-              >
+              <Link href="/contact" className="btn-glass" style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: 13, padding: '0 52px' }}>
                 {"Let's Talk"}
               </Link>
             </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 
 const ArrowIcon = () => (
@@ -19,8 +18,6 @@ const specialties = [
 ]
 
 export default function HeroSection() {
-  const [hovered, setHovered] = useState<number | null>(null)
-
   return (
     <section className="hero">
       <div className="hero-bg">
@@ -47,32 +44,19 @@ export default function HeroSection() {
           maxWidth: 720,
           margin: '36px 0 32px',
         }} className="hero-specialty-grid">
-          {specialties.map((s, i) => (
+          {specialties.map((s) => (
             <Link
               key={s.href}
               href={s.href}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(i)}
-              onBlur={() => setHovered(null)}
+              className="btn-glass"
               style={{
-                padding: '14px 18px',
-                background: hovered === i ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
-                border: '1px solid rgba(255,255,255,0.25)',
                 borderRadius: 'var(--radius-md)',
-                color: 'white',
-                textDecoration: 'none',
+                justifyContent: 'space-between',
                 fontSize: 14,
                 fontWeight: 500,
-                fontFamily: 'var(--font-body)',
                 letterSpacing: '0.01em',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 8,
-                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                backdropFilter: 'blur(8px)',
-                transform: hovered === i ? 'translateY(-2px)' : 'translateY(0)',
+                fontFamily: 'var(--font-body)',
+                textDecoration: 'none',
               }}
             >
               <span>{s.label}</span>
