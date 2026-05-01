@@ -46,8 +46,24 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'stretch' }}>
-          <div>
+        {/* Two-column × three-row grid. Each row's height is set by the taller
+            cell, and both cells in a row share that height. This is the only
+            way to get true pixel-precise alignment between left and right
+            content without flex-stretch hacks.
+              Row 1 — header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
+              Row 2 — body:   left = agent grid 3x3,           right = AI Workflow Panel
+              Row 3 — footer: left = Explore Platform link,    right = empty */}
+        <div className="ra-main-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gridTemplateRows: 'auto auto auto',
+          columnGap: 80,
+          rowGap: 32,
+          alignItems: 'start',
+        }}>
+
+          {/* ROW 1 — HEADER LEFT: eyebrow + headline + paragraph */}
+          <div style={{ gridColumn: 1, gridRow: 1 }}>
             <RevealOnScroll direction="left">
               <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
             </RevealOnScroll>
@@ -57,19 +73,59 @@ export default function RASection() {
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
-              <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 36 }}>
+              <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
                 Claims chased before you notice them. Denials overturned before they cost you. Collections handled while you see patients.
               </p>
             </RevealOnScroll>
+          </div>
 
-            {/* Meet your AI team — 9 agent cards using the SAME design as the Technology page.
-                Image on top + brand-blue footer strip with name and role. */}
+          {/* ROW 1 — HEADER RIGHT: 9 / 15 / 23 stats, vertically centered in the row */}
+          <div style={{ gridColumn: 2, gridRow: 1, alignSelf: 'center', width: '100%' }}>
+            <RevealOnScroll direction="right" delay={0.15}>
+              <div className="ra-stats-row" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 16,
+              }}>
+                {[
+                  { num: '9', label: 'Voice Agents' },
+                  { num: '15', label: 'AI Features' },
+                  { num: '23', label: 'Modules' },
+                ].map(stat => (
+                  <div key={stat.label} style={{ textAlign: 'center' }}>
+                    <div style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(36px, 4.5vw, 56px)',
+                      fontWeight: 700,
+                      color: '#00B5D6',
+                      lineHeight: 1,
+                      letterSpacing: '-0.02em',
+                      marginBottom: 6,
+                    }}>
+                      {stat.num}
+                    </div>
+                    <div style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: 'var(--gray-700)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}>
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+          </div>
+
+          {/* ROW 2 — BODY LEFT: agent grid 3x3 */}
+          <div style={{ gridColumn: 1, gridRow: 2 }}>
             <RevealOnScroll direction="left" delay={0.35}>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: '32px 16px',
-                marginBottom: 32,
               }} className="ra-agent-grid">
                 {agents.map((agent, i) => (
                   <div key={agent.name} style={{
@@ -84,7 +140,6 @@ export default function RASection() {
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
                   >
-                    {/* Circular avatar with brand-blue ring — matches /voice.html reference */}
                     <div className="ra-agent-circle" style={{
                       width: 120,
                       height: 120,
@@ -127,7 +182,17 @@ export default function RASection() {
                 ))}
               </div>
             </RevealOnScroll>
+          </div>
 
+          {/* ROW 2 — BODY RIGHT: AI Workflow Panel (top-aligned with agent grid top) */}
+          <div style={{ gridColumn: 2, gridRow: 2 }}>
+            <RevealOnScroll direction="right" delay={0.3}>
+              <AIWorkflowPanel />
+            </RevealOnScroll>
+          </div>
+
+          {/* ROW 3 — FOOTER LEFT: Explore Platform link */}
+          <div style={{ gridColumn: 1, gridRow: 3 }}>
             <RevealOnScroll direction="left" delay={0.45}>
               <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
                 Explore The Platform
@@ -136,88 +201,23 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          <RevealOnScroll direction="right" delay={0.3} className="ra-workflow-wrap">
-            <div className="ra-workflow-stack">
-              {/* Big highlight stats — 9 / 15 / 23. Sits ABOVE the workflow
-                  panel on the right column so the panel's top edge aligns
-                  with the agent grid's top edge on the left column.
-                  Per Lakshay: 'shift this AI workflow down where you see
-                  Ellie, Paige, Priya... I want it completely aligned'. */}
-              <div className="ra-stats-row" style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 16,
-                paddingBottom: 28,
-                marginBottom: 28,
-                borderBottom: '1px solid var(--gray-200)',
-                flexShrink: 0,
-              }}>
-                {[
-                  { num: '9', label: 'Voice Agents' },
-                  { num: '15', label: 'AI Features' },
-                  { num: '23', label: 'Modules' },
-                ].map(stat => (
-                  <div key={stat.label} style={{ textAlign: 'center' }}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(36px, 4.5vw, 56px)',
-                      fontWeight: 700,
-                      color: '#00B5D6',
-                      lineHeight: 1,
-                      letterSpacing: '-0.02em',
-                      marginBottom: 6,
-                    }}>
-                      {stat.num}
-                    </div>
-                    <div style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: 'var(--gray-700)',
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase',
-                    }}>
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Panel grows to fill remaining vertical space so its bottom
-                  matches the bottom of the agent grid on the left column. */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <AIWorkflowPanel />
-              </div>
-            </div>
-          </RevealOnScroll>
+          {/* ROW 3 — FOOTER RIGHT: empty */}
+
         </div>
       </div>
 
       <style>{`
-        /* Right column wrapper — stretches to match the left column's height
-           via the parent grid's alignItems: stretch. Inside, the wrapper is
-           a flex column: stats block at top (natural height), panel below
-           with flex: 1 to fill remaining space. This makes the panel's TOP
-           align with the agent grid's TOP (since stats above match the
-           eyebrow+headline+paragraph block on the left), and the panel's
-           BOTTOM align with the agent grid's BOTTOM (since both stretch to
-           the same row height). */
-        .ra-workflow-wrap {
-          align-self: stretch !important;
-          height: auto !important;
-          display: flex !important;
-          flex-direction: column;
-        }
-        .ra-workflow-wrap > * {
-          flex: 1;
-          width: 100%;
-          min-height: 0;
-        }
-        .ra-workflow-stack {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        }
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
+        }
+        /* Mobile: ra-main-grid collapses to 1 column. The inline gridColumn:1/2
+           and gridRow:1/2/3 on each cell would still try to use 2 columns.
+           Reset them so cells flow naturally in source order. */
+        @media (max-width: 768px) {
+          .ra-main-grid > div {
+            grid-column: 1 !important;
+            grid-row: auto !important;
+          }
         }
         @keyframes ra-scanline-move {
           0%, 100% { transform: translateY(0); opacity: 0; }

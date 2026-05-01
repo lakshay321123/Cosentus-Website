@@ -109,8 +109,6 @@ export default function AIWorkflowPanel() {
         border: '1px solid #E6E6E6',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
-        minHeight: 0,
       }}
     >
       {/* Subtle hairline gradient at the top, Apple-style */}
@@ -159,7 +157,7 @@ export default function AIWorkflowPanel() {
       </div>
 
       {/* Body */}
-      <div style={{ padding: '20px 24px 18px', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+      <div style={{ padding: '20px 24px 18px', display: 'flex', flexDirection: 'column' }}>
 
         {/* Top focus card — Apple iOS frosted glass card */}
         <div key={`focus-${active}`} style={{
