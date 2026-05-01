@@ -46,7 +46,7 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
+        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'stretch' }}>
           <div>
             <RevealOnScroll direction="left">
               <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
@@ -136,18 +136,20 @@ export default function RASection() {
           </div>
 
           <RevealOnScroll direction="right" delay={0.3} className="ra-workflow-wrap">
-            <div>
-              <AIWorkflowPanel />
-              {/* Big highlight stats — 9 / 15 / 23. Moved here from below the
-                  agents on the left column per Lakshay's instruction. Sits
-                  directly under the workflow panel for compact rhythm. */}
+            <div className="ra-workflow-stack">
+              {/* Big highlight stats — 9 / 15 / 23. Sits ABOVE the workflow
+                  panel on the right column so the panel's top edge aligns
+                  with the agent grid's top edge on the left column.
+                  Per Lakshay: 'shift this AI workflow down where you see
+                  Ellie, Paige, Priya... I want it completely aligned'. */}
               <div className="ra-stats-row" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: 16,
-                marginTop: 28,
-                paddingTop: 24,
-                borderTop: '1px solid var(--gray-200)',
+                paddingBottom: 28,
+                marginBottom: 28,
+                borderBottom: '1px solid var(--gray-200)',
+                flexShrink: 0,
               }}>
                 {[
                   { num: '9', label: 'Voice Agents' },
@@ -178,21 +180,40 @@ export default function RASection() {
                   </div>
                 ))}
               </div>
+              {/* Panel grows to fill remaining vertical space so its bottom
+                  matches the bottom of the agent grid on the left column. */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <AIWorkflowPanel />
+              </div>
             </div>
           </RevealOnScroll>
         </div>
       </div>
 
       <style>{`
-        /* Override globals.css grid+reveal-right rule that forces height: 100% +
-           display: flex on .reveal-right inside any grid. Without this override,
-           the right column wrapper stretches to match the left column's height,
-           and its flex parent stretches the AIWorkflowPanel inside it, leaving
-           large empty blue space below the panel content. */
+        /* Right column wrapper — stretches to match the left column's height
+           via the parent grid's alignItems: stretch. Inside, the wrapper is
+           a flex column: stats block at top (natural height), panel below
+           with flex: 1 to fill remaining space. This makes the panel's TOP
+           align with the agent grid's TOP (since stats above match the
+           eyebrow+headline+paragraph block on the left), and the panel's
+           BOTTOM align with the agent grid's BOTTOM (since both stretch to
+           the same row height). */
         .ra-workflow-wrap {
-          align-self: start !important;
+          align-self: stretch !important;
           height: auto !important;
-          display: block !important;
+          display: flex !important;
+          flex-direction: column;
+        }
+        .ra-workflow-wrap > * {
+          flex: 1;
+          width: 100%;
+          min-height: 0;
+        }
+        .ra-workflow-stack {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
         }
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
