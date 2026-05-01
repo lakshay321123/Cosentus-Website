@@ -9,6 +9,7 @@ const partners = [
   { name: 'CDA', src: '/images/02-295x300.png', width: 100, height: 102 },
   { name: 'Global Chamber', src: '/images/03-300x295.png', width: 100, height: 98 },
   { name: 'NJ AASC', src: '/images/05-300x169.png', width: 140, height: 79 },
+  { name: 'AWS', src: '/images/aws-partner-logo.svg', width: 140, height: 79 },
 ]
 
 function PartnerLogo({ p }: { p: typeof partners[0] }) {
