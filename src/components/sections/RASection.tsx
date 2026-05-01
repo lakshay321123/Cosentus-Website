@@ -46,7 +46,7 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'stretch' }}>
           <div>
             <RevealOnScroll direction="left">
               <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
@@ -136,7 +136,7 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          <RevealOnScroll direction="right" delay={0.3}>
+          <RevealOnScroll direction="right" delay={0.3} className="ra-workflow-wrap">
             <AIWorkflowPanel />
           </RevealOnScroll>
         </div>
@@ -146,6 +146,8 @@ export default function RASection() {
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
         }
+        .ra-workflow-wrap { height: 100%; display: flex; }
+        .ra-workflow-wrap > * { width: 100%; }
         @keyframes ra-scanline-move {
           0%, 100% { transform: translateY(0); opacity: 0; }
           10% { opacity: 1; }

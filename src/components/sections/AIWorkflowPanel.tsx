@@ -104,7 +104,6 @@ export default function AIWorkflowPanel() {
         overflow: 'hidden',
         boxShadow: '0 24px 60px rgba(0,181,214,0.3)',
         height: '100%',
-        minHeight: 720,
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -148,15 +147,15 @@ export default function AIWorkflowPanel() {
       </div>
 
       {/* Body */}
-      <div style={{ padding: '28px 28px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '22px 24px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
         {/* Top focus card — large, dramatic, swaps on stage change */}
         <div key={`focus-${active}`} style={{
           background: 'rgba(255,255,255,0.18)',
           border: '1px solid rgba(255,255,255,0.4)',
           borderRadius: 12,
-          padding: '20px 22px',
-          marginBottom: 22,
+          padding: '16px 20px',
+          marginBottom: 16,
           animation: 'awp-focusin 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
           position: 'relative',
           overflow: 'hidden',
@@ -265,7 +264,7 @@ export default function AIWorkflowPanel() {
                     alignItems: 'center',
                     gap: 12,
                     width: '100%',
-                    padding: '8px 10px',
+                    padding: '6px 10px',
                     border: 'none',
                     background: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
                     borderRadius: 6,
@@ -331,7 +330,7 @@ export default function AIWorkflowPanel() {
                 {/* Connector line + traveling pulse */}
                 {i < stages.length - 1 && (
                   <div style={{
-                    height: 12,
+                    height: 8,
                     width: 2,
                     marginLeft: 21,
                     background: isPast || isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)',
@@ -394,7 +393,7 @@ export default function AIWorkflowPanel() {
         }
         @keyframes awp-travel {
           from { transform: translateY(0); opacity: 1; }
-          to { transform: translateY(12px); opacity: 0; }
+          to { transform: translateY(8px); opacity: 0; }
         }
       `}</style>
     </div>
