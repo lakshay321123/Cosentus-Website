@@ -384,18 +384,6 @@ export default function AIWorkflowPanel() {
           })}
         </div>
 
-        {/* Footer */}
-        <div style={{
-          marginTop: 16, paddingTop: 14, borderTop: '1px solid #E6E6E6',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
-        }}>
-          <div style={{ fontSize: 12, color: '#616161', fontWeight: 500, letterSpacing: '0.02em' }}>
-            <strong style={{ fontWeight: 700, color: '#00B5D6' }}>9</strong> Voice Agents · <strong style={{ fontWeight: 700, color: '#00B5D6' }}>15</strong> AI Features · <strong style={{ fontWeight: 700, color: '#00B5D6' }}>23</strong> Modules
-          </div>
-          <div style={{ fontSize: 10, color: '#000000', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.6 }}>
-            EHR-Agnostic
-          </div>
-        </div>
       </div>
 
       <style>{`

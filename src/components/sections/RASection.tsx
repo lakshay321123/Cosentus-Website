@@ -125,12 +125,27 @@ export default function RASection() {
                   </div>
                 ))}
               </div>
-              {/* Big highlight stats — 9 / 15 / 23, treated as headline figures */}
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="left" delay={0.45}>
+              <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
+                Explore The Platform
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </Link>
+            </RevealOnScroll>
+          </div>
+
+          <RevealOnScroll direction="right" delay={0.3} className="ra-workflow-wrap">
+            <div>
+              <AIWorkflowPanel />
+              {/* Big highlight stats — 9 / 15 / 23. Moved here from below the
+                  agents on the left column per Lakshay's instruction. Sits
+                  directly under the workflow panel for compact rhythm. */}
               <div className="ra-stats-row" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: 16,
-                marginBottom: 36,
+                marginTop: 28,
                 paddingTop: 24,
                 borderTop: '1px solid var(--gray-200)',
               }}>
@@ -163,18 +178,7 @@ export default function RASection() {
                   </div>
                 ))}
               </div>
-            </RevealOnScroll>
-
-            <RevealOnScroll direction="left" delay={0.45}>
-              <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
-                Explore The Platform
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </Link>
-            </RevealOnScroll>
-          </div>
-
-          <RevealOnScroll direction="right" delay={0.3} className="ra-workflow-wrap">
-            <AIWorkflowPanel />
+            </div>
           </RevealOnScroll>
         </div>
       </div>
