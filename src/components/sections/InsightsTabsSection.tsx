@@ -117,18 +117,27 @@ export default function InsightsTabsSection() {
                   id={`tab-${t.key}`}
                   onClick={() => setActiveKey(t.key)}
                   style={{
-                    padding: '10px 24px',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: 44,
+                    padding: '0 24px',
+                    borderRadius: 999,
                     fontSize: 14,
                     fontWeight: 600,
                     fontFamily: 'var(--font-body)',
-                    color: isActive ? 'white' : '#00B5D6',
-                    background: isActive ? '#00B5D6' : 'transparent',
-                    border: `1.5px solid ${isActive ? '#00B5D6' : '#A1DEED'}`,
-                    borderRadius: 999,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                    letterSpacing: '0.01em',
+                    letterSpacing: '0.02em',
                     whiteSpace: 'nowrap',
+                    backdropFilter: 'blur(5px) saturate(120%)',
+                    WebkitBackdropFilter: 'blur(5px) saturate(120%)',
+                    color: isActive ? '#fff' : 'var(--primary)',
+                    background: isActive ? 'rgba(0, 181, 214, 0.85)' : 'rgba(0, 181, 214, 0.18)',
+                    border: `1px solid ${isActive ? 'rgba(0, 181, 214, 0.7)' : 'rgba(0, 181, 214, 0.45)'}`,
+                    boxShadow: isActive
+                      ? 'inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 12px 28px rgba(0, 181, 214, 0.42), 0 0 24px rgba(0, 181, 214, 0.28)'
+                      : 'inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 8px 22px rgba(0, 181, 214, 0.22)',
+                    transition: 'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1), color 200ms cubic-bezier(0.22, 0.61, 0.36, 1)',
                   }}
                   className={`insights-tab${isActive ? ' insights-tab-active' : ''}`}
                 >
@@ -184,50 +193,14 @@ export default function InsightsTabsSection() {
           marginTop: 36,
           flexWrap: 'wrap',
         }}>
-          <Link
-            href={active.viewAllHref}
-            style={{
-              padding: '12px 28px',
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'white',
-              background: '#00B5D6',
-              border: '1.5px solid #00B5D6',
-              borderRadius: 999,
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              transition: 'all 0.25s ease',
-              fontFamily: 'var(--font-body)',
-            }}
-            className="primary-pill"
-          >
+          <Link href={active.viewAllHref} className="btn-primary">
             View All {active.label}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
-          <Link
-            href="/insights"
-            style={{
-              padding: '12px 28px',
-              fontSize: 14,
-              fontWeight: 600,
-              color: '#00B5D6',
-              background: 'transparent',
-              border: '1.5px solid #A1DEED',
-              borderRadius: 999,
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              transition: 'all 0.25s ease',
-              fontFamily: 'var(--font-body)',
-            }}
-            className="ghost-pill"
-          >
+          <Link href="/insights" className="btn-primary">
             Browse All Insights
           </Link>
         </div>
@@ -251,11 +224,17 @@ export default function InsightsTabsSection() {
           .insights-tab { padding: 8px 16px !important; font-size: 13px !important; }
         }
         .insights-tab:hover:not(.insights-tab-active) {
-          border-color: #00B5D6 !important;
-          background: #D6EBF2 !important;
+          background: rgba(0, 181, 214, 0.30) !important;
+          border-color: rgba(0, 181, 214, 0.7) !important;
+          color: #fff !important;
+          transform: translateY(-1px);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.55),
+            inset 0 -1px 0 rgba(0, 80, 100, 0.18),
+            0 12px 28px rgba(0, 181, 214, 0.42),
+            0 0 24px rgba(0, 181, 214, 0.28) !important;
         }
-        .primary-pill:hover { background: #36C2DE; border-color: #36C2DE; }
-        .ghost-pill:hover { border-color: #00B5D6; background: #D6EBF2; }
+        .insights-tab:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
       `}</style>
     </section>
   )

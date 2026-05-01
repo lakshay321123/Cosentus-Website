@@ -48,17 +48,34 @@ function getInitials(name: string): string {
 export default function TestimonialsSection() {
   const [idx, setIdx] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [slidesPerView, setSlidesPerView] = useState(2)
   const total = testimonials.length
+
+  // Detect viewport — 2 cards side-by-side on desktop, 1 on mobile (≤900px)
+  useEffect(() => {
+    const check = () => setSlidesPerView(window.innerWidth <= 900 ? 1 : 2)
+    check()
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Clamp idx when slidesPerView shrinks (e.g. desktop -> mobile while idx is at end)
+  const maxIdx = Math.max(0, total - slidesPerView)
+  useEffect(() => {
+    setIdx(i => Math.min(i, maxIdx))
+  }, [maxIdx])
 
   // Auto-advance every 5s unless paused
   useEffect(() => {
     if (paused) return
-    const t = setInterval(() => setIdx(i => (i + 1) % total), 5000)
+    const t = setInterval(() => setIdx(i => (i >= maxIdx ? 0 : i + 1)), 5000)
     return () => clearInterval(t)
-  }, [paused, total])
+  }, [paused, maxIdx])
 
-  const goPrev = () => setIdx(i => (i - 1 + total) % total)
-  const goNext = () => setIdx(i => (i + 1) % total)
+  const goPrev = () => setIdx(i => (i <= 0 ? maxIdx : i - 1))
+  const goNext = () => setIdx(i => (i >= maxIdx ? 0 : i + 1))
+
+  const stepPercent = 100 / slidesPerView
 
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
@@ -96,25 +113,26 @@ export default function TestimonialsSection() {
               {/* Track — full row of slides, slides via transform */}
               <div style={{
                 display: 'flex',
-                transform: `translateX(-${idx * 100}%)`,
+                transform: `translateX(-${idx * stepPercent}%)`,
                 transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                 willChange: 'transform',
               }}>
                 {testimonials.map((t, i) => (
                   <div key={i} style={{
-                    flex: '0 0 100%',
+                    flex: `0 0 ${stepPercent}%`,
                     minWidth: 0,
                     padding: '8px',
                   }}>
                     <div style={{
-                      maxWidth: 880,
-                      margin: '0 auto',
-                      padding: 'clamp(36px, 5vw, 64px) clamp(28px, 5vw, 72px)',
+                      height: '100%',
+                      padding: 'clamp(32px, 4vw, 48px) clamp(24px, 3.5vw, 44px)',
                       background: 'var(--white)',
                       borderRadius: 16,
                       border: '1px solid var(--gray-200)',
                       position: 'relative',
                       boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}>
                       {/* Tag */}
                       <div style={{
@@ -146,14 +164,15 @@ export default function TestimonialsSection() {
                       {/* Quote */}
                       <p style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(20px, 2.4vw, 28px)',
+                        fontSize: 'clamp(18px, 1.6vw, 22px)',
                         fontWeight: 400,
-                        lineHeight: 1.45,
-                        letterSpacing: '-0.01em',
+                        lineHeight: 1.5,
+                        letterSpacing: '-0.005em',
                         color: 'var(--gray-900)',
-                        marginBottom: 36,
+                        marginBottom: 28,
                         position: 'relative',
                         zIndex: 1,
+                        flex: 1,
                       }}>
                         &ldquo;{t.quote}&rdquo;
                       </p>
@@ -211,11 +230,14 @@ export default function TestimonialsSection() {
                 className="t-arrow"
                 style={{
                   width: 44, height: 44, borderRadius: '50%',
-                  background: 'var(--white)',
-                  border: '1px solid var(--gray-200)',
+                  background: 'rgba(0, 181, 214, 0.18)',
+                  backdropFilter: 'blur(5px) saturate(120%)',
+                  WebkitBackdropFilter: 'blur(5px) saturate(120%)',
+                  border: '1px solid rgba(0, 181, 214, 0.45)',
+                  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 8px 22px rgba(0, 181, 214, 0.22)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'all 0.25s ease',
+                  transition: 'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1)',
                   flexShrink: 0,
                 }}
               >
@@ -226,11 +248,11 @@ export default function TestimonialsSection() {
 
               {/* Dots */}
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                {testimonials.map((_, i) => (
+                {Array.from({ length: maxIdx + 1 }).map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setIdx(i)}
-                    aria-label={`Testimonial ${i + 1}`}
+                    aria-label={`Go to testimonial ${i + 1}`}
                     style={{
                       width: idx === i ? 28 : 8,
                       height: 8,
@@ -251,11 +273,14 @@ export default function TestimonialsSection() {
                 className="t-arrow"
                 style={{
                   width: 44, height: 44, borderRadius: '50%',
-                  background: 'var(--white)',
-                  border: '1px solid var(--gray-200)',
+                  background: 'rgba(0, 181, 214, 0.18)',
+                  backdropFilter: 'blur(5px) saturate(120%)',
+                  WebkitBackdropFilter: 'blur(5px) saturate(120%)',
+                  border: '1px solid rgba(0, 181, 214, 0.45)',
+                  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 8px 22px rgba(0, 181, 214, 0.22)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'all 0.25s ease',
+                  transition: 'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1)',
                   flexShrink: 0,
                 }}
               >
@@ -270,10 +295,17 @@ export default function TestimonialsSection() {
 
       <style>{`
         .t-arrow:hover {
-          background: #00B5D6 !important;
-          border-color: #00B5D6 !important;
+          background: rgba(0, 181, 214, 0.85) !important;
+          border-color: rgba(0, 181, 214, 0.7) !important;
+          transform: translateY(-1px);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.55),
+            inset 0 -1px 0 rgba(0, 80, 100, 0.18),
+            0 12px 28px rgba(0, 181, 214, 0.42),
+            0 0 24px rgba(0, 181, 214, 0.28) !important;
         }
         .t-arrow:hover svg { stroke: white !important; }
+        .t-arrow:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
       `}</style>
     </section>
   )
