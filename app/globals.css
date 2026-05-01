@@ -387,23 +387,43 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .btn-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 16px 32px;
+  height: 48px;
+  padding: 0 32px;
   background: var(--primary);
   color: var(--white);
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-base);
-  box-shadow: 0 4px 24px rgba(0,181,214,0.35);
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: none;
+  /* iOS-style depth — inset highlight, inset bottom shadow, outer drop shadow */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 8px 22px rgba(0, 181, 214, 0.32);
+  transition:
+    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .btn-primary:hover {
   background: var(--primary-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,181,214,0.45);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.40),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 12px 28px rgba(0, 181, 214, 0.42),
+    0 0 24px rgba(0, 181, 214, 0.28);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.1s;
 }
 
 .btn-primary svg {
@@ -414,19 +434,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .btn-primary:hover svg { transform: translateX(3px); }
 
-/* Buttons on blue hero backgrounds — white bg, blue text */
-.hero .btn-primary {
-  background: var(--primary);
-  color: var(--white);
-  box-shadow: 0 4px 24px rgba(0,181,214,0.35);
-}
-.hero .btn-primary:hover {
-  background: var(--primary);
-  color: var(--white);
-  box-shadow: 0 8px 32px rgba(0,181,214,0.5);
-}
+/* Buttons on blue hero backgrounds — keep solid teal pill, brighter shimmer */
 .hero .btn-primary::before {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
 }
 
 .btn-ghost {
@@ -956,13 +966,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  background: linear-gradient(140deg, #00B5D6 0%, #36C2DE 100%);
+  background: linear-gradient(140deg, #1F98AB 0%, #0D3D47 100%);
   border-radius: 12px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 181, 214, 0.25);
+  box-shadow: 0 8px 24px rgba(13, 61, 71, 0.35);
 }
 
 .result-flip-text {
@@ -1446,11 +1456,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   50% { left: 100%; }
 }
 
-/* Glow pulse on hover */
-.btn-primary:hover {
-  box-shadow: 0 0 20px rgba(0,181,214,0.5), 0 0 60px rgba(0,181,214,0.2), 0 8px 32px rgba(0,181,214,0.35);
-}
-
 /* Ghost button arrow animation */
 .btn-ghost svg {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1458,6 +1463,52 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .btn-ghost:hover svg {
   transform: translateX(6px);
 }
+
+/* ===== FROSTED-GLASS BUTTON — for dark backgrounds (heroes, modals) ===== */
+.btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(5px) saturate(120%);
+  -webkit-backdrop-filter: blur(5px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 999px;
+  color: rgba(232, 246, 251, 0.92);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 8px 22px rgba(0, 0, 0, 0.32);
+  transition:
+    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.btn-glass:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.10);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.40),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 12px 28px rgba(0, 0, 0, 0.42),
+    0 0 24px rgba(0, 181, 214, 0.28);
+}
+.btn-glass:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
+.btn-glass svg { width: 18px; height: 18px; transition: transform var(--transition-base); }
+.btn-glass:hover svg { transform: translateX(3px); }
 
 /* ===== FUTURISTIC CARD EFFECTS ===== */
 

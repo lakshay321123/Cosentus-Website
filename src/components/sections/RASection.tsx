@@ -206,7 +206,7 @@ export default function RASection() {
           {/* ROW 3 — FOOTER LEFT: Explore Platform link */}
           <div style={{ gridColumn: 1, gridRow: 3 }}>
             <RevealOnScroll direction="left" delay={0.45}>
-              <Link href="/cosentus-ai" className="btn-ghost" style={{ color: 'var(--primary)', display: 'inline-flex' }}>
+              <Link href="/cosentus-ai" className="btn-primary">
                 Explore The Platform
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>

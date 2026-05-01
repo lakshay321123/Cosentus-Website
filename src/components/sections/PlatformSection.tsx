@@ -51,16 +51,7 @@ export default function PlatformSection() {
 
         <RevealOnScroll delay={0.5}>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Link href="/cosentus-ai" style={{
-              display: 'inline-block', padding: '16px 44px',
-              fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600,
-              letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: 'white', background: '#00B5D6', textDecoration: 'none',
-              borderRadius: 50, transition: 'all 0.4s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'var(--gray-900)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6'; e.currentTarget.style.transform = 'none' }}
-            >
+            <Link href="/cosentus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 13 }}>
               Explore The Platform
             </Link>
           </div>
