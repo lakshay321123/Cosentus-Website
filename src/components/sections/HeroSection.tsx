@@ -48,7 +48,7 @@ export default function HeroSection() {
             <Link
               key={s.href}
               href={s.href}
-              className="btn-glass"
+              className="btn-glass hero-specialty-tile"
               style={{
                 borderRadius: 'var(--radius-md)',
                 justifyContent: 'space-between',
@@ -57,6 +57,9 @@ export default function HeroSection() {
                 letterSpacing: '0.01em',
                 fontFamily: 'var(--font-body)',
                 textDecoration: 'none',
+                background: 'rgba(0, 0, 0, 0.35)',
+                borderColor: 'rgba(255, 255, 255, 0.18)',
+                color: '#fff',
               }}
             >
               <span>{s.label}</span>
@@ -87,6 +90,11 @@ export default function HeroSection() {
       <style>{`
         @media (max-width: 768px) {
           .hero-specialty-grid { grid-template-columns: 1fr !important; }
+        }
+        .hero-specialty-tile:hover {
+          background: rgba(0, 0, 0, 0.50) !important;
+          border-color: rgba(255, 255, 255, 0.30) !important;
+          color: #fff !important;
         }
       `}</style>
     </section>
