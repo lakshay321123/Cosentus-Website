@@ -978,7 +978,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* Back face — absolutely positioned overlay that matches the front's box.
-   Rotated 180deg so it sits behind the front in 3D space. */
+   Rotated 180deg so it sits behind the front in 3D space.
+   Layout: flip text up top (shifted up via flex), stat identity (number +
+   label) anchored to the bottom for context — so the dollar-impact line
+   is visibly tied to the stat it's about. */
 .result-flip-back {
   position: absolute;
   inset: 0;
@@ -987,21 +990,55 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: rotateY(180deg);
   background: linear-gradient(140deg, #1F98AB 0%, #0D3D47 100%);
   border-radius: 12px;
-  padding: 20px;
+  padding: 20px 18px 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   box-shadow: 0 8px 24px rgba(13, 61, 71, 0.35);
 }
 
+/* Flip text up top — takes available space, vertically centered within
+   its zone (flex: 1 + flex centering) so it reads comfortably without
+   being crammed against the divider. */
 .result-flip-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.4;
   color: white;
   font-weight: 600;
   text-align: center;
   letter-spacing: -0.005em;
+}
+
+/* Stat identity at the bottom — same sizes as front, white instead of
+   teal/grey since the bg is dark teal. Divider line above for separation. */
+.result-flip-stat {
+  width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.30);
+  text-align: center;
+}
+.result-flip-number {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400;
+  color: white;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.result-flip-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* When the user hovers ANY result item, dim the others to grey so the
