@@ -83,7 +83,7 @@ export default function ResultsSection() {
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
         <RevealOnScroll>
-          <div className="results-header"><h2>Based on Our Assessments, Here&apos;s What Our Clients Are Seeing.</h2></div>
+          <div className="results-header"><h2>Results Our Clients See</h2></div>
         </RevealOnScroll>
 
         {/* Desktop: grid layout */}

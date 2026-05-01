@@ -62,7 +62,7 @@ export default function RASection() {
           {/* ROW 1 — HEADER LEFT: eyebrow + headline + paragraph */}
           <div style={{ gridColumn: 1, gridRow: 1 }}>
             <RevealOnScroll direction="left">
-              <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
+              <div className="section-label">REAL PEOPLE + AI</div>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.15}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>

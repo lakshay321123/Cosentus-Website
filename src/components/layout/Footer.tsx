@@ -56,7 +56,7 @@ export default function Footer() {
               style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)' }}
             />
             <p>
-              Cut Through the Noise. AI-Native RCM That Delivers.
+              Real People + AI, RCM Redefined.
             </p>
             <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
               (877) 806-2286 &nbsp;|&nbsp;{' '}
