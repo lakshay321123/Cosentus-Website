@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react'
 // Each stage: name shown in focus state, the "how we integrate / what we do" subtitle,
 // and the responsible agent or system. Icon is rendered inline as SVG.
 type Stage = {
-  name: string          // big stage label
-  detail: string        // technical detail (how we integrate / what we do)
-  agent?: string        // agent or system tag
-  iconPath: string      // SVG path data for the stage icon (24x24 viewBox)
+  name: string
+  detail: string
+  agent?: string
+  iconPath: string
 }
 
 const stages: Stage[] = [
@@ -97,104 +97,115 @@ export default function AIWorkflowPanel() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
-        background: 'linear-gradient(140deg, #00B5D6 0%, #36C2DE 60%, #68D1E6 100%)',
-        borderRadius: 'var(--radius-md)',
+        // Apple iOS aesthetic: very light frosted base, layered glass cards on top.
+        // Background is a soft off-white with the faintest brand-teal wash so it
+        // still feels on-brand without sacrificing contrast for white-on-blue text.
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
+        borderRadius: 20,
         padding: 0,
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: '0 24px 60px rgba(0,181,214,0.3)',
+        boxShadow: '0 1px 0 rgba(255,255,255,0.6) inset, 0 24px 60px rgba(0, 181, 214, 0.10), 0 2px 8px rgba(0,0,0,0.04)',
+        border: '1px solid #E6E6E6',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      {/* Scan-line texture — same as AICodingLivePanel for visual continuity */}
+      {/* Subtle hairline gradient at the top, Apple-style */}
       <div aria-hidden="true" style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.025) 3px, rgba(255,255,255,0.025) 4px)',
+        position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+        background: 'linear-gradient(90deg, transparent, rgba(0,181,214,0.4), transparent)',
+        pointerEvents: 'none',
       }} />
 
-      {/* Header strip */}
+      {/* Header strip — light, with brand-teal accent dot */}
       <div style={{
-        background: '#00B5D6',
-        padding: '16px 28px',
+        padding: '14px 24px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottom: '1px solid rgba(255,255,255,0.25)',
+        borderBottom: '1px solid #E6E6E6',
+        background: 'rgba(255,255,255,0.6)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
         position: 'relative',
         flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{
-            width: 8, height: 8, borderRadius: '50%', background: 'white',
-            boxShadow: '0 0 12px rgba(255,255,255,0.9)',
+            width: 8, height: 8, borderRadius: '50%', background: '#00B5D6',
+            boxShadow: '0 0 0 4px rgba(0,181,214,0.18)',
             animation: 'awp-pulse 1.6s ease-in-out infinite',
           }} />
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
+          <div style={{
+            fontSize: 11, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: '#000000', fontFamily: 'var(--font-display)',
+          }}>
             AI Workflow · Live
           </div>
         </div>
         <div style={{
-          fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
-          background: 'rgba(255,255,255,0.18)',
-          padding: '4px 10px',
-          borderRadius: 4,
-          color: 'white',
+          fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
+          background: '#FFFFFF',
+          border: '1px solid #E6E6E6',
+          padding: '5px 10px',
+          borderRadius: 6,
+          color: '#616161',
         }}>
           End-to-End Pipeline
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ padding: '22px 24px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '20px 24px 18px', display: 'flex', flexDirection: 'column' }}>
 
-        {/* Top focus card — large, dramatic, swaps on stage change */}
+        {/* Top focus card — Apple iOS frosted glass card */}
         <div key={`focus-${active}`} style={{
-          background: 'rgba(255,255,255,0.18)',
-          border: '1px solid rgba(255,255,255,0.4)',
-          borderRadius: 12,
-          padding: '16px 20px',
-          marginBottom: 16,
+          background: 'rgba(255, 255, 255, 0.72)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          border: '1px solid rgba(0, 181, 214, 0.25)',
+          borderRadius: 14,
+          padding: '18px 20px',
+          marginBottom: 18,
           animation: 'awp-focusin 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
           position: 'relative',
           overflow: 'hidden',
+          boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset, 0 8px 24px rgba(0, 181, 214, 0.08)',
         }}>
-          {/* Stage progress: x of 9 */}
+          {/* Top row: stage tag + agent pill */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: 14,
+            marginBottom: 12,
           }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-            }}>
-              {/* Big icon */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              {/* Brand-teal icon tile */}
               <div style={{
-                width: 44, height: 44, borderRadius: 10,
-                background: 'white',
+                width: 40, height: 40, borderRadius: 10,
+                background: 'linear-gradient(140deg, #00B5D6 0%, #36C2DE 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
+                boxShadow: '0 4px 12px rgba(0, 181, 214, 0.3)',
               }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d={current.iconPath} />
                 </svg>
               </div>
               <div>
                 <div style={{
-                  fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: 'white', opacity: 0.85, marginBottom: 4,
+                  fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase',
+                  color: '#00B5D6', marginBottom: 4,
                 }}>
                   Stage {String(active + 1).padStart(2, '0')} of {String(stages.length).padStart(2, '0')}
                 </div>
                 <div style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: 22,
-                  fontWeight: 700,
-                  color: 'white',
-                  letterSpacing: '-0.015em',
+                  fontWeight: 600,
+                  color: '#000000',
+                  letterSpacing: '-0.02em',
                   lineHeight: 1.1,
                 }}>
                   {current.name}
@@ -203,11 +214,11 @@ export default function AIWorkflowPanel() {
             </div>
             {current.agent && (
               <div style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
+                fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
                 color: '#00B5D6',
-                background: 'white',
-                padding: '5px 10px',
-                borderRadius: 4,
+                background: '#D6EBF2',
+                padding: '6px 10px',
+                borderRadius: 6,
                 whiteSpace: 'nowrap',
                 textTransform: 'uppercase',
                 flexShrink: 0,
@@ -217,29 +228,30 @@ export default function AIWorkflowPanel() {
             )}
           </div>
 
-          {/* Detail line — typewriter-style fade-in */}
+          {/* Detail line — high contrast dark gray on white */}
           <div style={{
             fontSize: 14,
-            color: 'white',
-            lineHeight: 1.5,
-            opacity: 0.95,
+            color: '#000000',
+            lineHeight: 1.55,
+            opacity: 0.78,
             animation: 'awp-detail 0.7s ease-out 0.15s backwards',
+            fontWeight: 400,
           }}>
             {current.detail}
           </div>
 
-          {/* Subtle bottom progress bar — fills as the stage holds */}
+          {/* Progress bar — fills as the stage holds */}
           <div style={{
             position: 'absolute',
             bottom: 0, left: 0, right: 0,
             height: 2,
-            background: 'rgba(255,255,255,0.15)',
+            background: 'rgba(0, 181, 214, 0.08)',
           }}>
             <div
               key={`progress-${active}`}
               style={{
                 height: '100%',
-                background: 'white',
+                background: '#00B5D6',
                 animation: paused || interacted ? 'none' : 'awp-progress 1.5s linear forwards',
                 width: paused || interacted ? '100%' : '0%',
               }}
@@ -247,7 +259,7 @@ export default function AIWorkflowPanel() {
           </div>
         </div>
 
-        {/* Pipeline — vertical list of all 9 stages, compact */}
+        {/* Pipeline — vertical list of all 9 stages, current highlighted */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, position: 'relative' }}>
           {stages.map((s, i) => {
             const isActive = i === active
@@ -263,33 +275,50 @@ export default function AIWorkflowPanel() {
                     alignItems: 'center',
                     gap: 12,
                     width: '100%',
-                    padding: '6px 10px',
+                    padding: '8px 12px',
                     border: 'none',
-                    background: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
-                    borderRadius: 6,
+                    background: isActive ? '#D6EBF2' : 'transparent',
+                    borderRadius: 8,
                     cursor: 'pointer',
                     fontFamily: 'inherit',
                     textAlign: 'left',
-                    transition: 'all 0.3s ease',
+                    transition: 'background 0.3s ease',
+                    position: 'relative',
                   }}
                 >
+                  {/* Active stage left bar — Apple-style accent */}
+                  {isActive && (
+                    <div aria-hidden="true" style={{
+                      position: 'absolute',
+                      left: 0, top: 8, bottom: 8,
+                      width: 3,
+                      background: '#00B5D6',
+                      borderRadius: 2,
+                    }} />
+                  )}
+
                   {/* Node dot */}
                   <div style={{
                     width: 22, height: 22, borderRadius: '50%',
-                    background: isActive ? 'white' : isPast ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.25)',
+                    background: isActive ? '#00B5D6'
+                      : isPast ? '#36C2DE'
+                      : '#FFFFFF',
+                    border: isActive ? 'none'
+                      : isPast ? 'none'
+                      : '2px solid #CCCCCC',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: isActive ? '0 0 0 4px rgba(255,255,255,0.25), 0 0 14px rgba(255,255,255,0.6)' : 'none',
+                    boxShadow: isActive ? '0 0 0 5px rgba(0, 181, 214, 0.18), 0 4px 10px rgba(0,181,214,0.3)' : 'none',
                     transition: 'all 0.3s ease',
                   }}>
                     {isPast ? (
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     ) : isActive ? (
                       <div style={{
-                        width: 8, height: 8, borderRadius: '50%',
-                        background: '#00B5D6',
+                        width: 7, height: 7, borderRadius: '50%',
+                        background: '#FFFFFF',
                         animation: 'awp-corepulse 1s ease-in-out infinite',
                       }} />
                     ) : null}
@@ -298,12 +327,13 @@ export default function AIWorkflowPanel() {
                   {/* Stage label */}
                   <div style={{
                     fontSize: 13,
-                    fontWeight: isActive ? 700 : 500,
-                    color: 'white',
-                    opacity: isActive ? 1 : isPast ? 0.85 : 0.65,
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? '#000000'
+                      : isPast ? '#000000'
+                      : '#616161',
                     fontFamily: 'var(--font-display)',
                     letterSpacing: '-0.005em',
-                    transition: 'all 0.3s ease',
+                    transition: 'color 0.3s ease',
                     flex: 1,
                     minWidth: 0,
                     whiteSpace: 'nowrap',
@@ -317,8 +347,7 @@ export default function AIWorkflowPanel() {
                   <div style={{
                     fontSize: 10,
                     fontWeight: 700,
-                    color: 'white',
-                    opacity: isActive ? 0.95 : 0.5,
+                    color: isActive ? '#00B5D6' : '#CCCCCC',
                     fontFamily: 'var(--font-display)',
                     letterSpacing: '0.05em',
                   }}>
@@ -331,8 +360,8 @@ export default function AIWorkflowPanel() {
                   <div style={{
                     height: 8,
                     width: 2,
-                    marginLeft: 21,
-                    background: isPast || isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)',
+                    marginLeft: 22,
+                    background: isPast || isActive ? '#36C2DE' : '#E6E6E6',
                     position: 'relative',
                     transition: 'background 0.3s ease',
                   }}>
@@ -343,8 +372,8 @@ export default function AIWorkflowPanel() {
                         left: -2,
                         width: 6, height: 6,
                         borderRadius: '50%',
-                        background: 'white',
-                        boxShadow: '0 0 8px rgba(255,255,255,0.9)',
+                        background: '#00B5D6',
+                        boxShadow: '0 0 8px rgba(0,181,214,0.7)',
                         animation: 'awp-travel 0.5s ease-in 1s forwards',
                       }} />
                     )}
@@ -357,13 +386,13 @@ export default function AIWorkflowPanel() {
 
         {/* Footer */}
         <div style={{
-          marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.4)',
+          marginTop: 16, paddingTop: 14, borderTop: '1px solid #E6E6E6',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
         }}>
-          <div style={{ fontSize: 12, color: 'white', fontWeight: 500, letterSpacing: '0.02em' }}>
-            <strong style={{ fontWeight: 700 }}>9</strong> Voice Agents · <strong style={{ fontWeight: 700 }}>15</strong> AI Features · <strong style={{ fontWeight: 700 }}>23</strong> Modules
+          <div style={{ fontSize: 12, color: '#616161', fontWeight: 500, letterSpacing: '0.02em' }}>
+            <strong style={{ fontWeight: 700, color: '#00B5D6' }}>9</strong> Voice Agents · <strong style={{ fontWeight: 700, color: '#00B5D6' }}>15</strong> AI Features · <strong style={{ fontWeight: 700, color: '#00B5D6' }}>23</strong> Modules
           </div>
-          <div style={{ fontSize: 10, color: 'white', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.95 }}>
+          <div style={{ fontSize: 10, color: '#000000', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.6 }}>
             EHR-Agnostic
           </div>
         </div>
@@ -379,12 +408,12 @@ export default function AIWorkflowPanel() {
           50% { transform: scale(1.3); opacity: 0.7; }
         }
         @keyframes awp-focusin {
-          0% { opacity: 0; transform: translateY(10px); }
+          0% { opacity: 0; transform: translateY(8px); }
           100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes awp-detail {
           from { opacity: 0; transform: translateX(-4px); }
-          to { opacity: 0.95; transform: translateX(0); }
+          to { opacity: 0.78; transform: translateX(0); }
         }
         @keyframes awp-progress {
           from { width: 0%; }
