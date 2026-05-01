@@ -46,7 +46,7 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'stretch' }}>
+        <div className="ra-main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
           <div>
             <RevealOnScroll direction="left">
               <div className="section-label">REAL + ARTIFICIAL INTELLIGENCE</div>
@@ -68,63 +68,100 @@ export default function RASection() {
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 14,
-                marginBottom: 28,
+                gap: '32px 16px',
+                marginBottom: 32,
               }} className="ra-agent-grid">
                 {agents.map((agent, i) => (
                   <div key={agent.name} style={{
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    border: '1px solid var(--gray-200)',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    transition: 'transform 0.3s ease',
                     animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
-                    background: 'var(--white)',
+                    cursor: 'default',
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-6px)'
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = 'none'
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
                   >
-                    <div style={{
-                      height: 160,
-                      background: '#f5f9fa',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                    {/* Circular avatar with brand-blue ring — matches /voice.html reference */}
+                    <div className="ra-agent-circle" style={{
+                      width: 120,
+                      height: 120,
+                      borderRadius: '50%',
                       overflow: 'hidden',
-                    }} className="ra-agent-img-wrap">
+                      background: '#f5f9fa',
+                      border: '3px solid #00B5D6',
+                      boxShadow: '0 6px 20px rgba(0, 181, 214, 0.18)',
+                      marginBottom: 12,
+                      flexShrink: 0,
+                    }}>
                       <img
                         src={`/images/${agent.img}`}
                         alt={agent.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                       />
                     </div>
-                    <div style={{ background: '#00B5D6', padding: '12px 10px', textAlign: 'center' }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1.2 }}>
-                        {agent.name}
-                      </div>
-                      <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.85)', marginTop: 3, lineHeight: 1.3 }}>
-                        {agent.shortRole}
-                      </div>
+                    {/* Name in display font, bold */}
+                    <div style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 17,
+                      fontWeight: 700,
+                      color: 'var(--gray-900)',
+                      letterSpacing: '-0.005em',
+                      lineHeight: 1.2,
+                    }}>
+                      {agent.name}
+                    </div>
+                    {/* Role in lighter, smaller text */}
+                    <div style={{
+                      fontSize: 12,
+                      color: 'var(--gray-500)',
+                      marginTop: 3,
+                      lineHeight: 1.3,
+                    }}>
+                      {agent.shortRole}
                     </div>
                   </div>
                 ))}
               </div>
-              {/* Compact stats line — replaces the giant stat boxes */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32,
-                fontSize: 13, color: 'var(--gray-600)',
-                fontFamily: 'var(--font-display)', letterSpacing: '-0.005em',
+              {/* Big highlight stats — 9 / 15 / 23, treated as headline figures */}
+              <div className="ra-stats-row" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 16,
+                marginBottom: 36,
+                paddingTop: 24,
+                borderTop: '1px solid var(--gray-200)',
               }}>
-                <span><strong style={{ color: '#00B5D6', fontSize: 16 }}>9</strong> Voice Agents</span>
-                <span style={{ color: 'var(--gray-300)' }}>·</span>
-                <span><strong style={{ color: '#00B5D6', fontSize: 16 }}>15</strong> AI Features</span>
-                <span style={{ color: 'var(--gray-300)' }}>·</span>
-                <span><strong style={{ color: '#00B5D6', fontSize: 16 }}>23</strong> Modules</span>
+                {[
+                  { num: '9', label: 'Voice Agents' },
+                  { num: '15', label: 'AI Features' },
+                  { num: '23', label: 'Modules' },
+                ].map(stat => (
+                  <div key={stat.label} style={{ textAlign: 'left' }}>
+                    <div style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(36px, 4.5vw, 56px)',
+                      fontWeight: 700,
+                      color: '#00B5D6',
+                      lineHeight: 1,
+                      letterSpacing: '-0.02em',
+                      marginBottom: 6,
+                    }}>
+                      {stat.num}
+                    </div>
+                    <div style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: 'var(--gray-700)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}>
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
             </RevealOnScroll>
 
@@ -146,16 +183,6 @@ export default function RASection() {
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
         }
-        .ra-workflow-wrap {
-          display: flex;
-          flex-direction: column;
-          align-self: stretch;
-        }
-        .ra-workflow-wrap > * {
-          flex: 1;
-          width: 100%;
-          min-height: 0;
-        }
         @keyframes ra-scanline-move {
           0%, 100% { transform: translateY(0); opacity: 0; }
           10% { opacity: 1; }
@@ -167,15 +194,15 @@ export default function RASection() {
           to { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 1100px) {
-          .ra-agent-img-wrap { height: 140px !important; }
+          .ra-agent-circle { width: 100px !important; height: 100px !important; }
         }
         @media (max-width: 700px) {
-          .ra-agent-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .ra-agent-img-wrap { height: 200px !important; }
+          .ra-agent-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .ra-agent-circle { width: 86px !important; height: 86px !important; }
         }
         @media (max-width: 420px) {
-          .ra-agent-grid { grid-template-columns: 1fr !important; }
-          .ra-agent-img-wrap { height: 220px !important; }
+          .ra-agent-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .ra-agent-circle { width: 96px !important; height: 96px !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .ra-scanline { display: none; }
