@@ -46,6 +46,7 @@ const newsItems: InsightCardData[] = [...newsArticles]
     title: a.title,
     date: a.date,
     tag: a.tag,
+    image: a.coverImage,
   }))
 
 const eventItems: InsightCardData[] = [...eventsData]

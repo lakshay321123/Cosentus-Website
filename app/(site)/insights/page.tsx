@@ -60,7 +60,8 @@ const newsItems: InsightCardData[] = [...newsArticles]
     title: a.title,
     date: a.date,
     tag: a.tag,
-    // No cover image on news articles — InsightCard renders a brand gradient fallback
+    image: a.coverImage,
+    // Articles without a coverImage fall back to the brand gradient in InsightCard
   }))
 
 // ---------- Events ----------
