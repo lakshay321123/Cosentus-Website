@@ -39,15 +39,6 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
 
       {/* Content */}
       <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
-        {label && (
-          <RevealOnScroll>
-            <div className="hero-badge">
-              <div className="hero-badge-dot" />
-              <span>{label}</span>
-            </div>
-          </RevealOnScroll>
-        )}
-
         <RevealOnScroll delay={0.1}>
           <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white', marginBottom: 24 }}>{title}</h1>
         </RevealOnScroll>
