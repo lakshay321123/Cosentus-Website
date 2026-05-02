@@ -1572,31 +1572,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
-/* Mobile: reduce reveal offsets and lighten blur so any pre-trigger frame
-   feels less like "missing content". Initial state is closer to final state,
-   so even the brief window before IntersectionObserver fires looks acceptable.
-   Paired with rootMargin:0 in RevealOnScroll.tsx, this kills the 150px
-   dead-zone bug where headings appeared hidden during slow mobile scroll. */
+/* Mobile: fade-only reveal. No translate, no blur. Eliminates the mid-scroll
+   "drop" where elements appeared to slide up from below the previous section
+   for ~0.6s before settling. Element renders at its final position from the
+   start; only opacity transitions in. Paired with rootMargin:0 in
+   RevealOnScroll.tsx, this also removes the 150px dead-zone bug.
+   Desktop keeps the directional reveals and blur for the established feel. */
 @media (max-width: 768px) {
-  .reveal {
-    transform: translateY(20px);
-    filter: blur(2px);
-    transition-duration: 0.6s;
-  }
-  .reveal-left {
-    transform: translateX(-24px);
-    filter: blur(2px);
-    transition-duration: 0.6s;
-  }
-  .reveal-right {
-    transform: translateX(24px);
-    filter: blur(2px);
-    transition-duration: 0.6s;
-  }
+  .reveal,
+  .reveal-left,
+  .reveal-right,
   .reveal-scale {
-    transform: scale(0.94);
-    filter: blur(3px);
-    transition-duration: 0.7s;
+    transform: none;
+    filter: none;
+    transition-duration: 0.4s;
   }
 }
 
