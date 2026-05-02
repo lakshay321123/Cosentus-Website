@@ -1,12 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-
-const ArrowIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-  </svg>
-)
+import { useEffect, useRef, useState } from 'react'
 
 const specialties = [
   { label: 'Anesthesia', href: '/specialties/anesthesia' },
@@ -17,7 +12,39 @@ const specialties = [
   { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
 ]
 
+const ROTATION_MS = 2500
+
 export default function HeroSection() {
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [paused, setPaused] = useState(false)
+  // Re-mount key for the cycling word — drives the fade+slide animation
+  const [animKey, setAnimKey] = useState(0)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Auto-advance every ROTATION_MS unless paused or user prefers reduced motion
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion || paused) return
+
+    intervalRef.current = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % specialties.length)
+      setAnimKey((k) => k + 1)
+    }, ROTATION_MS)
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [paused])
+
+  // Manual jump (dot click) — also bumps animKey to retrigger animation
+  function jumpTo(i: number) {
+    setActiveIdx(i)
+    setAnimKey((k) => k + 1)
+  }
+
+  const active = specialties[activeIdx]
+
   return (
     <section className="hero">
       <div className="hero-bg">
@@ -28,45 +55,49 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <h1>
-          Purpose Built<br />For Your <span className="accent">Specialty.</span>
-        </h1>
-
-        <p className="hero-sub" style={{ fontSize: 'clamp(16px, 1.6vw, 20px)', fontWeight: 500, letterSpacing: '0.02em', opacity: 0.9, marginTop: 28 }}>
-          Choose your Specialty
-        </p>
-
-        {/* Specialty selector */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 12,
-          maxWidth: 720,
-          margin: '36px 0 32px',
-        }} className="hero-specialty-grid">
-          {specialties.map((s) => (
+        {/* H1 + picker share a hover region so cursor crossing the gap
+            between them doesn't briefly resume rotation. */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          {/* Cycling H1 — last word is a clickable Link to the active specialty. */}
+          <h1>
+            Purpose Built<br />For Your{' '}
             <Link
-              key={s.href}
-              href={s.href}
-              className="btn-glass hero-specialty-tile"
-              style={{
-                borderRadius: 999,
-                height: 44,
-                padding: '0 22px',
-                justifyContent: 'center',
-                fontSize: 16,
-                fontWeight: 600,
-                letterSpacing: '0.01em',
-                fontFamily: 'var(--font-body)',
-                textDecoration: 'none',
-                background: 'rgba(0, 0, 0, 0.35)',
-                borderColor: 'rgba(255, 255, 255, 0.18)',
-                color: '#fff',
-              }}
+              href={active.href}
+              className="hero-cycle-word accent"
+              aria-label={`Go to ${active.label} specialty page`}
             >
-              <span>{s.label}</span>
+              <span key={animKey} className="hero-cycle-word-text">
+                {active.label}.
+              </span>
             </Link>
-          ))}
+          </h1>
+
+          {/* Picker — 6 dots + active specialty caption. */}
+          <div
+            className="hero-cycle-picker"
+            role="tablist"
+            aria-label="Choose your specialty"
+          >
+            <div className="hero-cycle-dots">
+              {specialties.map((s, i) => (
+                <button
+                  key={s.href}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === activeIdx}
+                  aria-label={s.label}
+                  onClick={() => jumpTo(i)}
+                  className={`hero-cycle-dot${i === activeIdx ? ' is-active' : ''}`}
+                />
+              ))}
+            </div>
+            <div className="hero-cycle-caption" aria-live="polite">
+              {active.label}
+            </div>
+          </div>
         </div>
 
         <div className="hero-actions">
@@ -79,7 +110,7 @@ export default function HeroSection() {
               color: '#fff',
             }}
           >
-            Get Your Financial MRI <ArrowIcon />
+            Get Your Financial MRI
           </Link>
         </div>
       </div>
@@ -95,10 +126,109 @@ export default function HeroSection() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .hero-specialty-grid { grid-template-columns: 1fr !important; }
+        /* Cycling word in the H1.
+           - Inline-block so transform animations work
+           - Underline only on hover for affordance (it IS clickable)
+           - Inherits H1 font sizing — feels native to the headline */
+        .hero-cycle-word {
+          display: inline-block;
+          color: var(--white);
+          text-decoration: none;
+          position: relative;
+          cursor: pointer;
         }
-        .hero-specialty-tile:hover,
+        .hero-cycle-word::after {
+          content: '';
+          position: absolute;
+          left: 0; right: 0; bottom: 4px;
+          height: 4px;
+          background: rgba(255,255,255,0.0);
+          border-radius: 2px;
+          transition: background 200ms ease;
+        }
+        .hero-cycle-word:hover::after {
+          background: rgba(255,255,255,0.5);
+        }
+
+        /* The text inside is keyed and re-mounts on each rotation,
+           triggering this fade+slide animation. */
+        .hero-cycle-word-text {
+          display: inline-block;
+          animation: hero-cycle-in 350ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        @keyframes hero-cycle-in {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-cycle-word-text { animation: none; }
+        }
+
+        /* Picker block — sits where the 6-tile grid used to be. */
+        .hero-cycle-picker {
+          margin: 36px 0 32px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        /* Dots row */
+        .hero-cycle-dots {
+          display: inline-flex;
+          gap: 12px;
+          align-items: center;
+        }
+        .hero-cycle-dot {
+          appearance: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.30);
+          transition:
+            background 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .hero-cycle-dot:hover {
+          background: rgba(255, 255, 255, 0.60);
+          transform: scale(1.15);
+        }
+        .hero-cycle-dot.is-active {
+          background: #00B5D6;
+          box-shadow: 0 0 0 4px rgba(0, 181, 214, 0.18);
+          transform: scale(1.15);
+        }
+        .hero-cycle-dot:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+        }
+
+        /* Caption beneath the dots — small, tracks the active specialty */
+        .hero-cycle-caption {
+          font-family: var(--font-body);
+          font-size: 13px;
+          font-weight: 500;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+          .hero-cycle-dots { gap: 10px; }
+          .hero-cycle-dot { width: 9px; height: 9px; }
+          .hero-cycle-caption { font-size: 12px; }
+        }
+
         .hero-cta-dark:hover {
           background: rgba(0, 0, 0, 0.50) !important;
           border-color: rgba(255, 255, 255, 0.30) !important;
