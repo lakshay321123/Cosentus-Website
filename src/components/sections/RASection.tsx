@@ -242,12 +242,18 @@ export default function RASection() {
           .ra-agent-circle { width: 100px !important; height: 100px !important; }
         }
         @media (max-width: 700px) {
-          .ra-agent-grid { grid-template-columns: repeat(3, 1fr) !important; }
-          .ra-agent-circle { width: 86px !important; height: 86px !important; }
+          .ra-agent-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 18px 10px !important;
+          }
+          .ra-agent-circle { width: 96px !important; height: 96px !important; }
         }
         @media (max-width: 420px) {
-          .ra-agent-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .ra-agent-circle { width: 96px !important; height: 96px !important; }
+          .ra-agent-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 16px 8px !important;
+          }
+          .ra-agent-circle { width: 88px !important; height: 88px !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .ra-scanline { display: none; }

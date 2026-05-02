@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 const specialties = [
   { label: 'Anesthesia', href: '/specialties/anesthesia' },
@@ -12,11 +13,24 @@ const specialties = [
 ]
 
 export default function HeroSection() {
+  // SSR/initial render uses desktop video; client useEffect swaps to the
+  // 9:16 mobile cut (~1.9MB) on phones. <source media> alone proved
+  // unreliable in some browsers + Next hydration paths — JS swap is the
+  // foolproof path. `key` forces a remount so the browser refetches.
+  const [videoSrc, setVideoSrc] = useState('/images/hero-video.mp4')
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const apply = () => setVideoSrc(mq.matches ? '/images/hero-video-mobile.mp4' : '/images/hero-video.mp4')
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+
   return (
     <section className="hero">
       <div className="hero-bg">
-        <video autoPlay loop muted playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
-          <source src="/images/hero-video.mp4" type="video/mp4" />
+        <video key={videoSrc} autoPlay loop muted playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
+          <source src={videoSrc} type="video/mp4" />
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
       </div>
@@ -72,7 +86,21 @@ export default function HeroSection() {
 
       <style>{`
         @media (max-width: 768px) {
-          .hero-specialty-grid { grid-template-columns: 1fr !important; }
+          .hero-specialty-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: flex-start !important;
+            gap: 10px !important;
+            max-width: 100% !important;
+            margin-top: 32px !important;
+          }
+          .hero-specialty-tile {
+            flex: 0 0 auto !important;
+            /* iOS HIG: 44px minimum touch target, 16px body font for readability */
+            height: 44px !important;
+            padding: 0 22px !important;
+            font-size: 16px !important;
+          }
         }
         .hero-specialty-tile:hover {
           background: rgba(0, 0, 0, 0.50) !important;

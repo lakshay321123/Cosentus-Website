@@ -998,7 +998,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.result-item:hover .result-flip-card {
+.result-item:hover .result-flip-card,
+.result-item.flipped .result-flip-card {
   transform: rotateY(180deg);
 }
 
@@ -1091,11 +1092,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 1;
 }
 
-/* Mobile: skip the 3D flip. Show front normally; back is hidden. */
+/* Mobile: flip is triggered by tap (.flipped class) instead of hover.
+   Keep the 3D transform working so the back face becomes visible on tap.
+   Add cursor and tap-highlight cleanup for the touch interaction. */
 @media (max-width: 900px) {
-  .result-item { perspective: none; }
-  .result-flip-card { transform: none !important; transform-style: flat; }
-  .result-flip-back { display: none; }
+  .result-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   /* Disable grey-out on touch — hover doesn't apply consistently */
   .results-grid:hover .result-item { filter: none; opacity: 1; }
 }
@@ -1326,7 +1327,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding-bottom: 48px;
   border-bottom: 1px solid rgba(255,255,255,0.2);
 }
-.footer-brand { order: 5; display: flex; flex-direction: column; align-items: flex-end; }
+.footer-brand { order: 5; display: flex; flex-direction: column; align-items: flex-end; gap: 20px; }
+
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Single-row accolades strip in the footer-top grid (row 2, full width).
+   Sits directly under the brand row on both desktop and mobile so the
+   whole top block reads as one unit before the nav columns.
+   mix-blend-mode: screen on the JPEG image hides the black background
+   against the teal footer so logos read as transparent-bg. */
+.footer-accolades-strip {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  padding: 8px 0 0;
+}
 
 .footer-brand p {
   font-size: 14px;
@@ -2374,15 +2392,38 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   /* ----- Footer ----- */
   .footer-top {
-    grid-template-columns: 1fr !important;
-    gap: 32px;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px 10px;
   }
+  /* Brand row reads as a single unit: GPTW left, brand-text right, vertically
+     centered, sized so neither dominates. */
   .footer-brand {
     order: -1 !important;
-    align-items: flex-start !important;
+    grid-column: 1 / -1;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px;
   }
-  .footer-brand p {
-    text-align: left !important;
+  .footer-gptw-img {
+    width: 70px !important;
+  }
+  .footer-brand-text {
+    align-items: flex-end;
+  }
+  .footer-brand-text p {
+    text-align: right;
+  }
+  /* Nav cols: 14px font for iOS-readable size; columns are narrow so long
+     labels (Behavioral Health, Multi-Specialty) will wrap — that's fine. */
+  .footer-col h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    padding: 4px 0;
+    line-height: 1.35;
   }
   .footer-bottom {
     flex-direction: column;
@@ -2391,6 +2432,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .footer-legal {
     justify-content: center;
+  }
+
+  /* ----- Cindy avatar: stacked FAB above chat button on mobile ----- */
+  /* CindyVoiceAgent.tsx has its own <style> block (line 580-583):
+       @media (max-width: 480px) {
+         .cindy-avatar { right: 16px !important; bottom: 80px !important; }
+       }
+     That cascade lives AFTER globals.css with same !important specificity
+     so a plain `.cindy-avatar` rule loses by source order. Bump to
+     `body .cindy-avatar` (specificity 0,0,1,1 vs theirs 0,0,1,0) — wins.
+
+     Geometry, with chat button at bottom:28, right:28, 60px tall:
+       chat occupies bottom 28-88, right edge at 28
+       Cindy at right:28 → horizontally aligned with chat
+       Cindy at bottom:100 → 12px gap above chat's top edge (88+12=100)
+     Standard stacked-FAB pattern. Don't override .cindy-panel — its mobile
+     layout (right:12, left:12, full width) is correct for the expanded popup. */
+  body .cindy-avatar {
+    right: 28px !important;
+    bottom: 100px !important;
   }
 
   /* ----- About page ----- */
