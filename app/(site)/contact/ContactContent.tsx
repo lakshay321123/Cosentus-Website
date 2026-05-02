@@ -354,6 +354,7 @@ export default function ContactContent() {
                     alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
                     width={1687}
                     height={259}
+                    sizes="(min-width: 1024px) 45vw, 100vw"
                     style={{ mixBlendMode: 'screen', width: '100%', height: 'auto', display: 'block' }}
                   />
                 </div>

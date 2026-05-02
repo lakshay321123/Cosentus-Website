@@ -1544,7 +1544,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* No-JS fallback — only applies when JavaScript is disabled */
 @media (scripting: none) {
-  .reveal, .reveal-left, .reveal-right, .reveal-scale {
+  .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-flag {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
