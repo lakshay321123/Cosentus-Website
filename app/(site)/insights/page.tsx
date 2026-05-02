@@ -74,7 +74,8 @@ const eventItems: InsightCardData[] = [...eventsData]
     title: e.title,
     date: e.date,
     tag: e.tag,
-    // photos[] arrays are empty across the dataset — gradient fallback used
+    image: e.photos?.[0],
+    // Events without a photo fall back to the brand gradient in InsightCard
   }))
 
 export default function InsightsPage() {
