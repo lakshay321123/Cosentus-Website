@@ -2393,14 +2393,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 20px 10px;
   }
-  /* Brand: GPTW left, brand-text right, spans all 4 nav columns above the row */
+  /* Brand row reads as a single unit: GPTW left, brand-text right, vertically
+     centered, sized so neither dominates. */
   .footer-brand {
     order: -1 !important;
     grid-column: 1 / -1;
     flex-direction: row !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     justify-content: space-between !important;
     gap: 16px;
+  }
+  .footer-gptw-img {
+    width: 70px !important;
   }
   .footer-brand-text {
     align-items: flex-end;
@@ -2430,11 +2434,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   /* ----- Cindy avatar: prevent collision with chat button on mobile ----- */
   /* CindyVoiceAgent.tsx and ChatWidget.tsx are protected; nudge via class override.
-     Chat button sits at bottom:28 (56px tall = occupies 28-84px from bottom).
-     Cindy default bottom:110 → only 26px gap. Bump to 140 → 56px gap. */
+     Chat button: bottom 28, 60px tall → occupies 28-88px from bottom.
+     Cindy at bottom 180 → 92px gap (more than the chat button's full height). */
   .cindy-avatar,
   .cindy-panel {
-    bottom: 140px !important;
+    bottom: 180px !important;
   }
 
   /* ----- About page ----- */

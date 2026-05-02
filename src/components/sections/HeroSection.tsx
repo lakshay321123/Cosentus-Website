@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 const specialties = [
   { label: 'Anesthesia', href: '/specialties/anesthesia' },
@@ -12,15 +13,24 @@ const specialties = [
 ]
 
 export default function HeroSection() {
+  // SSR/initial render uses desktop video; client useEffect swaps to the
+  // 9:16 mobile cut (~1.9MB) on phones. <source media> alone proved
+  // unreliable in some browsers + Next hydration paths — JS swap is the
+  // foolproof path. `key` forces a remount so the browser refetches.
+  const [videoSrc, setVideoSrc] = useState('/images/hero-video.mp4')
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const apply = () => setVideoSrc(mq.matches ? '/images/hero-video-mobile.mp4' : '/images/hero-video.mp4')
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+
   return (
     <section className="hero">
       <div className="hero-bg">
-        <video autoPlay loop muted playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
-          {/* Mobile: vertical 9:16 video (1.9MB). Browser picks the first <source>
-              whose media query matches at load time, so phones get the portrait
-              file and desktops fall through to the landscape original. */}
-          <source src="/images/hero-video-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
-          <source src="/images/hero-video.mp4" type="video/mp4" />
+        <video key={videoSrc} autoPlay loop muted playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
+          <source src={videoSrc} type="video/mp4" />
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
       </div>
