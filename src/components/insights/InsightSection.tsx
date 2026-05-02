@@ -147,6 +147,7 @@ export default function InsightSection({
       </div>
 
       <style>{`
+        .insight-grid > * { height: 100%; }
         @media (max-width: 900px) {
           .insight-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
         }

@@ -23,6 +23,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         background: 'var(--white)',
         border: '1px solid var(--gray-200)',
         borderRadius: 'var(--radius-md)',

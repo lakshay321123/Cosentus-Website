@@ -177,6 +177,7 @@ export default function InsightsTabsSection() {
             }}>
               {active.items.map((item, i) => (
                 <div key={`${activeKey}-${i}`} style={{
+                  height: '100%',
                   animation: `tab-cardin 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.05 + i * 0.07}s backwards`,
                 }}>
                   <InsightCard item={item} ctaLabel={active.ctaLabel} />
