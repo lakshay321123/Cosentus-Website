@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import { AGENTS } from '@/data/voice-agents'
@@ -146,15 +145,15 @@ export default function RAPageContent() {
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
                 Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
-              <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 15, marginBottom: 40, fontStyle: 'italic' }}>
+              <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
               </p>
             </RevealOnScroll>
 
-            {/* Desktop, 5-col first row + 4-col second row not possible with simple grid;
-                use 3 columns, 9 agents = 3 even rows of 3. Per Lakshay May 2026:
-                'make this is rows of 3 only'. */}
-            <div className="agents-desktop ra-tech-agents-grid" style={{
+            {/* Single responsive grid (replaces previous desktop-grid + mobile-carousel
+                split). Mirrors the homepage RA section: 3 columns at all widths,
+                circles shrink and gap tightens at <=700 / <=420 breakpoints. */}
+            <div className="ra-tech-agents-grid" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '48px 32px',
@@ -214,9 +213,9 @@ export default function RAPageContent() {
                     }}>
                       {agent.name}
                     </div>
-                    <div style={{
+                    <div className="ra-tech-agent-role" style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: 500,
                       color: 'var(--gray-700)',
                       marginTop: 4,
@@ -229,80 +228,37 @@ export default function RAPageContent() {
                 </RevealOnScroll>
               ))}
             </div>
-
-            {/* Mobile, carousel of circular cards */}
-            <div className="agents-mobile">
-              <MobileCarousel autoScrollInterval={3500}>
-                {AGENTS.map((agent) => (
-                  <div
-                    key={agent.name}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Talk to ${agent.name}, ${agent.shortRole}`}
-                    onClick={() => setActiveAgent(agent)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        setActiveAgent(agent)
-                      }
-                    }}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                      padding: '20px 8px',
-                      outline: 'none',
-                    }}
-                  >
-                    <div style={{
-                      width: 140,
-                      height: 140,
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      background: '#f5f9fa',
-                      border: '3px solid #00B5D6',
-                      boxShadow: '0 6px 20px rgba(0, 181, 214, 0.18)',
-                      marginBottom: 14,
-                      flexShrink: 0,
-                    }}>
-                      <img
-                        src={`/images/${agent.img}`}
-                        alt={agent.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
-                      />
-                    </div>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: 'var(--gray-900)',
-                      letterSpacing: '0.01em',
-                    }}>
-                      {agent.name}
-                    </div>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 13,
-                      fontWeight: 500,
-                      color: 'var(--gray-700)',
-                      marginTop: 4,
-                    }}>
-                      {agent.shortRole}
-                    </div>
-                  </div>
-                ))}
-              </MobileCarousel>
-            </div>
           </div>
 
-          {/* Responsive: shrink circles on tablet/small screens, mobile uses carousel via .agents-mobile */}
+          {/* Mobile responsive sizing — mirrors the homepage RA section breakpoints
+              so the Zeus agents grid feels identical at all viewport widths. */}
           <style>{`
-            @media (max-width: 700px) {
+            @media (max-width: 1100px) {
               .ra-tech-agents-grid .ra-tech-agent-circle {
                 width: 110px !important;
                 height: 110px !important;
+              }
+            }
+            @media (max-width: 700px) {
+              .ra-tech-agents-grid {
+                gap: 18px 10px !important;
+                max-width: 100% !important;
+              }
+              .ra-tech-agents-grid .ra-tech-agent-circle {
+                width: 96px !important;
+                height: 96px !important;
+              }
+              .ra-tech-agents-grid .ra-tech-agent-role {
+                font-size: 13px !important;
+              }
+            }
+            @media (max-width: 420px) {
+              .ra-tech-agents-grid {
+                gap: 16px 8px !important;
+              }
+              .ra-tech-agents-grid .ra-tech-agent-circle {
+                width: 88px !important;
+                height: 88px !important;
               }
             }
           `}</style>
