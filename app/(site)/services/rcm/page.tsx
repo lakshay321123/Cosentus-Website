@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import RCMContent from './RCMContent'
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RCMPage() {
       />
       <RCMContent />
       <CTASection />
+      <TestimonialsSection />
     </main>
   )
 }
