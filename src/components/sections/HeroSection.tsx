@@ -50,10 +50,12 @@ export default function HeroSection() {
               href={s.href}
               className="btn-glass hero-specialty-tile"
               style={{
-                borderRadius: 'var(--radius-md)',
-                justifyContent: 'space-between',
-                fontSize: 14,
-                fontWeight: 500,
+                borderRadius: 999,
+                height: 44,
+                padding: '0 22px',
+                justifyContent: 'center',
+                fontSize: 16,
+                fontWeight: 600,
                 letterSpacing: '0.01em',
                 fontFamily: 'var(--font-body)',
                 textDecoration: 'none',
@@ -63,9 +65,6 @@ export default function HeroSection() {
               }}
             >
               <span>{s.label}</span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </Link>
           ))}
         </div>
