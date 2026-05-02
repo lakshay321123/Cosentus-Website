@@ -651,11 +651,6 @@ export default function RAPageContent() {
               }} className="zeus-ehr-orbit">
                 <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
                   <defs>
-                    <radialGradient id="zeusEhrCore" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#68D1E6" />
-                      <stop offset="60%" stopColor="#00B5D6" />
-                      <stop offset="100%" stopColor="#0090A8" />
-                    </radialGradient>
                     <radialGradient id="zeusEhrGlow" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stopColor="#00B5D6" stopOpacity="0.30" />
                       <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
@@ -742,13 +737,13 @@ export default function RAPageContent() {
                     </g>
                   </g>
 
-                  {/* Zeus core circle */}
-                  <circle cx="320" cy="320" r="48" fill="url(#zeusEhrCore)" />
-                  <circle cx="320" cy="320" r="48" fill="none" stroke="#00B5D6" strokeOpacity="0.5" strokeWidth="2">
-                    <animate attributeName="r" values="48;72;48" dur="2.6s" repeatCount="indefinite" />
+                  {/* Zeus brand mark — replaces generic core circle + 'Zeus' text label.
+                      Asset: /public/images/zeus/zeus-mark.png (teal disc + black bolt). */}
+                  <image href="/images/zeus/zeus-mark.png" x="264" y="264" width="112" height="112" />
+                  <circle cx="320" cy="320" r="56" fill="none" stroke="#00B5D6" strokeOpacity="0.5" strokeWidth="2">
+                    <animate attributeName="r" values="56;82;56" dur="2.6s" repeatCount="indefinite" />
                     <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="2.6s" repeatCount="indefinite" />
                   </circle>
-                  <text x="320" y="328" fill="#fff" fontSize="18" fontWeight="700" textAnchor="middle" fontFamily="var(--font-display), Reddit Sans, system-ui">Zeus</text>
                 </svg>
               </div>
             </RevealOnScroll>
