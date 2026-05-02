@@ -15,8 +15,32 @@ export default function ChatWidget() {
   }, [messages])
 
   useEffect(() => {
-    if (isOpen) setTimeout(() => inputRef.current?.focus(), 200)
+    if (!isOpen) return
+    // Skip auto-focus on mobile — otherwise the keyboard pops up before the user
+    // even taps the input field. Desktop keeps the convenience focus.
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches) return
+    setTimeout(() => inputRef.current?.focus(), 200)
   }, [isOpen])
+
+  // Track visualViewport so the chat window scales above the on-screen keyboard
+  // (iMessage-style). Falls back gracefully if the API is unavailable.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const vv = window.visualViewport
+    if (!vv) return
+    const update = () => {
+      document.documentElement.style.setProperty('--chat-vh', `${vv.height}px`)
+      const bottomOffset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
+      document.documentElement.style.setProperty('--chat-kb', `${bottomOffset}px`)
+    }
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+    update()
+    return () => {
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
+    }
+  }, [])
 
   const handleSend = () => {
     if (!input.trim() || isLoading) return
@@ -126,12 +150,12 @@ export default function ChatWidget() {
         }
         @media (max-width: 640px) {
           .chat-widget {
-            bottom: 8px !important;
+            bottom: calc(var(--chat-kb, 0px) + 8px) !important;
             right: 8px !important;
             left: 8px !important;
             width: auto !important;
-            height: calc(100dvh - 90px) !important;
-            max-height: calc(100dvh - 90px) !important;
+            height: calc(var(--chat-vh, 100dvh) - 16px) !important;
+            max-height: calc(var(--chat-vh, 100dvh) - 16px) !important;
           }
           .chat-title { font-size: 18px !important; }
           .chat-subtitle { font-size: 13px !important; }
