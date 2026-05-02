@@ -176,6 +176,7 @@ export default function PainManagementPage() {
           <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
           <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, marginTop: 48 }}>
+            <MobileCarousel autoScrollInterval={5000}>
             {[
               { quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!', name: 'Dr. Mikko Murakami, QME', role: 'Pain Medicine, PM&R', initials: 'MM' },
               { quote: "I've been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.", name: 'Justin Lo, MD', role: 'President, Northern California Pain Specialists', initials: 'JL' },
@@ -204,6 +205,7 @@ export default function PainManagementPage() {
                 </div>
               </RevealOnScroll>
             ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
 'use client'
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const partnerQuotes = [
   { quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', author: 'Alex Cushman', title: 'CEO, AllianceMed' },
@@ -280,6 +281,7 @@ export default function PartnershipContent() {
             <div className="section-title">Our Partner&apos;s Perspective</div>
           </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))', gap: 24, marginTop: 48 }}>
+            <MobileCarousel autoScrollInterval={5000}>
             {partnerQuotes.map((q, i) => (
               <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
                 <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
@@ -299,6 +301,7 @@ export default function PartnershipContent() {
                 </div>
               </RevealOnScroll>
             ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>
