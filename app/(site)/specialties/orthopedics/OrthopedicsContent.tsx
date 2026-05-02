@@ -4,6 +4,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 
 const services = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" /></svg>, title: 'Surgical & Procedural Coding', desc: 'Accurate CPT selection, modifier application, and documentation alignment for every orthopedic procedure.' },
@@ -24,80 +25,26 @@ export default function OrthopedicsContent() {
   return (
     <>
       {/* Challenge + Solution, Split Section */}
-      <section style={{ overflow: 'hidden' }}>
-        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
-          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            <RevealOnScroll direction="left">
-              <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                THE CHALLENGE
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
-                High-Value Cases. Predictable Revenue Leakage.
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500, marginBottom: 32 }}>
-                Incorrect modifiers, missed implant pass-throughs, global period errors, and workers&apos; comp complexities all mean revenue is lost before it&apos;s even billed.
-              </p>
-            </RevealOnScroll>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                'Modifier errors (59, XE, XS, XP) on every claim',
-                'Missed implant pass-throughs worth thousands',
-                'Global period miscalculations leaking revenue',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
-                    <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-
-          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
-            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                THE SOLUTION
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
-                Surgical Practice Veterans + AI
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500, marginBottom: 32 }}>
-                Orthopedic billing experts handle the complexity. AI agents handle the volume. Nothing slips through.
-              </p>
-            </RevealOnScroll>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                'Surgical practice veterans for every payer nuance',
-                'AI agents automate eligibility, auth & follow-up',
-                '95%+ appeal success on high-dollar denials',
-                'Root-cause denial prevention that shrinks denial categories quarter over quarter',
-                'Dedicated team focused on ortho codes, not switching across specialties',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div className="ps-check" style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.4s ease' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                    <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProblemSolutionSection
+        problemEyebrow="THE CHALLENGE"
+        problemTitle="High-Value Cases. Predictable Revenue Leakage."
+        problemBody="Incorrect modifiers, missed implant pass-throughs, global period errors, and workers' comp complexities all mean revenue is lost before it's even billed."
+        problemBullets={[
+          'Modifier errors (59, XE, XS, XP) on every claim',
+          'Missed implant pass-throughs worth thousands',
+          'Global period miscalculations leaking revenue',
+        ]}
+        solutionEyebrow="THE SOLUTION"
+        solutionTitle="Surgical Practice Veterans + AI"
+        solutionBody="Orthopedic billing experts handle the complexity. AI agents handle the volume. Nothing slips through."
+        solutionBullets={[
+          'Surgical practice veterans for every payer nuance',
+          'AI agents automate eligibility, auth & follow-up',
+          '95%+ appeal success on high-dollar denials',
+          'Root-cause denial prevention that shrinks denial categories quarter over quarter',
+          'Dedicated team focused on ortho codes, not switching across specialties',
+        ]}
+      />
 
 
       {/* Services */}

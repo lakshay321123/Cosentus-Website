@@ -5,6 +5,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
+import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
@@ -301,95 +302,24 @@ export default function RAPageContent() {
 
 
       {/* Problem + Solution, Animated Split Section */}
-      <section style={{ overflow: 'hidden' }}>
-        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 480 }}>
-          {/* Left, The Problem */}
-          <div className="ps-panel ps-problem" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            {/* Decorative corner accent */}
-            <div className="ps-corner-accent" style={{ position: 'absolute', top: 0, left: 0, width: 80, height: 80, opacity: 0.06 }}>
-              <svg viewBox="0 0 80 80" fill="none"><path d="M0 0h80v80" stroke="#616161" strokeWidth="1" /></svg>
-            </div>
-
-            <RevealOnScroll direction="left">
-              <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                THE PROBLEM
-              </div>
-            </RevealOnScroll>
-
-            <RevealOnScroll direction="left" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
-                Why Specialty Practices Deserve Better
-              </h2>
-            </RevealOnScroll>
-
-            <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 480, marginBottom: 32 }}>
-                Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles.
-              </p>
-            </RevealOnScroll>
-
-            {/* Animated bullet points */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                'Generic billing teams miss specialty nuances',
-                'AI-only solutions lack clinical judgment',
-                'Revenue leaks at every handoff',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
-                    <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-
-          {/* Right, The Solution */}
-          <div className="ps-panel ps-solution" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
-            {/* Animated shimmer overlay */}
-            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-
-            <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                THE SOLUTION
-              </div>
-            </RevealOnScroll>
-
-            <RevealOnScroll direction="right" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
-                Real + Artificial Intelligence
-              </h2>
-            </RevealOnScroll>
-
-            <RevealOnScroll direction="right" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 32 }}>
-                Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate.
-              </p>
-            </RevealOnScroll>
-
-            {/* Animated solution points */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                'Specialty-trained teams for every payer nuance',
-                '8 AI agents automating volume workflows',
-                'Up to 30% revenue growth within 12 months',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div className="ps-check" style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.4s ease' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                    <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProblemSolutionSection
+        problemEyebrow="THE PROBLEM"
+        problemTitle="Why Specialty Practices Deserve Better"
+        problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
+        problemBullets={[
+          'Generic billing teams miss specialty nuances',
+          'AI-only solutions lack clinical judgment',
+          'Revenue leaks at every handoff',
+        ]}
+        solutionEyebrow="THE SOLUTION"
+        solutionTitle="Real + Artificial Intelligence"
+        solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
+        solutionBullets={[
+          'Specialty-trained teams for every payer nuance',
+          '8 AI agents automating volume workflows',
+          'Up to 30% revenue growth within 12 months',
+        ]}
+      />
 
 
       {/* How R+A Works, Interactive 5-Step Timeline */}
