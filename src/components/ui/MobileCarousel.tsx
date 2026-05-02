@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback, ReactNode } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, ReactNode } from 'react'
 
 interface MobileCarouselProps {
   children: ReactNode[]
@@ -19,8 +19,16 @@ export default function MobileCarousel({
 }: MobileCarouselProps) {
   const [current, setCurrent] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  // hasEntered flips to true the first time the carousel enters the viewport on
+  // mobile. Used to gate two things:
+  //   1. The pop-in animation for the active slide (so the first card doesn't
+  //      animate while still off-screen and the user misses it).
+  //   2. Auto-rotation start, so the carousel doesn't burn through cards while
+  //      the user hasn't scrolled to it yet.
+  const [hasEntered, setHasEntered] = useState(false)
   const touchStartX = useRef(0)
   const touchDeltaX = useRef(0)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const total = children.length
@@ -48,10 +56,72 @@ export default function MobileCarousel({
     }
   }, [])
 
+  // Auto-rotate only after the carousel has actually scrolled into view.
+  // Prevents wasting card rotations the user can't see.
   useEffect(() => {
-    if (isMobile) startAuto()
+    if (isMobile && hasEntered) startAuto()
     return () => stopAuto()
-  }, [isMobile, startAuto, stopAuto])
+  }, [isMobile, hasEntered, startAuto, stopAuto])
+
+  // Detect first time the carousel reaches the viewport (mobile only).
+  // 0.3 threshold = ~30% in view; conservative enough that we don't fire
+  // before the user can see the pop animation.
+  useEffect(() => {
+    if (!isMobile || hasEntered) return
+    const el = wrapperRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasEntered(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [isMobile, hasEntered])
+
+  // Pop-in animation on the active slide. Runs:
+  //   - on initial entry (hasEntered flips true with current=0)
+  //   - every time the carousel rotates to a new card (current changes)
+  // Effect: scale 0.88 -> 1, opacity 0 -> 1, blur 6px -> 0 over 600ms
+  // with a slight overshoot (the 1.56 control point in the cubic-bezier)
+  // for a punchy "spring landing" feel that reads as alive on mobile.
+  // useLayoutEffect (not useEffect) so the keyframe[0] state is applied
+  // before the browser paints — prevents a flash of the final state.
+  useLayoutEffect(() => {
+    if (!isMobile || !hasEntered) return
+    const slides = containerRef.current?.querySelectorAll<HTMLElement>('.mobile-carousel-slide')
+    if (!slides || !slides[current]) return
+    const el = slides[current]
+
+    // Respect user's reduced-motion preference: no animation, just show.
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      el.style.opacity = '1'
+      return
+    }
+
+    const animation = el.animate(
+      [
+        { opacity: 0, transform: 'scale(0.88)', filter: 'blur(6px)' },
+        { opacity: 1, transform: 'scale(1)', filter: 'blur(0)' },
+      ],
+      {
+        duration: 600,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        fill: 'both',
+      }
+    )
+
+    return () => {
+      try { animation.cancel() } catch { /* element gone */ }
+    }
+  }, [current, isMobile, hasEntered])
 
   // Touch handlers
   const onTouchStart = (e: React.TouchEvent) => {
@@ -83,7 +153,7 @@ export default function MobileCarousel({
   }
 
   return (
-    <div className={`mobile-carousel ${className}`} style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
+    <div ref={wrapperRef} className={`mobile-carousel ${className}`} style={{ overflow: 'hidden', width: '100%', maxWidth: '100%' }}>
       <div
         ref={containerRef}
         className="mobile-carousel-track"
@@ -109,6 +179,11 @@ export default function MobileCarousel({
               padding: '0 8px',
               boxSizing: 'border-box',
               overflow: 'hidden',
+              // Hide the active slide before the pop animation has fired,
+              // so the user doesn't briefly see a fully-visible card before
+              // it shrinks and pops in. Inactive slides are translated off
+              // screen anyway, so their opacity is moot.
+              opacity: !hasEntered && current === i ? 0 : undefined,
             }}
           >
             {child}
