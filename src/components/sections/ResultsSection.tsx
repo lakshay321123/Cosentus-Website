@@ -102,7 +102,7 @@ export default function ResultsSection() {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
-        <RevealOnScroll>
+        <RevealOnScroll className="reveal-in-place">
           <div className="results-header"><h2>Results Our Clients See</h2></div>
         </RevealOnScroll>
 

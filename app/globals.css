@@ -1463,6 +1463,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .reveal-delay-7 { transition-delay: 0.7s; }
 .reveal-delay-8 { transition-delay: 0.8s; }
 
+/* In-place reveal modifier — for headings that sit at a tight section
+   boundary on mobile (e.g. the homepage Results heading, which lives right
+   below RASection's AIWorkflowPanel). The default 50px translateY initial
+   state visually reads as "tucked under the previous section" during the
+   0.9s scroll-in animation on slower devices. This modifier strips the
+   translate while keeping blur clearing, so motion still reads but no
+   layout-center shift occurs. Mobile-only — desktop keeps the original
+   translate-based reveal everywhere for the established cadence.
+
+   Usage: <RevealOnScroll className="reveal-in-place"> */
+@media (max-width: 768px) {
+  .reveal.reveal-in-place {
+    transform: none;
+  }
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes float {
   0%, 100% { transform: translate(0, 0); }
