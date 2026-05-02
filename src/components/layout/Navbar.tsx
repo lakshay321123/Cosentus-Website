@@ -178,6 +178,17 @@ export default function Navbar() {
             <Link href="/contact" className="nav-cta">Contact</Link>
             </li>
           </ul>
+
+          {/* GPTW flag hangs from the cosentus logo; rolls up when scrolled. */}
+          <div className="nav-gptw-flag" aria-hidden="true">
+            <Image
+              src="/gptw-flag.png"
+              alt=""
+              width={258}
+              height={473}
+              priority
+            />
+          </div>
         </div>
       </nav>
 

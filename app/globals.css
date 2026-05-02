@@ -115,6 +115,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   max-width: var(--container);
   margin: 0 auto;
   padding: 0 40px;
+  position: relative;
 }
 
 .nav-logo {
@@ -136,6 +137,38 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .nav.scrolled .nav-logo img { height: 32px; }
+
+/* Great Place to Work flag hanging beneath the cosentus logo in the navbar.
+   Unfurled at the top of the page; rolls up when the page is scrolled past
+   the threshold (driven by the .nav.scrolled class set in Navbar.tsx).
+   Aligned to the right edge of nav-inner's content area, matching the logo. */
+.nav-gptw-flag {
+  position: absolute;
+  top: 100%;
+  right: 40px;
+  width: 50px;
+  transform-origin: top center;
+  transform: scaleY(1);
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+.nav-gptw-flag img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.nav.scrolled .nav-gptw-flag {
+  transform: scaleY(0);
+  opacity: 0;
+}
+@media (max-width: 768px) {
+  .nav-gptw-flag { width: 36px; right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-gptw-flag { transition: none; }
+}
 
 .nav-links {
   display: flex;

@@ -49,22 +49,24 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <Image
-              src="/images/cosentus-logo.png"
-              alt="Cosentus"
-              width={160}
-              height={32}
-              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
-            />
-            <RevealOnScroll direction="flag">
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 16 }}>
+              <RevealOnScroll direction="flag">
+                <Image
+                  src="/gptw-flag.png"
+                  alt="Great Place to Work Certified, April 2026 – April 2027, USA"
+                  width={258}
+                  height={473}
+                  style={{ display: 'block', width: 80, height: 'auto' }}
+                />
+              </RevealOnScroll>
               <Image
-                src="/gptw-flag.png"
-                alt="Great Place to Work Certified, April 2026 – April 2027, USA"
-                width={258}
-                height={473}
-                style={{ display: 'block', width: 80, height: 'auto' }}
+                src="/images/cosentus-logo.png"
+                alt="Cosentus"
+                width={160}
+                height={32}
+                style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
               />
-            </RevealOnScroll>
+            </div>
             <p style={{ marginTop: 16 }}>
               Real People + AI, RCM Redefined.
             </p>
