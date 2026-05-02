@@ -49,7 +49,7 @@ export default function BlogContent() {
       {/* Blog Grid */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+          <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
             {filtered.map((blog) => (
               <Link
                 key={blog.slug}
@@ -78,7 +78,7 @@ export default function BlogContent() {
                   )}
 
                   {/* Tag badge, top left */}
-                  <span style={{
+                  <span className="blog-card-tag" style={{
                     position: 'absolute', top: 16, left: 16, zIndex: 3,
                     padding: '5px 14px',
                     background: 'var(--primary)',
@@ -127,6 +127,29 @@ export default function BlogContent() {
             .blog-card:hover .blog-card-cta { opacity: 1 !important; transform: translateY(0) !important; }
             @media (max-width: 768px) {
               .blog-card { aspect-ratio: 3 / 2 !important; }
+            }
+            @media (max-width: 640px) {
+              .blog-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+              .blog-card { aspect-ratio: 16 / 10 !important; }
+              .blog-card-tag {
+                max-width: calc(100% - 32px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              .blog-tags {
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                margin-left: -16px;
+                margin-right: -16px;
+                padding-left: 16px;
+                padding-right: 16px;
+                margin-bottom: 28px !important;
+              }
+              .blog-tags::-webkit-scrollbar { display: none; }
             }
           `}</style>
           {filtered.length === 0 && (
