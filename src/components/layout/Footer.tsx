@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const footerNav = [
   {
@@ -53,7 +54,7 @@ export default function Footer() {
               alt="Cosentus"
               width={160}
               height={32}
-              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)' }}
+              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
             />
             <p>
               Real People + AI, RCM Redefined.
@@ -62,13 +63,22 @@ export default function Footer() {
               (877) 806-2286 &nbsp;|&nbsp;{' '}
               <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
             </p>
-            <div style={{ marginTop: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 20, marginTop: 24 }}>
+              <RevealOnScroll direction="flag">
+                <Image
+                  src="/gptw-flag.png"
+                  alt="Great Place to Work Certified, April 2026 – April 2027, USA"
+                  width={258}
+                  height={473}
+                  style={{ display: 'block', width: 100, height: 'auto' }}
+                />
+              </RevealOnScroll>
               <Image
-                src="/accolades.png"
-                alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024"
-                width={360}
-                height={100}
-                style={{ mixBlendMode: 'screen', maxWidth: 360, width: '100%', height: 'auto' }}
+                src="/all-accolades-2x3.png"
+                alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+                width={843}
+                height={518}
+                style={{ mixBlendMode: 'screen', width: 300, maxWidth: '100%', height: 'auto', display: 'block' }}
               />
             </div>
           </div>

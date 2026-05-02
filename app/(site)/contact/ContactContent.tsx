@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -291,9 +292,14 @@ export default function ContactContent() {
                   color: 'white',
                 }}>
                   <h4 style={{ fontSize: 16, fontWeight: 400, marginBottom: 12, color: 'rgba(255,255,255,0.8)' }}>Trusted & Certified</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, opacity: 0.7 }}>
-                    SOC 2 • HIPAA Compliant • HBMA Member • Inc. 5000 • Great Place to Work
-                  </p>
+                  <Image
+                    src="/all-accolades.png"
+                    alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+                    width={1687}
+                    height={259}
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                    style={{ mixBlendMode: 'screen', width: '100%', height: 'auto', display: 'block' }}
+                  />
                 </div>
               </div>
             </RevealOnScroll>
