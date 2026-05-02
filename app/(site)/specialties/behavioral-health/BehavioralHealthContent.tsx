@@ -7,6 +7,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import CTASection from '@/components/sections/CTASection'
 import PageHero from '@/components/sections/PageHero'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 
 const services = [
   { title: 'Therapy Session Coding', desc: 'Correct time thresholds and add-on codes for individual, group, and family therapy.', iconPath: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
@@ -20,8 +21,8 @@ const services = [
 ]
 
 const testimonials = [
-  { quote: 'Cosentus has been an invaluable CalAIMS billing partner, proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.', name: 'Aubrie Mastrangelo', role: 'Division Director for Behavioral Health Services, Bill Wilson Center', initials: 'AM' },
-  { quote: "Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. They're responsive to feedback and quick to implement RCM processes, automation, and reporting dashboards to streamline billing.", name: 'Sujan Vatturi', role: 'Chief Information Officer, Hope Services Counseling Center', initials: 'SV' },
+  { tag: 'Behavioral Health', quote: 'Cosentus has been an invaluable CalAIMS billing partner, proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.', name: 'Aubrie Mastrangelo', role: 'Division Director for Behavioral Health Services, Bill Wilson Center' },
+  { tag: 'Behavioral Health', quote: "Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. They're responsive to feedback and quick to implement RCM processes, automation, and reporting dashboards to streamline billing.", name: 'Sujan Vatturi', role: 'Chief Information Officer, Hope Services Counseling Center' },
 ]
 
 const leaders = [
@@ -172,42 +173,12 @@ export default function BehavioralHealthContent() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, marginTop: 48 }}>
-            <MobileCarousel autoScrollInterval={5000}>
-            {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} delay={0.2 + i * 0.15}>
-                <div className="testimonial-card" style={{
-                  padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
-                  border: '1px solid var(--gray-200)', position: 'relative',
-                  display: 'flex', flexDirection: 'column', height: '100%',
-                }}>
-                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }} aria-hidden="true">&ldquo;</div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1, flex: 1 }}>
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
-                    }}>{t.initials}</div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{t.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{t.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
+      {/* Client Reviews — uses shared TestimonialsSection so design is identical site-wide */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
 
       <CTASection />
     </main>

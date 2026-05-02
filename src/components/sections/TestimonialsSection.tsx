@@ -1,9 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
-const testimonials = [
+export type Testimonial = {
+  tag?: string
+  quote: string
+  name: string
+  role: string
+}
+
+const defaultTestimonials: Testimonial[] = [
   {
     tag: 'Anesthesia',
     quote: 'Year-over-year collection rate of 97% from commercial payors and 98% overall. I can wholeheartedly recommend Accreda.',
@@ -45,7 +52,20 @@ function getInitials(name: string): string {
     .join('')
 }
 
-export default function TestimonialsSection() {
+interface Props {
+  /** Testimonials to display. Defaults to the site-wide highlight set used on the homepage. */
+  testimonials?: Testimonial[]
+  /** Section label (small caps, above the title). */
+  label?: string
+  /** Section title (supports JSX so callers can include the italic teal accent span). */
+  title?: ReactNode
+}
+
+export default function TestimonialsSection({
+  testimonials = defaultTestimonials,
+  label = 'TESTIMONIALS',
+  title = <>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Partners</span> Say.</>,
+}: Props = {}) {
   const [idx, setIdx] = useState(0)
   const [paused, setPaused] = useState(false)
   const [slidesPerView, setSlidesPerView] = useState(2)
@@ -81,7 +101,7 @@ export default function TestimonialsSection() {
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll>
-          <div className="section-label">TESTIMONIALS</div>
+          <div className="section-label">{label}</div>
         </RevealOnScroll>
         <RevealOnScroll delay={0.1}>
           <h2 style={{
@@ -94,7 +114,7 @@ export default function TestimonialsSection() {
             marginTop: 12,
             marginBottom: 0,
           }}>
-            What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Partners</span> Say.
+            {title}
           </h2>
         </RevealOnScroll>
 
@@ -134,19 +154,21 @@ export default function TestimonialsSection() {
                       display: 'flex',
                       flexDirection: 'column',
                     }}>
-                      {/* Tag */}
-                      <div style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: '0.16em',
-                        textTransform: 'uppercase',
-                        color: '#00B5D6',
-                        marginBottom: 24,
-                        position: 'relative',
-                        zIndex: 1,
-                      }}>
-                        {t.tag}
-                      </div>
+                      {/* Tag — optional. Only renders if the testimonial provides one. */}
+                      {t.tag && (
+                        <div style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          letterSpacing: '0.16em',
+                          textTransform: 'uppercase',
+                          color: '#00B5D6',
+                          marginBottom: 24,
+                          position: 'relative',
+                          zIndex: 1,
+                        }}>
+                          {t.tag}
+                        </div>
+                      )}
 
                       {/* Big translucent quote mark */}
                       <div aria-hidden="true" style={{

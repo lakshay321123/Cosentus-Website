@@ -3,6 +3,7 @@
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 
 const services = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" /></svg>, title: 'Surgical & Procedural Coding', desc: 'Accurate CPT selection, modifier application, and documentation alignment for every orthopedic procedure.' },
@@ -15,8 +16,8 @@ const services = [
 ]
 
 const testimonials = [
-  { quote: 'Dedicated, flexible, and responsive team. Very pleased with increase in collections and their ability to work denials. Highly recommend Cosentus for medical offices needing a positive change.', author: 'Ryan King', title: 'Director of Operations, Hand Microsurgery & Reconstructive Orthopaedic' },
-  { quote: 'They have been a great service to my practice. I highly recommend them. My collections have significantly increased.', author: 'Dr. Samir and Kavita Sharma', title: 'South Bay Orthopedics' },
+  { tag: 'Orthopedic', quote: 'Dedicated, flexible, and responsive team. Very pleased with increase in collections and their ability to work denials. Highly recommend Cosentus for medical offices needing a positive change.', name: 'Ryan King', role: 'Director of Operations, Hand Microsurgery & Reconstructive Orthopaedic' },
+  { tag: 'Orthopedic', quote: 'They have been a great service to my practice. I highly recommend them. My collections have significantly increased.', name: 'Dr. Samir and Kavita Sharma', role: 'South Bay Orthopedics' },
 ]
 
 export default function OrthopedicsContent() {
@@ -193,42 +194,12 @@ export default function OrthopedicsContent() {
       </section>
 
 
-      {/* Client Reviews */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
-            <MobileCarousel autoScrollInterval={5000}>
-            {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
-                <div className="testimonial-card" style={{
-                  padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
-                  border: '1px solid var(--gray-200)', position: 'relative', height: '100%',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}>
-                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
-                    }}>{t.author.split(' ').filter(w => w[0] === w[0]?.toUpperCase() && !w.includes('.')).map(w => w[0]).slice(0, 2).join('')}</div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{t.author}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{t.title}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
+      {/* Client Reviews — uses shared TestimonialsSection so design is identical site-wide */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
     </>
   )
 }
