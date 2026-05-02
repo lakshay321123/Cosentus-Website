@@ -35,7 +35,7 @@ export default function PainManagementPage() {
         label="PAIN MANAGEMENT BY COSENTUS, PURPOSE BUILT"
         title="Pain Management Procedures Are High-Value. Your Reimbursements Should Be Too."
         subtitle="Injections, SCS, ablations, and medication management, coded precisely, authorized proactively, defended aggressively."
-        ctaText="Get Your Free Pain Management Revenue Analysis"
+        ctaText="Free Pain Management Analysis"
         ctaHref="/contact"
       />
 

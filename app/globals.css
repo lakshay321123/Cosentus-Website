@@ -1644,6 +1644,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .btn-glass svg { width: 18px; height: 18px; transition: transform var(--transition-base); }
 .btn-glass:hover svg { transform: translateX(3px); }
 
+/* ===== HERO BUTTON DARK-FROST OVERRIDE =====
+   Scoped to .hero-actions only — buttons in PageHero/EHR hero sit on lighter
+   videos and become near-invisible with the white-tint .btn-glass. Adds a
+   dark frosted layer for legibility without changing the blur/border/shape.
+   Does NOT affect home page (HeroSection tiles use inline override; Statement
+   Section .btn-glass is not inside .hero-actions). */
+.hero-actions .btn-glass {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.hero-actions .btn-glass:hover {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: rgba(255, 255, 255, 0.34);
+  color: #fff;
+}
+
 /* ===== FUTURISTIC CARD EFFECTS ===== */
 
 /* Advantage cards — glow border on hover */

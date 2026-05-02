@@ -15,7 +15,7 @@ export default function AnesthesiaPage() {
         label="ACCREDA BY COSENTUS, PURPOSE BUILT FOR ANESTHESIA"
         title="Beyond Billing. Built for Anesthesia."
         subtitle="Accreda by Cosentus, 23+ years of anesthesia-specific RCM experience, backed by our Real + Artificial Intelligence operating model to capture every time unit, implant, and billable encounter."
-        ctaText="Get Your Free Anesthesia Revenue Analysis"
+        ctaText="Free Anesthesia Revenue Analysis"
         ctaHref="/contact"
       />
       <AnesthesiaContent />

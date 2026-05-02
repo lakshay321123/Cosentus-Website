@@ -35,7 +35,7 @@ export default function MultiSpecialtyPage() {
         label="MULTI-SPECIALTY BY COSENTUS"
         title={<>One Practice. Multiple Specialties.<br />One RCM Partner Who Handles It All.</>}
         subtitle="Multi-specialty practices face unique complexity, different codes, different payers, different rules across every department. You need an RCM partner that can manage all of them without dropping the ball."
-        ctaText="Get Your Free Multi-Specialty Revenue Analysis"
+        ctaText="Free Multi-Specialty Analysis"
         ctaHref="/contact"
       />
 
