@@ -3,17 +3,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { eventsData } from '@/data/eventsData'
 
-const eventImages: Record<string, string[]> = {
-  'growth-summit-2025': [
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 030.jpg',
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 034.jpg',
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 035.jpg',
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 044.jpg',
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 047.jpg',
-    '/images/events/growth-summit-2025/Cosentus - Growth Summit 2025 - 050.jpg',
-  ],
-}
-
 const tagColors: Record<string, string> = {
   Conference: '#00B5D6', Summit: '#36C2DE', Company: '#005F73',
   Webinar: '#68D1E6', Sponsorship: '#0090AB', 'Golf Event': '#2A9D8F',
@@ -144,7 +133,7 @@ export default function EventsContent() {
           const event = item.event!
           const idx = item.idx!
           const isReversed = idx % 2 === 1
-          const images = eventImages[event.slug] || []
+          const images = event.photos || []
           const hasImages = images.length > 0
           const isActive = expandedSlug === event.slug
           const tagColor = tagColors[event.tag] || '#00B5D6'

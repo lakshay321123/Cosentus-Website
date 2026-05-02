@@ -57,6 +57,7 @@ const eventItems: InsightCardData[] = [...eventsData]
     title: e.title,
     date: e.date,
     tag: e.tag,
+    image: e.photos?.[0],
   }))
 
 type TabKey = 'cases' | 'blog' | 'news' | 'events'
