@@ -14,7 +14,7 @@ export default function PlatformSection() {
               fontSize: 'clamp(32px, 4vw, 56px)', color: 'var(--gray-900)',
               lineHeight: 0.95, letterSpacing: '-0.03em',
             }}>
-              Not Just a<br />Billing Company.<br /><em style={{ fontStyle: 'italic', color: '#00B5D6' }}>A Platform.</em>
+              Not Just a<br />Billing Company.<br /><em style={{ fontStyle: 'italic', color: '#00B5D6' }}>A System.</em>
             </h2>
           </RevealOnScroll>
           <RevealOnScroll direction="right" delay={0.15}>
@@ -28,7 +28,7 @@ export default function PlatformSection() {
         {/* 3 big stat blocks */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4 }} className="platform-nums-grid">
           {[
-            { n: '23', l: 'Platform Modules' },
+            { n: '23', l: 'Modules' },
             { n: '15', l: 'AI Features' },
             { n: '9', l: 'Voice AI Agents' },
           ].map((item, i) => (
@@ -52,7 +52,7 @@ export default function PlatformSection() {
         <RevealOnScroll delay={0.5}>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
             <Link href="/cosentus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 13 }}>
-              Explore The Platform
+              Explore Zeus
             </Link>
           </div>
         </RevealOnScroll>

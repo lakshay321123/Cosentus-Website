@@ -41,14 +41,14 @@ const navItems = [
     href: '/insights',
     children: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
       { label: 'Partnership', href: '/partnership' },
     ],
   },
   {
-    label: 'Technology',
+    label: 'Zeus AI',
     href: '/cosentus-ai',
   },
 ]

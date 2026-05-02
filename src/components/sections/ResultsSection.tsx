@@ -69,9 +69,15 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
             <div className="result-label">{stat.label}</div>
           </div>
         </div>
-        {/* BACK — dollar-impact copy */}
+        {/* BACK — dollar-impact copy + stat identity at bottom for context */}
         <div className="result-flip-back">
           <div className="result-flip-text">{stat.flip}</div>
+          <div className="result-flip-stat">
+            <div className="result-flip-number">
+              {stat.prefix}{stat.target.toFixed(stat.decimals || 0)}{stat.suffix}
+            </div>
+            <div className="result-flip-label">{stat.label}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -106,7 +112,7 @@ export default function ResultsSection() {
 
         <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
-            Verified client results. Linked to case studies with full methodology.
+            Verified client results. Linked to client success stories with full methodology.
           </p>
         </RevealOnScroll>
       </div>

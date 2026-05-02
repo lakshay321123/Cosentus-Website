@@ -49,7 +49,7 @@ export default function RASection() {
             content without flex-stretch hacks.
               Row 1 — header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
               Row 2 — body:   left = agent grid 3x3,           right = AI Workflow Panel
-              Row 3 — footer: left = Explore Platform link,    right = empty */}
+              Row 3 — footer: left = Explore Zeus link,    right = empty */}
         <div className="ra-main-grid" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
@@ -71,7 +71,7 @@ export default function RASection() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
-                Powered by Zeus &mdash; our AI-native platform that watches every claim, predicts every denial, and learns your payers.
+                Powered by Zeus &mdash; our AI-native system that watches every claim, predicts every denial, and learns your payers.
               </p>
             </RevealOnScroll>
           </div>
@@ -203,11 +203,11 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 3 — FOOTER LEFT: Explore Platform link */}
+          {/* ROW 3 — FOOTER LEFT: Explore Zeus link */}
           <div style={{ gridColumn: 1, gridRow: 3 }}>
             <RevealOnScroll direction="left" delay={0.45}>
               <Link href="/cosentus-ai" className="btn-primary">
-                Explore The Platform
+                Explore Zeus
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </RevealOnScroll>

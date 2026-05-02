@@ -35,7 +35,7 @@ const footerNav = [
     links: [
       { label: 'All Insights', href: '/insights' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
     ],

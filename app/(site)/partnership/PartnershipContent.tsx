@@ -20,7 +20,7 @@ const challenges = [
 const solutions = [
   { stat: '25', unit: 'Years', title: 'Revenue Cycle Management', desc: 'Successfully integrated 19 acquisitions — we know how to grow together.' },
   { stat: '∞', unit: '', title: 'Upfront Capital Investments', desc: 'De-risk the owners, providing financial security and runway for growth.' },
-  { stat: '360°', unit: '', title: 'Comprehensive Solutions', desc: 'Offshore teams, advanced technology platforms, AI software, and dedicated support.' },
+  { stat: '360°', unit: '', title: 'Comprehensive Solutions', desc: 'Offshore teams, advanced technology systems, AI software, and dedicated support.' },
   { stat: '10x', unit: '', title: 'Transformative Offshoring & Tech', desc: 'Enhance efficiency, reduce costs, and improve service delivery at scale.' },
 ]
 
@@ -361,7 +361,7 @@ export default function PartnershipContent() {
             <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
               {[
                 '1,000+ dedicated RCM experts ensuring cost-effectiveness',
-                'AI software and advanced technology platforms at scale',
+                'AI software and advanced technology systems at scale',
                 'Comprehensive offshore teams and outsourcing capabilities',
                 'Upfront capital investments to de-risk owners',
                 'Inc. 5000 and Great Place to Work certified',

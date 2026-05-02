@@ -87,11 +87,11 @@ export default function InsightsPage() {
       />
 
       <InsightSection
-        label="CASE STUDIES"
+        label="CLIENT SUCCESS STORIES"
         title="Real Practices. Real Revenue Growth."
         items={caseStudyItems}
         viewAllHref="/case-studies"
-        ctaLabel="Read Case Study"
+        ctaLabel="Read Client Success Story"
       />
 
       <InsightSection

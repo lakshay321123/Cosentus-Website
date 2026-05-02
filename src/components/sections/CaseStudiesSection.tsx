@@ -86,7 +86,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
             fontSize: 13, fontWeight: 600, color: 'white',
             letterSpacing: '0.05em', textTransform: 'uppercase' as const,
           }}>
-            Read Case Study
+            Read Client Success Story
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
           </span>
         </div>
@@ -133,7 +133,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
             <div className="section-label">PROVEN RESULTS</div>
           </RevealOnScroll>
           <RevealOnScroll direction="left" delay={0.1}>
-            <div className="section-title">Case Studies</div>
+            <div className="section-title">Client Success Stories</div>
           </RevealOnScroll>
 
           {/* Desktop — flip cards */}

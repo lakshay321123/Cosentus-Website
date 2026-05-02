@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
-// 23 platform modules grouped by category. AI-powered modules have an agent assigned.
+// 23 system modules grouped by category. AI-powered modules have an agent assigned.
 type Module = {
   num: string
   name: string
@@ -139,7 +139,7 @@ export default function PlatformModulesSection() {
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll>
-          <div className="section-label">PLATFORM ARCHITECTURE</div>
+          <div className="section-label">SYSTEM ARCHITECTURE</div>
         </RevealOnScroll>
         <RevealOnScroll delay={0.1}>
           <h2 style={{
@@ -158,7 +158,7 @@ export default function PlatformModulesSection() {
         </RevealOnScroll>
         <RevealOnScroll delay={0.2}>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: 'var(--gray-600)', maxWidth: 720, marginBottom: 56 }}>
-            Every step of the revenue cycle, in one platform. Click any module to see how it works.
+            Every step of the revenue cycle, in one system. Click any module to see how it works.
           </p>
         </RevealOnScroll>
 
@@ -431,7 +431,7 @@ export default function PlatformModulesSection() {
                         Module Capabilities
                       </div>
                       <div style={{ fontSize: 14, color: 'white', lineHeight: 1.7 }}>
-                        Integrated with the rest of the platform. Data flows in real-time across all 23 modules — no copy-paste, no manual handoffs, no information lost between teams.
+                        Integrated with the rest of the system. Data flows in real-time across all 23 modules — no copy-paste, no manual handoffs, no information lost between teams.
                       </div>
                     </div>
                     <div style={{
