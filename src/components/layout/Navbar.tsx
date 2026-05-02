@@ -58,6 +58,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
+  const [flagDismissed, setFlagDismissed] = useState(false)
   const pathname = usePathname()
 
   // Swipe-to-close state
@@ -71,6 +72,13 @@ export default function Navbar() {
   useEffect(() => {
     const id = window.requestAnimationFrame(() => setMounted(true))
     return () => window.cancelAnimationFrame(id)
+  }, [])
+
+  // Auto-retract the GPTW flag 7s after first render. Stays retracted for the
+  // rest of the session — does not re-drop on scroll-to-top once dismissed.
+  useEffect(() => {
+    const id = window.setTimeout(() => setFlagDismissed(true), 7000)
+    return () => window.clearTimeout(id)
   }, [])
 
   // Close drawer on route change
@@ -165,8 +173,8 @@ export default function Navbar() {
               }}
               priority
             />
-            {/* GPTW flag drops down from the cosentus logo on mount; rolls back up on scroll. */}
-            <span className={`nav-gptw-flag${mounted && !scrolled ? ' visible' : ''}`} aria-hidden="true">
+            {/* GPTW flag drops down from the cosentus logo on mount; rolls back up on scroll past 60px or after 7s (whichever first). Once dismissed, stays up for the session. */}
+            <span className={`nav-gptw-flag${mounted && !scrolled && !flagDismissed ? ' visible' : ''}`} aria-hidden="true">
               <Image
                 src="/gptw-flag.png"
                 alt=""
