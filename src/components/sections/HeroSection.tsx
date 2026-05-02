@@ -32,17 +32,14 @@ export default function HeroSection() {
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
-        <p className="hero-sub" style={{ fontSize: 'clamp(16px, 1.6vw, 20px)', fontWeight: 500, letterSpacing: '0.02em', opacity: 0.9, marginTop: 28 }}>
-          Choose your Specialty
-        </p>
-
-        {/* Specialty selector */}
+        {/* Specialty selector — tightly beneath the H1, the CTA sits
+            tightly beneath this so they read as one block. */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 10,
-          maxWidth: 600,
-          margin: '32px 0 32px',
+          maxWidth: 580,
+          margin: '24px 0 14px',
         }} className="hero-specialty-grid">
           {specialties.map((s) => (
             <Link
