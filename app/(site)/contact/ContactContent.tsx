@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -67,63 +68,6 @@ export default function ContactContent() {
 
   return (
     <>
-      {/* Process Steps */}
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">WHAT HAPPENS NEXT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">What Happens After You Reach Out</div>
-          </RevealOnScroll>
-          <div className="steps-desktop" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 24,
-            marginTop: 48,
-          }}>
-            {steps.map((step, i) => (
-              <RevealOnScroll key={i} delay={i * 0.1}>
-                <div style={{
-                  padding: 32,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  position: 'relative',
-                }}>
-                  <div style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    background: 'var(--primary)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 18,
-                    fontWeight: 600,
-                    marginBottom: 16,
-                  }}>
-                    {step.num}
-                  </div>
-                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <div className="steps-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {steps.map((step, i) => (
-                <div key={i} style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
-                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, marginBottom: 16 }}>{step.num}</div>
-                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Form + Details */}
       <section id="contact-form" className="section section-alt">
         <div className="container">
@@ -348,12 +292,74 @@ export default function ContactContent() {
                   color: 'white',
                 }}>
                   <h4 style={{ fontSize: 16, fontWeight: 400, marginBottom: 12, color: 'rgba(255,255,255,0.8)' }}>Trusted & Certified</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, opacity: 0.7 }}>
-                    SOC 2 • HIPAA Compliant • HBMA Member • Inc. 5000 • Great Place to Work
-                  </p>
+                  <Image
+                    src="/all-accolades.png"
+                    alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+                    width={1687}
+                    height={259}
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                    style={{ mixBlendMode: 'screen', width: '100%', height: 'auto', display: 'block' }}
+                  />
                 </div>
               </div>
             </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Steps */}
+      <section className="section">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">WHAT HAPPENS NEXT</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">What Happens After You Reach Out</div>
+          </RevealOnScroll>
+          <div className="steps-desktop" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 24,
+            marginTop: 48,
+          }}>
+            {steps.map((step, i) => (
+              <RevealOnScroll key={i} delay={i * 0.1}>
+                <div style={{
+                  padding: 32,
+                  background: 'var(--white)',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--gray-200)',
+                  position: 'relative',
+                }}>
+                  <div style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    background: 'var(--primary)',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 18,
+                    fontWeight: 600,
+                    marginBottom: 16,
+                  }}>
+                    {step.num}
+                  </div>
+                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+          <div className="steps-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {steps.map((step, i) => (
+                <div key={i} style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, marginBottom: 16 }}>{step.num}</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>{step.text}</p>
+                </div>
+              ))}
+            </MobileCarousel>
           </div>
         </div>
       </section>

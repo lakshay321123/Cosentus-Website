@@ -6,7 +6,7 @@ interface RevealProps {
   children: ReactNode
   className?: string
   delay?: number
-  direction?: 'up' | 'left' | 'right' | 'scale'
+  direction?: 'up' | 'left' | 'right' | 'scale' | 'flag'
 }
 
 export default function RevealOnScroll({ children, className = '', delay = 0, direction = 'up' }: RevealProps) {
@@ -33,6 +33,7 @@ export default function RevealOnScroll({ children, className = '', delay = 0, di
   const baseClass = direction === 'left' ? 'reveal-left'
     : direction === 'right' ? 'reveal-right'
     : direction === 'scale' ? 'reveal-scale'
+    : direction === 'flag' ? 'reveal-flag'
     : 'reveal'
 
   return (
