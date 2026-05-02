@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const footerNav = [
   {
@@ -53,9 +54,18 @@ export default function Footer() {
               alt="Cosentus"
               width={160}
               height={32}
-              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)' }}
+              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
             />
-            <p>
+            <RevealOnScroll direction="flag">
+              <Image
+                src="/gptw-flag.png"
+                alt="Great Place to Work Certified, April 2026 – April 2027, USA"
+                width={258}
+                height={473}
+                style={{ display: 'block', width: 80, height: 'auto' }}
+              />
+            </RevealOnScroll>
+            <p style={{ marginTop: 16 }}>
               Real People + AI, RCM Redefined.
             </p>
             <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
@@ -64,10 +74,10 @@ export default function Footer() {
             </p>
             <div style={{ marginTop: 20 }}>
               <Image
-                src="/accolades.png"
-                alt="Cosentus Accolades — 25 Years of Excellence, Great Place to Work, HIPAA Seal of Compliance, HIPAA Verified, Inc. 5000, AICPA SOC 2, HBMA Member 2024"
-                width={360}
-                height={100}
+                src="/all-accolades.png"
+                alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+                width={1687}
+                height={259}
                 style={{ mixBlendMode: 'screen', maxWidth: 360, width: '100%', height: 'auto' }}
               />
             </div>
