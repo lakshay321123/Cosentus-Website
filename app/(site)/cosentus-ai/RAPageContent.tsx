@@ -43,7 +43,7 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">WHY ZEUS</div>
+            <div className="section-label">Why Zeus</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <h2 style={{
@@ -136,7 +136,7 @@ export default function RAPageContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">THE 9 AI VOICE AGENTS</div>
+            <div className="section-label">Voice AI</div>
           </RevealOnScroll>
 
           {/* AI Agents Grid — circular avatars matching homepage R+A section.
@@ -144,7 +144,7 @@ export default function RAPageContent() {
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                COSENTUS AI Agents
+                Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 15, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
@@ -528,7 +528,7 @@ export default function RAPageContent() {
             {/* Left — copy + stats + protocols */}
             <div>
               <RevealOnScroll direction="left">
-                <div className="section-label">MULTI-EHR INTEGRATION</div>
+                <div className="section-label">Multi-EHR</div>
               </RevealOnScroll>
               <RevealOnScroll direction="left" delay={0.1}>
                 <h2 style={{
@@ -765,7 +765,7 @@ export default function RAPageContent() {
       <section className="section" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">TARGETS WE HIT</div>
+            <div className="section-label">Targets we hit</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <h2 style={{

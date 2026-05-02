@@ -12,9 +12,9 @@ export default function CosentusAIPage() {
   return (
     <main>
       <PageHero
-        label="REAL + ARTIFICIAL INTELLIGENCE"
-        title="9 Agents. Zero Excuses. Infinite Follow-Ups."
-        subtitle="Cosentus AI agents handle the volume. Named human teams handle the judgment. Up to 30% revenue growth."
+        label="Zeus"
+        title={<>RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span></>}
+        subtitle="AI at the core — not bolted on. 23 modules, 15 AI features, 45+ specialties. Built from day one."
         ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />

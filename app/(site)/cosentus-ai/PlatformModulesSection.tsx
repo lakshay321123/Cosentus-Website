@@ -139,7 +139,7 @@ export default function PlatformModulesSection() {
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll>
-          <div className="section-label">SYSTEM ARCHITECTURE</div>
+          <div className="section-label">Inside Zeus</div>
         </RevealOnScroll>
         <RevealOnScroll delay={0.1}>
           <h2 style={{
