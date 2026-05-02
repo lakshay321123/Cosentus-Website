@@ -43,17 +43,17 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Two-column × three-row grid. Each row's height is set by the taller
+        {/* Two-column × two-row grid. Each row's height is set by the taller
             cell, and both cells in a row share that height. This is the only
             way to get true pixel-precise alignment between left and right
             content without flex-stretch hacks.
               Row 1 — header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
-              Row 2 — body:   left = agent grid 3x3,           right = AI Workflow Panel
-              Row 3 — footer: left = Explore Zeus link,    right = empty */}
+              Row 2 — body:   left = agent grid 3x3 + Explore Zeus button,
+                              right = AI Workflow Panel */}
         <div className="ra-main-grid" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gridTemplateRows: 'auto auto auto',
+          gridTemplateRows: 'auto auto',
           columnGap: 80,
           rowGap: 32,
           alignItems: 'start',
@@ -116,7 +116,7 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 2 — BODY LEFT: agent grid 3x3 */}
+          {/* ROW 2 — BODY LEFT: agent grid 3x3 + Explore Zeus button beneath */}
           <div style={{ gridColumn: 1, gridRow: 2 }}>
             <RevealOnScroll direction="left" delay={0.35}>
               <div style={{
@@ -194,6 +194,15 @@ export default function RASection() {
                 ))}
               </div>
             </RevealOnScroll>
+
+            {/* Explore Zeus button — sits directly under the 3x3 agent grid */}
+            <RevealOnScroll direction="left" delay={0.45}>
+              <div style={{ marginTop: 32 }}>
+                <Link href="/cosentus-ai" className="btn-primary">
+                  Explore Zeus
+                </Link>
+              </div>
+            </RevealOnScroll>
           </div>
 
           {/* ROW 2 — BODY RIGHT: AI Workflow Panel (top-aligned with agent grid top) */}
@@ -202,18 +211,6 @@ export default function RASection() {
               <AIWorkflowPanel />
             </RevealOnScroll>
           </div>
-
-          {/* ROW 3 — FOOTER LEFT: Explore Zeus link */}
-          <div style={{ gridColumn: 1, gridRow: 3 }}>
-            <RevealOnScroll direction="left" delay={0.45}>
-              <Link href="/cosentus-ai" className="btn-primary">
-                Explore Zeus
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </Link>
-            </RevealOnScroll>
-          </div>
-
-          {/* ROW 3 — FOOTER RIGHT: empty */}
 
         </div>
       </div>
