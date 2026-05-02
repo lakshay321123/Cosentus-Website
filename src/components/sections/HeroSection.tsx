@@ -87,18 +87,18 @@ export default function HeroSection() {
       <style>{`
         @media (max-width: 768px) {
           .hero-specialty-grid {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            justify-content: flex-start !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
             gap: 10px !important;
             max-width: 100% !important;
             margin-top: 32px !important;
           }
           .hero-specialty-tile {
-            flex: 0 0 auto !important;
-            /* iOS HIG: 44px minimum touch target, 16px body font for readability */
+            /* iOS HIG: 44px minimum touch target, 16px body font for readability.
+               Width comes from the grid 1fr cell so every pill is identical. */
+            width: 100% !important;
             height: 44px !important;
-            padding: 0 22px !important;
+            padding: 0 16px !important;
             font-size: 16px !important;
           }
         }
