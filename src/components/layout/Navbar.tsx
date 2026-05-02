@@ -57,6 +57,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
   // Swipe-to-close state
@@ -65,6 +66,12 @@ export default function Navbar() {
   const touchCurrentX = useRef(0)
   const drawerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
+
+  // Trigger the GPTW flag drop-down on the next paint after mount.
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setMounted(true))
+    return () => window.cancelAnimationFrame(id)
+  }, [])
 
   // Close drawer on route change
   useEffect(() => {
@@ -158,6 +165,16 @@ export default function Navbar() {
               }}
               priority
             />
+            {/* GPTW flag drops down from the cosentus logo on mount; rolls back up on scroll. */}
+            <span className={`nav-gptw-flag${mounted && !scrolled ? ' visible' : ''}`} aria-hidden="true">
+              <Image
+                src="/gptw-flag.png"
+                alt=""
+                width={258}
+                height={473}
+                priority
+              />
+            </span>
           </Link>
 
           {/* Desktop nav links */}
@@ -178,17 +195,6 @@ export default function Navbar() {
             <Link href="/contact" className="nav-cta">Contact</Link>
             </li>
           </ul>
-
-          {/* GPTW flag hangs from the cosentus logo; rolls up when scrolled. */}
-          <div className="nav-gptw-flag" aria-hidden="true">
-            <Image
-              src="/gptw-flag.png"
-              alt=""
-              width={258}
-              height={473}
-              priority
-            />
-          </div>
         </div>
       </nav>
 
