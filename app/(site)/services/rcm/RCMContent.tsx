@@ -24,6 +24,24 @@ const keyResults = [
   { value: '30%', label: 'Revenue Growth (12mo)' },
 ]
 
+const problems = [
+  'Eligibility errors caught after the visit, not before',
+  'Manual prior authorizations missing payer deadlines',
+  'Coding gaps and missed modifiers leaving money on the table',
+  'Denials piling up unworked past the appeal window',
+  'Patient balances sitting in statement limbo',
+  'AR creeping past 90 days with no active recovery',
+]
+
+const solutions: { text: string; agent: string | null }[] = [
+  { text: 'Real-time eligibility verification before every appointment', agent: 'Elly' },
+  { text: 'Authorization tracking with deadline alerts', agent: 'Paige' },
+  { text: 'AAPC-certified coders with AI-assisted accuracy checks', agent: 'Connie' },
+  { text: '95%+ denial appeal success with clinical rationale', agent: 'Chris' },
+  { text: 'Multi-language patient billing with payment plans', agent: 'Cindy' },
+  { text: 'Active AR follow-up — under 15% AR over 90 days', agent: 'Ariel' },
+]
+
 export default function RCMContent() {
   return (
     <>
@@ -55,6 +73,78 @@ export default function RCMContent() {
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,181,214,0.15) 0%, transparent 60%)' }} />
             </div>
           </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* The Problem — where revenue leaks */}
+      <section className="section section-alt">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">THE PROBLEM</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">Where Practices Lose Revenue</div>
+          </RevealOnScroll>
+
+          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
+            {problems.map((p, i) => (
+              <RevealOnScroll key={i} delay={i * 0.06}>
+                <div style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 16, alignItems: 'flex-start', height: '100%' }}>
+                  <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: '#fef2f2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18, lineHeight: 1 }} aria-hidden="true">✕</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{p}</p>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {problems.map((p, i) => (
+                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: '#fef2f2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, lineHeight: 1 }} aria-hidden="true">✕</div>
+                  <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{p}</p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
+        </div>
+      </section>
+
+      {/* Solved — paired 1:1 with problems above */}
+      <section className="section">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">SOLVED</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <div className="section-title">How We Plug The Leaks</div>
+          </RevealOnScroll>
+
+          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
+            {solutions.map((s, i) => (
+              <RevealOnScroll key={i} delay={i * 0.06}>
+                <div style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 16, alignItems: 'flex-start', height: '100%' }}>
+                  <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: 'var(--primary-ghost)', color: '#00B5D6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18, lineHeight: 1 }} aria-hidden="true">✓</div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{s.text}</p>
+                    {s.agent && <span style={{ fontSize: 11, padding: '2px 8px', background: 'var(--primary-ghost)', borderRadius: 4, color: '#00B5D6', fontWeight: 500, display: 'inline-block', marginTop: 8 }}>AI Agent: {s.agent}</span>}
+                  </div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {solutions.map((s, i) => (
+                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--primary-ghost)', color: '#00B5D6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, lineHeight: 1 }} aria-hidden="true">✓</div>
+                  <div>
+                    <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{s.text}</p>
+                    {s.agent && <span style={{ fontSize: 11, color: '#00B5D6', marginTop: 4, display: 'inline-block' }}>{s.agent}</span>}
+                  </div>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
