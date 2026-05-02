@@ -7,7 +7,7 @@ export interface CosentusEvent {
   description: string
   tag: string
   learnMoreUrl?: string
-  photos: string[] // photo filenames — will populate when images provided
+  photos: string[] // photo filenames, will populate when images provided
 }
 
 export const eventsData: CosentusEvent[] = [
@@ -154,7 +154,7 @@ export const eventsData: CosentusEvent[] = [
     date: '2025',
     sortDate: '2025-12-01',
     location: '',
-    description: 'The Cosentus 25th Anniversary Celebrations mark a milestone moment honoring 25 years of growth, innovation, and impact. This special gathering brings our teams together to reflect on our journey, celebrate shared achievements, and recognize the people and partnerships that have shaped Cosentus\' success—while looking ahead with pride, purpose, and momentum for the future.',
+    description: 'The Cosentus 25th Anniversary Celebrations mark a milestone moment honoring 25 years of growth, innovation, and impact. This special gathering brings our teams together to reflect on our journey, celebrate shared achievements, and recognize the people and partnerships that have shaped Cosentus\' success, while looking ahead with pride, purpose, and momentum for the future.',
     tag: 'Company',
     photos: [
       '/images/events/cosentus-25th-anniversary-celebrations/25TH-ANNIVERSARY-THUMBNAIL.png',
@@ -222,7 +222,7 @@ export const eventsData: CosentusEvent[] = [
     date: 'October 28, 2025',
     sortDate: '2025-10-28',
     location: '',
-    description: 'Cosentus celebrated 25 years of growth, innovation, and impact with a vibrant event featuring keynote speeches, live performances, and team recognitions — honoring the people and moments that shaped our journey.',
+    description: 'Cosentus celebrated 25 years of growth, innovation, and impact with a vibrant event featuring keynote speeches, live performances, and team recognitions, honoring the people and moments that shaped our journey.',
     tag: 'Company',
     photos: [
       '/images/events/25-years-of-cosentus-event/2257-1.webp',
@@ -254,7 +254,7 @@ export const eventsData: CosentusEvent[] = [
     date: 'May 2025',
     sortDate: '2025-05-01',
     location: '',
-    description: 'A dynamic 3-day summit focused on aligning vision, sparking innovation, and driving bold growth across teams. Under the theme “Accelerating Cosentus Growth,” the event celebrated collaboration, purpose-driven strategy, and our continued commitment to moving forward—together.',
+    description: 'A dynamic 3-day summit focused on aligning vision, sparking innovation, and driving bold growth across teams. Under the theme “Accelerating Cosentus Growth,” the event celebrated collaboration, purpose-driven strategy, and our continued commitment to moving forward, together.',
     tag: 'Summit',
     photos: [
       '/images/events/cosentus-growth-summit/1.webp',

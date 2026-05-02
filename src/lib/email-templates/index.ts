@@ -126,7 +126,7 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          Thanks for reaching out to Cosentus. I saw you're running a <strong style="color:${BRAND.black};">{{specialty}}</strong> practice — that's exactly where we specialize.
+          Thanks for reaching out to Cosentus. I saw you're running a <strong style="color:${BRAND.black};">{{specialty}}</strong> practice, that's exactly where we specialize.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
           Most {{specialty}} practices we work with are leaving <strong style="color:${BRAND.primary};">15–30% on the table</strong> without knowing it. Modifier errors, missed pass-throughs, and denial patterns that compound over time.
@@ -146,7 +146,7 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          Wanted to share something relevant. We recently helped a {{specialty}} group grow revenue <strong style="color:${BRAND.primary};">46% in 12 months</strong> — just by fixing coding accuracy and renegotiating contracts.
+          Wanted to share something relevant. We recently helped a {{specialty}} group grow revenue <strong style="color:${BRAND.primary};">46% in 12 months</strong>, just by fixing coding accuracy and renegotiating contracts.
         </p>
         <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;background:${BRAND.lightGray};border-radius:8px;">
           <tr>
@@ -173,7 +173,7 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          Here's our latest {{specialty}} case study — real numbers from a practice similar to yours.
+          Here's our latest {{specialty}} case study, real numbers from a practice similar to yours.
         </p>
         <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;border:1px solid ${BRAND.border};border-radius:8px;overflow:hidden;">
           <tr>
@@ -203,7 +203,7 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
           </td></tr>
         </table>
         <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          These aren't projections — they're documented outcomes. Want to see what your numbers could look like?
+          These aren't projections, they're documented outcomes. Want to see what your numbers could look like?
         </p>
         ${ctaButton('Get Your Free Revenue Analysis', BRAND.bookingUrl)}
         <p style="margin:24px 0 0;font-size:14px;color:${BRAND.gray};">
@@ -213,7 +213,7 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
     },
 
     meeting_confirm: {
-      subject: `Confirmed: {{meeting_type}} call — {{meeting_date}}`,
+      subject: `Confirmed: {{meeting_type}} call, {{meeting_date}}`,
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
@@ -245,13 +245,13 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          I've reached out a few times and haven't heard back — totally understand, you're busy running a practice.
+          I've reached out a few times and haven't heard back, totally understand, you're busy running a practice.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
           I don't want to be that person who keeps emailing. So I'll keep your file open for 30 days in case timing changes.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          If billing ever becomes a headache — or you just want a second opinion on your current setup — we're here.
+          If billing ever becomes a headache, or you just want a second opinion on your current setup, we're here.
         </p>
         <p style="margin:24px 0 0;font-size:14px;color:${BRAND.gray};">
           All the best,<br/>
@@ -261,11 +261,11 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
     },
 
     survey_invite: {
-      subject: `Quick question — how are we doing?`,
+      subject: `Quick question, how are we doing?`,
       body: (d) => `
         <h2 style="margin:0 0 16px;font-size:22px;font-weight:300;color:${BRAND.black};">Hi {{first_name}},</h2>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
-          We'd love to hear how things are going with {{practice_name}}. Your feedback helps us improve — and it only takes 30 seconds.
+          We'd love to hear how things are going with {{practice_name}}. Your feedback helps us improve, and it only takes 30 seconds.
         </p>
         <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:${BRAND.gray};">
           <strong style="color:${BRAND.black};">One question:</strong> How likely are you to recommend Cosentus to a colleague? (0–10)
@@ -295,9 +295,9 @@ export function generateEmail(templateId: string, data: EmailData): { subject: s
 }
 
 export const templateList = [
-  { id: 'welcome', name: 'Welcome — New Lead', delay: 'Immediate', category: 'outreach' },
-  { id: 'follow_up_value', name: 'Follow-up — Value Prop', delay: '+3 days', category: 'outreach' },
-  { id: 'case_study', name: 'Follow-up — Case Study', delay: '+7 days', category: 'outreach' },
+  { id: 'welcome', name: 'Welcome, New Lead', delay: 'Immediate', category: 'outreach' },
+  { id: 'follow_up_value', name: 'Follow-up, Value Prop', delay: '+3 days', category: 'outreach' },
+  { id: 'case_study', name: 'Follow-up, Case Study', delay: '+7 days', category: 'outreach' },
   { id: 'meeting_confirm', name: 'Meeting Confirmation', delay: 'On booking', category: 'meetings' },
   { id: 'breakup', name: 'Breakup Email', delay: '+14 days', category: 'outreach' },
   { id: 'survey_invite', name: 'NPS Survey Invite', delay: 'Manual', category: 'feedback' },

@@ -18,7 +18,7 @@ const challenges = [
 ]
 
 const solutions = [
-  { stat: '25', unit: 'Years', title: 'Revenue Cycle Management', desc: 'Successfully integrated 19 acquisitions — we know how to grow together.' },
+  { stat: '25', unit: 'Years', title: 'Revenue Cycle Management', desc: 'Successfully integrated 19 acquisitions, we know how to grow together.' },
   { stat: '∞', unit: '', title: 'Upfront Capital Investments', desc: 'De-risk the owners, providing financial security and runway for growth.' },
   { stat: '360°', unit: '', title: 'Comprehensive Solutions', desc: 'Offshore teams, advanced technology systems, AI software, and dedicated support.' },
   { stat: '10x', unit: '', title: 'Transformative Offshoring & Tech', desc: 'Enhance efficiency, reduce costs, and improve service delivery at scale.' },
@@ -320,7 +320,7 @@ export default function PartnershipContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500, marginBottom: 32 }}>
-                Medical billing companies face mounting pressure from all sides — rising costs, technology shifts, and aggressive PE consolidation.
+                Medical billing companies face mounting pressure from all sides, rising costs, technology shifts, and aggressive PE consolidation.
               </p>
             </RevealOnScroll>
             <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>

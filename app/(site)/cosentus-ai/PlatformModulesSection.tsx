@@ -63,7 +63,7 @@ const liveDemos: Record<string, { headline: string; metric: string; metricLabel:
       { label: 'Prior auth (CPT 99214)', value: 'Not required', status: 'ok' },
       { label: 'Network status', value: 'In-network', status: 'ok' },
     ],
-    footer: 'Verified before every encounter — eligibility denials eliminated at the source',
+    footer: 'Verified before every encounter, eligibility denials eliminated at the source',
   },
   '04': {
     headline: 'Auth #PA-77231 · Cigna · MRI Lumbar',
@@ -114,7 +114,7 @@ const liveDemos: Record<string, { headline: string; metric: string; metricLabel:
       { label: 'Root cause: eligibility', value: '18%', status: 'ok' },
       { label: 'Recovered', value: '$162K (87%)', status: 'ok' },
     ],
-    footer: 'Root-cause analysis on every denial — that category shrinks next quarter',
+    footer: 'Root-cause analysis on every denial, that category shrinks next quarter',
   },
   '19': {
     headline: 'Patient #P-44218 · Spanish',
@@ -126,7 +126,7 @@ const liveDemos: Record<string, { headline: string; metric: string; metricLabel:
       { label: 'Method', value: 'Credit card · auto-pay', status: 'ok' },
       { label: 'Outcome', value: 'Plan accepted', status: 'ok' },
     ],
-    footer: 'Empathetic, multilingual, and always available — no patient call goes unanswered',
+    footer: 'Empathetic, multilingual, and always available, no patient call goes unanswered',
   },
 }
 
@@ -431,7 +431,7 @@ export default function PlatformModulesSection() {
                         Module Capabilities
                       </div>
                       <div style={{ fontSize: 14, color: 'white', lineHeight: 1.7 }}>
-                        Integrated with the rest of the system. Data flows in real-time across all 23 modules — no copy-paste, no manual handoffs, no information lost between teams.
+                        Integrated with the rest of the system. Data flows in real-time across all 23 modules, no copy-paste, no manual handoffs, no information lost between teams.
                       </div>
                     </div>
                     <div style={{

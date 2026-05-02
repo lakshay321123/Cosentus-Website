@@ -68,7 +68,7 @@ export default function ChatWidget() {
 
           {/* White message area */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, background: 'white' }}>
-            {/* Welcome — bot style */}
+            {/* Welcome, bot style */}
             <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
               Hey! I'm COSE AI. How can I help you today?
             </div>

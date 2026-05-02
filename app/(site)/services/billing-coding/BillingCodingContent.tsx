@@ -64,9 +64,9 @@ const specialties = [
 
 /* ── Page FAQs from cosentus.com/services/medical-billing/ ── */
 const pageFaqs = [
-  { q: 'What are some common challenges in medical billing and coding?', a: 'Medical billing and coding have many challenges that can strain your practice\'s efficiency and profitability. Here are some common pain points: Ever-changing landscape of rules and regulations — Keeping up with the latest healthcare regulations and insurance policies can be overwhelming. The complexity of medical codes and terminology — Navigating thousands of codes and ensuring accurate documentation requires expertise. Sporadic increases in the volume of patients leading to backlogs and delays — Managing fluctuating patient volumes can create administrative bottlenecks. Handling denied or rejected claims — Addressing denied claims is time-consuming and can significantly impact revenue.' },
-  { q: 'What are the benefits of outsourcing medical billing and coding services?', a: 'Outsourcing your medical billing and coding tasks can offer numerous advantages: Maximize revenue — Reduce claim denials and optimize reimbursements. Ensure accuracy — Minimize errors in coding and billing to avoid costly mistakes. Effective claim submission and processing — Improve the efficiency of your billing cycle with expert handling. Information management — Maintain organized and up-to-date patient records and billing information.' },
-  { q: 'What are the benefits of working with your medical billing and coding services?', a: 'Following are the multiple benefits of working with us: Higher profitability — Increase your practice\'s bottom line with optimized billing. Faster reimbursements — Speed up the payment cycle and improve cash flow. HIPAA-compliance — Ensure your practice adheres to all privacy and security regulations. Affordable pricing — Get cost-effective solutions tailored to your needs. Reduced operating costs — Save on staffing and administrative expenses. Reduced staffing issues — Avoid the hassles of hiring and training in-house staff. Denial Analysis — Monitor and manage claim denials effectively.' },
+  { q: 'What are some common challenges in medical billing and coding?', a: 'Medical billing and coding have many challenges that can strain your practice\'s efficiency and profitability. Here are some common pain points: Ever-changing landscape of rules and regulations, Keeping up with the latest healthcare regulations and insurance policies can be overwhelming. The complexity of medical codes and terminology, Navigating thousands of codes and ensuring accurate documentation requires expertise. Sporadic increases in the volume of patients leading to backlogs and delays, Managing fluctuating patient volumes can create administrative bottlenecks. Handling denied or rejected claims, Addressing denied claims is time-consuming and can significantly impact revenue.' },
+  { q: 'What are the benefits of outsourcing medical billing and coding services?', a: 'Outsourcing your medical billing and coding tasks can offer numerous advantages: Maximize revenue, Reduce claim denials and optimize reimbursements. Ensure accuracy, Minimize errors in coding and billing to avoid costly mistakes. Effective claim submission and processing, Improve the efficiency of your billing cycle with expert handling. Information management, Maintain organized and up-to-date patient records and billing information.' },
+  { q: 'What are the benefits of working with your medical billing and coding services?', a: 'Following are the multiple benefits of working with us: Higher profitability, Increase your practice\'s bottom line with optimized billing. Faster reimbursements, Speed up the payment cycle and improve cash flow. HIPAA-compliance, Ensure your practice adheres to all privacy and security regulations. Affordable pricing, Get cost-effective solutions tailored to your needs. Reduced operating costs, Save on staffing and administrative expenses. Reduced staffing issues, Avoid the hassles of hiring and training in-house staff. Denial Analysis, Monitor and manage claim denials effectively.' },
   { q: 'Why Do Healthcare Providers Need Medical Billing Services?', a: 'Medical billing services help ensure accurate claim submissions, reduce administrative burdens, and optimize revenue cycles.' },
   { q: 'What Software Is Needed for Medical Billing and Coding?', a: 'We use advanced, industry-standard software to ensure accuracy, compliance, and efficient medical claims processing.' },
 ]
@@ -82,7 +82,7 @@ const faqsPageBilling = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE RCM CYCLE — p1-2a.png + animated overlays
+   INTERACTIVE RCM CYCLE, p1-2a.png + animated overlays
    ─────────────────────────────────────────── */
 
 /* ── RCM manifest — bbox: [x, y, w, h] in 610x601 viewBox ── */
@@ -169,7 +169,7 @@ function InteractiveRCMCycle() {
 
 
 /* ───────────────────────────────────────────
-   FAQ — blog card style
+   FAQ, blog card style
    ─────────────────────────────────────────── */
 
 function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
@@ -258,7 +258,7 @@ export default function BillingCodingContent() {
         </div>
       </section>
 
-      {/* ── RCM CYCLE DIAGRAM — teal section ── */}
+      {/* ── RCM CYCLE DIAGRAM, teal section ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white', overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
@@ -285,7 +285,7 @@ export default function BillingCodingContent() {
         </div>
       </section>
 
-      {/* ── SOLUTIONS — arrow-shaped cards ── */}
+      {/* ── SOLUTIONS, arrow-shaped cards ── */}
       <section className="section">
         <div className="container">
           <RevealOnScroll>
@@ -360,7 +360,7 @@ export default function BillingCodingContent() {
         </div>
       </section>
 
-      {/* ── BENEFITS OF OUTSOURCING — clean stats ── */}
+      {/* ── BENEFITS OF OUTSOURCING, clean stats ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white' }}>
         <div className="container">
           <RevealOnScroll>

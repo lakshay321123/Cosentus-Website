@@ -36,7 +36,7 @@ export default function PartnersSection() {
           {partners.map((p, i) => <PartnerLogo key={i} p={p} />)}
         </div>
 
-        {/* Mobile — scrolling marquee */}
+        {/* Mobile, scrolling marquee */}
         <div className="partners-mobile" style={{ overflow: 'hidden', width: '100%' }}>
           <div className="partners-marquee">
             {[...partners, ...partners].map((p, i) => <PartnerLogo key={i} p={p} />)}

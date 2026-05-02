@@ -77,7 +77,7 @@ export default function BlogContent() {
                     />
                   )}
 
-                  {/* Tag badge — top left */}
+                  {/* Tag badge, top left */}
                   <span style={{
                     position: 'absolute', top: 16, left: 16, zIndex: 3,
                     padding: '5px 14px',

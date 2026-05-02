@@ -134,7 +134,7 @@ export default function Navbar() {
     <>
       <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
         <div className="nav-inner">
-          {/* Hamburger — mobile only */}
+          {/* Hamburger, mobile only */}
           <button
             className="drawer-toggle"
             onClick={() => setDrawerOpen(true)}

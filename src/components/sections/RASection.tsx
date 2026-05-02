@@ -15,11 +15,11 @@ export default function RASection() {
 
   return (
     <section className="section" id="ra" style={{ overflow: 'hidden', position: 'relative' }}>
-      {/* Voice call modal — renders only when an agent is clicked */}
+      {/* Voice call modal, renders only when an agent is clicked */}
       {activeAgent && (
         <VoiceCallModal agent={activeAgent} onClose={() => setActiveAgent(null)} />
       )}
-      {/* Single focused decorative accent — radial glow behind headline area only.
+      {/* Single focused decorative accent, radial glow behind headline area only.
           Replaces the noisy random neural mesh per design review. */}
       <div aria-hidden="true" style={{
         position: 'absolute',
@@ -32,7 +32,7 @@ export default function RASection() {
         zIndex: 0,
       }} />
 
-      {/* Thin horizontal scan line — slow, restrained, single moment of motion */}
+      {/* Thin horizontal scan line, slow, restrained, single moment of motion */}
       <div aria-hidden="true" className="ra-scanline" style={{
         position: 'absolute',
         top: 0, left: 0, right: 0,
@@ -47,9 +47,9 @@ export default function RASection() {
             cell, and both cells in a row share that height. This is the only
             way to get true pixel-precise alignment between left and right
             content without flex-stretch hacks.
-              Row 1 — header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
-              Row 2 — body:   left = agent grid 3x3,           right = AI Workflow Panel
-              Row 3 — footer: left = Explore Zeus link,    right = empty */}
+              Row 1, header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
+              Row 2, body:   left = agent grid 3x3,           right = AI Workflow Panel
+              Row 3, footer: left = Explore Zeus link,    right = empty */}
         <div className="ra-main-grid" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
@@ -59,7 +59,7 @@ export default function RASection() {
           alignItems: 'start',
         }}>
 
-          {/* ROW 1 — HEADER LEFT: eyebrow + headline + paragraph */}
+          {/* ROW 1, HEADER LEFT: eyebrow + headline + paragraph */}
           <div style={{ gridColumn: 1, gridRow: 1 }}>
             <RevealOnScroll direction="left">
               <div className="section-label">REAL PEOPLE + AI</div>
@@ -76,7 +76,7 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 1 — HEADER RIGHT: 9 / 15 / 23 stats, vertically centered in the row */}
+          {/* ROW 1, HEADER RIGHT: 9 / 15 / 23 stats, vertically centered in the row */}
           <div style={{ gridColumn: 2, gridRow: 1, alignSelf: 'center', width: '100%' }}>
             <RevealOnScroll direction="right" delay={0.15}>
               <div className="ra-stats-row" style={{
@@ -116,7 +116,7 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 2 — BODY LEFT: agent grid 3x3 */}
+          {/* ROW 2, BODY LEFT: agent grid 3x3 */}
           <div style={{ gridColumn: 1, gridRow: 2 }}>
             <RevealOnScroll direction="left" delay={0.35}>
               <div style={{
@@ -167,7 +167,7 @@ export default function RASection() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                       />
                     </div>
-                    {/* Name — bold, matches reference voice.html screenshot */}
+                    {/* Name, bold, matches reference voice.html screenshot */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 18,
@@ -178,7 +178,7 @@ export default function RASection() {
                     }}>
                       {agent.name}
                     </div>
-                    {/* Role — medium weight, lighter than name, matches reference */}
+                    {/* Role, medium weight, lighter than name, matches reference */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 14,
@@ -196,14 +196,14 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 2 — BODY RIGHT: AI Workflow Panel (top-aligned with agent grid top) */}
+          {/* ROW 2, BODY RIGHT: AI Workflow Panel (top-aligned with agent grid top) */}
           <div style={{ gridColumn: 2, gridRow: 2 }}>
             <RevealOnScroll direction="right" delay={0.3}>
               <AIWorkflowPanel />
             </RevealOnScroll>
           </div>
 
-          {/* ROW 3 — FOOTER LEFT: Explore Zeus link */}
+          {/* ROW 3, FOOTER LEFT: Explore Zeus link */}
           <div style={{ gridColumn: 1, gridRow: 3 }}>
             <RevealOnScroll direction="left" delay={0.45}>
               <Link href="/cosentus-ai" className="btn-primary">
@@ -213,7 +213,7 @@ export default function RASection() {
             </RevealOnScroll>
           </div>
 
-          {/* ROW 3 — FOOTER RIGHT: empty */}
+          {/* ROW 3, FOOTER RIGHT: empty */}
 
         </div>
       </div>

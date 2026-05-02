@@ -360,7 +360,7 @@ function Interactive360Wheel() {
 
 
 /* ───────────────────────────────────────────
-   FAQ ACCORDION — matches blog card style
+   FAQ ACCORDION, matches blog card style
    ─────────────────────────────────────────── */
 
 function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
@@ -468,7 +468,7 @@ export default function EHRContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>
-              Works with your existing EHR — Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, and more. No migrations. No disruption. For practices that want a purpose-built option, Medcloud supports cleaner claims and faster revenue.
+              Works with your existing EHR, Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, and more. No migrations. No disruption. For practices that want a purpose-built option, Medcloud supports cleaner claims and faster revenue.
             </p>
           </RevealOnScroll>
           <RevealOnScroll delay={0.3}>
@@ -589,7 +589,7 @@ export default function EHRContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="section-desc">
-              EHR agnostic — integrates with Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, and others. We connect to what you already use.
+              EHR agnostic, integrates with Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, and others. We connect to what you already use.
             </p>
           </RevealOnScroll>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 32 }}>
@@ -623,7 +623,7 @@ export default function EHRContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="section-desc">
-              Revenue-first design — documentation prompts capture every billable element, supporting accurate coding and maximum reimbursement regardless of which EHR you use. AI-integrated real-time data exchange with Cosentus billing and AI agents enables contextual, accurate patient and payer interactions.
+              Revenue-first design, documentation prompts capture every billable element, supporting accurate coding and maximum reimbursement regardless of which EHR you use. AI-integrated real-time data exchange with Cosentus billing and AI agents enables contextual, accurate patient and payer interactions.
             </p>
           </RevealOnScroll>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
@@ -668,7 +668,7 @@ export default function EHRContent() {
 
           <div style={{ marginTop: 48 }}>
             <FAQSection title="EHR Software" faqs={ehrPageFaqs} />
-            <FAQSection title="EHR & Practice Management Software — Cosé / Medcloud" faqs={coseFaqs} />
+            <FAQSection title="EHR & Practice Management Software, Cosé / Medcloud" faqs={coseFaqs} />
           </div>
         </div>
       </section>

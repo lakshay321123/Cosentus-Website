@@ -28,7 +28,7 @@ function renderMarkdown(text: string) {
   for (const line of lines) {
     const trimmed = line.trim()
     if (!trimmed) {
-      continue // Skip empty lines — paragraph margins handle spacing
+      continue // Skip empty lines, paragraph margins handle spacing
     }
 
     // H2 — same font size, differentiated by weight
@@ -263,7 +263,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
           {article.featuredIn && (
             <RevealOnScroll delay={0.3}>
               <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
-                Featured in — {article.featuredIn}
+                Featured in, {article.featuredIn}
                 {article.featuredDate && ` | ${article.featuredDate}`}
               </p>
             </RevealOnScroll>

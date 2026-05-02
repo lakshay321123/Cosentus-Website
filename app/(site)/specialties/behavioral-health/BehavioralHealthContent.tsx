@@ -64,7 +64,7 @@ export default function BehavioralHealthContent() {
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
-        label="SIMED BY COSENTUS — PURPOSE BUILT FOR BEHAVIORAL HEALTH"
+        label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
         title="Behavioral Health Demand Is Surging. The Billing Complexity Is Surging With It."
         subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our behavioral health specialists keep revenue aligned with care delivered."
         ctaText="Get Your Free Behavioral Health Revenue Analysis"
@@ -109,8 +109,8 @@ export default function BehavioralHealthContent() {
                     'Every authorization expiration tracked and acted on',
                     'AI automates eligibility re-checks and auth tracking',
                     'Human experts defend denials with clinical rationale',
-                    'Root cause analysis on every denial — fix the pattern, not just the claim',
-                    'Dedicated team — IOP/PHP, telehealth, crisis codes all day, no specialty switching',
+                    'Root cause analysis on every denial, fix the pattern, not just the claim',
+                    'Dedicated team, IOP/PHP, telehealth, crisis codes all day, no specialty switching',
                   ].map((item, i) => (
                     <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                       <svg aria-hidden="true" className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>

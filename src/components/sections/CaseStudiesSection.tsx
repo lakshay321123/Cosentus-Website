@@ -55,7 +55,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
         transformStyle: 'preserve-3d',
         transform: flipped ? 'rotateY(180deg)' : 'rotateY(0)',
       }}>
-        {/* Front — image + stat */}
+        {/* Front, image + stat */}
         <div style={{
           position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
           borderRadius: 16, overflow: 'hidden',
@@ -69,7 +69,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           </div>
         </div>
 
-        {/* Back — details */}
+        {/* Back, details */}
         <div style={{
           position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
           transform: 'rotateY(180deg)',
@@ -136,7 +136,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
             <div className="section-title">Client Success Stories</div>
           </RevealOnScroll>
 
-          {/* Desktop — flip cards */}
+          {/* Desktop, flip cards */}
           <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
@@ -156,7 +156,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
         </div>
       </section>
 
-      {/* Embedded PDF Viewer Overlay — only mounts in viewer mode */}
+      {/* Embedded PDF Viewer Overlay, only mounts in viewer mode */}
       {mode === 'viewer' && viewingPdf && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 10000,
@@ -169,7 +169,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
             padding: '12px 24px', background: '#1a1a1a', flexShrink: 0,
           }}>
             <h3 style={{ fontSize: 15, fontWeight: 500, color: 'white', margin: 0 }}>
-              {viewingPdf.tag} — {viewingPdf.statLabel}
+              {viewingPdf.tag}, {viewingPdf.statLabel}
             </h3>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <a

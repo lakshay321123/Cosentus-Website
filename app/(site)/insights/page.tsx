@@ -84,7 +84,7 @@ export default function InsightsPage() {
       <PageHero
         label="INSIGHTS"
         title="What We're Publishing."
-        subtitle="Case studies, blog posts, news, and events from Cosentus — all in one place."
+        subtitle="Case studies, blog posts, news, and events from Cosentus, all in one place."
       />
 
       <InsightSection

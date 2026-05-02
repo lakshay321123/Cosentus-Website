@@ -118,7 +118,7 @@ export default function AIWorkflowPanel() {
         pointerEvents: 'none',
       }} />
 
-      {/* Header strip — light, with brand-teal accent dot */}
+      {/* Header strip, light, with brand-teal accent dot */}
       <div style={{
         padding: '14px 24px',
         display: 'flex',
@@ -159,7 +159,7 @@ export default function AIWorkflowPanel() {
       {/* Body */}
       <div style={{ padding: '20px 24px 18px', display: 'flex', flexDirection: 'column' }}>
 
-        {/* Top focus card — Apple iOS frosted glass card */}
+        {/* Top focus card, Apple iOS frosted glass card */}
         <div key={`focus-${active}`} style={{
           background: 'rgba(255, 255, 255, 0.72)',
           backdropFilter: 'blur(24px) saturate(180%)',
@@ -228,7 +228,7 @@ export default function AIWorkflowPanel() {
             )}
           </div>
 
-          {/* Detail line — high contrast dark gray on white */}
+          {/* Detail line, high contrast dark gray on white */}
           <div style={{
             fontSize: 14,
             color: '#000000',
@@ -240,7 +240,7 @@ export default function AIWorkflowPanel() {
             {current.detail}
           </div>
 
-          {/* Progress bar — fills as the stage holds */}
+          {/* Progress bar, fills as the stage holds */}
           <div style={{
             position: 'absolute',
             bottom: 0, left: 0, right: 0,
@@ -259,7 +259,7 @@ export default function AIWorkflowPanel() {
           </div>
         </div>
 
-        {/* Pipeline — vertical list of all 9 stages, current highlighted */}
+        {/* Pipeline, vertical list of all 9 stages, current highlighted */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, position: 'relative' }}>
           {stages.map((s, i) => {
             const isActive = i === active
@@ -286,7 +286,7 @@ export default function AIWorkflowPanel() {
                     position: 'relative',
                   }}
                 >
-                  {/* Active stage left bar — Apple-style accent */}
+                  {/* Active stage left bar, Apple-style accent */}
                   {isActive && (
                     <div aria-hidden="true" style={{
                       position: 'absolute',

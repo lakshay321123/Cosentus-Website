@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       await supabase.from('activities').insert({
         lead_id: existingId,
         type: source === 'voice_agent' ? 'call' : 'chat',
-        description: `Returning lead — new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
+        description: `Returning lead, new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
       })
       return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }

@@ -28,7 +28,7 @@ import VoiceCallModal from '@/components/voice/VoiceCallModal'
 import { AGENTS } from '@/data/voice-agents'
 
 interface Props {
-  agentName: string             // 'Priya', 'Paige', etc — must match AGENTS[].name
+  agentName: string             // 'Priya', 'Paige', etc, must match AGENTS[].name
   imgAlt: string                // existing alt text from the page
   roleLabel: string             // small text under name (e.g. 'Prior Auth Tracking Specialist')
 }
@@ -78,7 +78,7 @@ export default function AgentSpotlightCard({ agentName, imgAlt, roleLabel }: Pro
           e.currentTarget.style.transform = 'translateY(0)'
         }}
       >
-        {/* Circle wrapper — has the brand ring + glow shadow.
+        {/* Circle wrapper, has the brand ring + glow shadow.
             Larger than homepage (280 vs 120) because spotlight is featured. */}
         <div
           className="agent-spotlight-circle-img"
@@ -102,7 +102,7 @@ export default function AgentSpotlightCard({ agentName, imgAlt, roleLabel }: Pro
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
           />
         </div>
-        {/* Name — bold, matches homepage typography */}
+        {/* Name, bold, matches homepage typography */}
         <div style={{
           fontFamily: 'var(--font-display)',
           fontSize: 22,
@@ -113,7 +113,7 @@ export default function AgentSpotlightCard({ agentName, imgAlt, roleLabel }: Pro
         }}>
           {agent.name}
         </div>
-        {/* Role — medium weight, lighter than name */}
+        {/* Role, medium weight, lighter than name */}
         <div style={{
           fontFamily: 'var(--font-display)',
           fontSize: 14,

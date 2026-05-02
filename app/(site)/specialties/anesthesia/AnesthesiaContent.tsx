@@ -53,7 +53,7 @@ const solutions = [
 export default function AnesthesiaContent() {
   return (
     <>
-      {/* Why Accreda Exists — Split impact section */}
+      {/* Why Accreda Exists, Split impact section */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
@@ -67,7 +67,7 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
-                Base units, time-unit accuracy, medical direction modifiers, concurrency rules, implant pass-throughs — the details that define anesthesia billing are the same ones generic teams get wrong.
+                Base units, time-unit accuracy, medical direction modifiers, concurrency rules, implant pass-throughs, the details that define anesthesia billing are the same ones generic teams get wrong.
               </p>
             </RevealOnScroll>
           </div>
@@ -84,17 +84,17 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
-                Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, every workflow — built for anesthesia and nothing else.
+                Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, every workflow, built for anesthesia and nothing else.
               </p>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.3}>
               <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 20 }}>
-                Not just denial recovery — denial prevention. We perform root cause analysis on every denied claim to stop future denials before they happen. Your denial rate improves every quarter.
+                Not just denial recovery, denial prevention. We perform root cause analysis on every denied claim to stop future denials before they happen. Your denial rate improves every quarter.
               </p>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.4}>
               <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
-                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane — that&apos;s why they know every payer game specific to your specialty.
+                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane, that&apos;s why they know every payer game specific to your specialty.
               </p>
             </RevealOnScroll>
           </div>
@@ -102,7 +102,7 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* The Cosentus Advantage — 6 animated cards */}
+      {/* The Cosentus Advantage, 6 animated cards */}
       <section className="section">
         <div className="container">
           <RevealOnScroll><div className="section-label">THE COSENTUS ADVANTAGE</div></RevealOnScroll>
@@ -154,7 +154,7 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Pre-Service Collection — Priya */}
+      {/* Pre-Service Collection, Priya */}
       <section className="section">
         <div className="container">
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -183,7 +183,7 @@ export default function AnesthesiaContent() {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <AgentSpotlightCard
                   agentName="Priya"
-                  imgAlt="Priya — Pre-Service Payment Collection"
+                  imgAlt="Priya, Pre-Service Payment Collection"
                   roleLabel="Pre-Service Cost Estimates"
                 />
               </div>
@@ -193,7 +193,7 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Leadership — 250+ years */}
+      {/* Leadership, 250+ years */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>

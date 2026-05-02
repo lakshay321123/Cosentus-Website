@@ -8,7 +8,7 @@ const steps = [
   { num: '1', text: 'We respond within one business day.' },
   { num: '2', text: 'We schedule a brief discovery call to understand your specialty, payer mix, and revenue performance.' },
   { num: '3', text: 'We deliver a complimentary Revenue Analysis showing exactly where revenue is leaking and how much could be recovered.' },
-  { num: '4', text: 'You decide if Cosentus is the right partner — no commitment required.' },
+  { num: '4', text: 'You decide if Cosentus is the right partner, no commitment required.' },
 ]
 
 export default function ContactContent() {
