@@ -2,12 +2,6 @@
 
 import Link from 'next/link'
 
-const ArrowIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-  </svg>
-)
-
 const specialties = [
   { label: 'Anesthesia', href: '/specialties/anesthesia' },
   { label: 'Orthopedics', href: '/specialties/orthopedics' },
@@ -32,17 +26,13 @@ export default function HeroSection() {
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
-        <p className="hero-sub" style={{ fontSize: 'clamp(16px, 1.6vw, 20px)', fontWeight: 500, letterSpacing: '0.02em', opacity: 0.9, marginTop: 28 }}>
-          Choose your Specialty
-        </p>
-
-        {/* Specialty selector */}
+        {/* Specialty selector — tightly beneath the H1. */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 12,
-          maxWidth: 720,
-          margin: '36px 0 32px',
+          gap: 10,
+          maxWidth: 580,
+          margin: '24px 0 0',
         }} className="hero-specialty-grid">
           {specialties.map((s) => (
             <Link
@@ -50,10 +40,12 @@ export default function HeroSection() {
               href={s.href}
               className="btn-glass hero-specialty-tile"
               style={{
-                borderRadius: 'var(--radius-md)',
-                justifyContent: 'space-between',
+                borderRadius: 999,
+                height: 36,
+                padding: '0 16px',
+                justifyContent: 'center',
                 fontSize: 14,
-                fontWeight: 500,
+                fontWeight: 600,
                 letterSpacing: '0.01em',
                 fontFamily: 'var(--font-body)',
                 textDecoration: 'none',
@@ -63,25 +55,8 @@ export default function HeroSection() {
               }}
             >
               <span>{s.label}</span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </Link>
           ))}
-        </div>
-
-        <div className="hero-actions">
-          <Link
-            href="/contact"
-            className="btn-glass hero-cta-dark"
-            style={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              borderColor: 'rgba(255, 255, 255, 0.18)',
-              color: '#fff',
-            }}
-          >
-            Get Your Financial MRI <ArrowIcon />
-          </Link>
         </div>
       </div>
 
@@ -99,8 +74,7 @@ export default function HeroSection() {
         @media (max-width: 768px) {
           .hero-specialty-grid { grid-template-columns: 1fr !important; }
         }
-        .hero-specialty-tile:hover,
-        .hero-cta-dark:hover {
+        .hero-specialty-tile:hover {
           background: rgba(0, 0, 0, 0.50) !important;
           border-color: rgba(255, 255, 255, 0.30) !important;
           color: #fff !important;
