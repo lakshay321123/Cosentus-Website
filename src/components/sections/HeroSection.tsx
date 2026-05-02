@@ -80,11 +80,16 @@ export default function HeroSection() {
             display: flex !important;
             flex-wrap: wrap !important;
             justify-content: flex-start !important;
-            gap: 8px !important;
+            gap: 10px !important;
             max-width: 100% !important;
+            margin-top: 32px !important;
           }
           .hero-specialty-tile {
             flex: 0 0 auto !important;
+            /* iOS HIG: 44px minimum touch target, 16px body font for readability */
+            height: 44px !important;
+            padding: 0 22px !important;
+            font-size: 16px !important;
           }
         }
         .hero-specialty-tile:hover {
