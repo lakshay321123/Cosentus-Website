@@ -2434,17 +2434,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     justify-content: center;
   }
 
-  /* ----- Cindy avatar: prevent collision with chat button on mobile ----- */
-  /* CindyVoiceAgent.tsx has its own <style> block at line 581 with
-     `.cindy-avatar { bottom: 80px !important }` at @media (max-width: 480px).
-     That cascades AFTER globals.css so a plain `.cindy-avatar` rule loses
-     even with !important. Bumping specificity with `body ` prefix wins:
-     mine = 0,0,1,1; theirs = 0,0,1,0 → mine wins regardless of source order.
-     Chat button is fixed bottom:28, 60px tall → occupies 28-88px from bottom.
-     Cindy at bottom:180 gives 92px gap (more than chat button's full height). */
-  body .cindy-avatar,
-  body .cindy-panel {
-    bottom: 180px !important;
+  /* ----- Cindy avatar: stacked FAB above chat button on mobile ----- */
+  /* CindyVoiceAgent.tsx has its own <style> block (line 580-583):
+       @media (max-width: 480px) {
+         .cindy-avatar { right: 16px !important; bottom: 80px !important; }
+       }
+     That cascade lives AFTER globals.css with same !important specificity
+     so a plain `.cindy-avatar` rule loses by source order. Bump to
+     `body .cindy-avatar` (specificity 0,0,1,1 vs theirs 0,0,1,0) — wins.
+
+     Geometry, with chat button at bottom:28, right:28, 60px tall:
+       chat occupies bottom 28-88, right edge at 28
+       Cindy at right:28 → horizontally aligned with chat
+       Cindy at bottom:100 → 12px gap above chat's top edge (88+12=100)
+     Standard stacked-FAB pattern. Don't override .cindy-panel — its mobile
+     layout (right:12, left:12, full width) is correct for the expanded popup. */
+  body .cindy-avatar {
+    right: 28px !important;
+    bottom: 100px !important;
   }
 
   /* ----- About page ----- */
