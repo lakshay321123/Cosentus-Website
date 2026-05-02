@@ -2646,6 +2646,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateX(6px);
 }
 
+/* Bullet text — locked to 14px desktop / 13px mobile, matches .advantage-card p */
+.ps-bullet-text {
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .ps-bullet-text {
+    font-size: 13px;
+  }
+}
+
+/* Solution-side eyebrow + title overrides (.section-label color, white title) */
+.ps-solution-eyebrow {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
 /* ===== 5-STEP INTERACTIVE TIMELINE ===== */
 @keyframes stepFadeIn {
   from { opacity: 0; transform: translateY(12px); }

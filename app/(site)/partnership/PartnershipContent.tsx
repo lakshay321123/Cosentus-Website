@@ -2,6 +2,7 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 
 const partnerQuotes = [
   { tag: 'Partner', quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', name: 'Alex Cushman', role: 'CEO, AllianceMed' },
@@ -279,79 +280,27 @@ export default function PartnershipContent() {
       />
 
       {/* Challenge + Solution */}
-      <section style={{ overflow: 'hidden' }}>
-        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
-          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            <RevealOnScroll direction="left">
-              <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#616161" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                THE CHALLENGE
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
-                Is Your Journey to Growth Facing These Challenges?
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500, marginBottom: 32 }}>
-                Medical billing companies face mounting pressure from all sides, rising costs, technology shifts, and aggressive PE consolidation.
-              </p>
-            </RevealOnScroll>
-            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
-              {[
-                'Scaling operations without losing quality or client relationships',
-                'Keeping pace with technology and AI advancements',
-                'Managing rising costs while maintaining profitability',
-                'Competing against private equity-backed consolidators',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="left" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div className="ps-bullet-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gray-400)', flexShrink: 0, transition: 'all 0.4s ease' }} />
-                    <span style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-
-          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column' as const, justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
-            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.65)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                THE SOLUTION
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
-                25 Years of RCM Expertise + Real + Artificial Intelligence
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500, marginBottom: 32 }}>
-                One of the largest non-PE-backed RCM companies in America. 19 successful acquisitions. We know how to grow together.
-              </p>
-            </RevealOnScroll>
-            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14 }}>
-              {[
-                '1,000+ dedicated RCM experts ensuring cost-effectiveness',
-                'AI software and advanced technology systems at scale',
-                'Comprehensive offshore teams and outsourcing capabilities',
-                'Upfront capital investments to de-risk owners',
-                'Inc. 5000 and Great Place to Work certified',
-              ].map((item, i) => (
-                <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
-                  <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{item}</span>
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProblemSolutionSection
+        problemEyebrow="THE CHALLENGE"
+        problemTitle="Is Your Journey to Growth Facing These Challenges?"
+        problemBody="Medical billing companies face mounting pressure from all sides, rising costs, technology shifts, and aggressive PE consolidation."
+        problemBullets={[
+          'Scaling operations without losing quality or client relationships',
+          'Keeping pace with technology and AI advancements',
+          'Managing rising costs while maintaining profitability',
+          'Competing against private equity-backed consolidators',
+        ]}
+        solutionEyebrow="THE SOLUTION"
+        solutionTitle="25 Years of RCM Expertise + Real + Artificial Intelligence"
+        solutionBody="One of the largest non-PE-backed RCM companies in America. 19 successful acquisitions. We know how to grow together."
+        solutionBullets={[
+          '1,000+ dedicated RCM experts ensuring cost-effectiveness',
+          'AI software and advanced technology systems at scale',
+          'Comprehensive offshore teams and outsourcing capabilities',
+          'Upfront capital investments to de-risk owners',
+          'Inc. 5000 and Great Place to Work certified',
+        ]}
+      />
 
 
 

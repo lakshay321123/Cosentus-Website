@@ -2,6 +2,7 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 
 const rcmSteps = [
   { agent: 'Elly', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" /></svg>, title: 'Eligibility Verification', desc: 'Elly verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.' },
@@ -22,24 +23,6 @@ const keyResults = [
   { value: '48hr', label: 'Charge Lag' },
   { value: '<15%', label: 'AR >90 Days' },
   { value: '30%', label: 'Revenue Growth (12mo)' },
-]
-
-const problems = [
-  'Eligibility errors caught after the visit, not before',
-  'Manual prior authorizations missing payer deadlines',
-  'Coding gaps and missed modifiers leaving money on the table',
-  'Denials piling up unworked past the appeal window',
-  'Patient balances sitting in statement limbo',
-  'AR creeping past 90 days with no active recovery',
-]
-
-const solutions: { text: string; agent: string | null }[] = [
-  { text: 'Real-time eligibility verification before every appointment', agent: 'Elly' },
-  { text: 'Authorization tracking with deadline alerts', agent: 'Paige' },
-  { text: 'AAPC-certified coders with AI-assisted accuracy checks', agent: 'Connie' },
-  { text: '95%+ denial appeal success with clinical rationale', agent: 'Chris' },
-  { text: 'Multi-language patient billing with payment plans', agent: 'Cindy' },
-  { text: 'Active AR follow-up — under 15% AR over 90 days', agent: 'Ariel' },
 ]
 
 export default function RCMContent() {
@@ -66,77 +49,31 @@ export default function RCMContent() {
         </div>
       </section>
 
-      {/* The Problem — where revenue leaks */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">THE PROBLEM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Where Practices Lose Revenue</div>
-          </RevealOnScroll>
-
-          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
-            {problems.map((p, i) => (
-              <RevealOnScroll key={i} delay={i * 0.06}>
-                <div style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 16, alignItems: 'flex-start', height: '100%' }}>
-                  <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: '#fef2f2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18, lineHeight: 1 }} aria-hidden="true">✕</div>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{p}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {problems.map((p, i) => (
-                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: '#fef2f2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, lineHeight: 1 }} aria-hidden="true">✕</div>
-                  <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{p}</p>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
-
-      {/* Solved — paired 1:1 with problems above */}
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">SOLVED</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">How We Plug The Leaks</div>
-          </RevealOnScroll>
-
-          <div className="services-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 48 }}>
-            {solutions.map((s, i) => (
-              <RevealOnScroll key={i} delay={i * 0.06}>
-                <div style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 16, alignItems: 'flex-start', height: '100%' }}>
-                  <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: 'var(--primary-ghost)', color: '#00B5D6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18, lineHeight: 1 }} aria-hidden="true">✓</div>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{s.text}</p>
-                    {s.agent && <span style={{ fontSize: 11, padding: '2px 8px', background: 'var(--primary-ghost)', borderRadius: 4, color: '#00B5D6', fontWeight: 500, display: 'inline-block', marginTop: 8 }}>AI Agent: {s.agent}</span>}
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <div className="services-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {solutions.map((s, i) => (
-                <div key={i} style={{ padding: 24, background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: 'var(--primary-ghost)', color: '#00B5D6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, lineHeight: 1 }} aria-hidden="true">✓</div>
-                  <div>
-                    <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-700)', margin: 0 }}>{s.text}</p>
-                    {s.agent && <span style={{ fontSize: 11, color: '#00B5D6', marginTop: 4, display: 'inline-block' }}>{s.agent}</span>}
-                  </div>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
+      {/* Problem + Solution split */}
+      <ProblemSolutionSection
+        problemEyebrow="THE PROBLEM"
+        problemTitle="Where Practices Lose Revenue"
+        problemBody="Every gap in the cycle is a leak. Every leak is money that never lands. Most practices manage RCM in disconnected pieces, and the handoffs are where revenue disappears."
+        problemBullets={[
+          'Eligibility errors caught after the visit, not before',
+          'Manual prior authorizations missing payer deadlines',
+          'Coding gaps and missed modifiers leaving money on the table',
+          'Denials piling up unworked past the appeal window',
+          'Patient balances sitting in statement limbo',
+          'AR creeping past 90 days with no active recovery',
+        ]}
+        solutionEyebrow="SOLVED"
+        solutionTitle="How We Plug The Leaks"
+        solutionBody="One accountable team across the full cycle. AI handles volume. Human specialists own judgment. Nothing falls between handoffs."
+        solutionBullets={[
+          'Real-time eligibility verification before every appointment',
+          'Authorization tracking with deadline alerts',
+          'AAPC-certified coders with AI-assisted accuracy checks',
+          '95%+ denial appeal success with clinical rationale',
+          'Multi-language patient billing with payment plans',
+          'Active AR follow-up — under 15% AR over 90 days',
+        ]}
+      />
 
       {/* The 10-Step RCM Timeline */}
       <section className="section section-alt">
