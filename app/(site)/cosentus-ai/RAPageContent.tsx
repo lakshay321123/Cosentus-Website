@@ -37,11 +37,106 @@ export default function RAPageContent() {
         <VoiceCallModal agent={activeAgent} onClose={() => setActiveAgent(null)} />
       )}
 
+      {/* WHY ZEUS — 23 Modules / 15 AI Features / 45+ Specialties.
+          New section per Zeus design prototype. Sits between PageHero (parent)
+          and the existing voice agents grid. */}
+      <section className="section section-alt" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">Why Zeus</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(28px, 3.2vw, 40px)',
+              fontWeight: 300,
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              color: 'var(--gray-900)',
+              marginBottom: 12,
+              maxWidth: 720,
+            }}>
+              AI in the core. <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Not on the side.</span>
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.2}>
+            <p style={{
+              fontSize: 16,
+              color: 'var(--gray-700)',
+              lineHeight: 1.7,
+              maxWidth: 640,
+              marginBottom: 56,
+            }}>
+              Built AI-native from day one. Every module, every workflow, every agent — designed around intelligence, not retrofitted into it.
+            </p>
+          </RevealOnScroll>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 0,
+            borderTop: '1px solid var(--gray-200)',
+            borderBottom: '1px solid var(--gray-200)',
+          }} className="zeus-why-grid">
+            {[
+              { num: '23', label: 'Modules', desc: 'End-to-end RCM + EHR.' },
+              { num: '15', label: 'AI Features', desc: 'Every step, intelligent.' },
+              { num: '45+', label: 'Specialties', desc: 'Few-shot specialty configs.' },
+            ].map((stat, i) => (
+              <RevealOnScroll key={stat.label} delay={0.3 + i * 0.12}>
+                <div style={{
+                  padding: 'clamp(36px, 4vw, 56px) clamp(20px, 3vw, 40px)',
+                  borderRight: i < 2 ? '1px solid var(--gray-200)' : 'none',
+                  textAlign: 'center',
+                }} className="zeus-why-cell">
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(56px, 7vw, 88px)',
+                    fontWeight: 300,
+                    lineHeight: 1,
+                    color: '#00B5D6',
+                    letterSpacing: '-0.03em',
+                    marginBottom: 12,
+                  }}>
+                    {stat.num}
+                  </div>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 18,
+                    fontWeight: 600,
+                    color: 'var(--gray-900)',
+                    marginBottom: 6,
+                    letterSpacing: '-0.005em',
+                  }}>
+                    {stat.label}
+                  </div>
+                  <div style={{
+                    fontSize: 14,
+                    color: 'var(--gray-700)',
+                    lineHeight: 1.5,
+                  }}>
+                    {stat.desc}
+                  </div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 768px) {
+            .zeus-why-grid { grid-template-columns: 1fr !important; }
+            .zeus-why-cell { border-right: none !important; border-bottom: 1px solid var(--gray-200) !important; }
+            .zeus-why-grid .zeus-why-cell:last-child { border-bottom: none !important; }
+          }
+        `}</style>
+      </section>
+
       {/* The 9 AI Voice Agents */}
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">THE 9 AI VOICE AGENTS</div>
+            <div className="section-label">Voice AI</div>
           </RevealOnScroll>
 
           {/* AI Agents Grid, circular avatars matching homepage R+A section.
@@ -49,7 +144,7 @@ export default function RAPageContent() {
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                COSENTUS AI Agents
+                Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 15, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
@@ -416,6 +511,375 @@ export default function RAPageContent() {
       </section>
 
       <PlatformModulesSection />
+
+      {/* MULTI-EHR INTEGRATION — Zeus sits above every EHR.
+          New section per Zeus design prototype. Adapted to light theme as
+          Lakshay specified (prototype was dark). Zeus center + 6 EHR labels
+          in orbit positions, with staggered lightning bolts striking from
+          center to each EHR. Stats row + protocol chips. */}
+      <section className="section section-alt" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 'clamp(40px, 5vw, 80px)',
+            alignItems: 'center',
+          }} className="zeus-ehr-grid">
+            {/* Left — copy + stats + protocols */}
+            <div>
+              <RevealOnScroll direction="left">
+                <div className="section-label">Multi-EHR</div>
+              </RevealOnScroll>
+              <RevealOnScroll direction="left" delay={0.1}>
+                <h2 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(28px, 3.2vw, 40px)',
+                  fontWeight: 300,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.02em',
+                  color: 'var(--gray-900)',
+                  marginBottom: 20,
+                }}>
+                  One RCM brain<br />
+                  <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>across all your systems.</span>
+                </h2>
+              </RevealOnScroll>
+              <RevealOnScroll direction="left" delay={0.2}>
+                <p style={{
+                  fontSize: 16,
+                  color: 'var(--gray-700)',
+                  lineHeight: 1.7,
+                  marginBottom: 32,
+                  maxWidth: 480,
+                }}>
+                  Zeus sits above your EHRs and speaks every protocol they do. No rip-and-replace. No data silos. Bidirectional sync in minutes, not months.
+                </p>
+              </RevealOnScroll>
+
+              {/* Stats row */}
+              <RevealOnScroll direction="left" delay={0.3}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: 16,
+                  marginBottom: 32,
+                  maxWidth: 480,
+                }}>
+                  {[
+                    { num: '18+', label: 'EHRs supported' },
+                    { num: '4', label: 'Protocols native' },
+                    { num: '<5 min', label: 'To first sync' },
+                  ].map((stat) => (
+                    <div key={stat.label} style={{
+                      padding: '20px 16px',
+                      background: 'var(--white)',
+                      border: '1px solid var(--gray-200)',
+                      borderRadius: 12,
+                    }}>
+                      <div style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(22px, 2.5vw, 28px)',
+                        fontWeight: 600,
+                        color: '#00B5D6',
+                        lineHeight: 1,
+                        marginBottom: 6,
+                        letterSpacing: '-0.02em',
+                      }}>
+                        {stat.num}
+                      </div>
+                      <div style={{
+                        fontSize: 12,
+                        color: 'var(--gray-700)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.06em',
+                        fontWeight: 500,
+                      }}>
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </RevealOnScroll>
+
+              {/* Protocol chips */}
+              <RevealOnScroll direction="left" delay={0.4}>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 10,
+                  maxWidth: 480,
+                }}>
+                  {[
+                    { name: 'HL7 v2', detail: 'ADT · ORM · SIU' },
+                    { name: 'FHIR R4', detail: 'REST · Bulk · SMART' },
+                    { name: 'X12', detail: '837 · 835 · 270/271' },
+                    { name: 'REST API', detail: 'Webhooks · OAuth' },
+                  ].map((proto) => (
+                    <div key={proto.name} style={{
+                      padding: '8px 14px',
+                      background: 'var(--white)',
+                      border: '1px solid var(--gray-200)',
+                      borderRadius: 999,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                    }}>
+                      <span style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: 'var(--gray-900)',
+                      }}>{proto.name}</span>
+                      <span style={{
+                        fontSize: 11,
+                        color: 'var(--gray-500)',
+                        fontFamily: 'monospace',
+                      }}>{proto.detail}</span>
+                    </div>
+                  ))}
+                </div>
+              </RevealOnScroll>
+            </div>
+
+            {/* Right — Zeus orbit + lightning */}
+            <RevealOnScroll direction="right" delay={0.2}>
+              <div style={{
+                position: 'relative',
+                aspectRatio: '1',
+                maxWidth: 560,
+                margin: '0 auto',
+              }} className="zeus-ehr-orbit">
+                <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+                  <defs>
+                    <radialGradient id="zeusEhrGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#00B5D6" stopOpacity="0.30" />
+                      <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
+                    </radialGradient>
+                    <filter id="zeusBoltGlow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="3" result="b" />
+                      <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+                    </filter>
+                    <filter id="zeusBoltBlur" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="6" />
+                    </filter>
+                  </defs>
+
+                  {/* Ambient glow behind Zeus core */}
+                  <circle cx="320" cy="320" r="140" fill="url(#zeusEhrGlow)" />
+
+                  {/* EHR labels — 6 positions around orbit */}
+                  <g fontFamily="var(--font-display), Reddit Sans, system-ui" fontWeight="700" textAnchor="middle">
+                    <g><text x="320" y="102" fill="var(--gray-900)" fontSize="22">Epic</text><text x="320" y="122" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
+                    <g><text x="510" y="212" fill="var(--gray-900)" fontSize="20">Oracle</text><text x="510" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
+                    <g><text x="540" y="432" fill="var(--gray-900)" fontSize="20">athena</text><text x="540" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">REST</text></g>
+                    <g><text x="320" y="540" fill="var(--gray-900)" fontSize="20">eCW</text><text x="320" y="560" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
+                    <g><text x="100" y="432" fill="var(--gray-900)" fontSize="20">NextGen</text><text x="100" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
+                    <g><text x="130" y="212" fill="var(--gray-900)" fontSize="20">Meditech</text><text x="130" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
+                  </g>
+
+                  {/* Lightning bolts — 6 staggered, teal core for light theme.
+                      Each bolt = halo (wide blur) + glow (medium) + bright core.
+                      Originating from Zeus center (320,320) to each EHR label. */}
+                  <g fill="none" strokeLinecap="round" strokeLinejoin="miter">
+                    {/* To Epic (top) */}
+                    <g>
+                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                    {/* To Oracle (top-right) */}
+                    <g>
+                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                    {/* To athena (bottom-right) */}
+                    <g>
+                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                    {/* To eCW (bottom) */}
+                    <g>
+                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                    {/* To NextGen (bottom-left) */}
+                    <g>
+                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                    {/* To Meditech (top-left) */}
+                    <g>
+                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
+                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
+                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
+                      </path>
+                    </g>
+                  </g>
+
+                  {/* Zeus brand logo lockup — vertical (ZEUS wordmark + bolt).
+                      Asset: /public/images/zeus/zeus-logo-v.png — transparent PNG,
+                      teal logo, programmatically stripped from zeus_logo_V_blue.png. */}
+                  <image href="/images/zeus/zeus-logo-v.png" x="220" y="286" width="200" height="68" />
+                </svg>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .zeus-ehr-grid { grid-template-columns: 1fr !important; }
+            .zeus-ehr-orbit { max-width: 480px !important; margin-top: 32px !important; }
+          }
+        `}</style>
+      </section>
+
+      {/* NUMBERS THAT MOVE — KPI benchmark grid.
+          New section per Zeus design prototype. Six cards, each comparing
+          Zeus to industry benchmarks. Last substantive section before the
+          parent's CTA. */}
+      <section className="section" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-label">Targets we hit</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(28px, 3.2vw, 40px)',
+              fontWeight: 300,
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              color: 'var(--gray-900)',
+              marginBottom: 12,
+            }}>
+              Numbers that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>move.</span>
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.2}>
+            <p style={{
+              fontSize: 16,
+              color: 'var(--gray-700)',
+              lineHeight: 1.7,
+              maxWidth: 560,
+              marginBottom: 56,
+            }}>
+              Per client. Per cycle. Benchmarks that make CFOs lean forward.
+            </p>
+          </RevealOnScroll>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 20,
+          }} className="zeus-kpi-grid">
+            {[
+              { label: 'Clean claim rate', tag: '▲ 4pts', tagDir: 'up', pre: '', big: '98', unit: '%', plus: '+', industry: '90–95%', zeus: 'Zeus 98%+' },
+              { label: 'Coding accuracy', tag: '▲ 10pts', tagDir: 'up', pre: '', big: '99', unit: '%', plus: '', industry: '85–90%', zeus: 'Zeus 99%' },
+              { label: 'Denial rate', tag: '▼ 55%', tagDir: 'down', pre: '<', big: '5', unit: '%', plus: '', industry: '6–12%', zeus: 'Zeus <5%' },
+              { label: 'Coding time per chart', tag: '▼ 80%', tagDir: 'down', pre: '', big: '3', unit: 'min', plus: '', industry: '10–15 min', zeus: 'Zeus 3 min' },
+              { label: 'Days in A/R', tag: '▼ 35%', tagDir: 'down', pre: '<', big: '30', unit: '', plus: '', industry: '35–50 days', zeus: 'Zeus <30d' },
+              { label: 'Appeal success', tag: '▲ 15pts', tagDir: 'up', pre: '', big: '65', unit: '%', plus: '+', industry: '50–55%', zeus: 'Zeus 65%+' },
+            ].map((kpi, i) => (
+              <RevealOnScroll key={kpi.label} direction="scale" delay={0.3 + i * 0.08}>
+                <div style={{
+                  padding: 'clamp(24px, 3vw, 32px)',
+                  background: 'var(--white)',
+                  border: '1px solid var(--gray-200)',
+                  borderRadius: 16,
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s',
+                }} className="zeus-kpi-card">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                    <span style={{
+                      fontSize: 13,
+                      color: 'var(--gray-700)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      fontWeight: 500,
+                    }}>{kpi.label}</span>
+                    <span style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      padding: '4px 8px',
+                      borderRadius: 999,
+                      background: kpi.tagDir === 'up' ? 'rgba(0, 181, 214, 0.10)' : 'rgba(0, 181, 214, 0.10)',
+                      color: '#00B5D6',
+                      fontFamily: 'monospace',
+                      whiteSpace: 'nowrap',
+                    }}>{kpi.tag}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, lineHeight: 1 }}>
+                    {kpi.pre && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)' }}>{kpi.pre}</span>}
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(48px, 6vw, 72px)',
+                      fontWeight: 300,
+                      color: 'var(--gray-900)',
+                      letterSpacing: '-0.03em',
+                      lineHeight: 1,
+                    }}>{kpi.big}</span>
+                    <span style={{ fontSize: 'clamp(20px, 2.2vw, 26px)', fontWeight: 400, color: 'var(--gray-700)' }}>{kpi.unit}</span>
+                    {kpi.plus && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: '#00B5D6' }}>{kpi.plus}</span>}
+                  </div>
+                  <div style={{
+                    paddingTop: 12,
+                    borderTop: '1px solid var(--gray-200)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    fontSize: 12,
+                    flexWrap: 'wrap',
+                  }}>
+                    <span style={{ color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 500 }}>Industry</span>
+                    <span style={{ color: 'var(--gray-700)', fontWeight: 600 }}>{kpi.industry}</span>
+                    <span style={{ color: 'var(--gray-300)' }}>→</span>
+                    <span style={{ color: '#00B5D6', fontWeight: 700 }}>{kpi.zeus}</span>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          .zeus-kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 181, 214, 0.10);
+            border-color: rgba(0, 181, 214, 0.30) !important;
+          }
+          @media (max-width: 900px) {
+            .zeus-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+          @media (max-width: 600px) {
+            .zeus-kpi-grid { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
+      </section>
 
     </>
   )
