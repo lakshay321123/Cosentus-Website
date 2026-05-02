@@ -69,7 +69,7 @@ export default function BehavioralHealthContent() {
         label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
         title="Behavioral Health Demand Is Surging. The Billing Complexity Is Surging With It."
         subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our behavioral health specialists keep revenue aligned with care delivered."
-        ctaText="Get Your Free Behavioral Health Revenue Analysis"
+        ctaText="Free Behavioral Health Analysis"
         ctaHref="/contact"
       />
 

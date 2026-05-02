@@ -16,7 +16,7 @@ export default function OrthopedicsPage() {
         label="ORTHOPEDICS BY COSENTUS, PURPOSE BUILT"
         title="Purpose Built for Orthopedics. Surgical Precision Meets Revenue Intelligence."
         subtitle="Joint replacements, arthroscopy, spinal surgery, and implant cases demand surgical-grade coding and proactive contract management. Cosentus ensures every procedure is captured, billed, and collected."
-        ctaText="Get Your Free Orthopedic Revenue Analysis"
+        ctaText="Free Orthopedic Revenue Analysis"
         ctaHref="/contact"
       />
       <OrthopedicsContent />
