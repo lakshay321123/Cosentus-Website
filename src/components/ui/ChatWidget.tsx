@@ -50,8 +50,8 @@ export default function ChatWidget() {
 
       {isOpen && (
         <div className="chat-widget" style={{
-          position: 'fixed', bottom: 28, right: 28, zIndex: 9999,
-          width: 400, height: 540, borderRadius: 16, background: 'white',
+          position: 'fixed', zIndex: 9999,
+          borderRadius: 16, background: 'white',
           border: '2px solid #00B5D6',
           boxShadow: '0 8px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,181,214,0.1)',
           display: 'flex', flexDirection: 'column', overflow: 'hidden',
@@ -60,8 +60,8 @@ export default function ChatWidget() {
           {/* Blue header */}
           <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#00B5D6' }}>
             <div>
-              <h4 style={{ fontSize: 16, fontWeight: 600, color: 'white', margin: 0 }}>COSE AI</h4>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
+              <h4 className="chat-title" style={{ fontSize: 16, fontWeight: 600, color: 'white', margin: 0 }}>COSE AI</h4>
+              <p className="chat-subtitle" style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', margin: 0 }}>Revenue Intelligence Assistant</p>
             </div>
             <button onClick={() => setIsOpen(false)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 13 }}>✕</button>
           </div>
@@ -69,11 +69,11 @@ export default function ChatWidget() {
           {/* White message area */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 10, background: 'white' }}>
             {/* Welcome, bot style */}
-            <div style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
+            <div className="chat-bubble chat-bubble-bot" style={{ background: '#00B5D6', borderRadius: '14px 14px 14px 4px', padding: '12px 16px', fontSize: 13, lineHeight: 1.6, color: 'white', maxWidth: '88%' }}>
               Hey! I'm COSE AI. How can I help you today?
             </div>
             {messages.map((msg, i) => (
-              <div key={i} style={{
+              <div key={i} className={`chat-bubble ${msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-bot'}`} style={{
                 background: msg.role === 'user' ? '#F0F0F0' : '#00B5D6',
                 color: msg.role === 'user' ? '#1a1a1a' : 'white',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
@@ -104,9 +104,10 @@ export default function ChatWidget() {
                 type="text" value={input} onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSend()}
                 placeholder="Type your question..."
+                className="chat-input"
                 style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#1a1a1a', fontSize: 13, fontFamily: 'var(--font-body)' }}
               />
-              <button onClick={handleSend} style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '6px 16px', color: 'white', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
+              <button onClick={handleSend} className="chat-send" style={{ background: '#00B5D6', border: 'none', borderRadius: 8, padding: '6px 16px', color: 'white', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Send</button>
             </div>
           </div>
         </div>
@@ -116,6 +117,38 @@ export default function ChatWidget() {
         @keyframes chatOpen {
           from { opacity: 0; transform: translateY(20px) scale(0.95); }
           to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .chat-widget {
+          bottom: 28px;
+          right: 28px;
+          width: 400px;
+          height: 540px;
+        }
+        @media (max-width: 640px) {
+          .chat-widget {
+            bottom: 8px !important;
+            right: 8px !important;
+            left: 8px !important;
+            width: auto !important;
+            height: calc(100dvh - 90px) !important;
+            max-height: calc(100dvh - 90px) !important;
+          }
+          .chat-title { font-size: 18px !important; }
+          .chat-subtitle { font-size: 13px !important; }
+          .chat-bubble {
+            font-size: 17px !important;
+            line-height: 1.45 !important;
+            padding: 14px 18px !important;
+            max-width: 85% !important;
+          }
+          .chat-input {
+            font-size: 16px !important;
+          }
+          .chat-send {
+            font-size: 16px !important;
+            padding: 10px 20px !important;
+            min-height: 44px !important;
+          }
         }
       `}</style>
     </>
