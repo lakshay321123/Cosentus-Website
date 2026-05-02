@@ -239,18 +239,18 @@ export default function InsightsTabsSection() {
             flex: 0 0 85% !important;
             scroll-snap-align: start;
           }
-          /* View-All buttons: keep both on one row, share width evenly, smaller text */
+          /* View-All buttons: keep both on one row, share width evenly */
           .insights-cta-row { flex-wrap: nowrap !important; gap: 10px !important; }
           .insights-cta-row .btn-primary {
             flex: 1 1 0 !important;
             min-width: 0 !important;
             padding: 10px 12px !important;
-            font-size: 13px !important;
+            font-size: 14px !important;
             white-space: nowrap !important;
             justify-content: center !important;
           }
           .insights-tabs { gap: 6px !important; }
-          .insights-tab { padding: 8px 16px !important; font-size: 13px !important; }
+          .insights-tab { padding: 9px 16px !important; font-size: 14px !important; }
         }
         .insights-tab:hover:not(.insights-tab-active) {
           background: rgba(0, 181, 214, 0.30) !important;
