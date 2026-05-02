@@ -1335,13 +1335,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: flex-end;
 }
 
-/* Single-row accolades strip at the bottom of the footer, full width.
+/* Single-row accolades strip in the footer-top grid (row 2, full width).
+   Sits directly under the brand row on both desktop and mobile so the
+   whole top block reads as one unit before the nav columns.
    mix-blend-mode: screen on the JPEG image hides the black background
    against the teal footer so logos read as transparent-bg. */
-.footer-accolades-row {
-  padding: 24px 0;
-  margin-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.18);
+.footer-accolades-strip {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  padding: 8px 0 0;
 }
 
 .footer-brand p {
@@ -2433,11 +2435,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 
   /* ----- Cindy avatar: prevent collision with chat button on mobile ----- */
-  /* CindyVoiceAgent.tsx and ChatWidget.tsx are protected; nudge via class override.
-     Chat button: bottom 28, 60px tall → occupies 28-88px from bottom.
-     Cindy at bottom 180 → 92px gap (more than the chat button's full height). */
-  .cindy-avatar,
-  .cindy-panel {
+  /* CindyVoiceAgent.tsx has its own <style> block at line 581 with
+     `.cindy-avatar { bottom: 80px !important }` at @media (max-width: 480px).
+     That cascades AFTER globals.css so a plain `.cindy-avatar` rule loses
+     even with !important. Bumping specificity with `body ` prefix wins:
+     mine = 0,0,1,1; theirs = 0,0,1,0 → mine wins regardless of source order.
+     Chat button is fixed bottom:28, 60px tall → occupies 28-88px from bottom.
+     Cindy at bottom:180 gives 92px gap (more than chat button's full height). */
+  body .cindy-avatar,
+  body .cindy-panel {
     bottom: 180px !important;
   }
 

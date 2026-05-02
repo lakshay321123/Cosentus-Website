@@ -77,6 +77,20 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Accolades strip sits directly under the brand row so the whole
+              top block (GPTW + Cosentus brand + accolades) reads as one unit,
+              before the nav columns. mix-blend-mode: screen drops the JPEG's
+              black background out against the teal footer. */}
+          <div className="footer-accolades-strip">
+            <Image
+              src="/all-accolades-single.png"
+              alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+              width={1687}
+              height={259}
+              style={{ mixBlendMode: 'screen', width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
+            />
+          </div>
+
           {footerNav.map((col) => (
             <div key={col.title} className="footer-col">
               <h5>{col.title}</h5>
@@ -87,19 +101,6 @@ export default function Footer() {
               ))}
             </div>
           ))}
-        </div>
-
-        {/* Accolades strip — full-width single row at the bottom of the footer.
-            mix-blend-mode: screen makes the JPEG's black background blend into
-            the teal footer so the white logos read as transparent-bg. */}
-        <div className="footer-accolades-row">
-          <Image
-            src="/all-accolades-single.png"
-            alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
-            width={1687}
-            height={259}
-            style={{ mixBlendMode: 'screen', width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
-          />
         </div>
 
         <div className="footer-bottom">
