@@ -189,7 +189,7 @@ export default function InsightsTabsSection() {
         </div>
 
         {/* CTA row, View this category's index + link to /insights hub */}
-        <div style={{
+        <div className="insights-cta-row" style={{
           display: 'flex',
           justifyContent: 'flex-start',
           gap: 16,
@@ -222,7 +222,33 @@ export default function InsightsTabsSection() {
           .insights-tabs-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 18px !important; }
         }
         @media (max-width: 580px) {
-          .insights-tabs-grid { grid-template-columns: 1fr !important; }
+          /* Cards: horizontal scroll-snap carousel — one card visible + peek of next */
+          .insights-tabs-grid {
+            display: flex !important;
+            grid-template-columns: none !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            gap: 14px !important;
+            padding: 4px 4px 12px !important;
+            margin: 0 -4px !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .insights-tabs-grid::-webkit-scrollbar { display: none; }
+          .insights-tabs-grid > div {
+            flex: 0 0 85% !important;
+            scroll-snap-align: start;
+          }
+          /* View-All buttons: keep both on one row, share width evenly, smaller text */
+          .insights-cta-row { flex-wrap: nowrap !important; gap: 10px !important; }
+          .insights-cta-row .btn-primary {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            padding: 10px 12px !important;
+            font-size: 13px !important;
+            white-space: nowrap !important;
+            justify-content: center !important;
+          }
           .insights-tabs { gap: 6px !important; }
           .insights-tab { padding: 8px 16px !important; font-size: 13px !important; }
         }
