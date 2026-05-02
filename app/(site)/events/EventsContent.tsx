@@ -78,8 +78,8 @@ export default function EventsContent() {
       .evt-timeline{max-width:1100px;margin:0 auto;padding:0 24px}
       .evt-year{display:flex;align-items:center;gap:16px;padding:48px 0 24px;font-size:28px;font-weight:200;color:var(--primary);font-family:var(--font-display);letter-spacing:-0.02em}
       .evt-year::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--primary),transparent)}
-      .evt-row{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:2px;border-radius:12px;overflow:hidden;border:1px solid var(--gray-200);transition:box-shadow 0.4s,border-color 0.4s;cursor:pointer}
-      .evt-row.active{border-color:var(--primary);box-shadow:0 8px 40px rgba(0,181,214,0.1)}
+      .evt-row{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:2px;border-radius:12px;overflow:hidden;border:1px solid var(--gray-200);transition:box-shadow 0.4s,border-color 0.4s;cursor:pointer;min-height:420px}
+      .evt-row.active{border-color:var(--primary);box-shadow:0 8px 40px rgba(0,181,214,0.1);min-height:520px}
       .evt-text{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:center;background:white}
       .evt-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:12px;width:fit-content}
       .evt-title{font-size:clamp(18px,2vw,24px);font-weight:600;color:var(--gray-900);line-height:1.3;margin-bottom:8px}
@@ -90,10 +90,10 @@ export default function EventsContent() {
       .evt-desc-inner{font-size:15px;line-height:1.7;color:var(--gray-600);padding-top:8px}
       .evt-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;margin-top:12px;text-decoration:none;transition:gap 0.3s}
       .evt-link:hover{gap:10px}
-      .evt-img-panel{background:var(--gray-50);display:flex;align-items:center;justify-content:center;min-height:200px;overflow:hidden;position:relative}
+      .evt-img-panel{background:var(--gray-50);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
       .evt-img-panel.empty{background:linear-gradient(135deg,#f0f9fb,#e8f4f8)}
       .evt-no-img{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--gray-300)}
-      .evt-carousel{width:100%;height:100%;position:relative;overflow:hidden;min-height:280px}
+      .evt-carousel{width:100%;height:100%;position:relative;overflow:hidden}
       .evt-carousel-track{display:flex;height:100%;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
       .evt-carousel-img{min-width:100%;height:100%;object-fit:cover;cursor:zoom-in}
       .evt-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:all 0.2s;color:var(--gray-700);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
@@ -108,12 +108,13 @@ export default function EventsContent() {
       @keyframes evtFadeIn{from{opacity:0}to{opacity:1}}
       @keyframes evtScaleIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
       .evt-stats{display:flex;justify-content:center;gap:48px;padding:40px 24px;flex-wrap:wrap}
-      .evt-stat-num{font-size:clamp(32px,5vw,48px);font-weight:200;color:var(--primary);line-height:1}
-      .evt-stat-label{font-size:11px;color:var(--gray-500);margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;font-weight:500}
+      .evt-stat-num{font-family:var(--font-display);font-size:clamp(32px,5vw,48px);font-weight:400;color:var(--primary);line-height:1;letter-spacing:-0.02em}
+      .evt-stat-label{font-family:var(--font-display);font-size:12px;color:var(--gray-500);margin-top:8px;text-transform:uppercase;letter-spacing:0.1em;font-weight:400}
       @media(max-width:768px){
-        .evt-row{grid-template-columns:1fr}
+        .evt-row{grid-template-columns:1fr;min-height:auto}
+        .evt-row.active{min-height:auto}
+        .evt-row .evt-img-panel{min-height:240px}
         .evt-row .evt-img-panel.order-first{order:-1}
-        .evt-carousel{min-height:200px}
         .evt-stats{gap:24px}
       }
     `}</style>
