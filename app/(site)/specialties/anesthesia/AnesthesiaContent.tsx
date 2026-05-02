@@ -67,7 +67,7 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
-                Base units, time-unit accuracy, medical direction modifiers, concurrency rules, implant pass-throughs, the details that define anesthesia billing are the same ones generic teams get wrong.
+                Base units, time-unit accuracy, medical direction modifiers, concurrency rules, and implant pass-throughs are exactly where generic teams get anesthesia billing wrong.
               </p>
             </RevealOnScroll>
           </div>
@@ -84,7 +84,7 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
-                Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, every workflow, built for anesthesia and nothing else.
+                Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, and every workflow is built for anesthesia and nothing else.
               </p>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.3}>
@@ -94,7 +94,7 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.4}>
               <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
-                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane, that&apos;s why they know every payer game specific to your specialty.
+                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane, which is why they know every payer game specific to your specialty.
               </p>
             </RevealOnScroll>
           </div>

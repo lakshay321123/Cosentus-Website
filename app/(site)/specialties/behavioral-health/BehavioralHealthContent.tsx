@@ -109,8 +109,8 @@ export default function BehavioralHealthContent() {
                     'Every authorization expiration tracked and acted on',
                     'AI automates eligibility re-checks and auth tracking',
                     'Human experts defend denials with clinical rationale',
-                    'Root cause analysis on every denial, fix the pattern, not just the claim',
-                    'Dedicated team, IOP/PHP, telehealth, crisis codes all day, no specialty switching',
+                    'Root-cause analysis on every denial to fix the pattern, not just the claim',
+                    'Dedicated team covering IOP/PHP, telehealth, and crisis codes all day, with no specialty switching',
                   ].map((item, i) => (
                     <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                       <svg aria-hidden="true" className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>

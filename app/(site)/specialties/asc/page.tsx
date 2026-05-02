@@ -72,8 +72,8 @@ export default function ASCPage() {
                     'Real-time case cost tracking and underpayment detection',
                     'AI handles authorizations and follow-ups at scale',
                     'Specialists handle payer negotiation and recovery',
-                    'Root cause analysis on every denial, facility and professional fee streams',
-                    'Dedicated team, case costing, implants, multi-payer contracts, no specialty switching',
+                    'Root-cause analysis on every denial, across both facility and professional fee streams',
+                    'Dedicated team handling case costing, implants, and multi-payer contracts without specialty switching',
                   ].map((item, i) => (
                     <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                       <svg aria-hidden="true" className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
