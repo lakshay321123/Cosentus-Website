@@ -89,7 +89,7 @@ export default function RAPageContent() {
                   borderRight: i < 2 ? '1px solid var(--gray-200)' : 'none',
                   textAlign: 'center',
                 }} className="zeus-why-cell">
-                  <div style={{
+                  <div className="zeus-why-num" style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: 'clamp(56px, 7vw, 88px)',
                     fontWeight: 300,
@@ -100,7 +100,7 @@ export default function RAPageContent() {
                   }}>
                     {stat.num}
                   </div>
-                  <div style={{
+                  <div className="zeus-why-label" style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: 18,
                     fontWeight: 600,
@@ -110,7 +110,7 @@ export default function RAPageContent() {
                   }}>
                     {stat.label}
                   </div>
-                  <div style={{
+                  <div className="zeus-why-desc" style={{
                     fontSize: 14,
                     color: 'var(--gray-700)',
                     lineHeight: 1.5,
@@ -124,10 +124,43 @@ export default function RAPageContent() {
         </div>
 
         <style>{`
+          /* Mobile: keep all three stats on one row instead of stacking.
+             Per Lakshay: 'they can just come in one line, right? We are
+             just wasting space here completely.' Shrink everything to fit. */
           @media (max-width: 768px) {
-            .zeus-why-grid { grid-template-columns: 1fr !important; }
-            .zeus-why-cell { border-right: none !important; border-bottom: 1px solid var(--gray-200) !important; }
-            .zeus-why-grid .zeus-why-cell:last-child { border-bottom: none !important; }
+            .zeus-why-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .zeus-why-cell {
+              padding: 20px 6px !important;
+              border-right: 1px solid var(--gray-200) !important;
+              border-bottom: none !important;
+            }
+            .zeus-why-grid .zeus-why-cell:last-child {
+              border-right: none !important;
+              border-bottom: none !important;
+            }
+            .zeus-why-cell .zeus-why-num {
+              font-size: 40px !important;
+              margin-bottom: 6px !important;
+            }
+            .zeus-why-cell .zeus-why-label {
+              font-size: 13px !important;
+              margin-bottom: 4px !important;
+            }
+            .zeus-why-cell .zeus-why-desc {
+              font-size: 11px !important;
+              line-height: 1.35 !important;
+            }
+          }
+          /* Very narrow phones: drop the desc line to keep cells readable */
+          @media (max-width: 380px) {
+            .zeus-why-cell .zeus-why-num {
+              font-size: 34px !important;
+            }
+            .zeus-why-cell .zeus-why-desc {
+              display: none !important;
+            }
           }
         `}</style>
       </section>
