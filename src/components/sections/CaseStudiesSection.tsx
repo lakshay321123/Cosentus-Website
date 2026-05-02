@@ -137,6 +137,7 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
       flexDirection: 'column',
       cursor: 'pointer',
       width: '100%',
+      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.06)',
     }}>
       {/* Top — fixed-height image strip with overlay */}
       <div style={{ position: 'relative', height: 180, width: '100%', flexShrink: 0 }}>
@@ -251,7 +252,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           </div>
 
           {/* Mobile — vertical stack, no carousel. All three cards visible by scrolling. */}
-          <div className="cases-mobile" style={{ width: '100%', marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="cases-mobile" style={{ width: '100%', marginTop: 32, display: 'flex', flexDirection: 'column', gap: 32 }}>
             {caseStudies.map((cs, i) => (
               <MobileCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
             ))}
