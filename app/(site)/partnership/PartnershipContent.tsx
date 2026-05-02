@@ -1,13 +1,14 @@
 'use client'
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 
 const partnerQuotes = [
-  { quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', author: 'Alex Cushman', title: 'CEO, AllianceMed' },
-  { quote: "We are proud of the company we've built and excited to join forces with Cosentus. Together, we'll have the resources, technology, & expertise to provide even greater value to the healthcare providers we serve.", author: 'Brandon Jones', title: 'CEO, Alta Management Solutions, LLC' },
-  { quote: 'Cosentus made the acquisition of North Medical Billing seamless, delivering on every promise and exceeding expectations. Professional, efficient, and trustworthy, they turned a business relationship into a lasting friendship. Highly recommend!', author: 'Doug North', title: 'Founder & Former Owner, North Medical Billing' },
-  { quote: 'We are excited to play an even bigger role in the world of RCM and healthcare consulting, with an expanded team that is poised to provide unmatched outcomes.', author: 'Arthur Roosa', title: 'CEO and founder of SyMed' },
-  { quote: 'Together with Cosentus, our clients will benefit from cutting-edge technology, deeper analytics, and a partnership model that truly understands and drives their financial success.', author: 'Logan Lowry', title: 'Co-Founder and President of Accreda' },
+  { tag: 'Partner', quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', name: 'Alex Cushman', role: 'CEO, AllianceMed' },
+  { tag: 'Partner', quote: "We are proud of the company we've built and excited to join forces with Cosentus. Together, we'll have the resources, technology, & expertise to provide even greater value to the healthcare providers we serve.", name: 'Brandon Jones', role: 'CEO, Alta Management Solutions, LLC' },
+  { tag: 'Partner', quote: 'Cosentus made the acquisition of North Medical Billing seamless, delivering on every promise and exceeding expectations. Professional, efficient, and trustworthy, they turned a business relationship into a lasting friendship. Highly recommend!', name: 'Doug North', role: 'Founder & Former Owner, North Medical Billing' },
+  { tag: 'Partner', quote: 'We are excited to play an even bigger role in the world of RCM and healthcare consulting, with an expanded team that is poised to provide unmatched outcomes.', name: 'Arthur Roosa', role: 'CEO and founder of SyMed' },
+  { tag: 'Partner', quote: 'Together with Cosentus, our clients will benefit from cutting-edge technology, deeper analytics, and a partnership model that truly understands and drives their financial success.', name: 'Logan Lowry', role: 'Co-Founder and President of Accreda' },
 ]
 
 const challenges = [
@@ -270,38 +271,12 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* Partner Testimonials */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll direction="left">
-            <div className="section-label">PARTNER PERSPECTIVES</div>
-          </RevealOnScroll>
-          <RevealOnScroll direction="left" delay={0.1}>
-            <div className="section-title">Our Partner&apos;s Perspective</div>
-          </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px, 100%), 1fr))', gap: 24, marginTop: 48 }}>
-            {partnerQuotes.map((q, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={i * 0.08}>
-                <div style={{ padding: '40px 36px', background: 'var(--white)', borderRadius: 16, border: '1px solid var(--gray-200)', position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
-                    &ldquo;{q.quote}&rdquo;
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20, marginTop: 'auto' }}>
-                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0 }}>
-                      {q.author.split(' ').map(w => w[0]).slice(0, 2).join('')}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{q.author}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{q.title}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Partner Testimonials — uses shared TestimonialsSection so design is identical site-wide */}
+      <TestimonialsSection
+        testimonials={partnerQuotes}
+        label="PARTNER PERSPECTIVES"
+        title={<>Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Partner&apos;s</span> Perspective.</>}
+      />
 
       {/* Challenge + Solution */}
       <section style={{ overflow: 'hidden' }}>

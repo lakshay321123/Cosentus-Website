@@ -4,6 +4,12 @@ import CTASection from '@/components/sections/CTASection'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
+
+const testimonials = [
+  { tag: 'Pain Management', quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!', name: 'Dr. Mikko Murakami, QME', role: 'Pain Medicine, PM&R' },
+  { tag: 'Pain Management', quote: "I've been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.", name: 'Justin Lo, MD', role: 'President, Northern California Pain Specialists' },
+]
 
 export const metadata: Metadata = {
   title: 'Pain Management Billing & RCM | Interventional Expertise | Cosentus',
@@ -171,42 +177,11 @@ export default function PainManagementPage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, marginTop: 48 }}>
-            {[
-              { quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!', name: 'Dr. Mikko Murakami, QME', role: 'Pain Medicine, PM&R', initials: 'MM' },
-              { quote: "I've been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.", name: 'Justin Lo, MD', role: 'President, Northern California Pain Specialists', initials: 'JL' },
-            ].map((t, i) => (
-              <RevealOnScroll key={i} delay={0.2 + i * 0.15}>
-                <div className="testimonial-card" style={{
-                  padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
-                  border: '1px solid var(--gray-200)', position: 'relative',
-                  display: 'flex', flexDirection: 'column' as const, height: '100%',
-                }}>
-                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }} aria-hidden="true">&ldquo;</div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1, flex: 1 }}>
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
-                    }}>{t.initials}</div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{t.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{t.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
 
       <CTASection />
     </main>

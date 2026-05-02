@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 // 23 system modules grouped by category. AI-powered modules have an agent assigned.
 type Module = {
@@ -162,7 +163,9 @@ export default function PlatformModulesSection() {
           </p>
         </RevealOnScroll>
 
-        {/* Two-column: module list left, live demo right */}
+        {/* DESKTOP: two-column layout (list + live demo).
+            Hidden via CSS on mobile (<=768) — replaced by the carousel below. */}
+        <div className="modules-desktop-wrap">
         <div className="modules-layout" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1.1fr',
@@ -446,6 +449,106 @@ export default function PlatformModulesSection() {
             </div>
           </RevealOnScroll>
         </div>
+        </div>
+        {/* end .modules-desktop-wrap */}
+
+        {/* MOBILE: auto-rotating carousel of all 23 modules.
+            Each slide = one self-contained card (category, number, name, AI badge, description).
+            Hidden on desktop via CSS. Dots disabled — 23 dots would overflow narrow phones;
+            using a "n / 23" position counter inside the card instead. */}
+        <div className="modules-mobile-wrap">
+          <MobileCarousel autoScrollInterval={4000} showDots={false}>
+            {modules.map((m, i) => (
+              <div key={m.num} style={{
+                background: 'var(--white)',
+                border: '1px solid var(--gray-200)',
+                borderRadius: 16,
+                padding: '24px 22px',
+                minHeight: 220,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 14,
+                margin: '0 4px',
+              }}>
+                {/* Top row: category + AI badge + counter */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                  <span style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: '0.16em',
+                    textTransform: 'uppercase',
+                    color: 'var(--gray-500)',
+                    fontFamily: 'var(--font-display)',
+                  }}>
+                    {m.category}
+                  </span>
+                  {m.agent && (
+                    <span style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      color: '#00B5D6',
+                      background: '#D6EBF2',
+                      padding: '4px 8px',
+                      borderRadius: 4,
+                    }}>
+                      AI · {m.agent.toUpperCase()}
+                    </span>
+                  )}
+                </div>
+
+                {/* Module number + name */}
+                <div>
+                  <div style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: '#00B5D6',
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '0.04em',
+                    marginBottom: 4,
+                  }}>
+                    {m.num}
+                  </div>
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 22,
+                    fontWeight: 500,
+                    color: 'var(--gray-900)',
+                    margin: 0,
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.2,
+                  }}>
+                    {m.name}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p style={{
+                  fontSize: 14,
+                  lineHeight: 1.55,
+                  color: 'var(--gray-600)',
+                  margin: 0,
+                }}>
+                  {m.desc}
+                </p>
+
+                {/* Position counter */}
+                <div style={{
+                  marginTop: 'auto',
+                  paddingTop: 12,
+                  borderTop: '1px solid var(--gray-100)',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  color: 'var(--gray-400)',
+                  fontFamily: 'var(--font-display)',
+                }}>
+                  {String(i + 1).padStart(2, '0')} / {modules.length}
+                </div>
+              </div>
+            ))}
+          </MobileCarousel>
+        </div>
       </div>
 
       <style>{`
@@ -463,6 +566,14 @@ export default function PlatformModulesSection() {
         }
         @media (max-width: 900px) {
           .modules-layout { grid-template-columns: 1fr !important; gap: 20px !important; }
+        }
+        /* Mobile/desktop split: at <=768 we replace the desktop two-col layout
+           with the auto-rotating carousel. The 900px rule above still applies
+           to the desktop wrap for tablet widths in 769-900px range. */
+        .modules-mobile-wrap { display: none; }
+        @media (max-width: 768px) {
+          .modules-desktop-wrap { display: none !important; }
+          .modules-mobile-wrap { display: block !important; }
         }
       `}</style>
     </section>

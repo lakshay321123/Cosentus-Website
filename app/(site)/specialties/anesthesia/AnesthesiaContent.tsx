@@ -3,6 +3,7 @@
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 
 const advantages = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, t: 'Real + Artificial Intelligence', d: 'Human expertise and AI purpose-built for anesthesia revenue cycle management.' },
@@ -28,11 +29,13 @@ const leaders = [
 
 const testimonials = [
   {
+    tag: 'Anesthesia',
     quote: 'What separates Accreda from other anesthesia billing companies is its dedication to collecting every dollar possible for your business. Their year-over-year collection rate of 97% from commercial and non-commercial payors is staggering and has been vital for our group\u2019s survival. I can wholeheartedly recommend Accreda to help with the anesthesia billing for your practice.',
     name: 'Dr. John B. Field Jr.',
     role: 'Vice President, Anesthesia Associates',
   },
   {
+    tag: 'Anesthesia',
     quote: 'The Accreda team is always available and proactively communicates with me. They do a great job of ensuring there are hands on each claim that falls short of appropriate payment. The entire process is extremely efficient and effective. I feel they have done an amazing job.',
     name: 'Randy Robbins, M.D.',
     role: 'Anesthesia Group Practice Administrator',
@@ -234,44 +237,12 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Client Reviews */}
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll><div className="section-label">CLIENT REVIEWS</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Our Clients Say</div></RevealOnScroll>
-
-          <div className="testimonials-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 32, marginTop: 48 }}>
-            {testimonials.map((t, i) => (
-              <RevealOnScroll key={i} direction={i === 0 ? 'left' : 'right'} delay={0.2 + i * 0.15}>
-                <div className="testimonial-card" style={{
-                  padding: '40px 36px', background: 'var(--white)', borderRadius: 16,
-                  border: '1px solid var(--gray-200)', position: 'relative', height: '100%',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}>
-                  {/* Quote mark */}
-                  <div style={{ position: 'absolute', top: 20, left: 28, fontSize: 64, lineHeight: 1, color: 'var(--primary)', opacity: 0.12, fontFamily: 'Georgia, serif', fontWeight: 700 }}>&ldquo;</div>
-
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-600)', marginBottom: 28, position: 'relative', zIndex: 1 }}>
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, borderTop: '1px solid var(--gray-200)', paddingTop: 20 }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%', background: 'var(--primary)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 600, color: 'white', flexShrink: 0,
-                    }}>{t.name.split(' ').map(n => n[0]).filter(c => c === c.toUpperCase() && c !== '.').slice(0, 2).join('')}</div>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--gray-900)' }}>{t.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{t.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Client Reviews — uses shared TestimonialsSection so design is identical site-wide */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
     </>
   )
 }
