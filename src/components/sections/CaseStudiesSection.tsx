@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const caseStudies = [
   {
@@ -122,8 +121,114 @@ function FlipCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (c
   )
 }
 
+/**
+ * Mobile-only card body. No flip — touch devices have no hover. Image strip on
+ * top with the tag/stat overlay (strong gradient + text-shadows so contrast
+ * works on any cover photo), title and CTA on a teal panel below. Keeps total
+ * card height short so all three cards stack on the page without dwarfing it.
+ */
+function MobileCardBody({ cs }: { cs: CaseStudy }) {
+  return (
+    <div style={{
+      borderRadius: 16,
+      overflow: 'hidden',
+      background: '#00B5D6',
+      display: 'flex',
+      flexDirection: 'column',
+      cursor: 'pointer',
+      width: '100%',
+    }}>
+      {/* Top — fixed-height image strip with overlay */}
+      <div style={{ position: 'relative', height: 180, width: '100%', flexShrink: 0 }}>
+        <img
+          src={cs.image}
+          alt={cs.tag}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%)',
+        }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '12px 18px 14px' }}>
+          <div style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+            textTransform: 'uppercase' as const, color: '#68D1E6',
+            marginBottom: 4,
+            textShadow: '0 1px 4px rgba(0,0,0,0.7)',
+          }}>{cs.tag}</div>
+          <div style={{
+            fontSize: 36, fontWeight: 300, color: 'white',
+            fontFamily: 'var(--font-display)', lineHeight: 1,
+            textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+          }}>{cs.stat}</div>
+          <div style={{
+            fontSize: 12, color: 'rgba(255,255,255,0.95)', marginTop: 3,
+            textShadow: '0 1px 4px rgba(0,0,0,0.7)',
+          }}>{cs.statLabel}</div>
+        </div>
+      </div>
+
+      {/* Bottom — title + CTA on teal panel */}
+      <div style={{ padding: '16px 18px 18px' }}>
+        <p style={{
+          fontSize: 14, lineHeight: 1.5,
+          color: 'rgba(255,255,255,0.95)', margin: 0, marginBottom: 12,
+        }}>{cs.title}</p>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          fontSize: 11, fontWeight: 700, color: 'white',
+          letterSpacing: '0.06em', textTransform: 'uppercase' as const,
+        }}>
+          Read Client Success Story
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function MobileCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (cs: CaseStudy) => void }) {
+  if (mode === 'teaser') {
+    return (
+      <Link
+        href="/case-studies"
+        aria-label={`View ${cs.tag} case study`}
+        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+      >
+        <MobileCardBody cs={cs} />
+      </Link>
+    )
+  }
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${cs.tag} case study`}
+      onClick={() => onOpen?.(cs)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen?.(cs) } }}
+    >
+      <MobileCardBody cs={cs} />
+    </div>
+  )
+}
+
 export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } = {}) {
   const [viewingPdf, setViewingPdf] = useState<CaseStudy | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile viewport client-side (SSR has no window)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  // Google Docs Viewer needs an absolute, publicly-reachable URL
+  const pdfAbsoluteUrl = viewingPdf && typeof window !== 'undefined'
+    ? `${window.location.origin}${viewingPdf.pdf}`
+    : ''
 
   return (
     <>
@@ -145,13 +250,11 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
             ))}
           </div>
 
-          {/* Mobile */}
-          <div className="cases-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={5000}>
-              {caseStudies.map((cs, i) => (
-                <FlipCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
-              ))}
-            </MobileCarousel>
+          {/* Mobile — vertical stack, no carousel. All three cards visible by scrolling. */}
+          <div className="cases-mobile" style={{ width: '100%', marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {caseStudies.map((cs, i) => (
+              <MobileCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
+            ))}
           </div>
         </div>
       </section>
@@ -191,7 +294,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
 
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '0 24px 24px' }}>
             <iframe
-              src={viewingPdf.pdf}
+              src={isMobile ? `https://docs.google.com/viewer?url=${encodeURIComponent(pdfAbsoluteUrl)}&embedded=true` : viewingPdf.pdf}
               style={{ width: '100%', maxWidth: 900, height: '100%', border: 'none', borderRadius: 8, background: 'white' }}
               title={`${viewingPdf.tag} case study`}
             />

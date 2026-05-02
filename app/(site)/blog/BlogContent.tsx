@@ -1,16 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { blogPosts } from '@/data/blogPosts'
 
 const allTags = ['All', ...Array.from(new Set(blogPosts.map(b => b.tag))).sort()]
+const PAGE_SIZE = 6
 
 export default function BlogContent() {
   const [activeTag, setActiveTag] = useState('All')
+  const [displayedCount, setDisplayedCount] = useState(PAGE_SIZE)
 
   const filtered = activeTag === 'All' ? blogPosts : blogPosts.filter(b => b.tag === activeTag)
+  const displayed = filtered.slice(0, displayedCount)
+  const hasMore = displayedCount < filtered.length
+
+  // Reset pagination when the active filter changes
+  useEffect(() => {
+    setDisplayedCount(PAGE_SIZE)
+  }, [activeTag])
 
   return (
     <>
@@ -18,6 +27,54 @@ export default function BlogContent() {
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
           <RevealOnScroll>
+            {/* Mobile: dropdown filter (hidden on desktop via CSS) */}
+            <div className="blog-filter-select" style={{ marginBottom: 32, display: 'none' }}>
+              <label htmlFor="blog-tag-select" style={{
+                display: 'block', fontSize: 12, fontWeight: 600,
+                color: 'var(--gray-600)', textTransform: 'uppercase',
+                letterSpacing: '0.08em', marginBottom: 8,
+                fontFamily: 'var(--font-body)',
+              }}>
+                Filter by category
+              </label>
+              <div style={{ position: 'relative' }}>
+                <select
+                  id="blog-tag-select"
+                  value={activeTag}
+                  onChange={(e) => setActiveTag(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '14px 44px 14px 16px',
+                    fontSize: 16,
+                    fontFamily: 'var(--font-body)',
+                    color: 'var(--gray-900, #1a1a1a)',
+                    background: 'var(--white)',
+                    border: '1px solid var(--gray-200)',
+                    borderRadius: 12,
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                  }}
+                >
+                  {allTags.map((tag) => (
+                    <option key={tag} value={tag}>{tag}</option>
+                  ))}
+                </select>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18" height="18"
+                  fill="none" viewBox="0 0 24 24"
+                  stroke="var(--gray-600)" strokeWidth={2}
+                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Desktop: pill row (hidden on mobile via CSS) */}
             <div className="blog-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
               {allTags.map((tag) => (
                 <button
@@ -50,7 +107,7 @@ export default function BlogContent() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
-            {filtered.map((blog) => (
+            {displayed.map((blog) => (
               <Link
                 key={blog.slug}
                 href={`/blog/${blog.slug}`}
@@ -121,10 +178,37 @@ export default function BlogContent() {
             ))}
           </div>
 
+          {/* Load More */}
+          {hasMore && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+              <button
+                onClick={() => setDisplayedCount(c => c + PAGE_SIZE)}
+                className="blog-load-more"
+                style={{
+                  padding: '14px 36px',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-body)',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  color: 'var(--primary)',
+                  background: 'var(--white)',
+                  border: '1px solid var(--primary)',
+                  borderRadius: 999,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Load More
+              </button>
+            </div>
+          )}
+
           <style jsx global>{`
             .blog-card:hover .blog-card-img { transform: scale(1.05); }
             .blog-card:hover .blog-card-overlay { padding-bottom: 24px; }
             .blog-card:hover .blog-card-cta { opacity: 1 !important; transform: translateY(0) !important; }
+            .blog-load-more:hover { background: var(--primary) !important; color: white !important; }
             @media (max-width: 768px) {
               .blog-card { aspect-ratio: 3 / 2 !important; }
             }
@@ -137,19 +221,8 @@ export default function BlogContent() {
                 overflow: hidden;
                 text-overflow: ellipsis;
               }
-              .blog-tags {
-                flex-wrap: nowrap !important;
-                overflow-x: auto !important;
-                overflow-y: hidden !important;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                margin-left: -16px;
-                margin-right: -16px;
-                padding-left: 16px;
-                padding-right: 16px;
-                margin-bottom: 28px !important;
-              }
-              .blog-tags::-webkit-scrollbar { display: none; }
+              .blog-filter-select { display: block !important; }
+              .blog-tags { display: none !important; }
             }
           `}</style>
           {filtered.length === 0 && (
