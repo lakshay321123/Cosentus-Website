@@ -23,7 +23,7 @@ export default function CareersPage() {
       <PageHero
         label="CAREERS"
         title="Build a Career That Changes Healthcare."
-        subtitle="Independently owned. Great Place to Work certified three years running. Join a team redefining billing excellence — for practices, for patients, and for each other."
+        subtitle="Independently owned. Great Place to Work certified three years running. Join a team redefining billing excellence, for practices, for patients, and for each other."
       />
 
       <section className="section">

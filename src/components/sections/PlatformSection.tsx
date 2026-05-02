@@ -20,7 +20,7 @@ export default function PlatformSection() {
           <RevealOnScroll direction="right" delay={0.15}>
             <p style={{ fontSize: 17, color: 'var(--gray-500)', lineHeight: 1.7, fontWeight: 300 }}>
               MedCloud. AI-native from day one. Not retrofitted onto legacy systems.
-              Your practice runs on it — or we plug into yours.
+              Your practice runs on it, or we plug into yours.
             </p>
           </RevealOnScroll>
         </div>

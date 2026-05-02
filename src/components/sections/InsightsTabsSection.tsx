@@ -150,7 +150,7 @@ export default function InsightsTabsSection() {
           </div>
         </RevealOnScroll>
 
-        {/* Active tab panel — keyed so it remounts (gentle fade-in) on tab change */}
+        {/* Active tab panel, keyed so it remounts (gentle fade-in) on tab change */}
         <div
           key={activeKey}
           role="tabpanel"
@@ -188,7 +188,7 @@ export default function InsightsTabsSection() {
           )}
         </div>
 
-        {/* CTA row — View this category's index + link to /insights hub */}
+        {/* CTA row, View this category's index + link to /insights hub */}
         <div style={{
           display: 'flex',
           justifyContent: 'flex-start',

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const initiatives = [
   {
-    name: 'Harmony House — India',
+    name: 'Harmony House, India',
     desc: 'We have been working closely with Harmony House for over 6 years. Harmony House provides education services, healthcare, housing, food, financial support, and vocational training for underprivileged children across India, from ages 6 months to 18 years. With onsite teachers, nannies, cooks, and counselors, Harmony House encourages children to learn, grow, and lead empowered lives. They currently provide for over 600 children and counting.',
     highlight: '600+ children supported',
   },
@@ -46,7 +46,7 @@ const initiatives = [
   },
   {
     name: "Alzheimer's Association",
-    desc: "An annual event in aid of the Alzheimer's Association. Sponsors and volunteers raised over $235,000 — far surpassing their goal of $150,000. We love this opportunity to support an organization that means so much to our team and community.",
+    desc: "An annual event in aid of the Alzheimer's Association. Sponsors and volunteers raised over $235,000, far surpassing their goal of $150,000. We love this opportunity to support an organization that means so much to our team and community.",
     highlight: '$235,000+ raised',
   },
   {
@@ -76,8 +76,8 @@ export default function WeCarePage() {
     <main>
       <PageHero
         label="WECARE"
-        title="Come See Our Community Network — And Inspire Change With Us."
-        subtitle="At Cosentus, giving back isn't a campaign — it's who we are. Meet our Impact Ambassadors and all the incredible work they do."
+        title="Come See Our Community Network, And Inspire Change With Us."
+        subtitle="At Cosentus, giving back isn't a campaign, it's who we are. Meet our Impact Ambassadors and all the incredible work they do."
       />
 
       <section className="section">
@@ -85,7 +85,7 @@ export default function WeCarePage() {
           <RevealOnScroll>
             <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
               WeCare represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
-              When practices get paid accurately and on time, they can focus fully on patient care —
+              When practices get paid accurately and on time, they can focus fully on patient care,
               and we can focus on making a difference beyond healthcare.
             </p>
           </RevealOnScroll>

@@ -8,11 +8,11 @@ import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallMod
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
-  { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's — Processes, Procedures, and Protocols — and customize our approach to your specific challenges. No templates." },
+  { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's, Processes, Procedures, and Protocols, and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
   { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
-  { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate — when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
+  { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
 
 export default function RAPageContent() {
@@ -31,7 +31,7 @@ export default function RAPageContent() {
 
   return (
     <>
-      {/* Voice call modal — opens when an agent is clicked. Same component
+      {/* Voice call modal, opens when an agent is clicked. Same component
           used on the homepage for consistency. */}
       {activeAgent && (
         <VoiceCallModal agent={activeAgent} onClose={() => setActiveAgent(null)} />
@@ -44,7 +44,7 @@ export default function RAPageContent() {
             <div className="section-label">THE 9 AI VOICE AGENTS</div>
           </RevealOnScroll>
 
-          {/* AI Agents Grid — circular avatars matching homepage R+A section.
+          {/* AI Agents Grid, circular avatars matching homepage R+A section.
               Click any agent → opens VoiceCallModal for a real Retell voice call. */}
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
@@ -56,8 +56,8 @@ export default function RAPageContent() {
               </p>
             </RevealOnScroll>
 
-            {/* Desktop — 5-col first row + 4-col second row not possible with simple grid;
-                use 3 columns — 9 agents = 3 even rows of 3. Per Lakshay May 2026:
+            {/* Desktop, 5-col first row + 4-col second row not possible with simple grid;
+                use 3 columns, 9 agents = 3 even rows of 3. Per Lakshay May 2026:
                 'make this is rows of 3 only'. */}
             <div className="agents-desktop ra-tech-agents-grid" style={{
               display: 'grid',
@@ -108,7 +108,7 @@ export default function RAPageContent() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                       />
                     </div>
-                    {/* Name — bold, matches homepage style */}
+                    {/* Name, bold, matches homepage style */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: 18,
@@ -135,7 +135,7 @@ export default function RAPageContent() {
               ))}
             </div>
 
-            {/* Mobile — carousel of circular cards */}
+            {/* Mobile, carousel of circular cards */}
             <div className="agents-mobile">
               <MobileCarousel autoScrollInterval={3500}>
                 {AGENTS.map((agent) => (
@@ -215,10 +215,10 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* Problem + Solution — Animated Split Section */}
+      {/* Problem + Solution, Animated Split Section */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 480 }}>
-          {/* Left — The Problem */}
+          {/* Left, The Problem */}
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
             {/* Decorative corner accent */}
             <div className="ps-corner-accent" style={{ position: 'absolute', top: 0, left: 0, width: 80, height: 80, opacity: 0.06 }}>
@@ -261,7 +261,7 @@ export default function RAPageContent() {
             </div>
           </div>
 
-          {/* Right — The Solution */}
+          {/* Right, The Solution */}
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             {/* Animated shimmer overlay */}
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
@@ -307,7 +307,7 @@ export default function RAPageContent() {
       </section>
 
 
-      {/* How R+A Works — Interactive 5-Step Timeline */}
+      {/* How R+A Works, Interactive 5-Step Timeline */}
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>

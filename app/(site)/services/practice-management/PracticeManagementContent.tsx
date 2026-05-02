@@ -58,7 +58,7 @@ const faqsPagePM = [
 
 
 /* ───────────────────────────────────────────
-   INTERACTIVE MIND MAP — built from individual icons
+   INTERACTIVE MIND MAP, built from individual icons
    ─────────────────────────────────────────── */
 
 const nodes = [
@@ -122,7 +122,7 @@ function InteractiveMindMap() {
         }} />
       </div>
 
-      {/* Outer nodes — real icons */}
+      {/* Outer nodes, real icons */}
       {nodes.map((n, i) => {
         const isActive = active === i
         return (
@@ -137,7 +137,7 @@ function InteractiveMindMap() {
               animationDelay: `${i * 0.4}s`,
             }}
           >
-            {/* Icon — white, no circle */}
+            {/* Icon, white, no circle */}
             <div style={{
               width: isActive ? 80 : 70, height: isActive ? 80 : 70,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -196,7 +196,7 @@ function InteractiveMindMap() {
 
 
 /* ───────────────────────────────────────────
-   FAQ — blog card style
+   FAQ, blog card style
    ─────────────────────────────────────────── */
 
 function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
@@ -268,7 +268,7 @@ export default function PracticeManagementContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>
-              We manage the operational complexity of running a medical practice — front desk to credentialing, reporting, and consulting — so your clinical team focuses on patients.
+              We manage the operational complexity of running a medical practice, front desk to credentialing, reporting, and consulting, so your clinical team focuses on patients.
             </p>
           </RevealOnScroll>
           <RevealOnScroll delay={0.3}>
@@ -299,7 +299,7 @@ export default function PracticeManagementContent() {
         </div>
       </section>
 
-      {/* ── BENEFITS — teal section with mind map ── */}
+      {/* ── BENEFITS, teal section with mind map ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white', overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
@@ -405,7 +405,7 @@ export default function PracticeManagementContent() {
           </RevealOnScroll>
           <div style={{ marginTop: 48 }}>
             <FAQGroup title="Practice Management" faqs={pageFaqs} />
-            <FAQGroup title="Complete Practice Management — Operations & Accounting" faqs={faqsPagePM} />
+            <FAQGroup title="Complete Practice Management, Operations & Accounting" faqs={faqsPagePM} />
           </div>
         </div>
       </section>

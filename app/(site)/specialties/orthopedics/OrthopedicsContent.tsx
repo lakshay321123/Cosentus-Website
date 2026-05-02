@@ -22,7 +22,7 @@ const testimonials = [
 export default function OrthopedicsContent() {
   return (
     <>
-      {/* Challenge + Solution — Split Section */}
+      {/* Challenge + Solution, Split Section */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
@@ -39,7 +39,7 @@ export default function OrthopedicsContent() {
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500, marginBottom: 32 }}>
-                Incorrect modifiers, missed implant pass-throughs, global period errors, and workers&apos; comp complexities — revenue lost before it&apos;s even billed.
+                Incorrect modifiers, missed implant pass-throughs, global period errors, and workers&apos; comp complexities all mean revenue is lost before it&apos;s even billed.
               </p>
             </RevealOnScroll>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -81,8 +81,8 @@ export default function OrthopedicsContent() {
                 'Surgical practice veterans for every payer nuance',
                 'AI agents automate eligibility, auth & follow-up',
                 '95%+ appeal success on high-dollar denials',
-                'Root cause denial prevention — denial categories shrink quarter over quarter',
-                'Dedicated team — they live ortho codes, not switching to other specialties',
+                'Root-cause denial prevention that shrinks denial categories quarter over quarter',
+                'Dedicated team focused on ortho codes, not switching across specialties',
               ].map((item, i) => (
                 <RevealOnScroll key={i} direction="right" delay={0.3 + i * 0.12}>
                   <div className="ps-bullet-light" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -127,12 +127,12 @@ export default function OrthopedicsContent() {
             </MobileCarousel>
           </div>
 
-          {/* Alta callout — integrated into services section */}
+          {/* Alta callout, integrated into services section */}
           <RevealOnScroll delay={0.5}>
             <div style={{ marginTop: 40, padding: '24px 32px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6', display: 'flex', alignItems: 'center', gap: 16 }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={1.5} style={{ flexShrink: 0 }}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
               <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', margin: 0 }}>
-                <strong style={{ color: 'var(--gray-900)' }}>Alta Management Solutions</strong> — In May 2025, Cosentus acquired Alta, expanding orthopedic and multi-specialty surgical expertise, ASC management, and contract negotiation capabilities.
+                <strong style={{ color: 'var(--gray-900)' }}>Alta Management Solutions:</strong> In May 2025, Cosentus acquired Alta, expanding orthopedic and multi-specialty surgical expertise, ASC management, and contract negotiation capabilities.
               </p>
             </div>
           </RevealOnScroll>
@@ -140,7 +140,7 @@ export default function OrthopedicsContent() {
       </section>
 
 
-      {/* AI Agent Spotlight — Paige (Prior Authorization) */}
+      {/* AI Agent Spotlight, Paige (Prior Authorization) */}
       <section className="section">
         <div className="container">
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -151,7 +151,7 @@ export default function OrthopedicsContent() {
                   Prior Authorization Management
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
-                  Paige tracks and clears authorizations for scheduled orthopedic procedures — knee replacements, spinal fusions, arthroscopic surgeries. Zero procedural delays. Zero OR schedule disruptions.
+                  Paige tracks and clears authorizations for scheduled orthopedic procedures, knee replacements, spinal fusions, arthroscopic surgeries. Zero procedural delays. Zero OR schedule disruptions.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
@@ -169,7 +169,7 @@ export default function OrthopedicsContent() {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <AgentSpotlightCard
                   agentName="Paige"
-                  imgAlt="Paige — Prior Authorization Management"
+                  imgAlt="Paige, Prior Authorization Management"
                   roleLabel="Prior Auth Tracking Specialist"
                 />
               </div>
@@ -186,7 +186,7 @@ export default function OrthopedicsContent() {
           <RevealOnScroll delay={0.1}><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
-              Surgical practice veterans with deep orthopedic and ASC expertise — strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
+              Surgical practice veterans with deep orthopedic and ASC expertise, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>
         </div>

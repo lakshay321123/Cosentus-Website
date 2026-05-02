@@ -136,5 +136,5 @@ ${fullTranscript.slice(0, 3000)}` }],
 }
 
 async function createGenericLead(conversationId: string, pageUrl: string) {
-  return NextResponse.json({ success: true, generic: true, conversationId, note: 'Transcript not yet available — lead will be captured on next cron run' })
+  return NextResponse.json({ success: true, generic: true, conversationId, note: 'Transcript not yet available, lead will be captured on next cron run' })
 }

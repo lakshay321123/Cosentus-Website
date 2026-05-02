@@ -16,7 +16,7 @@ const services = [
   { title: 'Implant & Supply Billing', desc: 'Accurate documentation and pass-through processes.', iconPath: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z' },
   { title: 'Multi-Payer Contract Management', desc: 'Monitor reimbursements vs contract rates and flag underpayments.', iconPath: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' },
   { title: 'Out-of-Network Negotiation', desc: 'Negotiation for high-value out-of-network cases.', iconPath: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
-  { title: 'Prior Authorization', desc: 'Paige, our AI agent, manages authorizations for scheduled cases — so nothing stalls before the OR.', iconPath: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
+  { title: 'Prior Authorization', desc: 'Paige, our AI agent, manages authorizations for scheduled cases, so nothing stalls before the OR.', iconPath: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
   { title: 'Pre-Service Payment Collection', desc: 'Priya collects patient financial responsibility pre-procedure.', iconPath: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z' },
   { title: 'Denial Management', desc: 'Appeals with clinical rationale and cost justification.', iconPath: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
 ]
@@ -25,7 +25,7 @@ export default function ASCPage() {
   return (
     <main>
       <PageHero videoSrc="/images/specialties-hero.mp4"
-        label="ASC BY COSENTUS — PURPOSE BUILT"
+        label="ASC BY COSENTUS, PURPOSE BUILT"
         title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
         subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
         ctaText="Get Your Free ASC Revenue Analysis"
@@ -72,8 +72,8 @@ export default function ASCPage() {
                     'Real-time case cost tracking and underpayment detection',
                     'AI handles authorizations and follow-ups at scale',
                     'Specialists handle payer negotiation and recovery',
-                    'Root cause analysis on every denial — facility and professional fee streams',
-                    'Dedicated team — case costing, implants, multi-payer contracts, no specialty switching',
+                    'Root-cause analysis on every denial, across both facility and professional fee streams',
+                    'Dedicated team handling case costing, implants, and multi-payer contracts without specialty switching',
                   ].map((item, i) => (
                     <div key={i} className="ps-bullet-light" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                       <svg aria-hidden="true" className="ps-check" style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: 'white' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
@@ -121,7 +121,7 @@ export default function ASCPage() {
         </div>
       </section>
 
-      {/* AI Agent Spotlight — Priya */}
+      {/* AI Agent Spotlight, Priya */}
       <section className="section">
         <div className="container">
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -150,7 +150,7 @@ export default function ASCPage() {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <AgentSpotlightCard
                   agentName="Priya"
-                  imgAlt="Priya — Pre-Service Payment Collection"
+                  imgAlt="Priya, Pre-Service Payment Collection"
                   roleLabel="Pre-Service Cost Estimates"
                 />
               </div>
@@ -166,7 +166,7 @@ export default function ASCPage() {
           <RevealOnScroll delay={0.1}><div className="section-title">ASC Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
-              ASC and surgical practice management veterans — strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
+              ASC and surgical practice management veterans, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>
         </div>

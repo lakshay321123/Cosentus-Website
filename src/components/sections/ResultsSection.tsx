@@ -58,7 +58,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
   return (
     <div className="result-item">
       <div className="result-flip-card">
-        {/* FRONT — arrow + number + label */}
+        {/* FRONT, arrow + number + label */}
         <div className="result-flip-front">
           <div className="result-arrow-img" />
           <div className="result-text">
@@ -69,7 +69,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
             <div className="result-label">{stat.label}</div>
           </div>
         </div>
-        {/* BACK — dollar-impact copy + stat identity at bottom for context */}
+        {/* BACK, dollar-impact copy + stat identity at bottom for context */}
         <div className="result-flip-back">
           <div className="result-flip-text">{stat.flip}</div>
           <div className="result-flip-stat">

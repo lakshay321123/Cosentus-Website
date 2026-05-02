@@ -242,7 +242,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
       {/* Blog Content with Sidebar TOC */}
       <section className="section" style={{ paddingTop: 40, paddingBottom: 80 }}>
         <div className="container" style={{ maxWidth: 1200 }}>
-          {/* Back to blog breadcrumb — separate nav component, outside article flow */}
+          {/* Back to blog breadcrumb, separate nav component, outside article flow */}
           <nav aria-label="Breadcrumb" style={{ marginBottom: 32 }}>
             <Link href="/blog" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,

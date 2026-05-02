@@ -26,7 +26,7 @@ export default function HeroSection() {
           Purpose Built<br />For Your <span className="accent">Specialty.</span>
         </h1>
 
-        {/* Specialty selector — tightly beneath the H1. */}
+        {/* Specialty selector, tightly beneath the H1. */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',

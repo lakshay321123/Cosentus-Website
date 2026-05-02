@@ -33,7 +33,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
         transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease',
       }}
     >
-      {/* Image — uniform 16:9 aspect */}
+      {/* Image, uniform 16:9 aspect */}
       {item.image ? (
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', background: 'var(--gray-100)' }}>
           <img

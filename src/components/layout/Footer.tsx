@@ -75,7 +75,7 @@ export default function Footer() {
               </RevealOnScroll>
               <Image
                 src="/all-accolades-2x3.png"
-                alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
+                alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
                 width={843}
                 height={518}
                 style={{ mixBlendMode: 'screen', width: 300, maxWidth: '100%', height: 'auto', display: 'block' }}

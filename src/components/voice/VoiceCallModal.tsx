@@ -271,7 +271,7 @@ export default function VoiceCallModal({
     status === 'connected'  ? `Connected · ${mm}:${ss}` :
     status === 'demo'       ? `Demo · ${mm}:${ss}` :
     status === 'ended'      ? 'Call ended' :
-    status === 'error'      ? (errorMsg ? `Failed — ${errorMsg}` : 'Failed') :
+    status === 'error'      ? (errorMsg ? `Failed, ${errorMsg}` : 'Failed') :
     ''
 
   const handleMute = () => {

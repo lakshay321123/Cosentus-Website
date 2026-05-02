@@ -18,7 +18,7 @@ const testimonials = [
   },
   {
     tag: 'Pain Management',
-    quote: 'Nearly 20 years in practice — Cosentus has provided nothing but positive experiences. Highly recommend without reservations.',
+    quote: 'Nearly 20 years in practice, Cosentus has provided nothing but positive experiences. Highly recommend without reservations.',
     name: 'Justin Lo, MD',
     role: 'President, Northern California Pain Specialists',
   },
@@ -105,12 +105,12 @@ export default function TestimonialsSection() {
             onMouseLeave={() => setPaused(false)}
             style={{ marginTop: 48, position: 'relative' }}
           >
-            {/* Viewport — clips slides outside the visible area */}
+            {/* Viewport, clips slides outside the visible area */}
             <div style={{
               overflow: 'hidden',
               borderRadius: 16,
             }}>
-              {/* Track — full row of slides, slides via transform */}
+              {/* Track, full row of slides, slides via transform */}
               <div style={{
                 display: 'flex',
                 transform: `translateX(-${idx * stepPercent}%)`,
@@ -216,7 +216,7 @@ export default function TestimonialsSection() {
               </div>
             </div>
 
-            {/* Controls below — arrows + dots */}
+            {/* Controls below, arrows + dots */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
