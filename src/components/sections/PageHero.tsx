@@ -11,6 +11,11 @@ interface PageHeroProps {
 }
 
 export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc }: PageHeroProps) {
+  // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
+  // the default hero video, so titles and CTAs read poorly. When that source
+  // is in use, dim the video itself and strengthen the gradient overlay.
+  const isLightSpecialtyVideo = (videoSrc || '').includes('specialties-hero')
+
   return (
     <section style={{ position: 'relative', minHeight: '50vh', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
       {/* Video background */}
@@ -25,6 +30,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
           width: '100%', height: '100%',
           objectFit: 'cover',
           zIndex: 0,
+          filter: isLightSpecialtyVideo ? 'brightness(0.55) saturate(0.9)' : undefined,
         }}
       >
         <source src={videoSrc || "/videos/hero-banner.mp4"} type="video/mp4" />
@@ -33,7 +39,9 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
       {/* Dark overlay for readability */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(135deg, rgba(0,30,50,0.75) 0%, rgba(0,80,100,0.6) 50%, rgba(0,40,60,0.7) 100%)',
+        background: isLightSpecialtyVideo
+          ? 'linear-gradient(135deg, rgba(0,20,40,0.85) 0%, rgba(0,60,90,0.78) 50%, rgba(0,30,50,0.85) 100%)'
+          : 'linear-gradient(135deg, rgba(0,30,50,0.75) 0%, rgba(0,80,100,0.6) 50%, rgba(0,40,60,0.7) 100%)',
         zIndex: 1,
       }} />
 
