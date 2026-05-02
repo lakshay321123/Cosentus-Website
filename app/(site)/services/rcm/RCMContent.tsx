@@ -45,16 +45,6 @@ export default function RCMContent() {
               </p>
             </RevealOnScroll>
           </div>
-          <RevealOnScroll delay={0.2}>
-            <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', aspectRatio: '4/3' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                alt="Healthcare technology"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,181,214,0.15) 0%, transparent 60%)' }} />
-            </div>
-          </RevealOnScroll>
         </div>
       </section>
 
