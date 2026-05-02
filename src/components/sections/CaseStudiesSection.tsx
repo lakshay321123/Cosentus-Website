@@ -122,8 +122,109 @@ function FlipCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (c
   )
 }
 
+/**
+ * Mobile-only card body. No flip (touch devices can't hover) — shows the
+ * image with a strong overlay + tag/stat at top, then the description and CTA
+ * on a teal panel below. All information visible without interaction.
+ */
+function MobileCardBody({ cs }: { cs: CaseStudy }) {
+  return (
+    <div style={{
+      borderRadius: 16,
+      overflow: 'hidden',
+      background: '#00B5D6',
+      display: 'flex',
+      flexDirection: 'column',
+      cursor: 'pointer',
+    }}>
+      {/* Top — image with strong gradient overlay + tag + stat */}
+      <div style={{ position: 'relative', aspectRatio: '16 / 10', width: '100%' }}>
+        <img
+          src={cs.image}
+          alt={cs.tag}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.25) 100%)',
+        }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 20 }}>
+          <div style={{
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
+            textTransform: 'uppercase' as const, color: '#68D1E6',
+            marginBottom: 6,
+            textShadow: '0 1px 4px rgba(0,0,0,0.6)',
+          }}>{cs.tag}</div>
+          <div style={{
+            fontSize: 44, fontWeight: 300, color: 'white',
+            fontFamily: 'var(--font-display)', lineHeight: 1,
+            textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+          }}>{cs.stat}</div>
+          <div style={{
+            fontSize: 13, color: 'rgba(255,255,255,0.92)', marginTop: 4,
+            textShadow: '0 1px 4px rgba(0,0,0,0.6)',
+          }}>{cs.statLabel}</div>
+        </div>
+      </div>
+
+      {/* Bottom — title + CTA on teal panel */}
+      <div style={{ padding: '20px 22px 22px' }}>
+        <p style={{
+          fontSize: 15, lineHeight: 1.55,
+          color: 'rgba(255,255,255,0.92)', margin: 0, marginBottom: 16,
+        }}>{cs.title}</p>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          fontSize: 12, fontWeight: 700, color: 'white',
+          letterSpacing: '0.06em', textTransform: 'uppercase' as const,
+        }}>
+          Read Client Success Story
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function MobileCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (cs: CaseStudy) => void }) {
+  if (mode === 'teaser') {
+    return (
+      <Link
+        href="/case-studies"
+        aria-label={`View ${cs.tag} case study`}
+        style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+      >
+        <MobileCardBody cs={cs} />
+      </Link>
+    )
+  }
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${cs.tag} case study`}
+      onClick={() => onOpen?.(cs)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen?.(cs) } }}
+    >
+      <MobileCardBody cs={cs} />
+    </div>
+  )
+}
+
 export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } = {}) {
   const [viewingPdf, setViewingPdf] = useState<CaseStudy | null>(null)
+
+  // On mobile, opening the PDF in an iframe modal fails — Android Chrome
+  // refuses to render PDFs inline and shows a placeholder Open button. So on
+  // small screens we open the PDF in a new tab and let the OS/browser handle
+  // it natively. Desktop continues to use the inline iframe modal.
+  const handleOpen = (cs: CaseStudy) => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
+      window.open(cs.pdf, '_blank', 'noopener,noreferrer')
+      return
+    }
+    setViewingPdf(cs)
+  }
 
   return (
     <>
@@ -140,16 +241,16 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
-                <FlipCard cs={cs} mode={mode} onOpen={setViewingPdf} />
+                <FlipCard cs={cs} mode={mode} onOpen={handleOpen} />
               </RevealOnScroll>
             ))}
           </div>
 
-          {/* Mobile */}
+          {/* Mobile — no flip, all content visible, PDF opens in new tab */}
           <div className="cases-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
             <MobileCarousel autoScrollInterval={5000}>
               {caseStudies.map((cs, i) => (
-                <FlipCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
+                <MobileCard key={i} cs={cs} mode={mode} onOpen={handleOpen} />
               ))}
             </MobileCarousel>
           </div>
