@@ -49,38 +49,36 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 16 }}>
-              <RevealOnScroll direction="flag">
-                <Image
-                  src="/gptw-flag.png"
-                  alt="Great Place to Work Certified, April 2026 – April 2027, USA"
-                  width={258}
-                  height={473}
-                  style={{ display: 'block', width: 80, height: 'auto' }}
-                />
-              </RevealOnScroll>
-              <Image
-                src="/images/cosentus-logo.png"
-                alt="Cosentus"
-                width={160}
-                height={32}
-                style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
-              />
-            </div>
-            <p style={{ marginTop: 16 }}>
+            <Image
+              src="/images/cosentus-logo.png"
+              alt="Cosentus"
+              width={160}
+              height={32}
+              style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
+            />
+            <p>
               Real People + AI, RCM Redefined.
             </p>
             <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
               (877) 806-2286 &nbsp;|&nbsp;{' '}
               <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
             </p>
-            <div style={{ marginTop: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 16, marginTop: 24 }}>
+              <RevealOnScroll direction="flag">
+                <Image
+                  src="/gptw-flag.png"
+                  alt="Great Place to Work Certified, April 2026 – April 2027, USA"
+                  width={258}
+                  height={473}
+                  style={{ display: 'block', width: 70, height: 'auto' }}
+                />
+              </RevealOnScroll>
               <Image
                 src="/all-accolades.png"
                 alt="Cosentus Accolades — 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
                 width={1687}
                 height={259}
-                style={{ mixBlendMode: 'screen', maxWidth: 360, width: '100%', height: 'auto' }}
+                style={{ mixBlendMode: 'screen', width: 420, maxWidth: '100%', height: 'auto', display: 'block' }}
               />
             </div>
           </div>
