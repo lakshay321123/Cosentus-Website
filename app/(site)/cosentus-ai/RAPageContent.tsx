@@ -737,13 +737,10 @@ export default function RAPageContent() {
                     </g>
                   </g>
 
-                  {/* Zeus brand mark — replaces generic core circle + 'Zeus' text label.
-                      Asset: /public/images/zeus/zeus-mark.png (teal disc + black bolt). */}
-                  <image href="/images/zeus/zeus-mark.png" x="264" y="264" width="112" height="112" />
-                  <circle cx="320" cy="320" r="56" fill="none" stroke="#00B5D6" strokeOpacity="0.5" strokeWidth="2">
-                    <animate attributeName="r" values="56;82;56" dur="2.6s" repeatCount="indefinite" />
-                    <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="2.6s" repeatCount="indefinite" />
-                  </circle>
+                  {/* Zeus brand logo lockup — vertical (ZEUS wordmark + bolt).
+                      Asset: /public/images/zeus/zeus-logo-v.png — transparent PNG,
+                      teal logo, programmatically stripped from zeus_logo_V_blue.png. */}
+                  <image href="/images/zeus/zeus-logo-v.png" x="220" y="286" width="200" height="68" />
                 </svg>
               </div>
             </RevealOnScroll>
