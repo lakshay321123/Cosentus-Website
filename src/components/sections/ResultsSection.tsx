@@ -55,8 +55,22 @@ const stats = [
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
+  const [flipped, setFlipped] = useState(false)
   return (
-    <div className="result-item">
+    <div
+      className={`result-item${flipped ? ' flipped' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-pressed={flipped}
+      aria-label={`${stat.label}, tap to ${flipped ? 'see stat' : 'see impact'}`}
+      onClick={() => setFlipped(f => !f)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          setFlipped(f => !f)
+        }
+      }}
+    >
       <div className="result-flip-card">
         {/* FRONT, arrow + number + label */}
         <div className="result-flip-front">

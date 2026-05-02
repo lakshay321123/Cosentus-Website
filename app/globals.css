@@ -998,7 +998,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.result-item:hover .result-flip-card {
+.result-item:hover .result-flip-card,
+.result-item.flipped .result-flip-card {
   transform: rotateY(180deg);
 }
 
@@ -1091,11 +1092,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 1;
 }
 
-/* Mobile: skip the 3D flip. Show front normally; back is hidden. */
+/* Mobile: flip is triggered by tap (.flipped class) instead of hover.
+   Keep the 3D transform working so the back face becomes visible on tap.
+   Add cursor and tap-highlight cleanup for the touch interaction. */
 @media (max-width: 900px) {
-  .result-item { perspective: none; }
-  .result-flip-card { transform: none !important; transform-style: flat; }
-  .result-flip-back { display: none; }
+  .result-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   /* Disable grey-out on touch — hover doesn't apply consistently */
   .results-grid:hover .result-item { filter: none; opacity: 1; }
 }
