@@ -72,7 +72,16 @@ export default function HeroSection() {
 
       <style>{`
         @media (max-width: 768px) {
-          .hero-specialty-grid { grid-template-columns: 1fr !important; }
+          .hero-specialty-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+            max-width: 100% !important;
+          }
+          .hero-specialty-tile {
+            flex: 0 0 auto !important;
+          }
         }
         .hero-specialty-tile:hover {
           background: rgba(0, 0, 0, 0.50) !important;

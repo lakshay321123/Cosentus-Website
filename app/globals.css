@@ -2375,15 +2375,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   /* ----- Footer ----- */
   .footer-top {
-    grid-template-columns: 1fr !important;
-    gap: 32px;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 32px 24px;
   }
+  /* Brand stays right-aligned (matches desktop + the inline-styled badges row).
+     Spans both grid columns so it gets full width above the nav cols. */
   .footer-brand {
     order: -1 !important;
-    align-items: flex-start !important;
+    grid-column: 1 / -1;
+    align-items: flex-end;
   }
   .footer-brand p {
-    text-align: left !important;
+    text-align: right;
+  }
+  /* Nav cols flow into the 2x2 grid (About / Specialties / Services / Insights).
+     Tighter line spacing so vertical footprint is reasonable. */
+  .footer-col h5 {
+    margin-bottom: 12px;
+  }
+  .footer-col a {
+    padding: 3px 0;
+    font-size: 13px;
   }
   .footer-bottom {
     flex-direction: column;
@@ -2392,6 +2404,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .footer-legal {
     justify-content: center;
+  }
+
+  /* ----- Cindy avatar: prevent collision with chat button on mobile ----- */
+  /* CindyVoiceAgent.tsx and ChatWidget.tsx are protected; nudge via class override.
+     Chat button sits at bottom:28 (56px tall = occupies 28-84px from bottom).
+     Cindy default bottom:110 → only 26px gap. Bump to 140 → 56px gap. */
+  .cindy-avatar,
+  .cindy-panel {
+    bottom: 140px !important;
   }
 
   /* ----- About page ----- */
