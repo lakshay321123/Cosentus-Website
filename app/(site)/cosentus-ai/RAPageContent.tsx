@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import { AGENTS } from '@/data/voice-agents'
@@ -750,6 +751,7 @@ export default function RAPageContent() {
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 20,
           }} className="zeus-kpi-grid">
+            <MobileCarousel autoScrollInterval={4500}>
             {[
               { label: 'Clean claim rate', tag: '▲ 4pts', tagDir: 'up', pre: '', big: '98', unit: '%', plus: '+', industry: '90–95%', zeus: 'Zeus 98%+' },
               { label: 'Coding accuracy', tag: '▲ 10pts', tagDir: 'up', pre: '', big: '99', unit: '%', plus: '', industry: '85–90%', zeus: 'Zeus 99%' },
@@ -819,6 +821,7 @@ export default function RAPageContent() {
                 </div>
               </RevealOnScroll>
             ))}
+            </MobileCarousel>
           </div>
         </div>
 
@@ -831,8 +834,14 @@ export default function RAPageContent() {
           @media (max-width: 900px) {
             .zeus-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
           }
-          @media (max-width: 600px) {
-            .zeus-kpi-grid { grid-template-columns: 1fr !important; }
+          /* On mobile MobileCarousel takes over: kill the grid so its
+             one-slide-at-a-time layout has the full width to itself.
+             Beats the 900px rule via source order + !important. */
+          @media (max-width: 768px) {
+            .zeus-kpi-grid {
+              display: block !important;
+              gap: 0 !important;
+            }
           }
         `}</style>
       </section>

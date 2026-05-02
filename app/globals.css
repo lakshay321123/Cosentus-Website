@@ -2678,35 +2678,53 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-color: var(--primary) !important;
 }
 
-/* Mobile: stack timeline vertically */
+/* Mobile: timeline becomes vertical stack of full-width pills.
+   Each step button is a horizontal row [number — label] tappable to
+   open that step's detail in the panel below. The label was a
+   position:absolute child of a round 44x44 button, which overflowed
+   visibly; we override the button to be auto-height + flex-start so
+   the label flows inline as a normal flex child. */
 @media (max-width: 768px) {
   .step-timeline {
+    display: flex !important;
     flex-direction: column !important;
-    gap: 16px !important;
-    align-items: flex-start !important;
+    gap: 10px !important;
+    align-items: stretch !important;
     padding: 0 !important;
+    margin-bottom: 32px !important;
   }
+  /* Background line + active progress line are horizontal-only — hide */
   .step-timeline > div:first-child,
   .step-timeline .step-progress-line {
     display: none !important;
   }
   .step-node {
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 16px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 56px !important;
+    border-radius: 12px !important;
+    padding: 14px 18px !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    font-size: 17px !important;
+    box-shadow: none !important;
   }
+  /* Subtle ring for active step since we've stripped the desktop glow */
+  .step-node.step-active {
+    box-shadow: 0 0 0 3px rgba(0, 181, 214, 0.18) !important;
+  }
+  /* Label flows inline next to the number — full-width, wrapping */
   .step-timeline-label {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
+    position: static !important;
     transform: none !important;
-    margin-left: 12px;
-    display: inline !important;
-  }
-  .step-timeline {
-    display: grid !important;
-    grid-template-columns: auto 1fr !important;
-    gap: 8px 0 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    white-space: normal !important;
+    text-align: left !important;
+    color: inherit !important;
+    flex: 1 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.005em !important;
   }
   .step-detail-panel {
     padding: 24px 20px !important;
