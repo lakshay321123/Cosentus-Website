@@ -139,7 +139,7 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
       width: '100%',
     }}>
       {/* Top — fixed-height image strip with overlay */}
-      <div style={{ position: 'relative', height: 180, width: '100%', flexShrink: 0 }}>
+      <div style={{ position: 'relative', height: 200, width: '100%', flexShrink: 0 }}>
         <img
           src={cs.image}
           alt={cs.tag}
@@ -149,38 +149,38 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
           position: 'absolute', inset: 0,
           background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%)',
         }} />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '12px 18px 14px' }}>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 18px' }}>
           <div style={{
-            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+            fontSize: 12, fontWeight: 700, letterSpacing: '0.1em',
             textTransform: 'uppercase' as const, color: '#68D1E6',
-            marginBottom: 4,
+            marginBottom: 6,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
           }}>{cs.tag}</div>
           <div style={{
-            fontSize: 36, fontWeight: 300, color: 'white',
+            fontSize: 56, fontWeight: 300, color: 'white',
             fontFamily: 'var(--font-display)', lineHeight: 1,
             textShadow: '0 2px 8px rgba(0,0,0,0.6)',
           }}>{cs.stat}</div>
           <div style={{
-            fontSize: 12, color: 'rgba(255,255,255,0.95)', marginTop: 3,
+            fontSize: 14, color: 'rgba(255,255,255,0.95)', marginTop: 4,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
           }}>{cs.statLabel}</div>
         </div>
       </div>
 
       {/* Bottom — title + CTA on teal panel */}
-      <div style={{ padding: '16px 18px 18px' }}>
+      <div style={{ padding: '18px 20px 22px' }}>
         <p style={{
-          fontSize: 14, lineHeight: 1.5,
-          color: 'rgba(255,255,255,0.95)', margin: 0, marginBottom: 12,
+          fontSize: 17, lineHeight: 1.45,
+          color: 'rgba(255,255,255,0.98)', margin: 0, marginBottom: 16,
         }}>{cs.title}</p>
         <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 6,
-          fontSize: 11, fontWeight: 700, color: 'white',
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          fontSize: 14, fontWeight: 700, color: 'white',
           letterSpacing: '0.06em', textTransform: 'uppercase' as const,
         }}>
           Read Client Success Story
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
         </span>
       </div>
     </div>
@@ -242,7 +242,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           </RevealOnScroll>
 
           {/* Desktop, flip cards */}
-          <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
+          <div className="cases-desktop">
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
                 <FlipCard cs={cs} mode={mode} onOpen={setViewingPdf} />
@@ -251,7 +251,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           </div>
 
           {/* Mobile — vertical stack, no carousel. All three cards visible by scrolling. */}
-          <div className="cases-mobile" style={{ width: '100%', marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="cases-mobile">
             {caseStudies.map((cs, i) => (
               <MobileCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
             ))}
