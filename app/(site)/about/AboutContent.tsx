@@ -56,19 +56,23 @@ export default function AboutContent() {
               <div className="section-label" style={{ marginBottom: 0 }}>WHO WE ARE</div>
             </RevealOnScroll>
             <div>
+              {/* Lighter visual weight than before — 22px / 400 read as bold
+                  on the previous version because the size + dark gray
+                  combination was heavy. Now 19px / 400 with gray-700 lets
+                  the copy be read as body text rather than a slab.
+                  The lead sentence carries the promise; the second
+                  paragraph is the supporting proof. */}
               <RevealOnScroll>
-                <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
-                  Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
-                  For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
-                  eliminate billing inefficiencies, and scale operations, end-to-end, from patient registration to final payment,
-                  with Real + Artificial Intelligence and specialty-trained teams.
+                <p style={{ fontSize: 19, lineHeight: 1.6, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
+                  We help physician practices, specialty groups, and surgery centers grow revenue, eliminate
+                  billing inefficiencies, and run cleaner operations — end-to-end, from registration to final
+                  payment.
                 </p>
               </RevealOnScroll>
               <RevealOnScroll delay={0.1}>
-                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', marginTop: 24, margin: '24px 0 0' }}>
-                  Built on its R+A approach, Real + Artificial Intelligence, Cosentus combines experienced revenue cycle
-                  professionals with specialised AI agents to help healthcare organisations manage administrative complexity
-                  more efficiently and improve operational efficiency and financial performance.
+                <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--gray-700)', margin: '20px 0 0' }}>
+                  Twenty-five years of specialty RCM expertise, paired with purpose-built AI agents.
+                  Real People + AI — the experience to know what to do, the automation to do it at scale.
                 </p>
               </RevealOnScroll>
             </div>
