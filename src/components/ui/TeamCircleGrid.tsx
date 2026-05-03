@@ -86,9 +86,22 @@ export default function TeamCircleGrid({
           // CSS custom properties drive the desktop column count and circle
           // size — see the styled-jsx block below. Mobile uses fixed
           // hard-coded sizes (always 3 cols).
+          //
+          // For 3-column layouts (currently just About leadership), we also
+          // cap the grid at a narrower max-width and center it. Without the
+          // cap, 3 columns of 1fr each spread across the full ~1200px
+          // container, which puts the 200px circles ~200px apart visually
+          // and reads as "too wide apart". Capping at 920px tightens the
+          // adjacent-circle distance to roughly 100px while keeping the
+          // text below each circle from feeling cramped.
           {
             ['--tcg-cols' as string]: desktopColumns,
             ['--tcg-size' as string]: `${desktopCircleSize}px`,
+            ...(desktopColumns === 3 ? {
+              maxWidth: 920,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            } : {}),
           } as React.CSSProperties
         }
       >
