@@ -81,7 +81,13 @@ export default function AboutContent() {
       </section>
 
       {/* What We Believe */}
-      <section className="section section-alt">
+      {/* User feedback: the previous values cards 'looked bad' — plain
+          gray-bordered boxes on a section-alt grey background, no
+          hierarchy. New treatment: white background (no section-alt),
+          numbered cards (01-04) with a teal top accent stripe, the
+          number itself in display-font teal as a quiet visual anchor.
+          Same content, restructured presentation. */}
+      <section className="section">
         <div className="container">
           <RevealOnScroll>
             <div className="section-label">OUR VALUES</div>
@@ -91,26 +97,20 @@ export default function AboutContent() {
           </RevealOnScroll>
 
           {/* Desktop */}
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
+          <div className="advantages-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginTop: 48 }}>
             {beliefs.map((b, i) => (
-              <RevealOnScroll key={i}>
-                <div className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
+              <RevealOnScroll key={i} delay={i * 0.08}>
+                <ValueCard index={i} title={b.title} desc={b.desc} />
               </RevealOnScroll>
             ))}
           </div>
-          {/* Mobile */}
-          <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {beliefs.map((b, i) => (
-                <div key={i} className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
-              ))}
-            </MobileCarousel>
+          {/* Mobile — single column stack rather than carousel; with 4
+              short cards the carousel was hiding information that fits
+              on screen vertically anyway. */}
+          <div className="advantages-mobile" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 32 }}>
+            {beliefs.map((b, i) => (
+              <ValueCard key={i} index={i} title={b.title} desc={b.desc} />
+            ))}
           </div>
         </div>
       </section>
@@ -237,5 +237,69 @@ export default function AboutContent() {
         </div>
       </section>
     </>
+  )
+}
+
+/**
+ * Single value card for the OUR VALUES section.
+ *
+ * Visual treatment:
+ *   - White card on the page background (section is no longer section-alt)
+ *   - 4px teal top stripe — a quiet anchor that gives the row visual rhythm
+ *   - 2-digit zero-padded number (01-04) in display-font teal at 36px,
+ *     same display family as the headline, weight 800 to match the new
+ *     numbers strip — so "01/02/03/04" reads as part of the numbers
+ *     family, not as a list bullet.
+ *   - Title in display-font 19px / 700, body 15px / 1.65 / gray-700.
+ *
+ * No hover affordance — values aren't interactive, so a hover lift
+ * would be misleading.
+ */
+function ValueCard({ index, title, desc }: { index: number; title: string; desc: string }) {
+  return (
+    <div style={{
+      position: 'relative',
+      background: 'var(--white)',
+      border: '1px solid var(--gray-200)',
+      borderRadius: 12,
+      padding: '32px 28px 28px',
+      height: '100%',
+      overflow: 'hidden',
+    }}>
+      {/* Teal accent stripe along the top edge */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 4,
+        background: '#00B5D6',
+      }} />
+      <div style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 36,
+        fontWeight: 800,
+        color: '#00B5D6',
+        lineHeight: 1,
+        letterSpacing: '-0.02em',
+        marginBottom: 16,
+      }}>
+        {String(index + 1).padStart(2, '0')}
+      </div>
+      <h4 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 19,
+        fontWeight: 700,
+        color: 'var(--gray-900)',
+        margin: '0 0 10px 0',
+        lineHeight: 1.3,
+      }}>{title}</h4>
+      <p style={{
+        fontSize: 15,
+        lineHeight: 1.65,
+        color: 'var(--gray-700)',
+        margin: 0,
+      }}>{desc}</p>
+    </div>
   )
 }
