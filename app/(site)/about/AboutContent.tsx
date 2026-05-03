@@ -130,24 +130,6 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Why Independent Matters */}
-      <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-label">INDEPENDENCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">Why Independent Matters</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
-              not quarterly investor returns. Our stability shows: 80% of our founding team remains with the company.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
-
       {/* Leadership */}
       <section className="section section-alt" id="leadership">
         <div className="container">
