@@ -68,13 +68,15 @@ export default function TeamCircleGrid({
   const interactive = !!onPersonClick
 
   // Pick a desktop circle size that fits well in the chosen column count.
-  // 3-col layouts (e.g. About) get larger portraits; 4 and 5-col layouts
-  // (specialty pages) get progressively smaller. Mobile is fixed in CSS
-  // since column count is always 3 there.
+  // 3-col layouts (e.g. About) get the largest portraits; 4 and 5-col
+  // layouts (specialty pages) keep meaningfully large circles too — the
+  // user explicitly asked for the size bump on About to also land on
+  // specialty pages with staff images. Mobile is fixed in CSS since
+  // column count is always 3 there.
   const desktopCircleSize =
     desktopColumns <= 3 ? 200 :
-    desktopColumns === 4 ? 170 :
-    160
+    desktopColumns === 4 ? 190 :
+    180
 
   return (
     <>
@@ -178,8 +180,8 @@ export default function TeamCircleGrid({
           margin-top: 36px;
         }
         .team-circle {
-          width: var(--tcg-size, 160px);
-          height: var(--tcg-size, 160px);
+          width: var(--tcg-size, 180px);
+          height: var(--tcg-size, 180px);
           border-radius: 50%;
           overflow: hidden;
           background: #f5f9fa;
@@ -213,8 +215,8 @@ export default function TeamCircleGrid({
              dominate at narrower widths, but keep the column count the
              component asked for. */
           .team-circle {
-            width: min(var(--tcg-size, 160px), 130px);
-            height: min(var(--tcg-size, 160px), 130px);
+            width: min(var(--tcg-size, 180px), 150px);
+            height: min(var(--tcg-size, 180px), 150px);
           }
         }
         @media (max-width: 768px) {
