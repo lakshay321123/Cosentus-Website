@@ -278,7 +278,21 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
               <a
                 href={viewingPdf.pdf}
                 download
-                style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500, padding: '6px 16px', border: '1px solid #00B5D6', borderRadius: 6 }}
+                style={{
+                  fontSize: 13,
+                  color: 'white',
+                  background: '#00B5D6',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  padding: '10px 18px',
+                  border: '1px solid #00B5D6',
+                  borderRadius: 6,
+                  WebkitTapHighlightColor: 'transparent',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  minHeight: 40,
+                  whiteSpace: 'nowrap',
+                }}
               >
                 Download PDF
               </a>
