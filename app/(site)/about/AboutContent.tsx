@@ -4,6 +4,7 @@ import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import CoAnimation from '@/components/ui/CoAnimation'
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -48,6 +49,31 @@ export default function AboutContent() {
   const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
+      {/* CO-SENT-US — animated brand mark. First thing on the page per
+          user direction ('The Co needs to come on top!'). White
+          background — no grey panel, brand teal outlines. */}
+      <section style={{ padding: '80px 0 32px', background: 'var(--white)' }}>
+        <div className="container">
+          <RevealOnScroll>
+            <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 48px' }}>
+              <div className="section-label" style={{ marginBottom: 12 }}>OUR JOURNEY</div>
+              <h2 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(32px, 4vw, 48px)',
+                fontWeight: 700,
+                color: 'var(--gray-900)',
+                lineHeight: 1.15,
+                margin: 0,
+                letterSpacing: '-0.02em',
+              }}>
+                Together, we Conquer.
+              </h2>
+            </div>
+          </RevealOnScroll>
+          <CoAnimation />
+        </div>
+      </section>
+
       {/* About Description */}
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
