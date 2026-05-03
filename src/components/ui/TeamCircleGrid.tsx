@@ -32,6 +32,14 @@ interface Props {
   objectPosition?: string
   /** RevealOnScroll base delay so a section above can stagger before this. */
   baseDelay?: number
+  /**
+   * Number of columns at desktop (>=1100px). Default 5. Smaller values
+   * (e.g. 3 for the About leadership grid where there are exactly 9
+   * people in 3x3) give each cell more room and let the circles be
+   * bigger. The component automatically sizes circles up when columns
+   * are set to 3 or 4.
+   */
+  desktopColumns?: number
 }
 
 /**
@@ -55,12 +63,33 @@ export default function TeamCircleGrid({
   onPersonClick,
   objectPosition = 'center 20%',
   baseDelay = 0,
+  desktopColumns = 5,
 }: Props) {
   const interactive = !!onPersonClick
 
+  // Pick a desktop circle size that fits well in the chosen column count.
+  // 3-col layouts (e.g. About) get larger portraits; 4 and 5-col layouts
+  // (specialty pages) get progressively smaller. Mobile is fixed in CSS
+  // since column count is always 3 there.
+  const desktopCircleSize =
+    desktopColumns <= 3 ? 200 :
+    desktopColumns === 4 ? 170 :
+    160
+
   return (
     <>
-      <div className="team-circle-grid">
+      <div
+        className="team-circle-grid"
+        style={
+          // CSS custom properties drive the desktop column count and circle
+          // size — see the styled-jsx block below. Mobile uses fixed
+          // hard-coded sizes (always 3 cols).
+          {
+            ['--tcg-cols' as string]: desktopColumns,
+            ['--tcg-size' as string]: `${desktopCircleSize}px`,
+          } as React.CSSProperties
+        }
+      >
         {people.map((person, i) => {
           const initials = person.name.split(' ').map(n => n[0]).join('')
           const cardCommonStyle: React.CSSProperties = {
@@ -137,24 +166,26 @@ export default function TeamCircleGrid({
         })}
       </div>
 
-      {/* Scoped styles — all sizes/breakpoints copied from RASection.tsx
-          (homepage voice-agent grid) so the two patterns stay visually identical. */}
+      {/* Scoped styles — desktop layout is controlled by CSS custom
+          properties (--tcg-cols, --tcg-size) set inline by the component
+          based on the desktopColumns prop. Mobile is fixed at 3 cols with
+          larger circles and tight column gap to feel dense and tappable. */}
       <style jsx>{`
         .team-circle-grid {
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 36px 20px;
+          grid-template-columns: repeat(var(--tcg-cols, 5), 1fr);
+          gap: 40px 20px;
           margin-top: 36px;
         }
         .team-circle {
-          width: 140px;
-          height: 140px;
+          width: var(--tcg-size, 160px);
+          height: var(--tcg-size, 160px);
           border-radius: 50%;
           overflow: hidden;
           background: #f5f9fa;
           border: 3px solid #00B5D6;
           box-shadow: 0 6px 20px rgba(0, 181, 214, 0.18);
-          margin-bottom: 14px;
+          margin-bottom: 16px;
           flex-shrink: 0;
           display: flex;
           align-items: center;
@@ -178,25 +209,27 @@ export default function TeamCircleGrid({
           letter-spacing: 0.01em;
         }
         @media (max-width: 1100px) {
-          .team-circle-grid {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px 16px;
-          }
+          /* Tablet: clamp the desktop circle so a 200px circle doesn't
+             dominate at narrower widths, but keep the column count the
+             component asked for. */
           .team-circle {
-            width: 120px;
-            height: 120px;
+            width: min(var(--tcg-size, 160px), 130px);
+            height: min(var(--tcg-size, 160px), 130px);
           }
         }
         @media (max-width: 768px) {
+          /* Mobile: always 3 cols, bigger circles than before, tighter
+             column gap so the row reads as a dense row of three. The user
+             explicitly asked for "bigger circles and closer" on mobile. */
           .team-circle-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px 10px;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 26px 4px;
           }
           .team-circle {
-            width: 96px;
-            height: 96px;
+            width: 116px !important;
+            height: 116px !important;
             border-width: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
           }
           .team-circle-name {
             font-size: 14px;
@@ -209,11 +242,11 @@ export default function TeamCircleGrid({
         }
         @media (max-width: 420px) {
           .team-circle-grid {
-            gap: 22px 8px;
+            gap: 22px 2px;
           }
           .team-circle {
-            width: 84px;
-            height: 84px;
+            width: 104px !important;
+            height: 104px !important;
           }
         }
       `}</style>
