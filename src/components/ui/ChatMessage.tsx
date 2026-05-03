@@ -1,56 +1,56 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { ReactNode } from 'react'
 
-// Simple markdown-like formatting: **bold**, newlines
-function formatText(text: string) {
+/**
+ * Render `**bold**` and newlines.
+ * Mirrors the formatting cosentus.ai's renderMarkdown produces for the
+ * subset we actually emit from the system prompt — bold and line breaks.
+ */
+function formatText(text: string): ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*)/g)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={i}>{part.slice(2, -2)}</strong>
     }
-    // Split by newlines
     const lines = part.split('\n')
-    return lines.map((line, j) => (
-      <span key={`${i}-${j}`}>
-        {j > 0 && <br />}
-        {line}
+    return (
+      <span key={i}>
+        {lines.map((line, j) => (
+          <span key={j}>
+            {j > 0 && <br />}
+            {line}
+          </span>
+        ))}
       </span>
-    ))
+    )
   })
 }
 
-export function BotMessage({ text, animate = false }: { text: string; animate?: boolean }) {
-  const [displayed, setDisplayed] = useState(animate ? '' : text)
-  const [done, setDone] = useState(!animate)
-  const idx = useRef(0)
-
-  useEffect(() => {
-    if (!animate) {
-      setDisplayed(text)
-      setDone(true)
-      return
-    }
-    idx.current = 0
-    setDisplayed('')
-    setDone(false)
-    const interval = setInterval(() => {
-      idx.current++
-      if (idx.current >= text.length) {
-        setDisplayed(text)
-        setDone(true)
-        clearInterval(interval)
-      } else {
-        setDisplayed(text.slice(0, idx.current))
-      }
-    }, 18) // 18ms per character = fast but readable
-    return () => clearInterval(interval)
-  }, [text, animate])
-
+/**
+ * Renders a bot message.
+ *
+ * IMPORTANT: there is NO client-side typewriter. The server already streams
+ * text via SSE (`/api/chat`) — each chunk arrives, ChatContext appends it to
+ * the message's `text`, and React renders it. That natural drip-feed IS the
+ * typewriter effect.
+ *
+ * The previous implementation ran a second typewriter on top, which RESET to
+ * empty and retyped from scratch on every prop change. With streaming text
+ * that meant a wipe-and-retype on every SSE chunk — visible jitter the user
+ * (correctly) called "buggy while typing." cosentus.ai never hit this bug
+ * because their backend is a single REST POST, not a stream — the typewriter
+ * only sees one final `text` value.
+ *
+ * @param streaming  When true, append a blinking caret to signal active typing.
+ */
+export function BotMessage({ text, streaming = false }: { text: string; streaming?: boolean }) {
   return (
     <span style={{ whiteSpace: 'pre-wrap' }}>
-      {formatText(displayed)}
-      {!done && <span style={{ opacity: 0.6, animation: 'blink 0.8s infinite' }}>|</span>}
+      {formatText(text)}
+      {streaming && (
+        <span style={{ opacity: 0.6, animation: 'blink 0.8s infinite', marginLeft: 1 }}>|</span>
+      )}
     </span>
   )
 }

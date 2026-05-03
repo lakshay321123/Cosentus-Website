@@ -25,12 +25,15 @@ export default function ChatWidget() {
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom on new message / loading change.
+  // Auto-scroll to bottom on every chunk arrival. We key on cumulative char
+  // count across all messages so each SSE chunk that grows the last message's
+  // text triggers a scroll, not just message count changes.
+  const totalChars = messages.reduce((n, m) => n + m.text.length, 0)
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, isLoading])
+  }, [totalChars, isLoading])
 
   // Auto-focus input on open — desktop only. Mobile would pop the keyboard.
   useEffect(() => {
@@ -149,7 +152,7 @@ export default function ChatWidget() {
               <div key={i} className={`grace-msg ${msg.role === 'user' ? 'user' : 'ai'}`}>
                 <div className="grace-msg-bubble">
                   {msg.role === 'bot' ? (
-                    <BotMessage text={msg.text} animate={i === messages.length - 1} />
+                    <BotMessage text={msg.text} streaming={isLoading && i === messages.length - 1} />
                   ) : msg.text}
                 </div>
               </div>
@@ -557,15 +560,17 @@ export default function ChatWidget() {
             max-height: calc(var(--chat-vh, 100dvh) - 16px);
             border-radius: 20px;
           }
-          .grace-name { font-size: 16px; }
-          .grace-tag { font-size: 12px; }
+          .grace-name { font-size: 17px; }
+          .grace-tag { font-size: 13px; }
+          .grace-welcome-text { font-size: 15px; line-height: 1.5; }
           .grace-msg-bubble {
-            font-size: 15px;
-            padding: 11px 15px;
+            font-size: 16.5px;
+            line-height: 1.5;
+            padding: 12px 16px;
             max-width: 86%;
           }
           .grace-suggest-grid { grid-template-columns: 1fr; }
-          .grace-suggest-chip { font-size: 13px; min-height: 56px; padding: 12px 14px; }
+          .grace-suggest-chip { font-size: 14px; min-height: 56px; padding: 13px 14px; }
           .grace-input { font-size: 16px; }
           .grace-send { width: 44px; height: 44px; }
         }
