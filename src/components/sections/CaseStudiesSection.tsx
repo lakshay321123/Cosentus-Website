@@ -235,9 +235,6 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
       <section className="section" id="cases" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll direction="left">
-            <div className="section-label">PROVEN RESULTS</div>
-          </RevealOnScroll>
-          <RevealOnScroll direction="left" delay={0.1}>
             <div className="section-title">Client Success Stories</div>
           </RevealOnScroll>
 

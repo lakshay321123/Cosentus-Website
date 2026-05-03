@@ -57,10 +57,7 @@ export default function AdvantagesSection() {
 
           {/* Right: Advantages */}
           <div>
-            <RevealOnScroll direction="right">
-              <div className="section-label">WHY COSENTUS</div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.1}>
+<RevealOnScroll direction="right" delay={0.1}>
               <div className="section-title">The Cosentus Advantage</div>
             </RevealOnScroll>
 

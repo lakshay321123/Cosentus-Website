@@ -62,10 +62,7 @@ export default function PainManagementPage() {
 
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Complete Pain Management Revenue Cycle</div>
           </RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
@@ -135,8 +132,7 @@ export default function PainManagementPage() {
       {/* Leadership */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Pain Management Leadership</div></RevealOnScroll>
+<RevealOnScroll><div className="section-title">Pain Management Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Interventional coding specialists with deep payer-defense expertise. Full team profiles publishing soon.

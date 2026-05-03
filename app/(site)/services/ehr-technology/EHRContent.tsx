@@ -484,9 +484,8 @@ export default function EHRContent() {
         <div className="container">
           <RevealOnScroll>
             <div>
-              <div className="section-label">MEDCLOUD</div>
               <div className="section-title">
-                EHR & Practice Management Solutions for Physicians
+                Medcloud — EHR &amp; Practice Management Built for Physicians
               </div>
               <p className="section-desc">
                 Enter Medcloud, our innovative EHR and Practice Management Software. Designed with your needs in mind, Medcloud integrates seamlessly into your practice, offering a user-friendly interface and cutting-edge features. It&apos;s not just software; it&apos;s a tool that empowers your practice to operate at its peak efficiency.
@@ -540,10 +539,7 @@ export default function EHRContent() {
       {/* ── MEDCLOUD 7 FEATURES ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">MEDCLOUD</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">The Future of EHR & Practice Management</div>
           </RevealOnScroll>
 
@@ -574,10 +570,7 @@ export default function EHRContent() {
       {/* ── COMPATIBLE SYSTEMS ── */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">COMPATIBLE SYSTEMS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">We Connect to What You Already Use</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -608,10 +601,7 @@ export default function EHRContent() {
       {/* ── KEY CAPABILITIES ── */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">KEY CAPABILITIES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Technology That Works for You</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -652,10 +642,7 @@ export default function EHRContent() {
       {/* ── FAQ SECTION ── */}
       <section className="section" id="faq">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
 

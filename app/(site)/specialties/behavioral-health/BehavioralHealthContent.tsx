@@ -76,8 +76,7 @@ export default function BehavioralHealthContent() {
       {/* Services */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">WHAT WE MANAGE</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
+<RevealOnScroll><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
             {services.map((s, i) => (
               <RevealOnScroll key={i}>
@@ -106,8 +105,7 @@ export default function BehavioralHealthContent() {
       {/* Leadership */}
       <section className="section" id="leadership">
         <div className="container">
-          <RevealOnScroll><div className="section-label">OUR TEAM</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Behavioral Health Leadership</div></RevealOnScroll>
+<RevealOnScroll><div className="section-title">Behavioral Health Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.15}>
             <p className="section-desc">150+ years combined in behavioral health RCM</p>
           </RevealOnScroll>

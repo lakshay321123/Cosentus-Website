@@ -52,10 +52,7 @@ export default function AboutContent() {
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 48, alignItems: 'start' }} className="about-intro-grid">
-            <RevealOnScroll>
-              <div className="section-label" style={{ marginBottom: 0 }}>WHO WE ARE</div>
-            </RevealOnScroll>
-            <div>
+<div>
               <RevealOnScroll>
                 <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
                   Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
@@ -80,9 +77,6 @@ export default function AboutContent() {
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">OUR VALUES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">What We Believe</div>
           </RevealOnScroll>
 
@@ -134,9 +128,6 @@ export default function AboutContent() {
       <section className="section section-alt">
         <div className="container" style={{ maxWidth: 800 }}>
           <RevealOnScroll>
-            <div className="section-label">INDEPENDENCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Why Independent Matters</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -151,10 +142,7 @@ export default function AboutContent() {
       {/* Leadership */}
       <section className="section section-alt" id="leadership">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">OUR TEAM</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Executive Leadership</div>
           </RevealOnScroll>
 
@@ -194,10 +182,7 @@ export default function AboutContent() {
       {/* Offices */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">OUR OFFICES</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Where We Are</div>
           </RevealOnScroll>
           {/* Desktop */}

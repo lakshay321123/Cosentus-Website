@@ -62,10 +62,7 @@ export default function MultiSpecialtyPage() {
       {/* What We Manage */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Complete Multi-Specialty Revenue Cycle</div>
           </RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
@@ -97,8 +94,7 @@ export default function MultiSpecialtyPage() {
       {/* Specialty Ticker */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">SPECIALTIES WE COVER</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">From Primary Care to Surgical Subspecialties.</div></RevealOnScroll>
+          <RevealOnScroll><div className="section-title">Specialties We Cover — Primary Care to Surgical Subspecialties.</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <div style={{ marginTop: 40, display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
               {specialtyTicker.map((sp, i) => (
@@ -122,8 +118,7 @@ export default function MultiSpecialtyPage() {
       {/* Leadership */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Multi-Specialty Leadership</div></RevealOnScroll>
+<RevealOnScroll><div className="section-title">Multi-Specialty Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Specialty-versatile leadership with deep cross-domain expertise. Full team profiles publishing soon.

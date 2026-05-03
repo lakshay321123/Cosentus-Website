@@ -307,10 +307,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
       {relatedArticles.length > 0 && (
         <section className="section section-alt" style={{ paddingTop: 60, paddingBottom: 60 }}>
           <div className="container">
-            <RevealOnScroll>
-              <div className="section-label">MORE NEWS</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
               <div className="section-title" style={{ marginBottom: 32 }}>Related Articles</div>
             </RevealOnScroll>
 

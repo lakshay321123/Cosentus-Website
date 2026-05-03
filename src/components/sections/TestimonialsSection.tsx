@@ -55,7 +55,7 @@ function getInitials(name: string): string {
 interface Props {
   /** Testimonials to display. Defaults to the site-wide highlight set used on the homepage. */
   testimonials?: Testimonial[]
-  /** Section label (small caps, above the title). */
+  /** Section label — DEPRECATED, no longer rendered. Kept in props for API compatibility. */
   label?: string
   /** Section title (supports JSX so callers can include the italic teal accent span). */
   title?: ReactNode
@@ -63,7 +63,6 @@ interface Props {
 
 export default function TestimonialsSection({
   testimonials = defaultTestimonials,
-  label = 'TESTIMONIALS',
   title = <>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Partners</span> Say.</>,
 }: Props = {}) {
   const [idx, setIdx] = useState(0)
@@ -101,9 +100,6 @@ export default function TestimonialsSection({
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll>
-          <div className="section-label">{label}</div>
-        </RevealOnScroll>
-        <RevealOnScroll delay={0.1}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(32px, 4.5vw, 56px)',

@@ -28,10 +28,7 @@ export default function CareersPage() {
 
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">WHY COSENTUS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Why Join Us</div>
           </RevealOnScroll>
 

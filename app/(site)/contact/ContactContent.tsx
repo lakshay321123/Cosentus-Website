@@ -80,8 +80,7 @@ export default function ContactContent() {
             {/* Form */}
             <RevealOnScroll>
               <div>
-                <div className="section-label">GET IN TOUCH</div>
-                <div className="section-title" style={{ fontSize: 32 }}>Request Your Free Revenue Analysis</div>
+<div className="section-title" style={{ fontSize: 32 }}>Request Your Free Revenue Analysis</div>
                 {submitted ? (
                   <div style={{ marginTop: 32, padding: '48px 32px', background: 'rgba(0,181,214,0.05)', borderRadius: 12, textAlign: 'center' }}>
                     <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
@@ -310,10 +309,7 @@ export default function ContactContent() {
       {/* Process Steps */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">WHAT HAPPENS NEXT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">What Happens After You Reach Out</div>
           </RevealOnScroll>
           <div className="steps-desktop" style={{

@@ -44,9 +44,6 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">Why Zeus</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <h2 style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(28px, 3.2vw, 40px)',
@@ -169,16 +166,12 @@ export default function RAPageContent() {
       {/* The 9 AI Voice Agents */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">Voice AI</div>
-          </RevealOnScroll>
-
           {/* AI Agents Grid, circular avatars matching homepage R+A section.
               Click any agent → opens VoiceCallModal for a real Retell voice call. */}
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
+                Voice AI: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
@@ -326,10 +319,7 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">HOW R+A WORKS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="section-title">The 5-Step Process</div>
+            <div className="section-title">How Real People + AI Works — in 5 Steps</div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.25}>
@@ -448,9 +438,6 @@ export default function RAPageContent() {
             {/* Left — copy + stats + protocols */}
             <div>
               <RevealOnScroll direction="left">
-                <div className="section-label">Multi-EHR</div>
-              </RevealOnScroll>
-              <RevealOnScroll direction="left" delay={0.1}>
                 <h2 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: 'clamp(28px, 3.2vw, 40px)',
@@ -460,8 +447,8 @@ export default function RAPageContent() {
                   color: 'var(--gray-900)',
                   marginBottom: 20,
                 }}>
-                  One RCM brain<br />
-                  <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>across all your systems.</span>
+                  One RCM brain.<br />
+                  <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Every EHR.</span>
                 </h2>
               </RevealOnScroll>
               <RevealOnScroll direction="left" delay={0.2}>
@@ -682,9 +669,6 @@ export default function RAPageContent() {
       <section className="section" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">Targets we hit</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <h2 style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(28px, 3.2vw, 40px)',

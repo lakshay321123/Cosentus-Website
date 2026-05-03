@@ -32,10 +32,7 @@ export default function RCMContent() {
       <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
           <div>
-            <RevealOnScroll>
-              <div className="section-label">THE CHALLENGE</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 24, fontFamily: 'var(--font-display)' }}>
                 Disconnected Revenue Cycles Leak Revenue
               </h2>
@@ -78,10 +75,7 @@ export default function RCMContent() {
       {/* The 10-Step RCM Timeline */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label">THE COMPLETE REVENUE CYCLE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
           </RevealOnScroll>
 
@@ -150,10 +144,7 @@ export default function RCMContent() {
       {/* Key Results, interactive cards */}
       <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
-            <div className="section-label">KEY RESULTS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+<RevealOnScroll delay={0.1}>
             <div className="section-title">Measurable Outcomes</div>
           </RevealOnScroll>
           <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
