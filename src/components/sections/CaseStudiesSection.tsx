@@ -242,7 +242,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           </RevealOnScroll>
 
           {/* Desktop, flip cards */}
-          <div className="cases-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 48 }}>
+          <div className="cases-desktop">
             {caseStudies.map((cs, i) => (
               <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.12}>
                 <FlipCard cs={cs} mode={mode} onOpen={setViewingPdf} />
@@ -251,7 +251,7 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
           </div>
 
           {/* Mobile — vertical stack, no carousel. All three cards visible by scrolling. */}
-          <div className="cases-mobile" style={{ width: '100%', marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="cases-mobile">
             {caseStudies.map((cs, i) => (
               <MobileCard key={i} cs={cs} mode={mode} onOpen={setViewingPdf} />
             ))}
