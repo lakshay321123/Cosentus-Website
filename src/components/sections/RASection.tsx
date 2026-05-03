@@ -62,16 +62,16 @@ export default function RASection() {
           {/* ROW 1, HEADER LEFT: eyebrow + headline + paragraph */}
           <div style={{ gridColumn: 1, gridRow: 1 }}>
             <RevealOnScroll direction="left">
-              <div className="section-label">REAL PEOPLE + AI</div>
+              <div className="section-label">RCM THAT THINKS.</div>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.15}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
-                RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span>
+                Real People <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>+ AI</span>
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.25}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
-                Powered by Zeus &mdash; our AI-native system that watches every claim, predicts every denial, and learns your payers.
+                Cosentus combines Zeus AI and human expertise to connect clinical, operational, and financial workflows &mdash; removing friction, preventing denials, and growing revenue across the revenue cycle.
               </p>
             </RevealOnScroll>
           </div>
