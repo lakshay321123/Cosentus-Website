@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
+import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -47,7 +48,10 @@ const offices = [
 ]
 
 export default function AboutContent() {
-  const [selectedPerson, setSelectedPerson] = useState<typeof leadership[0] | null>(null)
+  // Use TeamMember type so TeamCircleGrid's onPersonClick (which yields
+  // TeamMember) can pass straight into this setter. The leadership entries
+  // are fully populated with photo+bio anyway, so this is a strict superset.
+  const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
       {/* About Description */}
@@ -160,46 +164,10 @@ export default function AboutContent() {
             <div className="section-title">Executive Leadership</div>
           </RevealOnScroll>
 
-          <div className="leadership-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: 20,
-            marginTop: 48,
-          }}>
-            {leadership.map((person, i) => (
-              <RevealOnScroll key={i}>
-                <div
-                  data-name={person.name.toLowerCase()}
-                  onClick={() => setSelectedPerson(person)}
-                  style={{
-                    background: 'var(--white)',
-                    borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    height: '100%',
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
-                >
-                  <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    {person.photo ? (
-                      <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
-                    ) : (
-                      <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 28, fontWeight: 600 }}>
-                        {person.name.split(' ').map(n => n[0]).join('')}
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ padding: '14px 16px', textAlign: 'center' }}>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{person.name}</h4>
-                    <p style={{ fontSize: 12, color: 'var(--gray-500)' }}>{person.title}</p>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+          <TeamCircleGrid
+            people={leadership}
+            onPersonClick={setSelectedPerson}
+          />
 
           {/* Bio Modal */}
           {selectedPerson && (

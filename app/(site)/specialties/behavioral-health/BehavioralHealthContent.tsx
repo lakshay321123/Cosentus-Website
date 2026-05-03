@@ -1,14 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import CTASection from '@/components/sections/CTASection'
 import PageHero from '@/components/sections/PageHero'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
+import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 
 const services = [
   { title: 'Therapy Session Coding', desc: 'Correct time thresholds and add-on codes for individual, group, and family therapy.', iconPath: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
@@ -37,30 +36,9 @@ const leaders = [
   { name: 'Steven Sundrud', title: 'Division Manager, IT Division', photo: '/images/Steven-Symed.webp' },
 ]
 
-function LeaderCard({ leader }: { leader: typeof leaders[0] }) {
-  const [expanded, setExpanded] = useState(false)
-  const initials = leader.name.split(' ').map(n => n[0]).join('')
-
-  return (
-    <div
-      style={{ cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
-      className="leader-card"
-      onClick={() => setExpanded(!expanded)}
-    >
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: 'var(--radius-md)', overflow: 'hidden', marginBottom: 16, background: 'var(--gray-100)' }}>
-        {leader.photo ? (
-          <Image src={leader.photo} alt={leader.name} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 50vw, 200px" />
-        ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)' }}>
-            {initials}
-          </div>
-        )}
-      </div>
-      <div style={{ fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.04em', color: 'var(--gray-900)' }}>{leader.name}</div>
-      <div style={{ fontSize: 12, color: 'var(--gray-500)', marginTop: 2 }}>{leader.title}</div>
-    </div>
-  )
-}
+// Team is rendered via the shared TeamCircleGrid component (the same
+// visual pattern as the homepage voice agents and the About Us leadership
+// grid). No click-through bios on this page yet.
 
 export default function BehavioralHealthContent() {
   return (
@@ -133,13 +111,7 @@ export default function BehavioralHealthContent() {
           <RevealOnScroll delay={0.15}>
             <p className="section-desc">150+ years combined in behavioral health RCM</p>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 32, marginTop: 48 }}>
-            {leaders.map((leader, i) => (
-              <RevealOnScroll key={i} delay={i * 0.08}>
-                <LeaderCard leader={leader} />
-              </RevealOnScroll>
-            ))}
-          </div>
+          <TeamCircleGrid people={leaders} />
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 
 const advantages = [
   { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, t: 'Real + Artificial Intelligence', d: 'Human expertise and AI purpose-built for anesthesia revenue cycle management.' },
@@ -211,28 +212,12 @@ export default function AnesthesiaContent() {
             </div>
           </RevealOnScroll>
 
-          {/* All leaders in one grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 0 }}>
-            {leaders.map((leader, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.05}>
-                <div style={{
-                  background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)',
-                  overflow: 'hidden', transition: 'all 0.3s ease', cursor: 'default', height: '100%',
-                }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
-                >
-                  <div style={{ width: '100%', aspectRatio: '1', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    <img src={leader.photo} alt={leader.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
-                  </div>
-                  <div style={{ padding: '14px 16px', textAlign: 'center' }}>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.03em' }}>{leader.name}</h4>
-                    <p style={{ fontSize: 12, color: 'var(--gray-500)', margin: 0 }}>{leader.role}</p>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+          {/* Team rendered as circle avatars — same pattern as the homepage
+              voice agents and the About Us leadership grid. */}
+          <TeamCircleGrid
+            people={leaders.map(l => ({ name: l.name, title: l.role, photo: l.photo }))}
+            baseDelay={0.1}
+          />
         </div>
       </section>
 
