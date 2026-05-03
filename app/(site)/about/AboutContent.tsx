@@ -14,7 +14,7 @@ const beliefs = [
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
-  { value: 'R+A', label: 'Real + Artificial Intelligence' },
+  { value: 'R+AI', label: 'Real People + AI' },
   { value: '99%', label: 'Customer Retention' },
   { value: '30%', label: 'Up to Revenue Growth' },
 ]
@@ -112,7 +112,7 @@ export default function AboutContent() {
       </section>
 
       {/* Company by Numbers */}
-      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
+      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '64px 0' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
@@ -121,8 +121,26 @@ export default function AboutContent() {
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
-                  <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
+                  {/* Bold + bigger to match the site convention used on
+                      PlatformSection (fontWeight 800). The previous 300
+                      weight made the numbers read as decorative rather than
+                      as proof points. */}
+                  <div style={{
+                    fontSize: 'clamp(40px, 5vw, 64px)',
+                    fontWeight: 800,
+                    color: 'var(--primary)',
+                    fontFamily: 'var(--font-display)',
+                    lineHeight: 1,
+                    marginBottom: 12,
+                    letterSpacing: '-0.02em',
+                  }}>{stat.value}</div>
+                  <div style={{
+                    fontSize: 13,
+                    color: 'var(--gray-700)',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    fontWeight: 500,
+                  }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
