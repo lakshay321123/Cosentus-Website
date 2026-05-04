@@ -1,8 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
-import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 
 const partnerQuotes = [
   { tag: 'Partner', quote: 'We are very excited to be a part of the Cosentus family. We see such a strategic fit amongst the teams and are ready to unlock all of the combined potential.', name: 'Alex Cushman', role: 'CEO, AllianceMed' },
@@ -12,18 +12,38 @@ const partnerQuotes = [
   { tag: 'Partner', quote: 'Together with Cosentus, our clients will benefit from cutting-edge technology, deeper analytics, and a partnership model that truly understands and drives their financial success.', name: 'Logan Lowry', role: 'Co-Founder and President of Accreda' },
 ]
 
-const challenges = [
-  { number: '01', text: 'Scaling operations without losing quality or client relationships' },
-  { number: '02', text: 'Keeping pace with technology and AI advancements' },
-  { number: '03', text: 'Managing rising costs while maintaining profitability' },
-  { number: '04', text: 'Competing against private equity-backed consolidators' },
+// Live cosentus.com/partnership uses 4 illustrated stick-figure scenes
+// (image already contains figure + speech-balloon caption baked in) and a
+// teal Think Growth strip with 4 white icons + bold title + light desc.
+// Mirrored here verbatim with cleaner spacing and stagger-in animation.
+const challengeImages = [
+  { src: '/images/partnership/challenge-2a.png', alt: 'Struggling to utilize offshore teams effectively?' },
+  { src: '/images/partnership/challenge-2b.png', alt: 'Frustrated with your billing management software?' },
+  { src: '/images/partnership/challenge-2c.png', alt: 'Uncontrollable variables continue to mount against your business?' },
+  { src: '/images/partnership/challenge-2d.png', alt: 'Looking to de-risk you & your family by taking some chips off the table?' },
 ]
 
-const solutions = [
-  { stat: '25', unit: 'Years', title: 'Revenue Cycle Management', desc: 'Successfully integrated 19 acquisitions, we know how to grow together.' },
-  { stat: '∞', unit: '', title: 'Upfront Capital Investments', desc: 'De-risk the owners, providing financial security and runway for growth.' },
-  { stat: '360°', unit: '', title: 'Comprehensive Solutions', desc: 'Offshore teams, advanced technology systems, AI software, and dedicated support.' },
-  { stat: '10x', unit: '', title: 'Transformative Offshoring & Tech', desc: 'Enhance efficiency, reduce costs, and improve service delivery at scale.' },
+const thinkGrowthPillars = [
+  {
+    icon: '/images/partnership/icon-3a.png',
+    title: '25 Years in Revenue Cycle Management',
+    desc: 'successfully integrated 19 acquisitions',
+  },
+  {
+    icon: '/images/partnership/icon-3b.png',
+    title: 'Upfront Capital Investments',
+    desc: 'De-risk the owners, providing financial security',
+  },
+  {
+    icon: '/images/partnership/icon-3c.png',
+    title: 'Comprehensive Solutions',
+    desc: 'offshore teams, advanced technology platforms, & support',
+  },
+  {
+    icon: '/images/partnership/icon-3d.png',
+    title: 'Transformative Offshoring & Tech',
+    desc: 'enhance efficiency, reduce costs, improve service delivery',
+  },
 ]
 
 export default function PartnershipContent() {
@@ -176,6 +196,147 @@ export default function PartnershipContent() {
           grid-template-columns: 1fr 1fr;
         }
 
+        /* ===== Challenges section (4 stick-figure illustrations) ===== */
+        .partnership-challenges {
+          padding: 96px 0 80px;
+          background: var(--gray-50);
+        }
+
+        .partnership-challenges-title {
+          font-family: var(--font-display);
+          font-size: clamp(28px, 3.4vw, 44px);
+          font-weight: 700;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+          color: var(--gray-900);
+          text-align: center;
+          margin: 0 auto 56px;
+          max-width: 880px;
+        }
+
+        .partnership-challenges-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 28px;
+          align-items: end;
+        }
+
+        .partnership-challenge-card {
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .partnership-challenge-card:hover {
+          transform: translateY(-6px);
+        }
+
+        .partnership-challenge-card img {
+          width: 100%;
+          height: auto;
+          max-width: 280px;
+          display: block;
+        }
+
+        /* ===== THINK GROWTH section (teal strip + 4 icon pillars) ===== */
+        .partnership-thinkgrowth {
+          position: relative;
+          background: var(--primary);
+          color: white;
+          padding: 80px 0;
+          overflow: hidden;
+        }
+
+        /* Dashed top + bottom dividers — match live's repeating chevron
+           pattern visual but with simple dashed lines (cleaner). */
+        .partnership-thinkgrowth-divider {
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 12px;
+          background-image: repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.55) 0,
+            rgba(255, 255, 255, 0.55) 18px,
+            transparent 18px,
+            transparent 36px
+          );
+        }
+        .partnership-thinkgrowth-divider--top { top: 32px; }
+        .partnership-thinkgrowth-divider--bottom { bottom: 32px; }
+
+        .partnership-thinkgrowth-title {
+          font-family: var(--font-display);
+          font-size: clamp(36px, 5vw, 64px);
+          font-weight: 800;
+          font-style: italic;
+          letter-spacing: 0.02em;
+          color: white;
+          text-align: center;
+          margin: 0 0 56px;
+        }
+
+        .partnership-thinkgrowth-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 32px;
+          align-items: start;
+        }
+
+        .partnership-thinkgrowth-pillar {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 12px 8px;
+        }
+
+        .partnership-thinkgrowth-icon {
+          width: 120px;
+          height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 24px;
+          transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .partnership-thinkgrowth-pillar:hover .partnership-thinkgrowth-icon {
+          transform: translateY(-4px) rotate(-3deg);
+        }
+
+        .partnership-thinkgrowth-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .partnership-thinkgrowth-pillar-title {
+          font-family: var(--font-display);
+          font-size: 20px;
+          font-weight: 700;
+          color: white;
+          line-height: 1.25;
+          margin: 0 0 12px;
+        }
+
+        .partnership-thinkgrowth-pillar-desc {
+          font-size: 16px;
+          font-weight: 400;
+          color: white;
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .partnership-challenges-grid,
+          .partnership-thinkgrowth-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 36px;
+          }
+        }
+
         @media (max-width: 768px) {
           .cta-grid {
             grid-template-columns: 1fr;
@@ -196,6 +357,39 @@ export default function PartnershipContent() {
           .stat-block {
             padding: 32px 24px;
           }
+
+          .partnership-challenges {
+            padding: 64px 0 48px;
+          }
+          .partnership-challenges-title {
+            margin-bottom: 36px;
+          }
+          .partnership-challenges-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 360px;
+            margin: 0 auto;
+          }
+
+          .partnership-thinkgrowth {
+            padding: 64px 0;
+          }
+          .partnership-thinkgrowth-title {
+            margin-bottom: 36px;
+          }
+          .partnership-thinkgrowth-grid {
+            grid-template-columns: 1fr;
+            gap: 36px;
+            max-width: 360px;
+            margin: 0 auto;
+          }
+          .partnership-thinkgrowth-icon {
+            width: 96px;
+            height: 96px;
+            margin-bottom: 16px;
+          }
+          .partnership-thinkgrowth-divider--top { top: 20px; }
+          .partnership-thinkgrowth-divider--bottom { bottom: 20px; }
 
           .testimonial-spotlight {
             grid-template-columns: 1fr;
@@ -279,26 +473,68 @@ export default function PartnershipContent() {
         title={<>Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Partner&apos;s</span> Perspective.</>}
       />
 
-      {/* Challenge + Solution */}
-      <ProblemSolutionSection
-        problemTitle="Is Your Journey to Growth Facing These Challenges?"
-        problemBody="Medical billing companies face mounting pressure from all sides, rising costs, technology shifts, and aggressive PE consolidation."
-        problemBullets={[
-          'Scaling operations without losing quality or client relationships',
-          'Keeping pace with technology and AI advancements',
-          'Managing rising costs while maintaining profitability',
-          'Competing against private equity-backed consolidators',
-        ]}
-        solutionTitle="25 Years of RCM Expertise + Real + Artificial Intelligence"
-        solutionBody="One of the largest non-PE-backed RCM companies in America. 19 successful acquisitions. We know how to grow together."
-        solutionBullets={[
-          '1,000+ dedicated RCM experts ensuring cost-effectiveness',
-          'AI software and advanced technology systems at scale',
-          'Comprehensive offshore teams and outsourcing capabilities',
-          'Upfront capital investments to de-risk owners',
-          'Inc. 5000 and Great Place to Work certified',
-        ]}
-      />
+      {/* Challenge — 4 stick-figure illustrations. Each PNG is the
+          full composition (figure + speech balloon + caption), rendered
+          on a soft grey field with stagger fade+lift on scroll. Mirrors
+          live cosentus.com/partnership but with cleaner gutters and
+          modern card lift on hover. */}
+      <section className="partnership-challenges">
+        <div className="container">
+          <RevealOnScroll>
+            <h2 className="partnership-challenges-title">
+              Is Your Journey to Growth Facing These Challenges?
+            </h2>
+          </RevealOnScroll>
+          <div className="partnership-challenges-grid">
+            {challengeImages.map((c, i) => (
+              <RevealOnScroll key={c.src} direction="scale" delay={0.1 + i * 0.12}>
+                <div className="partnership-challenge-card">
+                  <Image
+                    src={c.src}
+                    alt={c.alt}
+                    width={303}
+                    height={592}
+                    sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 22vw"
+                  />
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* THINK GROWTH — teal strip with dashed top/bottom dividers and
+          4 white icon + text pillars. Same icons, headings and
+          descriptions as live, just laid out with consistent gutters
+          and a subtle scale-in on each pillar. */}
+      <section className="partnership-thinkgrowth">
+        <div className="partnership-thinkgrowth-divider partnership-thinkgrowth-divider--top" aria-hidden="true" />
+        <div className="container">
+          <RevealOnScroll>
+            <h2 className="partnership-thinkgrowth-title">THINK GROWTH</h2>
+          </RevealOnScroll>
+          <div className="partnership-thinkgrowth-grid">
+            {thinkGrowthPillars.map((p, i) => (
+              <RevealOnScroll key={p.title} direction="scale" delay={0.1 + i * 0.12}>
+                <div className="partnership-thinkgrowth-pillar">
+                  <div className="partnership-thinkgrowth-icon">
+                    <Image
+                      src={p.icon}
+                      alt=""
+                      width={120}
+                      height={120}
+                      sizes="(max-width: 640px) 80px, 120px"
+                    />
+                  </div>
+                  <h3 className="partnership-thinkgrowth-pillar-title">{p.title}:</h3>
+                  <p className="partnership-thinkgrowth-pillar-desc">{p.desc}</p>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+        <div className="partnership-thinkgrowth-divider partnership-thinkgrowth-divider--bottom" aria-hidden="true" />
+      </section>
 
 
 
