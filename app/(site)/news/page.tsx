@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function NewsPage() {
   return (
     <main>
-      <PageBand title="Industry News & Updates" />
+      <PageBand title="News" />
       <NewsListContent />
       <CTASection />
     </main>

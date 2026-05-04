@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <main>
-      <PageBand title="There's Always Something Happening at Cosentus." />
+      <PageBand title="Events" />
 
       <EventsContent />
 

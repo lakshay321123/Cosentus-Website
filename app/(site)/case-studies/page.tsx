@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <main>
-      <PageBand title="Real Practices. Real Revenue Growth." />
+      <PageBand title="Client Stories" />
       <CaseStudiesSection mode="viewer" />
       <CTASection />
     </main>

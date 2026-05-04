@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <main>
-      <PageBand title="Grow Your Business with Innovative Solutions" />
+      <PageBand title="Partnership" />
 
       <PartnershipContent />
     </main>
