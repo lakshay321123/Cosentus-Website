@@ -20,21 +20,23 @@ const steps = [
 /**
  * Zeus AI leadership — the named humans behind the platform.
  *
- * Photos are intentionally omitted for now. The TeamCircleGrid component
- * falls back to teal initials in an empty circle when `photo` is missing,
- * which is the desired placeholder until headshots are supplied.
+ * Photos: Allen, Ajay, and Steven already have photos elsewhere in the
+ * codebase (Allen + Ajay on /about; Steven on Behavioral Health), so
+ * we re-use those. Alex, Lakshay, and Casey have no photos yet — for
+ * them the TeamCircleGrid component falls back to teal initials in an
+ * empty circle until headshots are supplied.
  *
- * No `bio` field is provided either, so the cards render non-interactive
+ * No `bio` field is provided yet, so the cards render non-interactive
  * (TeamCircleGrid only adds the click+modal affordance when both
  * `onPersonClick` is wired and the people have bios).
  */
 const zeusTeam = [
-  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI' },
-  { name: 'Ajay Kumar',            title: 'AI Security & Compliance' },
+  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI',  photo: '/images/ALLEN RANJAN.jpg' },
+  { name: 'Ajay Kumar',            title: 'AI Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
   { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
   { name: 'Lakshay Mehra',         title: 'AI Development Lead' },
-  { name: 'Casey',                 title: 'Platform & Infrastructure Lead' },
-  { name: 'Steven Sundred',        title: 'Platform & Infrastructure Lead' },
+  { name: 'Casey Kaczmarowski',    title: 'Platform & Infrastructure Lead' },
+  { name: 'Steven Sundrud',        title: 'Platform & Infrastructure Lead', photo: '/images/Steven-Symed.webp' },
 ]
 
 export default function RAPageContent() {
