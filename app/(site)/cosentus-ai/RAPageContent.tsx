@@ -36,7 +36,7 @@ const zeusTeam = [
   { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
   { name: 'Lakshay Mehra',         title: 'AI Development Lead' },
   { name: 'Casey Kaczmarowski',    title: 'Platform & Infrastructure Lead' },
-  { name: 'Steven Sundrud',        title: 'Platform & Infrastructure Lead', photo: '/images/Steven-Symed.webp' },
+  { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
 ]
 
 export default function RAPageContent() {
