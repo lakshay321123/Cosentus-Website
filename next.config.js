@@ -15,6 +15,11 @@ const nextConfig = {
         destination: '/insights',
         permanent: true,
       },
+      {
+        source: '/contact',
+        destination: '/contact/irvine',
+        permanent: true,
+      },
     ]
   },
 }
