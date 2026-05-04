@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import RevealText from '@/components/ui/RevealText'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
@@ -102,9 +103,9 @@ export default function ResultsSection() {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
-        <RevealOnScroll className="reveal-in-place">
-          <div className="results-header"><h2>Results Our Clients See</h2></div>
-        </RevealOnScroll>
+        <div className="results-header">
+          <RevealText as="h2" perWordDelay={0.07}>Results Our Clients See</RevealText>
+        </div>
 
         {/* Desktop: grid layout */}
         <div className="results-grid results-desktop">
