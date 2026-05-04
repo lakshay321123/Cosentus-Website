@@ -91,7 +91,7 @@ export default function ServicesSection() {
     <section className="section" id="services" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealOnScroll direction="right">
-          <div className="section-title">Two Services.<br />One Result: Growth.</div>
+          <div className="section-title">Two Services, One Result: Growth.</div>
         </RevealOnScroll>
 
         {/* Desktop: 3 visual cards */}

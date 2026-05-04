@@ -18,7 +18,7 @@ export default function Home() {
       <InsightsTabsSection />
       <ServicesSection />
       <PartnersSection />
-      <TestimonialsSection />
+      <TestimonialsSection title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>} />
       <CTASection />
     </main>
   )

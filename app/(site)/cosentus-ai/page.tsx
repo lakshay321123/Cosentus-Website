@@ -4,8 +4,8 @@ import CTASection from '@/components/sections/CTASection'
 import RAPageContent from './RAPageContent'
 
 export const metadata: Metadata = {
-  title: 'R+A: Real + Artificial Intelligence | How Cosentus Delivers Up to 30% Revenue Growth',
-  description: '9 agents. Zero excuses. Infinite follow-ups. R+A pairs deep frontline revenue experience with AI voice agents that automate high-volume workflows.',
+  title: 'Real People + AI | Cosentus Revenue Cycle Management',
+  description: 'Nine voice agents and twenty-three modules handle the volume. Specialty-trained billing teams handle the judgment. End-to-end revenue cycle management for specialty practices.',
 }
 
 export default function CosentusAIPage() {
@@ -14,7 +14,7 @@ export default function CosentusAIPage() {
       <PageHero
         label="Zeus"
         title={<>RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span></>}
-        subtitle="AI at the core — not bolted on. 23 modules, 15 AI features, 45+ specialties. Built from day one."
+        subtitle="23 modules. 15 AI features. 45+ specialties. Run by AI, accountable to specialty-trained teams."
         ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />

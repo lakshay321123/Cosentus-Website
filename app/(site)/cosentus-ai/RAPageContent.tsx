@@ -77,7 +77,7 @@ export default function RAPageContent() {
               marginBottom: 12,
               maxWidth: 720,
             }}>
-              AI in the core. <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Not on the side.</span>
+              Not <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>bolted on.</span>
             </h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -88,7 +88,7 @@ export default function RAPageContent() {
               maxWidth: 640,
               marginBottom: 56,
             }}>
-              Built AI-native from day one. Every module, every workflow, every agent — designed around intelligence, not retrofitted into it.
+              Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
             </p>
           </RevealOnScroll>
 
@@ -326,7 +326,7 @@ export default function RAPageContent() {
           'AI-only solutions lack clinical judgment',
           'Revenue leaks at every handoff',
         ]}
-        solutionTitle="Real + Artificial Intelligence"
+        solutionTitle="Real People + AI"
         solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
           'Specialty-trained teams for every payer nuance',
@@ -834,7 +834,7 @@ export default function RAPageContent() {
               marginTop: 12,
               marginBottom: 8,
             }}>
-              Engineers, researchers, and strategists making sure the AI does what we say it does.
+              The engineers, researchers, and revenue cycle specialists who decide what Zeus is allowed to do.
             </p>
           </RevealOnScroll>
           <div style={{ marginTop: 32 }}>
