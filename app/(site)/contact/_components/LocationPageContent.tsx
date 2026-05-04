@@ -241,7 +241,9 @@ export default function LocationPageContent({ location }: Props) {
               >
                 <iframe
                   title={`Map of Cosentus office in ${address.city}, ${address.region}`}
-                  src={`https://www.google.com/maps?q=${lat},${lng}&hl=en&z=15&output=embed`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    `${address.street}, ${address.city}, ${address.region} ${address.postalCode}`,
+                  )}&hl=en&z=16&output=embed`}
                   width="100%"
                   height="100%"
                   style={{ border: 0, display: 'block' }}
