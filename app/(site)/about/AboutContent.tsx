@@ -59,7 +59,7 @@ export default function AboutContent() {
                 width={1201}
                 height={670}
                 priority
-                sizes="(max-width: 768px) 92vw, (max-width: 1280px) 90vw, 1100px"
+                sizes="(max-width: 768px) 92vw, 760px"
               />
             </div>
           </RevealOnScroll>
@@ -85,7 +85,7 @@ export default function AboutContent() {
           max-width: 880px;
         }
         .about-co-graphic {
-          max-width: 1100px;
+          max-width: 760px;
           margin: 0 auto;
         }
         .about-co-graphic img {
