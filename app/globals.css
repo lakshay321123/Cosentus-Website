@@ -3215,3 +3215,226 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     animation: none !important;
   }
 }
+
+/* ===== CAREERS — Our Core Values heading section =====
+ *
+ * Hands image (Cosentus-Website2.png on live, hosted locally as
+ * hero-hands.jpg) sits behind the heading + description. Dark overlay
+ * for legibility. Below this section, the staircase rows render
+ * full-width on white background — matching live.
+ */
+.core-values-heading-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 100px 0;
+}
+
+.core-values-heading-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 30, 50, 0.55) 0%,
+    rgba(10, 50, 70, 0.45) 50%,
+    rgba(10, 30, 50, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+.core-values-heading-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== CAREERS — Core Values stair-step =====
+ *
+ * Mirrors cosentus.com/join-our-team exactly: each row is a 2-column
+ * flex with the LEFT column getting
+ *   linear-gradient(67deg, white 80%, teal 80%)
+ * and the RIGHT column being solid teal. Same column widths
+ * (37.554% / 62.446%), same gradient angle and 80% hard stop, same
+ * 90px italic number font, same right-aligned number with 16% padding
+ * — as extracted from the live page's elementor stylesheet.
+ *
+ * Rows alternate two teal shades to match live (rows 2/4 use #40C4DF,
+ * rows 1/3/5 use the brand primary).
+ *
+ * Animation: RevealOnScroll direction="right" with per-row stagger.
+ */
+.core-values-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.core-value-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+  min-height: 280px;
+}
+
+/* LEFT COLUMN — gradient with hard 80% stop = the diagonal wedge.
+ * 37.554% width matches live exactly. align-items:flex-end + justify
+ * -content:flex-end position the number at bottom-right of the column,
+ * which puts it inside the white triangle in the lower-left of the row. */
+.core-value-numcol {
+  width: 37.554%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px 0;
+}
+
+/* The two shades of teal used by live, exposed via data-shade.
+ * Rows 1, 3, 5 (data-shade=a) use primary teal.
+ * Rows 2, 4 (data-shade=b) use the slightly brighter #40C4DF. */
+.core-value-row[data-shade="a"] .core-value-numcol {
+  background-image: linear-gradient(67deg, #ffffff 80%, var(--primary) 80%);
+}
+.core-value-row[data-shade="b"] .core-value-numcol {
+  background-image: linear-gradient(67deg, #ffffff 80%, #40C4DF 80%);
+}
+
+.core-value-num {
+  /* Live uses Brandon Font 90px / weight 500. We don't have Brandon Font,
+   * but the brand is loaded via the global font-family. Italic + 90px
+   * matches the live visual weight. */
+  font-size: 90px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  /* Live: padding:0 16% 0 0 on the heading widget, text-align:end.
+   * Pushes the number toward the right edge of the left column,
+   * landing it just inside the diagonal cut. */
+  padding-right: 16%;
+  text-align: end;
+}
+
+/* RIGHT COLUMN — solid teal, holds the icon + text. */
+.core-value-card {
+  width: 62.446%;
+  flex-shrink: 0;
+  background: var(--primary);
+  color: white;
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  gap: 0;
+  align-items: center;
+  padding: 32px 28px;
+}
+.core-value-row[data-shade="b"] .core-value-card {
+  background: #40C4DF;
+}
+
+.core-value-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.core-value-icon img {
+  width: 100%;
+  height: auto;
+  max-width: 130px;
+  display: block;
+}
+
+.core-value-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 26%;
+}
+
+.core-value-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.core-value-desc {
+  font-size: 18px;
+  line-height: 1.6;
+  color: white;
+  margin: 0;
+}
+
+/* Tablet — keep 2-column structure, slightly smaller content padding */
+@media (max-width: 1024px) {
+  .core-value-row { min-height: 200px; }
+  .core-value-num { font-size: 72px; padding-right: 14%; }
+  .core-value-icon img { max-width: 100px; }
+  .core-value-title { font-size: 26px; }
+  .core-value-desc { font-size: 16px; line-height: 1.6; }
+  .core-value-body { padding-right: 16%; }
+}
+
+/* Mobile (≤767px) — live page collapses columns and right-aligns the
+ * number with 28% padding-right, so the wedge effect reads on narrow
+ * screens too. Card stacks below: smaller icon, text full-width.
+ * Text stays LEFT-aligned (site convention). */
+@media (max-width: 767px) {
+  .core-value-row {
+    flex-direction: column;
+    min-height: 0;
+  }
+  .core-value-numcol {
+    width: 100%;
+    min-height: 100px;
+    padding: 13px 0;
+  }
+  .core-value-num {
+    font-size: 72px;
+    padding-right: 28%;
+  }
+  .core-value-card {
+    width: 100%;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    padding: 28px 24px;
+  }
+  .core-value-icon img { max-width: 80px; }
+  .core-value-body { padding-right: 0; gap: 8px; }
+  .core-value-title { font-size: 22px; }
+  .core-value-desc { font-size: 16px; line-height: 1.6; }
+}
+
+/* ===== CAREERS — Career Opportunities (simple text + mailto) =====
+ * Replaces the earlier two-card CTA grid. Centered per direction. */
+.careers-contact {
+  text-align: center;
+  max-width: 600px;
+  margin: 24px auto 0;
+}
+
+.careers-contact-question {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 16px;
+}
+
+.careers-contact-line {
+  font-size: 18px;
+  color: var(--gray-700);
+  margin: 0;
+}
+
+.careers-contact-line a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.careers-contact-line a:hover {
+  text-decoration: underline;
+}
