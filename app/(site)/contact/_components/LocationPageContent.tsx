@@ -39,7 +39,7 @@ const steps = [
  * default. Each visit sees the same structure, only the data swaps.
  */
 export default function LocationPageContent({ location }: Props) {
-  const { name, label, address, phone, image, lat, lng, copy } = location
+  const { name, shortName, label, address, phone, image, lat, lng, copy } = location
 
   // JSON-LD LocalBusiness schema. Embedded via next/script with type
   // application/ld+json so search engines parse it without executing
@@ -165,7 +165,7 @@ export default function LocationPageContent({ location }: Props) {
                   marginBottom: 20,
                 }}
               >
-                Visit our {address.city} office
+                Visit our {shortName} office
               </h2>
 
               <div style={{ marginBottom: 24 }}>
