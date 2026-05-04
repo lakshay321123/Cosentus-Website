@@ -144,13 +144,13 @@ export default function CareersPage() {
         <div className="core-values-list">
           {coreValues.map((v, i) => (
             <RevealOnScroll key={v.title} direction="right" delay={i * 0.18}>
-              <div className="core-value-row">
-                <div className="core-value-num" aria-hidden="true">
-                  {i + 1}
+              <div className="core-value-row" data-shade={i % 2 === 0 ? 'a' : 'b'}>
+                <div className="core-value-numcol">
+                  <span className="core-value-num" aria-hidden="true">{i + 1}</span>
                 </div>
                 <div className="core-value-card">
                   <div className="core-value-icon">
-                    <Image src={v.icon} alt={v.title} width={140} height={140} />
+                    <Image src={v.icon} alt={v.title} width={130} height={130} />
                   </div>
                   <div className="core-value-body">
                     <h3 className="core-value-title">{v.title}</h3>
