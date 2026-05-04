@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import WeCareOrganisations from './WeCareOrganisations'
 
 export const metadata: Metadata = {
   title: 'WeCare | Community & Charitable Initiatives | Cosentus',
@@ -248,108 +249,16 @@ export default function WeCarePage() {
         </div>
       </section>
 
-      {/* Organisations we support — boxed-grid layout. Each card has the
-          org logo (forced to monochrome black via CSS filter), name, and
-          full description text reproduced verbatim from cosentus.com. */}
+      {/* Organisations we support — boxed-grid client component with
+          collapsible cards. Logos are forced to monochrome black inside
+          the component. */}
       <section className="section">
         <div className="container">
           <RevealOnScroll>
             <div className="section-title" style={{ textAlign: 'center' }}>Organizations That We Support</div>
           </RevealOnScroll>
 
-          <div
-            className="wecare-orgs-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-              gap: 24,
-              marginTop: 56,
-            }}
-          >
-            {organisations.map((org) => {
-              // Each card is the same DOM whether or not we wrap in an anchor.
-              // We pull the inner JSX out so it can be reused.
-              const inner = (
-                <div className="wecare-org-card" style={{
-                  padding: 28,
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--gray-200)',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
-                }}>
-                  <div className="wecare-org-logo-box" style={{
-                    height: 72,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 20,
-                  }}>
-                    <img
-                      src={org.logo}
-                      alt={`${org.name} logo`}
-                      loading="lazy"
-                      className="wecare-org-logo"
-                      style={{
-                        display: 'block',
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        width: 'auto',
-                        height: 'auto',
-                        objectFit: 'contain',
-                      }}
-                    />
-                  </div>
-                  <h4 style={{
-                    fontSize: 18,
-                    fontWeight: 500,
-                    color: 'var(--gray-900)',
-                    marginBottom: 12,
-                    fontFamily: 'var(--font-display)',
-                  }}>
-                    {org.name}
-                  </h4>
-                  <div style={{ flex: 1 }}>
-                    {org.paragraphs.map((p, pi) => (
-                      <p key={pi} style={{
-                        fontSize: 14,
-                        lineHeight: 1.7,
-                        color: 'var(--gray-600)',
-                        marginBottom: pi < org.paragraphs.length - 1 ? 12 : 0,
-                      }}>
-                        {p}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              )
-
-              return (
-                <RevealOnScroll key={org.name}>
-                  {org.href ? (
-                    <a
-                      href={org.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Visit ${org.name}`}
-                      style={{
-                        display: 'block',
-                        textDecoration: 'none',
-                        color: 'inherit',
-                        height: '100%',
-                      }}
-                    >
-                      {inner}
-                    </a>
-                  ) : (
-                    inner
-                  )}
-                </RevealOnScroll>
-              )
-            })}
-          </div>
+          <WeCareOrganisations organisations={organisations} />
         </div>
       </section>
 
@@ -384,25 +293,6 @@ export default function WeCarePage() {
         }
         @media (max-width: 520px) {
           .wecare-events-grid { grid-template-columns: 1fr !important; }
-        }
-
-        /* Organisation cards. Logos are forced to monochrome black via
-           filter: brightness(0) so the section reads as a uniform set
-           regardless of each org's brand colour. (Memory: brightness(0)
-           alone — without a chained invert — does NOT pixelate; it
-           multiplies RGB by 0 and preserves the alpha channel.) */
-        .wecare-org-logo {
-          filter: brightness(0);
-          opacity: 0.85;
-          transition: opacity 0.25s ease;
-        }
-        .wecare-org-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-          border-color: rgba(0, 181, 214, 0.30) !important;
-        }
-        .wecare-org-card:hover .wecare-org-logo {
-          opacity: 1;
         }
       `}</style>
     </main>
