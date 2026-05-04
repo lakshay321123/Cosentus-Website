@@ -1,9 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import { LOCATIONS } from '../contact/_data/locations'
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -29,14 +32,6 @@ const leadership = [
   { name: 'Wayne Wertz', title: 'Sr. Director of HR & Corporate Operations', photo: '/images/Wayne.jpg', bio: 'Wayne lives in sunny, southern Orange County, CA with his wife, three children and numerous four-legged, fur babies. A proud graduate of the Pennsylvania State University (WE ARE!), he has over 25 years in the medical services industry in the areas of HR, operations, and facilities management. His passions include golf, billiards, playing music and traveling.' },
   { name: 'David Langsam', title: 'Board Advisor', photo: '/images/david-langsam.jpg', bio: 'David is an Executive Advisor with Cosentus and a growth-oriented CEO with extensive experience leading PE-backed, tech-enabled healthcare services companies. He has driven strategic direction, executed growth and acquisition strategies, improved financial performance, and worked closely with large enterprise clients. His background includes sourcing and integrating acquisitions, building scalable go-to-market strategies, and leading the development of proprietary technologies that improve automation and workforce productivity. David has also secured debt and equity capital to support expansion and established global operating centers outside the U.S. In addition to his operating leadership, David serves or has served on several professional, nonprofit, and community boards, including EvAl Home Care Solutions (Executive Chairman), MB Global Partners, First Children\'s Services, Water Street Healthcare Partners, and the Glencoe Educational Foundation.' },
   { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Ashwin is the creative voice guiding everything that we do. With an Art and English Honors Degree, Ashwin found his calling in advertising. He graduated from College of Art, New Delhi, India and has since worked for some of the world\'s top network agencies in India, South-Asia and the Middle East and became Youngest Creative Director in India. Over the past two decades he has had the privilege to work with prominent worldwide brands like: Hyundai Motors, Hero Motors, Nestle Asia, Glaxo Smith Klein (Belgium), Osteoporosis Foundation New York, World Health Organization, and many other prestigious companies. When not at work, Ashwin enjoys walking on the beach, and going cycling. He loves new art installations, and enjoying the best coffee in the world in Dubai where he calls home.' },
-]
-
-const offices = [
-  { city: 'Irvine, CA', label: 'Headquarters', address: '300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618', phone: '(949) 216-4280', maps: 'https://maps.google.com/?q=300+Spectrum+Center+Dr+Suite+1450+Irvine+CA+92618' },
-  { city: 'Napa, CA', label: 'Regional Office', address: '550 Gateway Dr #100, Napa, CA 94558', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=550+Gateway+Dr+100+Napa+CA+94558' },
-  { city: 'Dallas, TX', label: 'Regional Office', address: 'Dallas, TX', phone: '(888) 521-0055', maps: 'https://maps.google.com/?q=Cosentus+Dallas+TX' },
-  { city: 'Salt Lake City, UT', label: 'Regional Office', address: 'Utah', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Utah' },
-  { city: 'Olathe, KS', label: 'Regional Office', address: 'Olathe, KS', phone: '(913) 262-2323', maps: 'https://maps.google.com/?q=Cosentus+Olathe+KS' },
 ]
 
 export default function AboutContent() {
@@ -182,35 +177,93 @@ export default function AboutContent() {
             <div className="section-title">Where We Are</div>
           </RevealOnScroll>
           {/* Desktop */}
-          <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
-            {offices.map((office, i) => (
-              <RevealOnScroll key={i}>
-                <a href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none', transition: 'all 0.3s ease', height: '100%' }}
-                  onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 8px 24px rgba(0,181,214,0.2)'; el.style.background = '#00B5D6'; el.style.color = 'white'; el.style.borderColor = '#00B5D6' }}
-                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
-                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
-                </a>
+          <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 36 }}>
+            {LOCATIONS.map((office, i) => (
+              <RevealOnScroll key={office.slug} delay={i * 0.05}>
+                <Link
+                  href={`/contact/${office.slug}`}
+                  prefetch
+                  className="office-card"
+                  style={{
+                    display: 'block',
+                    background: 'var(--white)',
+                    color: 'var(--gray-700)',
+                    borderRadius: 12,
+                    border: '1px solid var(--gray-200)',
+                    overflow: 'hidden',
+                    textDecoration: 'none',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10', background: 'var(--gray-100)' }}>
+                    <Image
+                      src={office.image}
+                      alt={`Cosentus office in ${office.address.city}, ${office.address.region}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ padding: 24 }}>
+                    <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4, color: 'var(--gray-900)' }}>{office.name}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gray-500)', marginBottom: 12 }}>{office.label}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 4 }}>{office.address.street}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 10 }}>{office.address.city}, {office.address.region} {office.address.postalCode}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--primary)' }}>{office.phone}</div>
+                  </div>
+                </Link>
               </RevealOnScroll>
             ))}
           </div>
           {/* Mobile */}
           <div className="offices-mobile" style={{ marginTop: 24 }}>
             <MobileCarousel autoScrollInterval={4000}>
-              {offices.map((office, i) => (
-                <a key={i} href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none' }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
-                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
-                </a>
+              {LOCATIONS.map((office) => (
+                <Link
+                  key={office.slug}
+                  href={`/contact/${office.slug}`}
+                  prefetch
+                  className="office-card"
+                  style={{
+                    display: 'block',
+                    background: 'var(--white)',
+                    color: 'var(--gray-700)',
+                    borderRadius: 12,
+                    border: '1px solid var(--gray-200)',
+                    overflow: 'hidden',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10', background: 'var(--gray-100)' }}>
+                    <Image
+                      src={office.image}
+                      alt={`Cosentus office in ${office.address.city}, ${office.address.region}`}
+                      fill
+                      sizes="100vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ padding: 24 }}>
+                    <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4, color: 'var(--gray-900)' }}>{office.name}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gray-500)', marginBottom: 12 }}>{office.label}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 4 }}>{office.address.street}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 10 }}>{office.address.city}, {office.address.region} {office.address.postalCode}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--primary)' }}>{office.phone}</div>
+                  </div>
+                </Link>
               ))}
             </MobileCarousel>
           </div>
+          <style>{`
+            .office-card {
+              transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            }
+            .office-card:hover {
+              transform: translateY(-4px);
+              box-shadow: 0 8px 24px rgba(0, 181, 214, 0.15);
+              border-color: rgba(0, 181, 214, 0.4);
+            }
+          `}</style>
         </div>
       </section>
     </>
