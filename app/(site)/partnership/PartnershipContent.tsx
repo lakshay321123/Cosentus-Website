@@ -196,10 +196,12 @@ export default function PartnershipContent() {
           grid-template-columns: 1fr 1fr;
         }
 
-        /* ===== Challenges section (4 stick-figure illustrations) ===== */
+        /* ===== Challenges section (4 stick-figure illustrations) =====
+         * Dark grey background (#616161, the darkest grey from the brand
+         * pantone) so the white stick figures contrast strongly. */
         .partnership-challenges {
           padding: 96px 0 80px;
-          background: var(--gray-200);
+          background: #616161;
         }
 
         .partnership-challenges-title {
@@ -208,7 +210,7 @@ export default function PartnershipContent() {
           font-weight: 700;
           line-height: 1.2;
           letter-spacing: -0.02em;
-          color: var(--gray-900);
+          color: white;
           text-align: center;
           margin: 0 auto 56px;
           max-width: 880px;
@@ -247,24 +249,6 @@ export default function PartnershipContent() {
           padding: 80px 0;
           overflow: hidden;
         }
-
-        /* Dashed top + bottom dividers — match live's repeating chevron
-           pattern visual but with simple dashed lines (cleaner). */
-        .partnership-thinkgrowth-divider {
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 12px;
-          background-image: repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.55) 0,
-            rgba(255, 255, 255, 0.55) 18px,
-            transparent 18px,
-            transparent 36px
-          );
-        }
-        .partnership-thinkgrowth-divider--top { top: 32px; }
-        .partnership-thinkgrowth-divider--bottom { bottom: 32px; }
 
         .partnership-thinkgrowth-title {
           font-family: var(--font-display);
@@ -364,11 +348,15 @@ export default function PartnershipContent() {
           .partnership-challenges-title {
             margin-bottom: 36px;
           }
+          /* Mobile: 2x2 grid so all four illustrations are visible
+             together without a long scroll, per direction. */
           .partnership-challenges-grid {
-            grid-template-columns: 1fr;
-            gap: 24px;
-            max-width: 360px;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px 12px;
+            max-width: 100%;
+          }
+          .partnership-challenge-card img {
+            max-width: 160px;
           }
 
           .partnership-thinkgrowth {
@@ -388,8 +376,6 @@ export default function PartnershipContent() {
             height: 96px;
             margin-bottom: 16px;
           }
-          .partnership-thinkgrowth-divider--top { top: 20px; }
-          .partnership-thinkgrowth-divider--bottom { bottom: 20px; }
 
           .testimonial-spotlight {
             grid-template-columns: 1fr;
@@ -513,12 +499,10 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* THINK GROWTH — teal strip with dashed top/bottom dividers and
-          4 white icon + text pillars. Same icons, headings and
-          descriptions as live, just laid out with consistent gutters
-          and a subtle scale-in on each pillar. */}
+      {/* THINK GROWTH — teal strip with 4 white icon + text pillars.
+          Same icons, headings and descriptions as live, just laid out
+          with consistent gutters and a subtle scale-in on each pillar. */}
       <section className="partnership-thinkgrowth">
-        <div className="partnership-thinkgrowth-divider partnership-thinkgrowth-divider--top" aria-hidden="true" />
         <div className="container">
           <RevealOnScroll>
             <h2 className="partnership-thinkgrowth-title">THINK GROWTH</h2>
@@ -543,7 +527,6 @@ export default function PartnershipContent() {
             ))}
           </div>
         </div>
-        <div className="partnership-thinkgrowth-divider partnership-thinkgrowth-divider--bottom" aria-hidden="true" />
       </section>
 
 
