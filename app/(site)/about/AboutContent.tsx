@@ -51,24 +51,22 @@ export default function AboutContent() {
       {/* About Description */}
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 48, alignItems: 'start' }} className="about-intro-grid">
-<div>
-              <RevealOnScroll>
-                <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
-                  Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
-                  For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
-                  eliminate billing inefficiencies, and scale operations, end-to-end, from patient registration to final payment,
-                  with Real + Artificial Intelligence and specialty-trained teams.
-                </p>
-              </RevealOnScroll>
-              <RevealOnScroll delay={0.1}>
-                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', marginTop: 24, margin: '24px 0 0' }}>
-                  Built on its R+A approach, Real + Artificial Intelligence, Cosentus combines experienced revenue cycle
-                  professionals with specialised AI agents to help healthcare organisations manage administrative complexity
-                  more efficiently and improve operational efficiency and financial performance.
-                </p>
-              </RevealOnScroll>
-            </div>
+          <div style={{ maxWidth: 880 }}>
+            <RevealOnScroll>
+              <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
+                Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
+                For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
+                eliminate billing inefficiencies, and scale operations, end-to-end, from patient registration to final payment,
+                with Real + Artificial Intelligence and specialty-trained teams.
+              </p>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', margin: '24px 0 0' }}>
+                Built on its R+A approach, Real + Artificial Intelligence, Cosentus combines experienced revenue cycle
+                professionals with specialised AI agents to help healthcare organisations manage administrative complexity
+                more efficiently and improve operational efficiency and financial performance.
+              </p>
+            </RevealOnScroll>
           </div>
         </div>
       </section>

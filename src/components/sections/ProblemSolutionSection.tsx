@@ -59,7 +59,7 @@ export default function ProblemSolutionSection({
             padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             background: 'var(--white)',
             position: 'relative',
           }}
@@ -117,7 +117,7 @@ export default function ProblemSolutionSection({
             padding: 'clamp(56px, 6vw, 88px) clamp(40px, 5vw, 88px)',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             background: '#00B5D6',
             position: 'relative',
             overflow: 'hidden',
