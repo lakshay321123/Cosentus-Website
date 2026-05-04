@@ -3301,11 +3301,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .core-value-num {
   position: absolute;
-  /* Sits in the white triangular notch at bottom-left of each row.
-   * font-size and left tuned so digit's right edge lands just inside
-   * the diagonal cut at the digit's vertical center, matching live. */
-  bottom: 8%;
-  left: 16%;
+  /* Notch is widest at BOTTOM (bottom-left=42%) — sit number there. */
+  bottom: 10%;
+  left: 14%;
   font-size: 160px;
   font-weight: 300;
   font-style: italic;
@@ -3319,8 +3317,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .core-value-card {
   background: var(--primary);
   color: white;
-  /* Identical wedge across all 5 rows — produces stair-step when stacked */
-  clip-path: polygon(42% 0, 100% 0, 100% 100%, 22% 100%);
+  /* Identical wedge across all 5 rows — narrows going down (top-left 22%,
+   * bottom-left 42%) to match live's linear-gradient(67deg, ... 80%, teal 80%)
+   * which produces the same shape. Stacked gap=0 → saw-tooth stair-step. */
+  clip-path: polygon(22% 0, 100% 0, 100% 100%, 42% 100%);
   padding: 56px 56px 56px 46%;
   display: grid;
   grid-template-columns: 140px 1fr;
@@ -3368,7 +3368,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Tablet — softer wedge so content area stays readable */
 @media (max-width: 1024px) {
   .core-value-card {
-    clip-path: polygon(28% 0, 100% 0, 100% 100%, 14% 100%);
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 28% 100%);
     padding: 40px 32px 40px 32%;
     grid-template-columns: 100px 1fr;
     gap: 22px;
@@ -3376,8 +3376,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .core-value-num {
     font-size: 96px;
-    left: 7%;
-    bottom: 18%;
+    left: 9%;
+    bottom: 14%;
   }
   .core-value-icon img { max-width: 100px; }
   .core-value-title { font-size: 22px; }
@@ -3387,7 +3387,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Mobile — minimal wedge so 64px icon + text fit */
 @media (max-width: 640px) {
   .core-value-card {
-    clip-path: polygon(18% 0, 100% 0, 100% 100%, 8% 100%);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 18% 100%);
     padding: 28px 20px 28px 22%;
     grid-template-columns: 64px 1fr;
     gap: 14px;
@@ -3395,8 +3395,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .core-value-num {
     font-size: 64px;
-    left: 4%;
-    bottom: 22%;
+    left: 5%;
+    bottom: 16%;
   }
   .core-value-icon img { max-width: 64px; }
   .core-value-title { font-size: 18px; }
