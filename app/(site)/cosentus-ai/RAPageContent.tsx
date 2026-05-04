@@ -77,7 +77,7 @@ export default function RAPageContent() {
               marginBottom: 12,
               maxWidth: 720,
             }}>
-              AI in the core. <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Not on the side.</span>
+              Not <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>bolted on.</span>
             </h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -88,7 +88,7 @@ export default function RAPageContent() {
               maxWidth: 640,
               marginBottom: 56,
             }}>
-              Built AI-native from day one. Every module, every workflow, every agent — designed around intelligence, not retrofitted into it.
+              Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
             </p>
           </RevealOnScroll>
 
