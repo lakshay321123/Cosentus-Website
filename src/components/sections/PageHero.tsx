@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import RevealText from '@/components/ui/RevealText'
 
 interface PageHeroProps {
   label?: string
@@ -22,6 +23,22 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
   const isLightSpecialtyVideo = (videoSrc || '').includes('specialties-hero')
+
+  // Word-by-word reveal only works on plain strings — we can't safely split
+  // JSX children (e.g. titles like <>RCM that <span>thinks.</span></>).
+  // String titles get the cascading reveal; JSX titles fall back to the
+  // existing single-element RevealOnScroll wrapper.
+  const titleIsString = typeof title === 'string'
+
+  const titleStyles: React.CSSProperties = {
+    fontSize: 'clamp(36px, 5vw, 64px)',
+    fontWeight: 700,
+    fontStyle: 'italic',
+    letterSpacing: '-0.03em',
+    lineHeight: 1.02,
+    color: 'white',
+    marginBottom: 24,
+  }
 
   return (
     <section
@@ -57,18 +74,24 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
 
       {/* Content */}
       <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
-        <RevealOnScroll delay={0.1}>
-          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-0.03em', lineHeight: 1.02, color: 'white', marginBottom: 24 }}>{title}</h1>
-        </RevealOnScroll>
+        {titleIsString ? (
+          <RevealText as="h1" style={titleStyles} baseDelay={0.05} perWordDelay={0.07}>
+            {title as string}
+          </RevealText>
+        ) : (
+          <RevealOnScroll delay={0.1}>
+            <h1 style={titleStyles}>{title}</h1>
+          </RevealOnScroll>
+        )}
 
         {subtitle && (
-          <RevealOnScroll delay={0.2}>
+          <RevealOnScroll delay={titleIsString ? 0.35 : 0.2}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
           </RevealOnScroll>
         )}
 
         {ctaText && ctaHref && (
-          <RevealOnScroll delay={0.3}>
+          <RevealOnScroll delay={titleIsString ? 0.5 : 0.3}>
             <div className="hero-actions">
               <Link href={ctaHref} className="btn-glass">
                 {ctaText}

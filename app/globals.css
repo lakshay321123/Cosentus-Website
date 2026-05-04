@@ -1420,7 +1420,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .reveal {
   opacity: 0;
   transform: translateY(50px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   filter: blur(4px);
 }
 
@@ -1430,12 +1430,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   filter: blur(0);
 }
 
-/* Reveal variants */
+/* Reveal variants
+
+   Easing notes (May 2026):
+   - .reveal/.reveal-left/.reveal-right use cubic-bezier(0.22, 1, 0.36, 1) —
+     the same family as the previous (0.16, 1, 0.3, 1) but with slightly
+     more pronounced ease-out. Movement settles more deliberately at the
+     end of the curve, which reads as "premium" rather than "linear".
+     Pattern matches Linear/Vercel/Apple's current motion language.
+   - .reveal-scale uses cubic-bezier(0.34, 1.36, 0.64, 1) — a soft
+     back-out curve. Cards "land" with a tiny overshoot (about 4% past
+     final scale, returning) instead of just sliding to rest. Subtle
+     enough that it reads as "alive" rather than "bouncy". Used on the
+     6 stat cards which are emphasis content. */
 .reveal-left {
   opacity: 0;
   transform: translateX(-60px);
   filter: blur(4px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-left.visible { opacity: 1; transform: translateX(0); filter: blur(0); }
 
@@ -1443,7 +1455,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 0;
   transform: translateX(60px);
   filter: blur(4px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-right.visible { opacity: 1; transform: translateX(0); filter: blur(0); }
 
@@ -1451,7 +1463,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 0;
   transform: scale(0.85);
   filter: blur(6px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1s cubic-bezier(0.34, 1.36, 0.64, 1), transform 1s cubic-bezier(0.34, 1.36, 0.64, 1), filter 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-scale.visible { opacity: 1; transform: scale(1); filter: blur(0); }
 
@@ -1504,8 +1516,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         Transform-based motion is the actual source of the "headings hidden
         between sections" bug — content slides up from below the fold and
         if the trigger fires late or scroll is slow, you see a blank gap.
-        Motion now comes from blur clearing only — animates in place, no
-        layout shift, no blank gap possible.
+        Motion now comes from blur clearing + a micro-scale (0.985 → 1) —
+        animates in place, no layout shift, but enough subtle "presence"
+        that the reveal still reads as motion rather than just opacity.
      2. Mid-length durations (0.55s) — long enough to be perceptible as
         the user scrolls into a section, short enough that one section's
         reveal completes before the next section's begins. The user wanted
@@ -1522,14 +1535,66 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .reveal,
   .reveal-left,
   .reveal-right {
-    transform: none;
+    transform: scale(0.985);
     filter: blur(6px);
     transition-duration: 0.55s;
+  }
+  .reveal.visible,
+  .reveal-left.visible,
+  .reveal-right.visible {
+    transform: scale(1);
   }
   .reveal-scale {
     transform: scale(0.94);
     filter: blur(3px);
     transition-duration: 0.6s;
+  }
+}
+
+/* ===== REVEAL TEXT (word-by-word cascade) =====
+   Used by <RevealText> component for headings and large display text.
+   The text is split into per-word inline-block spans; each span has its
+   own --word-delay CSS variable set inline by the component. Transition
+   delay reads from that variable so the words appear in sequence.
+   Motion: rise + un-blur + fade. Same easing family as .reveal so the
+   feel is consistent with the rest of the site. */
+.reveal-text {
+  display: inline-block;
+}
+.reveal-text-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.45em);
+  filter: blur(6px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--word-delay, 0s);
+  /* Words must stay on their line — never wrap mid-word. The non-break
+     space the component injects between words handles word-spacing. */
+  white-space: pre;
+}
+.reveal-text.visible .reveal-text-word {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+@media (max-width: 768px) {
+  /* Mobile: smaller rise, tighter blur, faster — matches the mobile
+     reveal philosophy (in-place motion, complete before next section). */
+  .reveal-text-word {
+    transform: translateY(0.3em);
+    filter: blur(4px);
+    transition-duration: 0.55s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-text-word {
+    transition: none;
+    transform: none;
+    opacity: 1;
+    filter: none;
   }
 }
 
