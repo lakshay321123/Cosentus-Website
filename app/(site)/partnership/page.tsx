@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <main>
-      <PageHero title="Partnership" />
+      <PageHero title="Partnership" compact />
 
       <PartnershipContent />
     </main>

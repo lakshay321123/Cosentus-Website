@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <main>
-      <PageHero title="Blogs" />
+      <PageHero title="Blogs" compact />
       <BlogContent />
     </main>
   )

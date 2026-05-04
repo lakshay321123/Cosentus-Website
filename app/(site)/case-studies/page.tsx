@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <main>
-      <PageHero title="Client Stories" />
+      <PageHero title="Client Stories" compact />
       <CaseStudiesSection mode="viewer" />
       <CTASection />
     </main>
