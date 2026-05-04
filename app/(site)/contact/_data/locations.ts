@@ -152,7 +152,7 @@ export const LOCATIONS: Location[] = [
       country: 'US',
     },
     phone: '(913) 262-2323',
-    image: '/images/locations/olathe.png',
+    image: '/images/locations/olathe.jpg',
     lat: 38.8814,
     lng: -94.8191,
     copy:
