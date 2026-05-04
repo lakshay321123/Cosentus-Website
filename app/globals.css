@@ -3409,10 +3409,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ===== CAREERS — Career Opportunities (simple text + mailto) =====
- * Replaces the earlier two-card CTA grid. Matches live page exactly. */
+ * Replaces the earlier two-card CTA grid. Centered per direction. */
 .careers-contact {
-  max-width: 760px;
-  margin-top: 24px;
+  text-align: center;
+  max-width: 600px;
+  margin: 24px auto 0;
 }
 
 .careers-contact-question {

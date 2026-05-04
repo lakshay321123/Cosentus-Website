@@ -49,9 +49,11 @@ export default function CareersPage() {
           no subtitle, no CTA (no contact form to land on yet). */}
       <PageHero title="Join Our Team" />
 
-      {/* INSPIRE — kept verbatim per direction */}
+      {/* INSPIRE — uses the default 1280px container (same as homepage's
+          StatementSection) so the heading aligns flush left with the rest
+          of the site, not floating in a narrow centered column. */}
       <section className="section">
-        <div className="container" style={{ maxWidth: 880 }}>
+        <div className="container">
           <RevealOnScroll>
             <h2 className="section-title">
               We inspire each other. Inspire with us.
@@ -61,7 +63,7 @@ export default function CareersPage() {
             <p
               className="section-desc"
               style={{
-                maxWidth: '100%',
+                maxWidth: 880,
                 fontSize: 17,
                 lineHeight: 1.8,
                 marginTop: 24,
@@ -91,7 +93,7 @@ export default function CareersPage() {
             <p
               className="section-desc"
               style={{
-                maxWidth: '100%',
+                maxWidth: 880,
                 fontSize: 17,
                 lineHeight: 1.8,
                 marginTop: 16,
@@ -164,11 +166,15 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* CAREER OPPORTUNITIES — simple text + mailto, matches live page */}
+      {/* CAREER OPPORTUNITIES — simple text + mailto, matches live page.
+          Centered (per direction — this section can stay centered while
+          We Inspire stays left like other pages). */}
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <h2 className="section-title">Career Opportunities</h2>
+            <h2 className="section-title" style={{ textAlign: 'center' }}>
+              Career Opportunities
+            </h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <div className="careers-contact">
