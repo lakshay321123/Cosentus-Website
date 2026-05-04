@@ -2,6 +2,7 @@
 
 import { useState, useEffect, type ReactNode } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import RevealText from '@/components/ui/RevealText'
 
 export type Testimonial = {
   tag?: string
@@ -99,8 +100,10 @@ export default function TestimonialsSection({
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
-        <RevealOnScroll>
-          <h2 style={{
+        <RevealText
+          as="h2"
+          perWordDelay={0.06}
+          style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(32px, 4.5vw, 56px)',
             fontWeight: 300,
@@ -109,13 +112,13 @@ export default function TestimonialsSection({
             color: 'var(--gray-900)',
             marginTop: 12,
             marginBottom: 0,
-          }}>
-            {title}
-          </h2>
-        </RevealOnScroll>
+          }}
+        >
+          {title}
+        </RevealText>
 
         {/* Carousel */}
-        <RevealOnScroll delay={0.2}>
+        <RevealOnScroll delay={0.45}>
           <div
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}

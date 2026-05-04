@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import RevealText from '@/components/ui/RevealText'
 
 export default function StatementSection() {
   return (
@@ -16,9 +17,14 @@ export default function StatementSection() {
 
       <div style={{ position: 'relative', zIndex: 2, padding: 'clamp(80px, 10vw, 140px) 0' }}>
         <div className="container">
-          {/* Big declaration */}
-          <RevealOnScroll>
-            <h2 style={{
+          {/* Big declaration — both lines cascade word-by-word.
+              First line starts immediately, second starts after the first
+              line's three words finish (3 * 0.08 = 0.24s) so the lines feel
+              sequential rather than overlapping. */}
+          <RevealText
+            as="h2"
+            perWordDelay={0.08}
+            style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: 'clamp(36px, 6vw, 80px)',
@@ -26,13 +32,16 @@ export default function StatementSection() {
               lineHeight: 0.95,
               letterSpacing: '-0.04em',
               marginBottom: 12,
-            }}>
-              WE ARE COSENTUS.
-            </h2>
-          </RevealOnScroll>
+            }}
+          >
+            WE ARE COSENTUS.
+          </RevealText>
 
-          <RevealOnScroll delay={0.15}>
-            <h2 style={{
+          <RevealText
+            as="h2"
+            perWordDelay={0.08}
+            baseDelay={0.3}
+            style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: 'clamp(36px, 6vw, 80px)',
@@ -40,10 +49,10 @@ export default function StatementSection() {
               lineHeight: 0.95,
               letterSpacing: '-0.04em',
               marginBottom: 56,
-            }}>
-              WE KNOW HEALTHCARE.
-            </h2>
-          </RevealOnScroll>
+            }}
+          >
+            WE KNOW HEALTHCARE.
+          </RevealText>
 
           {/* 3 proof points */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 48 }} className="statement-proof-grid">

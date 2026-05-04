@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import RevealText from '@/components/ui/RevealText'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const services = [
@@ -90,9 +91,9 @@ export default function ServicesSection() {
   return (
     <section className="section" id="services" style={{ overflow: 'hidden' }}>
       <div className="container">
-        <RevealOnScroll direction="right">
-          <div className="section-title">Two Services, One Result: Growth.</div>
-        </RevealOnScroll>
+        <RevealText as="div" className="section-title" perWordDelay={0.06}>
+          Two Services, One Result: Growth.
+        </RevealText>
 
         {/* Desktop: 3 visual cards */}
         <div className="services-visual-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, marginTop: 48 }}>

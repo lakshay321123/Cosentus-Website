@@ -24,12 +24,6 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
   // is in use, dim the video itself and strengthen the gradient overlay.
   const isLightSpecialtyVideo = (videoSrc || '').includes('specialties-hero')
 
-  // Word-by-word reveal only works on plain strings — we can't safely split
-  // JSX children (e.g. titles like <>RCM that <span>thinks.</span></>).
-  // String titles get the cascading reveal; JSX titles fall back to the
-  // existing single-element RevealOnScroll wrapper.
-  const titleIsString = typeof title === 'string'
-
   const titleStyles: React.CSSProperties = {
     fontSize: 'clamp(36px, 5vw, 64px)',
     fontWeight: 700,
@@ -74,24 +68,18 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
 
       {/* Content */}
       <div className="hero-content" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }}>
-        {titleIsString ? (
-          <RevealText as="h1" style={titleStyles} baseDelay={0.05} perWordDelay={0.07}>
-            {title as string}
-          </RevealText>
-        ) : (
-          <RevealOnScroll delay={0.1}>
-            <h1 style={titleStyles}>{title}</h1>
-          </RevealOnScroll>
-        )}
+        <RevealText as="h1" style={titleStyles} baseDelay={0.05} perWordDelay={0.07}>
+          {title}
+        </RevealText>
 
         {subtitle && (
-          <RevealOnScroll delay={titleIsString ? 0.35 : 0.2}>
+          <RevealOnScroll delay={0.35}>
             <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
           </RevealOnScroll>
         )}
 
         {ctaText && ctaHref && (
-          <RevealOnScroll delay={titleIsString ? 0.5 : 0.3}>
+          <RevealOnScroll delay={0.5}>
             <div className="hero-actions">
               <Link href={ctaHref} className="btn-glass">
                 {ctaText}
