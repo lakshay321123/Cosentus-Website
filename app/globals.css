@@ -1557,10 +1557,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    own --word-delay CSS variable set inline by the component. Transition
    delay reads from that variable so the words appear in sequence.
    Motion: rise + un-blur + fade. Same easing family as .reveal so the
-   feel is consistent with the rest of the site. */
-.reveal-text {
-  display: inline-block;
-}
+   feel is consistent with the rest of the site.
+
+   IMPORTANT: do NOT set display on .reveal-text itself. The host element
+   (h1/h2/div/span) keeps its natural display, which matters for layout —
+   e.g. .cta-box uses text-align:center on a block h2, and forcing the h2
+   to inline-block breaks that (button ends up beside the heading instead
+   of below it). Inner .reveal-text-word spans are inline-block, which
+   works inside any parent display type (block, inline, inline-block). */
 .reveal-text-word {
   display: inline-block;
   opacity: 0;
