@@ -194,7 +194,8 @@ export default function InsightsTabsSection() {
           flexWrap: 'wrap',
         }}>
           <Link href={active.viewAllHref} className="btn-primary">
-            {active.viewAllLabel}
+            <span className="cta-label-full">{active.viewAllLabel}</span>
+            <span className="cta-label-short">View All</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
@@ -236,7 +237,10 @@ export default function InsightsTabsSection() {
             flex: 0 0 85% !important;
             scroll-snap-align: start;
           }
-          /* View-All buttons: keep both on one row, share width evenly */
+          /* View-All buttons: keep both on one row, share width evenly.
+             Long labels like 'View All Client Success Stories' don't fit
+             at 430px width — swap to short 'View All' on mobile via the
+             paired .cta-label-full / .cta-label-short spans below. */
           .insights-cta-row { flex-wrap: nowrap !important; gap: 10px !important; }
           .insights-cta-row .btn-primary {
             flex: 1 1 0 !important;
@@ -246,9 +250,14 @@ export default function InsightsTabsSection() {
             white-space: nowrap !important;
             justify-content: center !important;
           }
+          .insights-cta-row .cta-label-full { display: none !important; }
+          .insights-cta-row .cta-label-short { display: inline !important; }
           .insights-tabs { gap: 6px !important; }
           .insights-tab { padding: 9px 16px !important; font-size: 14px !important; }
         }
+        /* Default (>580px): show full label, hide the short one. */
+        .insights-cta-row .cta-label-full { display: inline; }
+        .insights-cta-row .cta-label-short { display: none; }
         .insights-tab:hover:not(.insights-tab-active) {
           background: rgba(0, 181, 214, 0.30) !important;
           border-color: rgba(0, 181, 214, 0.7) !important;
