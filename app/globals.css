@@ -1494,19 +1494,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Mobile-wide reveal override (May 2026 v2)
    ----------------------------------------
-   Pairs with RevealOnScroll.tsx mobile observer config (rootMargin
-   `0px 0px 120px 0px`, threshold 0). Reveals are fired *before* the
-   element enters the viewport, so by the time it scrolls into view the
-   animation is already done — no more "headings hidden between sections"
-   on slow scroll.
+   Pairs with RevealOnScroll.tsx mobile observer config (rootMargin `0px`,
+   threshold 0). Reveals fire exactly as each section enters the viewport,
+   so the cascade reads as "section-by-section as you scroll" — the next
+   section reveals only when the user scrolls to it, never pre-loaded.
 
    Two changes:
      1. translateX/translateY → none on .reveal/.reveal-left/.reveal-right.
-        Transform-based motion was the source of the "drop in mid-scroll"
-        perception. Motion now comes from blur clearing only — animates in
-        place, no layout shift.
-     2. Faster durations (0.45s vs 0.9–1.0s desktop). Reveal completes
-        before the user's eye reaches the element.
+        Transform-based motion is the actual source of the "headings hidden
+        between sections" bug — content slides up from below the fold and
+        if the trigger fires late or scroll is slow, you see a blank gap.
+        Motion now comes from blur clearing only — animates in place, no
+        layout shift, no blank gap possible.
+     2. Mid-length durations (0.55s) — long enough to be perceptible as
+        the user scrolls into a section, short enough that one section's
+        reveal completes before the next section's begins. The user wanted
+        "things should reveal themselves AS scroll happens"; durations
+        were too short (0.45s) when paired with the original pre-trigger,
+        adjusted up now that we trigger at viewport edge.
 
    .reveal-scale (used by the 6 stat cards) keeps a subtle scale-in
    (0.94→1) because that pattern reads as "card lands" rather than
@@ -1519,12 +1524,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .reveal-right {
     transform: none;
     filter: blur(6px);
-    transition-duration: 0.45s;
+    transition-duration: 0.55s;
   }
   .reveal-scale {
     transform: scale(0.94);
     filter: blur(3px);
-    transition-duration: 0.5s;
+    transition-duration: 0.6s;
   }
 }
 

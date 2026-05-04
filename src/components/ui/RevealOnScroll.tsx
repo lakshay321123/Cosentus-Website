@@ -19,20 +19,21 @@ interface RevealProps {
  * still invisible. Slow scroll exposed this as "headings hidden between
  * sections, then popping in late".
  *
- * v2 strategy: animations should START before the element is even visible,
- * so by the time the user's eye reaches it, the animation is complete or
- * almost complete. No more catching the mid-state.
+ * Two complementary changes solve it without pre-loading content (which
+ * defeats the "section-by-section as you scroll" feel):
  *
  * Mobile (≤768px):
  *   - threshold: 0 — any single pixel of overlap fires the reveal
- *   - rootMargin: '0px 0px 120px 0px' — POSITIVE bottom margin extends the
- *     trigger area 120px BELOW the viewport, so reveal fires while element
- *     is still off-screen, just below the fold
+ *   - rootMargin: '0px' — fire EXACTLY when the element enters the
+ *     viewport, not before. (We don't pre-trigger, because that would
+ *     cause sections to be already-revealed when the user reaches them,
+ *     killing the cascade.)
  *   - No translateY/translateX (handled in globals.css @media block) —
- *     transform-based motion creates "drop in mid-scroll" perception;
- *     opacity + blur clearing animates in place with no layout shift
- *   - Shorter transition duration (0.45s vs 0.9–1.0s on desktop) so
- *     the reveal completes quickly
+ *     transform-based motion creates "drop in mid-scroll" perception
+ *     and is the actual source of the dead-zone bug. Opacity + blur
+ *     clearing animates in place with no layout shift.
+ *   - Mid-length transition (0.55s) so the reveal is perceptible while
+ *     scrolling but completes before the next section's reveal starts.
  *
  * Desktop: rootMargin and threshold unchanged so the established
  * staggered above-the-fold cadence is preserved.
@@ -68,10 +69,12 @@ export default function RevealOnScroll({ children, className = '', delay = 0, di
       },
       isMobile
         ? {
-            // Mobile: pre-trigger 120px before the element actually enters.
-            // By the time user can see the element, animation is already done.
+            // Mobile: fire as soon as the first pixel of the element
+            // enters the viewport. NOT before — pre-firing meant sections
+            // were revealed before the user scrolled to them, defeating
+            // the staggered "load one section at a time" feel.
             threshold: 0,
-            rootMargin: '0px 0px 120px 0px',
+            rootMargin: '0px',
           }
         : {
             // Desktop: keep the original staggered feel.
