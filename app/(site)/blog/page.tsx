@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <main>
-      <PageBand title="Healthcare Billing & RCM Insights" />
+      <PageBand title="Blogs" />
       <BlogContent />
     </main>
   )

@@ -14,8 +14,8 @@ export default function PageBand({ title }: PageBandProps) {
     <section
       style={{
         background: '#00B5D6',
-        paddingTop: 140,
-        paddingBottom: 60,
+        paddingTop: 100,
+        paddingBottom: 32,
       }}
     >
       <div className="hero-content">
