@@ -236,14 +236,25 @@ export default function InsightsTabsSection() {
             flex: 0 0 85% !important;
             scroll-snap-align: start;
           }
-          /* View-All buttons: keep both on one row, share width evenly */
-          .insights-cta-row { flex-wrap: nowrap !important; gap: 10px !important; }
+          /* View-All buttons: STACK vertically on phones. The longest label
+             ("View All Client Success Stories" + arrow) doesn't fit
+             side-by-side at 430px width — was overflowing past the button
+             edge with flex:1 1 0 + white-space:nowrap. Stacking gives each
+             button a full-width row so any label fits on a single line. */
+          .insights-cta-row {
+            flex-direction: column !important;
+            flex-wrap: nowrap !important;
+            gap: 10px !important;
+            align-items: stretch !important;
+          }
           .insights-cta-row .btn-primary {
-            flex: 1 1 0 !important;
-            min-width: 0 !important;
-            padding: 10px 12px !important;
+            width: 100% !important;
+            min-height: 48px !important;
+            height: auto !important;
+            padding: 12px 20px !important;
             font-size: 14px !important;
-            white-space: nowrap !important;
+            white-space: normal !important;
+            line-height: 1.3 !important;
             justify-content: center !important;
           }
           .insights-tabs { gap: 6px !important; }
