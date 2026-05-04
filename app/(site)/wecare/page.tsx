@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 
 export const metadata: Metadata = {
   title: 'WeCare | Community & Charitable Initiatives | Cosentus',
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
 /**
  * Event gallery — photos sourced from cosentus.com/wecare/. Locally hosted
  * in /public/images/wecare/ (Vercel blocks external image hot-linking and
- * the rest of the site follows the locally-hosted convention for blog).
+ * the rest of the site follows the locally-hosted convention).
  *
  * Order matches cosentus.com/wecare/: most recent events first.
  */
@@ -32,66 +31,117 @@ const events = [
   { title: 'Plantation Drive – India, 2023',                          image: '/images/wecare/plantation-drive-india-2023.webp' },
 ]
 
-const initiatives = [
+/**
+ * Organisations we support. Logo + full description text, mirrors the
+ * "Organizations that we support:" section on cosentus.com/wecare/.
+ *
+ * Text is reproduced verbatim from cosentus.com — explicit instruction:
+ * "do not skip any text". Multi-paragraph entries are arrays.
+ *
+ * NOTE: cosentus.com pairs the Hope Services logo with text about the
+ * Alzheimer's Association ($235K raised) — content error on the source
+ * site, the same paragraph appears under the Alzheimer's logo below.
+ * Per "match cosentus.com" we reproduce both as-is. Easy to clean up
+ * in a follow-up by writing a proper Hope Services description.
+ */
+const organisations: Array<{
+  name: string
+  logo: string
+  href?: string
+  paragraphs: string[]
+}> = [
   {
-    name: 'Harmony House, India',
-    desc: 'We have been working closely with Harmony House for over 6 years. Harmony House provides education services, healthcare, housing, food, financial support, and vocational training for underprivileged children across India, from ages 6 months to 18 years. With onsite teachers, nannies, cooks, and counselors, Harmony House encourages children to learn, grow, and lead empowered lives. They currently provide for over 600 children and counting.',
-    highlight: '600+ children supported',
+    name: 'Harmony House',
+    logo: '/images/wecare/logos/harmony-house.png',
+    href: 'https://www.harmonyhouseindia.org/donate-now/',
+    paragraphs: [
+      "We have been working closely with Harmony House for over 6 years. Harmony House provides education services, healthcare, housing, food, financial support, and vocational training for underprivileged children across India, from ages 6 months to 18 years. With onsite teachers, nannies, cooks, and counselors, Harmony House encourages children to learn, grow, and lead empowered lives. They currently provide for over 600 children and counting. Throughout the COVID-19 pandemic, Harmony House has regularly been sending out care packages to their students' families and continuing to provide online classes and school supplies for children without access to a device.",
+      "Cosentus proudly participates in Harmony House's mission through consistent donation campaigns and providing volunteer opportunities to assist and support at one of Harmony House's daycare centers.",
+    ],
   },
   {
-    name: 'Someone Cares Soup Kitchen',
-    desc: 'Cosentus actively contributes to Someone Cares Soup Kitchen, dedicating our efforts to combat hunger by volunteering at this vital community resource. We are committed to providing nutritious food to those in need and fostering a stronger, healthier community.',
-    highlight: 'Combating hunger locally',
-  },
-  {
-    name: 'Beyond Blindness',
-    desc: 'We support Beyond Blindness in empowering children with visual impairments and other disabilities to achieve their fullest potential.',
-    highlight: 'Empowering children',
-  },
-  {
-    name: 'Kids Against Hunger',
-    desc: 'We proudly support Kids Against Hunger in their mission to provide nutritious meals to impoverished children and families, helping them move from food insecurity to self-sufficiency.',
-    highlight: 'Fighting food insecurity',
-  },
-  {
-    name: 'Save the Children',
-    desc: "Cosentus is a proud donor and supporter of Save the Children and its mission to improve the lives of impoverished children around the world.",
-    highlight: 'Global child welfare',
-  },
-  {
-    name: 'Child Fund International',
-    desc: "Our team members are actively involved with Child Fund's mission to support and sponsor low-income children around the world. Many of our employees happily sponsor individual children and families in various countries, providing school supplies, food, education, housing, and whatever they need to be safe, healthy, and secure.",
-    highlight: 'Employee-driven sponsorships',
+    name: 'Hope Services',
+    logo: '/images/wecare/logos/hope-services.png',
+    href: 'https://www.hopeservices.org/',
+    paragraphs: [
+      "An annual event in aid of the Alzheimer's Association. Sponsors and volunteers at this year's event raised over $235,000—far surpassing their goal of $150,000. We love this opportunity to support an organization that means so much to our team and community.",
+    ],
   },
   {
     name: 'Uday Foundation',
-    desc: "We are honored to support the Uday Foundation's efforts in providing medical aid, dignity to the homeless, and disaster relief across India.",
-    highlight: 'Medical aid & disaster relief',
+    logo: '/images/wecare/logos/uday-foundation.png',
+    paragraphs: [
+      "We are honored to support the Uday Foundation's efforts in providing medical aid, dignity to the homeless, and disaster relief across India.",
+    ],
   },
   {
-    name: "Alzheimer's Association",
-    desc: "An annual event in aid of the Alzheimer's Association. Sponsors and volunteers raised over $235,000, far surpassing their goal of $150,000. We love this opportunity to support an organization that means so much to our team and community.",
-    highlight: '$235,000+ raised',
+    name: 'Someone Cares Soup Kitchen',
+    logo: '/images/wecare/logos/someone-cares.png',
+    paragraphs: [
+      "Cosentus actively contributes to Someone Cares Soup Kitchen, dedicating our efforts to combat hunger by volunteering at this vital community resource. We are committed to providing nutritious food to those in need and fostering a stronger, healthier community.",
+    ],
   },
   {
-    name: 'Irvine Police Department',
-    desc: 'Cosentus sponsors and supports many of the events and initiatives hosted by the Irvine Police Department, including community programs like Concert on the Green and rehabilitation services for officers and service animals.',
-    highlight: 'Local community programs',
+    name: 'Beyond Blindness',
+    logo: '/images/wecare/logos/beyond-blindness.png',
+    paragraphs: [
+      "We support Beyond Blindness in empowering children with visual impairments and other disabilities to achieve their fullest potential.",
+    ],
+  },
+  {
+    name: 'Kids Against Hunger',
+    logo: '/images/wecare/logos/kids-against-hunger.png',
+    paragraphs: [
+      "We proudly support Kids Against Hunger in their mission to provide nutritious meals to impoverished children and families, helping them move from food insecurity to self-sufficiency.",
+    ],
+  },
+  {
+    name: 'Pacific Clinics',
+    logo: '/images/wecare/logos/pacific-clinics.png',
+    href: 'https://www.pacificclinics.org/',
+    paragraphs: [
+      "We proudly support Pacific Clinics in their comprehensive approach to behavioral health, social services, and wellness programs for all.",
+    ],
   },
   {
     name: 'Bill Wilson Center',
-    desc: "Cosentus attended the Bill Wilson Center's Building Dreams Celebration, supporting its mission to empower youth and families. The event celebrated community and hope with inspiring stories.",
-    highlight: 'Empowering youth & families',
+    logo: '/images/wecare/logos/bill-wilson-center.png',
+    href: 'https://www.billwilsoncenter.org/',
+    paragraphs: [
+      "We're honored to contribute to Bill Wilson Center's vision of breaking the cycle of poverty by empowering youth and families through education, employment, and more.",
+    ],
   },
   {
-    name: 'In Concert With Hope',
-    desc: 'A proud annual partnership supporting hope and community through music and celebration.',
-    highlight: 'Annual community event',
+    name: 'Save the Children',
+    logo: '/images/wecare/logos/save-the-children.png',
+    href: 'https://www.savethechildren.in',
+    paragraphs: [
+      "Cosentus is a proud donor and supporter of Save the Children and its mission to improve the lives of impoverished children around the world.",
+    ],
   },
   {
-    name: 'Orange County Second Harvest Food Bank',
-    desc: 'Supporting food distribution and hunger relief across Orange County communities.',
-    highlight: 'Local hunger relief',
+    name: 'Child Fund International',
+    logo: '/images/wecare/logos/child-fund.png',
+    href: 'https://www.childfund.org',
+    paragraphs: [
+      "Our team members are actively involved with Child Fund's mission to support and sponsor low-income children around the world. Many of our employees happily sponsor individual children and families in various countries. These sponsorships provide children in need with school supplies, food, education, housing, and whatever they need to be safe, healthy, and secure.",
+    ],
+  },
+  {
+    name: "Alzheimer's Association",
+    logo: '/images/wecare/logos/alzheimers-association.png',
+    href: 'https://www.alz.org',
+    paragraphs: [
+      "An annual event in aid of the Alzheimer's Association. Sponsors and volunteers at this year's event raised over $235,000—far surpassing their goal of $150,000. We love this opportunity to support an organization that means so much to our team and community.",
+    ],
+  },
+  {
+    name: 'Irvine Police Department',
+    logo: '/images/wecare/logos/irvine-police.png',
+    href: 'https://www.cityofirvine.org',
+    paragraphs: [
+      "Cosentus sponsors and supports many of the events and initiatives hosted by the Irvine Police Department, including community programs like Concert on the Green and rehabilitation services for officers and service animals, as well as families affected by COVID-19.",
+    ],
   },
 ]
 
@@ -116,10 +166,8 @@ export default function WeCarePage() {
         </div>
       </section>
 
-      {/* Event gallery — photos from past WeCare events.
-          4-col grid on desktop, 2-col on tablet, 1-col on mobile.
-          Cards are non-interactive (no individual gallery pages exist on
-          this site yet); they're a visual showcase. */}
+      {/* Event gallery — Recent Events. 4-col on desktop, responsive down to
+          1-col on small phones. Cards currently non-interactive. */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
@@ -138,30 +186,24 @@ export default function WeCarePage() {
             </p>
           </RevealOnScroll>
 
-          <div
-            className="wecare-events-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 24,
-              marginTop: 40,
-            }}
-          >
+          <div className="wecare-events-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 24,
+            marginTop: 40,
+          }}>
             {events.map((event, i) => (
               <RevealOnScroll key={event.image} delay={(i % 4) * 0.08}>
-                <article
-                  className="wecare-event-card"
-                  style={{
-                    background: 'var(--white)',
-                    borderRadius: 'var(--radius-md)',
-                    overflow: 'hidden',
-                    border: '1px solid var(--gray-200)',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column' as const,
-                    transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s',
-                  }}
-                >
+                <article className="wecare-event-card" style={{
+                  background: 'var(--white)',
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  border: '1px solid var(--gray-200)',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column' as const,
+                  transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s',
+                }}>
                   <div style={{
                     position: 'relative',
                     width: '100%',
@@ -175,10 +217,8 @@ export default function WeCarePage() {
                       loading="lazy"
                       className="wecare-event-img"
                       style={{
-                        position: 'absolute',
-                        inset: 0,
-                        width: '100%',
-                        height: '100%',
+                        position: 'absolute', inset: 0,
+                        width: '100%', height: '100%',
                         objectFit: 'cover',
                         transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                       }}
@@ -208,33 +248,84 @@ export default function WeCarePage() {
         </div>
       </section>
 
+      {/* Organisations we support — logo on left, full description on right.
+          Mirrors cosentus.com/wecare/'s "Organizations that we support:"
+          section. Two-col on desktop, stacks on mobile. */}
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">Organizations We Support</div>
+            <div className="section-title" style={{ textAlign: 'center' }}>Organizations That We Support</div>
           </RevealOnScroll>
 
-          <div className="initiatives-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
-            {initiatives.map((init, i) => (
-              <RevealOnScroll key={i}>
-                <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', height: '100%', display: 'flex', flexDirection: 'column' as const, transition: 'all var(--transition-base)' }}>
-                  <div style={{ display: 'inline-block', padding: '4px 12px', background: 'var(--primary-ghost)', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, color: 'var(--primary)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: 16, alignSelf: 'flex-start' }}>{init.highlight}</div>
-                  <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>{init.name}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', flex: 1 }}>{init.desc}</p>
+          <div style={{ marginTop: 64, display: 'flex', flexDirection: 'column' as const, gap: 64 }}>
+            {organisations.map((org, i) => (
+              <RevealOnScroll key={org.name}>
+                <div className="wecare-org-row" style={{
+                  display: 'grid',
+                  gridTemplateColumns: '220px 1fr',
+                  gap: 48,
+                  alignItems: 'center',
+                  maxWidth: 1100,
+                  margin: '0 auto',
+                }}>
+                  <div className="wecare-org-logo-cell" style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                    {org.href ? (
+                      <a
+                        href={org.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${org.name}`}
+                        style={{ display: 'block', width: '100%' }}
+                      >
+                        <img
+                          src={org.logo}
+                          alt={`${org.name} logo`}
+                          loading="lazy"
+                          style={{
+                            display: 'block',
+                            width: '100%',
+                            maxWidth: 200,
+                            height: 'auto',
+                            margin: '0 auto',
+                            objectFit: 'contain',
+                          }}
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={org.logo}
+                        alt={`${org.name} logo`}
+                        loading="lazy"
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          maxWidth: 200,
+                          height: 'auto',
+                          margin: '0 auto',
+                          objectFit: 'contain',
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="wecare-org-text-cell">
+                    {org.paragraphs.map((p, pi) => (
+                      <p key={pi} style={{
+                        fontSize: 16,
+                        lineHeight: 1.8,
+                        color: 'var(--gray-700)',
+                        marginBottom: pi < org.paragraphs.length - 1 ? 16 : 0,
+                      }}>
+                        {p}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </RevealOnScroll>
             ))}
-          </div>
-          <div className="initiatives-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={5000}>
-              {initiatives.map((init, i) => (
-                <div key={i} style={{ padding: 28, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)' }}>
-                  <div style={{ display: 'inline-block', padding: '4px 12px', background: 'var(--primary-ghost)', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, color: 'var(--primary)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: 16 }}>{init.highlight}</div>
-                  <h4 style={{ fontSize: 18, fontWeight: 400, color: 'var(--gray-900)', marginBottom: 12 }}>{init.name}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{init.desc}</p>
-                </div>
-              ))}
-            </MobileCarousel>
           </div>
         </div>
       </section>
@@ -263,19 +354,28 @@ export default function WeCarePage() {
           transform: scale(1.05);
         }
         @media (max-width: 1100px) {
-          .wecare-events-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
+          .wecare-events-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 820px) {
-          .wecare-events-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 16px !important;
-          }
+          .wecare-events-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
         }
         @media (max-width: 520px) {
-          .wecare-events-grid {
+          .wecare-events-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* Org rows: stack on tablet+ down. Logo above text on mobile,
+           centered, smaller cap. */
+        @media (max-width: 760px) {
+          .wecare-org-row {
             grid-template-columns: 1fr !important;
+            gap: 20px !important;
+            text-align: center;
+          }
+          .wecare-org-logo-cell img {
+            max-width: 160px !important;
+          }
+          .wecare-org-text-cell p {
+            text-align: left;
           }
         }
       `}</style>
