@@ -1,12 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
-import { LOCATIONS } from '../contact/_data/locations'
 
 const beliefs = [
   { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
@@ -167,103 +164,6 @@ export default function AboutContent() {
               </div>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Offices */}
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-title">Where We Are</div>
-          </RevealOnScroll>
-          {/* Desktop */}
-          <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 36 }}>
-            {LOCATIONS.map((office, i) => (
-              <RevealOnScroll key={office.slug} delay={i * 0.05}>
-                <Link
-                  href={`/contact/${office.slug}`}
-                  prefetch
-                  className="office-card"
-                  style={{
-                    display: 'block',
-                    background: 'var(--white)',
-                    color: 'var(--gray-700)',
-                    borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    overflow: 'hidden',
-                    textDecoration: 'none',
-                    height: '100%',
-                  }}
-                >
-                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10', background: 'var(--gray-100)' }}>
-                    <Image
-                      src={office.image}
-                      alt={`Cosentus office in ${office.address.city}, ${office.address.region}`}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                  <div style={{ padding: 24 }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4, color: 'var(--gray-900)' }}>{office.name}</div>
-                    <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gray-500)', marginBottom: 12 }}>{office.label}</div>
-                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 4 }}>{office.address.street}</div>
-                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 10 }}>{office.address.city}, {office.address.region} {office.address.postalCode}</div>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--primary)' }}>{office.phone}</div>
-                  </div>
-                </Link>
-              </RevealOnScroll>
-            ))}
-          </div>
-          {/* Mobile */}
-          <div className="offices-mobile" style={{ marginTop: 24 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {LOCATIONS.map((office) => (
-                <Link
-                  key={office.slug}
-                  href={`/contact/${office.slug}`}
-                  prefetch
-                  className="office-card"
-                  style={{
-                    display: 'block',
-                    background: 'var(--white)',
-                    color: 'var(--gray-700)',
-                    borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    overflow: 'hidden',
-                    textDecoration: 'none',
-                  }}
-                >
-                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10', background: 'var(--gray-100)' }}>
-                    <Image
-                      src={office.image}
-                      alt={`Cosentus office in ${office.address.city}, ${office.address.region}`}
-                      fill
-                      sizes="100vw"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                  <div style={{ padding: 24 }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4, color: 'var(--gray-900)' }}>{office.name}</div>
-                    <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gray-500)', marginBottom: 12 }}>{office.label}</div>
-                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 4 }}>{office.address.street}</div>
-                    <div style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--gray-700)', marginBottom: 10 }}>{office.address.city}, {office.address.region} {office.address.postalCode}</div>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--primary)' }}>{office.phone}</div>
-                  </div>
-                </Link>
-              ))}
-            </MobileCarousel>
-          </div>
-          <style>{`
-            .office-card {
-              transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-            }
-            .office-card:hover {
-              transform: translateY(-4px);
-              box-shadow: 0 8px 24px rgba(0, 181, 214, 0.15);
-              border-color: rgba(0, 181, 214, 0.4);
-            }
-          `}</style>
         </div>
       </section>
     </>
