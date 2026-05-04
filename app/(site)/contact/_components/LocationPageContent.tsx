@@ -28,9 +28,11 @@ const steps = [
  *   3. Body section (2-col):
  *        LEFT  = address card + phone/hours + embedded Google Map
  *        RIGHT = location-specific copy + LeadForm
- *   4. Trusted & Certified — accolade strip on teal panel.
- *   5. "What Happens After You Reach Out" — 4-step process.
- *   6. JSON-LD LocalBusiness schema.
+ *   4. "What Happens After You Reach Out" — 4-step process.
+ *   5. JSON-LD LocalBusiness schema.
+ *
+ * Trust badges (SOC 2, HIPAA, Inc. 5000, etc.) are not duplicated on
+ * this page because they already render in the global site footer.
  *
  * The /contact route 301-redirects here for Irvine, so this component
  * is the single template that handles every location including the HQ
@@ -269,45 +271,6 @@ export default function LocationPageContent({ location }: Props) {
               </div>
               <LeadForm locationSlug={location.slug} locationName={name} />
             </div>
-          </div>
-
-          {/* Trusted & Certified — present on every location page now */}
-          <div
-            style={{
-              marginTop: 64,
-              padding: 40,
-              background: 'var(--primary)',
-              borderRadius: 'var(--radius-md)',
-              color: 'white',
-              textAlign: 'center',
-            }}
-          >
-            <h3
-              style={{
-                fontSize: 18,
-                fontWeight: 400,
-                color: 'rgba(255,255,255,0.85)',
-                margin: 0,
-                marginBottom: 20,
-              }}
-            >
-              Trusted &amp; Certified
-            </h3>
-            <Image
-              src="/all-accolades.png"
-              alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
-              width={1687}
-              height={259}
-              sizes="(min-width: 1024px) 800px, 100vw"
-              style={{
-                mixBlendMode: 'screen',
-                width: '100%',
-                maxWidth: 800,
-                height: 'auto',
-                display: 'block',
-                margin: '0 auto',
-              }}
-            />
           </div>
         </div>
       </section>
