@@ -158,7 +158,11 @@ export default function ChatWidget() {
               </div>
             ))}
 
-            {isLoading && (
+            {/* Typing dots only show before the bot bubble exists — once
+                ChatContext appends the empty bot message and SSE chunks
+                begin to arrive, the BotMessage's streaming caret takes
+                over. Prevents two simultaneous "AI is typing" indicators. */}
+            {isLoading && messages[messages.length - 1]?.role !== 'bot' && (
               <div className="grace-msg ai">
                 <div className="grace-msg-bubble grace-typing">
                   <span className="grace-typing-dot" />
@@ -176,7 +180,13 @@ export default function ChatWidget() {
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') handleSend() }}
+              onKeyDown={e => {
+                // Ignore Enter while an IME (Japanese/Chinese/Korean) is
+                // mid-composition — submitting then sends partial text.
+                // React's SyntheticKeyboardEvent types vary on `isComposing`
+                // across versions; nativeEvent.isComposing is always present.
+                if (e.key === 'Enter' && !e.nativeEvent.isComposing) handleSend()
+              }}
               placeholder="Type your message…"
               aria-label="Type your message"
               className="grace-input"
