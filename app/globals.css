@@ -1492,6 +1492,42 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
+/* Mobile-wide reveal override (May 2026 v2)
+   ----------------------------------------
+   Pairs with RevealOnScroll.tsx mobile observer config (rootMargin
+   `0px 0px 120px 0px`, threshold 0). Reveals are fired *before* the
+   element enters the viewport, so by the time it scrolls into view the
+   animation is already done — no more "headings hidden between sections"
+   on slow scroll.
+
+   Two changes:
+     1. translateX/translateY → none on .reveal/.reveal-left/.reveal-right.
+        Transform-based motion was the source of the "drop in mid-scroll"
+        perception. Motion now comes from blur clearing only — animates in
+        place, no layout shift.
+     2. Faster durations (0.45s vs 0.9–1.0s desktop). Reveal completes
+        before the user's eye reaches the element.
+
+   .reveal-scale (used by the 6 stat cards) keeps a subtle scale-in
+   (0.94→1) because that pattern reads as "card lands" rather than
+   "card slides", which is appropriate for emphasis cards.
+
+   Desktop offsets, durations, and timing are entirely untouched. */
+@media (max-width: 768px) {
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    transform: none;
+    filter: blur(6px);
+    transition-duration: 0.45s;
+  }
+  .reveal-scale {
+    transform: scale(0.94);
+    filter: blur(3px);
+    transition-duration: 0.5s;
+  }
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes float {
   0%, 100% { transform: translate(0, 0); }
