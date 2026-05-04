@@ -199,7 +199,7 @@ export default function PartnershipContent() {
         /* ===== Challenges section (4 stick-figure illustrations) ===== */
         .partnership-challenges {
           padding: 96px 0 80px;
-          background: var(--gray-50);
+          background: var(--gray-200);
         }
 
         .partnership-challenges-title {
@@ -235,7 +235,7 @@ export default function PartnershipContent() {
         .partnership-challenge-card img {
           width: 100%;
           height: auto;
-          max-width: 280px;
+          max-width: 180px;
           display: block;
         }
 
@@ -455,11 +455,21 @@ export default function PartnershipContent() {
         </div>
       </section>
 
-      {/* Intro */}
+      {/* Intro — matches the "GET STARTED / Partner with Cosentus"
+          pattern at the bottom of the page: small uppercase teal
+          subheading, h2, then body paragraph. Left-aligned in the
+          standard 1280px container, body capped to ~880px for
+          readable line length. */}
       <section style={{ padding: '0 0 60px' }}>
-        <div className="container" style={{ maxWidth: 800 }}>
+        <div className="container">
           <RevealOnScroll>
-            <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', textAlign: 'center' }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>
+              About Cosentus
+            </div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 24, maxWidth: 880, lineHeight: 1.2 }}>
+              Independently owned. Powered by AI. Proven at scale.
+            </h2>
+            <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
               With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
             </p>
           </RevealOnScroll>
