@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHero from '@/components/sections/PageHero'
+import PageBand from '@/components/sections/PageBand'
 import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
 import CTASection from '@/components/sections/CTASection'
 
@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <main>
-      <PageHero
-        label="CLIENT SUCCESS STORIES"
-        title="Real Practices. Real Revenue Growth."
-        subtitle="Every practice we partner with has a unique revenue story. Below are outcome-first client success stories demonstrating the concrete impact of our Real + Artificial Intelligence model."
-      />
+      <PageBand title="Real Practices. Real Revenue Growth." />
       <CaseStudiesSection mode="viewer" />
       <CTASection />
     </main>

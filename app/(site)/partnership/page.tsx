@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHero from '@/components/sections/PageHero'
+import PageBand from '@/components/sections/PageBand'
 import PartnershipContent from './PartnershipContent'
 
 export const metadata: Metadata = {
@@ -10,13 +10,7 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <main>
-      <PageHero
-        label="PARTNERSHIP"
-        title="Grow Your Business with Innovative Solutions"
-        subtitle="Cosentus has emerged as the preferred partner of choice for billing companies across America. Our dedicated team of 1,000+ RCM experts ensures cost-effectiveness and maximized operational efficiencies."
-        ctaText="Schedule a Call"
-        ctaHref="/contact"
-      />
+      <PageBand title="Grow Your Business with Innovative Solutions" />
 
       <PartnershipContent />
     </main>

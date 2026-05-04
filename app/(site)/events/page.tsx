@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHero from '@/components/sections/PageHero'
+import PageBand from '@/components/sections/PageBand'
 import CTASection from '@/components/sections/CTASection'
 import EventsContent from './EventsContent'
 
@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <main>
-      <PageHero
-        label="EVENTS"
-        title="There's Always Something Happening at Cosentus."
-        subtitle="Innovation starts with information. We attend and host events related to all our service areas, providing the latest and greatest solutions to all your business needs. Come say hello!"
-      />
+      <PageBand title="There's Always Something Happening at Cosentus." />
 
       <EventsContent />
 

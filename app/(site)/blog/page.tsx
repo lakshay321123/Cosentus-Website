@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHero from '@/components/sections/PageHero'
+import PageBand from '@/components/sections/PageBand'
 import BlogContent from './BlogContent'
 
 export const metadata: Metadata = {
@@ -10,11 +10,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <main>
-      <PageHero
-        label="BLOG"
-        title="Healthcare Billing & RCM Insights"
-        subtitle="Expert insights on medical billing, revenue cycle management, coding compliance, and practice growth strategies from the Cosentus team."
-      />
+      <PageBand title="Healthcare Billing & RCM Insights" />
       <BlogContent />
     </main>
   )

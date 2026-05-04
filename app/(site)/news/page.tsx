@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PageHero from '@/components/sections/PageHero'
+import PageBand from '@/components/sections/PageBand'
 import CTASection from '@/components/sections/CTASection'
 import NewsListContent from './NewsListContent'
 
@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function NewsPage() {
   return (
     <main>
-      <PageHero
-        label="NEWS"
-        title="Industry News & Updates"
-        subtitle="Stay informed with the latest healthcare RCM news, policy updates, and industry insights curated by the Cosentus team."
-      />
+      <PageBand title="Industry News & Updates" />
       <NewsListContent />
       <CTASection />
     </main>
