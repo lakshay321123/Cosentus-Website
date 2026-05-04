@@ -8,6 +8,30 @@ export const metadata: Metadata = {
   description: 'Cosentus is committed to community, employee wellbeing, and the practices we serve. Meet our Impact Ambassadors and the incredible work they do.',
 }
 
+/**
+ * Event gallery — photos sourced from cosentus.com/wecare/. Locally hosted
+ * in /public/images/wecare/ (Vercel blocks external image hot-linking and
+ * the rest of the site follows the locally-hosted convention for blog).
+ *
+ * Order matches cosentus.com/wecare/: most recent events first.
+ */
+const events = [
+  { title: 'Harmony House – India, 2026',                             image: '/images/wecare/harmony-house-india-2026.webp' },
+  { title: 'Orange County Second Harvest Food Bank – USA, 2025',      image: '/images/wecare/orange-county-second-harvest-2025.webp' },
+  { title: 'Harmony House – India, 2025',                             image: '/images/wecare/harmony-house-india-2025.webp' },
+  { title: 'In Concert With Hope 2025: A Proud Moment for Cosentus',  image: '/images/wecare/in-concert-with-hope-2025.webp' },
+  { title: 'Harmony House – India, 2024',                             image: '/images/wecare/harmony-house-india-2024.webp' },
+  { title: 'In Concert With Hope – Saratoga, 2024',                   image: '/images/wecare/in-concert-with-hope-saratoga-2024.webp' },
+  { title: 'Bill Wilson Center – Building Dreams Celebration, 2024',  image: '/images/wecare/bill-wilson-center-2024.webp' },
+  { title: 'Pacific Clinics Hearts & Hands Spring Celebration, 2024', image: '/images/wecare/pacific-clinics-2024.webp' },
+  { title: 'Harmony House – India, 2023',                             image: '/images/wecare/harmony-house-india-2023.webp' },
+  { title: 'Someone Cares Food Bank – USA, 2023',                     image: '/images/wecare/someone-cares-food-bank-2023.webp' },
+  { title: 'Kids Against Hunger – USA, 2023',                         image: '/images/wecare/kids-against-hunger-2023.webp' },
+  { title: 'Beyond Blindness – USA, 2023',                            image: '/images/wecare/beyond-blindness-2023.webp' },
+  { title: 'Uday Foundation – India, 2023',                           image: '/images/wecare/uday-foundation-2023.webp' },
+  { title: 'Plantation Drive – India, 2023',                          image: '/images/wecare/plantation-drive-india-2023.webp' },
+]
+
 const initiatives = [
   {
     name: 'Harmony House, India',
@@ -92,10 +116,102 @@ export default function WeCarePage() {
         </div>
       </section>
 
+      {/* Event gallery — photos from past WeCare events.
+          4-col grid on desktop, 2-col on tablet, 1-col on mobile.
+          Cards are non-interactive (no individual gallery pages exist on
+          this site yet); they're a visual showcase. */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">Community Initiatives</div>
+            <div className="section-title">Recent Events</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <p style={{
+              fontSize: 16,
+              lineHeight: 1.7,
+              color: 'var(--gray-700)',
+              maxWidth: 640,
+              marginTop: 12,
+              marginBottom: 8,
+            }}>
+              Volunteer days, fundraisers, and community moments from across the Cosentus family.
+            </p>
+          </RevealOnScroll>
+
+          <div
+            className="wecare-events-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 24,
+              marginTop: 40,
+            }}
+          >
+            {events.map((event, i) => (
+              <RevealOnScroll key={event.image} delay={(i % 4) * 0.08}>
+                <article
+                  className="wecare-event-card"
+                  style={{
+                    background: 'var(--white)',
+                    borderRadius: 'var(--radius-md)',
+                    overflow: 'hidden',
+                    border: '1px solid var(--gray-200)',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column' as const,
+                    transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s',
+                  }}
+                >
+                  <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '4 / 3',
+                    overflow: 'hidden',
+                    background: 'var(--gray-100)',
+                  }}>
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      loading="lazy"
+                      className="wecare-event-img"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                    />
+                  </div>
+                  <div style={{
+                    padding: '20px 20px 22px',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}>
+                    <h3 style={{
+                      fontSize: 15,
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                      color: 'var(--gray-900)',
+                      fontFamily: 'var(--font-display)',
+                      margin: 0,
+                    }}>
+                      {event.title}
+                    </h3>
+                  </div>
+                </article>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-title">Organizations We Support</div>
           </RevealOnScroll>
 
           <div className="initiatives-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24, marginTop: 48 }}>
@@ -136,6 +252,33 @@ export default function WeCarePage() {
           </div>
         </div>
       </section>
+
+      <style>{`
+        .wecare-event-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+          border-color: rgba(0, 181, 214, 0.30);
+        }
+        .wecare-event-card:hover .wecare-event-img {
+          transform: scale(1.05);
+        }
+        @media (max-width: 1100px) {
+          .wecare-events-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+        @media (max-width: 820px) {
+          .wecare-events-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
+          }
+        }
+        @media (max-width: 520px) {
+          .wecare-events-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </main>
   )
 }
