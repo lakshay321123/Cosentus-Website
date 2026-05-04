@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
@@ -38,6 +39,62 @@ export default function AboutContent() {
   const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
+      {/* CO-SENT-US meaning ~ Together we Conquer
+          Brand graphic from cosentus.com/about-us, presented as the
+          first content block under the hero. Full-bleed teal panel,
+          image centered. Animation will be added later per direction —
+          for now it's a static reveal. */}
+      <section className="about-co-section">
+        <div className="container">
+          <RevealOnScroll>
+            <h2 className="about-co-title">
+              CO-SENT-US meaning ~ Together we Conquer
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.15}>
+            <div className="about-co-graphic">
+              <Image
+                src="/images/about/co-graphic.webp"
+                alt="CO graphic: collaborate + coordinate + cooperate = coexpand"
+                width={1201}
+                height={670}
+                priority
+                sizes="(max-width: 768px) 92vw, (max-width: 1280px) 90vw, 1100px"
+              />
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      <style>{`
+        .about-co-section {
+          background: var(--primary);
+          padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 9vw, 120px);
+          color: #fff;
+          overflow: hidden;
+        }
+        .about-co-title {
+          font-family: var(--font-display);
+          font-size: clamp(22px, 2.6vw, 36px);
+          font-weight: 700;
+          line-height: 1.25;
+          letter-spacing: -0.01em;
+          color: #fff;
+          text-align: center;
+          margin: 0 auto clamp(36px, 5vw, 64px);
+          max-width: 880px;
+        }
+        .about-co-graphic {
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .about-co-graphic img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+      `}</style>
+
       {/* About Description */}
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
