@@ -14,11 +14,20 @@ export default function PageBand({ title }: PageBandProps) {
     <section
       style={{
         background: '#00B5D6',
-        paddingTop: 100,
+        // Top padding clears the fixed nav (~70px) plus a bit of breathing
+        // room. Bottom is tight so the band reads as a thin strip.
+        paddingTop: 96,
         paddingBottom: 32,
       }}
     >
-      <div className="hero-content">
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: '0 auto',
+          padding: '0 40px',
+          width: '100%',
+        }}
+      >
         <h1
           style={{
             fontSize: 'clamp(36px, 5vw, 64px)',
