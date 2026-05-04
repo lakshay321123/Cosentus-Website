@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Script from 'next/script'
 import LocationTabs from './LocationTabs'
 import LeadForm from './LeadForm'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 import type { Location } from '../_data/locations'
 
 interface Props {
@@ -315,6 +316,9 @@ export default function LocationPageContent({ location }: Props) {
       <section className="section section-alt">
         <div className="container">
           <div className="section-title">What Happens After You Reach Out</div>
+
+          {/* Desktop: 4-column grid. Hidden at <=768px by global CSS rule
+              that pairs .steps-desktop with .steps-mobile site-wide. */}
           <div
             className="steps-desktop"
             style={{
@@ -357,6 +361,47 @@ export default function LocationPageContent({ location }: Props) {
               </div>
             ))}
           </div>
+
+          {/* Mobile: swipeable carousel. Site-wide CSS hides .steps-mobile
+              by default and reveals it (display: block !important) at
+              <=768px while hiding .steps-desktop. Without this sibling
+              the entire steps section vanishes on mobile. */}
+          <div className="steps-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {steps.map((step, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: 32,
+                    background: 'var(--white)',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--gray-200)',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      background: 'var(--primary)',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 18,
+                      fontWeight: 600,
+                      marginBottom: 16,
+                    }}
+                  >
+                    {step.num}
+                  </div>
+                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>
+                    {step.text}
+                  </p>
+                </div>
+              ))}
+            </MobileCarousel>
+          </div>
         </div>
       </section>
 
@@ -371,14 +416,6 @@ export default function LocationPageContent({ location }: Props) {
           .location-body {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
-          }
-          .steps-desktop {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-        @media (max-width: 540px) {
-          .steps-desktop {
-            grid-template-columns: 1fr !important;
           }
         }
       `}</style>
