@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import PageHero from '@/components/sections/PageHero'
 import LocationPageContent from '../_components/LocationPageContent'
 import { LOCATIONS, getLocationBySlug } from '../_data/locations'
 
@@ -50,11 +49,6 @@ export default async function LocationPage({ params }: Props) {
   if (!loc) notFound()
   return (
     <main>
-      <PageHero
-        label="CONTACT"
-        title={loc.name}
-        subtitle={loc.copy}
-      />
       <LocationPageContent location={loc} />
     </main>
   )
