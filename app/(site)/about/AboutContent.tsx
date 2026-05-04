@@ -31,14 +31,6 @@ const leadership = [
   { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Ashwin is the creative voice guiding everything that we do. With an Art and English Honors Degree, Ashwin found his calling in advertising. He graduated from College of Art, New Delhi, India and has since worked for some of the world\'s top network agencies in India, South-Asia and the Middle East and became Youngest Creative Director in India. Over the past two decades he has had the privilege to work with prominent worldwide brands like: Hyundai Motors, Hero Motors, Nestle Asia, Glaxo Smith Klein (Belgium), Osteoporosis Foundation New York, World Health Organization, and many other prestigious companies. When not at work, Ashwin enjoys walking on the beach, and going cycling. He loves new art installations, and enjoying the best coffee in the world in Dubai where he calls home.' },
 ]
 
-const offices = [
-  { city: 'Irvine, CA', label: 'Headquarters', address: '300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618', phone: '(949) 216-4280', maps: 'https://maps.google.com/?q=300+Spectrum+Center+Dr+Suite+1450+Irvine+CA+92618' },
-  { city: 'Napa, CA', label: 'Regional Office', address: '550 Gateway Dr #100, Napa, CA 94558', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=550+Gateway+Dr+100+Napa+CA+94558' },
-  { city: 'Dallas, TX', label: 'Regional Office', address: 'Dallas, TX', phone: '(888) 521-0055', maps: 'https://maps.google.com/?q=Cosentus+Dallas+TX' },
-  { city: 'Salt Lake City, UT', label: 'Regional Office', address: 'Utah', phone: '(877) 806-2286', maps: 'https://maps.google.com/?q=Cosentus+Utah' },
-  { city: 'Olathe, KS', label: 'Regional Office', address: 'Olathe, KS', phone: '(913) 262-2323', maps: 'https://maps.google.com/?q=Cosentus+Olathe+KS' },
-]
-
 export default function AboutContent() {
   // Use TeamMember type so TeamCircleGrid's onPersonClick (which yields
   // TeamMember) can pass straight into this setter. The leadership entries
@@ -120,21 +112,6 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Why Independent Matters */}
-      <section className="section section-alt">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <RevealOnScroll>
-            <div className="section-title">Why Independent Matters</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 17, lineHeight: 1.8 }}>
-              Cosentus is privately and independently owned. We make long-term decisions for client outcomes,
-              not quarterly investor returns. Our stability shows: 80% of our founding team remains with the company.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
-
       {/* Leadership */}
       <section className="section section-alt" id="leadership">
         <div className="container">
@@ -172,45 +149,6 @@ export default function AboutContent() {
               </div>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Offices */}
-      <section className="section">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-title">Where We Are</div>
-          </RevealOnScroll>
-          {/* Desktop */}
-          <div className="offices-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
-            {offices.map((office, i) => (
-              <RevealOnScroll key={i}>
-                <a href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none', transition: 'all 0.3s ease', height: '100%' }}
-                  onMouseEnter={e => { const el = e.currentTarget; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 8px 24px rgba(0,181,214,0.2)'; el.style.background = '#00B5D6'; el.style.color = 'white'; el.style.borderColor = '#00B5D6' }}
-                  onMouseLeave={e => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.background = 'var(--white)'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)' }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
-                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
-                </a>
-              </RevealOnScroll>
-            ))}
-          </div>
-          {/* Mobile */}
-          <div className="offices-mobile" style={{ marginTop: 24 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {offices.map((office, i) => (
-                <a key={i} href={office.maps} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '24px', background: 'var(--white)', color: 'var(--gray-700)', borderRadius: 12, border: '1px solid var(--gray-200)', textDecoration: 'none' }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{office.city}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.7, marginBottom: 12 }}>{office.label}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, opacity: 0.85, marginBottom: 8 }}>{office.address}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{office.phone}</div>
-                  <div style={{ fontSize: 12, marginTop: 12, opacity: 0.6 }}>View on Maps →</div>
-                </a>
-              ))}
-            </MobileCarousel>
-          </div>
         </div>
       </section>
     </>
