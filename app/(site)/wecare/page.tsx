@@ -1,7 +1,9 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import WeCareOrganisations from './WeCareOrganisations'
+import { galleries } from './galleries'
 
 export const metadata: Metadata = {
   title: 'WeCare | Community & Charitable Initiatives | Cosentus',
@@ -9,28 +11,11 @@ export const metadata: Metadata = {
 }
 
 /**
- * Event gallery — photos sourced from cosentus.com/wecare/. Locally hosted
- * in /public/images/wecare/ (Vercel blocks external image hot-linking and
- * the rest of the site follows the locally-hosted convention).
- *
- * Order matches cosentus.com/wecare/: most recent events first.
+ * Event gallery — photos sourced from cosentus.com/wecare/. The full
+ * data (per-event item lists, slug routing, etc.) lives in galleries.ts
+ * and is shared with the dynamic /wecare/[slug] route.
  */
-const events = [
-  { title: 'Harmony House – India, 2026',                             image: '/images/wecare/harmony-house-india-2026.webp' },
-  { title: 'Orange County Second Harvest Food Bank – USA, 2025',      image: '/images/wecare/orange-county-second-harvest-2025.webp' },
-  { title: 'Harmony House – India, 2025',                             image: '/images/wecare/harmony-house-india-2025.webp' },
-  { title: 'In Concert With Hope 2025: A Proud Moment for Cosentus',  image: '/images/wecare/in-concert-with-hope-2025.webp' },
-  { title: 'Harmony House – India, 2024',                             image: '/images/wecare/harmony-house-india-2024.webp' },
-  { title: 'In Concert With Hope – Saratoga, 2024',                   image: '/images/wecare/in-concert-with-hope-saratoga-2024.webp' },
-  { title: 'Bill Wilson Center – Building Dreams Celebration, 2024',  image: '/images/wecare/bill-wilson-center-2024.webp' },
-  { title: 'Pacific Clinics Hearts & Hands Spring Celebration, 2024', image: '/images/wecare/pacific-clinics-2024.webp' },
-  { title: 'Harmony House – India, 2023',                             image: '/images/wecare/harmony-house-india-2023.webp' },
-  { title: 'Someone Cares Food Bank – USA, 2023',                     image: '/images/wecare/someone-cares-food-bank-2023.webp' },
-  { title: 'Kids Against Hunger – USA, 2023',                         image: '/images/wecare/kids-against-hunger-2023.webp' },
-  { title: 'Beyond Blindness – USA, 2023',                            image: '/images/wecare/beyond-blindness-2023.webp' },
-  { title: 'Uday Foundation – India, 2023',                           image: '/images/wecare/uday-foundation-2023.webp' },
-  { title: 'Plantation Drive – India, 2023',                          image: '/images/wecare/plantation-drive-india-2023.webp' },
-]
+const events = galleries
 
 /**
  * Organisations we support. Logo + full description text, mirrors the
@@ -193,58 +178,97 @@ export default function WeCarePage() {
             gap: 24,
             marginTop: 40,
           }}>
-            {events.map((event, i) => (
-              <RevealOnScroll key={event.image} delay={(i % 4) * 0.08}>
-                <article className="wecare-event-card" style={{
-                  background: 'var(--white)',
-                  borderRadius: 'var(--radius-md)',
-                  overflow: 'hidden',
-                  border: '1px solid var(--gray-200)',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column' as const,
-                  transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s',
-                }}>
-                  <div style={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    overflow: 'hidden',
-                    background: 'var(--gray-100)',
-                  }}>
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      loading="lazy"
-                      className="wecare-event-img"
-                      style={{
-                        position: 'absolute', inset: 0,
-                        width: '100%', height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                      }}
-                    />
-                  </div>
-                  <div style={{
-                    padding: '20px 20px 22px',
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}>
-                    <h3 style={{
-                      fontSize: 15,
-                      fontWeight: 500,
-                      lineHeight: 1.4,
-                      color: 'var(--gray-900)',
-                      fontFamily: 'var(--font-display)',
-                      margin: 0,
+            {events.map((event, i) => {
+              // Show a small "Video" badge on the cover when the gallery
+              // contains a video item — gives visitors a hint before they
+              // click in.
+              const hasVideo = event.items.some((it) => it.type === 'video')
+
+              return (
+                <RevealOnScroll key={event.slug} delay={(i % 4) * 0.08}>
+                  <Link
+                    href={`/wecare/${event.slug}`}
+                    aria-label={`View ${event.title} gallery`}
+                    style={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      display: 'block',
+                      height: '100%',
+                    }}
+                  >
+                    <article className="wecare-event-card" style={{
+                      background: 'var(--white)',
+                      borderRadius: 'var(--radius-md)',
+                      overflow: 'hidden',
+                      border: '1px solid var(--gray-200)',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column' as const,
+                      transition: 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border-color 0.3s',
                     }}>
-                      {event.title}
-                    </h3>
-                  </div>
-                </article>
-              </RevealOnScroll>
-            ))}
+                      <div style={{
+                        position: 'relative',
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        overflow: 'hidden',
+                        background: 'var(--gray-100)',
+                      }}>
+                        <img
+                          src={event.cover}
+                          alt={event.title}
+                          loading="lazy"
+                          className="wecare-event-img"
+                          style={{
+                            position: 'absolute', inset: 0,
+                            width: '100%', height: '100%',
+                            objectFit: 'cover',
+                            transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                          }}
+                        />
+                        {hasVideo && (
+                          <div style={{
+                            position: 'absolute',
+                            top: 12,
+                            left: 12,
+                            background: 'rgba(0, 181, 214, 0.95)',
+                            color: '#fff',
+                            fontSize: 10,
+                            fontWeight: 600,
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase' as const,
+                            padding: '4px 10px',
+                            borderRadius: 999,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                          }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                            Video
+                          </div>
+                        )}
+                      </div>
+                      <div style={{
+                        padding: '20px 20px 22px',
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
+                        <h3 style={{
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: 1.4,
+                          color: 'var(--gray-900)',
+                          fontFamily: 'var(--font-display)',
+                          margin: 0,
+                        }}>
+                          {event.title}
+                        </h3>
+                      </div>
+                    </article>
+                  </Link>
+                </RevealOnScroll>
+              )
+            })}
           </div>
         </div>
       </section>
