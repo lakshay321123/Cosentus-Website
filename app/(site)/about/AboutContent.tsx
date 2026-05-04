@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
@@ -39,30 +38,133 @@ export default function AboutContent() {
   const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
-      {/* CO-SENT-US meaning ~ Together we Conquer
-          Brand graphic from cosentus.com/about-us, presented as the
-          first content block under the hero. Full-bleed teal panel,
-          image centered. Animation will be added later per direction —
-          for now it's a static reveal. */}
+      {/* CO-SENT-US meaning ~ Together we Conquer.
+          Animated reveal sequence (auto-play on mount):
+            1. heading 'CO-SENT-US meaning' slides in from left
+            2. 'Together we Conquer' slides in from right
+            3. 'collaborate' word fades in (inside future C)
+            4. 'coordinate' word fades in
+            5. 'cooperate' word fades in
+            6. C ring fades in around the words
+            7. O outer ring fades in
+            8. '= coexpand' + O inner ring fades in
+          The graphic itself is the original brand WebP — never recreated.
+          Each phase shows a different clipped slice of the same image, so
+          visuals stay 100% pixel-accurate to live cosentus.com/about-us. */}
       <section className="about-co-section">
         <div className="container">
-          <RevealOnScroll>
-            <h2 className="about-co-title">
-              CO-SENT-US meaning ~ Together we Conquer
-            </h2>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
-            <div className="about-co-graphic">
-              <Image
-                src="/images/about/co-graphic.webp"
-                alt="CO graphic: collaborate + coordinate + cooperate = coexpand"
-                width={1201}
-                height={670}
-                priority
-                sizes="(max-width: 768px) 92vw, 760px"
+          <h2 className="about-co-title">
+            <span className="about-co-title-l">CO-SENT-US meaning</span>
+            <span className="about-co-title-tilde">&nbsp;~&nbsp;</span>
+            <span className="about-co-title-r">Together we Conquer</span>
+          </h2>
+          <div className="about-co-graphic">
+            <svg
+              viewBox="0 0 1201 670"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="CO graphic: collaborate + coordinate + cooperate equals coexpand"
+            >
+              <defs>
+                {/* word bands inside the C — tight rects sized so they
+                    NEVER overlap any C ring stroke (inner-rim strokes
+                    are at x<210, x>520; top/bottom tip strokes at y<170,
+                    y>438). Each rect contains the word + the '+' below. */}
+                <clipPath id="co-band-collab">
+                  <rect x="240" y="180" width="200" height="95" />
+                </clipPath>
+                <clipPath id="co-band-coord">
+                  <rect x="240" y="275" width="200" height="95" />
+                </clipPath>
+                <clipPath id="co-band-coop">
+                  <rect x="240" y="370" width="200" height="65" />
+                </clipPath>
+                {/* C ring — left half bbox MINUS the same 3 word rects so
+                    the words aren't re-rendered (they're already shown by
+                    layers 1-3). evenodd carves the holes. The C top/bottom
+                    'tip' strokes (at x≈220-260, x≈420-470 near y=160-180
+                    and y=420-440) sit OUTSIDE the cutouts so they render. */}
+                <clipPath id="co-band-cring" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 0 0 H 651 V 670 H 0 Z M 240 180 H 440 V 275 H 240 Z M 240 275 H 440 V 370 H 240 Z M 240 370 H 440 V 435 H 240 Z"
+                    clipRule="evenodd"
+                  />
+                </clipPath>
+                {/* O outer ring — right half bbox MINUS inner ellipse */}
+                <clipPath id="co-band-oouter" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 652 0 H 1201 V 670 H 652 Z M 720 335 A 190 210 0 1 1 1100 335 A 190 210 0 1 1 720 335"
+                    clipRule="evenodd"
+                  />
+                </clipPath>
+                {/* O inner area: includes inner ring + '= coexpand' text */}
+                <clipPath id="co-band-oinner">
+                  <ellipse cx="910" cy="335" rx="190" ry="210" />
+                </clipPath>
+              </defs>
+
+              <image
+                className="co-layer co-layer-1"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-collab)"
+                preserveAspectRatio="none"
               />
-            </div>
-          </RevealOnScroll>
+              <image
+                className="co-layer co-layer-2"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-coord)"
+                preserveAspectRatio="none"
+              />
+              <image
+                className="co-layer co-layer-3"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-coop)"
+                preserveAspectRatio="none"
+              />
+              <image
+                className="co-layer co-layer-4"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-cring)"
+                preserveAspectRatio="none"
+              />
+              <image
+                className="co-layer co-layer-5"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-oouter)"
+                preserveAspectRatio="none"
+              />
+              <image
+                className="co-layer co-layer-6"
+                href="/images/about/co-graphic.webp"
+                x="0"
+                y="0"
+                width="1201"
+                height="670"
+                clipPath="url(#co-band-oinner)"
+                preserveAspectRatio="none"
+              />
+            </svg>
+          </div>
         </div>
       </section>
 
@@ -84,14 +186,75 @@ export default function AboutContent() {
           margin: 0 auto clamp(36px, 5vw, 64px);
           max-width: 880px;
         }
+        .about-co-title-l,
+        .about-co-title-r,
+        .about-co-title-tilde {
+          display: inline-block;
+          opacity: 0;
+        }
+        /* heading split: left half slides from -30px, right from +30px,
+           tilde fades in last. all auto-play on mount. */
+        .about-co-title-l {
+          transform: translateX(-30px);
+          animation: coTitleL 0.7s 0.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        .about-co-title-r {
+          transform: translateX(30px);
+          animation: coTitleR 0.7s 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        .about-co-title-tilde {
+          animation: coFade 0.4s 1.0s ease-out forwards;
+        }
+        @keyframes coTitleL {
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes coTitleR {
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes coFade {
+          to { opacity: 1; }
+        }
+
         .about-co-graphic {
           max-width: 760px;
           margin: 0 auto;
         }
-        .about-co-graphic img {
+        .about-co-graphic svg {
           width: 100%;
           height: auto;
           display: block;
+        }
+
+        /* every layer starts hidden, then auto-fades in at its own delay.
+           total sequence ~3.4s end-to-end. */
+        .co-layer {
+          opacity: 0;
+          animation-fill-mode: forwards;
+          animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .co-layer-1 { animation: coFade 0.45s 1.4s forwards; } /* collaborate */
+        .co-layer-2 { animation: coFade 0.45s 1.8s forwards; } /* coordinate  */
+        .co-layer-3 { animation: coFade 0.45s 2.2s forwards; } /* cooperate   */
+        .co-layer-4 { animation: coRing 0.7s  2.6s forwards; } /* C ring      */
+        .co-layer-5 { animation: coRing 0.7s  3.2s forwards; } /* O outer     */
+        .co-layer-6 { animation: coFade 0.5s  3.8s forwards; } /* = coexpand  */
+
+        /* rings get a slight scale-in so they 'form' rather than just appear */
+        @keyframes coRing {
+          0%   { opacity: 0; transform: scale(0.96); transform-origin: center; }
+          100% { opacity: 1; transform: scale(1);    transform-origin: center; }
+        }
+
+        /* respect reduced-motion: snap everything to final state */
+        @media (prefers-reduced-motion: reduce) {
+          .about-co-title-l,
+          .about-co-title-r,
+          .about-co-title-tilde,
+          .co-layer {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+          }
         }
       `}</style>
 
