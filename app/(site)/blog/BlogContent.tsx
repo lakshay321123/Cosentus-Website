@@ -6,19 +6,50 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { blogPosts } from '@/data/blogPosts'
 
 const allTags = ['All', ...Array.from(new Set(blogPosts.map(b => b.tag))).sort()]
-const PAGE_SIZE = 6
+
+// Page sizes split by viewport. 640px matches the existing single-column
+// CSS breakpoint below — a single column of 12 cards on mobile would be
+// a long scroll, so we keep mobile at 6.
+const MOBILE_PAGE_SIZE = 6
+const DESKTOP_PAGE_SIZE = 12
+const MOBILE_BREAKPOINT_PX = 640
 
 export default function BlogContent() {
   const [activeTag, setActiveTag] = useState('All')
-  const [displayedCount, setDisplayedCount] = useState(PAGE_SIZE)
+  // Initial value MUST match server render to avoid hydration mismatch.
+  // Server has no `window`, so it always uses the desktop page size.
+  // On mobile the useEffect below corrects this on mount (one-frame flash
+  // of extra cards is acceptable; far cheaper than a hydration error).
+  const [pageSize, setPageSize] = useState(DESKTOP_PAGE_SIZE)
+  const [displayedCount, setDisplayedCount] = useState(DESKTOP_PAGE_SIZE)
 
   const filtered = activeTag === 'All' ? blogPosts : blogPosts.filter(b => b.tag === activeTag)
   const displayed = filtered.slice(0, displayedCount)
   const hasMore = displayedCount < filtered.length
 
-  // Reset pagination when the active filter changes
+  // Track the viewport so the page size and Load More step stay correct
+  // across device rotation and window resize.
   useEffect(() => {
-    setDisplayedCount(PAGE_SIZE)
+    if (typeof window === 'undefined') return
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`)
+    const sync = () => {
+      const next = mql.matches ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
+      setPageSize(next)
+      // Don't shrink what's already visible if the user has been clicking
+      // Load More — only grow up to the new page size.
+      setDisplayedCount(prev => Math.max(prev, next))
+    }
+    sync()
+    mql.addEventListener('change', sync)
+    return () => mql.removeEventListener('change', sync)
+  }, [])
+
+  // Reset pagination when the active filter changes. Reads the latest
+  // pageSize from state at the time activeTag flips — that is the current
+  // viewport's page size, which is what we want.
+  useEffect(() => {
+    setDisplayedCount(pageSize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTag])
 
   return (
@@ -27,8 +58,13 @@ export default function BlogContent() {
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
           <RevealOnScroll>
-            {/* Mobile: dropdown filter (hidden on desktop via CSS) */}
-            <div className="blog-filter-select" style={{ marginBottom: 32, display: 'none' }}>
+            {/* Category filter — single dropdown shown on all viewports.
+                Replaces the previous wrap-pill row which became visually
+                noisy as the tag list grew past ~10 categories. */}
+            <div
+              className="blog-filter-select"
+              style={{ marginBottom: 48, maxWidth: 360 }}
+            >
               <label htmlFor="blog-tag-select" style={{
                 display: 'block', fontSize: 12, fontWeight: 600,
                 color: 'var(--gray-600)', textTransform: 'uppercase',
@@ -72,32 +108,6 @@ export default function BlogContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-            </div>
-
-            {/* Desktop: pill row (hidden on mobile via CSS) */}
-            <div className="blog-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
-              {allTags.map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(tag)}
-                  style={{
-                    padding: '8px 18px',
-                    background: activeTag === tag ? 'var(--primary)' : 'var(--white)',
-                    color: activeTag === tag ? 'white' : 'var(--gray-600)',
-                    borderRadius: 20,
-                    fontSize: 13,
-                    fontWeight: activeTag === tag ? 500 : 400,
-                    border: `1px solid ${activeTag === tag ? 'var(--primary)' : 'var(--gray-200)'}`,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    fontFamily: 'var(--font-body)',
-                    whiteSpace: 'nowrap' as const,
-                    flexShrink: 0,
-                  }}
-                >
-                  {tag}
-                </button>
-              ))}
             </div>
           </RevealOnScroll>
         </div>
@@ -182,7 +192,7 @@ export default function BlogContent() {
           {hasMore && (
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
               <button
-                onClick={() => setDisplayedCount(c => c + PAGE_SIZE)}
+                onClick={() => setDisplayedCount(c => c + pageSize)}
                 className="blog-load-more"
                 style={{
                   padding: '14px 36px',
@@ -221,8 +231,6 @@ export default function BlogContent() {
                 overflow: hidden;
                 text-overflow: ellipsis;
               }
-              .blog-filter-select { display: block !important; }
-              .blog-tags { display: none !important; }
             }
           `}</style>
           {filtered.length === 0 && (
