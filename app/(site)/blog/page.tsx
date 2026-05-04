@@ -10,11 +10,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <main>
-      <PageHero
-        label="BLOG"
-        title="Healthcare Billing & RCM Insights"
-        subtitle="Expert insights on medical billing, revenue cycle management, coding compliance, and practice growth strategies from the Cosentus team."
-      />
+      <PageHero title="Blogs" compact />
       <BlogContent />
     </main>
   )

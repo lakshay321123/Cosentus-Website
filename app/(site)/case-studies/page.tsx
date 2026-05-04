@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <main>
-      <PageHero
-        label="CLIENT SUCCESS STORIES"
-        title="Real Practices. Real Revenue Growth."
-        subtitle="Every practice we partner with has a unique revenue story. Below are outcome-first client success stories demonstrating the concrete impact of our Real + Artificial Intelligence model."
-      />
+      <PageHero title="Client Stories" compact />
       <CaseStudiesSection mode="viewer" />
       <CTASection />
     </main>

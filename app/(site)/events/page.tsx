@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <main>
-      <PageHero
-        label="EVENTS"
-        title="There's Always Something Happening at Cosentus."
-        subtitle="Innovation starts with information. We attend and host events related to all our service areas, providing the latest and greatest solutions to all your business needs. Come say hello!"
-      />
+      <PageHero title="Events" compact />
 
       <EventsContent />
 

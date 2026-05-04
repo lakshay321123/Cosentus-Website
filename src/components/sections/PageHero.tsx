@@ -8,16 +8,26 @@ interface PageHeroProps {
   ctaText?: string
   ctaHref?: string
   videoSrc?: string
+  /**
+   * When true, the hero shrinks to ~half height on mobile (≤768px).
+   * Desktop is unaffected. Used by short-content pages (Blog, Client
+   * Stories, News, Events, Partnership) where the default 50vh on a
+   * tall mobile viewport eats too much above-the-fold real estate.
+   */
+  compact?: boolean
 }
 
-export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc }: PageHeroProps) {
+export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact }: PageHeroProps) {
   // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
   const isLightSpecialtyVideo = (videoSrc || '').includes('specialties-hero')
 
   return (
-    <section style={{ position: 'relative', minHeight: '50vh', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+    <section
+      className={`page-hero-section${compact ? ' page-hero-section--compact' : ''}`}
+      style={{ position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}
+    >
       {/* Video background */}
       <video
         autoPlay

@@ -10,13 +10,7 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <main>
-      <PageHero
-        label="PARTNERSHIP"
-        title="Grow Your Business with Innovative Solutions"
-        subtitle="Cosentus has emerged as the preferred partner of choice for billing companies across America. Our dedicated team of 1,000+ RCM experts ensures cost-effectiveness and maximized operational efficiencies."
-        ctaText="Schedule a Call"
-        ctaHref="/contact"
-      />
+      <PageHero title="Partnership" compact />
 
       <PartnershipContent />
     </main>

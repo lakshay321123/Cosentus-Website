@@ -350,6 +350,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   /* grid pattern removed */
 }
 
+.page-hero-section {
+  min-height: 50vh;
+}
+
+/* Compact variant — used by short-content pages (Blog, Client Stories,
+   News, Events, Partnership) where 50vh is too tall on mobile. Desktop
+   stays 50vh; only ≤768px shrinks. */
+@media (max-width: 768px) {
+  .page-hero-section--compact {
+    min-height: 25vh;
+  }
+}
+
 .hero-content {
   position: relative;
   z-index: 2;

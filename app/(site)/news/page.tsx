@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export default function NewsPage() {
   return (
     <main>
-      <PageHero
-        label="NEWS"
-        title="Industry News & Updates"
-        subtitle="Stay informed with the latest healthcare RCM news, policy updates, and industry insights curated by the Cosentus team."
-      />
+      <PageHero title="News" compact />
       <NewsListContent />
       <CTASection />
     </main>
