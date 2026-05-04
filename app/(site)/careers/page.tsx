@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
+import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export const metadata: Metadata = {
@@ -44,24 +45,9 @@ const coreValues = [
 export default function CareersPage() {
   return (
     <main>
-      {/* HERO — hands image background. No subtitle, no CTA button: there's
-          no contact form to land on yet, so a button would dead-end. */}
-      <section className="careers-hero">
-        <Image
-          src="/images/careers/hero-hands.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
-        />
-        <div className="careers-hero-overlay" />
-        <div className="careers-hero-content">
-          <RevealOnScroll>
-            <h1>Join Our Team</h1>
-          </RevealOnScroll>
-        </div>
-      </section>
+      {/* HERO — video background (hero-banner.mp4) restored. Title only:
+          no subtitle, no CTA (no contact form to land on yet). */}
+      <PageHero title="Join Our Team" />
 
       {/* INSPIRE — kept verbatim per direction */}
       <section className="section">
@@ -120,27 +106,44 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* CORE VALUES — full-width staircase. Heading + desc stay inside
-          .container; the staircase itself is a sibling outside the
-          container so cards span the full viewport. */}
-      <section className="section section-alt">
-        <div className="container">
+      {/* CORE VALUES — heading sits on hands-image background (matching
+          live), then 5 stair-step rows full-width below. */}
+      <section className="section core-values-heading-section">
+        <Image
+          src="/images/careers/hero-hands.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          priority={false}
+        />
+        <div className="core-values-heading-overlay" />
+        <div className="container core-values-heading-content">
           <RevealOnScroll>
-            <h2 className="section-title" style={{ textAlign: 'center' }}>
+            <h2 className="section-title" style={{ textAlign: 'center', color: 'white' }}>
               Our Core Values
             </h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <p
               className="section-desc"
-              style={{ maxWidth: 720, margin: '20px auto 0', textAlign: 'center' }}
+              style={{
+                maxWidth: 760,
+                margin: '20px auto 0',
+                textAlign: 'center',
+                color: 'rgba(255,255,255,0.95)',
+                fontSize: 18,
+                lineHeight: 1.7,
+              }}
             >
               Our Core Values speak directly to who we are and what we&rsquo;re about &mdash; with them, we build
               universal trust and promise a future of exponential growth.
             </p>
           </RevealOnScroll>
         </div>
+      </section>
 
+      <section className="section-alt" style={{ paddingTop: 0, paddingBottom: 80 }}>
         <div className="core-values-list">
           {coreValues.map((v, i) => (
             <RevealOnScroll key={v.title} direction="right" delay={i * 0.18}>

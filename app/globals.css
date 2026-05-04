@@ -3216,55 +3216,35 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
-/* ===== CAREERS — Hero (hands image, no video) =====
+/* ===== CAREERS — Our Core Values heading section =====
  *
- * Live cosentus.com/join-our-team uses a solid teal banner. We diverge:
- * use the team-hands image (Cosentus-Website2.png on live, hosted locally
- * as hero-hands.jpg) as the banner so it ties to the team theme. No CTA
- * button — there's no contact form to land on yet.
+ * Hands image (Cosentus-Website2.png on live, hosted locally as
+ * hero-hands.jpg) sits behind the heading + description. Dark overlay
+ * for legibility. Below this section, the staircase rows render
+ * full-width on white background — matching live.
  */
-.careers-hero {
+.core-values-heading-section {
   position: relative;
-  min-height: 50vh;
   overflow: hidden;
-  display: flex;
-  align-items: center;
   isolation: isolate;
+  padding: 100px 0;
 }
 
-.careers-hero-overlay {
+.core-values-heading-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 30, 50, 0.55) 0%,
-    rgba(0, 80, 110, 0.35) 50%,
-    rgba(0, 50, 70, 0.55) 100%
+    rgba(10, 30, 50, 0.55) 0%,
+    rgba(10, 50, 70, 0.45) 50%,
+    rgba(10, 30, 50, 0.55) 100%
   );
   z-index: 1;
 }
 
-.careers-hero-content {
+.core-values-heading-content {
   position: relative;
   z-index: 2;
-  width: 100%;
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 160px 40px 80px;
-}
-
-.careers-hero-content h1 {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 700;
-  font-style: italic;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
-  color: white;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .careers-hero-content { padding: 120px 24px 60px; }
 }
 
 /* ===== CAREERS — Core Values stair-step =====
@@ -3294,7 +3274,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   flex-direction: row;
   width: 100%;
   align-items: stretch;
-  min-height: 240px;
+  min-height: 280px;
 }
 
 /* LEFT COLUMN — gradient with hard 80% stop = the diagonal wedge.
@@ -3347,7 +3327,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   grid-template-columns: 30% 1fr;
   gap: 0;
   align-items: center;
-  padding: 20px;
+  padding: 32px 28px;
 }
 .core-value-row[data-shade="b"] .core-value-card {
   background: #40C4DF;
@@ -3375,7 +3355,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .core-value-title {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 700;
   color: white;
   margin: 0;
@@ -3383,7 +3363,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .core-value-desc {
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.6;
   color: white;
   margin: 0;
@@ -3394,8 +3374,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .core-value-row { min-height: 200px; }
   .core-value-num { font-size: 72px; padding-right: 14%; }
   .core-value-icon img { max-width: 100px; }
-  .core-value-title { font-size: 20px; }
-  .core-value-desc { font-size: 14px; }
+  .core-value-title { font-size: 26px; }
+  .core-value-desc { font-size: 16px; line-height: 1.6; }
   .core-value-body { padding-right: 16%; }
 }
 
@@ -3409,24 +3389,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .core-value-numcol {
     width: 100%;
-    min-height: 90px;
+    min-height: 100px;
     padding: 13px 0;
   }
   .core-value-num {
-    font-size: 64px;
+    font-size: 72px;
     padding-right: 28%;
   }
   .core-value-card {
     width: 100%;
     grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 13px 13px 24px;
+    gap: 16px;
+    padding: 28px 24px 36px;
     text-align: center;
   }
-  .core-value-icon img { max-width: 80px; margin: 0 auto; }
-  .core-value-body { padding-right: 0; align-items: center; }
-  .core-value-title { font-size: 18px; }
-  .core-value-desc { font-size: 13px; line-height: 1.55; }
+  .core-value-icon img { max-width: 96px; margin: 0 auto; }
+  .core-value-body { padding-right: 0; align-items: center; gap: 12px; }
+  .core-value-title { font-size: 22px; }
+  .core-value-desc { font-size: 16px; line-height: 1.6; }
 }
 
 /* ===== CAREERS — Career Opportunities (simple text + mailto) =====
