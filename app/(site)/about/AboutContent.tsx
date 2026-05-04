@@ -40,17 +40,16 @@ export default function AboutContent() {
     <>
       {/* CO-SENT-US meaning ~ Together we Conquer.
           Animated reveal sequence (auto-play on mount):
-            1. heading 'CO-SENT-US meaning' slides in from left
-            2. 'Together we Conquer' slides in from right
-            3. 'collaborate' word fades in (inside future C)
-            4. 'coordinate' word fades in
-            5. 'cooperate' word fades in
-            6. C ring fades in around the words
-            7. O outer ring fades in
-            8. '= coexpand' + O inner ring fades in
-          The graphic itself is the original brand WebP — never recreated.
-          Each phase shows a different clipped slice of the same image, so
-          visuals stay 100% pixel-accurate to live cosentus.com/about-us. */}
+            1. heading slides in from L+R (smaller, slower than v1)
+            2. all 3 words ('collaborate', 'coordinate', 'cooperate')
+               fade in together inside future C area
+            3. C ring DRAWS from the bottom around the left to the top
+            4. O outer ring draws the same way
+            5. O inner ring draws
+            6. '= coexpand' fades in inside the inner ring
+          The graphic is the original brand WebP — never recreated.
+          Rings use SVG mask paths whose stroke-dashoffset animates,
+          so the ring appears traced like a pen stroke. */}
       <section className="about-co-section">
         <div className="container">
           <h2 className="about-co-title">
@@ -66,101 +65,176 @@ export default function AboutContent() {
               aria-label="CO graphic: collaborate + coordinate + cooperate equals coexpand"
             >
               <defs>
-                {/* word bands inside the C — tight rects sized so they
-                    NEVER overlap any C ring stroke (inner-rim strokes
-                    are at x<210, x>520; top/bottom tip strokes at y<170,
-                    y>438). Each rect contains the word + the '+' below. */}
-                <clipPath id="co-band-collab">
-                  <rect x="240" y="180" width="200" height="95" />
+                {/* Clip rect for the 3 words inside the C — single rect
+                    covering all three word lines so they fade in together */}
+                <clipPath id="co-words">
+                  <rect x="240" y="180" width="200" height="255" />
                 </clipPath>
-                <clipPath id="co-band-coord">
-                  <rect x="240" y="275" width="200" height="95" />
+
+                {/* Clip rect for '= coexpand' text — small ellipse
+                    inside the O inner ring */}
+                <clipPath id="co-coexpand">
+                  <ellipse cx="908" cy="335" rx="135" ry="170" />
                 </clipPath>
-                <clipPath id="co-band-coop">
-                  <rect x="240" y="370" width="200" height="65" />
-                </clipPath>
-                {/* C ring — left half bbox MINUS the same 3 word rects so
-                    the words aren't re-rendered (they're already shown by
-                    layers 1-3). evenodd carves the holes. The C top/bottom
-                    'tip' strokes (at x≈220-260, x≈420-470 near y=160-180
-                    and y=420-440) sit OUTSIDE the cutouts so they render. */}
-                <clipPath id="co-band-cring" clipPathUnits="userSpaceOnUse">
+
+                {/* Clip path for C ring annulus only — left half of
+                    image MINUS the inner text area. Layer 2 only renders
+                    pixels inside this region, so the mask stroke can be
+                    very wide without leaking into the words area. */}
+                <clipPath id="co-clip-c-ring" clipPathUnits="userSpaceOnUse">
                   <path
-                    d="M 0 0 H 651 V 670 H 0 Z M 240 180 H 440 V 275 H 240 Z M 240 275 H 440 V 370 H 240 Z M 240 370 H 440 V 435 H 240 Z"
+                    d="M 0 0 H 651 V 670 H 0 Z M 240 180 H 440 V 435 H 240 Z"
                     clipRule="evenodd"
                   />
                 </clipPath>
-                {/* O outer ring — right half bbox MINUS inner ellipse */}
-                <clipPath id="co-band-oouter" clipPathUnits="userSpaceOnUse">
+
+                {/* Clip path for O outer ring annulus — right half MINUS
+                    the inner ellipse (which contains inner ring + text). */}
+                <clipPath id="co-clip-o-outer" clipPathUnits="userSpaceOnUse">
                   <path
-                    d="M 652 0 H 1201 V 670 H 652 Z M 720 335 A 190 210 0 1 1 1100 335 A 190 210 0 1 1 720 335"
+                    d="M 652 0 H 1201 V 670 H 652 Z M 718 335 A 190 210 0 1 1 1098 335 A 190 210 0 1 1 718 335"
                     clipRule="evenodd"
                   />
                 </clipPath>
-                {/* O inner area: includes inner ring + '= coexpand' text */}
-                <clipPath id="co-band-oinner">
-                  <ellipse cx="910" cy="335" rx="190" ry="210" />
+
+                {/* Clip path for O inner ring annulus only — outer
+                    ellipse (containing inner ring) MINUS the text-only
+                    ellipse in the center. */}
+                <clipPath id="co-clip-o-inner" clipPathUnits="userSpaceOnUse">
+                  <path
+                    d="M 718 335 A 190 210 0 1 1 1098 335 A 190 210 0 1 1 718 335 M 773 335 A 135 170 0 1 1 1043 335 A 135 170 0 1 1 773 335"
+                    clipRule="evenodd"
+                  />
                 </clipPath>
+
+                {/* C-ring DRAW mask. Path traces an ellipse via two arcs
+                    (start at bottom, sweep=1 → visually CCW through the
+                    LEFT side first). Stroke-width=220 covers the C ring
+                    annulus + tips with margin; clip-path on the layer
+                    keeps it from leaking into the words area. */}
+                <mask
+                  id="co-mask-c"
+                  maskUnits="userSpaceOnUse"
+                  maskContentUnits="userSpaceOnUse"
+                >
+                  <rect x="0" y="0" width="1201" height="670" fill="black" />
+                  <path
+                    className="co-stroke co-stroke-c"
+                    d="M 325 659 A 247 324 0 0 1 325 11 A 247 324 0 0 1 325 659"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="220"
+                    pathLength={100}
+                    strokeDasharray="100"
+                    strokeDashoffset="100"
+                  />
+                </mask>
+
+                {/* O outer ring DRAW mask. The actual O outer ring has
+                    asymmetric halves (left rx≈198, right rx≈334) AND
+                    deviates from a perfect ellipse in places. We use a
+                    very wide stroke (140px) to tolerate those deviations
+                    — clip-path on the layer keeps it contained to the
+                    outer ring annulus only. */}
+                <mask
+                  id="co-mask-o-outer"
+                  maskUnits="userSpaceOnUse"
+                  maskContentUnits="userSpaceOnUse"
+                >
+                  <rect x="0" y="0" width="1201" height="670" fill="black" />
+                  <path
+                    className="co-stroke co-stroke-o-outer"
+                    d="M 865 669 A 198 334 0 0 1 865 1 A 334 334 0 0 1 865 669"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="140"
+                    pathLength={100}
+                    strokeDasharray="100"
+                    strokeDashoffset="100"
+                  />
+                </mask>
+
+                {/* O inner ring DRAW mask. Inner ring center ≈ (908, 335),
+                    rx=156 ry=190. */}
+                <mask
+                  id="co-mask-o-inner"
+                  maskUnits="userSpaceOnUse"
+                  maskContentUnits="userSpaceOnUse"
+                >
+                  <rect x="0" y="0" width="1201" height="670" fill="black" />
+                  <path
+                    className="co-stroke co-stroke-o-inner"
+                    d="M 908 525 A 156 190 0 0 1 908 145 A 156 190 0 0 1 908 525"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="60"
+                    pathLength={100}
+                    strokeDasharray="100"
+                    strokeDashoffset="100"
+                  />
+                </mask>
               </defs>
 
+              {/* Layer 1: all 3 words + their pluses, single fade-in */}
               <image
-                className="co-layer co-layer-1"
+                className="co-layer co-layer-words"
                 href="/images/about/co-graphic.webp"
                 x="0"
                 y="0"
                 width="1201"
                 height="670"
-                clipPath="url(#co-band-collab)"
+                clipPath="url(#co-words)"
                 preserveAspectRatio="none"
               />
+
+              {/* Layer 2: C ring — clipped to ring annulus + animated mask draw */}
               <image
-                className="co-layer co-layer-2"
+                className="co-layer-mask co-layer-c"
                 href="/images/about/co-graphic.webp"
                 x="0"
                 y="0"
                 width="1201"
                 height="670"
-                clipPath="url(#co-band-coord)"
+                clipPath="url(#co-clip-c-ring)"
+                mask="url(#co-mask-c)"
                 preserveAspectRatio="none"
               />
+
+              {/* Layer 3: O outer ring — clipped to outer annulus + masked draw */}
               <image
-                className="co-layer co-layer-3"
+                className="co-layer-mask co-layer-o-outer"
                 href="/images/about/co-graphic.webp"
                 x="0"
                 y="0"
                 width="1201"
                 height="670"
-                clipPath="url(#co-band-coop)"
+                clipPath="url(#co-clip-o-outer)"
+                mask="url(#co-mask-o-outer)"
                 preserveAspectRatio="none"
               />
+
+              {/* Layer 4: O inner ring — clipped to inner annulus + masked draw */}
               <image
-                className="co-layer co-layer-4"
+                className="co-layer-mask co-layer-o-inner"
                 href="/images/about/co-graphic.webp"
                 x="0"
                 y="0"
                 width="1201"
                 height="670"
-                clipPath="url(#co-band-cring)"
+                clipPath="url(#co-clip-o-inner)"
+                mask="url(#co-mask-o-inner)"
                 preserveAspectRatio="none"
               />
+
+              {/* Layer 5: '= coexpand' text fade-in inside O inner */}
               <image
-                className="co-layer co-layer-5"
+                className="co-layer co-layer-coexpand"
                 href="/images/about/co-graphic.webp"
                 x="0"
                 y="0"
                 width="1201"
                 height="670"
-                clipPath="url(#co-band-oouter)"
-                preserveAspectRatio="none"
-              />
-              <image
-                className="co-layer co-layer-6"
-                href="/images/about/co-graphic.webp"
-                x="0"
-                y="0"
-                width="1201"
-                height="670"
-                clipPath="url(#co-band-oinner)"
+                clipPath="url(#co-coexpand)"
                 preserveAspectRatio="none"
               />
             </svg>
@@ -175,16 +249,17 @@ export default function AboutContent() {
           color: #fff;
           overflow: hidden;
         }
+        /* heading: smaller per direction */
         .about-co-title {
           font-family: var(--font-display);
-          font-size: clamp(22px, 2.6vw, 36px);
+          font-size: clamp(18px, 2vw, 28px);
           font-weight: 700;
-          line-height: 1.25;
-          letter-spacing: -0.01em;
+          line-height: 1.3;
+          letter-spacing: -0.005em;
           color: #fff;
           text-align: center;
           margin: 0 auto clamp(36px, 5vw, 64px);
-          max-width: 880px;
+          max-width: 760px;
         }
         .about-co-title-l,
         .about-co-title-r,
@@ -192,28 +267,22 @@ export default function AboutContent() {
           display: inline-block;
           opacity: 0;
         }
-        /* heading split: left half slides from -30px, right from +30px,
-           tilde fades in last. all auto-play on mount. */
+        /* slower heading slide-in (was 0.7s @ 0.2s/0.6s, now 0.9s with
+           wider stagger so the in-feel is more deliberate) */
         .about-co-title-l {
           transform: translateX(-30px);
-          animation: coTitleL 0.7s 0.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+          animation: coTitleL 0.9s 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
         }
         .about-co-title-r {
           transform: translateX(30px);
-          animation: coTitleR 0.7s 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+          animation: coTitleR 0.9s 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
         }
         .about-co-title-tilde {
-          animation: coFade 0.4s 1.0s ease-out forwards;
+          animation: coFade 0.5s 1.5s ease-out forwards;
         }
-        @keyframes coTitleL {
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes coTitleR {
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes coFade {
-          to { opacity: 1; }
-        }
+        @keyframes coTitleL { to { opacity: 1; transform: translateX(0); } }
+        @keyframes coTitleR { to { opacity: 1; transform: translateX(0); } }
+        @keyframes coFade   { to { opacity: 1; } }
 
         .about-co-graphic {
           max-width: 760px;
@@ -225,27 +294,32 @@ export default function AboutContent() {
           display: block;
         }
 
-        /* every layer starts hidden, then auto-fades in at its own delay.
-           total sequence ~3.4s end-to-end. */
-        .co-layer {
-          opacity: 0;
-          animation-fill-mode: forwards;
-          animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        .co-layer-1 { animation: coFade 0.45s 1.4s forwards; } /* collaborate */
-        .co-layer-2 { animation: coFade 0.45s 1.8s forwards; } /* coordinate  */
-        .co-layer-3 { animation: coFade 0.45s 2.2s forwards; } /* cooperate   */
-        .co-layer-4 { animation: coRing 0.7s  2.6s forwards; } /* C ring      */
-        .co-layer-5 { animation: coRing 0.7s  3.2s forwards; } /* O outer     */
-        .co-layer-6 { animation: coFade 0.5s  3.8s forwards; } /* = coexpand  */
+        /* Layer 1 (words) and Layer 5 (coexpand): simple opacity fade.
+           Layers 2-4 (rings): masked, the mask itself draws via
+           stroke-dashoffset so the IMAGE layer can stay at full opacity
+           while the mask reveals it. */
+        .co-layer { opacity: 0; animation-fill-mode: forwards; }
+        .co-layer-words    { animation: coFade 0.7s 2.0s ease-out forwards; }
+        .co-layer-coexpand { animation: coFade 0.6s 6.4s ease-out forwards; }
 
-        /* rings get a slight scale-in so they 'form' rather than just appear */
-        @keyframes coRing {
-          0%   { opacity: 0; transform: scale(0.96); transform-origin: center; }
-          100% { opacity: 1; transform: scale(1);    transform-origin: center; }
+        /* mask stroke draws from full dashoffset to 0 — animation runs
+           on the path itself inside the mask def. ease-in-out feels like
+           a deliberate hand stroke. */
+        .co-stroke { animation-fill-mode: forwards; }
+        .co-stroke-c {
+          animation: coDraw 1.6s 2.9s cubic-bezier(0.55, 0.05, 0.45, 0.95) forwards;
+        }
+        .co-stroke-o-outer {
+          animation: coDraw 1.4s 4.4s cubic-bezier(0.55, 0.05, 0.45, 0.95) forwards;
+        }
+        .co-stroke-o-inner {
+          animation: coDraw 1.0s 5.7s cubic-bezier(0.55, 0.05, 0.45, 0.95) forwards;
+        }
+        @keyframes coDraw {
+          to { stroke-dashoffset: 0; }
         }
 
-        /* respect reduced-motion: snap everything to final state */
+        /* respect reduced-motion: snap to final state */
         @media (prefers-reduced-motion: reduce) {
           .about-co-title-l,
           .about-co-title-r,
@@ -253,6 +327,10 @@ export default function AboutContent() {
           .co-layer {
             opacity: 1 !important;
             transform: none !important;
+            animation: none !important;
+          }
+          .co-stroke {
+            stroke-dashoffset: 0 !important;
             animation: none !important;
           }
         }
