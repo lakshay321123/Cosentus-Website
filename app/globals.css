@@ -3216,46 +3216,90 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
-/* ===== CAREERS — Core Values numbered cards ===== */
+/* ===== CAREERS — Core Values numbered cards =====
+ *
+ * Geometry: each row is full-width; the card has a clip-path polygon that
+ * cuts an angled left edge. Successive rows have progressively smaller
+ * left-edge percentages so card N's bottom-left X equals card N+1's
+ * top-left X, producing a single continuous diagonal staircase down all
+ * five cards (no gap between rows).
+ *
+ * The number for each row is absolutely positioned in the white
+ * triangular notch to the LEFT of the card's diagonal edge.
+ *
+ * Animation: each row uses RevealOnScroll direction="right" so cards
+ * slide in from the right corner with a per-row delay, producing the
+ * "loading as steps" sequential reveal.
+ */
 .core-values-list {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 0; /* edge-to-edge — diagonals tessellate vertically */
 }
 
 .core-value-row {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  align-items: stretch;
-  gap: 0;
+  position: relative;
+  width: 100%;
 }
 
 .core-value-num {
-  font-size: 96px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 110px;
   font-weight: 300;
   line-height: 1;
   color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-style: italic;
   letter-spacing: -0.04em;
+  pointer-events: none;
+  z-index: 1;
+  /* per-row left position is set below — matches the diagonal cut */
 }
+
+/* The number sits in the white triangle BETWEEN the previous card's
+ * bottom-left and the current card's top-left. As the staircase steps
+ * down-left, the number's left position decreases for each row. */
+.core-value-row[data-step="1"] .core-value-num { left: 14%; }
+.core-value-row[data-step="2"] .core-value-num { left: 11%; }
+.core-value-row[data-step="3"] .core-value-num { left: 8%; }
+.core-value-row[data-step="4"] .core-value-num { left: 5%; }
+.core-value-row[data-step="5"] .core-value-num { left: 2%; }
 
 .core-value-card {
   background: var(--primary);
   color: white;
-  padding: 32px 36px 32px 24px;
+  /* Big left padding because the diagonal cut eats into the left side
+   * up to ~30% — content needs to sit safely to the right of that. */
+  padding: 40px 48px 40px 33%;
   display: grid;
   grid-template-columns: 140px 1fr;
-  gap: 24px;
+  gap: 28px;
   align-items: center;
-  clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
-  min-height: 200px;
+  min-height: 220px;
 }
 
-.core-value-row-alt .core-value-card {
-  background: var(--primary-mid); /* slightly lighter teal for alternating rows */
+/* Per-row clip-path — top-left of card N matches bottom-left of card N-1.
+ * Card 1: top-left 30%, bottom-left 26%
+ * Card 2: top-left 26%, bottom-left 22%  (matches card 1's bottom)
+ * Card 3: top-left 22%, bottom-left 18%
+ * Card 4: top-left 18%, bottom-left 14%
+ * Card 5: top-left 14%, bottom-left 10%
+ * → continuous diagonal from upper-right to lower-left across all 5 */
+.core-value-row[data-step="1"] .core-value-card {
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 26% 100%);
+}
+.core-value-row[data-step="2"] .core-value-card {
+  clip-path: polygon(26% 0, 100% 0, 100% 100%, 22% 100%);
+}
+.core-value-row[data-step="3"] .core-value-card {
+  clip-path: polygon(22% 0, 100% 0, 100% 100%, 18% 100%);
+}
+.core-value-row[data-step="4"] .core-value-card {
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 14% 100%);
+}
+.core-value-row[data-step="5"] .core-value-card {
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 10% 100%);
 }
 
 .core-value-icon {
@@ -3263,7 +3307,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  /* the source PNGs are already white line-art so they sit cleanly on teal */
 }
 
 .core-value-icon img {
@@ -3280,7 +3323,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .core-value-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: white;
   margin: 0;
@@ -3289,36 +3332,65 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .core-value-desc {
   font-size: 15px;
-  line-height: 1.65;
+  line-height: 1.7;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
   max-width: 640px;
 }
 
-/* Mobile — drop the angled clip-path, stack icon above text on very narrow viewports */
-@media (max-width: 768px) {
-  .core-value-row {
-    grid-template-columns: 60px 1fr;
-    gap: 0;
+/* Tablet — soften the diagonal angle so the cards aren't too narrow */
+@media (max-width: 1024px) {
+  .core-value-card {
+    padding: 32px 32px 32px 25%;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
   }
   .core-value-num {
-    font-size: 64px;
+    font-size: 88px;
   }
+  .core-value-row[data-step="1"] .core-value-card { clip-path: polygon(22% 0, 100% 0, 100% 100%, 19% 100%); }
+  .core-value-row[data-step="2"] .core-value-card { clip-path: polygon(19% 0, 100% 0, 100% 100%, 16% 100%); }
+  .core-value-row[data-step="3"] .core-value-card { clip-path: polygon(16% 0, 100% 0, 100% 100%, 13% 100%); }
+  .core-value-row[data-step="4"] .core-value-card { clip-path: polygon(13% 0, 100% 0, 100% 100%, 10% 100%); }
+  .core-value-row[data-step="5"] .core-value-card { clip-path: polygon(10% 0, 100% 0, 100% 100%, 7% 100%); }
+  .core-value-row[data-step="1"] .core-value-num { left: 10%; }
+  .core-value-row[data-step="2"] .core-value-num { left: 8%; }
+  .core-value-row[data-step="3"] .core-value-num { left: 6%; }
+  .core-value-row[data-step="4"] .core-value-num { left: 4%; }
+  .core-value-row[data-step="5"] .core-value-num { left: 2%; }
+}
+
+/* Mobile — keep the diagonal but tighter, smaller numbers, smaller icon */
+@media (max-width: 640px) {
   .core-value-card {
-    padding: 24px 20px 24px 16px;
-    grid-template-columns: 80px 1fr;
-    gap: 16px;
-    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    padding: 24px 20px 24px 22%;
+    grid-template-columns: 64px 1fr;
+    gap: 14px;
+    min-height: 180px;
+  }
+  .core-value-num {
+    font-size: 56px;
   }
   .core-value-icon img {
-    max-width: 80px;
+    max-width: 64px;
   }
   .core-value-title {
     font-size: 20px;
   }
   .core-value-desc {
-    font-size: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
   }
+  .core-value-row[data-step="1"] .core-value-card { clip-path: polygon(18% 0, 100% 0, 100% 100%, 14% 100%); }
+  .core-value-row[data-step="2"] .core-value-card { clip-path: polygon(14% 0, 100% 0, 100% 100%, 10% 100%); }
+  .core-value-row[data-step="3"] .core-value-card { clip-path: polygon(10% 0, 100% 0, 100% 100%, 6% 100%); }
+  .core-value-row[data-step="4"] .core-value-card { clip-path: polygon(6% 0, 100% 0, 100% 100%, 2% 100%); }
+  .core-value-row[data-step="5"] .core-value-card { clip-path: polygon(2% 0, 100% 0, 100% 100%, 0 100%); }
+  .core-value-row[data-step="1"] .core-value-num { left: 4%; }
+  .core-value-row[data-step="2"] .core-value-num { left: 3%; }
+  .core-value-row[data-step="3"] .core-value-num { left: 2%; }
+  .core-value-row[data-step="4"] .core-value-num { left: 1%; }
+  .core-value-row[data-step="5"] .core-value-num { left: 0%; }
 }
 
 /* ===== CAREERS — Career Opportunities CTA grid ===== */

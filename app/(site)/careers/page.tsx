@@ -118,8 +118,8 @@ export default function CareersPage() {
 
           <div className="core-values-list">
             {coreValues.map((v, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.05}>
-                <div className={`core-value-row ${i % 2 === 1 ? 'core-value-row-alt' : ''}`}>
+              <RevealOnScroll key={i} direction="right" delay={i * 0.18}>
+                <div className="core-value-row" data-step={i + 1}>
                   <div className="core-value-num" aria-hidden="true">
                     {i + 1}
                   </div>
