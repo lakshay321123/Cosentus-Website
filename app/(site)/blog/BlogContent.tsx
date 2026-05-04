@@ -27,8 +27,13 @@ export default function BlogContent() {
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
           <RevealOnScroll>
-            {/* Mobile: dropdown filter (hidden on desktop via CSS) */}
-            <div className="blog-filter-select" style={{ marginBottom: 32, display: 'none' }}>
+            {/* Category filter — single dropdown shown on all viewports.
+                Replaces the previous wrap-pill row which became visually
+                noisy as the tag list grew past ~10 categories. */}
+            <div
+              className="blog-filter-select"
+              style={{ marginBottom: 48, maxWidth: 360 }}
+            >
               <label htmlFor="blog-tag-select" style={{
                 display: 'block', fontSize: 12, fontWeight: 600,
                 color: 'var(--gray-600)', textTransform: 'uppercase',
@@ -72,32 +77,6 @@ export default function BlogContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-            </div>
-
-            {/* Desktop: pill row (hidden on mobile via CSS) */}
-            <div className="blog-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
-              {allTags.map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(tag)}
-                  style={{
-                    padding: '8px 18px',
-                    background: activeTag === tag ? 'var(--primary)' : 'var(--white)',
-                    color: activeTag === tag ? 'white' : 'var(--gray-600)',
-                    borderRadius: 20,
-                    fontSize: 13,
-                    fontWeight: activeTag === tag ? 500 : 400,
-                    border: `1px solid ${activeTag === tag ? 'var(--primary)' : 'var(--gray-200)'}`,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    fontFamily: 'var(--font-body)',
-                    whiteSpace: 'nowrap' as const,
-                    flexShrink: 0,
-                  }}
-                >
-                  {tag}
-                </button>
-              ))}
             </div>
           </RevealOnScroll>
         </div>
@@ -221,8 +200,6 @@ export default function BlogContent() {
                 overflow: hidden;
                 text-overflow: ellipsis;
               }
-              .blog-filter-select { display: block !important; }
-              .blog-tags { display: none !important; }
             }
           `}</style>
           {filtered.length === 0 && (
