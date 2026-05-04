@@ -6,19 +6,50 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { blogPosts } from '@/data/blogPosts'
 
 const allTags = ['All', ...Array.from(new Set(blogPosts.map(b => b.tag))).sort()]
-const PAGE_SIZE = 6
+
+// Page sizes split by viewport. 640px matches the existing single-column
+// CSS breakpoint below — a single column of 12 cards on mobile would be
+// a long scroll, so we keep mobile at 6.
+const MOBILE_PAGE_SIZE = 6
+const DESKTOP_PAGE_SIZE = 12
+const MOBILE_BREAKPOINT_PX = 640
 
 export default function BlogContent() {
   const [activeTag, setActiveTag] = useState('All')
-  const [displayedCount, setDisplayedCount] = useState(PAGE_SIZE)
+  // Initial value MUST match server render to avoid hydration mismatch.
+  // Server has no `window`, so it always uses the desktop page size.
+  // On mobile the useEffect below corrects this on mount (one-frame flash
+  // of extra cards is acceptable; far cheaper than a hydration error).
+  const [pageSize, setPageSize] = useState(DESKTOP_PAGE_SIZE)
+  const [displayedCount, setDisplayedCount] = useState(DESKTOP_PAGE_SIZE)
 
   const filtered = activeTag === 'All' ? blogPosts : blogPosts.filter(b => b.tag === activeTag)
   const displayed = filtered.slice(0, displayedCount)
   const hasMore = displayedCount < filtered.length
 
-  // Reset pagination when the active filter changes
+  // Track the viewport so the page size and Load More step stay correct
+  // across device rotation and window resize.
   useEffect(() => {
-    setDisplayedCount(PAGE_SIZE)
+    if (typeof window === 'undefined') return
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`)
+    const sync = () => {
+      const next = mql.matches ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
+      setPageSize(next)
+      // Don't shrink what's already visible if the user has been clicking
+      // Load More — only grow up to the new page size.
+      setDisplayedCount(prev => Math.max(prev, next))
+    }
+    sync()
+    mql.addEventListener('change', sync)
+    return () => mql.removeEventListener('change', sync)
+  }, [])
+
+  // Reset pagination when the active filter changes. Reads the latest
+  // pageSize from state at the time activeTag flips — that is the current
+  // viewport's page size, which is what we want.
+  useEffect(() => {
+    setDisplayedCount(pageSize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTag])
 
   return (
@@ -161,7 +192,7 @@ export default function BlogContent() {
           {hasMore && (
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
               <button
-                onClick={() => setDisplayedCount(c => c + PAGE_SIZE)}
+                onClick={() => setDisplayedCount(c => c + pageSize)}
                 className="blog-load-more"
                 style={{
                   padding: '14px 36px',
