@@ -326,7 +326,7 @@ export default function RAPageContent() {
           'AI-only solutions lack clinical judgment',
           'Revenue leaks at every handoff',
         ]}
-        solutionTitle="Real + Artificial Intelligence"
+        solutionTitle="Real People + AI"
         solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
           'Specialty-trained teams for every payer nuance',
@@ -834,7 +834,7 @@ export default function RAPageContent() {
               marginTop: 12,
               marginBottom: 8,
             }}>
-              Engineers, researchers, and strategists making sure the AI does what we say it does.
+              The engineers, researchers, and revenue cycle specialists who decide what Zeus is allowed to do.
             </p>
           </RevealOnScroll>
           <div style={{ marginTop: 32 }}>
