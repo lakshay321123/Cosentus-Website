@@ -3215,3 +3215,164 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     animation: none !important;
   }
 }
+
+/* ===== CAREERS — Core Values numbered cards ===== */
+.core-values-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.core-value-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: stretch;
+  gap: 0;
+}
+
+.core-value-num {
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  letter-spacing: -0.04em;
+}
+
+.core-value-card {
+  background: var(--primary);
+  color: white;
+  padding: 32px 36px 32px 24px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  align-items: center;
+  clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
+  min-height: 200px;
+}
+
+.core-value-row-alt .core-value-card {
+  background: var(--primary-mid); /* slightly lighter teal for alternating rows */
+}
+
+.core-value-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* the source PNGs are already white line-art so they sit cleanly on teal */
+}
+
+.core-value-icon img {
+  width: 100%;
+  height: auto;
+  max-width: 140px;
+  display: block;
+}
+
+.core-value-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.core-value-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.core-value-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* Mobile — drop the angled clip-path, stack icon above text on very narrow viewports */
+@media (max-width: 768px) {
+  .core-value-row {
+    grid-template-columns: 60px 1fr;
+    gap: 0;
+  }
+  .core-value-num {
+    font-size: 64px;
+  }
+  .core-value-card {
+    padding: 24px 20px 24px 16px;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .core-value-icon img {
+    max-width: 80px;
+  }
+  .core-value-title {
+    font-size: 20px;
+  }
+  .core-value-desc {
+    font-size: 14px;
+  }
+}
+
+/* ===== CAREERS — Career Opportunities CTA grid ===== */
+.careers-cta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.careers-cta-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.careers-cta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 181, 214, 0.15);
+  border-color: var(--primary);
+}
+
+.careers-cta-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.careers-cta-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--gray-700);
+  margin: 0;
+  flex: 1;
+}
+
+.careers-cta-card .btn-primary {
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .careers-cta-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .careers-cta-card {
+    padding: 28px 24px;
+  }
+}
