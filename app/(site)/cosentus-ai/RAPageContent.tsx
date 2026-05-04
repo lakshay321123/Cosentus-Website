@@ -6,6 +6,7 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
+import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
@@ -14,6 +15,26 @@ const steps = [
   { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
+]
+
+/**
+ * Zeus AI leadership — the named humans behind the platform.
+ *
+ * Photos are intentionally omitted for now. The TeamCircleGrid component
+ * falls back to teal initials in an empty circle when `photo` is missing,
+ * which is the desired placeholder until headshots are supplied.
+ *
+ * No `bio` field is provided either, so the cards render non-interactive
+ * (TeamCircleGrid only adds the click+modal affordance when both
+ * `onPersonClick` is wired and the people have bios).
+ */
+const zeusTeam = [
+  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI' },
+  { name: 'Ajay Kumar',            title: 'AI Security & Compliance' },
+  { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
+  { name: 'Lakshay Mehra',         title: 'AI Development Lead' },
+  { name: 'Casey',                 title: 'Platform & Infrastructure Lead' },
+  { name: 'Steven Sundred',        title: 'Platform & Infrastructure Lead' },
 ]
 
 export default function RAPageContent() {
@@ -807,6 +828,35 @@ export default function RAPageContent() {
             }
           }
         `}</style>
+      </section>
+
+      {/* ──────────────── ZEUS LEADERSHIP ──────────────── */}
+      {/* The named humans behind the platform. Cards render with teal-initial
+          circles where photos aren't yet supplied — TeamCircleGrid handles
+          the missing-photo case via its built-in initials fallback. Cards
+          are non-interactive (no bio modal) because we don't have bios for
+          this team yet. */}
+      <section className="section section-alt" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-title">The People Behind Zeus</div>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
+            <p style={{
+              fontSize: 16,
+              color: 'var(--gray-700)',
+              lineHeight: 1.7,
+              maxWidth: 640,
+              marginTop: 12,
+              marginBottom: 8,
+            }}>
+              Engineers, researchers, and strategists making sure the AI does what we say it does.
+            </p>
+          </RevealOnScroll>
+          <div style={{ marginTop: 32 }}>
+            <TeamCircleGrid people={zeusTeam} desktopColumns={3} />
+          </div>
+        </div>
       </section>
 
     </>
