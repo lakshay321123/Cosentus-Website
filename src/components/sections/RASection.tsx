@@ -63,7 +63,7 @@ export default function RASection() {
           <div style={{ gridColumn: 1, gridRow: 1 }}>
             <RevealOnScroll direction="left">
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
-                Real People + AI.<br />RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span>
+                Real People + AI.<br />RCM <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Redefined.</span>
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.15}>

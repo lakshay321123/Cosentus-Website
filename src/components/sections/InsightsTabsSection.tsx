@@ -62,11 +62,11 @@ const eventItems: InsightCardData[] = [...eventsData]
 
 type TabKey = 'cases' | 'blog' | 'news' | 'events'
 
-const tabs: { key: TabKey; label: string; items: InsightCardData[]; ctaLabel: string; viewAllHref: string }[] = [
-  { key: 'cases',  label: 'Client Stories', items: caseStudyItems, ctaLabel: 'Read Client Success Story', viewAllHref: '/case-studies' },
-  { key: 'blog',   label: 'Blog',         items: blogItems,      ctaLabel: 'Read Article',    viewAllHref: '/blog' },
-  { key: 'news',   label: 'News',         items: newsItems,      ctaLabel: 'Read More',       viewAllHref: '/news' },
-  { key: 'events', label: 'Events',       items: eventItems,     ctaLabel: 'View Event',      viewAllHref: '/events' },
+const tabs: { key: TabKey; label: string; items: InsightCardData[]; ctaLabel: string; viewAllHref: string; viewAllLabel: string }[] = [
+  { key: 'cases',  label: 'Client Success', items: caseStudyItems, ctaLabel: 'Read Client Success Story', viewAllHref: '/case-studies', viewAllLabel: 'View All Client Success Stories' },
+  { key: 'blog',   label: 'Blog',           items: blogItems,      ctaLabel: 'Read Article',              viewAllHref: '/blog',          viewAllLabel: 'View All Blog Posts' },
+  { key: 'news',   label: 'News',           items: newsItems,      ctaLabel: 'Read More',                 viewAllHref: '/news',          viewAllLabel: 'View All News' },
+  { key: 'events', label: 'Events',         items: eventItems,     ctaLabel: 'View Event',                viewAllHref: '/events',        viewAllLabel: 'View All Events' },
 ]
 
 export default function InsightsTabsSection() {
@@ -87,7 +87,7 @@ export default function InsightsTabsSection() {
             marginTop: 12,
             marginBottom: 36,
           }}>
-            Everything We're <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Publishing.</span>
+            <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Insights.</span>
           </h2>
         </RevealOnScroll>
 
@@ -194,7 +194,7 @@ export default function InsightsTabsSection() {
           flexWrap: 'wrap',
         }}>
           <Link href={active.viewAllHref} className="btn-primary">
-            View All {active.label}
+            {active.viewAllLabel}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
