@@ -53,7 +53,7 @@ export default function CareersPage() {
       <section className="section">
         <div className="container" style={{ maxWidth: 880 }}>
           <RevealOnScroll>
-            <h2 className="section-title" style={{ textAlign: 'center' }}>
+            <h2 className="section-title">
               We inspire each other. Inspire with us.
             </h2>
           </RevealOnScroll>
@@ -62,7 +62,6 @@ export default function CareersPage() {
               className="section-desc"
               style={{
                 maxWidth: '100%',
-                textAlign: 'center',
                 fontSize: 17,
                 lineHeight: 1.8,
                 marginTop: 24,
@@ -78,7 +77,6 @@ export default function CareersPage() {
           <RevealOnScroll delay={0.2}>
             <p
               style={{
-                textAlign: 'center',
                 fontStyle: 'italic',
                 fontWeight: 600,
                 fontSize: 18,
@@ -94,7 +92,6 @@ export default function CareersPage() {
               className="section-desc"
               style={{
                 maxWidth: '100%',
-                textAlign: 'center',
                 fontSize: 17,
                 lineHeight: 1.8,
                 marginTop: 16,
@@ -120,7 +117,7 @@ export default function CareersPage() {
         <div className="core-values-heading-overlay" />
         <div className="container core-values-heading-content">
           <RevealOnScroll>
-            <h2 className="section-title" style={{ textAlign: 'center', color: 'white' }}>
+            <h2 className="section-title" style={{ color: 'white' }}>
               Our Core Values
             </h2>
           </RevealOnScroll>
@@ -129,8 +126,7 @@ export default function CareersPage() {
               className="section-desc"
               style={{
                 maxWidth: 760,
-                margin: '20px auto 0',
-                textAlign: 'center',
+                marginTop: 20,
                 color: 'rgba(255,255,255,0.95)',
                 fontSize: 18,
                 lineHeight: 1.7,
@@ -143,7 +139,9 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className="section-alt" style={{ paddingTop: 0, paddingBottom: 80 }}>
+      {/* Staircase — flush against heading section above (no padding-top,
+          no margin), so there's no white gap. */}
+      <section className="section-alt" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <div className="core-values-list">
           {coreValues.map((v, i) => (
             <RevealOnScroll key={v.title} direction="right" delay={i * 0.18}>
@@ -170,9 +168,7 @@ export default function CareersPage() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <h2 className="section-title" style={{ textAlign: 'center' }}>
-              Career Opportunities
-            </h2>
+            <h2 className="section-title">Career Opportunities</h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <div className="careers-contact">

@@ -3266,7 +3266,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-top: 48px;
 }
 
 .core-value-row {
@@ -3381,7 +3380,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Mobile (≤767px) — live page collapses columns and right-aligns the
  * number with 28% padding-right, so the wedge effect reads on narrow
- * screens too. Card stacks below: smaller icon, text full-width. */
+ * screens too. Card stacks below: smaller icon, text full-width.
+ * Text stays LEFT-aligned (site convention). */
 @media (max-width: 767px) {
   .core-value-row {
     flex-direction: column;
@@ -3398,13 +3398,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .core-value-card {
     width: 100%;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 28px 24px 36px;
-    text-align: center;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    padding: 28px 24px;
   }
-  .core-value-icon img { max-width: 96px; margin: 0 auto; }
-  .core-value-body { padding-right: 0; align-items: center; gap: 12px; }
+  .core-value-icon img { max-width: 80px; }
+  .core-value-body { padding-right: 0; gap: 8px; }
   .core-value-title { font-size: 22px; }
   .core-value-desc { font-size: 16px; line-height: 1.6; }
 }
@@ -3412,9 +3411,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ===== CAREERS — Career Opportunities (simple text + mailto) =====
  * Replaces the earlier two-card CTA grid. Matches live page exactly. */
 .careers-contact {
-  text-align: center;
-  max-width: 600px;
-  margin: 32px auto 0;
+  max-width: 760px;
+  margin-top: 24px;
 }
 
 .careers-contact-question {
