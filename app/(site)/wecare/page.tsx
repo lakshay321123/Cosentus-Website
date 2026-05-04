@@ -94,7 +94,7 @@ export default function WeCarePage() {
 
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Community Initiatives</div>
           </RevealOnScroll>
 

@@ -48,7 +48,7 @@ export default function OrthopedicsContent() {
       {/* Services */}
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', marginTop: 48 }}>
             {services.map((s, i) => (
               <RevealOnScroll key={i} delay={i * 0.07}>
@@ -126,7 +126,7 @@ export default function OrthopedicsContent() {
       {/* Leadership */}
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Surgical practice veterans with deep orthopedic and ASC expertise, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.

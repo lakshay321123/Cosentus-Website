@@ -539,7 +539,7 @@ export default function EHRContent() {
       {/* ── MEDCLOUD 7 FEATURES ── */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">The Future of EHR & Practice Management</div>
           </RevealOnScroll>
 
@@ -570,7 +570,7 @@ export default function EHRContent() {
       {/* ── COMPATIBLE SYSTEMS ── */}
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">We Connect to What You Already Use</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -601,7 +601,7 @@ export default function EHRContent() {
       {/* ── KEY CAPABILITIES ── */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Technology That Works for You</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -642,7 +642,7 @@ export default function EHRContent() {
       {/* ── FAQ SECTION ── */}
       <section className="section" id="faq">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
 

@@ -76,7 +76,7 @@ export default function InsightsTabsSection() {
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
       <div className="container">
-<RevealOnScroll delay={0.1}>
+        <RevealOnScroll delay={0.1}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(32px, 4.5vw, 56px)',

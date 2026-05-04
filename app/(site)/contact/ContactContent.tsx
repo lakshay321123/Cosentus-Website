@@ -309,7 +309,7 @@ export default function ContactContent() {
       {/* Process Steps */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">What Happens After You Reach Out</div>
           </RevealOnScroll>
           <div className="steps-desktop" style={{

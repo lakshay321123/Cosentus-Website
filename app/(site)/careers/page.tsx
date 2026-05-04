@@ -28,7 +28,7 @@ export default function CareersPage() {
 
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Why Join Us</div>
           </RevealOnScroll>
 

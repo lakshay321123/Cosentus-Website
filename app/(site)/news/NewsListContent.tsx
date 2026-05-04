@@ -8,7 +8,7 @@ export default function NewsListContent() {
   return (
     <section className="section">
       <div className="container">
-<RevealOnScroll delay={0.1}>
+        <RevealOnScroll>
           <div className="section-title">Healthcare RCM, AI & Medical Billing Updates</div>
         </RevealOnScroll>
 

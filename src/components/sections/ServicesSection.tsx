@@ -90,7 +90,7 @@ export default function ServicesSection() {
   return (
     <section className="section" id="services" style={{ overflow: 'hidden' }}>
       <div className="container">
-<RevealOnScroll direction="right" delay={0.1}>
+        <RevealOnScroll direction="right">
           <div className="section-title">Two Services.<br />One Result: Growth.</div>
         </RevealOnScroll>
 

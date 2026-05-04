@@ -60,7 +60,7 @@ export default function ASCPage() {
 
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Complete ASC Revenue Cycle</div>
           </RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
@@ -129,7 +129,7 @@ export default function ASCPage() {
       {/* Leadership */}
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               ASC and surgical practice management veterans, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.

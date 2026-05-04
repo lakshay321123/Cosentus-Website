@@ -140,7 +140,7 @@ export default function AboutContent() {
       {/* Leadership */}
       <section className="section section-alt" id="leadership">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Executive Leadership</div>
           </RevealOnScroll>
 
@@ -180,7 +180,7 @@ export default function AboutContent() {
       {/* Offices */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Where We Are</div>
           </RevealOnScroll>
           {/* Desktop */}

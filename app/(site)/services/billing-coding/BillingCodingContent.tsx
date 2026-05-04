@@ -241,7 +241,7 @@ export default function BillingCodingContent() {
       {/* ── INTRO ── */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Medical Billing & Coding Services</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -282,7 +282,7 @@ export default function BillingCodingContent() {
       {/* ── SOLUTIONS, arrow-shaped cards ── */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Solutions Tailored for Growing Your Medical Practice</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -308,7 +308,7 @@ export default function BillingCodingContent() {
       {/* ── WHAT SETS US APART ── */}
       <section className="section section-alt">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">What Sets Cosentus Billing Apart</div>
           </RevealOnScroll>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
@@ -328,7 +328,7 @@ export default function BillingCodingContent() {
       {/* ── OUR PROCESS ── */}
       <section className="section">
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Our Billing Process</div>
           </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
@@ -348,7 +348,7 @@ export default function BillingCodingContent() {
       {/* ── BENEFITS OF OUTSOURCING, clean stats ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white' }}>
         <div className="container">
-<RevealOnScroll delay={0.1}>
+          <RevealOnScroll delay={0.1}>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 48, lineHeight: 1.2 }}>
               Benefits of Outsourcing Your Billing
             </h2>

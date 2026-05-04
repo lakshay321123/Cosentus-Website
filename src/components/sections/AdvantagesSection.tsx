@@ -57,7 +57,7 @@ export default function AdvantagesSection() {
 
           {/* Right: Advantages */}
           <div>
-<RevealOnScroll direction="right" delay={0.1}>
+            <RevealOnScroll direction="right">
               <div className="section-title">The Cosentus Advantage</div>
             </RevealOnScroll>
 
