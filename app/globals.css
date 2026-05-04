@@ -3216,25 +3216,82 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 }
 
-/* ===== CAREERS — Core Values numbered cards =====
+/* ===== CAREERS — Hero (hands image, no video) =====
  *
- * Geometry: each row is full-width; the card has a clip-path polygon that
- * cuts an angled left edge. Successive rows have progressively smaller
- * left-edge percentages so card N's bottom-left X equals card N+1's
- * top-left X, producing a single continuous diagonal staircase down all
- * five cards (no gap between rows).
+ * Live cosentus.com/join-our-team uses a solid teal banner. We diverge:
+ * use the team-hands image (Cosentus-Website2.png on live, hosted locally
+ * as hero-hands.jpg) as the banner so it ties to the team theme. No CTA
+ * button — there's no contact form to land on yet.
+ */
+.careers-hero {
+  position: relative;
+  min-height: 50vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+.careers-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 30, 50, 0.55) 0%,
+    rgba(0, 80, 110, 0.35) 50%,
+    rgba(0, 50, 70, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+.careers-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 160px 40px 80px;
+}
+
+.careers-hero-content h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  color: white;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .careers-hero-content { padding: 120px 24px 60px; }
+}
+
+/* ===== CAREERS — Core Values stair-step =====
  *
- * The number for each row is absolutely positioned in the white
- * triangular notch to the LEFT of the card's diagonal edge.
+ * Live page implements each row as a 50/50 column pair where the LEFT
+ * column has linear-gradient(67deg, var-bg 80%, var-teal 80%) and the
+ * RIGHT column is solid teal. We collapse that two-column gradient into
+ * an equivalent clip-path polygon. EVERY row uses the SAME clip-path
+ * (top-left 42%, bottom-left 22%) so the repeating wedge produces the
+ * stair-step pattern when stacked gap=0 — this matches live.
  *
- * Animation: each row uses RevealOnScroll direction="right" so cards
- * slide in from the right corner with a per-row delay, producing the
- * "loading as steps" sequential reveal.
+ * Earlier impl used per-row varying clip-paths so the diagonals chained
+ * into one continuous slope. That looked like a single slanted slab
+ * instead of 5 discrete cards (the "reversed/silly" feel).
+ *
+ * Numbers are absolutely positioned in the white triangular notch at
+ * the bottom-left of each row. Same X for all 5, since wedges are
+ * identical.
+ *
+ * Animation: RevealOnScroll direction="right" with per-row stagger so
+ * cards slide in from the right corner sequentially.
  */
 .core-values-list {
   display: flex;
   flex-direction: column;
-  gap: 0; /* edge-to-edge — diagonals tessellate vertically */
+  gap: 0;
+  margin-top: 48px;
 }
 
 .core-value-row {
@@ -3244,62 +3301,32 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .core-value-num {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 110px;
+  /* Sits in the white triangular notch at bottom-left of each row.
+   * font-size and left tuned so digit's right edge lands just inside
+   * the diagonal cut at the digit's vertical center, matching live. */
+  bottom: 8%;
+  left: 16%;
+  font-size: 160px;
   font-weight: 300;
-  line-height: 1;
-  color: var(--primary);
   font-style: italic;
-  letter-spacing: -0.04em;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--primary);
   pointer-events: none;
   z-index: 1;
-  /* per-row left position is set below — matches the diagonal cut */
 }
-
-/* The number sits in the white triangle BETWEEN the previous card's
- * bottom-left and the current card's top-left. As the staircase steps
- * down-left, the number's left position decreases for each row. */
-.core-value-row[data-step="1"] .core-value-num { left: 14%; }
-.core-value-row[data-step="2"] .core-value-num { left: 11%; }
-.core-value-row[data-step="3"] .core-value-num { left: 8%; }
-.core-value-row[data-step="4"] .core-value-num { left: 5%; }
-.core-value-row[data-step="5"] .core-value-num { left: 2%; }
 
 .core-value-card {
   background: var(--primary);
   color: white;
-  /* Big left padding because the diagonal cut eats into the left side
-   * up to ~30% — content needs to sit safely to the right of that. */
-  padding: 40px 48px 40px 33%;
+  /* Identical wedge across all 5 rows — produces stair-step when stacked */
+  clip-path: polygon(42% 0, 100% 0, 100% 100%, 22% 100%);
+  padding: 56px 56px 56px 46%;
   display: grid;
   grid-template-columns: 140px 1fr;
-  gap: 28px;
+  gap: 32px;
   align-items: center;
-  min-height: 220px;
-}
-
-/* Per-row clip-path — top-left of card N matches bottom-left of card N-1.
- * Card 1: top-left 30%, bottom-left 26%
- * Card 2: top-left 26%, bottom-left 22%  (matches card 1's bottom)
- * Card 3: top-left 22%, bottom-left 18%
- * Card 4: top-left 18%, bottom-left 14%
- * Card 5: top-left 14%, bottom-left 10%
- * → continuous diagonal from upper-right to lower-left across all 5 */
-.core-value-row[data-step="1"] .core-value-card {
-  clip-path: polygon(30% 0, 100% 0, 100% 100%, 26% 100%);
-}
-.core-value-row[data-step="2"] .core-value-card {
-  clip-path: polygon(26% 0, 100% 0, 100% 100%, 22% 100%);
-}
-.core-value-row[data-step="3"] .core-value-card {
-  clip-path: polygon(22% 0, 100% 0, 100% 100%, 18% 100%);
-}
-.core-value-row[data-step="4"] .core-value-card {
-  clip-path: polygon(18% 0, 100% 0, 100% 100%, 14% 100%);
-}
-.core-value-row[data-step="5"] .core-value-card {
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 10% 100%);
+  min-height: 280px;
 }
 
 .core-value-icon {
@@ -3319,11 +3346,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .core-value-body {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  max-width: 560px;
 }
 
 .core-value-title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: white;
   margin: 0;
@@ -3331,120 +3359,77 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .core-value-desc {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  max-width: 640px;
 }
 
-/* Tablet — soften the diagonal angle so the cards aren't too narrow */
+/* Tablet — softer wedge so content area stays readable */
 @media (max-width: 1024px) {
   .core-value-card {
-    padding: 32px 32px 32px 25%;
+    clip-path: polygon(28% 0, 100% 0, 100% 100%, 14% 100%);
+    padding: 40px 32px 40px 32%;
     grid-template-columns: 100px 1fr;
-    gap: 20px;
+    gap: 22px;
+    min-height: 220px;
   }
   .core-value-num {
-    font-size: 88px;
+    font-size: 96px;
+    left: 7%;
+    bottom: 18%;
   }
-  .core-value-row[data-step="1"] .core-value-card { clip-path: polygon(22% 0, 100% 0, 100% 100%, 19% 100%); }
-  .core-value-row[data-step="2"] .core-value-card { clip-path: polygon(19% 0, 100% 0, 100% 100%, 16% 100%); }
-  .core-value-row[data-step="3"] .core-value-card { clip-path: polygon(16% 0, 100% 0, 100% 100%, 13% 100%); }
-  .core-value-row[data-step="4"] .core-value-card { clip-path: polygon(13% 0, 100% 0, 100% 100%, 10% 100%); }
-  .core-value-row[data-step="5"] .core-value-card { clip-path: polygon(10% 0, 100% 0, 100% 100%, 7% 100%); }
-  .core-value-row[data-step="1"] .core-value-num { left: 10%; }
-  .core-value-row[data-step="2"] .core-value-num { left: 8%; }
-  .core-value-row[data-step="3"] .core-value-num { left: 6%; }
-  .core-value-row[data-step="4"] .core-value-num { left: 4%; }
-  .core-value-row[data-step="5"] .core-value-num { left: 2%; }
+  .core-value-icon img { max-width: 100px; }
+  .core-value-title { font-size: 22px; }
+  .core-value-desc { font-size: 14px; }
 }
 
-/* Mobile — keep the diagonal but tighter, smaller numbers, smaller icon */
+/* Mobile — minimal wedge so 64px icon + text fit */
 @media (max-width: 640px) {
   .core-value-card {
-    padding: 24px 20px 24px 22%;
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 8% 100%);
+    padding: 28px 20px 28px 22%;
     grid-template-columns: 64px 1fr;
     gap: 14px;
     min-height: 180px;
   }
   .core-value-num {
-    font-size: 56px;
+    font-size: 64px;
+    left: 4%;
+    bottom: 22%;
   }
-  .core-value-icon img {
-    max-width: 64px;
-  }
-  .core-value-title {
-    font-size: 20px;
-  }
-  .core-value-desc {
-    font-size: 13.5px;
-    line-height: 1.55;
-  }
-  .core-value-row[data-step="1"] .core-value-card { clip-path: polygon(18% 0, 100% 0, 100% 100%, 14% 100%); }
-  .core-value-row[data-step="2"] .core-value-card { clip-path: polygon(14% 0, 100% 0, 100% 100%, 10% 100%); }
-  .core-value-row[data-step="3"] .core-value-card { clip-path: polygon(10% 0, 100% 0, 100% 100%, 6% 100%); }
-  .core-value-row[data-step="4"] .core-value-card { clip-path: polygon(6% 0, 100% 0, 100% 100%, 2% 100%); }
-  .core-value-row[data-step="5"] .core-value-card { clip-path: polygon(2% 0, 100% 0, 100% 100%, 0 100%); }
-  .core-value-row[data-step="1"] .core-value-num { left: 4%; }
-  .core-value-row[data-step="2"] .core-value-num { left: 3%; }
-  .core-value-row[data-step="3"] .core-value-num { left: 2%; }
-  .core-value-row[data-step="4"] .core-value-num { left: 1%; }
-  .core-value-row[data-step="5"] .core-value-num { left: 0%; }
+  .core-value-icon img { max-width: 64px; }
+  .core-value-title { font-size: 18px; }
+  .core-value-desc { font-size: 13px; line-height: 1.55; }
 }
 
-/* ===== CAREERS — Career Opportunities CTA grid ===== */
-.careers-cta-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 920px;
-  margin: 0 auto;
+/* ===== CAREERS — Career Opportunities (simple text + mailto) =====
+ * Replaces the earlier two-card CTA grid. Matches live page exactly. */
+.careers-contact {
+  text-align: center;
+  max-width: 600px;
+  margin: 32px auto 0;
 }
 
-.careers-cta-card {
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-radius: 16px;
-  padding: 40px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.careers-cta-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 181, 214, 0.15);
-  border-color: var(--primary);
-}
-
-.careers-cta-title {
-  font-size: 22px;
+.careers-contact-question {
+  font-size: 18px;
   font-weight: 700;
   color: var(--gray-900);
-  margin: 0;
+  margin: 0 0 16px;
 }
 
-.careers-cta-desc {
-  font-size: 15px;
-  line-height: 1.65;
+.careers-contact-line {
+  font-size: 18px;
   color: var(--gray-700);
   margin: 0;
-  flex: 1;
 }
 
-.careers-cta-card .btn-primary {
-  margin-top: 8px;
+.careers-contact-line a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
 }
 
-@media (max-width: 768px) {
-  .careers-cta-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .careers-cta-card {
-    padding: 28px 24px;
-  }
+.careers-contact-line a:hover {
+  text-decoration: underline;
 }

@@ -1,59 +1,69 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 import Image from 'next/image'
-import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export const metadata: Metadata = {
   title: 'Careers | Join the Cosentus Team | Irvine, California',
-  description: 'Build a career that changes healthcare. Great Place to Work certified three years running.',
+  description:
+    'Join the Cosentus team. Independently owned, Great Place to Work certified three years running, and home to teams that change healthcare.',
 }
 
 const coreValues = [
   {
     title: 'Be Happy',
-    desc: "We work hard but have a blast. Positivity is infectious, and while pursuing the goal is always important, it's equally important to step back and enjoy the journey.",
+    desc:
+      "We work hard but have a blast. Positivity is infectious, and while pursuing the goal is always important, it\u2019s equally important to step back and enjoy the journey.",
     icon: '/images/careers/be-happy.png',
   },
   {
     title: 'Be Hungry',
-    desc: 'Great things never get done with "good enough" mentalities. We\u2019re not afraid to challenge ideas and always improve. With empowered intention and persistent action, extraordinary things can happen.',
+    desc:
+      'Great things never get done with \u201Cgood enough\u201D mentalities. We\u2019re not afraid to challenge ideas and always improve. With empowered intention and persistent action, extraordinary things can happen.',
     icon: '/images/careers/be-hungry.png',
   },
   {
     title: 'Be Aware',
-    desc: "We listen first and respond accordingly. Whether with co-workers or clients, we want to know you for who you really are. We foster integrity and open minds \u2013 you ask, and we\u2019ll follow through.",
+    desc:
+      "We listen first and respond accordingly. Whether with co-workers or clients, we want to know you for who you really are. We foster integrity and open minds \u2013 you ask, and we\u2019ll follow through.",
     icon: '/images/careers/be-aware.png',
   },
   {
     title: 'Be Focused',
-    desc: 'We plan our work and work our plan. As master organizers, we are always curious, always learning, always becoming experts.',
+    desc:
+      'We plan our work and work our plan. As master organizers, we are always curious, always learning, always becoming experts.',
     icon: '/images/careers/be-focused.png',
   },
   {
     title: 'Be Grateful',
-    desc: 'Gratitude is a verb, not a noun. We show our gratitude and appreciation every day \u2014 to our clients and to each other. We are loyal, supportive, and collaborative. We are one team with one journey.',
+    desc:
+      'Gratitude is a verb, not a noun. We show our gratitude and appreciation every day \u2014 to our clients and to each other. We are loyal, supportive, and collaborative. We are one team with one journey.',
     icon: '/images/careers/be-grateful.png',
   },
 ]
 
-const APPLY_INTERNAL = 'https://cosentustalent.catsone.com/careers/45627-Cosentus-Careers/'
-const APPLY_CLIENT = 'https://cosentustalent.catsone.com/careers/54390-Client-Posting-Portal/'
-const HR_MAILTO =
-  'mailto:hr@cosentus.com?subject=Job%20Application%20%E2%80%94%20Please%20see%20attached%20CV%2FResume&body=Dear%20HR%20Team%2C%0A%0AI%20am%20interested%20in%20joining%20the%20Cosentus%20team.%20Please%20find%20my%20CV%2FResume%20attached%20for%20your%20consideration.%0A%0AI%20look%20forward%20to%20hearing%20from%20you.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D'
-
 export default function CareersPage() {
   return (
     <main>
-      <PageHero
-        label="CAREERS"
-        title="Join Our Team"
-        subtitle="Independently owned. Great Place to Work certified three years running. Join a team redefining billing excellence — for practices, for patients, and for each other."
-        ctaText="Apply Now"
-        ctaHref="#career-opportunities"
-      />
+      {/* HERO — hands image background. No subtitle, no CTA button: there's
+          no contact form to land on yet, so a button would dead-end. */}
+      <section className="careers-hero">
+        <Image
+          src="/images/careers/hero-hands.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+        />
+        <div className="careers-hero-overlay" />
+        <div className="careers-hero-content">
+          <RevealOnScroll>
+            <h1>Join Our Team</h1>
+          </RevealOnScroll>
+        </div>
+      </section>
 
-      {/* Inspire tagline + DNA copy */}
+      {/* INSPIRE — kept verbatim per direction */}
       <section className="section">
         <div className="container" style={{ maxWidth: 880 }}>
           <RevealOnScroll>
@@ -64,7 +74,13 @@ export default function CareersPage() {
           <RevealOnScroll delay={0.1}>
             <p
               className="section-desc"
-              style={{ maxWidth: '100%', textAlign: 'center', fontSize: 17, lineHeight: 1.8, marginTop: 24 }}
+              style={{
+                maxWidth: '100%',
+                textAlign: 'center',
+                fontSize: 17,
+                lineHeight: 1.8,
+                marginTop: 24,
+              }}
             >
               Collaboration, coordination, and cooperation are at the core of the Cosentus DNA. We build on each
               other&rsquo;s ideas to innovate and inspire. We revolutionize business &mdash; but a revolution requires
@@ -90,7 +106,13 @@ export default function CareersPage() {
           <RevealOnScroll delay={0.25}>
             <p
               className="section-desc"
-              style={{ maxWidth: '100%', textAlign: 'center', fontSize: 17, lineHeight: 1.8, marginTop: 16 }}
+              style={{
+                maxWidth: '100%',
+                textAlign: 'center',
+                fontSize: 17,
+                lineHeight: 1.8,
+                marginTop: 16,
+              }}
             >
               Sounds pretty fun, huh? We&rsquo;d love for you to join us on our journey.
             </p>
@@ -98,7 +120,9 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Core Values */}
+      {/* CORE VALUES — full-width staircase. Heading + desc stay inside
+          .container; the staircase itself is a sibling outside the
+          container so cards span the full viewport. */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
@@ -109,38 +133,38 @@ export default function CareersPage() {
           <RevealOnScroll delay={0.1}>
             <p
               className="section-desc"
-              style={{ maxWidth: 720, margin: '20px auto 60px', textAlign: 'center' }}
+              style={{ maxWidth: 720, margin: '20px auto 0', textAlign: 'center' }}
             >
               Our Core Values speak directly to who we are and what we&rsquo;re about &mdash; with them, we build
               universal trust and promise a future of exponential growth.
             </p>
           </RevealOnScroll>
+        </div>
 
-          <div className="core-values-list">
-            {coreValues.map((v, i) => (
-              <RevealOnScroll key={i} direction="right" delay={i * 0.18}>
-                <div className="core-value-row" data-step={i + 1}>
-                  <div className="core-value-num" aria-hidden="true">
-                    {i + 1}
+        <div className="core-values-list">
+          {coreValues.map((v, i) => (
+            <RevealOnScroll key={v.title} direction="right" delay={i * 0.18}>
+              <div className="core-value-row">
+                <div className="core-value-num" aria-hidden="true">
+                  {i + 1}
+                </div>
+                <div className="core-value-card">
+                  <div className="core-value-icon">
+                    <Image src={v.icon} alt={v.title} width={140} height={140} />
                   </div>
-                  <div className="core-value-card">
-                    <div className="core-value-icon">
-                      <Image src={v.icon} alt={v.title} width={120} height={120} />
-                    </div>
-                    <div className="core-value-body">
-                      <h3 className="core-value-title">{v.title}</h3>
-                      <p className="core-value-desc">{v.desc}</p>
-                    </div>
+                  <div className="core-value-body">
+                    <h3 className="core-value-title">{v.title}</h3>
+                    <p className="core-value-desc">{v.desc}</p>
                   </div>
                 </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+              </div>
+            </RevealOnScroll>
+          ))}
         </div>
       </section>
 
-      {/* Career Opportunities */}
-      <section id="career-opportunities" className="section">
+      {/* CAREER OPPORTUNITIES — simple text + mailto, matches live page */}
+      <section className="section">
         <div className="container">
           <RevealOnScroll>
             <h2 className="section-title" style={{ textAlign: 'center' }}>
@@ -148,47 +172,14 @@ export default function CareersPage() {
             </h2>
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
-            <p className="section-desc" style={{ maxWidth: 640, margin: '20px auto 48px', textAlign: 'center' }}>
-              Interested in joining the Cosentus team? Apply through one of our portals below, or email your resume
-              directly to{' '}
-              <a href={HR_MAILTO} style={{ color: 'var(--primary)', fontWeight: 500 }}>
-                hr@cosentus.com
-              </a>
-              .
-            </p>
+            <div className="careers-contact">
+              <p className="careers-contact-question">Interested in joining the Cosentus team?</p>
+              <p className="careers-contact-line">
+                E-mail us your resume at{' '}
+                <a href="mailto:hr@cosentus.com">hr@cosentus.com</a>
+              </p>
+            </div>
           </RevealOnScroll>
-
-          <div className="careers-cta-grid">
-            <RevealOnScroll delay={0.15}>
-              <div className="careers-cta-card">
-                <h3 className="careers-cta-title">Internal Positions</h3>
-                <p className="careers-cta-desc">
-                  Want to join the Cosentus team? Check out our internal positions across billing, coding, operations,
-                  and leadership.
-                </p>
-                <Link href={APPLY_INTERNAL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  Apply Now
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.25}>
-              <div className="careers-cta-card">
-                <h3 className="careers-cta-title">Client Opportunities</h3>
-                <p className="careers-cta-desc">
-                  Not finding the right opportunity here? Check out roles posted by our partner practices and clients.
-                </p>
-                <Link href={APPLY_CLIENT} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  Apply Now
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
-            </RevealOnScroll>
-          </div>
         </div>
       </section>
     </main>
