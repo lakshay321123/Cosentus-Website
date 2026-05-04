@@ -281,7 +281,6 @@ export default function PartnershipContent() {
 
       {/* Challenge + Solution */}
       <ProblemSolutionSection
-        problemEyebrow="THE CHALLENGE"
         problemTitle="Is Your Journey to Growth Facing These Challenges?"
         problemBody="Medical billing companies face mounting pressure from all sides, rising costs, technology shifts, and aggressive PE consolidation."
         problemBullets={[
@@ -290,7 +289,6 @@ export default function PartnershipContent() {
           'Managing rising costs while maintaining profitability',
           'Competing against private equity-backed consolidators',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="25 Years of RCM Expertise + Real + Artificial Intelligence"
         solutionBody="One of the largest non-PE-backed RCM companies in America. 19 successful acquisitions. We know how to grow together."
         solutionBullets={[

@@ -40,7 +40,6 @@ export default function ASCPage() {
 
       {/* Problem / Solution Split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle={<>High Case Volume.<br />Hidden Revenue Leakage.</>}
         problemBullets={[
           'Missed implant billing silently eroding margins',
@@ -48,7 +47,6 @@ export default function ASCPage() {
           'Untracked case costing hiding unprofitable procedures',
           'Authorization lapses causing denials and delays',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Dedicated ASC Team + AI"
         solutionBullets={[
           'Coordinated facility and professional billing streams',
@@ -97,8 +95,7 @@ export default function ASCPage() {
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
-                <div className="section-label">AI AGENT SPOTLIGHT</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Pre-Service Payment Collection
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>

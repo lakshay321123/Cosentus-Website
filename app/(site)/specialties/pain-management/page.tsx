@@ -41,14 +41,12 @@ export default function PainManagementPage() {
 
       {/* Problem / Solution Split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle={<>High-Frequency Procedures.<br />High-Frequency Denials.</>}
         problemBullets={[
           'Payers scrutinize injection frequency, imaging guidance, and medical necessity',
           'Modifier or laterality errors cost $200–$500 per visit, and multiply fast',
           'Pre-payment reviews and opioid-related scrutiny add risk',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Interventional Coding Experts + AI Defense"
         solutionBullets={[
           'Pain division specialists handle interventional coding and payer defense',
@@ -97,8 +95,7 @@ export default function PainManagementPage() {
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
-                <div className="section-label">AI AGENT SPOTLIGHT</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Prior Authorization Management
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>

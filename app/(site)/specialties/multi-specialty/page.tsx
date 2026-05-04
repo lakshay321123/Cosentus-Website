@@ -41,7 +41,6 @@ export default function MultiSpecialtyPage() {
 
       {/* Problem / Solution Split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle={<>Multiple Specialties.<br />Multiplied Complexity.</>}
         problemBullets={[
           'Different coding rules across departments create denial risk',
@@ -49,7 +48,6 @@ export default function MultiSpecialtyPage() {
           'No single vendor seems to understand all of your service lines',
           'Reporting is fragmented, no unified view of practice performance',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="One Team Built for Breadth. AI Built for Scale."
         solutionBullets={[
           'Multi-specialty trained team that understands coding across service lines',

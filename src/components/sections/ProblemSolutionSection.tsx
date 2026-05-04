@@ -26,22 +26,22 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
  */
 
 interface ProblemSolutionSectionProps {
-  problemEyebrow: string
+  /** @deprecated No longer rendered. Kept for API compatibility with existing callers. */
+  problemEyebrow?: string
   problemTitle: React.ReactNode
   problemBody?: string
   problemBullets: string[]
-  solutionEyebrow: string
+  /** @deprecated No longer rendered. Kept for API compatibility with existing callers. */
+  solutionEyebrow?: string
   solutionTitle: React.ReactNode
   solutionBody?: string
   solutionBullets: string[]
 }
 
 export default function ProblemSolutionSection({
-  problemEyebrow,
   problemTitle,
   problemBody,
   problemBullets,
-  solutionEyebrow,
   solutionTitle,
   solutionBody,
   solutionBullets,
@@ -75,24 +75,6 @@ export default function ProblemSolutionSection({
           </div>
 
           <RevealOnScroll direction="left">
-            <div className="section-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="15" y1="9" x2="9" y2="15" />
-                <line x1="9" y1="9" x2="15" y2="15" />
-              </svg>
-              {problemEyebrow}
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll direction="left" delay={0.1}>
             <h2 className="section-title" style={{ marginBottom: 24 }}>
               {problemTitle}
             </h2>
@@ -145,26 +127,6 @@ export default function ProblemSolutionSection({
           <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
 
           <RevealOnScroll direction="right">
-            <div
-              className="section-label ps-solution-eyebrow"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.85)' }}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              {solutionEyebrow}
-            </div>
-          </RevealOnScroll>
-
-          <RevealOnScroll direction="right" delay={0.1}>
             <h2 className="section-title ps-solution-title" style={{ color: 'white', marginBottom: 24 }}>
               {solutionTitle}
             </h2>

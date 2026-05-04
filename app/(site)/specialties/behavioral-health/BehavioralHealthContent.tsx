@@ -53,7 +53,6 @@ export default function BehavioralHealthContent() {
 
       {/* Problem / Solution Split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle={<>Complex Sessions.<br />Constant Revenue Leaks.</>}
         problemBullets={[
           'Time-based CPTs with strict thresholds trip up generic billers',
@@ -61,7 +60,6 @@ export default function BehavioralHealthContent() {
           'IOP/PHP bundling rules create constant underbilling risk',
           'Authorization expirations silently kill revenue when tracking gaps occur',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Behavioral Health Billing Experts + AI Tracking"
         solutionBullets={[
           'Correct time-based coding captured for every session',

@@ -48,7 +48,6 @@ export default function RCMContent() {
 
       {/* Problem + Solution split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle="Where Practices Lose Revenue"
         problemBody="Every gap in the cycle is a leak. Every leak is money that never lands. Most practices manage RCM in disconnected pieces, and the handoffs are where revenue disappears."
         problemBullets={[
@@ -59,7 +58,6 @@ export default function RCMContent() {
           'Patient balances sitting in statement limbo',
           'AR creeping past 90 days with no active recovery',
         ]}
-        solutionEyebrow="SOLVED"
         solutionTitle="How We Plug The Leaks"
         solutionBody="One accountable team across the full cycle. AI handles volume. Human specialists own judgment. Nothing falls between handoffs."
         solutionBullets={[

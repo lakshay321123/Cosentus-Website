@@ -296,7 +296,6 @@ export default function RAPageContent() {
 
       {/* Problem + Solution, Animated Split Section */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle="Why Specialty Practices Deserve Better"
         problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
         problemBullets={[
@@ -304,7 +303,6 @@ export default function RAPageContent() {
           'AI-only solutions lack clinical judgment',
           'Revenue leaks at every handoff',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Real + Artificial Intelligence"
         solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
