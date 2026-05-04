@@ -89,7 +89,7 @@ export default function InsightsPage() {
 
       <InsightSection
         label="CLIENT SUCCESS STORIES"
-        title="Real Practices. Real Revenue Growth."
+        title="Client Success Stories"
         items={caseStudyItems}
         viewAllHref="/case-studies"
         ctaLabel="Read Client Success Story"
@@ -97,7 +97,7 @@ export default function InsightsPage() {
 
       <InsightSection
         label="BLOG"
-        title="Writing on RCM, Coding, and Practice Growth."
+        title="From the Blog"
         items={blogItems}
         viewAllHref="/blog"
         ctaLabel="Read Article"
@@ -106,7 +106,7 @@ export default function InsightsPage() {
 
       <InsightSection
         label="NEWS & PRESS"
-        title="Industry Coverage and Company Announcements."
+        title="News &amp; Press"
         items={newsItems}
         viewAllHref="/news"
         ctaLabel="Read More"
@@ -114,7 +114,7 @@ export default function InsightsPage() {
 
       <InsightSection
         label="EVENTS"
-        title="Where You Can Find Us."
+        title="Where You Can Find Us"
         items={eventItems}
         viewAllHref="/events"
         ctaLabel="View Event"

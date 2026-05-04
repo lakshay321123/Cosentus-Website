@@ -26,7 +26,6 @@ export default function OrthopedicsContent() {
     <>
       {/* Challenge + Solution, Split Section */}
       <ProblemSolutionSection
-        problemEyebrow="THE CHALLENGE"
         problemTitle="High-Value Cases. Predictable Revenue Leakage."
         problemBody="Incorrect modifiers, missed implant pass-throughs, global period errors, and workers' comp complexities all mean revenue is lost before it's even billed."
         problemBullets={[
@@ -34,7 +33,6 @@ export default function OrthopedicsContent() {
           'Missed implant pass-throughs worth thousands',
           'Global period miscalculations leaking revenue',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Surgical Practice Veterans + AI"
         solutionBody="Orthopedic billing experts handle the complexity. AI agents handle the volume. Nothing slips through."
         solutionBullets={[
@@ -50,8 +48,7 @@ export default function OrthopedicsContent() {
       {/* Services */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">WHAT WE MANAGE</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', marginTop: 48 }}>
             {services.map((s, i) => (
               <RevealOnScroll key={i} delay={i * 0.07}>
@@ -94,8 +91,7 @@ export default function OrthopedicsContent() {
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
-                <div className="section-label">AI AGENT SPOTLIGHT</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Prior Authorization Management
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
@@ -130,8 +126,7 @@ export default function OrthopedicsContent() {
       {/* Leadership */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Surgical practice veterans with deep orthopedic and ASC expertise, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.

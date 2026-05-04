@@ -40,7 +40,6 @@ export default function ASCPage() {
 
       {/* Problem / Solution Split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle={<>High Case Volume.<br />Hidden Revenue Leakage.</>}
         problemBullets={[
           'Missed implant billing silently eroding margins',
@@ -48,7 +47,6 @@ export default function ASCPage() {
           'Untracked case costing hiding unprofitable procedures',
           'Authorization lapses causing denials and delays',
         ]}
-        solutionEyebrow="THE SOLUTION"
         solutionTitle="Dedicated ASC Team + AI"
         solutionBullets={[
           'Coordinated facility and professional billing streams',
@@ -63,9 +61,6 @@ export default function ASCPage() {
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Complete ASC Revenue Cycle</div>
           </RevealOnScroll>
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
@@ -100,8 +95,7 @@ export default function ASCPage() {
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
-                <div className="section-label">AI AGENT SPOTLIGHT</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Pre-Service Payment Collection
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
@@ -135,8 +129,7 @@ export default function ASCPage() {
       {/* Leadership */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">ASC Leadership</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               ASC and surgical practice management veterans, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.

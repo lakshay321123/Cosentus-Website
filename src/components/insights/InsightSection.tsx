@@ -46,7 +46,6 @@ export default function InsightSection({
             marginBottom: 36,
           }}>
             <div>
-              <div className="section-label">{label}</div>
               <h2 style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(28px, 3.6vw, 42px)',
@@ -54,7 +53,7 @@ export default function InsightSection({
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
                 color: 'var(--gray-900)',
-                marginTop: 12,
+                marginTop: 0,
                 marginBottom: 0,
               }}>
                 {title}

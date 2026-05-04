@@ -242,9 +242,6 @@ export default function BillingCodingContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">MEDICAL BILLING & CODING</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Medical Billing & Coding Services</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -286,9 +283,6 @@ export default function BillingCodingContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">SOLUTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Solutions Tailored for Growing Your Medical Practice</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -315,9 +309,6 @@ export default function BillingCodingContent() {
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">WHAT SETS US APART</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">What Sets Cosentus Billing Apart</div>
           </RevealOnScroll>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
@@ -338,9 +329,6 @@ export default function BillingCodingContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">OUR PROCESS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Our Billing Process</div>
           </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 48 }}>
@@ -360,9 +348,6 @@ export default function BillingCodingContent() {
       {/* ── BENEFITS OF OUTSOURCING, clean stats ── */}
       <section style={{ padding: '80px 0', background: 'var(--primary)', color: 'white' }}>
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-label" style={{ color: 'rgba(255,255,255,0.6)' }}>WHY OUTSOURCE</div>
-          </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 300, fontFamily: 'var(--font-display)', marginBottom: 48, lineHeight: 1.2 }}>
               Benefits of Outsourcing Your Billing
@@ -409,7 +394,7 @@ export default function BillingCodingContent() {
       <section style={{ padding: '48px 0', overflow: 'hidden' }}>
         <div className="container" style={{ marginBottom: 24 }}>
           <RevealOnScroll>
-            <div className="section-label">SPECIALTIES WE SERVE</div>
+            <div className="section-title">Specialties We Serve</div>
           </RevealOnScroll>
         </div>
         <div style={{ position: 'relative', width: '100%', overflow: 'hidden', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
@@ -428,9 +413,6 @@ export default function BillingCodingContent() {
       <section className="section section-alt" id="faq">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
           <div style={{ marginTop: 48 }}>

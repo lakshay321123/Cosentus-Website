@@ -283,9 +283,6 @@ export default function PracticeManagementContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">PRACTICE MANAGEMENT</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Practice Management Services</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -332,9 +329,6 @@ export default function PracticeManagementContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">STREAMLINED OPERATIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Streamlined Operations for Peak Efficiency</div>
           </RevealOnScroll>
 
@@ -356,9 +350,6 @@ export default function PracticeManagementContent() {
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">WHAT WE MANAGE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Everything Behind the Scenes</div>
           </RevealOnScroll>
           <div className="advantage-grid" style={{ marginTop: 48 }}>
@@ -378,9 +369,6 @@ export default function PracticeManagementContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">WHY OUTSOURCE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Why Outsource Practice Management</div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
@@ -395,9 +383,6 @@ export default function PracticeManagementContent() {
       <section className="section section-alt" id="faq">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">FREQUENTLY ASKED QUESTIONS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
           <div style={{ marginTop: 48 }}>

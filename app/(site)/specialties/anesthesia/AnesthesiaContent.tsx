@@ -61,9 +61,6 @@ export default function AnesthesiaContent() {
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
-            <RevealOnScroll direction="left">
-              <div className="section-label">WHY ACCREDA EXISTS</div>
-            </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
                 Generic RCM Teams Miss Details That Cost Thousands Per Case
@@ -109,8 +106,7 @@ export default function AnesthesiaContent() {
       {/* The Cosentus Advantage, 6 animated cards */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll><div className="section-label">THE COSENTUS ADVANTAGE</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">What Sets Accreda Apart</div></RevealOnScroll>
+        <RevealOnScroll><div className="section-title">What Sets Accreda Apart</div></RevealOnScroll>
 
           <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
             {advantages.map((a, i) => (
@@ -141,8 +137,7 @@ export default function AnesthesiaContent() {
       {/* Solutions for Every Step */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">END-TO-END</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}><div className="section-title">Solutions for Every Step</div></RevealOnScroll>
+          <RevealOnScroll><div className="section-title">Solutions for Every Step</div></RevealOnScroll>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 48 }}>
             {solutions.map((s, i) => (
@@ -164,8 +159,7 @@ export default function AnesthesiaContent() {
           <div className="emily-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
             <RevealOnScroll direction="left">
               <div>
-                <div className="section-label">AI AGENT SPOTLIGHT</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 16, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Pre-Service Payment Collection
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
@@ -200,8 +194,7 @@ export default function AnesthesiaContent() {
       {/* Leadership, 250+ years */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-label">LEADERSHIP</div></RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
+          <RevealOnScroll>
             <div className="section-title">Leadership Combined Experience</div>
           </RevealOnScroll>
 

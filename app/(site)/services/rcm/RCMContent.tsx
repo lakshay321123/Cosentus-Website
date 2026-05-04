@@ -32,9 +32,6 @@ export default function RCMContent() {
       <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
           <div>
-            <RevealOnScroll>
-              <div className="section-label">THE CHALLENGE</div>
-            </RevealOnScroll>
             <RevealOnScroll delay={0.1}>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 24, fontFamily: 'var(--font-display)' }}>
                 Disconnected Revenue Cycles Leak Revenue
@@ -51,7 +48,6 @@ export default function RCMContent() {
 
       {/* Problem + Solution split */}
       <ProblemSolutionSection
-        problemEyebrow="THE PROBLEM"
         problemTitle="Where Practices Lose Revenue"
         problemBody="Every gap in the cycle is a leak. Every leak is money that never lands. Most practices manage RCM in disconnected pieces, and the handoffs are where revenue disappears."
         problemBullets={[
@@ -62,7 +58,6 @@ export default function RCMContent() {
           'Patient balances sitting in statement limbo',
           'AR creeping past 90 days with no active recovery',
         ]}
-        solutionEyebrow="SOLVED"
         solutionTitle="How We Plug The Leaks"
         solutionBody="One accountable team across the full cycle. AI handles volume. Human specialists own judgment. Nothing falls between handoffs."
         solutionBullets={[
@@ -79,9 +74,6 @@ export default function RCMContent() {
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-label">THE COMPLETE REVENUE CYCLE</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
           </RevealOnScroll>
 
@@ -151,9 +143,6 @@ export default function RCMContent() {
       <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
           <RevealOnScroll>
-            <div className="section-label">KEY RESULTS</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
             <div className="section-title">Measurable Outcomes</div>
           </RevealOnScroll>
           <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
