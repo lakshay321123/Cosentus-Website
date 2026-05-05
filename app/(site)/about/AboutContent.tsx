@@ -164,7 +164,10 @@ export default function AboutContent() {
             {processSteps.map((step, i) => {
               // base delay for the whole step; sub-elements sequence
               // off this so icon -> title -> list within each step.
-              const stepDelay = 0.15 + i * 0.35
+              // Stagger between steps is 0.6s so each step has time
+              // to visually complete its icon -> title -> bullets
+              // sequence before the next step begins.
+              const stepDelay = 0.2 + i * 0.6
               return (
                 <div className="about-process-step" key={step.title}>
                   <RevealOnScroll delay={stepDelay}>
@@ -178,10 +181,10 @@ export default function AboutContent() {
                       />
                     </div>
                   </RevealOnScroll>
-                  <RevealOnScroll delay={stepDelay + 0.18}>
+                  <RevealOnScroll delay={stepDelay + 0.25}>
                     <h3 className="about-process-step-title">{step.title}</h3>
                   </RevealOnScroll>
-                  <RevealOnScroll delay={stepDelay + 0.32}>
+                  <RevealOnScroll delay={stepDelay + 0.5}>
                     <ul className="about-process-list">
                       {step.points.map((p) => (
                         <li key={p}>{p}</li>
