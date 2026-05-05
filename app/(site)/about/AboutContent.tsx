@@ -156,7 +156,7 @@ export default function AboutContent() {
           title, then the bullet list — and the steps themselves
           stagger across the row so step 1 starts before step 2. */}
       <section className="about-process">
-        <div className="container-wide">
+        <div className="container">
           <RevealOnScroll>
             <h2 className="about-process-title">Our Process</h2>
           </RevealOnScroll>
@@ -215,32 +215,14 @@ export default function AboutContent() {
           }
           .about-process-grid {
             display: grid;
-            /* minmax(0, 1fr) — without the min=0, content larger than
-               the column tries to expand the track, producing uneven
-               column widths. minmax(0, 1fr) forces equal-width tracks;
-               longer content wraps inside its own column instead. */
-            grid-template-columns: repeat(6, minmax(0, 1fr));
-            /* Tight gap to maximise column width — combined with
-               container-wide (1440px) and padding-left: 12px, gives
-               ~205-220px text area per column so 24-30-char bullets
-               ('Expectations Agreed Upon', 'Consistent Results Over
-               & over') fit on a single line. */
-            gap: clamp(8px, 0.9vw, 16px);
+            grid-template-columns: repeat(6, 1fr);
+            gap: clamp(20px, 2vw, 32px);
             align-items: start;
           }
           .about-process-step {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            min-width: 0;
-          }
-          /* Every RevealOnScroll wrapper inside the step is a div.
-             Stretch to full column width so the inline-block list
-             inside can be centered via text-align: center. */
-          .about-process-step > * {
-            width: 100%;
-            min-width: 0;
             text-align: center;
           }
           .about-process-icon {
@@ -265,23 +247,19 @@ export default function AboutContent() {
           }
           .about-process-list {
             list-style: disc;
-            /* 12px bullet indent — tight to give text more single-
-               line room. Combined with container-wide and reduced
-               gap, this gives ~205-220px text area per column. */
-            padding-left: 12px;
+            padding-left: 18px;
             margin: 0;
-            /* display: inline-block + text-align: center on the
-               wrapper above centers the list as a block within the
-               column. text-align: left keeps bullets left-aligned
-               WITHIN the list. max-width: 100% clamps to column
-               width so very long lines (e.g. 'Service Team
-               Introductions & Relationship Building') still wrap
-               rather than overflow. */
-            display: inline-block;
-            max-width: 100%;
+            /* width: 100% ensures every column's list spans the full
+               column width. Without it, lists shrink to fit their
+               content and align-items: center on .about-process-step
+               places shorter lists at a different x-offset than longer
+               ones, breaking the vertical alignment of bullets across
+               columns. With 100%, every list starts at the same offset
+               (18px padding-left) from its column's left edge. */
+            width: 100%;
             box-sizing: border-box;
             text-align: left;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.92);
           }
