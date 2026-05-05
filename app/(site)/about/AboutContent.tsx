@@ -181,23 +181,16 @@ export default function AboutContent() {
                       />
                     </div>
                   </RevealOnScroll>
-                  {/* Title + list share an alignment box so the title's
-                      first character lines up with the bullet text. The
-                      wrapper is sized to its widest child (typically the
-                      longest bullet line) and centered under the icon by
-                      the parent's align-items: center. */}
-                  <div className="about-process-text">
-                    <RevealOnScroll delay={stepDelay + 0.25}>
-                      <h3 className="about-process-step-title">{step.title}</h3>
-                    </RevealOnScroll>
-                    <RevealOnScroll delay={stepDelay + 0.5}>
-                      <ul className="about-process-list">
-                        {step.points.map((p) => (
-                          <li key={p}>{p}</li>
-                        ))}
-                      </ul>
-                    </RevealOnScroll>
-                  </div>
+                  <RevealOnScroll delay={stepDelay + 0.25}>
+                    <h3 className="about-process-step-title">{step.title}</h3>
+                  </RevealOnScroll>
+                  <RevealOnScroll delay={stepDelay + 0.5}>
+                    <ul className="about-process-list">
+                      {step.points.map((p) => (
+                        <li key={p}>{p}</li>
+                      ))}
+                    </ul>
+                  </RevealOnScroll>
                 </div>
               )
             })}
@@ -251,35 +244,23 @@ export default function AboutContent() {
             font-weight: 500;
             color: #fff;
             margin: 0 0 14px;
-            /* padding-left: 18px matches .about-process-list padding-left,
-               so the title's first character aligns with the bullet text's
-               first character. text-align: left overrides the parent step's
-               text-align: center (which would otherwise center the title
-               within its now-wider container). */
-            padding-left: 18px;
-            text-align: left;
-          }
-          .about-process-text {
-            /* Full width of the column. Title and list inside both have
-               padding-left: 18px, so their first characters share the
-               same x position (column-left + 18px). Long bullet lines
-               wrap inside the column instead of overflowing the grid.
-               width: max-content was tried earlier and broke the grid
-               because grid items default to min-width: auto and expanded
-               to fit max-content, pushing columns past the viewport. */
-            width: 100%;
-            text-align: left;
+            /* text-align: center is inherited from .about-process-step.
+               Title sits centered under the icon. */
           }
           .about-process-list {
+            /* display: inline-block lets the list shrink to its content
+               width, so the parent's text-align: center on the step
+               centers the whole bullet block under the icon and title.
+               text-align: left inside keeps the bullet text reading
+               left-to-right within the block. max-width: 100% forces
+               long bullet lines to wrap to a second line within the
+               column instead of overflowing into adjacent columns. */
+            display: inline-block;
+            text-align: left;
             list-style: disc;
             padding-left: 18px;
             margin: 0;
-            /* No explicit width — the list shrinks to its content and
-               sits at the left of .about-process-text. padding-left: 18px
-               gives room for disc markers; bullet text starts 18px from
-               the wrapper's left edge, matching the title's padding-left
-               so they align vertically. */
-            text-align: left;
+            max-width: 100%;
             font-size: 15px;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.92);
