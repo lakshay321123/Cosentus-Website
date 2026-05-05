@@ -20,11 +20,11 @@ const steps = [
 /**
  * Zeus AI leadership — the named humans behind the platform.
  *
- * Photos: Allen, Ajay, and Steven already have photos elsewhere in the
- * codebase (Allen + Ajay on /about; Steven on Behavioral Health), so
- * we re-use those. Alex, Lakshay, and Casey have no photos yet — for
- * them the TeamCircleGrid component falls back to teal initials in an
- * empty circle until headshots are supplied.
+ * Photos: Allen, Ajay, Steven, and Lakshay have headshots; we re-use
+ * Allen + Ajay's from /about and Steven's from Behavioral Health.
+ * Alex and Casey have no photos yet — for them the TeamCircleGrid
+ * component falls back to teal initials in an empty circle until
+ * headshots are supplied.
  *
  * No `bio` field is provided yet, so the cards render non-interactive
  * (TeamCircleGrid only adds the click+modal affordance when both
@@ -34,7 +34,7 @@ const zeusTeam = [
   { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI',  photo: '/images/ALLEN RANJAN.jpg' },
   { name: 'Ajay Kumar',            title: 'AI Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
   { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
-  { name: 'Lakshay Mehra',         title: 'AI Development Lead' },
+  { name: 'Lakshay Mehra',         title: 'AI Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
   { name: 'Casey Kaczmarowski',    title: 'Platform & Infrastructure Lead' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
 ]
