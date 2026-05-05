@@ -249,6 +249,15 @@ export default function AboutContent() {
             list-style: disc;
             padding-left: 18px;
             margin: 0;
+            /* width: 100% ensures every column's list spans the full
+               column width. Without it, lists shrink to fit their
+               content and align-items: center on .about-process-step
+               places shorter lists at a different x-offset than longer
+               ones, breaking the vertical alignment of bullets across
+               columns. With 100%, every list starts at the same offset
+               (18px padding-left) from its column's left edge. */
+            width: 100%;
+            box-sizing: border-box;
             text-align: left;
             font-size: 15px;
             line-height: 1.55;
