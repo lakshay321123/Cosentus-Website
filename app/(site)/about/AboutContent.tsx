@@ -260,14 +260,14 @@ export default function AboutContent() {
             text-align: left;
           }
           .about-process-text {
-            /* Shared alignment box for title + list. width: max-content sizes
-               the wrapper to the widest child (typically the longest bullet
-               line + 18px padding); max-width: 100% prevents overflow on
-               narrow viewports where a single bullet line could exceed the
-               column width. The wrapper itself is centered horizontally by
-               .about-process-step's align-items: center. */
-            width: max-content;
-            max-width: 100%;
+            /* Full width of the column. Title and list inside both have
+               padding-left: 18px, so their first characters share the
+               same x position (column-left + 18px). Long bullet lines
+               wrap inside the column instead of overflowing the grid.
+               width: max-content was tried earlier and broke the grid
+               because grid items default to min-width: auto and expanded
+               to fit max-content, pushing columns past the viewport. */
+            width: 100%;
             text-align: left;
           }
           .about-process-list {
