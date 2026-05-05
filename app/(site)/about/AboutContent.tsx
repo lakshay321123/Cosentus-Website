@@ -181,16 +181,23 @@ export default function AboutContent() {
                       />
                     </div>
                   </RevealOnScroll>
-                  <RevealOnScroll delay={stepDelay + 0.25}>
-                    <h3 className="about-process-step-title">{step.title}</h3>
-                  </RevealOnScroll>
-                  <RevealOnScroll delay={stepDelay + 0.5}>
-                    <ul className="about-process-list">
-                      {step.points.map((p) => (
-                        <li key={p}>{p}</li>
-                      ))}
-                    </ul>
-                  </RevealOnScroll>
+                  {/* Title + list share an alignment box so the title's
+                      first character lines up with the bullet text. The
+                      wrapper is sized to its widest child (typically the
+                      longest bullet line) and centered under the icon by
+                      the parent's align-items: center. */}
+                  <div className="about-process-text">
+                    <RevealOnScroll delay={stepDelay + 0.25}>
+                      <h3 className="about-process-step-title">{step.title}</h3>
+                    </RevealOnScroll>
+                    <RevealOnScroll delay={stepDelay + 0.5}>
+                      <ul className="about-process-list">
+                        {step.points.map((p) => (
+                          <li key={p}>{p}</li>
+                        ))}
+                      </ul>
+                    </RevealOnScroll>
+                  </div>
                 </div>
               )
             })}
@@ -244,17 +251,34 @@ export default function AboutContent() {
             font-weight: 500;
             color: #fff;
             margin: 0 0 14px;
+            /* padding-left: 18px matches .about-process-list padding-left,
+               so the title's first character aligns with the bullet text's
+               first character. text-align: left overrides the parent step's
+               text-align: center (which would otherwise center the title
+               within its now-wider container). */
+            padding-left: 18px;
+            text-align: left;
+          }
+          .about-process-text {
+            /* Shared alignment box for title + list. width: max-content sizes
+               the wrapper to the widest child (typically the longest bullet
+               line + 18px padding); max-width: 100% prevents overflow on
+               narrow viewports where a single bullet line could exceed the
+               column width. The wrapper itself is centered horizontally by
+               .about-process-step's align-items: center. */
+            width: max-content;
+            max-width: 100%;
+            text-align: left;
           }
           .about-process-list {
             list-style: disc;
             padding-left: 18px;
             margin: 0;
-            /* Each step's list is sized to its content (no width: 100%)
-               so the parent's align-items: center centers the whole
-               text block under its icon. Bullets read left-aligned
-               inside the block. Tradeoff: bullet x-positions will not
-               line up across columns — this is intentional, prioritizing
-               icon-to-text alignment within each step. */
+            /* No explicit width — the list shrinks to its content and
+               sits at the left of .about-process-text. padding-left: 18px
+               gives room for disc markers; bullet text starts 18px from
+               the wrapper's left edge, matching the title's padding-left
+               so they align vertically. */
             text-align: left;
             font-size: 15px;
             line-height: 1.55;
