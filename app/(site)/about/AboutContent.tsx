@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
@@ -17,6 +18,42 @@ const companyStats = [
   { value: 'R+A', label: 'Real + Artificial Intelligence' },
   { value: '99%', label: 'Customer Retention' },
   { value: '30%', label: 'Up to Revenue Growth' },
+]
+
+// Our Process — 6-step engagement journey, identical content + icon
+// order to cosentus.com/about-us. Icons are byte-for-byte downloads
+// from live (icon1-1.png … icon6-1.png).
+const processSteps = [
+  {
+    icon: '/images/about/process/icon-1.png',
+    title: 'Exploration',
+    points: ['Initial Prospect Contact', 'Presentation', 'RFP Collection of Prospect Information'],
+  },
+  {
+    icon: '/images/about/process/icon-2.png',
+    title: 'Discovery',
+    points: ['Discovery Call', 'Proposal Development', 'Proposal Meeting'],
+  },
+  {
+    icon: '/images/about/process/icon-3.png',
+    title: 'Commitment',
+    points: ['Post Discovery Call “Deal Review”', 'Expectations Agreed Upon', 'Contract Signed'],
+  },
+  {
+    icon: '/images/about/process/icon-4.png',
+    title: 'Stabilization',
+    points: ['The Welcome', 'Onboarding', 'Service Team Introductions & Relationship Building'],
+  },
+  {
+    icon: '/images/about/process/icon-5.png',
+    title: 'Standardization',
+    points: ['Establish Process Expectations', 'Communication Cadence & Check-Ins', 'Reporting & Follow-Up'],
+  },
+  {
+    icon: '/images/about/process/icon-6.png',
+    title: 'Optimization',
+    points: ['Analytics', 'Client Reviews', 'Consistent Results Over & over'],
+  },
 ]
 
 const leadership = [
@@ -110,6 +147,135 @@ export default function AboutContent() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Our Process — 6-step engagement journey from prospect to
+          long-running optimization. Same content + icons as
+          cosentus.com/about-us. Dark grey background per live design.
+          Animation: each step's icon fades+lifts in first, then the
+          title, then the bullet list — and the steps themselves
+          stagger across the row so step 1 starts before step 2. */}
+      <section className="about-process">
+        <div className="container">
+          <RevealOnScroll>
+            <h2 className="about-process-title">Our Process</h2>
+          </RevealOnScroll>
+          <div className="about-process-grid">
+            {processSteps.map((step, i) => {
+              // base delay for the whole step; sub-elements sequence
+              // off this so icon -> title -> list within each step.
+              const stepDelay = 0.15 + i * 0.35
+              return (
+                <div className="about-process-step" key={step.title}>
+                  <RevealOnScroll delay={stepDelay}>
+                    <div className="about-process-icon">
+                      <Image
+                        src={step.icon}
+                        alt=""
+                        width={158}
+                        height={186}
+                        sizes="(max-width: 640px) 96px, 130px"
+                      />
+                    </div>
+                  </RevealOnScroll>
+                  <RevealOnScroll delay={stepDelay + 0.18}>
+                    <h3 className="about-process-step-title">{step.title}</h3>
+                  </RevealOnScroll>
+                  <RevealOnScroll delay={stepDelay + 0.32}>
+                    <ul className="about-process-list">
+                      {step.points.map((p) => (
+                        <li key={p}>{p}</li>
+                      ))}
+                    </ul>
+                  </RevealOnScroll>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <style>{`
+          .about-process {
+            background: #616161;
+            color: #fff;
+            padding: clamp(64px, 9vw, 120px) 0;
+          }
+          .about-process-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3.6vw, 48px);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: #fff;
+            text-align: center;
+            margin: 0 auto clamp(40px, 6vw, 72px);
+          }
+          .about-process-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: clamp(20px, 2vw, 32px);
+            align-items: start;
+          }
+          .about-process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+          .about-process-icon {
+            width: 130px;
+            height: 153px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+          }
+          .about-process-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+          .about-process-step-title {
+            font-family: var(--font-display);
+            font-size: clamp(18px, 1.5vw, 22px);
+            font-weight: 500;
+            color: #fff;
+            margin: 0 0 14px;
+          }
+          .about-process-list {
+            list-style: disc;
+            padding-left: 18px;
+            margin: 0;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.92);
+          }
+          .about-process-list li + li {
+            margin-top: 6px;
+          }
+          @media (max-width: 1024px) {
+            .about-process-grid {
+              grid-template-columns: repeat(3, 1fr);
+              gap: 40px 24px;
+            }
+          }
+          @media (max-width: 640px) {
+            .about-process-grid {
+              grid-template-columns: repeat(2, 1fr);
+              gap: 36px 16px;
+            }
+            .about-process-icon {
+              width: 96px;
+              height: 113px;
+              margin-bottom: 12px;
+            }
+            .about-process-list {
+              font-size: 14px;
+              padding-left: 16px;
+            }
+          }
+        `}</style>
       </section>
 
       {/* Leadership */}
