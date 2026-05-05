@@ -244,21 +244,23 @@ export default function AboutContent() {
             font-weight: 500;
             color: #fff;
             margin: 0 0 14px;
+            /* text-align: center is inherited from .about-process-step.
+               Title sits centered under the icon. */
           }
           .about-process-list {
+            /* display: inline-block lets the list shrink to its content
+               width, so the parent's text-align: center on the step
+               centers the whole bullet block under the icon and title.
+               text-align: left inside keeps the bullet text reading
+               left-to-right within the block. max-width: 100% forces
+               long bullet lines to wrap to a second line within the
+               column instead of overflowing into adjacent columns. */
+            display: inline-block;
+            text-align: left;
             list-style: disc;
             padding-left: 18px;
             margin: 0;
-            /* width: 100% ensures every column's list spans the full
-               column width. Without it, lists shrink to fit their
-               content and align-items: center on .about-process-step
-               places shorter lists at a different x-offset than longer
-               ones, breaking the vertical alignment of bullets across
-               columns. With 100%, every list starts at the same offset
-               (18px padding-left) from its column's left edge. */
-            width: 100%;
-            box-sizing: border-box;
-            text-align: left;
+            max-width: 100%;
             font-size: 15px;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.92);
