@@ -64,8 +64,9 @@ export default function AboutContent() {
             <span className="about-co-title-r">Together we Conquer</span>
           </h2>
           <div className="about-co-graphic">
-            {/* Layer 1: original brand image. Sits at the bottom of
-                the stacking order, always visible underneath the cover. */}
+            {/* Layer 1: original brand image. Always visible underneath
+                the covers. As covers sweep away, regions of the image
+                become visible. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/about/co-graphic.webp"
@@ -75,11 +76,53 @@ export default function AboutContent() {
               height={670}
               loading="eager"
             />
-            {/* Layer 2: teal cover with animated conic-gradient mask.
-                The mask wedge sweeps clockwise from 12 o'clock,
-                progressively turning the cover transparent and
-                revealing the image underneath. */}
-            <div className="about-co-cover" aria-hidden="true" />
+            {/* Layer 2: 5 region-specific teal covers. Each is sized
+                and positioned to cover ONLY its target region. Each
+                runs its own clockwise conic-gradient sweep starting
+                at its assigned delay. Once a cover finishes sweeping,
+                that region of the image is fully revealed.
+
+                Sequence (per direction):
+                  Stage 1: C ring        — 0.0s start (after title)
+                  Stage 2a-c: words      — sequenced after C
+                  Stage 3: O outer ring  — after words
+                  Stage 4: O inner ring  — after O outer
+                  Stage 5: coexpand text — after O inner
+
+                Coordinates are PERCENTAGES of the .about-co-graphic
+                container (which has aspect-ratio 1201/670). Pixel
+                positions divided by 1201 (x) or 670 (y) give the
+                percentage values used in inset(). */}
+
+            {/* Stage 1: C ring cover. Bbox x=0..547, y=0..669.
+                left=0%, right=(1201-547)/1201=54.46%, top=0%, bottom=0%. */}
+            <div className="co-cover co-cover-c" aria-hidden="true" />
+
+            {/* Stage 2: words covers. Three separate covers, each sized
+                to one word. Coordinates from connected-component
+                analysis showing word bands at:
+                  collaborate: y≈228..258
+                  coordinate:  y≈288..320
+                  cooperate:   y≈408..440
+                Each spans the words horizontal range x=240..445. */}
+            <div className="co-cover co-cover-word-1" aria-hidden="true" />
+            <div className="co-cover co-cover-word-2" aria-hidden="true" />
+            <div className="co-cover co-cover-word-3" aria-hidden="true" />
+
+            {/* Stage 3: O outer ring cover. The OUTER ring as a whole,
+                including everything from x=532..1201, y=0..669.
+                But the inner area (x=667..1065, y=135..534) belongs to
+                stages 4 (inner ring) and 5 (coexpand) — those have their
+                own covers stacked above this one, so when this one
+                finishes sweeping, the inner area is still covered. */}
+            <div className="co-cover co-cover-o-outer" aria-hidden="true" />
+
+            {/* Stage 4: O inner ring cover. Bbox x=667..1065, y=135..534. */}
+            <div className="co-cover co-cover-o-inner" aria-hidden="true" />
+
+            {/* Stage 5: coexpand cover. Inside the inner ring,
+                x=745..1025, y=295..375 (roughly). */}
+            <div className="co-cover co-cover-coexpand" aria-hidden="true" />
           </div>
         </div>
       </section>
@@ -139,35 +182,23 @@ export default function AboutContent() {
           z-index: 0;
         }
 
-        /* Animated angle for the clockwise wipe. @property registers
-           the custom property as an <angle> so the browser can
-           interpolate it smoothly between keyframes (otherwise the
-           animation would snap at 0% and 100% with no in-between). */
-        @property --co-sweep {
-          syntax: '<angle>';
-          inherits: false;
-          initial-value: 0deg;
-        }
+        /* Note: @property --co-sweep is declared in globals.css (not
+           here) because React HTML-escapes the contents of <style>
+           JSX template-literal children, which mangles the syntax
+           string '<angle>' and breaks the @property registration.
+           See globals.css for the declaration. */
 
-        /* Layer 2: full-cover teal overlay. mask-image is a conic
-           gradient with one animated stop. The transparent wedge
-           starts at 0deg (12 o'clock, due to 'from -90deg' = -90+0)
-           and grows clockwise as --co-sweep increases from 0 to 360.
-           Where the mask is transparent, the cover is hidden, and
-           the image underneath shows through. Where the mask is
-           black, the cover stays opaque (teal). */
-        .about-co-cover {
+        /* Base styling shared by all region covers. Each cover sits
+           above the image, fills its bounding box (set per-cover via
+           inset), and runs its own conic-gradient sweep when its
+           animation triggers. mask-image is the same conic-gradient
+           pattern in all 5 covers — what differs is the cover's
+           position/size and the animation's delay. */
+        .co-cover {
           position: absolute;
-          inset: 0;
           background: #00B5D6;
-          z-index: 1;
           pointer-events: none;
           --co-sweep: 0deg;
-          /* 'from -90deg' starts the gradient angle at the top (12 o'clock).
-             The first stop is transparent up to var(--co-sweep), then
-             flips to black for the rest. As --co-sweep grows from 0deg
-             to 360deg, the transparent wedge fills more of the circle
-             clockwise. */
           -webkit-mask-image: conic-gradient(
             from -90deg at 50% 50%,
             transparent 0deg,
@@ -182,19 +213,84 @@ export default function AboutContent() {
             #000 var(--co-sweep),
             #000 360deg
           );
-          /* Sweep animation. Starts 1.8s after section mount (right
-             after the title finishes coming in). 3.5s duration gives
-             a smooth, deliberate reveal — fast enough to keep the
-             user engaged, slow enough to feel like a clock hand. */
-          animation: coSweep 3.5s 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
         @keyframes coSweep {
           to { --co-sweep: 360deg; }
         }
 
-        /* Reduced motion: skip the sweep, snap to fully revealed state.
-           --co-sweep at 360deg means the entire mask is transparent =
-           cover hidden = image fully visible. */
+        /* Z-stacking explanation:
+           The graphic is built up region by region. Once a region's
+           cover sweeps away, that region of the image is permanently
+           visible. To make stages SEQUENTIAL (the next stage's region
+           starts hidden, not already revealed), the next stage's cover
+           must sit ABOVE the previous stage's cover in z-order at the
+           overlap. Specifically:
+             - Word covers must be above C cover so words stay hidden
+               while C cover sweeps. After C cover finishes sweeping
+               (transparent), word covers are still opaque, so words
+               are still hidden until their own animations start.
+             - O inner cover must be above O outer cover.
+             - Coexpand cover must be above O inner cover.
+           Higher z-index wins, so:
+             C cover:       z=1
+             O outer cover: z=1  (no overlap with C, can share)
+             Word covers:   z=2  (above C)
+             O inner cover: z=2  (above O outer)
+             Coexpand:      z=3  (above O inner) */
+
+        /* Stage 1 — C ring cover.
+           bbox in viewBox units: x=0..547, y=0..669.
+           inset: top, right, bottom, left
+           top=0/670=0%, right=(1201-547)/1201=54.46%,
+           bottom=(670-669)/670=0.15%, left=0/1201=0%. */
+        .co-cover-c {
+          inset: 0% 54.46% 0.15% 0%;
+          z-index: 1;
+          animation: coSweep 1.6s 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        /* Stage 2a — collaborate + first plus.
+           bbox: x=240..445, y=203..278. */
+        .co-cover-word-1 {
+          inset: 30.30% 62.95% 58.51% 19.98%;
+          z-index: 2;
+          animation: coSweep 0.6s 3.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        /* Stage 2b — coordinate + second plus. y=300..375. */
+        .co-cover-word-2 {
+          inset: 44.78% 62.95% 44.03% 19.98%;
+          z-index: 2;
+          animation: coSweep 0.6s 4.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        /* Stage 2c — cooperate. y=404..439. */
+        .co-cover-word-3 {
+          inset: 60.30% 62.95% 34.48% 19.98%;
+          z-index: 2;
+          animation: coSweep 0.6s 5.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        /* Stage 3 — O outer ring. bbox: x=532..1201, y=0..669. */
+        .co-cover-o-outer {
+          inset: 0% 0% 0.15% 44.30%;
+          z-index: 1;
+          animation: coSweep 1.4s 6.0s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        /* Stage 4 — O inner ring. bbox: x=667..1065, y=135..534. */
+        .co-cover-o-inner {
+          inset: 20.15% 11.32% 20.30% 55.54%;
+          z-index: 2;
+          animation: coSweep 1.2s 7.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        /* Stage 5 — coexpand. bbox: x=751..1059, y=280..379. */
+        .co-cover-coexpand {
+          inset: 41.79% 11.82% 43.43% 62.53%;
+          z-index: 3;
+          animation: coSweep 0.7s 9.0s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        /* Reduced motion: snap all covers to fully revealed state.
+           --co-sweep at 360deg = mask fully transparent = covers
+           all hidden = entire image visible from the start. */
         @media (prefers-reduced-motion: reduce) {
           .about-co-title-l,
           .about-co-title-r,
@@ -203,7 +299,7 @@ export default function AboutContent() {
             transform: none !important;
             animation: none !important;
           }
-          .about-co-cover {
+          .co-cover {
             --co-sweep: 360deg !important;
             animation: none !important;
           }
