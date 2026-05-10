@@ -3451,17 +3451,3 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .careers-contact-line a:hover {
   text-decoration: underline;
 }
-
-/* Animated angle for the About page CO-graphic clockwise wipe.
-   Must be declared in globals.css (not in a <style>{`...`}</style>
-   JSX block) because React HTML-escapes the contents of style tags
-   when given a template-literal child, which mangles the < and >
-   in syntax: '<angle>' to entity strings, breaking the @property
-   rule. With escaping, the browser sees an invalid declaration and
-   --co-sweep gets typed as a string token, which CSS animations
-   cannot interpolate — they snap to the end keyframe instantly. */
-@property --co-sweep {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
