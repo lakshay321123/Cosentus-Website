@@ -2956,25 +2956,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .partner-logo:hover {
   opacity: 1 !important;
 }
-.partners-mobile {
-  display: none;
-}
-.partners-desktop {
-  display: flex;
-}
 @keyframes partnerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 .partners-marquee {
   display: flex;
   gap: 40px;
-  animation: partnerScroll 20s linear infinite;
+  animation: partnerScroll 45s linear infinite;
   width: max-content;
 }
-@media (max-width: 768px) {
-  .partners-desktop { display: none !important; }
-  .partners-mobile { display: block !important; }
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee { animation: none; }
 }
 
 /* ===== SERVICES ROW LAYOUT ===== */

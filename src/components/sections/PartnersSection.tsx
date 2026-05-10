@@ -2,7 +2,7 @@ import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const partners = [
-  { name: 'Physician Side Gigs', src: '/images/partners/physician-side-gigs.png', width: 200, height: 75 },
+  { name: 'Physician Side Gigs', src: '/images/partners/physician-side-gigs.png', width: 80, height: 80 },
   { name: 'TASCS', src: '/images/partners/tascs.png', width: 220, height: 70 },
   { name: 'American Society of Anesthesiologists', src: '/images/partners/asa.png', width: 180, height: 110 },
   { name: 'ASCA', src: '/images/partners/asca.png', width: 200, height: 110 },
@@ -32,20 +32,12 @@ export default function PartnersSection() {
       <div className="container">
         <RevealOnScroll>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.4vw, 40px)', fontWeight: 700, letterSpacing: '-0.02em', color: '#000' }}>Our Network</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>Our Network</div>
           </div>
         </RevealOnScroll>
 
-        {/* Desktop */}
-        <div className="partners-desktop" style={{
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          gap: 'clamp(28px, 5vw, 56px)', flexWrap: 'wrap' as const,
-        }}>
-          {partners.map((p, i) => <PartnerLogo key={i} p={p} />)}
-        </div>
-
-        {/* Mobile, scrolling marquee */}
-        <div className="partners-mobile" style={{ overflow: 'hidden', width: '100%' }}>
+        {/* Single-row marquee for all viewports */}
+        <div style={{ overflow: 'hidden', width: '100%' }}>
           <div className="partners-marquee">
             {[...partners, ...partners].map((p, i) => <PartnerLogo key={i} p={p} />)}
           </div>
