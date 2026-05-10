@@ -58,8 +58,8 @@ export default function StatementSection() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 48 }} className="statement-proof-grid">
             {[
               { q: 'Will they care about MY practice?', a: 'Every decision we make is for your outcomes, not investor returns. 80% of our founding team is still here. We play the long game.' },
-              { q: 'Do they know MY specialty?', a: 'Anesthesia. Ortho. Pain. ASC. Behavioral Health. Multi-Specialty. Each has a dedicated team that lives your codes, your payers, your workflows. Specialists, not generalists. Separate resources for rejections, AR, payments, and denials \u2014 so nothing falls through the cracks. Clients typically see up to 21% increase in collections in the first 90 days.' },
-              { q: 'Will I talk to a real person?', a: 'You work with a dedicated team of experts \u2014 not a rotating cast. Named director, named coders, named billing leads. They work your account and only your account, from 8am to 5pm. We get paid when you get paid \u2014 complete alignment of incentives. 80% of our founding team is still here. When we meet, it\u2019s a board meeting \u2014 not a status call.' },
+              { q: 'Do they know MY specialty?', a: 'Anesthesia. Ortho. Pain. ASC. Behavioral Health. Multi-Specialty. Each has a dedicated team that lives your codes, your payers, your workflows. Specialists, not generalists.' },
+              { q: 'Will I talk to a real person?', a: 'Dedicated director. Named coders. Named billing leads. Your team works your account, and only your account, from 8am to 5pm. When we meet, it\u2019s a board meeting, not a status call.' },
             ].map((item, i) => (
               <RevealOnScroll key={i} delay={0.25 + i * 0.12}>
                 <div>
