@@ -31,7 +31,7 @@ export default function PartnersSection() {
     <section style={{ padding: '48px 0', borderTop: '1px solid var(--gray-200)' }}>
       <div className="container">
         <RevealOnScroll>
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ textAlign: 'left', marginBottom: 40 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>Our Network</div>
           </div>
         </RevealOnScroll>
