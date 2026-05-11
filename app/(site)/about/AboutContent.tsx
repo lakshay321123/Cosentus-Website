@@ -324,10 +324,12 @@ export default function AboutContent() {
             gap: 0;
             align-items: end;
           }
-          /* Text top-aligns inside every card (default block flow).
-             Empty colored space accumulates at the BOTTOM of taller
-             cards, matching cosentus.com/about-us — the rightmost
-             light-teal card shows the largest bottom void. */
+          /* No min-heights. Each card sizes to its own content with
+             symmetric 56px/40px padding. The grid's align-items: end
+             keeps the bottoms aligned across all three; tops stagger
+             by content length. Order naturally becomes grey (1 para,
+             shortest) < light (2 short paras) < primary (2 long
+             paras, tallest). */
           .about-360-card {
             padding: 56px 40px;
             color: #fff;
@@ -341,24 +343,16 @@ export default function AboutContent() {
           .about-360-card p:last-child { margin-bottom: 0; }
           .about-360-card strong { font-weight: 700; color: #fff; }
 
-          /* Grey is the baseline (fits its single paragraph). The
-             other two step up from there. */
-          .about-360-card-grey   { background: #616161; min-height: 400px; }
-          .about-360-card-primary { background: #00B5D6; min-height: 560px; }
-          .about-360-card-light  { background: #36C2DE; min-height: 640px; }
+          .about-360-card-grey { background: #616161; }
+          .about-360-card-primary { background: #00B5D6; }
+          .about-360-card-light { background: #36C2DE; }
 
           @media (max-width: 900px) {
             .about-360-grid {
               grid-template-columns: 1fr;
               align-items: stretch;
             }
-            .about-360-card,
-            .about-360-card-grey,
-            .about-360-card-primary,
-            .about-360-card-light {
-              min-height: 0;
-              padding: 32px 24px;
-            }
+            .about-360-card { padding: 32px 24px; }
             .about-360-card p { font-size: 16px; }
           }
         `}</style>
