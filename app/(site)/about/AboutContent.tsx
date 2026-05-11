@@ -3,15 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
-
-const beliefs = [
-  { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
-  { title: 'Transparency', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting. No guessing.' },
-  { title: 'Accountability', desc: 'We own outcomes end-to-end. Issues get root-cause analysis and immediate fixes.' },
-  { title: 'Specialty focus', desc: 'Teams organized by specialty. They know every payer nuance and clinical detail, reducing denials and accelerating cash flow.' },
-]
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
@@ -251,63 +243,109 @@ export default function AboutContent() {
         }
       `}</style>
 
-      {/* About Description */}
-      <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
-        <div className="container">
-          <div style={{ maxWidth: 880 }}>
-            <RevealOnScroll>
-              <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
-                Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
-                For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
-                eliminate billing inefficiencies, and scale operations, end-to-end, from patient registration to final payment,
-                with Real + Artificial Intelligence and specialty-trained teams.
-              </p>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', margin: '24px 0 0' }}>
-                Built on its R+A approach, Real + Artificial Intelligence, Cosentus combines experienced revenue cycle
-                professionals with specialised AI agents to help healthcare organisations manage administrative complexity
-                more efficiently and improve operational efficiency and financial performance.
-              </p>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
-      {/* What We Believe */}
-      <section className="section section-alt">
+      {/* 360° service solutions — three brand-colored cards.
+          Recreates the corresponding section from cosentus.com/about-us
+          using the pantone palette: dark grey (#616161), primary teal
+          (#00B5D6), and the lighter teal tone (#36C2DE). Cards align at
+          the bottom on desktop for the staggered feel of the source;
+          stack vertically on narrow viewports. */}
+      <section className="section" style={{ paddingBottom: 32 }}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">What We Believe</div>
+            <p className="about-360-intro">
+              We&rsquo;re a 360° service solutions provider that started as a revenue cycle management company. How did we get here?
+            </p>
           </RevealOnScroll>
-
-          {/* Desktop */}
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
-            {beliefs.map((b, i) => (
-              <RevealOnScroll key={i}>
-                <div className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          {/* Mobile */}
-          <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {beliefs.map((b, i) => (
-                <div key={i} className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
+          <RevealOnScroll delay={0.1}>
+            <div className="about-360-grid">
+              <div className="about-360-card about-360-card-grey">
+                <p>
+                  With over 25 years of pioneering experience, Cosentus has established itself as one of the largest
+                  non private equity backed RCM companies in the country and has evolved into a 360-degree service
+                  solutions provider, transforming Revenue Cycle Management for healthcare practices &amp; medical
+                  billing companies.
+                </p>
+              </div>
+              <div className="about-360-card about-360-card-light">
+                <p>
+                  We are committed to innovation, providing real-time insights through our proprietary technology and
+                  analytics to ensure better financial performance and operational efficiency.
+                </p>
+                <p>
+                  Partner with Cosentus to leverage our cutting-edge solutions and industry expertise, and thrive in
+                  today&rsquo;s competitive healthcare landscape.
+                </p>
+              </div>
+              <div className="about-360-card about-360-card-primary">
+                <p>
+                  <strong>Real People + AI.</strong> Cosentus combines <strong>Zeus</strong>, our AI platform, with
+                  specialty-trained teams to connect clinical, operational, and financial workflows&mdash;removing
+                  friction, preventing denials, and growing revenue across the revenue cycle.
+                </p>
+                <p>
+                  Our services include <strong>End-to-End Revenue Cycle Management</strong> and <strong>EHR &amp;
+                  Technology</strong>. Across 45+ specialties, Zeus runs 23 modules and 15 AI features&mdash;handling
+                  eligibility, prior authorizations, claims follow-up, AR tracking, and patient collections&mdash;while
+                  named human teams own every judgment call.
+                </p>
+              </div>
+            </div>
+          </RevealOnScroll>
         </div>
+
+        <style>{`
+          .about-360-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            align-items: end;
+          }
+          .about-360-intro {
+            text-align: center;
+            max-width: 920px;
+            margin: 0 auto 56px;
+            font-family: var(--font-display);
+            font-size: clamp(20px, 2.2vw, 28px);
+            line-height: 1.45;
+            font-weight: 400;
+            color: var(--gray-700);
+          }
+          /* No min-heights. Each card sizes to its own content with
+             symmetric 56px/40px padding. The grid's align-items: end
+             keeps the bottoms aligned across all three; tops stagger
+             by content length. Order naturally becomes grey (1 para,
+             shortest) < light (2 short paras) < primary (2 long
+             paras, tallest). */
+          .about-360-card {
+            padding: 56px 40px;
+            color: #fff;
+          }
+          .about-360-card p {
+            margin: 0 0 20px;
+            font-size: 19px;
+            line-height: 1.6;
+            color: #fff;
+          }
+          .about-360-card p:last-child { margin-bottom: 0; }
+          .about-360-card strong { font-weight: 700; color: #fff; }
+
+          .about-360-card-grey    { background: #616161; min-height: 380px; }
+          .about-360-card-light   { background: #36C2DE; min-height: 480px; }
+          .about-360-card-primary { background: #00B5D6; min-height: 580px; }
+
+          @media (max-width: 900px) {
+            .about-360-grid {
+              grid-template-columns: 1fr;
+              align-items: stretch;
+            }
+            .about-360-card { padding: 32px 24px; }
+            .about-360-card p { font-size: 16px; }
+          }
+        `}</style>
       </section>
 
       {/* Company by Numbers */}
-      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
+      <section style={{ borderBottom: '1px solid var(--gray-200)', padding: '32px 0 48px' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
