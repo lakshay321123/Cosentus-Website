@@ -252,6 +252,11 @@ export default function AboutContent() {
       <section className="section">
         <div className="container">
           <RevealOnScroll>
+            <p className="about-360-intro">
+              We&rsquo;re a 360° service solutions provider that started as a revenue cycle management company. How did we get here?
+            </p>
+          </RevealOnScroll>
+          <RevealOnScroll delay={0.1}>
             <div className="about-360-grid">
               <div className="about-360-card about-360-card-grey">
                 <p>
@@ -294,6 +299,16 @@ export default function AboutContent() {
             grid-template-columns: repeat(3, 1fr);
             gap: 0;
             align-items: end;
+          }
+          .about-360-intro {
+            text-align: center;
+            max-width: 920px;
+            margin: 0 auto 56px;
+            font-family: var(--font-display);
+            font-size: clamp(20px, 2.2vw, 28px);
+            line-height: 1.45;
+            font-weight: 400;
+            color: var(--gray-700);
           }
           /* No min-heights. Each card sizes to its own content with
              symmetric 56px/40px padding. The grid's align-items: end
