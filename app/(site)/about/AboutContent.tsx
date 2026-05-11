@@ -256,8 +256,8 @@ export default function AboutContent() {
               We&rsquo;re a 360° service solutions provider that started as a revenue cycle management company. How did we get here?
             </p>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <div className="about-360-grid">
+          <div className="about-360-grid">
+            <RevealOnScroll delay={0.2}>
               <div className="about-360-card about-360-card-grey">
                 <p>
                   With over 25 years of pioneering experience, Cosentus has established itself as one of the largest
@@ -266,6 +266,8 @@ export default function AboutContent() {
                   billing companies.
                 </p>
               </div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
                   We are committed to innovation, providing real-time insights through our proprietary technology and
@@ -276,6 +278,8 @@ export default function AboutContent() {
                   today&rsquo;s competitive healthcare landscape.
                 </p>
               </div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={1.6}>
               <div className="about-360-card about-360-card-primary">
                 <p>
                   <strong>Real People + AI.</strong> Cosentus combines <strong>Zeus</strong>, our AI platform, with
@@ -289,8 +293,8 @@ export default function AboutContent() {
                   named human teams own every judgment call.
                 </p>
               </div>
-            </div>
-          </RevealOnScroll>
+            </RevealOnScroll>
+          </div>
         </div>
 
         <style>{`
