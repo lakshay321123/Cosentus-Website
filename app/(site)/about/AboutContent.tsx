@@ -324,17 +324,13 @@ export default function AboutContent() {
             gap: 0;
             align-items: end;
           }
-          /* Bottom-align card content. Empty colored space rises to the
-             top of each card as min-height grows, matching the live
-             cosentus.com/about-us layout where text hugs the bottom
-             of every card and the staircase reads as growing empty
-             space ABOVE the text. */
+          /* Text top-aligns inside every card (default block flow).
+             Empty colored space accumulates at the BOTTOM of taller
+             cards, matching cosentus.com/about-us — the rightmost
+             light-teal card shows the largest bottom void. */
           .about-360-card {
-            padding: 32px 36px 40px;
+            padding: 56px 40px;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
           }
           .about-360-card p {
             margin: 0 0 20px;
@@ -345,11 +341,11 @@ export default function AboutContent() {
           .about-360-card p:last-child { margin-bottom: 0; }
           .about-360-card strong { font-weight: 700; color: #fff; }
 
-          /* Baseline: grey card fits its single paragraph snugly. The
-             other two step up in height from this baseline. */
+          /* Grey is the baseline (fits its single paragraph). The
+             other two step up from there. */
           .about-360-card-grey   { background: #616161; min-height: 400px; }
-          .about-360-card-primary { background: #00B5D6; min-height: 540px; }
-          .about-360-card-light  { background: #36C2DE; min-height: 620px; }
+          .about-360-card-primary { background: #00B5D6; min-height: 560px; }
+          .about-360-card-light  { background: #36C2DE; min-height: 640px; }
 
           @media (max-width: 900px) {
             .about-360-grid {
@@ -362,7 +358,6 @@ export default function AboutContent() {
             .about-360-card-light {
               min-height: 0;
               padding: 32px 24px;
-              justify-content: flex-start;
             }
             .about-360-card p { font-size: 16px; }
           }
