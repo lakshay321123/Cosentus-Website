@@ -345,8 +345,11 @@ export default function AboutContent() {
       </section>
 
       {/* Company by Numbers */}
-      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
+      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '72px 0' }}>
         <div className="container">
+          <RevealOnScroll>
+            <div className="section-title" style={{ textAlign: 'center', marginBottom: 48 }}>Cosentus by the Numbers</div>
+          </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
