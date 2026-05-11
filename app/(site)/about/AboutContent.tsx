@@ -257,7 +257,7 @@ export default function AboutContent() {
             </p>
           </RevealOnScroll>
           <div className="about-360-grid">
-            <RevealOnScroll delay={0.15}>
+            <RevealOnScroll delay={0.2}>
               <div className="about-360-card about-360-card-grey">
                 <p>
                   With over 25 years of pioneering experience, Cosentus has established itself as one of the largest
@@ -267,7 +267,7 @@ export default function AboutContent() {
                 </p>
               </div>
             </RevealOnScroll>
-            <RevealOnScroll delay={0.4}>
+            <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
                   We are committed to innovation, providing real-time insights through our proprietary technology and
@@ -279,7 +279,7 @@ export default function AboutContent() {
                 </p>
               </div>
             </RevealOnScroll>
-            <RevealOnScroll delay={0.65}>
+            <RevealOnScroll delay={1.6}>
               <div className="about-360-card about-360-card-primary">
                 <p>
                   <strong>Real People + AI.</strong> Cosentus combines <strong>Zeus</strong>, our AI platform, with
