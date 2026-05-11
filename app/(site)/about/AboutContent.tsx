@@ -148,7 +148,7 @@ export default function AboutContent() {
         }
         .co-word { font-size: 29px; font-weight: 400; }
         .co-plus { font-size: 28px; font-weight: 400; }
-        .co-coexpand { font-size: 36px; font-weight: 400; }
+        .co-coexpand { font-size: 29px; font-weight: 400; }
 
         /* Per-text fade-up. Animation-delay set inline per element. */
         .co-fade {
