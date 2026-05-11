@@ -274,6 +274,85 @@ export default function AboutContent() {
         </div>
       </section>
 
+      {/* 360° service solutions — three brand-colored cards.
+          Recreates the corresponding section from cosentus.com/about-us
+          using the pantone palette: dark grey (#616161), primary teal
+          (#00B5D6), and the lighter teal tone (#36C2DE). Cards align at
+          the bottom on desktop for the staggered feel of the source;
+          stack vertically on narrow viewports. */}
+      <section className="section">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="about-360-grid">
+              <div className="about-360-card about-360-card-grey">
+                <p>
+                  With over 25 years of pioneering experience, Cosentus has established itself as one of the largest
+                  non private equity backed RCM companies in the country and has evolved into a 360-degree service
+                  solutions provider, transforming Revenue Cycle Management for healthcare practices &amp; medical
+                  billing companies.
+                </p>
+              </div>
+              <div className="about-360-card about-360-card-primary">
+                <p>
+                  Our services include <strong>Medical Billing &amp; Coding</strong>, <strong>Complete Practice
+                  Management</strong>, and <strong>AI-Powered Software Solutions</strong>. We streamline operations
+                  and maximize revenue, allowing you to focus on patient care.
+                </p>
+                <p>
+                  Cosentus utilizes advanced AI and Practice Management Software to boost reimbursements and minimize
+                  revenue leakage. Our expertise addresses low reimbursements, high deductibles, and operational costs.
+                </p>
+              </div>
+              <div className="about-360-card about-360-card-light">
+                <p>
+                  We are committed to innovation, providing real-time insights through our proprietary technology and
+                  analytics to ensure better financial performance and operational efficiency.
+                </p>
+                <p>
+                  Partner with Cosentus to leverage our cutting-edge solutions and industry expertise, and thrive in
+                  today&rsquo;s competitive healthcare landscape.
+                </p>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+
+        <style>{`
+          .about-360-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: end;
+          }
+          .about-360-card {
+            padding: 40px 32px;
+            color: #fff;
+          }
+          .about-360-card p {
+            margin: 0 0 16px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #fff;
+          }
+          .about-360-card p:last-child { margin-bottom: 0; }
+          .about-360-card strong { font-weight: 700; color: #fff; }
+
+          .about-360-card-grey { background: #616161; }
+          .about-360-card-primary { background: #00B5D6; }
+          .about-360-card-light { background: #36C2DE; }
+
+          @media (max-width: 900px) {
+            .about-360-grid {
+              grid-template-columns: 1fr;
+              align-items: stretch;
+              gap: 16px;
+            }
+            .about-360-card { padding: 32px 24px; }
+            .about-360-card p { font-size: 16px; }
+          }
+        `}</style>
+      </section>
+
       {/* What We Believe */}
       <section className="section section-alt">
         <div className="container">
