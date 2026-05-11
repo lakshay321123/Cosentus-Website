@@ -321,15 +321,15 @@ export default function AboutContent() {
           .about-360-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 0;
             align-items: end;
           }
           .about-360-card {
-            padding: 40px 32px;
+            padding: 56px 40px;
             color: #fff;
           }
           .about-360-card p {
-            margin: 0 0 16px;
+            margin: 0 0 20px;
             font-size: 17px;
             line-height: 1.6;
             color: #fff;
@@ -337,17 +337,26 @@ export default function AboutContent() {
           .about-360-card p:last-child { margin-bottom: 0; }
           .about-360-card strong { font-weight: 700; color: #fff; }
 
-          .about-360-card-grey { background: #616161; }
-          .about-360-card-primary { background: #00B5D6; }
-          .about-360-card-light { background: #36C2DE; }
+          /* Staircase: heights ascend left -> middle -> right.
+             align-items: end on the grid bottom-aligns all three; the
+             differing min-heights produce the rising tops that match
+             cosentus.com/about-us. Cards share edges (gap: 0). */
+          .about-360-card-grey   { background: #616161; min-height: 460px; }
+          .about-360-card-primary { background: #00B5D6; min-height: 640px; }
+          .about-360-card-light  { background: #36C2DE; min-height: 720px; }
 
           @media (max-width: 900px) {
             .about-360-grid {
               grid-template-columns: 1fr;
               align-items: stretch;
-              gap: 16px;
             }
-            .about-360-card { padding: 32px 24px; }
+            .about-360-card,
+            .about-360-card-grey,
+            .about-360-card-primary,
+            .about-360-card-light {
+              min-height: 0;
+              padding: 32px 24px;
+            }
             .about-360-card p { font-size: 16px; }
           }
         `}</style>
