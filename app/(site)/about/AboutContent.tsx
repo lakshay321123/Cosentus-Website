@@ -317,7 +317,7 @@ export default function AboutContent() {
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
                   <div style={{ fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 12, letterSpacing: '-0.02em' }}>{stat.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
+                  <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--gray-500)', letterSpacing: '0.01em', marginTop: 4 }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
