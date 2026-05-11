@@ -75,6 +75,182 @@ export default function AboutContent() {
   const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
+      {/* CO-SENT-US meaning ~ Together we Conquer.
+
+          Clean vector implementation: pure SVG paths and text on a
+          transparent background sitting on the teal panel.
+            - "C" is one SVG <path> arc.
+            - "O" is two concentric <circle> elements.
+            - Inner words and "= coexpand" are real SVG <text> (selectable,
+              accessible, crisp at every viewport size).
+          Animation: stroke-dasharray / stroke-dashoffset draw on the
+          shapes, sequential fade-up on the text. No raster image, no
+          conic-gradient masks, no @property. Respects prefers-reduced-motion. */}
+      <section className="about-co-section">
+        <div className="container">
+          <h2 className="about-co-title">
+            <span className="about-co-title-l">CO-SENT-US meaning</span>
+            <span className="about-co-title-tilde">&nbsp;~&nbsp;</span>
+            <span className="about-co-title-r">Together we Conquer</span>
+          </h2>
+          <div className="about-co-graphic">
+            <svg
+              className="about-co-svg"
+              viewBox="0 0 1200 670"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="collaborate + coordinate + cooperate = coexpand"
+            >
+              {/* C: arc going clockwise from top of outer ring, around the
+                  left, back to inner ring, around inner counter-clockwise. */}
+              <path
+                className="co-draw-c"
+                pathLength={1}
+                d="M 554.34 131.62 A 285 285 0 1 0 554.34 548.38 L 462.32 449.71 A 150 150 0 1 1 462.32 230.29 L 554.34 131.62"
+              />
+
+              {/* Inner words: collaborate + coordinate + cooperate. */}
+              <text className="co-text co-word co-fade" style={{ animationDelay: '3.35s' }} x="360" y="270" textAnchor="middle">collaborate</text>
+              <text className="co-text co-plus co-fade" style={{ animationDelay: '3.75s' }} x="360" y="306" textAnchor="middle">+</text>
+              <text className="co-text co-word co-fade" style={{ animationDelay: '4.15s' }} x="360" y="342" textAnchor="middle">coordinate</text>
+              <text className="co-text co-plus co-fade" style={{ animationDelay: '4.55s' }} x="360" y="378" textAnchor="middle">+</text>
+              <text className="co-text co-word co-fade" style={{ animationDelay: '4.95s' }} x="360" y="414" textAnchor="middle">cooperate</text>
+
+              {/* O: two concentric rings. */}
+              <circle className="co-draw-o" pathLength={1} cx="840" cy="340" r="285" />
+              <circle className="co-draw-o" pathLength={1} cx="840" cy="340" r="150" />
+
+              {/* = coexpand. */}
+              <text className="co-text co-coexpand co-fade" style={{ animationDelay: '7.15s' }} x="840" y="354" textAnchor="middle">= coexpand</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        .about-co-section {
+          background: var(--primary);
+          padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 9vw, 120px);
+          color: #fff;
+          overflow: hidden;
+        }
+        .about-co-title {
+          font-family: var(--font-display);
+          font-size: clamp(18px, 2vw, 28px);
+          font-weight: 700;
+          line-height: 1.3;
+          letter-spacing: -0.005em;
+          color: #fff;
+          text-align: center;
+          margin: 0 auto clamp(36px, 5vw, 64px);
+          max-width: 760px;
+        }
+        .about-co-title-l,
+        .about-co-title-r,
+        .about-co-title-tilde {
+          display: inline-block;
+          opacity: 0;
+        }
+        .about-co-title-l {
+          transform: translateX(-30px);
+          animation: coTitleL 0.9s 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        .about-co-title-r {
+          transform: translateX(30px);
+          animation: coTitleR 0.9s 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        .about-co-title-tilde {
+          animation: coFade 0.5s 1.5s ease-out forwards;
+        }
+        @keyframes coTitleL { to { opacity: 1; transform: translateX(0); } }
+        @keyframes coTitleR { to { opacity: 1; transform: translateX(0); } }
+        @keyframes coFade   { to { opacity: 1; } }
+
+        /* Graphic wrapper: clamped width, centered, SVG fills it fluidly. */
+        .about-co-graphic {
+          max-width: 760px;
+          margin: 0 auto;
+        }
+        .about-co-svg {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        /* SVG text styling — uses the site display token. */
+        .co-text {
+          fill: #fff;
+          font-family: var(--font-display), system-ui, -apple-system, sans-serif;
+          letter-spacing: .01em;
+        }
+        .co-word { font-size: 29px; font-weight: 400; }
+        .co-plus { font-size: 28px; font-weight: 400; }
+        .co-coexpand { font-size: 29px; font-weight: 400; }
+
+        /* Per-text fade-up. Animation-delay set inline per element. */
+        .co-fade {
+          opacity: 0;
+          transform: translateY(8px);
+          animation: coTextFadeUp 650ms ease-out forwards;
+        }
+        @keyframes coTextFadeUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* C arc draw. pathLength=1 normalises stroke-dasharray/offset to
+           1, so the dash and gap math is independent of actual path length. */
+        .co-draw-c {
+          stroke: #fff;
+          stroke-width: 13.5;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-miterlimit: 10;
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: coDrawLine 1.9s cubic-bezier(.35, 0, .2, 1) 1.55s forwards;
+        }
+        /* O circles draw. transform-origin: center + rotate(-90deg) makes
+           the dash start at the 12 o'clock position so the draw begins
+           there rather than at the default 3 o'clock. */
+        .co-draw-o {
+          stroke: #fff;
+          stroke-width: 13.5;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          transform-box: fill-box;
+          transform-origin: center;
+          transform: rotate(-90deg);
+          animation: coDrawLine 1.55s cubic-bezier(.35, 0, .2, 1) 5.65s forwards;
+        }
+        @keyframes coDrawLine {
+          to { stroke-dashoffset: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .about-co-title-l,
+          .about-co-title-r,
+          .about-co-title-tilde {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+          }
+          .co-fade {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+          }
+          .co-draw-c,
+          .co-draw-o {
+            stroke-dashoffset: 0 !important;
+            animation: none !important;
+          }
+        }
+      `}</style>
+
       {/* About Description */}
       <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="container">
