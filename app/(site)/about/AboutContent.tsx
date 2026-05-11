@@ -249,7 +249,7 @@ export default function AboutContent() {
           (#00B5D6), and the lighter teal tone (#36C2DE). Cards align at
           the bottom on desktop for the staggered feel of the source;
           stack vertically on narrow viewports. */}
-      <section className="section">
+      <section className="section" style={{ paddingBottom: 32 }}>
         <div className="container">
           <RevealOnScroll>
             <p className="about-360-intro">
@@ -345,11 +345,8 @@ export default function AboutContent() {
       </section>
 
       {/* Company by Numbers */}
-      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '72px 0' }}>
+      <section style={{ borderBottom: '1px solid var(--gray-200)', padding: '32px 0 48px' }}>
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-title" style={{ textAlign: 'center', marginBottom: 48 }}>Cosentus by the Numbers</div>
-          </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
