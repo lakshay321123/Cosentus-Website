@@ -3,15 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
-
-const beliefs = [
-  { title: 'Customers first', desc: 'We measure success by the revenue gains we deliver for practices, not vanity metrics.' },
-  { title: 'Transparency', desc: 'Real-time dashboards, weekly reviews, and same-day reporting. No waiting. No guessing.' },
-  { title: 'Accountability', desc: 'We own outcomes end-to-end. Issues get root-cause analysis and immediate fixes.' },
-  { title: 'Specialty focus', desc: 'Teams organized by specialty. They know every payer nuance and clinical detail, reducing denials and accelerating cash flow.' },
-]
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
@@ -251,29 +243,6 @@ export default function AboutContent() {
         }
       `}</style>
 
-      {/* About Description */}
-      <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
-        <div className="container">
-          <div style={{ maxWidth: 880 }}>
-            <RevealOnScroll>
-              <p style={{ fontSize: 22, lineHeight: 1.7, color: 'var(--gray-800)', fontWeight: 400, margin: 0 }}>
-                Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company.
-                For more than 25 years, we have helped physician practices, specialty groups, and surgery centers grow revenue,
-                eliminate billing inefficiencies, and scale operations, end-to-end, from patient registration to final payment,
-                with Real + Artificial Intelligence and specialty-trained teams.
-              </p>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-500)', margin: '24px 0 0' }}>
-                Built on its R+A approach, Real + Artificial Intelligence, Cosentus combines experienced revenue cycle
-                professionals with specialised AI agents to help healthcare organisations manage administrative complexity
-                more efficiently and improve operational efficiency and financial performance.
-              </p>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
       {/* 360° service solutions — three brand-colored cards.
           Recreates the corresponding section from cosentus.com/about-us
           using the pantone palette: dark grey (#616161), primary teal
@@ -343,9 +312,9 @@ export default function AboutContent() {
           .about-360-card p:last-child { margin-bottom: 0; }
           .about-360-card strong { font-weight: 700; color: #fff; }
 
-          .about-360-card-grey { background: #616161; }
-          .about-360-card-primary { background: #00B5D6; }
-          .about-360-card-light { background: #36C2DE; }
+          .about-360-card-grey    { background: #616161; min-height: 380px; }
+          .about-360-card-light   { background: #36C2DE; min-height: 500px; }
+          .about-360-card-primary { background: #00B5D6; min-height: 620px; }
 
           @media (max-width: 900px) {
             .about-360-grid {
@@ -356,38 +325,6 @@ export default function AboutContent() {
             .about-360-card p { font-size: 16px; }
           }
         `}</style>
-      </section>
-
-      {/* What We Believe */}
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-title">What We Believe</div>
-          </RevealOnScroll>
-
-          {/* Desktop */}
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
-            {beliefs.map((b, i) => (
-              <RevealOnScroll key={i}>
-                <div className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          {/* Mobile */}
-          <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
-              {beliefs.map((b, i) => (
-                <div key={i} className="advantage-card">
-                  <h4>{b.title}</h4>
-                  <p>{b.desc}</p>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
       </section>
 
       {/* Company by Numbers */}
