@@ -273,13 +273,15 @@ export default function AboutContent() {
               </div>
               <div className="about-360-card about-360-card-primary">
                 <p>
-                  Our services include <strong>Medical Billing &amp; Coding</strong>, <strong>Complete Practice
-                  Management</strong>, and <strong>AI-Powered Software Solutions</strong>. We streamline operations
-                  and maximize revenue, allowing you to focus on patient care.
+                  <strong>Real People + AI.</strong> Cosentus combines <strong>Zeus</strong>, our AI platform, with
+                  specialty-trained teams to connect clinical, operational, and financial workflows&mdash;removing
+                  friction, preventing denials, and growing revenue across the revenue cycle.
                 </p>
                 <p>
-                  Cosentus utilizes advanced AI and Practice Management Software to boost reimbursements and minimize
-                  revenue leakage. Our expertise addresses low reimbursements, high deductibles, and operational costs.
+                  Our services include <strong>End-to-End Revenue Cycle Management</strong> and <strong>EHR &amp;
+                  Technology</strong>. Across 45+ specialties, Zeus runs 23 modules and 15 AI features&mdash;handling
+                  eligibility, prior authorizations, claims follow-up, AR tracking, and patient collections&mdash;while
+                  named human teams own every judgment call.
                 </p>
               </div>
             </div>
@@ -305,7 +307,7 @@ export default function AboutContent() {
           }
           .about-360-card p {
             margin: 0 0 20px;
-            font-size: 18px;
+            font-size: 19px;
             line-height: 1.6;
             color: #fff;
           }
@@ -313,8 +315,8 @@ export default function AboutContent() {
           .about-360-card strong { font-weight: 700; color: #fff; }
 
           .about-360-card-grey    { background: #616161; min-height: 380px; }
-          .about-360-card-light   { background: #36C2DE; min-height: 500px; }
-          .about-360-card-primary { background: #00B5D6; min-height: 620px; }
+          .about-360-card-light   { background: #36C2DE; min-height: 480px; }
+          .about-360-card-primary { background: #00B5D6; min-height: 580px; }
 
           @media (max-width: 900px) {
             .about-360-grid {
