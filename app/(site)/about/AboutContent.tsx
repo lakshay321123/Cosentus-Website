@@ -292,6 +292,16 @@ export default function AboutContent() {
                   billing companies.
                 </p>
               </div>
+              <div className="about-360-card about-360-card-light">
+                <p>
+                  We are committed to innovation, providing real-time insights through our proprietary technology and
+                  analytics to ensure better financial performance and operational efficiency.
+                </p>
+                <p>
+                  Partner with Cosentus to leverage our cutting-edge solutions and industry expertise, and thrive in
+                  today&rsquo;s competitive healthcare landscape.
+                </p>
+              </div>
               <div className="about-360-card about-360-card-primary">
                 <p>
                   Our services include <strong>Medical Billing &amp; Coding</strong>, <strong>Complete Practice
@@ -301,16 +311,6 @@ export default function AboutContent() {
                 <p>
                   Cosentus utilizes advanced AI and Practice Management Software to boost reimbursements and minimize
                   revenue leakage. Our expertise addresses low reimbursements, high deductibles, and operational costs.
-                </p>
-              </div>
-              <div className="about-360-card about-360-card-light">
-                <p>
-                  We are committed to innovation, providing real-time insights through our proprietary technology and
-                  analytics to ensure better financial performance and operational efficiency.
-                </p>
-                <p>
-                  Partner with Cosentus to leverage our cutting-edge solutions and industry expertise, and thrive in
-                  today&rsquo;s competitive healthcare landscape.
                 </p>
               </div>
             </div>
