@@ -307,12 +307,12 @@ export default function AboutContent() {
       </section>
 
       {/* Company by Numbers */}
-      <section style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
+      <section className="about-stats-section" style={{ borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '48px 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+          <div className="about-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
-                <div style={{
+                <div className="about-stats-card" style={{
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>

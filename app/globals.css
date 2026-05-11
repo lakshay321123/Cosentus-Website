@@ -2929,6 +2929,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     grid-template-columns: 1fr !important;
     gap: 24px !important;
   }
+
+  /* Stats row (25+, R+A, 99%, 30%) on /about — 4-col grid is unreadable
+     at mobile width: each card collapses to ~97px and labels like
+     "Real + Artificial Intelligence" wrap to 4+ lines. Switch to a
+     2x2 grid, drop the right-borders (the corner-pattern would need
+     extra rules for marginal visual gain), tighten card padding,
+     and reduce vertical section padding so the row doesn't eat half
+     the viewport. */
+  .about-stats-section {
+    padding: 32px 0 !important;
+  }
+  .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .about-stats-card {
+    border-right: none !important;
+    padding: 20px 12px !important;
+  }
 }
 
 /* News listing row styles */
