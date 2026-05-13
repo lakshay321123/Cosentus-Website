@@ -140,7 +140,7 @@ export default function AboutContent() {
           overflow: hidden;
         }
         .about-co-graphic {
-          max-width: 960px;
+          max-width: 864px;
           margin: 0 auto;
         }
         /* Wrapper holds the source SVG aspect ratio (14158.55 : 7824.33).
