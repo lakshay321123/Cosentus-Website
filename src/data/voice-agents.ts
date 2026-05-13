@@ -34,6 +34,12 @@ export interface VoiceAgentData {
   img: string          // Filename in /public/images/
   agentId: string | null  // Retell agent_xxx id, null = no real call (demo)
   greeting: string     // Initial transcript shown before SDK updates fire
+  popupImage?: string  // Optional filename in /public/images/ — when set, the
+                       // call modal renders this PNG (with drop-shadow glow)
+                       // INSTEAD of the circular .call-avatar. Used for the
+                       // richer "scene" treatment Lakshay approved as a sample
+                       // (May 2026 starting with April). Other agents keep the
+                       // circular avatar until they get their own scene PNG.
 }
 
 // Reference Retell agentIds (from /tmp/cosentus-ai-ref/agents.jsx):
@@ -70,6 +76,7 @@ export const AGENTS: VoiceAgentData[] = [
   {
     name: 'April', shortRole: 'Scheduling', role: 'Scheduling',
     img: 'april.png',
+    popupImage: 'april-popup.png',
     agentId: 'agent_9d9f880dbde25925f75e5b2739',  // Allison (Intake, scheduling)
     greeting: "Hi, I'm April, I run inbound and outbound scheduling, confirmations, and reminders to cut no-shows and fill the calendar.",
   },
