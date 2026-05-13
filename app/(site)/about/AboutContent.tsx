@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import { AI_AGENT_ICONS } from './aiAgentIcons'
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
@@ -111,6 +112,44 @@ export default function AboutContent() {
               {/* O: two concentric rings. */}
               <circle className="co-draw-o" pathLength={1} cx="840" cy="340" r="285" />
               <circle className="co-draw-o" pathLength={1} cx="840" cy="340" r="150" />
+
+              {/* AI agent icons orbiting around the O ring.
+                  - Outer <g> rotates clockwise around the O centre (840, 340).
+                  - Each icon sits in a counter-rotating <g> so its content
+                    stays visually upright as the parent rotates — net rotation
+                    on the icon's glyph is zero, only its position changes.
+                  - Orbit radius 217.5 = midpoint of the ring (between r=150
+                    and r=285). 9 icons every 40°, starting at 12 o'clock.
+                  - Icons fade in at 7.4s (after the O finishes drawing at ~7.2s)
+                    and rotate continuously at 90s/revolution (slow, ambient). */}
+              <g className="co-icons-orbit" aria-hidden="true">
+                {AI_AGENT_ICONS.map((icon, i) => {
+                  const angleDeg = -90 + i * (360 / AI_AGENT_ICONS.length)
+                  const rad = (angleDeg * Math.PI) / 180
+                  const ORBIT_R = 217.5
+                  const SIZE = 70
+                  const cx = 840 + ORBIT_R * Math.cos(rad)
+                  const cy = 340 + ORBIT_R * Math.sin(rad)
+                  return (
+                    <g key={icon.key} className="co-icon-counter">
+                      <svg
+                        x={cx - SIZE / 2}
+                        y={cy - SIZE / 2}
+                        width={SIZE}
+                        height={SIZE}
+                        viewBox={icon.viewBox}
+                        preserveAspectRatio="xMidYMid meet"
+                        overflow="visible"
+                      >
+                        <title>{icon.label}</title>
+                        {icon.paths.map((d, idx) => (
+                          <path key={idx} d={d} fill="#fff" />
+                        ))}
+                      </svg>
+                    </g>
+                  )
+                })}
+              </g>
 
               {/* = coexpand. */}
               <text className="co-text co-coexpand co-fade" style={{ animationDelay: '7.15s' }} x="840" y="354" textAnchor="middle">= coexpand</text>
@@ -222,6 +261,36 @@ export default function AboutContent() {
           to { stroke-dashoffset: 0; }
         }
 
+        /* AI agent icons orbiting the O ring.
+
+           Two-layer rotation:
+             - .co-icons-orbit rotates clockwise around the O centre.
+             - .co-icon-counter rotates anticlockwise around each icon's own
+               bounding-box centre at the SAME period, so the icon glyph stays
+               visually upright as its position orbits.
+           transform-box: view-box on the parent anchors transform-origin to
+           SVG user coordinates (840, 340). transform-box: fill-box on each
+           icon pins the counter-rotation to its own bounding box centre.
+
+           Timing: O finishes drawing at ~7.2s, so icons fade in at 7.4s.
+           Rotation is 90s per revolution — slow/ambient, not distracting. */
+        .co-icons-orbit {
+          transform-box: view-box;
+          transform-origin: 840px 340px;
+          opacity: 0;
+          animation:
+            coIconsFade 800ms ease-out 7.4s forwards,
+            coIconsOrbit 90s linear 7.4s infinite;
+        }
+        .co-icon-counter {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: coIconCounter 90s linear 7.4s infinite;
+        }
+        @keyframes coIconsFade   { to { opacity: 1; } }
+        @keyframes coIconsOrbit  { from { transform: rotate(0deg); }   to { transform: rotate(360deg); } }
+        @keyframes coIconCounter { from { transform: rotate(0deg); }   to { transform: rotate(-360deg); } }
+
         @media (prefers-reduced-motion: reduce) {
           .about-co-title-l,
           .about-co-title-r,
@@ -238,6 +307,12 @@ export default function AboutContent() {
           .co-draw-c,
           .co-draw-o {
             stroke-dashoffset: 0 !important;
+            animation: none !important;
+          }
+          .co-icons-orbit,
+          .co-icon-counter {
+            opacity: 1 !important;
+            transform: none !important;
             animation: none !important;
           }
         }
