@@ -278,6 +278,20 @@ export default function AboutContent() {
           animation: coIconCounterSpin 40s linear 14000ms infinite;
         }
 
+        /* Exception: wedge-11 is the waiter-holding-a-platter icon. Its
+           wrist/forearm is strongly directional and is designed to enter
+           the wedge from the inner edge (toward the centre of the ring).
+           If we counter-rotate it like the others, the plate stays
+           horizontal but the arm ends up pointing OUT of the ring at most
+           angles, which looks like the waiter is reaching in from outside.
+           Disabling the counter-rotation lets this icon rotate WITH its
+           wedge so the arm always enters from the inner edge — trade-off
+           is the plate will be tilted/inverted at some angles, but that
+           preserves the spatial logic of the icon. */
+        .co-stage-wrapper .co-wedge-11 .co-wedge-icon {
+          animation: none;
+        }
+
         /* --- Man-in-tie inside O (last element) ---
            Slight overlap with the ring fade end for visual continuity. */
         .co-stage-wrapper .co-man {
