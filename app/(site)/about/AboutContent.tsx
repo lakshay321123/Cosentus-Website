@@ -81,29 +81,40 @@ export default function AboutContent() {
             .co-man                     figure inside O (last to appear)
 
           Timeline (all timings absolute, anchored at t=0 when the master
-          animation begins). The defining property: the smooth O ring stays
-          at full opacity while ALL 12 wedges fade in on top of it, so the
-          ring shape is unbroken throughout the conversion. Ring fades out
-          only AFTER every wedge is in; man appears AFTER ring is gone.
+          animation begins). The defining properties:
+            • C delays 1.0s before appearing (page has a beat of empty
+              cyan space first, so the C entrance is anticipated, not
+              instant).
+            • The O ring is a GENERATED ellipse whose geometry matches
+              the 12-wedge ring exactly — outer rx=3906.9 / ry=3883.0,
+              inner rx=2216.0 / ry=2211.5, centred at (10251.6, 3883.0).
+              No clipping, no halo. Because the geometry matches the
+              wedge plates exactly, wedges appearing on top of the ring
+              show only their icons — the plates are visually identical
+              to the ring underneath.
+            • The ring fades out (1000ms ease-in-out, slow & deliberate)
+              only AFTER every wedge is fully in. The fade-out is what
+              "splits" the smooth ring into 12 wedges by revealing the
+              cyan separators between wedge plates.
 
-            t = 0.0    .co-c fades in (800ms)
-            t = 0.4    .co-o-ring fades in (800ms — overlaps C end)
-            t = 1.5    TEAM slides up + fades in (600ms)
-            t = 1.9    + STRATEGY (400ms cadence)
-            t = 2.3    + PROCESS
-            t = 2.7    = DELIVERY  (all four in by 3.3s)
-            t = 4.2    stage-1 words fade out together (500ms)
-            t = 4.8    co~llaborate slides up + fades in
-            t = 5.2    + co~ordinate
-            t = 5.6    + co~operate
-            t = 6.0    = co~expand  (all four in by 6.6s)
-            t = 7.6    stage-2 words fade out (500ms)
-            t = 8.3    .co-woman fades in (700ms)
-            t = 8.8    wedge 1 appears (380ms, 150ms stagger)
-            t = 10.45  wedge 12 starts, fully in by 10.83s
-            t = 11.2   .co-o-ring fades out (500ms) — strictly after every
-                       wedge is in, so the O is never "incomplete"
-            t = 11.6   .co-man fades in (700ms) — last element
+            t = 1.0    .co-c fades in (700ms)
+            t = 1.4    .co-o-ring fades in (700ms)
+            t = 2.5    TEAM slides up + fades in (600ms)
+            t = 2.9    + STRATEGY
+            t = 3.3    + PROCESS
+            t = 3.7    = DELIVERY  (all four in by 4.3s)
+            t = 4.9    stage-1 words fade out together (500ms)
+            t = 5.5    co~llaborate slides up + fades in
+            t = 5.9    + co~ordinate
+            t = 6.3    + co~operate
+            t = 6.7    = co~expand  (all four in by 7.3s)
+            t = 7.9    stage-2 words fade out (500ms)
+            t = 8.6    .co-woman fades in (700ms)
+            t = 9.0    wedge 1 icon appears (450ms, 100ms stagger)
+            t = 10.1   wedge 12 starts, fully in by 10.55s
+            t = 11.0   .co-o-ring fades out (1000ms ease-in-out) —
+                       reveals the cyan separators between wedges
+            t = 11.5   .co-man fades in (700ms) — last element
 
           Respects prefers-reduced-motion (jumps to final static state). */}
       <section className="about-co-section">
@@ -143,25 +154,29 @@ export default function AboutContent() {
           display: block;
         }
 
-        /* --- C and O ring --- */
-        /* The C stays for the entire animation (fades in at t=0 and never
-           leaves). The O ring fades in at t=0.4s and only fades out AFTER
-           every wedge has fully appeared, so the O outline is unbroken
-           during the whole conversion. */
+        /* --- C and O ring ---
+           C appears 1.0s after page load (not instantly) so the section
+           has a beat of empty space before anything happens. O ring
+           comes in 400ms after C. The ring stays at full opacity through
+           the entire wedge appearance and only fades out AFTER all 12
+           wedges are seated. Ring is now a generated ellipse that
+           geometrically matches the wedge plates exactly, so wedges
+           coming in on top produce no visible "plate" change — only
+           their icons appear. */
         .co-stage-wrapper .co-c {
           opacity: 0;
-          animation: coFadeIn 800ms cubic-bezier(.16, 1, .3, 1) 0ms forwards;
+          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 1000ms forwards;
         }
         .co-stage-wrapper .co-o-ring {
           opacity: 0;
           animation:
-            coFadeIn  800ms cubic-bezier(.16, 1, .3, 1)    400ms forwards,
-            coFadeOut 500ms ease-out                     11200ms forwards;
+            coFadeIn  700ms cubic-bezier(.16, 1, .3, 1)    1400ms forwards,
+            coFadeOut 1000ms ease-in-out                  11000ms forwards;
         }
 
         /* --- Stage-1 words (TEAM + STRATEGY + PROCESS = DELIVERY) ---
            Each fades in with a small slide-up; all four fade out together
-           at t=4.2s before stage 2 begins. */
+           at t=4.9s before stage 2 begins. */
         .co-stage-wrapper .co-stage1-word {
           opacity: 0;
           transform: translateY(8px);
@@ -169,12 +184,12 @@ export default function AboutContent() {
           transform-origin: center;
           animation:
             coWordIn   600ms cubic-bezier(.16, 1, .3, 1) var(--in-delay) forwards,
-            coWordOut  500ms ease-out                          4200ms   forwards;
+            coWordOut  500ms ease-out                          4900ms   forwards;
         }
-        .co-stage-wrapper .co-stage1-team     { --in-delay: 1500ms; }
-        .co-stage-wrapper .co-stage1-strategy { --in-delay: 1900ms; }
-        .co-stage-wrapper .co-stage1-process  { --in-delay: 2300ms; }
-        .co-stage-wrapper .co-stage1-delivery { --in-delay: 2700ms; }
+        .co-stage-wrapper .co-stage1-team     { --in-delay: 2500ms; }
+        .co-stage-wrapper .co-stage1-strategy { --in-delay: 2900ms; }
+        .co-stage-wrapper .co-stage1-process  { --in-delay: 3300ms; }
+        .co-stage-wrapper .co-stage1-delivery { --in-delay: 3700ms; }
 
         /* --- Stage-2 words --- */
         .co-stage-wrapper .co-stage2-word {
@@ -184,49 +199,52 @@ export default function AboutContent() {
           transform-origin: center;
           animation:
             coWordIn   600ms cubic-bezier(.16, 1, .3, 1) var(--in-delay) forwards,
-            coWordOut  500ms ease-out                          7600ms   forwards;
+            coWordOut  500ms ease-out                          7900ms   forwards;
         }
-        .co-stage-wrapper .co-stage2-collaborate { --in-delay: 4800ms; }
-        .co-stage-wrapper .co-stage2-coordinate  { --in-delay: 5200ms; }
-        .co-stage-wrapper .co-stage2-cooperate   { --in-delay: 5600ms; }
-        .co-stage-wrapper .co-stage2-coexpand    { --in-delay: 6000ms; }
+        .co-stage-wrapper .co-stage2-collaborate { --in-delay: 5500ms; }
+        .co-stage-wrapper .co-stage2-coordinate  { --in-delay: 5900ms; }
+        .co-stage-wrapper .co-stage2-cooperate   { --in-delay: 6300ms; }
+        .co-stage-wrapper .co-stage2-coexpand    { --in-delay: 6700ms; }
 
         /* --- Woman doctor inside C --- */
         .co-stage-wrapper .co-woman {
           opacity: 0;
-          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 8300ms forwards;
+          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 8600ms forwards;
         }
 
-        /* --- 12 wedges, clockwise from 12 o'clock, 150ms stagger ---
-           Last wedge finishes at 10.83s; ring fade-out doesn't start
-           until 11.2s, giving a 370ms buffer where ring + all wedges
-           coexist before the ring leaves. */
+        /* --- 12 wedge icons, clockwise from 12 o'clock, 100ms stagger ---
+           Because the ring geometry matches the wedges exactly, the wedge
+           PLATES are visually identical to the ring underneath — only the
+           ICONS visibly "appear" as each wedge fades in. The plate is
+           still there underneath, so when the ring fades at 11.0s the
+           visual change is the cyan separators between wedges revealing,
+           not the plates appearing. Tight 100ms stagger keeps the icon
+           sweep feeling fluid rather than enumerated. */
         .co-stage-wrapper .co-wedge {
           opacity: 0;
-          transform: scale(0.94);
+          transform: scale(0.96);
           transform-box: fill-box;
           transform-origin: center;
-          animation: coWedgeIn 380ms cubic-bezier(.16, 1, .3, 1) var(--in-delay) forwards;
+          animation: coWedgeIn 450ms cubic-bezier(.16, 1, .3, 1) var(--in-delay) forwards;
         }
-        .co-stage-wrapper .co-wedge-1  { --in-delay:  8800ms; }
-        .co-stage-wrapper .co-wedge-2  { --in-delay:  8950ms; }
-        .co-stage-wrapper .co-wedge-3  { --in-delay:  9100ms; }
-        .co-stage-wrapper .co-wedge-4  { --in-delay:  9250ms; }
+        .co-stage-wrapper .co-wedge-1  { --in-delay:  9000ms; }
+        .co-stage-wrapper .co-wedge-2  { --in-delay:  9100ms; }
+        .co-stage-wrapper .co-wedge-3  { --in-delay:  9200ms; }
+        .co-stage-wrapper .co-wedge-4  { --in-delay:  9300ms; }
         .co-stage-wrapper .co-wedge-5  { --in-delay:  9400ms; }
-        .co-stage-wrapper .co-wedge-6  { --in-delay:  9550ms; }
-        .co-stage-wrapper .co-wedge-7  { --in-delay:  9700ms; }
-        .co-stage-wrapper .co-wedge-8  { --in-delay:  9850ms; }
-        .co-stage-wrapper .co-wedge-9  { --in-delay: 10000ms; }
-        .co-stage-wrapper .co-wedge-10 { --in-delay: 10150ms; }
-        .co-stage-wrapper .co-wedge-11 { --in-delay: 10300ms; }
-        .co-stage-wrapper .co-wedge-12 { --in-delay: 10450ms; }
+        .co-stage-wrapper .co-wedge-6  { --in-delay:  9500ms; }
+        .co-stage-wrapper .co-wedge-7  { --in-delay:  9600ms; }
+        .co-stage-wrapper .co-wedge-8  { --in-delay:  9700ms; }
+        .co-stage-wrapper .co-wedge-9  { --in-delay:  9800ms; }
+        .co-stage-wrapper .co-wedge-10 { --in-delay:  9900ms; }
+        .co-stage-wrapper .co-wedge-11 { --in-delay: 10000ms; }
+        .co-stage-wrapper .co-wedge-12 { --in-delay: 10100ms; }
 
         /* --- Man-in-tie inside O (last element) ---
-           Appears AFTER the ring has fully faded out, so it never
-           competes with the ring's transparency. */
+           Slight overlap with the ring fade end for visual continuity. */
         .co-stage-wrapper .co-man {
           opacity: 0;
-          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 11600ms forwards;
+          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 11500ms forwards;
         }
 
         @keyframes coFadeIn {
@@ -246,7 +264,7 @@ export default function AboutContent() {
           to   { opacity: 0; }
         }
         @keyframes coWedgeIn {
-          from { opacity: 0; transform: scale(0.94); }
+          from { opacity: 0; transform: scale(0.96); }
           to   { opacity: 1; transform: scale(1);    }
         }
 
