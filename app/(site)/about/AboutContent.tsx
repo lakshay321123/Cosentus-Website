@@ -117,8 +117,13 @@ export default function AboutContent() {
             t = 12.7   .co-o-ring fades out (1000ms ease-in-out) —
                        reveals the cyan separators between wedges
             t = 13.2   .co-man fades in (700ms) — last element
+            t = 14.0   .co-wedges-ring starts a continuous clockwise spin
+                       (40s per revolution, linear, infinite). The 12
+                       wedges rotate together as one group; C, woman, and
+                       man stay anchored.
 
-          Respects prefers-reduced-motion (jumps to final static state). */}
+          Respects prefers-reduced-motion (jumps to final static state,
+          no spin). */}
       <section className="about-co-section">
         <div className="container">
           <div className="about-co-graphic">
@@ -242,6 +247,21 @@ export default function AboutContent() {
         .co-stage-wrapper .co-wedge-11 { --in-delay: 12000ms; }
         .co-stage-wrapper .co-wedge-12 { --in-delay: 12100ms; }
 
+        /* --- Clockwise spin of the wedge ring after entrance ---
+           The 12 wedges are wrapped in <g class="co-wedges-ring"> so they
+           rotate as one rigid body around the O ring's centre. C, woman,
+           and man stay anchored (rotating the man would put him upside-
+           down, which looks wrong). Starts at 14000ms — 100ms after the
+           man finishes fading in at 13.9s — and loops continuously.
+           transform-box:fill-box anchors the rotation to the group's own
+           bbox centre, which IS the O centre because the 12 wedge plates
+           form a symmetric envelope around it. */
+        .co-stage-wrapper .co-wedges-ring {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: coRingSpin 40s linear 14000ms infinite;
+        }
+
         /* --- Man-in-tie inside O (last element) ---
            Slight overlap with the ring fade end for visual continuity. */
         .co-stage-wrapper .co-man {
@@ -269,6 +289,10 @@ export default function AboutContent() {
           from { opacity: 0; transform: scale(0.96); }
           to   { opacity: 1; transform: scale(1);    }
         }
+        @keyframes coRingSpin {
+          from { transform: rotate(0deg);   }
+          to   { transform: rotate(360deg); }
+        }
 
         /* Respect prefers-reduced-motion: skip the show entirely and
            render the final static state (C, woman, 12 wedges, man — no text,
@@ -277,6 +301,7 @@ export default function AboutContent() {
           .co-stage-wrapper .co-c,
           .co-stage-wrapper .co-woman,
           .co-stage-wrapper .co-wedge,
+          .co-stage-wrapper .co-wedges-ring,
           .co-stage-wrapper .co-man {
             opacity: 1 !important;
             transform: none !important;
