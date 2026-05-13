@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
-import { STAGE_1_SVG, STAGE_2_SVG, STAGE_3_SVG } from './coSvgStrings'
+import { MASTER_SVG } from './coSvgStrings'
 
 const companyStats = [
   { value: '25+', label: 'Years RCM Expertise' },
@@ -68,38 +68,48 @@ export default function AboutContent() {
   const [selectedPerson, setSelectedPerson] = useState<import('@/components/ui/TeamCircleGrid').TeamMember | null>(null)
   return (
     <>
-      {/* CO-SENT-US — Together we Conquer.
+      {/* CO graphic — single master SVG with every element choreographed
+          individually via CSS animation-delay.
 
-          Three-stage animated composition. Each stage is the supplied SVG
-          inlined verbatim via dangerouslySetInnerHTML so the CSS in this
-          file can reach the .co-wedge-N / .co-c / .co-woman / .co-man
-          classes added inside stage 3 for the per-element timing.
+          Master SVG contents (back-to-front DOM order):
+            .co-c                       C shape
+            .co-o-ring                  continuous O ring (used during text stages)
+            .co-stage1-{team,strategy,process,delivery}   first set of words
+            .co-stage2-{collaborate,coordinate,cooperate,coexpand}  second set
+            .co-woman                   doctor figure inside C
+            .co-wedge-1..12             12 wedges, clockwise from 12 o'clock
+            .co-man                     figure inside O (last to appear)
 
-          Sequence:
-            t = 0      stage 1 fully visible:   TEAM + STRATEGY + PROCESS = DELIVERY
-            t = 2.5s   stage 1 → stage 2 crossfade (1s)
-            t = 3.5s   stage 2 fully visible:   co~llaborate + co~ordinate + co~operate = co~expand
-            t = 5.5s   stage 2 → stage 3 crossfade (1s)
-            t = 6.5s   stage 3 base visible:    C + woman + man (12 wedges still hidden)
-            t = 6.5s+  wedges light up clockwise from 12 o'clock, 0.18s per wedge
-            t ≈ 8.7s   final static state — never replays in the same page lifecycle.
+          Timeline (all timings absolute, anchored at t=0 when the master
+          animation begins):
+            t = 0.0    .co-c fades in (600ms)
+            t = 0.6    .co-o-ring fades in (600ms)
+            t = 1.5    TEAM slides up + fades in
+            t = 2.0    + STRATEGY
+            t = 2.5    + PROCESS
+            t = 3.0    = DELIVERY
+            t = 4.5    all stage-1 words fade out together (400ms)
+            t = 5.0    co~llaborate slides up + fades in
+            t = 5.5    + co~ordinate
+            t = 6.0    + co~operate
+            t = 6.5    = co~expand
+            t = 8.0    all stage-2 words fade out together (400ms)
+            t = 8.3    .co-woman fades in (700ms)
+            t = 8.8    wedge 1 appears (380ms, 0.18s stagger)
+            t = 10.78  wedge 12 starts, finishes ~11.16s
+            t = 10.6   .co-o-ring starts fading out (500ms)
+            t = 11.0   .co-man fades in (700ms) — last element
 
-          Stages are stacked absolutely-positioned inside a wrapper whose
-          padding-top hack holds the aspect ratio of the source SVGs
-          (~14158:7824 ≈ 1.809:1, so padding-top ≈ 55.26%). */}
+          Respects prefers-reduced-motion (jumps to final static state). */}
       <section className="about-co-section">
         <div className="container">
-          <h2 className="about-co-title">
-            <span className="about-co-title-l">CO-SENT-US meaning</span>
-            <span className="about-co-title-tilde">&nbsp;~&nbsp;</span>
-            <span className="about-co-title-r">Together we Conquer</span>
-          </h2>
           <div className="about-co-graphic">
-            <div className="co-stage-wrapper" role="img" aria-label="Together we Conquer: collaborate, coordinate, and cooperate to deliver outcomes.">
-              <div className="co-stage co-stage-1" dangerouslySetInnerHTML={{ __html: STAGE_1_SVG }} />
-              <div className="co-stage co-stage-2" dangerouslySetInnerHTML={{ __html: STAGE_2_SVG }} />
-              <div className="co-stage co-stage-3" dangerouslySetInnerHTML={{ __html: STAGE_3_SVG }} />
-            </div>
+            <div
+              className="co-stage-wrapper"
+              role="img"
+              aria-label="Together we Conquer: collaborate, coordinate, and cooperate to deliver outcomes."
+              dangerouslySetInnerHTML={{ __html: MASTER_SVG }}
+            />
           </div>
         </div>
       </section>
@@ -111,166 +121,140 @@ export default function AboutContent() {
           color: #fff;
           overflow: hidden;
         }
-        .about-co-title {
-          font-family: var(--font-display);
-          font-size: clamp(18px, 2vw, 28px);
-          font-weight: 700;
-          line-height: 1.3;
-          letter-spacing: -0.005em;
-          color: #fff;
-          text-align: center;
-          margin: 0 auto clamp(36px, 5vw, 64px);
-          max-width: 760px;
-        }
-        .about-co-title-l,
-        .about-co-title-r,
-        .about-co-title-tilde {
-          display: inline-block;
-          opacity: 0;
-        }
-        .about-co-title-l {
-          transform: translateX(-30px);
-          animation: coTitleL 0.9s 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-        }
-        .about-co-title-r {
-          transform: translateX(30px);
-          animation: coTitleR 0.9s 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-        }
-        .about-co-title-tilde {
-          animation: coFade 0.5s 1.5s ease-out forwards;
-        }
-        @keyframes coTitleL { to { opacity: 1; transform: translateX(0); } }
-        @keyframes coTitleR { to { opacity: 1; transform: translateX(0); } }
-        @keyframes coFade   { to { opacity: 1; } }
-
-        /* Graphic wrapper — clamped width, aspect-ratio kept with padding-top
-           hack so the three absolutely-positioned stages can stack. The ratio
-           comes from the source SVG viewBoxes (14158.55 / 7824.33). */
         .about-co-graphic {
           max-width: 960px;
           margin: 0 auto;
         }
+        /* Wrapper holds the source SVG aspect ratio (14158.55 : 7824.33).
+           SVG self-scales to fit; no padding hack needed because we have
+           a single SVG (no absolute-positioned siblings to align with). */
         .co-stage-wrapper {
-          position: relative;
           width: 100%;
-          padding-top: 55.26%;
-        }
-        .co-stage {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
           display: block;
         }
-        .co-stage svg {
+        .co-stage-wrapper svg {
           width: 100%;
-          height: 100%;
+          height: auto;
           display: block;
         }
-        /* All three SVGs use the same generic CorelDRAW class names
-           (.fil0, .fil1, …) and their <style> blocks all cascade together
-           once the SVGs are inlined into a single DOM. Stage 3 declares
-           .fil1 as cyan, which would overwrite stages 1 & 2's white text
-           and make their interior text invisible. Each stage's fills are
-           re-declared here scoped by .co-stage-N so the cascade stays
-           per-stage. Higher selector specificity (0,2,0 vs the inline
-           rules' 0,1,0) wins without needing !important.
-           Also forcing fill-rule:evenodd on .fil0 because Chromium does
-           not inherit it from the SVG root's style="" attribute, which
-           would otherwise render the C/O paths as solid discs and hide
-           their interior. */
-        .co-stage svg .fil0  { fill-rule: evenodd; }
-        .co-stage-1 .fil0,
-        .co-stage-2 .fil0    { fill: #fff; }
-        .co-stage-1 .fil1,
-        .co-stage-2 .fil1    { fill: #fff; fill-rule: nonzero; }
-        .co-stage-3 .fil0    { fill: #fff; }
-        .co-stage-3 .fil1    { fill: #00B5D6; fill-rule: nonzero; }
-        .co-stage-3 .fil2    { fill: #00B5D6; }
-        .co-stage-3 .fil3    { fill: #73D5E6; }
-        .co-stage-3 .fil4    { fill: #898989; }
-        .co-stage-3 .fil5    { fill: #73D5E6; fill-rule: nonzero; }
 
-        /* Crossfade. Each stage starts at opacity 0 and is keyframed in/out
-           with a forwards fill so the end state holds without JS. */
-        .co-stage-1 {
+        /* --- C and O ring --- */
+        /* The C stays for the entire animation (fades in at t=0 and never
+           leaves). The O ring fades in at t=0.6s and fades back out at
+           t=10.6s as the 12 wedges complete their reveal. */
+        .co-stage-wrapper .co-c {
           opacity: 0;
-          animation: coStage1 6s linear 0s forwards;
+          animation: coFadeIn 600ms cubic-bezier(.2,.7,.3,1) 0ms forwards;
         }
-        .co-stage-2 {
+        .co-stage-wrapper .co-o-ring {
           opacity: 0;
-          animation: coStage2 6s linear 0s forwards;
-        }
-        .co-stage-3 {
-          opacity: 0;
-          animation: coStage3 7s linear 0s forwards;
-        }
-        @keyframes coStage1 {
-          0%      { opacity: 1; }
-          41.66%  { opacity: 1; }   /* hold visible until t = 2.5s */
-          58.33%  { opacity: 0; }   /* fully faded by t = 3.5s    */
-          100%    { opacity: 0; }
-        }
-        @keyframes coStage2 {
-          0%      { opacity: 0; }
-          41.66%  { opacity: 0; }   /* invisible during stage 1   */
-          58.33%  { opacity: 1; }   /* fully in at t = 3.5s       */
-          91.66%  { opacity: 1; }   /* hold until t = 5.5s        */
-          100%    { opacity: 0; }   /* fully out at t = 6s        */
-        }
-        @keyframes coStage3 {
-          0%      { opacity: 0; }
-          78.57%  { opacity: 0; }   /* invisible until t = 5.5s   */
-          92.85%  { opacity: 1; }   /* fully in at t = 6.5s       */
-          100%    { opacity: 1; }
+          animation:
+            coFadeIn  600ms cubic-bezier(.2,.7,.3,1)   600ms forwards,
+            coFadeOut 500ms ease-out                 10600ms forwards;
         }
 
-        /* Stage 3: the 12 wedges start hidden (slot order 1 = top, clockwise).
-           Each wedge fades in starting at t = 6.5s with a 0.18s stagger.
-           The base elements (C, woman, man) inherit stage 3's opacity, so they
-           appear as stage 3 itself fades in. */
-        .co-stage-3 .co-wedge {
+        /* --- Stage-1 words (TEAM + STRATEGY + PROCESS = DELIVERY) ---
+           Each fades in with a small slide-up; all four fade out together
+           at t=4.5s before stage 2 begins. */
+        .co-stage-wrapper .co-stage1-word {
           opacity: 0;
-          animation: coWedgeIn 380ms cubic-bezier(.2, .7, .3, 1) forwards;
+          transform: translateY(12px);
+          transform-box: fill-box;
+          transform-origin: center;
+          animation:
+            coWordIn   500ms cubic-bezier(.2,.7,.3,1) var(--in-delay) forwards,
+            coWordOut  400ms ease-out                       4500ms   forwards;
         }
-        .co-stage-3 .co-wedge-1  { animation-delay: 6.50s; }
-        .co-stage-3 .co-wedge-2  { animation-delay: 6.68s; }
-        .co-stage-3 .co-wedge-3  { animation-delay: 6.86s; }
-        .co-stage-3 .co-wedge-4  { animation-delay: 7.04s; }
-        .co-stage-3 .co-wedge-5  { animation-delay: 7.22s; }
-        .co-stage-3 .co-wedge-6  { animation-delay: 7.40s; }
-        .co-stage-3 .co-wedge-7  { animation-delay: 7.58s; }
-        .co-stage-3 .co-wedge-8  { animation-delay: 7.76s; }
-        .co-stage-3 .co-wedge-9  { animation-delay: 7.94s; }
-        .co-stage-3 .co-wedge-10 { animation-delay: 8.12s; }
-        .co-stage-3 .co-wedge-11 { animation-delay: 8.30s; }
-        .co-stage-3 .co-wedge-12 { animation-delay: 8.48s; }
+        .co-stage-wrapper .co-stage1-team     { --in-delay: 1500ms; }
+        .co-stage-wrapper .co-stage1-strategy { --in-delay: 2000ms; }
+        .co-stage-wrapper .co-stage1-process  { --in-delay: 2500ms; }
+        .co-stage-wrapper .co-stage1-delivery { --in-delay: 3000ms; }
+
+        /* --- Stage-2 words --- */
+        .co-stage-wrapper .co-stage2-word {
+          opacity: 0;
+          transform: translateY(12px);
+          transform-box: fill-box;
+          transform-origin: center;
+          animation:
+            coWordIn   500ms cubic-bezier(.2,.7,.3,1) var(--in-delay) forwards,
+            coWordOut  400ms ease-out                       8000ms   forwards;
+        }
+        .co-stage-wrapper .co-stage2-collaborate { --in-delay: 5000ms; }
+        .co-stage-wrapper .co-stage2-coordinate  { --in-delay: 5500ms; }
+        .co-stage-wrapper .co-stage2-cooperate   { --in-delay: 6000ms; }
+        .co-stage-wrapper .co-stage2-coexpand    { --in-delay: 6500ms; }
+
+        /* --- Woman doctor inside C --- */
+        .co-stage-wrapper .co-woman {
+          opacity: 0;
+          animation: coFadeIn 700ms cubic-bezier(.2,.7,.3,1) 8300ms forwards;
+        }
+
+        /* --- 12 wedges, clockwise from 12 o'clock, 180ms stagger --- */
+        .co-stage-wrapper .co-wedge {
+          opacity: 0;
+          transform: scale(0.94);
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: coWedgeIn 380ms cubic-bezier(.2,.7,.3,1) var(--in-delay) forwards;
+        }
+        .co-stage-wrapper .co-wedge-1  { --in-delay:  8800ms; }
+        .co-stage-wrapper .co-wedge-2  { --in-delay:  8980ms; }
+        .co-stage-wrapper .co-wedge-3  { --in-delay:  9160ms; }
+        .co-stage-wrapper .co-wedge-4  { --in-delay:  9340ms; }
+        .co-stage-wrapper .co-wedge-5  { --in-delay:  9520ms; }
+        .co-stage-wrapper .co-wedge-6  { --in-delay:  9700ms; }
+        .co-stage-wrapper .co-wedge-7  { --in-delay:  9880ms; }
+        .co-stage-wrapper .co-wedge-8  { --in-delay: 10060ms; }
+        .co-stage-wrapper .co-wedge-9  { --in-delay: 10240ms; }
+        .co-stage-wrapper .co-wedge-10 { --in-delay: 10420ms; }
+        .co-stage-wrapper .co-wedge-11 { --in-delay: 10600ms; }
+        .co-stage-wrapper .co-wedge-12 { --in-delay: 10780ms; }
+
+        /* --- Man-in-tie inside O (last element) --- */
+        .co-stage-wrapper .co-man {
+          opacity: 0;
+          animation: coFadeIn 700ms cubic-bezier(.2,.7,.3,1) 11000ms forwards;
+        }
+
+        @keyframes coFadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes coFadeOut {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+        }
+        @keyframes coWordIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0);    }
+        }
+        @keyframes coWordOut {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+        }
         @keyframes coWedgeIn {
-          from { opacity: 0; transform: scale(0.94); transform-origin: center; }
-          to   { opacity: 1; transform: scale(1);    transform-origin: center; }
+          from { opacity: 0; transform: scale(0.94); }
+          to   { opacity: 1; transform: scale(1);    }
         }
 
-        /* Respect prefers-reduced-motion — show the final stage immediately. */
+        /* Respect prefers-reduced-motion: skip the show entirely and
+           render the final static state (C, woman, 12 wedges, man — no text,
+           no O ring). */
         @media (prefers-reduced-motion: reduce) {
-          .about-co-title-l,
-          .about-co-title-r,
-          .about-co-title-tilde {
+          .co-stage-wrapper .co-c,
+          .co-stage-wrapper .co-woman,
+          .co-stage-wrapper .co-wedge,
+          .co-stage-wrapper .co-man {
             opacity: 1 !important;
             transform: none !important;
             animation: none !important;
           }
-          .co-stage-1,
-          .co-stage-2 {
+          .co-stage-wrapper .co-o-ring,
+          .co-stage-wrapper .co-stage1-word,
+          .co-stage-wrapper .co-stage2-word {
             opacity: 0 !important;
-            animation: none !important;
-          }
-          .co-stage-3 {
-            opacity: 1 !important;
-            animation: none !important;
-          }
-          .co-stage-3 .co-wedge {
-            opacity: 1 !important;
-            transform: none !important;
             animation: none !important;
           }
         }
