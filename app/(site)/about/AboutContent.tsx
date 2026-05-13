@@ -120,7 +120,9 @@ export default function AboutContent() {
             t = 14.0   .co-wedges-ring starts a continuous clockwise spin
                        (40s per revolution, linear, infinite). The 12
                        wedges rotate together as one group; C, woman, and
-                       man stay anchored.
+                       man stay anchored. Each wedge's icon counter-
+                       rotates at the same rate so icons stay upright
+                       while orbiting around the O centre.
 
           Respects prefers-reduced-motion (jumps to final static state,
           no spin). */}
@@ -262,6 +264,20 @@ export default function AboutContent() {
           animation: coRingSpin 40s linear 14000ms infinite;
         }
 
+        /* --- Icon counter-rotation (keep icons upright) ---
+           Each wedge's icon paths are wrapped in <g class="co-wedge-icon">.
+           This group counter-rotates at the same speed (and starts at the
+           same moment) as the parent ring, so the orientations cancel out:
+             net = parent(+θ) ∘ child(-θ) = identity
+           The icon's POSITION still moves with the parent (carried around
+           the ring), but its ORIENTATION stays fixed — so the flag, chart,
+           handshake, brain, etc. all stay right-side-up throughout. */
+        .co-stage-wrapper .co-wedge-icon {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: coIconCounterSpin 40s linear 14000ms infinite;
+        }
+
         /* --- Man-in-tie inside O (last element) ---
            Slight overlap with the ring fade end for visual continuity. */
         .co-stage-wrapper .co-man {
@@ -293,6 +309,10 @@ export default function AboutContent() {
           from { transform: rotate(0deg);   }
           to   { transform: rotate(360deg); }
         }
+        @keyframes coIconCounterSpin {
+          from { transform: rotate(0deg);    }
+          to   { transform: rotate(-360deg); }
+        }
 
         /* Respect prefers-reduced-motion: skip the show entirely and
            render the final static state (C, woman, 12 wedges, man — no text,
@@ -302,6 +322,7 @@ export default function AboutContent() {
           .co-stage-wrapper .co-woman,
           .co-stage-wrapper .co-wedge,
           .co-stage-wrapper .co-wedges-ring,
+          .co-stage-wrapper .co-wedge-icon,
           .co-stage-wrapper .co-man {
             opacity: 1 !important;
             transform: none !important;
