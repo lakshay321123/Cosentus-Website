@@ -433,15 +433,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* =====================================================================
-   PRIMARY BUTTON — frosted glass, identical effect/transitions to the
-   voice modal Connect button (.call-btn). Only the rgba color palette
-   shifts: white-tint on dark backgrounds (.btn-glass) vs teal-tint here
-   for buttons that sit on white/light page backgrounds.
-   Same shape, same insets, same drop shadow, same hover lift, same
-   :active press feedback. No shimmer.
+   PRIMARY BUTTON — liquid glass for light/white page backgrounds.
+   Teal-tinted lens so the button stays visible against white surfaces
+   (a pure-white lens disappears into a white section). On Chrome/Edge,
+   backdrop-filter pipes through the global SVG displacement filter
+   (#liquid-glass-global, defined once in app/layout.tsx) which is
+   technically a no-op with the current truncated normal map — the
+   effect is therefore blur + saturation + the multi-layer inset
+   shadow stack. Safari/Firefox fall back to plain blur via the
+   second backdrop-filter declaration. Shape, height, padding,
+   transitions match the previous .btn-primary so layout is unchanged.
+   The hero white-tint variant lives in .btn-glass below.
 ===================================================================== */
 .btn-primary {
   cursor: pointer;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -450,53 +457,65 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   min-width: 48px;
   padding: 0 32px;
   border-radius: 999px;
-  /* Saturated teal as the base — was the previous hover state */
-  background: rgba(0, 181, 214, 0.85);
-  backdrop-filter: blur(5px) saturate(120%);
-  -webkit-backdrop-filter: blur(5px) saturate(120%);
-  border: 1px solid rgba(0, 181, 214, 0.7);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
-    0 8px 22px rgba(0, 181, 214, 0.32);
-  color: #fff;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  position: relative;
-  transition:
-    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+  transition: transform 300ms ease-out;
 }
-.btn-primary:hover {
-  /* Hover stays in the same saturated teal family — slightly fuller bg
-     + brighter border + lift + outer glow. No light/transparent state. */
-  color: #fff;
-  border-color: rgba(0, 181, 214, 0.9);
-  background: rgba(0, 181, 214, 1);
-  transform: translateY(-1px);
+/* Lens layer — empty by design so backdrop-filter only refracts what's
+   BEHIND the button (and never the button's own text). z-index: -1 keeps
+   it under the text content while remaining within the button's stacking
+   context (parent has `isolation: isolate`). */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: rgba(0, 181, 214, 0.85);
+  backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
-    0 12px 28px rgba(0, 181, 214, 0.50),
-    0 0 24px rgba(0, 181, 214, 0.32);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 181, 214, 0.32);
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
 }
-.btn-primary:active {
-  transform: translateY(0) scale(0.98);
-  transition-duration: 0.1s;
+.btn-primary:hover { transform: scale(1.03); }
+.btn-primary:hover::before {
+  background-color: rgba(0, 181, 214, 1);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 181, 214, 0.50),
+    0px 0px 24px 0px rgba(0, 181, 214, 0.32);
 }
+.btn-primary:active { transform: scale(0.96); transition-duration: 0.1s; }
 .btn-primary:focus-visible {
   outline: none;
-  border-color: rgba(0, 181, 214, 0.9);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(0, 80, 100, 0.18),
-    0 8px 22px rgba(0, 181, 214, 0.32),
-    0 0 0 3px rgba(0, 181, 214, 0.20);
+  box-shadow: 0 0 0 3px rgba(0, 181, 214, 0.30);
 }
 
 /* Hide arrow / icon SVGs inside CTA buttons site-wide.
@@ -1306,25 +1325,37 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* CTA box has solid teal background — switch button to white-tint
-   frosted glass (identical to Connect / .btn-glass) so it reads. */
-.cta-box .btn-primary {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(255, 255, 255, 0.40);
-  color: rgba(255, 255, 255, 0.95);
+   liquid glass (matches .btn-glass) so it reads against the teal.
+   Targets ::before because the new .btn-primary moves its visual
+   styling onto a pseudo-element lens (see liquid-glass section). */
+.cta-box .btn-primary::before {
+  background-color: rgba(255, 255, 255, 0.10);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 8px 22px rgba(0, 0, 0, 0.18);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.18);
 }
-.cta-box .btn-primary:hover {
-  background: rgba(255, 255, 255, 0.20);
-  border-color: rgba(255, 255, 255, 0.60);
-  color: #fff;
+.cta-box .btn-primary:hover::before {
+  background-color: rgba(255, 255, 255, 0.18);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 12px 28px rgba(0, 0, 0, 0.30),
-    0 0 24px rgba(255, 255, 255, 0.20);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.20),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.30),
+    0px 0px 24px 0px rgba(255, 255, 255, 0.20);
 }
 
 /* ===== FOOTER ===== */
@@ -1721,67 +1752,95 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateX(6px);
 }
 
-/* ===== FROSTED-GLASS BUTTON — for dark backgrounds (heroes, modals) ===== */
+/* ===== FROSTED-GLASS BUTTON — liquid glass for dark backgrounds =====
+   White-tinted lens layer (10% white) so the button shows up over dark
+   hero videos, navy sections, and modals. Same SVG displacement filter
+   reference as .btn-primary; same blur + saturation + multi-layer shadow
+   stack. See the header comment above .btn-primary for the full
+   explanation of the displacement-map situation. */
 .btn-glass {
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   height: 48px;
   padding: 0 32px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(5px) saturate(120%);
-  -webkit-backdrop-filter: blur(5px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.20);
   border-radius: 999px;
-  color: rgba(232, 246, 251, 0.92);
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
   font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  cursor: pointer;
-  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+  transition: transform 300ms ease-out;
+}
+.btn-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 8px 22px rgba(0, 0, 0, 0.32);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 0, 0, 0.32);
   transition:
-    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
 }
-.btn-glass:hover {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.32);
-  background: rgba(255, 255, 255, 0.10);
-  transform: translateY(-1px);
+.btn-glass:hover { transform: scale(1.03); color: #fff; }
+.btn-glass:hover::before {
+  background-color: rgba(255, 255, 255, 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.40),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 12px 28px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(0, 181, 214, 0.28);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.42),
+    0px 0px 24px 0px rgba(0, 181, 214, 0.28);
 }
-.btn-glass:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
+.btn-glass:active { transform: scale(0.96); transition-duration: 0.1s; }
+.btn-glass:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
 .btn-glass svg { width: 18px; height: 18px; transition: transform var(--transition-base); }
 .btn-glass:hover svg { transform: translateX(3px); }
 
 /* ===== HERO BUTTON DARK-FROST OVERRIDE =====
-   Scoped to .hero-actions only — buttons in PageHero/EHR hero sit on lighter
-   videos and become near-invisible with the white-tint .btn-glass. Adds a
-   dark frosted layer for legibility without changing the blur/border/shape.
-   Does NOT affect home page (HeroSection tiles use inline override; Statement
-   Section .btn-glass is not inside .hero-actions). */
-.hero-actions .btn-glass {
-  background: rgba(0, 0, 0, 0.35);
-  border-color: rgba(255, 255, 255, 0.22);
-  color: #fff;
+   Scoped to .hero-actions only — buttons in PageHero/EHR hero sit on
+   lighter videos and become near-invisible with the white-tint .btn-glass.
+   Darker tint for legibility without changing the blur/border/shape.
+   Targets ::before because the new .btn-glass moves visual styling onto
+   a pseudo-element lens. Does NOT affect home page (HeroSection tiles
+   use inline override; Statement Section .btn-glass is not inside
+   .hero-actions). */
+.hero-actions .btn-glass::before {
+  background-color: rgba(0, 0, 0, 0.35);
 }
-.hero-actions .btn-glass:hover {
-  background: rgba(0, 0, 0, 0.45);
-  border-color: rgba(255, 255, 255, 0.34);
-  color: #fff;
+.hero-actions .btn-glass:hover::before {
+  background-color: rgba(0, 0, 0, 0.45);
 }
 
 /* ===== FUTURISTIC CARD EFFECTS ===== */
