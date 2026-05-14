@@ -76,34 +76,38 @@ export default function AboutContent() {
             .co-o-ring                  continuous O ring (used during text stages)
             .co-stage1-{team,strategy,process,delivery}   first set of words
             .co-stage2-{collaborate,coordinate,cooperate,coexpand}  second set
-            .co-woman                   doctor figure inside C
-            .co-wedge-1..12             12 wedges, clockwise from 12 o'clock
+            .co-woman                   doctor figure inside C (HIDDEN — kept in
+                                        markup so the change can be reverted via
+                                        one CSS line if marketing changes its mind)
+            .co-wedge-1..12             12 wedges, clockwise from 12 o'clock.
+                                        Each wedge group contains a white plate
+                                        (.s3-fil0 path) plus a .co-wedge-icon group.
             .co-man                     figure inside O (last to appear)
 
           Timeline (all timings absolute, anchored at t=0 when the master
-          animation begins). The defining properties:
-            • C delays 1.0s before appearing (page has a beat of empty
-              cyan space first, so the C entrance is anticipated, not
-              instant).
-            • The O ring is a GENERATED ellipse whose geometry matches
-              the 12-wedge ring exactly — outer rx=3906.9 / ry=3883.0,
-              inner rx=2216.0 / ry=2211.5, centred at (10251.6, 3883.0).
-              No clipping, no halo. Because the geometry matches the
-              wedge plates exactly, wedges appearing on top of the ring
-              show only their icons — the plates are visually identical
-              to the ring underneath.
-            • The ring fades out (1000ms ease-in-out, slow & deliberate)
-              only AFTER every wedge is fully in. The fade-out is what
-              "splits" the smooth ring into 12 wedges by revealing the
-              cyan separators between wedge plates.
+          animation begins). Key change from earlier version: the LINES (the
+          cyan separators between wedge plates, revealed when the white O ring
+          fades out) now appear BEFORE the icons, not after.
+
+          To pull this off the wedge animation is split:
+            • The wedge group (.co-wedge) fades in INVISIBLY (its white plate
+              matches the white ring underneath, so the user sees nothing).
+              This is just preparation so the plates are in place when the
+              ring fades.
+            • Then the ring fades out — and because the wedge plates are now
+              underneath where the ring used to be, the cyan SEPARATORS between
+              plates suddenly become visible. This is the user-perceived
+              appearance of the "lines".
+            • Only then do the icons (.co-wedge-icon) fade in on top of the
+              plates, keeping the original 100ms stagger and scale-pop feel.
 
             t = 1.0    .co-c fades in (700ms)
             t = 1.4    .co-o-ring fades in (700ms)
-            t = 2.5    TEAM slides up + fades in (750ms — 25% slower)
-            t = 3.0    + STRATEGY  (500ms stagger — 25% slower)
+            t = 2.5    TEAM slides up + fades in (750ms)
+            t = 3.0    + STRATEGY  (500ms stagger)
             t = 3.5    + PROCESS
             t = 4.0    = DELIVERY  (all four in by 4.75s)
-            t = 4.75   ─── 1.0s HOLD so the line can actually be read ───
+            t = 4.75   ─── 1.0s HOLD ───
             t = 5.75   stage-1 words fade out together (625ms)
             t = 6.5    co~llaborate slides up + fades in
             t = 7.0    + co~ordinate
@@ -111,12 +115,12 @@ export default function AboutContent() {
             t = 8.0    = co~expand  (all four in by 8.75s)
             t = 8.75   ─── 1.0s HOLD ───
             t = 9.75   stage-2 words fade out (625ms)
-            t = 10.6   .co-woman fades in (700ms)
-            t = 11.0   wedge 1 icon appears (450ms, 100ms stagger)
-            t = 12.1   wedge 12 starts, fully in by 12.55s
-            t = 12.7   .co-o-ring fades out (1000ms ease-in-out) —
-                       reveals the cyan separators between wedges
-            t = 13.2   .co-man fades in (700ms) — last element
+            t = 10.4   wedge plates fade in invisibly (400ms) — preparation
+            t = 10.9   .co-o-ring fades out (1000ms ease-in-out) —
+                       SEPARATOR LINES become visible as the ring disappears
+            t = 12.0   wedge 1 icon fades in (450ms, 100ms stagger)
+            t = 13.1   wedge 12 icon starts, fully in by 13.55s
+            t = 13.7   .co-man fades in (700ms) — last element
 
           Respects prefers-reduced-motion (jumps to final static state). */}
       <section className="about-co-section">
@@ -173,7 +177,7 @@ export default function AboutContent() {
           opacity: 0;
           animation:
             coFadeIn  700ms cubic-bezier(.16, 1, .3, 1)    1400ms forwards,
-            coFadeOut 1000ms ease-in-out                  12700ms forwards;
+            coFadeOut 1000ms ease-in-out                  10900ms forwards;
         }
 
         /* --- Stage-1 words (TEAM + STRATEGY + PROCESS = DELIVERY) ---
@@ -212,41 +216,57 @@ export default function AboutContent() {
         .co-stage-wrapper .co-stage2-cooperate   { --in-delay: 7500ms; }
         .co-stage-wrapper .co-stage2-coexpand    { --in-delay: 8000ms; }
 
-        /* --- Woman doctor inside C --- */
+        /* --- Woman doctor inside C ---
+           Hidden by request — kept in the SVG markup so it can be re-enabled
+           by deleting this rule and restoring the original fade-in. */
         .co-stage-wrapper .co-woman {
-          opacity: 0;
-          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 10600ms forwards;
+          opacity: 0 !important;
         }
 
-        /* --- 12 wedge icons, clockwise from 12 o'clock, 100ms stagger ---
-           Same speed as before — the user explicitly said this phase was
-           "much better" — but shifted to start after the slower text
-           phase concludes. */
+        /* --- 12 wedges: plate + icon, split into two phases ---
+           Phase A (plate prep, INVISIBLE TO USER): the wedge group fades in
+           between t=10.4s and t=10.8s. The plate is white-on-white against
+           the O ring, so nothing visibly changes — this is purely so the
+           plates are in place when the ring fades out. We cap fade-in at
+           400ms (fast, since it's invisible) and start it just after the
+           stage-2 words finish fading out at ~10.4s.
+
+           Phase B (ring fade-out reveals lines): handled by .co-o-ring
+           rule above — ring fades out 10.9s–11.9s, revealing the cyan
+           separators between the (now in-place) wedge plates.
+
+           Phase C (icon appearance): the .co-wedge-icon subgroup inside
+           each wedge fades in with the original 100ms stagger and scale-
+           pop, starting at t=12.0s — 100ms after the ring is fully gone. */
         .co-stage-wrapper .co-wedge {
+          opacity: 0;
+          animation: coFadeIn 400ms ease-out 10400ms forwards;
+        }
+        .co-stage-wrapper .co-wedge-icon {
           opacity: 0;
           transform: scale(0.96);
           transform-box: fill-box;
           transform-origin: center;
           animation: coWedgeIn 450ms cubic-bezier(.16, 1, .3, 1) var(--in-delay) forwards;
         }
-        .co-stage-wrapper .co-wedge-1  { --in-delay: 11000ms; }
-        .co-stage-wrapper .co-wedge-2  { --in-delay: 11100ms; }
-        .co-stage-wrapper .co-wedge-3  { --in-delay: 11200ms; }
-        .co-stage-wrapper .co-wedge-4  { --in-delay: 11300ms; }
-        .co-stage-wrapper .co-wedge-5  { --in-delay: 11400ms; }
-        .co-stage-wrapper .co-wedge-6  { --in-delay: 11500ms; }
-        .co-stage-wrapper .co-wedge-7  { --in-delay: 11600ms; }
-        .co-stage-wrapper .co-wedge-8  { --in-delay: 11700ms; }
-        .co-stage-wrapper .co-wedge-9  { --in-delay: 11800ms; }
-        .co-stage-wrapper .co-wedge-10 { --in-delay: 11900ms; }
-        .co-stage-wrapper .co-wedge-11 { --in-delay: 12000ms; }
-        .co-stage-wrapper .co-wedge-12 { --in-delay: 12100ms; }
+        .co-stage-wrapper .co-wedge-1  .co-wedge-icon { --in-delay: 12000ms; }
+        .co-stage-wrapper .co-wedge-2  .co-wedge-icon { --in-delay: 12100ms; }
+        .co-stage-wrapper .co-wedge-3  .co-wedge-icon { --in-delay: 12200ms; }
+        .co-stage-wrapper .co-wedge-4  .co-wedge-icon { --in-delay: 12300ms; }
+        .co-stage-wrapper .co-wedge-5  .co-wedge-icon { --in-delay: 12400ms; }
+        .co-stage-wrapper .co-wedge-6  .co-wedge-icon { --in-delay: 12500ms; }
+        .co-stage-wrapper .co-wedge-7  .co-wedge-icon { --in-delay: 12600ms; }
+        .co-stage-wrapper .co-wedge-8  .co-wedge-icon { --in-delay: 12700ms; }
+        .co-stage-wrapper .co-wedge-9  .co-wedge-icon { --in-delay: 12800ms; }
+        .co-stage-wrapper .co-wedge-10 .co-wedge-icon { --in-delay: 12900ms; }
+        .co-stage-wrapper .co-wedge-11 .co-wedge-icon { --in-delay: 13000ms; }
+        .co-stage-wrapper .co-wedge-12 .co-wedge-icon { --in-delay: 13100ms; }
 
         /* --- Man-in-tie inside O (last element) ---
-           Slight overlap with the ring fade end for visual continuity. */
+           Shifted to 13.7s so it appears after the last icon (13.55s). */
         .co-stage-wrapper .co-man {
           opacity: 0;
-          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 13200ms forwards;
+          animation: coFadeIn 700ms cubic-bezier(.16, 1, .3, 1) 13700ms forwards;
         }
 
         @keyframes coFadeIn {
@@ -271,18 +291,19 @@ export default function AboutContent() {
         }
 
         /* Respect prefers-reduced-motion: skip the show entirely and
-           render the final static state (C, woman, 12 wedges, man — no text,
-           no O ring). */
+           render the final static state (C, 12 wedge plates with their
+           icons, man — no woman, no text, no O ring). */
         @media (prefers-reduced-motion: reduce) {
           .co-stage-wrapper .co-c,
-          .co-stage-wrapper .co-woman,
           .co-stage-wrapper .co-wedge,
+          .co-stage-wrapper .co-wedge-icon,
           .co-stage-wrapper .co-man {
             opacity: 1 !important;
             transform: none !important;
             animation: none !important;
           }
           .co-stage-wrapper .co-o-ring,
+          .co-stage-wrapper .co-woman,
           .co-stage-wrapper .co-stage1-word,
           .co-stage-wrapper .co-stage2-word {
             opacity: 0 !important;
