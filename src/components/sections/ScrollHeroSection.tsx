@@ -3,32 +3,30 @@
 /**
  * ScrollHeroSection
  *
- * Thin wrapper around the third-party ScrollExpandMedia component
- * (src/components/blocks/scroll-expansion-hero.tsx) that supplies the
- * Cosentus content: title text, the DNA helix video, and the
- * "Combining expert teams..." paragraph that surfaces after the
- * media is fully expanded.
+ * Despite the historical "Hero" name, this is now a mid-page section
+ * (NOT the page hero). It wraps the modified ScrollExpandMedia
+ * component (src/components/blocks/scroll-expansion-hero.tsx) which
+ * no longer hijacks page scroll — it renders a normal in-page block
+ * with a DNA helix video, a dark-tinted background image, and the
+ * "Combining expert teams..." paragraph below.
  *
- * This section REPLACES the previous HeroSection + IntroVideoSection
- * pair on the home page (per user direction option A: "Replace the
- * existing HeroSection entirely"). Both files still exist in the
- * repo for now and can be deleted in a follow-up cleanup commit
- * once we are sure this hero direction is sticking.
+ * Position on the home page: SECTION 2 (right under HeroSection).
+ * Replaces the placeholder IntroVideoSection I'd built earlier with
+ * the 16:9 blank video frame.
  *
- * Important constraint inherited from ScrollExpandMedia: while the
- * media is not fully expanded, the component hijacks page scroll
- * (window.scrollTo(0, 0) on every scroll event). It MUST be the
- * first thing on the home page or users will be locked at the top
- * with the content above it unreachable below.
+ * Assets:
+ *   /images/specialties-hero.mp4  — DNA helix video, also used as
+ *     the hero on every /specialties/* page. PageHero.tsx labels
+ *     it "(DNA helix)" in a comment which is the asset the user
+ *     originally asked for.
+ *   /images/dna-helix.jpg  — DNA still image, used as the static
+ *     background behind the video frame.
  *
- * Asset choice (per user "use any other video you have"):
- *   /images/specialties-hero.mp4  — the DNA helix video, already
- *     used as the hero on every /specialties/* page. ~7MB. The
- *     PageHero.tsx file calls this asset "(DNA helix)" in a
- *     comment which is why the user originally asked for "the
- *     DNA one".
- *   /images/dna-helix.jpg  — static DNA still image. Used here as
- *     the bg image that fades out as the video expands.
+ * NOTE: title prop is intentionally omitted. The HeroSection above
+ * this section already shows "Purpose Built For Your Specialty,
+ * Real People + AI. RCM Redefined." — putting a title here would
+ * duplicate that. The DNA video itself plus the paragraph below it
+ * is the section's content.
  */
 
 import ScrollExpandMedia from '@/components/blocks/scroll-expansion-hero'
@@ -39,15 +37,7 @@ export default function ScrollHeroSection() {
       mediaType="video"
       mediaSrc="/images/specialties-hero.mp4"
       bgImageSrc="/images/dna-helix.jpg"
-      title="Purpose Built For Your Specialty."
-      scrollToExpand="Scroll to explore"
     >
-      {/* This block is faded in by the component once mediaFullyExpanded.
-          Keeping it intentionally minimal: the paragraph the user
-          asked for, white text, centered, wide reading width.
-          The rest of the home page (RASection, SpecialtiesSection,
-          ResultsSection, etc.) renders below this — but only becomes
-          reachable AFTER the user fully expands the media. */}
       <div className="scroll-hero-content">
         <p className="scroll-hero-paragraph">
           Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.

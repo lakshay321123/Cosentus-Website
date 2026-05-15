@@ -1,3 +1,4 @@
+import HeroSection from '@/components/sections/HeroSection'
 import ImmersiveVideoBackground from '@/components/sections/ImmersiveVideoBackground'
 import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
 import RASection from '@/components/sections/RASection'
@@ -18,19 +19,22 @@ export default function Home() {
           <video> elements. See the component for details. */}
       <ImmersiveVideoBackground />
 
-      {/* Page narrative flow (current spec):
-            1. ScrollHeroSection — scroll-expand DNA video hero;
-               replaces previous HeroSection + IntroVideoSection.
-               IMPORTANT: this component hijacks page scroll until
-               the media is fully expanded, so it MUST stay at the
-               top of the page. Do not insert anything above it.
-            2. AI agents (9 voice agents + stats) = RASection
-            3. Specialties — dedicated 6-card grid
-            4. Results (numbers with up arrows)
-            5. Resources (case studies / blog / news / events tabs)
-            6. Our Network (partner logos)
-            7. What Our Clients Say (testimonials)
-            8. CTA  */}
+      {/* Page narrative flow:
+            1. HeroSection — "Purpose Built For Your Specialty,
+               Real People + AI. RCM Redefined." (the tagline; never
+               meant to be removed).
+            2. ScrollHeroSection — DNA helix video + "Combining
+               expert teams..." paragraph. This is a normal in-page
+               section (scroll-hijack removed from the underlying
+               component per user direction).
+            3. RASection — 9 AI voice agents + stats
+            4. SpecialtiesSection — 6-card grid
+            5. ResultsSection — numbers with up arrows
+            6. InsightsTabsSection — Resources tabs
+            7. PartnersSection — Our Network
+            8. TestimonialsSection — What Our Clients Say
+            9. CTASection */}
+      <HeroSection />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
