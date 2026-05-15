@@ -73,7 +73,6 @@ export default function SpecialtiesSection() {
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <RevealOnScroll direction="up" delay={0.1}>
           <header className="specialties-header">
-            <p className="specialties-eyebrow">Specialties</p>
             <h2 className="specialties-title">
               Built for <span className="accent">your</span> specialty.
             </h2>
@@ -127,18 +126,12 @@ export default function SpecialtiesSection() {
         }
 
         .specialties-header {
-          text-align: center;
+          /* Left-aligned per user direction. max-width keeps line
+             length readable for the subtitle; margin-bottom matches
+             the previous centered layout. */
+          text-align: left;
           max-width: 720px;
-          margin: 0 auto 48px;
-        }
-
-        .specialties-eyebrow {
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: #00B5D6;
-          margin: 0 0 12px;
+          margin: 0 0 48px;
         }
 
         .specialties-title {
