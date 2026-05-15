@@ -405,6 +405,66 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     color: #68D1E6 !important;
   }
 
+  /* =====================================================================
+     LIQUID-GLASS SURFACES (testimonial cards + CTA box + home footer)
+     Same recipe as .btn-primary / .btn-glass in the buttons system:
+     translucent layer + backdrop-filter blur+saturate + multi-layer
+     inset shadow stack that reads as glass. Higher specificity than
+     the generic white-card override above so this wins on the
+     testimonial cards.
+     The .home-immersive scope means this only applies on the home
+     page. The footer rule uses :has() to detect the home <main> so
+     the footer (which lives outside <main>) only frosts on the home
+     page; every other route keeps its solid teal footer.
+  ===================================================================== */
+  .home-immersive .testimonial-card,
+  .home-immersive .cta-box,
+  body:has(main.home-immersive) .footer {
+    position: relative !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    background-image: none !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+      inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
+      inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
+      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+      inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+    color: #fff !important;
+  }
+
+  /* CTA box uses .btn-primary inside; that button's white-tint override
+     is defined elsewhere and still applies. Just make sure the headline
+     and inner content stay white over the frosted surface. */
+  .home-immersive .cta-box h2,
+  .home-immersive .cta-box * {
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Footer text/link colors over the new frosted surface. The footer
+     already uses white text by default, but we make it explicit to
+     win against any inherited dark colors and to keep hover legible. */
+  body:has(main.home-immersive) .footer,
+  body:has(main.home-immersive) .footer * {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  body:has(main.home-immersive) .footer a {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  body:has(main.home-immersive) .footer a:hover {
+    color: rgba(255, 255, 255, 1) !important;
+  }
+  /* The footer's internal divider line was already
+     rgba(255,255,255,0.2) which works fine on the frosted bg. No
+     change there. */
+
   /* PartnersSection's bordered separator becomes white-on-glass. */
   .home-immersive .partners-section,
   .home-immersive section[style*="borderTop"] {
