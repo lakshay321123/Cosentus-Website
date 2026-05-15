@@ -428,6 +428,63 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     color: #68D1E6 !important;
   }
 
+  /* ------------------------------------------------------------------
+     Testimonial carousel controls — left/right arrows + dots.
+     TestimonialsSection is used on 9 pages (home + specialties + RCM +
+     partnership). Inline styles default to teal. On all OTHER pages
+     the teal is correct (matches the rest of those pages). On the
+     home page we override to white liquid-glass.
+
+     Arrows (class 't-arrow' on the prev/next buttons):
+       base  -> white frost, white-stroke arrow SVG
+       hover -> stronger white frost (override the inline <style>
+                block in TestimonialsSection.tsx, which is teal)
+     Dots (button[aria-label starts with 'Go to testimonial']):
+       inactive -> rgba(255,255,255,0.30)
+       active   -> rgba(255,255,255,0.95) (instead of #00B5D6)
+  ------------------------------------------------------------------ */
+  .home-immersive .t-arrow {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+  }
+  .home-immersive .t-arrow svg {
+    stroke: rgba(255, 255, 255, 0.95) !important;
+  }
+  .home-immersive .t-arrow:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.30) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
+      0px 12px 28px 0px rgba(0, 0, 0, 0.30),
+      0px 0px 24px 0px rgba(255, 255, 255, 0.10) !important;
+  }
+  .home-immersive .t-arrow:hover svg {
+    stroke: #fff !important;
+  }
+  /* Dots: catch via aria-label prefix. Inactive ones use gray-300
+     which the existing dark-text override doesn't touch (it only
+     handles `color`, not `background`). */
+  .home-immersive button[aria-label^="Go to testimonial"] {
+    background: rgba(255, 255, 255, 0.30) !important;
+  }
+  /* Active dot is the one whose inline style sets background: #00B5D6.
+     React serializes either as '#00B5D6' or 'rgb(0, 181, 214)'. */
+  .home-immersive button[aria-label^="Go to testimonial"][style*="background: rgb(0, 181, 214)"],
+  .home-immersive button[aria-label^="Go to testimonial"][style*="background:rgb(0,181,214)"],
+  .home-immersive button[aria-label^="Go to testimonial"][style*="background: #00B5D6"],
+  .home-immersive button[aria-label^="Go to testimonial"][style*="background:#00B5D6"] {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+
   /* =====================================================================
      LIQUID-GLASS SURFACES (testimonial cards + CTA box + home footer)
      Same recipe as .btn-primary / .btn-glass in the buttons system:
