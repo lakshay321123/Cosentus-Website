@@ -202,12 +202,19 @@ export default function ImmersiveVideoBackground() {
           transform: translateX(100vw) rotate(90deg);
           transition: opacity 1s ease-in-out;
         }
-        /* Mobile: native portrait source, no rotation, fill viewport. */
+        /* Mobile: native portrait source, fills viewport.
+           Rotated 180° because the mobile MP4 is authored with light
+           streams flowing bottom→top, while desktop flows top→bottom.
+           A 180° rotation flips the direction to match desktop. The
+           content is abstract light streams with no text/branding,
+           so flipping introduces no visual issue. transform-origin
+           is set to 'center' because rotate(180) without a centered
+           origin would translate the element off-viewport. */
         .immersive-video-bg[data-viewport="mobile"] .immersive-video {
           width: 100vw;
           height: 100vh;
-          transform: none;
-          transform-origin: initial;
+          transform: rotate(180deg);
+          transform-origin: center center;
         }
         /* The "primary" video is fully opaque; the secondary is
            invisible. When the timeupdate handler in JS calls
