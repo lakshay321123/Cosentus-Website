@@ -383,15 +383,21 @@ export default function AboutContent() {
             font-weight: 400;
             color: var(--gray-700);
           }
-          /* No min-heights. Each card sizes to its own content with
-             symmetric 56px/40px padding. The grid's align-items: end
-             keeps the bottoms aligned across all three; tops stagger
-             by content length. Order naturally becomes grey (1 para,
-             shortest) < light (2 short paras) < primary (2 long
-             paras, tallest). */
+          /* No min-heights drive bottom alignment — flex column with
+             justify-content: flex-end pushes the text to the bottom of
+             each card's padded box, so the three cards' paragraphs all
+             end at the same baseline regardless of length differences.
+             The grid's align-items: end still keeps the BOXES bottom-
+             aligned across the row; this rule aligns the TEXT inside
+             each box. Mobile (<=900px) reverts to top-aligned because
+             stacked cards reading top-to-bottom feel more natural that
+             way; that override sits in the @media block below. */
           .about-360-card {
             padding: 56px 40px;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
           }
           .about-360-card p {
             margin: 0 0 20px;
@@ -411,7 +417,10 @@ export default function AboutContent() {
               grid-template-columns: 1fr;
               align-items: stretch;
             }
-            .about-360-card { padding: 32px 24px; }
+            .about-360-card {
+              padding: 32px 24px;
+              justify-content: flex-start;
+            }
             .about-360-card p { font-size: 16px; }
           }
         `}</style>
