@@ -319,6 +319,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
      video covers it); but keep it for first-paint flash protection.
      The page-level video sits BEHIND .hero so this stays harmless. */
   .home-immersive .hero { background: transparent; }
+  /* Hero fills exactly one viewport so the next section (RA paragraph
+     + 9/15/23 stats) begins BELOW the fold. The longer 3-line headline
+     made the previous layout too tight; flex layout with content
+     pushed toward the top leaves clean breathing room below the
+     specialty pills, then the fold, then the RA section starts. */
+  .home-immersive .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+  .home-immersive .hero-content {
+    padding-top: 140px;
+    padding-bottom: 40px;
+  }
 
   /* ResultsSection — was background: #FFFFFF in globals.css. Become
      transparent; numbers/labels get a darkening gradient behind the

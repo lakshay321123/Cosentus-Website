@@ -79,15 +79,21 @@ export default function Footer() {
 
           {/* Accolades strip sits directly under the brand row so the whole
               top block (GPTW + Cosentus brand + accolades) reads as one unit,
-              before the nav columns. mix-blend-mode: screen drops the JPEG's
-              black background out against the teal footer. */}
+              before the nav columns. The source JPEG has a black background;
+              filter: brightness(0) invert(1) collapses every pixel to either
+              black or white and then flips, rendering the strip as pure-white
+              silhouettes — the black bg disappears, and the badges read
+              cleanly over the frosted footer or solid teal on other pages.
+              Replaces the previous mix-blend-mode: screen trick which only
+              worked over solid teal and broke after the footer was switched
+              to liquid glass. */}
           <div className="footer-accolades-strip">
             <Image
               src="/all-accolades-single.png"
               alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
               width={1687}
               height={259}
-              style={{ mixBlendMode: 'screen', width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
+              style={{ filter: 'brightness(0) invert(1)', width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
             />
           </div>
 

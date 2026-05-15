@@ -128,14 +128,18 @@ export default function InsightsTabsSection() {
                     fontFamily: 'var(--font-body)',
                     letterSpacing: '0.02em',
                     whiteSpace: 'nowrap',
-                    backdropFilter: 'blur(5px) saturate(120%)',
-                    WebkitBackdropFilter: 'blur(5px) saturate(120%)',
-                    color: isActive ? '#fff' : 'var(--primary)',
-                    background: isActive ? 'rgba(0, 181, 214, 0.85)' : 'rgba(0, 181, 214, 0.18)',
-                    border: `1px solid ${isActive ? 'rgba(0, 181, 214, 0.7)' : 'rgba(0, 181, 214, 0.45)'}`,
+                    // Liquid glass — no teal. Active = stronger frost +
+                    // white-ish border so the selected tab reads as
+                    // 'pressed/lit' against the rest. Inactive = subtle
+                    // translucent surface that picks up the bg video.
+                    backdropFilter: 'blur(20px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+                    color: isActive ? '#fff' : 'rgba(255, 255, 255, 0.85)',
+                    background: isActive ? 'rgba(255, 255, 255, 0.14)' : 'rgba(255, 255, 255, 0.06)',
+                    border: `1px solid ${isActive ? 'rgba(255, 255, 255, 0.30)' : 'rgba(255, 255, 255, 0.14)'}`,
                     boxShadow: isActive
-                      ? 'inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 12px 28px rgba(0, 181, 214, 0.42), 0 0 24px rgba(0, 181, 214, 0.28)'
-                      : 'inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 80, 100, 0.18), 0 8px 22px rgba(0, 181, 214, 0.22)',
+                      ? 'inset 0 0 0 1px rgba(255, 255, 255, 0.16), inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70), inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55), inset -3px -8px 1px -6px rgba(255, 255, 255, 0.45), inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24), 0px 1px 5px 0px rgba(0, 0, 0, 0.10), 0px 8px 22px 0px rgba(0, 0, 0, 0.20)'
+                      : 'inset 0 0 0 1px rgba(255, 255, 255, 0.10), inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.40), inset -2px -2px 0px -2px rgba(255, 255, 255, 0.30), inset 0px 3px 4px -2px rgba(0, 0, 0, 0.18), 0px 1px 5px 0px rgba(0, 0, 0, 0.10), 0px 4px 12px 0px rgba(0, 0, 0, 0.14)',
                     transition: 'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1), color 200ms cubic-bezier(0.22, 0.61, 0.36, 1)',
                   }}
                   className={`insights-tab${isActive ? ' insights-tab-active' : ''}`}
@@ -259,15 +263,15 @@ export default function InsightsTabsSection() {
         .insights-cta-row .cta-label-full { display: inline; }
         .insights-cta-row .cta-label-short { display: none; }
         .insights-tab:hover:not(.insights-tab-active) {
-          background: rgba(0, 181, 214, 0.30) !important;
-          border-color: rgba(0, 181, 214, 0.7) !important;
+          background: rgba(255, 255, 255, 0.10) !important;
+          border-color: rgba(255, 255, 255, 0.24) !important;
           color: #fff !important;
           transform: translateY(-1px);
           box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.55),
-            inset 0 -1px 0 rgba(0, 80, 100, 0.18),
-            0 12px 28px rgba(0, 181, 214, 0.42),
-            0 0 24px rgba(0, 181, 214, 0.28) !important;
+            inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+            inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+            inset -2px -2px 0px -2px rgba(255, 255, 255, 0.40),
+            0 8px 22px rgba(0, 0, 0, 0.20) !important;
         }
         .insights-tab:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
       `}</style>
