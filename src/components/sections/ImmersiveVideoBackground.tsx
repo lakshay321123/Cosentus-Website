@@ -39,6 +39,9 @@ import { useEffect, useRef, useState } from 'react'
 
 const CROSSFADE_SECONDS = 1.0
 
+const DESKTOP_VIDEO_SRC = '/images/hero-video.mp4'
+const MOBILE_VIDEO_SRC = '/images/hero-video-mobile.mp4'
+
 export default function ImmersiveVideoBackground() {
   const videoARef = useRef<HTMLVideoElement>(null)
   const videoBRef = useRef<HTMLVideoElement>(null)
@@ -46,6 +49,23 @@ export default function ImmersiveVideoBackground() {
   // vs "secondary" (about to fade in). Starts with A.
   const [primary, setPrimary] = useState<'A' | 'B'>('A')
   const swappingRef = useRef(false)
+
+  // Mobile gets a portrait 9:16 cut of the same content (~1.9MB vs the
+  // desktop's 11.4MB landscape). Track viewport width so we serve the
+  // right asset and skip the desktop rotation on mobile.
+  const [videoSrc, setVideoSrc] = useState(DESKTOP_VIDEO_SRC)
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const apply = () => {
+      const mobile = mq.matches
+      setIsMobile(mobile)
+      setVideoSrc(mobile ? MOBILE_VIDEO_SRC : DESKTOP_VIDEO_SRC)
+    }
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
 
   // The crossfade trigger. On every timeupdate of the primary video,
   // check whether we're inside the last CROSSFADE_SECONDS of duration.
@@ -115,9 +135,11 @@ export default function ImmersiveVideoBackground() {
       <div
         className="immersive-video-bg"
         data-primary={primary}
+        data-viewport={isMobile ? 'mobile' : 'desktop'}
         aria-hidden="true"
       >
         <video
+          key={`a-${videoSrc}`}
           ref={videoARef}
           className="immersive-video immersive-video-a"
           autoPlay
@@ -126,9 +148,10 @@ export default function ImmersiveVideoBackground() {
           playsInline
           preload="auto"
         >
-          <source src="/images/hero-video.mp4" type="video/mp4" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
         <video
+          key={`b-${videoSrc}`}
           ref={videoBRef}
           className="immersive-video immersive-video-b"
           loop
@@ -136,7 +159,7 @@ export default function ImmersiveVideoBackground() {
           playsInline
           preload="auto"
         >
-          <source src="/images/hero-video.mp4" type="video/mp4" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
         {/* Gradient overlay — preserves text contrast across every
             section the video shows through. Same gradient family as
@@ -147,15 +170,15 @@ export default function ImmersiveVideoBackground() {
       <style>{`
         /* ===== IMMERSIVE VIDEO BACKGROUND =====
            Fixed-position, viewport-filling, sits behind every section
-           of the home page (z-index: -1). Rotation/dimension-swap
-           math is the same as the hero rotation PR (#132); see that
-           PR for the derivation. Briefly: layout the element at
-           swapped dimensions (100vh × 100vw), rotate 90° CW around
-           top-left, translateX(100vw) to bring it back into view.
+           of the home page (z-index: -1). Desktop uses a landscape
+           source rotated 90° CW (light flows top→bottom). Mobile uses
+           a portrait 9:16 cut at native orientation — no rotation.
 
-           Desktop only. Below 768px the whole component is display:
-           none — the page falls back to whatever background the
-           sections themselves provide. */
+           Desktop rotation math (#132): layout the element at swapped
+           dimensions (100vh × 100vw), rotate 90° CW around top-left,
+           translateX(100vw) to bring it back into view.
+
+           Mobile: no rotation. Element fills the viewport directly. */
         .immersive-video-bg {
           position: fixed;
           top: 0;
@@ -166,6 +189,8 @@ export default function ImmersiveVideoBackground() {
           z-index: -1;
           pointer-events: none;
         }
+        /* Desktop rotation: this is the desktop layout. The mobile
+           override below resets to a non-rotated full-viewport fill. */
         .immersive-video {
           position: absolute;
           top: 0;
@@ -176,6 +201,13 @@ export default function ImmersiveVideoBackground() {
           transform-origin: top left;
           transform: translateX(100vw) rotate(90deg);
           transition: opacity 1s ease-in-out;
+        }
+        /* Mobile: native portrait source, no rotation, fill viewport. */
+        .immersive-video-bg[data-viewport="mobile"] .immersive-video {
+          width: 100vw;
+          height: 100vh;
+          transform: none;
+          transform-origin: initial;
         }
         /* The "primary" video is fully opaque; the secondary is
            invisible. When the timeupdate handler in JS calls
@@ -195,9 +227,6 @@ export default function ImmersiveVideoBackground() {
             rgba(0, 53, 69, 0.65) 50%,
             rgba(0, 53, 69, 0.75) 100%
           );
-        }
-        @media (max-width: 768px) {
-          .immersive-video-bg { display: none; }
         }
         @media (prefers-reduced-motion: reduce) {
           /* User prefers reduced motion — pause the crossfade so
