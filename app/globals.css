@@ -310,15 +310,402 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    RASection, ResultsSection, StatementSection, InsightsTabsSection,
    ServicesSection, PartnersSection, TestimonialsSection, CTASection.
 ===================================================================== */
-@media (min-width: 769px) {
-  /* Allow the page itself to be transparent so the body background
-     never leaks through. */
-  .home-immersive { background: transparent; }
+/* ===================================================================
+   .home-immersive page-level overrides — UNIVERSAL (all viewports)
 
-  /* The hero's solid cyan fallback is no longer needed (page-level
-     video covers it); but keep it for first-paint flash protection.
-     The page-level video sits BEHIND .hero so this stays harmless. */
-  .home-immersive .hero { background: transparent; }
+   The .home-immersive class is added to <main> on the home page only.
+   These rules apply on both desktop and mobile so the home page looks
+   consistent across breakpoints (per user requirement, PR mobile parity).
+
+   Hero-only LAYOUT rules (font-size, min-height, padding) that assume
+   desktop dimensions live in the @media (min-width: 769px) block
+   directly after this section.
+=================================================================== */
+/* Allow the page itself to be transparent so the body background
+   never leaks through. */
+.home-immersive { background: transparent; }
+
+/* The hero's solid cyan fallback is no longer needed (page-level
+   video covers it); but keep it for first-paint flash protection.
+   The page-level video sits BEHIND .hero so this stays harmless. */
+.home-immersive .hero { background: transparent; }
+
+/* ResultsSection — was background: #FFFFFF in globals.css. Become
+   transparent; numbers/labels get a darkening gradient behind the
+   content row only, so the giant teal stat numbers stay readable. */
+.home-immersive .results-section {
+  background: transparent;
+}
+.home-immersive .results-section::before {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 30, 40, 0.30) 50%, transparent 100%);
+}
+/* The teal stat numbers (#00B5D6) are hard to read over the video.
+   A subtle glow brings them forward without changing the color. */
+.home-immersive .results-section .results-header h2,
+.home-immersive .results-section [class*="result"] {
+  text-shadow: 0 2px 8px rgba(0, 30, 40, 0.65);
+}
+
+/* StatementSection — was inline background: '#000' AND has its own
+   video at opacity 0.2. Both removed on the home page so the
+   page-level video shows through cleanly. Text is already white
+   and high-contrast against the page-level gradient overlay. */
+.home-immersive section[class=""]:has(video[src*="specialties-hero"]),
+.home-immersive .statement-section,
+.home-immersive section:has(> video[src*="specialties-hero"]) {
+  background: transparent !important;
+}
+/* Hide the section-internal video on the home page — we already
+   have one playing at the page level; two competing videos look
+   wrong and double the GPU cost. */
+.home-immersive video[src*="specialties-hero"],
+.home-immersive source[src*="specialties-hero"] {
+  display: none !important;
+}
+
+/* .section-alt was light grey (used by InsightsTabsSection and
+   TestimonialsSection) — make transparent on the home page. */
+.home-immersive .section-alt {
+  background: transparent;
+}
+
+/* CTASection — was light grey background. The teal .cta-box inside
+   it stays solid teal (we WANT the CTA to pop against the video). */
+.home-immersive .cta-section {
+  background: transparent;
+}
+
+/* Inline-styled white card backgrounds inside InsightsTabsSection,
+   ServicesSection, TestimonialsSection — replaced with frosted glass.
+   Selector strategy: target the most common white-card containers
+   by their structural classes; if a card has its background set
+   inline as 'var(--white)' or '#fff', this rule won't reach it via
+   class selector alone. For those, we rely on attribute selectors
+   for inline styles. */
+.home-immersive .insights-card,
+.home-immersive .service-card,
+.home-immersive .testimonial-card,
+.home-immersive .case-card,
+.home-immersive .case-card-content,
+.home-immersive [style*="background: var(--white)"],
+.home-immersive [style*="background:var(--white)"],
+.home-immersive [style*="background: white"],
+.home-immersive [style*="background:white"],
+.home-immersive [style*="background: #fff"],
+.home-immersive [style*="background:#fff"],
+.home-immersive [style*="background: #FFFFFF"],
+.home-immersive [style*="background:#FFFFFF"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Text inside frosted cards — flip dark-gray copy to white. */
+.home-immersive .insights-card *,
+.home-immersive .service-card *,
+.home-immersive .testimonial-card * {
+  color: #fff;
+}
+/* But preserve brand-blue accents and teal CTAs inside cards. */
+.home-immersive .insights-card [class*="accent"],
+.home-immersive .service-card [class*="accent"],
+.home-immersive .testimonial-card [class*="accent"] {
+  color: #68D1E6 !important;
+}
+
+/* ------------------------------------------------------------------
+   Testimonial carousel controls — left/right arrows + dots.
+   TestimonialsSection is used on 9 pages (home + specialties + RCM +
+   partnership). Inline styles default to teal. On all OTHER pages
+   the teal is correct (matches the rest of those pages). On the
+   home page we override to white liquid-glass.
+
+   Arrows (class 't-arrow' on the prev/next buttons):
+     base  -> white frost, white-stroke arrow SVG
+     hover -> stronger white frost (override the inline <style>
+              block in TestimonialsSection.tsx, which is teal)
+   Dots (button[aria-label starts with 'Go to testimonial']):
+     inactive -> rgba(255,255,255,0.30)
+     active   -> rgba(255,255,255,0.95) (instead of #00B5D6)
+------------------------------------------------------------------ */
+.home-immersive .t-arrow {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+}
+.home-immersive .t-arrow svg {
+  stroke: rgba(255, 255, 255, 0.95) !important;
+}
+.home-immersive .t-arrow:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.30),
+    0px 0px 24px 0px rgba(255, 255, 255, 0.10) !important;
+}
+.home-immersive .t-arrow:hover svg {
+  stroke: #fff !important;
+}
+/* Dots: catch via aria-label prefix. Inactive ones use gray-300
+   which the existing dark-text override doesn't touch (it only
+   handles `color`, not `background`). */
+.home-immersive button[aria-label^="Go to testimonial"] {
+  background: rgba(255, 255, 255, 0.30) !important;
+}
+/* Active dot is the one whose inline style sets background: #00B5D6.
+   React serializes either as '#00B5D6' or 'rgb(0, 181, 214)'. */
+.home-immersive button[aria-label^="Go to testimonial"][style*="background: rgb(0, 181, 214)"],
+.home-immersive button[aria-label^="Go to testimonial"][style*="background:rgb(0,181,214)"],
+.home-immersive button[aria-label^="Go to testimonial"][style*="background: #00B5D6"],
+.home-immersive button[aria-label^="Go to testimonial"][style*="background:#00B5D6"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* =====================================================================
+   LIQUID-GLASS SURFACES (testimonial cards + CTA box + home footer)
+   Same recipe as .btn-primary / .btn-glass in the buttons system:
+   translucent layer + backdrop-filter blur+saturate + multi-layer
+   inset shadow stack that reads as glass. Higher specificity than
+   the generic white-card override above so this wins on the
+   testimonial cards.
+   The .home-immersive scope means this only applies on the home
+   page. The footer rule uses :has() to detect the home <main> so
+   the footer (which lives outside <main>) only frosts on the home
+   page; every other route keeps its solid teal footer.
+
+   IMPORTANT: the footer rule lives in its OWN selector list, not
+   merged with the testimonial/cta rule. CSS treats a comma-separated
+   selector list as one rule -- if any selector in the list is
+   unsupported (e.g. :has() in a Safari <15.4 / Firefox <121),
+   the whole rule is invalidated and dropped. Splitting them
+   preserves the testimonial/cta frosting even on older browsers
+   where only the footer fallback degrades to solid teal.
+===================================================================== */
+.home-immersive .testimonial-card,
+.home-immersive .cta-box {
+  position: relative !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  background-image: none !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+  color: #fff !important;
+}
+/* Separate rule for the footer so :has() failure in old browsers
+   doesn't take the testimonial+cta rule down with it. */
+body:has(main.home-immersive) .footer {
+  position: relative !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  background-image: none !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+  color: #fff !important;
+}
+
+/* CTA box uses .btn-primary inside; that button's white-tint override
+   is defined elsewhere and still applies. Just make sure the headline
+   and inner content stay white over the frosted surface. */
+.home-immersive .cta-box h2,
+.home-immersive .cta-box * {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Footer text/link colors over the new frosted surface. The footer
+   already uses white text by default, but we make it explicit to
+   win against any inherited dark colors and to keep hover legible. */
+body:has(main.home-immersive) .footer,
+body:has(main.home-immersive) .footer * {
+  color: rgba(255, 255, 255, 0.95);
+}
+body:has(main.home-immersive) .footer a {
+  color: rgba(255, 255, 255, 0.85);
+}
+body:has(main.home-immersive) .footer a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+/* The footer's internal divider line was already
+   rgba(255,255,255,0.2) which works fine on the frosted bg. No
+   change there. */
+
+/* ------------------------------------------------------------------
+   .btn-primary on the home page — switch from solid-teal to the same
+   white liquid-glass recipe used inside the CTA box. Site-wide the
+   button stays teal (other pages use it on light/grey backgrounds
+   where teal reads well); on the immersive home page the teal pills
+   fight the no-teal aesthetic, so we override.
+   This catches BOTH the 'View All Client Success Stories' and
+   'Browse All Insights' buttons in the Insights section.
+------------------------------------------------------------------ */
+.home-immersive .btn-primary {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+}
+.home-immersive .btn-primary:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.45),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.30) !important;
+}
+
+/* ------------------------------------------------------------------
+   Insight card CTA — 'Read Client Success Story →' / 'Read Article →'
+   etc. Source uses inline color: '#00B5D6'. On the home page we
+   re-color it to white so it matches everything else. The arrow svg
+   uses stroke: currentColor, so the color override paints both the
+   text and the arrow.
+   Browsers may serialize style.color = '#00B5D6' as either
+   '#00B5D6' or 'rgb(0, 181, 214)' — match both. The general
+   .home-immersive [style*="color: #00B5D6"] rule defined elsewhere
+   (color-preservation block at the end of .home-immersive) re-asserts
+   teal at line ~530; this rule has higher specificity by adding
+   .insight-card so it wins inside the cards. */
+.home-immersive .insight-card [style*="color: #00B5D6"],
+.home-immersive .insight-card [style*="color:#00B5D6"],
+.home-immersive .insight-card [style*="color: rgb(0, 181, 214)"],
+.home-immersive .insight-card [style*="color:rgb(0,181,214)"] {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+.home-immersive .insight-card:hover [style*="color: #00B5D6"],
+.home-immersive .insight-card:hover [style*="color:#00B5D6"],
+.home-immersive .insight-card:hover [style*="color: rgb(0, 181, 214)"],
+.home-immersive .insight-card:hover [style*="color:rgb(0,181,214)"] {
+  color: #fff !important;
+}
+
+/* PartnersSection's bordered separator becomes white-on-glass.
+   The attribute selector must match the kebab-case DOM
+   serialization: React converts style={{ borderTop }} to
+   border-top in the rendered style attribute. */
+.home-immersive .partners-section,
+.home-immersive section[style*="border-top"] {
+  background: transparent !important;
+  border-top-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Default text color across the home page shifts toward white to
+   stay readable over the dark video overlay. This block is broad
+   on purpose — the user asked for "all text white" on the home
+   page. Coverage:
+   - Section labels / titles / descriptions (.section-* classes)
+   - Headings (h1..h6) and paragraphs (p) inside .home-immersive
+   - Inline-styled dark colors (var(--gray-700/800/900), #000, black)
+     caught via attribute selectors
+   The teal-accent preservation block below this restores brand
+   teal on any element matching [class*='accent']. */
+.home-immersive .section-title,
+.home-immersive .section-desc,
+.home-immersive .section-label,
+.home-immersive h1,
+.home-immersive h2,
+.home-immersive h3,
+.home-immersive h4,
+.home-immersive h5,
+.home-immersive h6,
+.home-immersive p,
+.home-immersive li,
+.home-immersive [style*="color: var(--gray-100)"],
+.home-immersive [style*="color:var(--gray-100)"],
+.home-immersive [style*="color: var(--gray-200)"],
+.home-immersive [style*="color:var(--gray-200)"],
+.home-immersive [style*="color: var(--gray-300)"],
+.home-immersive [style*="color:var(--gray-300)"],
+.home-immersive [style*="color: var(--gray-400)"],
+.home-immersive [style*="color:var(--gray-400)"],
+.home-immersive [style*="color: var(--gray-500)"],
+.home-immersive [style*="color:var(--gray-500)"],
+.home-immersive [style*="color: var(--gray-600)"],
+.home-immersive [style*="color:var(--gray-600)"],
+.home-immersive [style*="color: var(--gray-700)"],
+.home-immersive [style*="color:var(--gray-700)"],
+.home-immersive [style*="color: var(--gray-800)"],
+.home-immersive [style*="color:var(--gray-800)"],
+.home-immersive [style*="color: var(--gray-900)"],
+.home-immersive [style*="color:var(--gray-900)"],
+.home-immersive [style*="color: #000"],
+.home-immersive [style*="color:#000"],
+.home-immersive [style*="color: black"],
+.home-immersive [style*="color:black"] {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+/* But the teal brand accents stay teal — except inside .hero,
+   where the design intentionally uses white-on-white for the
+   italic 'Specialty.' word. Hero accent stays white. */
+.home-immersive .accent:not(.hero .accent),
+.home-immersive *:not(.hero) [class*="accent"] {
+  color: #68D1E6 !important;
+}
+.home-immersive .hero .accent {
+  color: var(--white) !important;
+}
+/* Preserve any element that explicitly opts back into brand teal
+   via inline style — e.g. <span style="color: #00B5D6"> in
+   headings. The white-text block would have overridden these
+   without this rule. */
+.home-immersive [style*="color: #00B5D6"],
+.home-immersive [style*="color:#00B5D6"],
+.home-immersive [style*="color: #36C2DE"],
+.home-immersive [style*="color:#36C2DE"],
+.home-immersive [style*="color: #68D1E6"],
+.home-immersive [style*="color:#68D1E6"] {
+  color: #68D1E6 !important;
+}
+
+/* Desktop-only layout: hero font + flex layout + content padding.
+   Mobile uses the default .hero h1 size override (36px) defined in
+   the existing @media (max-width: 768px) block earlier in this file. */
+@media (min-width: 769px) {
   /* Hero headline size reduction on the home page only. The default
      .hero h1 (clamp 52px..88px) was too dominant per user feedback —
      consumed the whole viewport. New scale ~30% smaller. Other pages
@@ -341,378 +728,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .home-immersive .hero-content {
     padding-top: 140px;
     padding-bottom: 40px;
-  }
-
-  /* ResultsSection — was background: #FFFFFF in globals.css. Become
-     transparent; numbers/labels get a darkening gradient behind the
-     content row only, so the giant teal stat numbers stay readable. */
-  .home-immersive .results-section {
-    background: transparent;
-  }
-  .home-immersive .results-section::before {
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 30, 40, 0.30) 50%, transparent 100%);
-  }
-  /* The teal stat numbers (#00B5D6) are hard to read over the video.
-     A subtle glow brings them forward without changing the color. */
-  .home-immersive .results-section .results-header h2,
-  .home-immersive .results-section [class*="result"] {
-    text-shadow: 0 2px 8px rgba(0, 30, 40, 0.65);
-  }
-
-  /* StatementSection — was inline background: '#000' AND has its own
-     video at opacity 0.2. Both removed on the home page so the
-     page-level video shows through cleanly. Text is already white
-     and high-contrast against the page-level gradient overlay. */
-  .home-immersive section[class=""]:has(video[src*="specialties-hero"]),
-  .home-immersive .statement-section,
-  .home-immersive section:has(> video[src*="specialties-hero"]) {
-    background: transparent !important;
-  }
-  /* Hide the section-internal video on the home page — we already
-     have one playing at the page level; two competing videos look
-     wrong and double the GPU cost. */
-  .home-immersive video[src*="specialties-hero"],
-  .home-immersive source[src*="specialties-hero"] {
-    display: none !important;
-  }
-
-  /* .section-alt was light grey (used by InsightsTabsSection and
-     TestimonialsSection) — make transparent on the home page. */
-  .home-immersive .section-alt {
-    background: transparent;
-  }
-
-  /* CTASection — was light grey background. The teal .cta-box inside
-     it stays solid teal (we WANT the CTA to pop against the video). */
-  .home-immersive .cta-section {
-    background: transparent;
-  }
-
-  /* Inline-styled white card backgrounds inside InsightsTabsSection,
-     ServicesSection, TestimonialsSection — replaced with frosted glass.
-     Selector strategy: target the most common white-card containers
-     by their structural classes; if a card has its background set
-     inline as 'var(--white)' or '#fff', this rule won't reach it via
-     class selector alone. For those, we rely on attribute selectors
-     for inline styles. */
-  .home-immersive .insights-card,
-  .home-immersive .service-card,
-  .home-immersive .testimonial-card,
-  .home-immersive .case-card,
-  .home-immersive .case-card-content,
-  .home-immersive [style*="background: var(--white)"],
-  .home-immersive [style*="background:var(--white)"],
-  .home-immersive [style*="background: white"],
-  .home-immersive [style*="background:white"],
-  .home-immersive [style*="background: #fff"],
-  .home-immersive [style*="background:#fff"],
-  .home-immersive [style*="background: #FFFFFF"],
-  .home-immersive [style*="background:#FFFFFF"] {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #fff;
-  }
-
-  /* Text inside frosted cards — flip dark-gray copy to white. */
-  .home-immersive .insights-card *,
-  .home-immersive .service-card *,
-  .home-immersive .testimonial-card * {
-    color: #fff;
-  }
-  /* But preserve brand-blue accents and teal CTAs inside cards. */
-  .home-immersive .insights-card [class*="accent"],
-  .home-immersive .service-card [class*="accent"],
-  .home-immersive .testimonial-card [class*="accent"] {
-    color: #68D1E6 !important;
-  }
-
-  /* ------------------------------------------------------------------
-     Testimonial carousel controls — left/right arrows + dots.
-     TestimonialsSection is used on 9 pages (home + specialties + RCM +
-     partnership). Inline styles default to teal. On all OTHER pages
-     the teal is correct (matches the rest of those pages). On the
-     home page we override to white liquid-glass.
-
-     Arrows (class 't-arrow' on the prev/next buttons):
-       base  -> white frost, white-stroke arrow SVG
-       hover -> stronger white frost (override the inline <style>
-                block in TestimonialsSection.tsx, which is teal)
-     Dots (button[aria-label starts with 'Go to testimonial']):
-       inactive -> rgba(255,255,255,0.30)
-       active   -> rgba(255,255,255,0.95) (instead of #00B5D6)
-  ------------------------------------------------------------------ */
-  .home-immersive .t-arrow {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border-color: rgba(255, 255, 255, 0.14) !important;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
-  }
-  .home-immersive .t-arrow svg {
-    stroke: rgba(255, 255, 255, 0.95) !important;
-  }
-  .home-immersive .t-arrow:hover {
-    background: rgba(255, 255, 255, 0.14) !important;
-    border-color: rgba(255, 255, 255, 0.30) !important;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
-      0px 12px 28px 0px rgba(0, 0, 0, 0.30),
-      0px 0px 24px 0px rgba(255, 255, 255, 0.10) !important;
-  }
-  .home-immersive .t-arrow:hover svg {
-    stroke: #fff !important;
-  }
-  /* Dots: catch via aria-label prefix. Inactive ones use gray-300
-     which the existing dark-text override doesn't touch (it only
-     handles `color`, not `background`). */
-  .home-immersive button[aria-label^="Go to testimonial"] {
-    background: rgba(255, 255, 255, 0.30) !important;
-  }
-  /* Active dot is the one whose inline style sets background: #00B5D6.
-     React serializes either as '#00B5D6' or 'rgb(0, 181, 214)'. */
-  .home-immersive button[aria-label^="Go to testimonial"][style*="background: rgb(0, 181, 214)"],
-  .home-immersive button[aria-label^="Go to testimonial"][style*="background:rgb(0,181,214)"],
-  .home-immersive button[aria-label^="Go to testimonial"][style*="background: #00B5D6"],
-  .home-immersive button[aria-label^="Go to testimonial"][style*="background:#00B5D6"] {
-    background: rgba(255, 255, 255, 0.95) !important;
-  }
-
-  /* =====================================================================
-     LIQUID-GLASS SURFACES (testimonial cards + CTA box + home footer)
-     Same recipe as .btn-primary / .btn-glass in the buttons system:
-     translucent layer + backdrop-filter blur+saturate + multi-layer
-     inset shadow stack that reads as glass. Higher specificity than
-     the generic white-card override above so this wins on the
-     testimonial cards.
-     The .home-immersive scope means this only applies on the home
-     page. The footer rule uses :has() to detect the home <main> so
-     the footer (which lives outside <main>) only frosts on the home
-     page; every other route keeps its solid teal footer.
-
-     IMPORTANT: the footer rule lives in its OWN selector list, not
-     merged with the testimonial/cta rule. CSS treats a comma-separated
-     selector list as one rule -- if any selector in the list is
-     unsupported (e.g. :has() in a Safari <15.4 / Firefox <121),
-     the whole rule is invalidated and dropped. Splitting them
-     preserves the testimonial/cta frosting even on older browsers
-     where only the footer fallback degrades to solid teal.
-  ===================================================================== */
-  .home-immersive .testimonial-card,
-  .home-immersive .cta-box {
-    position: relative !important;
-    background-color: rgba(255, 255, 255, 0.06) !important;
-    background-image: none !important;
-    backdrop-filter: blur(20px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
-      inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
-      inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
-      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-      inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
-    color: #fff !important;
-  }
-  /* Separate rule for the footer so :has() failure in old browsers
-     doesn't take the testimonial+cta rule down with it. */
-  body:has(main.home-immersive) .footer {
-    position: relative !important;
-    background-color: rgba(255, 255, 255, 0.06) !important;
-    background-image: none !important;
-    backdrop-filter: blur(20px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
-      inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
-      inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
-      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-      inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
-    color: #fff !important;
-  }
-
-  /* CTA box uses .btn-primary inside; that button's white-tint override
-     is defined elsewhere and still applies. Just make sure the headline
-     and inner content stay white over the frosted surface. */
-  .home-immersive .cta-box h2,
-  .home-immersive .cta-box * {
-    color: rgba(255, 255, 255, 0.95) !important;
-  }
-
-  /* Footer text/link colors over the new frosted surface. The footer
-     already uses white text by default, but we make it explicit to
-     win against any inherited dark colors and to keep hover legible. */
-  body:has(main.home-immersive) .footer,
-  body:has(main.home-immersive) .footer * {
-    color: rgba(255, 255, 255, 0.95);
-  }
-  body:has(main.home-immersive) .footer a {
-    color: rgba(255, 255, 255, 0.85);
-  }
-  body:has(main.home-immersive) .footer a:hover {
-    color: rgba(255, 255, 255, 1) !important;
-  }
-  /* The footer's internal divider line was already
-     rgba(255,255,255,0.2) which works fine on the frosted bg. No
-     change there. */
-
-  /* ------------------------------------------------------------------
-     .btn-primary on the home page — switch from solid-teal to the same
-     white liquid-glass recipe used inside the CTA box. Site-wide the
-     button stays teal (other pages use it on light/grey backgrounds
-     where teal reads well); on the immersive home page the teal pills
-     fight the no-teal aesthetic, so we override.
-     This catches BOTH the 'View All Client Success Stories' and
-     'Browse All Insights' buttons in the Insights section.
-  ------------------------------------------------------------------ */
-  .home-immersive .btn-primary {
-    background: rgba(255, 255, 255, 0.06) !important;
-    backdrop-filter: blur(20px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-    border-color: rgba(255, 255, 255, 0.14) !important;
-    color: rgba(255, 255, 255, 0.95) !important;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
-      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
-  }
-  .home-immersive .btn-primary:hover {
-    background: rgba(255, 255, 255, 0.14) !important;
-    border-color: rgba(255, 255, 255, 0.30) !important;
-    color: #fff !important;
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
-      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
-      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.45),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-      0px 12px 28px 0px rgba(0, 0, 0, 0.30) !important;
-  }
-
-  /* ------------------------------------------------------------------
-     Insight card CTA — 'Read Client Success Story →' / 'Read Article →'
-     etc. Source uses inline color: '#00B5D6'. On the home page we
-     re-color it to white so it matches everything else. The arrow svg
-     uses stroke: currentColor, so the color override paints both the
-     text and the arrow.
-     Browsers may serialize style.color = '#00B5D6' as either
-     '#00B5D6' or 'rgb(0, 181, 214)' — match both. The general
-     .home-immersive [style*="color: #00B5D6"] rule defined elsewhere
-     (color-preservation block at the end of .home-immersive) re-asserts
-     teal at line ~530; this rule has higher specificity by adding
-     .insight-card so it wins inside the cards. */
-  .home-immersive .insight-card [style*="color: #00B5D6"],
-  .home-immersive .insight-card [style*="color:#00B5D6"],
-  .home-immersive .insight-card [style*="color: rgb(0, 181, 214)"],
-  .home-immersive .insight-card [style*="color:rgb(0,181,214)"] {
-    color: rgba(255, 255, 255, 0.95) !important;
-  }
-  .home-immersive .insight-card:hover [style*="color: #00B5D6"],
-  .home-immersive .insight-card:hover [style*="color:#00B5D6"],
-  .home-immersive .insight-card:hover [style*="color: rgb(0, 181, 214)"],
-  .home-immersive .insight-card:hover [style*="color:rgb(0,181,214)"] {
-    color: #fff !important;
-  }
-
-  /* PartnersSection's bordered separator becomes white-on-glass.
-     The attribute selector must match the kebab-case DOM
-     serialization: React converts style={{ borderTop }} to
-     border-top in the rendered style attribute. */
-  .home-immersive .partners-section,
-  .home-immersive section[style*="border-top"] {
-    background: transparent !important;
-    border-top-color: rgba(255, 255, 255, 0.12) !important;
-  }
-
-  /* Default text color across the home page shifts toward white to
-     stay readable over the dark video overlay. This block is broad
-     on purpose — the user asked for "all text white" on the home
-     page. Coverage:
-     - Section labels / titles / descriptions (.section-* classes)
-     - Headings (h1..h6) and paragraphs (p) inside .home-immersive
-     - Inline-styled dark colors (var(--gray-700/800/900), #000, black)
-       caught via attribute selectors
-     The teal-accent preservation block below this restores brand
-     teal on any element matching [class*='accent']. */
-  .home-immersive .section-title,
-  .home-immersive .section-desc,
-  .home-immersive .section-label,
-  .home-immersive h1,
-  .home-immersive h2,
-  .home-immersive h3,
-  .home-immersive h4,
-  .home-immersive h5,
-  .home-immersive h6,
-  .home-immersive p,
-  .home-immersive li,
-  .home-immersive [style*="color: var(--gray-100)"],
-  .home-immersive [style*="color:var(--gray-100)"],
-  .home-immersive [style*="color: var(--gray-200)"],
-  .home-immersive [style*="color:var(--gray-200)"],
-  .home-immersive [style*="color: var(--gray-300)"],
-  .home-immersive [style*="color:var(--gray-300)"],
-  .home-immersive [style*="color: var(--gray-400)"],
-  .home-immersive [style*="color:var(--gray-400)"],
-  .home-immersive [style*="color: var(--gray-500)"],
-  .home-immersive [style*="color:var(--gray-500)"],
-  .home-immersive [style*="color: var(--gray-600)"],
-  .home-immersive [style*="color:var(--gray-600)"],
-  .home-immersive [style*="color: var(--gray-700)"],
-  .home-immersive [style*="color:var(--gray-700)"],
-  .home-immersive [style*="color: var(--gray-800)"],
-  .home-immersive [style*="color:var(--gray-800)"],
-  .home-immersive [style*="color: var(--gray-900)"],
-  .home-immersive [style*="color:var(--gray-900)"],
-  .home-immersive [style*="color: #000"],
-  .home-immersive [style*="color:#000"],
-  .home-immersive [style*="color: black"],
-  .home-immersive [style*="color:black"] {
-    color: rgba(255, 255, 255, 0.95) !important;
-  }
-  /* But the teal brand accents stay teal — except inside .hero,
-     where the design intentionally uses white-on-white for the
-     italic 'Specialty.' word. Hero accent stays white. */
-  .home-immersive .accent:not(.hero .accent),
-  .home-immersive *:not(.hero) [class*="accent"] {
-    color: #68D1E6 !important;
-  }
-  .home-immersive .hero .accent {
-    color: var(--white) !important;
-  }
-  /* Preserve any element that explicitly opts back into brand teal
-     via inline style — e.g. <span style="color: #00B5D6"> in
-     headings. The white-text block would have overridden these
-     without this rule. */
-  .home-immersive [style*="color: #00B5D6"],
-  .home-immersive [style*="color:#00B5D6"],
-  .home-immersive [style*="color: #36C2DE"],
-  .home-immersive [style*="color:#36C2DE"],
-  .home-immersive [style*="color: #68D1E6"],
-  .home-immersive [style*="color:#68D1E6"] {
-    color: #68D1E6 !important;
   }
 }
 
