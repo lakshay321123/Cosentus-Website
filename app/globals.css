@@ -368,6 +368,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .home-immersive .results-section [class*="result"] {
   text-shadow: 0 2px 8px rgba(0, 30, 40, 0.65);
 }
+/* Home-only: the small labels under each arrow (REVENUE GROWTH /
+   NET COLLECTION / etc.) come from a CSS class .result-label with
+   color: var(--gray-500). Class definitions aren't caught by the
+   [style*="color: var(--gray-X)"] attribute-selector white-text
+   override family, so on the dark home page these labels render as
+   dim gray and are barely legible. Whiten on home only — keeps
+   /services rendering them gray-500 as designed. .result-sublabel
+   ("Up to") is intentionally teal and is NOT overridden here. */
+.home-immersive .results-section .result-label {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
 
 /* StatementSection — was inline background: '#000' AND has its own
    video at opacity 0.2. Both removed on the home page so the

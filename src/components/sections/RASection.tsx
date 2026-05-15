@@ -169,7 +169,11 @@ export default function RASection() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 16px;
-          max-width: 720px;
+          /* Match .ra-agent-grid width below so each stat sits
+             directly above its agent column. Both grids use
+             repeat(3, 1fr) at the same max-width so column
+             centers line up. */
+          max-width: 640px;
           margin: 0 auto;
           width: 100%;
         }
@@ -188,21 +192,27 @@ export default function RASection() {
         .ra-stat-label {
           font-size: 13px;
           font-weight: 600;
-          color: var(--gray-700);
+          /* White directly. The home-immersive white-text override
+             in globals.css catches via [style*="color: var(--gray-X)"]
+             attribute selectors which only match INLINE styles, not
+             class definitions. Same pattern fix as .ra-agent-name. */
+          color: rgba(255, 255, 255, 0.85);
           letter-spacing: 0.04em;
           text-transform: uppercase;
         }
 
         /* ===== Agent grid =====
            3 columns at all viewports per user reference (the standalone
-           voice.html page is 3x3 across all sizes). max-width centers
-           the grid in the section. */
+           voice.html page is 3x3 across all sizes). Uses
+           repeat(3, 1fr) at the same max-width as .ra-stats-row so
+           the "9 / 15 / 23" stats sit directly above their
+           corresponding agent columns. */
         .ra-agent-grid {
           display: grid;
-          grid-template-columns: repeat(3, auto);
-          justify-content: center;
-          gap: 36px 56px;
-          max-width: 900px;
+          grid-template-columns: repeat(3, 1fr);
+          justify-items: center;
+          gap: 36px 16px;
+          max-width: 640px;
           margin: 0 auto;
           width: 100%;
         }
