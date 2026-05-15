@@ -26,15 +26,25 @@ import { useEffect, useRef, useState } from 'react'
  * during the 1s crossfade); we accept this because it's far less
  * jarring than a hard cut.
  *
- * Desktop: rotated 90° clockwise (light flows top→bottom). The CSS
- * lives at the bottom of this file; same math as the rotation PR
- * (#132). Mobile: rotation disabled because the mobile source is
- * already portrait — extending it full-page would require fixed
- * positioning, which has known repaint bugs on iOS Safari, so on
- * mobile we render at position: absolute inside the hero only via
- * the existing HeroSection — this component renders NOTHING below
- * 768px (mobile keeps the old hero-bound video). That decision is
- * enforced in CSS (display: none) so SSR has no mismatch.
+ * Desktop: source is 1920×1080 landscape, rotated 90° clockwise via
+ * CSS so light streams flow top→bottom. The rotation math lives at
+ * the bottom of this file; same approach as the original hero
+ * rotation PR (#132).
+ *
+ * Mobile: source is a separate 9:16 portrait cut
+ * (/images/hero-video-mobile.mp4, ~1.9MB vs the 11.4MB desktop file).
+ * The portrait cut is authored with light streams flowing
+ * bottom→top, so we apply a 180° rotation in CSS to match the
+ * desktop direction. The desktop 90° rotation is NOT applied to the
+ * mobile source — the data-viewport='mobile' attribute on the
+ * wrapper toggles which transform CSS applies.
+ *
+ * SSR considerations: the `videoSrc` state initializes to null and
+ * gets resolved to the correct asset inside a client useEffect via
+ * matchMedia. While null, the <source> elements render no `src` at
+ * all so the browser does not fetch the wrong file before the
+ * viewport check completes. Mobile users specifically are protected
+ * from a one-time 11.4MB desktop fetch this way.
  */
 
 const CROSSFADE_SECONDS = 1.0
@@ -53,7 +63,15 @@ export default function ImmersiveVideoBackground() {
   // Mobile gets a portrait 9:16 cut of the same content (~1.9MB vs the
   // desktop's 11.4MB landscape). Track viewport width so we serve the
   // right asset and skip the desktop rotation on mobile.
-  const [videoSrc, setVideoSrc] = useState(DESKTOP_VIDEO_SRC)
+  //
+  // `videoSrc` starts as null (not DESKTOP_VIDEO_SRC) so that SSR
+  // emits no `src` on the <source> tags. This matters because video A
+  // has `autoplay` and mobile browsers download autoplay sources
+  // immediately, regardless of preload. If we shipped the desktop URL
+  // in SSR, mobile users would start fetching the 11.4MB landscape
+  // file before the useEffect below could correct it. Null defers the
+  // fetch until matchMedia has decided which asset to use.
+  const [videoSrc, setVideoSrc] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)')
@@ -67,12 +85,40 @@ export default function ImmersiveVideoBackground() {
     return () => mq.removeEventListener('change', apply)
   }, [])
 
+  // Whenever the source URL changes (e.g. matchMedia resolves the
+  // viewport class and swaps desktop→mobile, or the user resizes
+  // across the 768px boundary mid-session), the <video key={...}>
+  // keys flip so React unmounts the old DOM nodes and mounts new
+  // ones. Reset transient state so the crossfade machinery starts
+  // cleanly against the new elements:
+  //   - primary back to 'A' so the visible/primary mapping aligns
+  //     with the freshly-mounted videoA element
+  //   - swappingRef cleared so a setTimeout scheduled against the
+  //     old elements can't leave the lock stuck in `true`
+  // This effect runs in addition to the crossfade-listener effect
+  // below; the listener effect depends on `videoSrc` too so it
+  // re-attaches handlers to the new refs.
+  useEffect(() => {
+    if (!videoSrc) return
+    swappingRef.current = false
+    setPrimary('A')
+  }, [videoSrc])
+
   // The crossfade trigger. On every timeupdate of the primary video,
   // check whether we're inside the last CROSSFADE_SECONDS of duration.
   // If so, prep the secondary video (reset its time, start playing
   // it) and flip `primary`. The opacity transition is handled in CSS
   // via the data-primary attribute on the wrapper.
+  //
+  // Depends on BOTH `primary` AND `videoSrc`: when videoSrc changes,
+  // the <video> elements remount via their `key` prop, the refs
+  // re-point at new DOM nodes, and we need the effect to re-run so
+  // the timeupdate listener attaches to the new primary element.
+  // Without `videoSrc` in the deps, the listener would stay bound to
+  // the old (now-detached) node and the crossfade would silently
+  // stop firing after the first viewport resolution.
   useEffect(() => {
+    if (!videoSrc) return
     const a = videoARef.current
     const b = videoBRef.current
     if (!a || !b) return
@@ -128,7 +174,7 @@ export default function ImmersiveVideoBackground() {
     return () => {
       primaryEl.removeEventListener('timeupdate', onTimeUpdate)
     }
-  }, [primary])
+  }, [primary, videoSrc])
 
   return (
     <>
@@ -139,7 +185,7 @@ export default function ImmersiveVideoBackground() {
         aria-hidden="true"
       >
         <video
-          key={`a-${videoSrc}`}
+          key={`a-${videoSrc ?? 'pending'}`}
           ref={videoARef}
           className="immersive-video immersive-video-a"
           autoPlay
@@ -148,10 +194,10 @@ export default function ImmersiveVideoBackground() {
           playsInline
           preload="auto"
         >
-          <source src={videoSrc} type="video/mp4" />
+          {videoSrc ? <source src={videoSrc} type="video/mp4" /> : null}
         </video>
         <video
-          key={`b-${videoSrc}`}
+          key={`b-${videoSrc ?? 'pending'}`}
           ref={videoBRef}
           className="immersive-video immersive-video-b"
           loop
@@ -159,7 +205,7 @@ export default function ImmersiveVideoBackground() {
           playsInline
           preload="auto"
         >
-          <source src={videoSrc} type="video/mp4" />
+          {videoSrc ? <source src={videoSrc} type="video/mp4" /> : null}
         </video>
         {/* Gradient overlay — preserves text contrast across every
             section the video shows through. Same gradient family as
