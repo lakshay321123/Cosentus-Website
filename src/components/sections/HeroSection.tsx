@@ -29,7 +29,7 @@ export default function HeroSection() {
   return (
     <section className="hero">
       <div className="hero-bg">
-        <video key={videoSrc} autoPlay loop muted playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
+        <video key={videoSrc} autoPlay loop muted playsInline className="hero-video">
           <source src={videoSrc} type="video/mp4" />
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
@@ -85,6 +85,53 @@ export default function HeroSection() {
       </div>
 
       <style>{`
+        /* ===== HERO VIDEO ROTATION =====
+           Desktop source is 1920x1080 (landscape). Rotating it 90°
+           clockwise makes the light streams (which originally flowed
+           left→right) flow top→bottom.
+
+           The element is laid out with SWAPPED dimensions
+           (width: 100vh; height: 100vw) — i.e. a portrait-shaped box
+           sized to the viewport — then rotated 90° CW around its
+           top-left corner. After rotation the box would sit to the
+           LEFT of the viewport (x in [-100vw, 0]); translateX(100vw),
+           applied AFTER rotate in CSS transform-string order (rightmost
+           applies first), shifts it back so the rotated frame fills
+           exactly the viewport rectangle. object-fit: cover works on
+           the pre-rotation 100vh-by-100vw box, which matches the
+           rotated frame's portrait orientation, so light streams
+           render at native resolution.
+
+           Done in CSS (not inline JS) so the layout is correct at
+           initial paint with no SSR/hydration mismatch.
+
+           Mobile (<=768px) — source is 360x640 (already portrait),
+           so rotating would make light flow SIDEWAYS instead of
+           top→bottom. Plain inset:0 / 100% / 100% layout. */
+        .hero-video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100vh;
+          height: 100vw;
+          object-fit: cover;
+          transform-origin: top left;
+          transform: translateX(100vw) rotate(90deg);
+          z-index: 0;
+        }
+        @media (max-width: 768px) {
+          .hero-video {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            transform: none;
+            transform-origin: initial;
+          }
+        }
+
         @media (max-width: 768px) {
           .hero-specialty-grid {
             display: grid !important;
