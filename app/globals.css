@@ -284,14 +284,147 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .nav.scrolled .nav-toggle span { background: #000000; }
 
-/* ===== HERO ===== */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: #00B5D6;
+/* =====================================================================
+   IMMERSIVE HOME PAGE OVERRIDES
+   The home page (<main class="home-immersive">) renders a fixed video
+   background behind every section. This block makes every section's
+   solid background transparent on desktop so the video shows through,
+   AND replaces every white card with a frosted-glass treatment so text
+   stays readable over the moving video.
+
+   SCOPED to .home-immersive so other pages (about, services pages,
+   blog, etc.) keep their normal solid-background designs untouched.
+   Wrapped in a min-width media query so mobile (where the immersive
+   background is display:none) keeps its original solid surfaces too.
+
+   This is "aggressive plan" per the design conversation — the user
+   explicitly accepted the readability/visual-rhythm tradeoffs.
+   Frosted-glass cards keep contrast acceptable; the page-wide gradient
+   overlay drawn by ImmersiveVideoBackground adds another layer of
+   darkening. If a specific card becomes unreadable in review, the
+   fix is to bump its background-color alpha in this block.
+
+   Desktop-only via min-width: 769px. The exact pairing of section
+   selectors and their inline-style or class-defined backgrounds is
+   based on a 2026-05-15 audit of the home page's 8 sections —
+   RASection, ResultsSection, StatementSection, InsightsTabsSection,
+   ServicesSection, PartnersSection, TestimonialsSection, CTASection.
+===================================================================== */
+@media (min-width: 769px) {
+  /* Allow the page itself to be transparent so the body background
+     never leaks through. */
+  .home-immersive { background: transparent; }
+
+  /* The hero's solid cyan fallback is no longer needed (page-level
+     video covers it); but keep it for first-paint flash protection.
+     The page-level video sits BEHIND .hero so this stays harmless. */
+  .home-immersive .hero { background: transparent; }
+
+  /* ResultsSection — was background: #FFFFFF in globals.css. Become
+     transparent; numbers/labels get a darkening gradient behind the
+     content row only, so the giant teal stat numbers stay readable. */
+  .home-immersive .results-section {
+    background: transparent;
+  }
+  .home-immersive .results-section::before {
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 30, 40, 0.30) 50%, transparent 100%);
+  }
+  /* The teal stat numbers (#00B5D6) are hard to read over the video.
+     A subtle glow brings them forward without changing the color. */
+  .home-immersive .results-section .results-header h2,
+  .home-immersive .results-section [class*="result"] {
+    text-shadow: 0 2px 8px rgba(0, 30, 40, 0.65);
+  }
+
+  /* StatementSection — was inline background: '#000' AND has its own
+     video at opacity 0.2. Both removed on the home page so the
+     page-level video shows through cleanly. Text is already white
+     and high-contrast against the page-level gradient overlay. */
+  .home-immersive section[class=""]:has(video[src*="specialties-hero"]),
+  .home-immersive .statement-section,
+  .home-immersive section:has(> video[src*="specialties-hero"]) {
+    background: transparent !important;
+  }
+  /* Hide the section-internal video on the home page — we already
+     have one playing at the page level; two competing videos look
+     wrong and double the GPU cost. */
+  .home-immersive video[src*="specialties-hero"],
+  .home-immersive source[src*="specialties-hero"] {
+    display: none !important;
+  }
+
+  /* .section-alt was light grey (used by InsightsTabsSection and
+     TestimonialsSection) — make transparent on the home page. */
+  .home-immersive .section-alt {
+    background: transparent;
+  }
+
+  /* CTASection — was light grey background. The teal .cta-box inside
+     it stays solid teal (we WANT the CTA to pop against the video). */
+  .home-immersive .cta-section {
+    background: transparent;
+  }
+
+  /* Inline-styled white card backgrounds inside InsightsTabsSection,
+     ServicesSection, TestimonialsSection — replaced with frosted glass.
+     Selector strategy: target the most common white-card containers
+     by their structural classes; if a card has its background set
+     inline as 'var(--white)' or '#fff', this rule won't reach it via
+     class selector alone. For those, we rely on attribute selectors
+     for inline styles. */
+  .home-immersive .insights-card,
+  .home-immersive .service-card,
+  .home-immersive .testimonial-card,
+  .home-immersive .case-card,
+  .home-immersive .case-card-content,
+  .home-immersive [style*="background: var(--white)"],
+  .home-immersive [style*="background:var(--white)"],
+  .home-immersive [style*="background: white"],
+  .home-immersive [style*="background:white"],
+  .home-immersive [style*="background: #fff"],
+  .home-immersive [style*="background:#fff"],
+  .home-immersive [style*="background: #FFFFFF"],
+  .home-immersive [style*="background:#FFFFFF"] {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  /* Text inside frosted cards — flip dark-gray copy to white. */
+  .home-immersive .insights-card *,
+  .home-immersive .service-card *,
+  .home-immersive .testimonial-card * {
+    color: #fff;
+  }
+  /* But preserve brand-blue accents and teal CTAs inside cards. */
+  .home-immersive .insights-card [class*="accent"],
+  .home-immersive .service-card [class*="accent"],
+  .home-immersive .testimonial-card [class*="accent"] {
+    color: #68D1E6 !important;
+  }
+
+  /* PartnersSection's bordered separator becomes white-on-glass. */
+  .home-immersive .partners-section,
+  .home-immersive section[style*="borderTop"] {
+    background: transparent !important;
+    border-top-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* Default text color across the home page shifts toward white to
+     stay readable over the dark video overlay. Section labels and
+     descriptions that were grey-700 become near-white. */
+  .home-immersive .section-title,
+  .home-immersive .section-desc,
+  .home-immersive .section-label {
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+  /* But the teal brand accents stay teal. */
+  .home-immersive .accent,
+  .home-immersive [class*="accent"] {
+    color: #68D1E6 !important;
+  }
 }
 
 .hero-bg {

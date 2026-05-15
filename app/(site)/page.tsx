@@ -1,4 +1,5 @@
 import HeroSection from '@/components/sections/HeroSection'
+import ImmersiveVideoBackground from '@/components/sections/ImmersiveVideoBackground'
 import RASection from '@/components/sections/RASection'
 import ResultsSection from '@/components/sections/ResultsSection'
 import StatementSection from '@/components/sections/StatementSection'
@@ -10,7 +11,12 @@ import CTASection from '@/components/sections/CTASection'
 
 export default function Home() {
   return (
-    <main>
+    <main className="home-immersive">
+      {/* Page-wide fixed video background; behind all sections at
+          z-index: -1; desktop-only (display: none on mobile). The
+          loop seam is hidden via a JS-driven crossfade between two
+          stacked <video> elements. See the component for details. */}
+      <ImmersiveVideoBackground />
       <HeroSection />
       <RASection />
       <ResultsSection />
