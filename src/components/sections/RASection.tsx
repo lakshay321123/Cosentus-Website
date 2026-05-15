@@ -4,7 +4,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import AIWorkflowPanel from '@/components/sections/AIWorkflowPanel'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import { AGENTS } from '@/data/voice-agents'
 
@@ -43,185 +42,92 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Two-column × two-row grid. Each row's height is set by the taller
-            cell, and both cells in a row share that height. This is the only
-            way to get true pixel-precise alignment between left and right
-            content without flex-stretch hacks.
-              Row 1, header: 9/15/23 stats spanning both columns
-                              (paragraph moved to IntroVideoSection above)
-              Row 2, body:   left = agent grid 3x3 + Explore Zeus button,
-                              right = AI Workflow Panel */}
-        <div className="ra-main-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gridTemplateRows: 'auto auto',
-          columnGap: 80,
-          rowGap: 32,
-          alignItems: 'start',
-        }}>
+        {/* Single-column stacked layout per user direction:
+              1. Visible H2 heading (left-aligned)
+              2. 9/15/23 stats row (centered, full-width strip)
+              3. 3x3 agent grid (centered on the page)
+              4. Explore Zeus button (centered under the grid)
+            The previous two-column layout (agents left, AIWorkflowPanel
+            right) is gone — workflow panel was removed per user
+            request because it competed with the agent grid for focus.
+            The agent grid is now the centerpiece of the section. */}
+        <div className="ra-stack">
 
-          {/* ROW 1: 9 / 15 / 23 stats span the full width.
-              The narrative paragraph that used to sit in column 1 has
-              been extracted into IntroVideoSection (which lives above
-              this section on the home page). The visually-hidden h2
-              that anchored the section for screen readers moved with
-              the paragraph; this section now provides its own h2
-              below (also visually-hidden) so screen-reader navigation
-              by heading still works.
-              A11y note: this section still needs a semantic heading —
-              "9 AI Voice Agents" describes what's actually on screen
-              now that the paragraph has moved away. */}
-          <div style={{ gridColumn: '1 / span 2', gridRow: 1 }}>
-            <h2
-              style={{
-                position: 'absolute',
-                width: 1,
-                height: 1,
-                padding: 0,
-                margin: -1,
-                overflow: 'hidden',
-                clip: 'rect(0, 0, 0, 0)',
-                whiteSpace: 'nowrap',
-                border: 0,
-              }}
-            >
-              9 AI Voice Agents
+          {/* SECTION HEADING — visible, left-aligned.
+              Replaces the previous visually-hidden h2 that anchored
+              the section for screen readers only. Reference: the
+              cosentus-ai voice.html page uses this same copy
+              ('Click on any agent to start a conversation') as the
+              call-to-action above the grid. */}
+          <RevealOnScroll direction="up" delay={0.1}>
+            <h2 className="ra-heading">
+              Click on any agent to start a conversation
             </h2>
-            <RevealOnScroll direction="up" delay={0.15}>
-              <div className="ra-stats-row" style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 16,
-                maxWidth: 720,
-                margin: '0 auto',
-              }}>
-                {[
-                  { num: '9', label: 'Voice Agents' },
-                  { num: '15', label: 'AI Features' },
-                  { num: '23', label: 'Modules' },
-                ].map(stat => (
-                  <div key={stat.label} style={{ textAlign: 'center' }}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(36px, 4.5vw, 56px)',
-                      fontWeight: 700,
-                      color: '#00B5D6',
-                      lineHeight: 1,
-                      letterSpacing: '-0.02em',
-                      marginBottom: 6,
-                    }}>
-                      {stat.num}
-                    </div>
-                    <div style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: 'var(--gray-700)',
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase',
-                    }}>
-                      {stat.label}
-                    </div>
+          </RevealOnScroll>
+
+          {/* 9 / 15 / 23 STATS — three-column strip, centered. */}
+          <RevealOnScroll direction="up" delay={0.18}>
+            <div className="ra-stats-row">
+              {[
+                { num: '9', label: 'Voice Agents' },
+                { num: '15', label: 'AI Features' },
+                { num: '23', label: 'Modules' },
+              ].map(stat => (
+                <div key={stat.label} className="ra-stat">
+                  <div className="ra-stat-num">{stat.num}</div>
+                  <div className="ra-stat-label">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+
+          {/* 3x3 AGENT GRID — centered.
+              Each agent is a clickable button that opens VoiceCallModal.
+              Circle diameter is 132px on desktop (10% larger than the
+              prior 120px) per user direction. Mobile sizes (96px / 88px)
+              are unchanged because mobile rows are already tight. */}
+          <RevealOnScroll direction="up" delay={0.28}>
+            <div className="ra-agent-grid">
+              {agents.map((agent, i) => (
+                <div
+                  key={agent.name}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Talk to ${agent.name}, ${agent.shortRole}`}
+                  onClick={() => setActiveAgent(agent)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setActiveAgent(agent)
+                    }
+                  }}
+                  className="ra-agent"
+                  style={{
+                    animation: `ra-agent-fadein 0.5s ease-out ${0.35 + i * 0.06}s backwards`,
+                  }}
+                >
+                  <div className="ra-agent-circle">
+                    <img
+                      src={`/images/${agent.img}`}
+                      alt={agent.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
+                    />
                   </div>
-                ))}
-              </div>
-            </RevealOnScroll>
-          </div>
+                  <div className="ra-agent-name">{agent.name}</div>
+                  <div className="ra-agent-role">{agent.shortRole}</div>
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
 
-          {/* ROW 2, BODY LEFT: agent grid 3x3 + Explore Zeus button beneath */}
-          <div style={{ gridColumn: 1, gridRow: 2 }}>
-            <RevealOnScroll direction="left" delay={0.35}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '32px 16px',
-              }} className="ra-agent-grid">
-                {agents.map((agent, i) => (
-                  <div
-                    key={agent.name}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Talk to ${agent.name}, ${agent.shortRole}`}
-                    onClick={() => setActiveAgent(agent)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        setActiveAgent(agent)
-                      }
-                    }}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      transition: 'transform 0.3s ease',
-                      animation: `ra-agent-fadein 0.5s ease-out ${0.4 + i * 0.06}s backwards`,
-                      cursor: 'pointer',
-                      outline: 'none',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
-                  >
-                    <div className="ra-agent-circle" style={{
-                      width: 120,
-                      height: 120,
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      background: '#f5f9fa',
-                      border: '3px solid #00B5D6',
-                      boxShadow: '0 6px 20px rgba(0, 181, 214, 0.18)',
-                      marginBottom: 12,
-                      flexShrink: 0,
-                    }}>
-                      <img
-                        src={`/images/${agent.img}`}
-                        alt={agent.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
-                      />
-                    </div>
-                    {/* Name, bold, matches reference voice.html screenshot */}
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: 'var(--gray-900)',
-                      letterSpacing: '0.01em',
-                      lineHeight: 1.2,
-                    }}>
-                      {agent.name}
-                    </div>
-                    {/* Role, medium weight, lighter than name, matches reference */}
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: 'var(--gray-700)',
-                      marginTop: 4,
-                      lineHeight: 1.3,
-                      letterSpacing: '0.01em',
-                    }}>
-                      {agent.shortRole}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </RevealOnScroll>
-
-            {/* Explore Zeus button, sits directly under the 3x3 agent grid */}
-            <RevealOnScroll direction="left" delay={0.45}>
-              <div style={{ marginTop: 32 }}>
-                <Link href="/cosentus-ai" className="btn-primary">
-                  Explore Zeus
-                </Link>
-              </div>
-            </RevealOnScroll>
-          </div>
-
-          {/* ROW 2, BODY RIGHT: AI Workflow Panel (top-aligned with agent grid top) */}
-          <div style={{ gridColumn: 2, gridRow: 2 }}>
-            <RevealOnScroll direction="right" delay={0.3}>
-              <AIWorkflowPanel />
-            </RevealOnScroll>
-          </div>
+          {/* EXPLORE ZEUS — centered under the agent grid. */}
+          <RevealOnScroll direction="up" delay={0.4}>
+            <div className="ra-cta">
+              <Link href="/cosentus-ai" className="btn-primary">
+                Explore Zeus
+              </Link>
+            </div>
+          </RevealOnScroll>
 
         </div>
       </div>
@@ -230,15 +136,137 @@ export default function RASection() {
         .ra-scanline {
           animation: ra-scanline-move 6s ease-in-out infinite;
         }
-        /* Mobile: ra-main-grid collapses to 1 column. The inline gridColumn:1/2
-           and gridRow:1/2/3 on each cell would still try to use 2 columns.
-           Reset them so cells flow naturally in source order. */
-        @media (max-width: 768px) {
-          .ra-main-grid > div {
-            grid-column: 1 !important;
-            grid-row: auto !important;
-          }
+
+        /* ===== Stacked layout =====
+           Replaces the old two-column ra-main-grid. The container
+           uses a single flex column so we can give each block its
+           own width + alignment without fighting grid placement. */
+        .ra-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 48px;
         }
+
+        /* ===== Section heading =====
+           Left-aligned per user direction. Scales down on mobile so
+           the long sentence doesn't overflow a 360px viewport. */
+        .ra-heading {
+          font-family: var(--font-display);
+          font-size: clamp(28px, 3.6vw, 44px);
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+          color: var(--gray-900);
+          margin: 0;
+          text-align: left;
+        }
+
+        /* ===== 9 / 15 / 23 stats row =====
+           Centered three-column strip. max-width keeps the row from
+           sprawling on wide screens. */
+        .ra-stats-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+          max-width: 720px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .ra-stat {
+          text-align: center;
+        }
+        .ra-stat-num {
+          font-family: var(--font-display);
+          font-size: clamp(36px, 4.5vw, 56px);
+          font-weight: 700;
+          color: #00B5D6;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          margin-bottom: 6px;
+        }
+        .ra-stat-label {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--gray-700);
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+
+        /* ===== Agent grid =====
+           3 columns at all viewports per user reference (the standalone
+           voice.html page is 3x3 across all sizes). max-width centers
+           the grid in the section. */
+        .ra-agent-grid {
+          display: grid;
+          grid-template-columns: repeat(3, auto);
+          justify-content: center;
+          gap: 36px 56px;
+          max-width: 900px;
+          margin: 0 auto;
+          width: 100%;
+        }
+
+        /* Individual agent button (the clickable cell). */
+        .ra-agent {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          transition: transform 0.3s ease;
+          cursor: pointer;
+          outline: none;
+        }
+        .ra-agent:hover {
+          transform: translateY(-4px);
+        }
+        .ra-agent:focus-visible {
+          outline: 2px solid #00B5D6;
+          outline-offset: 6px;
+          border-radius: 50%;
+        }
+
+        /* Circle photo container.
+           Default (desktop) size = 132px, which is exactly 10% larger
+           than the previous 120px per user direction. The tablet
+           (<1100px) and mobile (<700px, <420px) overrides further down
+           shrink to fit narrower viewports. */
+        .ra-agent-circle {
+          width: 132px;
+          height: 132px;
+          border-radius: 50%;
+          overflow: hidden;
+          background: #f5f9fa;
+          border: 3px solid #00B5D6;
+          box-shadow: 0 6px 20px rgba(0, 181, 214, 0.18);
+          margin-bottom: 14px;
+          flex-shrink: 0;
+        }
+
+        .ra-agent-name {
+          font-family: var(--font-display);
+          font-size: 19px;
+          font-weight: 700;
+          color: var(--gray-900);
+          letter-spacing: 0.01em;
+          line-height: 1.2;
+        }
+        .ra-agent-role {
+          font-family: var(--font-display);
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--gray-700);
+          margin-top: 4px;
+          line-height: 1.3;
+          letter-spacing: 0.01em;
+        }
+
+        /* ===== CTA row =====
+           Center the Explore Zeus button below the grid. */
+        .ra-cta {
+          display: flex;
+          justify-content: center;
+          margin-top: 8px;
+        }
+
         @keyframes ra-scanline-move {
           0%, 100% { transform: translateY(0); opacity: 0; }
           10% { opacity: 1; }
@@ -249,22 +277,32 @@ export default function RASection() {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Tablet: shrink circles + grid gap so 3 cols still fit. */
         @media (max-width: 1100px) {
-          .ra-agent-circle { width: 100px !important; height: 100px !important; }
+          .ra-agent-circle { width: 110px; height: 110px; }
+          .ra-agent-grid { gap: 28px 36px; }
         }
+        /* Phones: tighter gap, smaller circles, keep 3 columns to
+           match the standalone voice.html reference. */
         @media (max-width: 700px) {
-          .ra-agent-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 18px 10px !important;
+          .ra-stack { gap: 36px; }
+          .ra-heading {
+            text-align: left;
           }
-          .ra-agent-circle { width: 96px !important; height: 96px !important; }
+          .ra-agent-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px 10px;
+          }
+          .ra-agent-circle { width: 96px; height: 96px; }
+          .ra-agent-name { font-size: 16px; }
+          .ra-agent-role { font-size: 12.5px; }
         }
         @media (max-width: 420px) {
           .ra-agent-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 16px 8px !important;
+            gap: 18px 8px;
           }
-          .ra-agent-circle { width: 88px !important; height: 88px !important; }
+          .ra-agent-circle { width: 88px; height: 88px; }
         }
         @media (prefers-reduced-motion: reduce) {
           .ra-scanline { display: none; }
