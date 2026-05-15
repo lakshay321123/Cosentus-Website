@@ -32,9 +32,9 @@ const footerNav = [
     ],
   },
   {
-    title: 'Insights',
+    title: 'Resources',
     links: [
-      { label: 'All Insights', href: '/insights' },
+      { label: 'All Resources', href: '/insights' },
       { label: 'Blog', href: '/blog' },
       { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },
@@ -79,15 +79,24 @@ export default function Footer() {
 
           {/* Accolades strip sits directly under the brand row so the whole
               top block (GPTW + Cosentus brand + accolades) reads as one unit,
-              before the nav columns. mix-blend-mode: screen drops the JPEG's
-              black background out against the teal footer. */}
+              before the nav columns. The source `/all-accolades-single.png`
+              is actually a JPEG with a black background, so neither
+              `mix-blend-mode: screen` (works only over a solid backdrop, not
+              the frosted footer/video on home) nor `filter: brightness(0)
+              invert(1)` (turns the entire image into a white rectangle
+              because JPEG has no transparency) gave a clean result.
+              Instead we serve `/all-accolades-white-transparent.png` — a
+              generated PNG with alpha, white pixels for the badge content
+              and transparent everywhere else. This renders correctly on
+              any backdrop (frosted home footer, solid teal everywhere
+              else). */}
           <div className="footer-accolades-strip">
             <Image
-              src="/all-accolades-single.png"
+              src="/all-accolades-white-transparent.png"
               alt="Cosentus Accolades, 25 Years of Excellence, AICPA SOC 2, Inc. 5000, HIPAA Seal of Compliance, HIPAA Verified, HBMA Member 2024"
               width={1687}
               height={259}
-              style={{ mixBlendMode: 'screen', width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
+              style={{ width: '100%', maxWidth: 880, height: 'auto', display: 'block', margin: '0 auto' }}
             />
           </div>
 

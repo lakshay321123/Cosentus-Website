@@ -20,19 +20,36 @@ const partners = [
 
 function PartnerLogo({ p }: { p: typeof partners[0] }) {
   return (
-    <div style={{ opacity: 0.55, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 120, height: 50 }} className="partner-logo">
-      <Image src={p.src} alt={p.name} width={p.width} height={p.height} style={{ objectFit: 'contain', maxHeight: 50, width: 'auto', maxWidth: 110 }} />
+    <div style={{ opacity: 0.85, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 120, height: 50 }} className="partner-logo">
+      <Image
+        src={p.src}
+        alt={p.name}
+        width={p.width}
+        height={p.height}
+        style={{
+          objectFit: 'contain',
+          maxHeight: 50,
+          width: 'auto',
+          maxWidth: 110,
+          // brightness(0) collapses every color to black, invert(1) flips
+          // black to white -> every logo renders as a pure-white silhouette.
+          // Tradeoff: any internal multi-color detail (gradients, brand
+          // colors) is flattened. Acceptable because this section is a
+          // "wall of recognition" marquee, not for close inspection.
+          filter: 'brightness(0) invert(1)',
+        }}
+      />
     </div>
   )
 }
 
 export default function PartnersSection() {
   return (
-    <section style={{ padding: '48px 0', borderTop: '1px solid var(--gray-200)' }}>
+    <section style={{ padding: '48px 0', borderTop: '1px solid rgba(255, 255, 255, 0.12)' }}>
       <div className="container">
         <RevealOnScroll>
           <div style={{ textAlign: 'left', marginBottom: 40 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>Our Network</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'rgba(255, 255, 255, 0.95)' }}>Our Network</div>
           </div>
         </RevealOnScroll>
 
