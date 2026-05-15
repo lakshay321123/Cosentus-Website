@@ -1,6 +1,5 @@
-import HeroSection from '@/components/sections/HeroSection'
 import ImmersiveVideoBackground from '@/components/sections/ImmersiveVideoBackground'
-import IntroVideoSection from '@/components/sections/IntroVideoSection'
+import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
 import RASection from '@/components/sections/RASection'
 import SpecialtiesSection from '@/components/sections/SpecialtiesSection'
 import ResultsSection from '@/components/sections/ResultsSection'
@@ -19,22 +18,20 @@ export default function Home() {
           <video> elements. See the component for details. */}
       <ImmersiveVideoBackground />
 
-      {/* Page narrative flow (final spec):
-            1. Hero  — H1 only, immersive video behind
-            2. Intro paragraph + workflow infographic video placeholder
-            3. AI agents (9 voice agents + stats + workflow panel) =
-               RASection. R+A naming kept on the component file for
-               history; the section now reads as "AI Agents" since
-               the R+A narrative paragraph moved to IntroVideoSection.
-            4. Specialties — dedicated 6-card grid, replaces former
-               hero pills
-            5. Results (numbers with up arrows)
-            6. Resources (case studies / blog / news / events tabs)
-            7. Our Network (partner logos)
-            8. What Our Clients Say (testimonials)
-            9. CTA  */}
-      <HeroSection />
-      <IntroVideoSection />
+      {/* Page narrative flow (current spec):
+            1. ScrollHeroSection — scroll-expand DNA video hero;
+               replaces previous HeroSection + IntroVideoSection.
+               IMPORTANT: this component hijacks page scroll until
+               the media is fully expanded, so it MUST stay at the
+               top of the page. Do not insert anything above it.
+            2. AI agents (9 voice agents + stats) = RASection
+            3. Specialties — dedicated 6-card grid
+            4. Results (numbers with up arrows)
+            5. Resources (case studies / blog / news / events tabs)
+            6. Our Network (partner logos)
+            7. What Our Clients Say (testimonials)
+            8. CTA  */}
+      <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
       <ResultsSection />
