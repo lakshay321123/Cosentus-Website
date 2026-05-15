@@ -26,11 +26,13 @@ import { useEffect, useRef, useState } from 'react'
  * during the 1s crossfade); we accept this because it's far less
  * jarring than a hard cut.
  *
- * Desktop: rotated 90° clockwise (light flows top→bottom). The CSS
- * lives at the bottom of this file; same math as the rotation PR
- * (#132). Mobile: rotation disabled because the mobile source is
- * already portrait — extending it full-page would require fixed
- * positioning, which has known repaint bugs on iOS Safari, so on
+ * Desktop: rotated 90° counter-clockwise (light flows bottom→top —
+ * the "upside down" mirror of the top→bottom variant in the parallel
+ * PR). The CSS lives at the bottom of this file; same dimension-swap
+ * math, with rotate(-90deg) + translateY(100vh) instead of rotate(90deg)
+ * + translateX(100vw). Mobile: rotation disabled because the mobile
+ * source is already portrait — extending it full-page would require
+ * fixed positioning, which has known repaint bugs on iOS Safari, so on
  * mobile we render at position: absolute inside the hero only via
  * the existing HeroSection — this component renders NOTHING below
  * 768px (mobile keeps the old hero-bound video). That decision is
@@ -141,10 +143,13 @@ export default function ImmersiveVideoBackground() {
         /* ===== IMMERSIVE VIDEO BACKGROUND =====
            Fixed-position, viewport-filling, sits behind every section
            of the home page (z-index: -1). Rotation/dimension-swap
-           math is the same as the hero rotation PR (#132); see that
-           PR for the derivation. Briefly: layout the element at
-           swapped dimensions (100vh × 100vw), rotate 90° CW around
-           top-left, translateX(100vw) to bring it back into view.
+           math is the same shape as the parallel top→bottom PR but
+           the direction is flipped: this is the bottom→top variant.
+           Briefly: layout the element at swapped dimensions
+           (100vh × 100vw), rotate 90° CCW around top-left,
+           translateY(100vh) to bring the rotated box back down into
+           the viewport (after CCW rotation around (0,0) the box sits
+           ABOVE the viewport at y in [-100vh, 0]).
 
            Desktop only. Below 768px the whole component is display:
            none — the page falls back to whatever background the
@@ -167,7 +172,7 @@ export default function ImmersiveVideoBackground() {
           height: 100vw;
           object-fit: cover;
           transform-origin: top left;
-          transform: translateX(100vw) rotate(90deg);
+          transform: translateY(100vh) rotate(-90deg);
           transition: opacity 1s ease-in-out;
         }
         /* The "primary" video is fully opaque; the secondary is

@@ -87,20 +87,22 @@ export default function HeroSection() {
       <style>{`
         /* ===== HERO VIDEO ROTATION =====
            Desktop source is 1920x1080 (landscape). Rotating it 90°
-           clockwise makes the light streams (which originally flowed
-           left→right) flow top→bottom.
+           counter-clockwise makes the light streams (which originally
+           flowed left→right) flow bottom→top — the "upside down"
+           mirror of the top→bottom variant in the parallel PR.
 
            The element is laid out with SWAPPED dimensions
            (width: 100vh; height: 100vw) — i.e. a portrait-shaped box
-           sized to the viewport — then rotated 90° CW around its
-           top-left corner. After rotation the box would sit to the
-           LEFT of the viewport (x in [-100vw, 0]); translateX(100vw),
-           applied AFTER rotate in CSS transform-string order (rightmost
-           applies first), shifts it back so the rotated frame fills
-           exactly the viewport rectangle. object-fit: cover works on
-           the pre-rotation 100vh-by-100vw box, which matches the
-           rotated frame's portrait orientation, so light streams
-           render at native resolution.
+           sized to the viewport — then rotated 90° CCW around its
+           top-left corner. After rotation the box would sit ABOVE
+           the viewport (y in [-100vh, 0]); translateY(100vh),
+           applied AFTER rotate in CSS transform-string order
+           (rightmost applies first, leftmost last), shifts it back
+           down so the rotated frame fills exactly the viewport
+           rectangle. object-fit: cover works on the pre-rotation
+           100vh-by-100vw box, which matches the rotated frame's
+           portrait orientation, so light streams render at native
+           resolution.
 
            Done in CSS (not inline JS) so the layout is correct at
            initial paint with no SSR/hydration mismatch.
@@ -113,7 +115,7 @@ export default function HeroSection() {
 
            Mobile (<=768px) — source is 360x640 (already portrait),
            so rotating would make light flow SIDEWAYS instead of
-           top→bottom. Plain inset:0 / 100% / 100% layout. This is
+           bottom→top. Plain inset:0 / 100% / 100% layout. This is
            the ONLY video on mobile (ImmersiveVideoBackground is
            display: none below 768px because fixed-position video
            has known repaint bugs on iOS Safari and the perf cost
