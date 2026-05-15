@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 const specialties = [
   { label: 'Anesthesia', href: '/specialties/anesthesia' },
@@ -13,38 +12,23 @@ const specialties = [
 ]
 
 export default function HeroSection() {
-  // SSR/initial render uses desktop video; client useEffect swaps to the
-  // 9:16 mobile cut (~1.9MB) on phones. <source media> alone proved
-  // unreliable in some browsers + Next hydration paths — JS swap is the
-  // foolproof path. `key` forces a remount so the browser refetches.
-  const [videoSrc, setVideoSrc] = useState('/images/hero-video.mp4')
-  // Mount-mobile-only flag. On desktop the immersive page-level video
-  // renders this hero video as display:none in CSS, but that DOES NOT
-  // stop the browser from downloading + decoding + autoplay-ing the
-  // hidden source (verified). Track isMobile so the JSX can skip
-  // rendering the <video> entirely on desktop and save the bandwidth
-  // + decode budget.
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)')
-    const apply = () => {
-      const mobile = mq.matches
-      setIsMobile(mobile)
-      setVideoSrc(mobile ? '/images/hero-video-mobile.mp4' : '/images/hero-video.mp4')
-    }
-    apply()
-    mq.addEventListener('change', apply)
-    return () => mq.removeEventListener('change', apply)
-  }, [])
+  // Hero no longer renders its own <video>. ImmersiveVideoBackground
+  // now serves the page-level video for both desktop AND mobile
+  // (mobile uses /images/hero-video-mobile.mp4 at native portrait
+  // orientation). Removing the local video also fixes the
+  // hidden-but-still-decoding issue flagged in coderabbit review of
+  // PR #135.
+  //
+  // The .hero-overlay gradient div below was previously hidden on
+  // desktop because ImmersiveVideoBackground draws its own page-wide
+  // gradient overlay. Mobile used to keep this overlay because the
+  // hero video lived inside the hero element. Now that the immersive
+  // video covers mobile too, the overlay is redundant everywhere —
+  // the CSS at the bottom of this file hides it universally.
 
   return (
     <section className="hero">
       <div className="hero-bg">
-        {isMobile && (
-          <video key={videoSrc} autoPlay loop muted playsInline className="hero-video">
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        )}
         <div className="hero-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
       </div>
 
@@ -98,71 +82,11 @@ export default function HeroSection() {
       </div>
 
       <style>{`
-        /* ===== HERO VIDEO ROTATION =====
-           Desktop source is 1920x1080 (landscape). Rotating it 90°
-           clockwise makes the light streams (which originally flowed
-           left→right) flow top→bottom.
-
-           The element is laid out with SWAPPED dimensions
-           (width: 100vh; height: 100vw) — i.e. a portrait-shaped box
-           sized to the viewport — then rotated 90° CW around its
-           top-left corner. After rotation the box would sit to the
-           LEFT of the viewport (x in [-100vw, 0]); translateX(100vw),
-           applied AFTER rotate in CSS transform-string order (rightmost
-           applies first), shifts it back so the rotated frame fills
-           exactly the viewport rectangle. object-fit: cover works on
-           the pre-rotation 100vh-by-100vw box, which matches the
-           rotated frame's portrait orientation, so light streams
-           render at native resolution.
-
-           Done in CSS (not inline JS) so the layout is correct at
-           initial paint with no SSR/hydration mismatch.
-
-           Desktop (>=769px): HIDDEN. The page-level
-           ImmersiveVideoBackground component renders the (rotated,
-           crossfading) video fixed behind every section, so the
-           hero's own copy is redundant and would just waste GPU
-           on decoding the same frames twice.
-
-           Mobile (<=768px) — source is 360x640 (already portrait),
-           so rotating would make light flow SIDEWAYS instead of
-           top→bottom. Plain inset:0 / 100% / 100% layout. This is
-           the ONLY video on mobile (ImmersiveVideoBackground is
-           display: none below 768px because fixed-position video
-           has known repaint bugs on iOS Safari and the perf cost
-           is unacceptable on small devices). */
-        .hero-video {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .hero-video {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: none;
-            transform-origin: initial;
-            z-index: 0;
-          }
-        }
-
-        /* The hero's own gradient overlay is also desktop-redundant
-           because ImmersiveVideoBackground draws a page-wide overlay.
-           Hide it on desktop; keep on mobile. Uses the named
-           .hero-overlay class on the gradient div rather than a
-           fragile :last-child selector. */
+        /* The hero's own gradient overlay is now redundant on every
+           viewport because ImmersiveVideoBackground draws a page-wide
+           overlay. Hidden everywhere. */
         .hero-overlay {
           display: none;
-        }
-        @media (max-width: 768px) {
-          .hero-overlay {
-            display: block;
-          }
         }
 
         @media (max-width: 768px) {

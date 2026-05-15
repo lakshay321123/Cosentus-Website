@@ -11,9 +11,10 @@ export default function Home() {
   return (
     <main className="home-immersive">
       {/* Page-wide fixed video background; behind all sections at
-          z-index: -1; desktop-only (display: none on mobile). The
-          loop seam is hidden via a JS-driven crossfade between two
-          stacked <video> elements. See the component for details. */}
+          z-index: -1. Renders on BOTH desktop and mobile (mobile uses
+          a portrait 9:16 cut of the same content, ~1.9MB). The loop
+          seam is hidden via a JS-driven crossfade between two stacked
+          <video> elements. See the component for details. */}
       <ImmersiveVideoBackground />
       <HeroSection />
       <RASection />
