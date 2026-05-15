@@ -148,12 +148,14 @@ export default function RASection() {
         }
 
         /* ===== Section heading =====
-           Left-aligned per user direction. Scales down on mobile so
-           the long sentence doesn't overflow a 360px viewport. */
+           Matches the canonical .section-title style used across
+           the site (clamp 32-48px, light weight 300). Left-aligned
+           per user direction. */
         .ra-heading {
           font-family: var(--font-display);
-          font-size: clamp(28px, 3.6vw, 44px);
-          line-height: 1.15;
+          font-size: clamp(32px, 4vw, 48px);
+          font-weight: 300;
+          line-height: 1.1;
           letter-spacing: -0.02em;
           color: var(--gray-900);
           margin: 0;
@@ -245,7 +247,12 @@ export default function RASection() {
           font-family: var(--font-display);
           font-size: 19px;
           font-weight: 700;
-          color: var(--gray-900);
+          /* White text on the dark immersive page background. The
+             home-immersive white-text override in globals.css uses
+             attribute selectors that only match inline styles, so
+             classes like this don't get auto-converted. Set the
+             color directly here. */
+          color: rgba(255, 255, 255, 0.95);
           letter-spacing: 0.01em;
           line-height: 1.2;
         }
@@ -253,7 +260,7 @@ export default function RASection() {
           font-family: var(--font-display);
           font-size: 14px;
           font-weight: 500;
-          color: var(--gray-700);
+          color: rgba(255, 255, 255, 0.75);
           margin-top: 4px;
           line-height: 1.3;
           letter-spacing: 0.01em;

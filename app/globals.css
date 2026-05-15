@@ -341,9 +341,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 /* Home-only: left-align the "Results Our Clients See" heading per
    user direction. Scoped to .home-immersive so other pages that use
-   ResultsSection (e.g. /services) keep the centered layout. */
+   ResultsSection (e.g. /services) keep the centered layout.
+   The Results section uses .container-wide (1440px) for the 6-arrow
+   grid; constraining the .results-header to .container width (1280px)
+   makes the heading's LEFT edge line up with other home section
+   headings (RASection, Specialties) which use .container. */
 .home-immersive .results-section .results-header {
   text-align: left;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Match the canonical section heading size used elsewhere on the
+   home page (Specialties, RASection) so all home headings feel like
+   the same family. The base .results-header h2 rule (clamp 28-40px)
+   stays untouched so /services and other pages don't change. Color
+   stays teal because that's how Results renders across every page —
+   user said "see from other pages" and the teal heading IS the
+   canonical Results style. */
+.home-immersive .results-section .results-header h2 {
+  font-size: clamp(32px, 4vw, 48px);
 }
 /* The teal stat numbers (#00B5D6) are hard to read over the video.
    A subtle glow brings them forward without changing the color. */

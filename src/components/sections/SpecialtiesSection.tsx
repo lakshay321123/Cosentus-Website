@@ -137,6 +137,7 @@ export default function SpecialtiesSection() {
         .specialties-title {
           font-family: var(--font-display);
           font-size: clamp(32px, 4vw, 48px);
+          font-weight: 300;
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin: 0 0 16px;
