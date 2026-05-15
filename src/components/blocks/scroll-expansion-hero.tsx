@@ -3,34 +3,33 @@
 /**
  * ScrollExpandMedia
  *
- * Adapted from a 21st.dev scroll-driven hero component. The original
- * version hijacked page scroll (window.scrollTo(0,0) + wheel/touch
- * preventDefault) until the media was fully expanded — which forced
- * it to live as the FIRST section on the page or it would lock
- * users at scroll 0 forever.
+ * Adapted from the 21st.dev scroll-driven hero. The expand animation
+ * uses the original component's scroll-hijack mechanic (wheel/touch
+ * preventDefault + scrollY lock) but gated on the section being IN
+ * VIEWPORT. So:
+ *   - Section not yet reached: user scrolls normally
+ *   - Section reaches top of viewport: page FREEZES at that scroll
+ *     position. Further wheel/touch input drives scrollProgress 0..1
+ *     which expands the media. Page is not actually scrolling — it's
+ *     locked.
+ *   - Media fully expanded (progress = 1): lock releases. User
+ *     scrolls normally to the next section.
+ *   - User scrolls back up before fully expanded: progress can
+ *     decrease back toward 0; if they reverse past the section top,
+ *     lock releases and they can scroll normally.
+ *   - User scrolls back UP through this section after full expansion:
+ *     no re-lock. The animation stays at fully expanded.
  *
- * Per user direction (option C), the hijack is gone. The expand
- * animation is now driven by the section's OWN scroll position via
- * framer-motion's useScroll hook with an offset range. Users scroll
- * the page normally; as this section passes through the viewport,
- * scrollYProgress rises from 0 to 1 and the media grows. After full
- * expansion the user keeps scrolling normally into the next section.
- *
- * The dependent calculations (mediaWidth, mediaHeight, textTranslateX,
- * overlay opacity, etc.) still use a plain numeric `scrollProgress`
- * state (0..1) that mirrors scrollYProgress. This keeps all the
- * inline-style math from the original component unchanged.
- *
- * Also: bgImageSrc is now optional. Omit it and no background image
- * is rendered behind the media — lets the page-level
- * ImmersiveVideoBackground show through cleanly.
+ * This is the user's option B from the design conversation: keep the
+ * hijack effect but only when the section actually owns the viewport.
+ * Per user direction the page-level ImmersiveVideoBackground shows
+ * through where this component is transparent (no bgImageSrc passed).
  *
  * Props:
  *   mediaType       'video' | 'image'  (default 'video')
  *   mediaSrc        URL of the video file or image
  *   posterSrc       (optional) poster image for video
- *   bgImageSrc      (optional) Background image, fades out as media
- *                   expands. Omit to render no background.
+ *   bgImageSrc      (optional) Background image. Omit to render none.
  *   title           Title text — splits at first space into two
  *                   sibling H2 lines that animate apart
  *   date            (optional) eyebrow text above title
@@ -46,7 +45,7 @@ import {
   ReactNode,
 } from 'react';
 import Image from 'next/image';
-import { motion, useScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
@@ -71,53 +70,144 @@ const ScrollExpandMedia = ({
   textBlend,
   children,
 }: ScrollExpandMediaProps) => {
-  // Plain numeric scroll progress (0..1) used by all downstream
-  // inline-style math (mediaWidth, mediaHeight, textTranslateX,
-  // overlay opacity). Mirrors framer-motion's scrollYProgress so
-  // we don't have to rewrite the math to operate on MotionValues.
+  // Plain numeric scroll progress (0..1) driving all inline-style
+  // math from the original spec (mediaWidth, mediaHeight, etc.).
+  // This is the only piece of state that needs to trigger re-renders
+  // (so the inline width/height styles update). Everything else is
+  // tracked in refs to avoid stale closures in the event handlers.
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  // Whether to fade in the children block below the media. True once
-  // the section is mostly through its scroll range (>=0.75). Once
-  // set true it stays true — no flicker if the user scrolls back.
+  // Whether to fade in the children block alongside the media.
+  // Set true once progress >= 0.75 and stays true thereafter.
   const [showContent, setShowContent] = useState<boolean>(false);
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  // Latest progress kept in a ref so the wheel/touch handler can
+  // read it without re-binding listeners on every change.
+  const progressRef = useRef<number>(0);
+  // Once true, handlers no-op (hijack released). Once set, stays set.
+  const expandedRef = useRef<boolean>(false);
+  // Touch tracking ref so we don't re-attach listeners mid-gesture.
+  const touchYRef = useRef<number>(0);
 
-  // Map scroll position to a 0..1 progress value.
-  //
-  // The section is 200vh tall (set via .scroll-expand-section CSS
-  // below). Inside it, a 100vh sticky container holds the centered
-  // media. This is a classic scroll-pin pattern: media stays
-  // centered in viewport while user scrolls through the section.
-  //
-  // Offset interpretation with target=200vh section:
-  //   'start end'   — section's TOP just touched viewport's BOTTOM
-  //                   (section starting to enter, media at smallest)
-  //   'center start' — section's CENTER (=100vh down) aligned with
-  //                   viewport's TOP. Media should be fully expanded
-  //                   by this point. The remaining 100vh of section
-  //                   gives the user a "rest period" with the media
-  //                   pinned and fully expanded before they scroll
-  //                   it away.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'center start'],
-  });
+  // Helper: is the section currently "owning" the viewport?
+  // Definition: section's top has reached or passed the viewport's
+  // top (bounding rect top <= 0), AND its bottom hasn't yet passed
+  // the viewport top (bounding rect bottom > 0). When true, the
+  // section is occupying the screen and we should hijack scroll.
+  const isSectionOwningViewport = (): boolean => {
+    const el = sectionRef.current;
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.top <= 0 && rect.bottom > 0;
+  };
 
   useEffect(() => {
-    // Subscribe to scrollYProgress changes and copy them into local
-    // state. Keeping a plain number (not a MotionValue) lets the
-    // rest of the component use vanilla inline-style math from the
-    // original spec without rewriting it for motion values.
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      setScrollProgress(latest);
-      if (latest >= 0.75) {
+    const handleWheel = (e: WheelEvent) => {
+      // Hijack only when section owns the viewport AND we're not
+      // fully expanded yet. Anywhere else: let normal scroll happen.
+      if (!isSectionOwningViewport()) return;
+      if (expandedRef.current) return;
+
+      // If user is scrolling UP and we're already at progress 0,
+      // let them scroll out the top of the section. Otherwise
+      // they'd be trapped.
+      if (e.deltaY < 0 && progressRef.current <= 0) return;
+
+      e.preventDefault();
+
+      const scrollDelta = e.deltaY * 0.0009;
+      const newProgress = Math.min(
+        Math.max(progressRef.current + scrollDelta, 0),
+        1
+      );
+      progressRef.current = newProgress;
+      setScrollProgress(newProgress);
+
+      if (newProgress >= 1) {
+        expandedRef.current = true;
+  
+        setShowContent(true);
+      } else if (newProgress >= 0.75) {
         setShowContent(true);
       }
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchYRef.current = e.touches[0].clientY;
+
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isSectionOwningViewport()) return;
+      if (expandedRef.current) return;
+      if (!touchYRef.current) return;
+
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchYRef.current - touchY;
+
+      // Allow scroll up out of section when progress is at 0.
+      // deltaY < 0 means finger moved DOWN (scroll up gesture).
+      if (deltaY < 0 && progressRef.current <= 0) return;
+
+      e.preventDefault();
+
+      const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
+      const scrollDelta = deltaY * scrollFactor;
+      const newProgress = Math.min(
+        Math.max(progressRef.current + scrollDelta, 0),
+        1
+      );
+      progressRef.current = newProgress;
+      setScrollProgress(newProgress);
+
+      if (newProgress >= 1) {
+        expandedRef.current = true;
+  
+        setShowContent(true);
+      } else if (newProgress >= 0.75) {
+        setShowContent(true);
+      }
+
+      touchYRef.current = touchY;
+    };
+
+    const handleTouchEnd = (): void => {
+      touchYRef.current = 0;
+
+    };
+
+    // Lock scroll position while the section owns the viewport and
+    // expansion isn't done. Without this, momentum scroll on
+    // trackpads can drift past preventDefault'd wheel events.
+    const handleScroll = (): void => {
+      if (!isSectionOwningViewport()) return;
+      if (expandedRef.current) return;
+      const el = sectionRef.current;
+      if (!el) return;
+      const sectionTop = el.getBoundingClientRect().top + window.scrollY;
+      // Pin scroll to the position where section top meets viewport top.
+      if (Math.abs(window.scrollY - sectionTop) > 1) {
+        window.scrollTo(0, sectionTop);
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+    // Empty deps: handlers read state via refs to avoid re-binding.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -142,7 +232,6 @@ const ScrollExpandMedia = ({
       ref={sectionRef}
       className='scroll-expand-section overflow-x-hidden'
     >
-      <div className='scroll-expand-sticky'>
         {/* Background image overlay (optional). Only renders when
             bgImageSrc is supplied. The page-level
             ImmersiveVideoBackground sits behind us, so omitting this
@@ -320,21 +409,15 @@ const ScrollExpandMedia = ({
             </motion.section>
           )}
         </div>
-      </div>
 
-      {/* Section sizing + sticky pinning. .scroll-expand-section is
-          200vh tall so that one viewport-height of scroll drives the
-          expand animation, and a second viewport-height of scroll
-          provides a "rest period" with the media fully expanded
-          before the section moves out of view. */}
+      {/* Section sizing. While the hijack is active (section owns
+          the viewport and media is not fully expanded), the scroll
+          handler pins window.scrollY to section-top. After full
+          expansion the section behaves like any other 100vh section
+          and the user scrolls past it normally. */}
       <style>{`
         .scroll-expand-section {
           position: relative;
-          height: 200vh;
-        }
-        .scroll-expand-sticky {
-          position: sticky;
-          top: 0;
           height: 100vh;
           width: 100%;
           overflow: hidden;
