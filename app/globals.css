@@ -496,9 +496,38 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
      page. The footer rule uses :has() to detect the home <main> so
      the footer (which lives outside <main>) only frosts on the home
      page; every other route keeps its solid teal footer.
+
+     IMPORTANT: the footer rule lives in its OWN selector list, not
+     merged with the testimonial/cta rule. CSS treats a comma-separated
+     selector list as one rule -- if any selector in the list is
+     unsupported (e.g. :has() in a Safari <15.4 / Firefox <121),
+     the whole rule is invalidated and dropped. Splitting them
+     preserves the testimonial/cta frosting even on older browsers
+     where only the footer fallback degrades to solid teal.
   ===================================================================== */
   .home-immersive .testimonial-card,
-  .home-immersive .cta-box,
+  .home-immersive .cta-box {
+    position: relative !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    background-image: none !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+      inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
+      inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
+      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+      inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+      0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+    color: #fff !important;
+  }
+  /* Separate rule for the footer so :has() failure in old browsers
+     doesn't take the testimonial+cta rule down with it. */
   body:has(main.home-immersive) .footer {
     position: relative !important;
     background-color: rgba(255, 255, 255, 0.06) !important;
@@ -608,9 +637,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     color: #fff !important;
   }
 
-  /* PartnersSection's bordered separator becomes white-on-glass. */
+  /* PartnersSection's bordered separator becomes white-on-glass.
+     The attribute selector must match the kebab-case DOM
+     serialization: React converts style={{ borderTop }} to
+     border-top in the rendered style attribute. */
   .home-immersive .partners-section,
-  .home-immersive section[style*="borderTop"] {
+  .home-immersive section[style*="border-top"] {
     background: transparent !important;
     border-top-color: rgba(255, 255, 255, 0.12) !important;
   }

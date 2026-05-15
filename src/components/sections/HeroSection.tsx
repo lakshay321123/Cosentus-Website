@@ -18,9 +18,20 @@ export default function HeroSection() {
   // unreliable in some browsers + Next hydration paths — JS swap is the
   // foolproof path. `key` forces a remount so the browser refetches.
   const [videoSrc, setVideoSrc] = useState('/images/hero-video.mp4')
+  // Mount-mobile-only flag. On desktop the immersive page-level video
+  // renders this hero video as display:none in CSS, but that DOES NOT
+  // stop the browser from downloading + decoding + autoplay-ing the
+  // hidden source (verified). Track isMobile so the JSX can skip
+  // rendering the <video> entirely on desktop and save the bandwidth
+  // + decode budget.
+  const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)')
-    const apply = () => setVideoSrc(mq.matches ? '/images/hero-video-mobile.mp4' : '/images/hero-video.mp4')
+    const apply = () => {
+      const mobile = mq.matches
+      setIsMobile(mobile)
+      setVideoSrc(mobile ? '/images/hero-video-mobile.mp4' : '/images/hero-video.mp4')
+    }
     apply()
     mq.addEventListener('change', apply)
     return () => mq.removeEventListener('change', apply)
@@ -29,10 +40,12 @@ export default function HeroSection() {
   return (
     <section className="hero">
       <div className="hero-bg">
-        <video key={videoSrc} autoPlay loop muted playsInline className="hero-video">
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
+        {isMobile && (
+          <video key={videoSrc} autoPlay loop muted playsInline className="hero-video">
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        )}
+        <div className="hero-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
       </div>
 
       <div className="hero-content">
@@ -140,12 +153,14 @@ export default function HeroSection() {
 
         /* The hero's own gradient overlay is also desktop-redundant
            because ImmersiveVideoBackground draws a page-wide overlay.
-           Hide it on desktop; keep on mobile. */
-        .hero-bg > div:last-child {
+           Hide it on desktop; keep on mobile. Uses the named
+           .hero-overlay class on the gradient div rather than a
+           fragile :last-child selector. */
+        .hero-overlay {
           display: none;
         }
         @media (max-width: 768px) {
-          .hero-bg > div:last-child {
+          .hero-overlay {
             display: block;
           }
         }

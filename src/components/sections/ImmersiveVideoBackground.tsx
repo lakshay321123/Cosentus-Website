@@ -74,32 +74,39 @@ export default function ImmersiveVideoBackground() {
         // unhandled rejections.
         secondaryEl.currentTime = 0
         const playPromise = secondaryEl.play()
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(() => {
-            // Autoplay blocked — fall back to letting the primary
-            // loop normally. Better a visible seam than a frozen
-            // background.
-          })
+        const flipPrimary = () => {
+          setPrimary((p) => (p === 'A' ? 'B' : 'A'))
         }
-        // Flip primary; opacity transition fires from the CSS rules
-        // below via the data-primary attribute on the parent.
-        setPrimary((p) => (p === 'A' ? 'B' : 'A'))
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise
+            .then(flipPrimary)
+            .catch(() => {
+              // Autoplay blocked — fall back to letting the primary
+              // loop normally. Better a visible seam than a frozen
+              // background. Release the lock so we'll retry next
+              // time around.
+              swappingRef.current = false
+            })
+        } else {
+          // Older browsers where play() returns undefined: assume sync
+          // start.
+          flipPrimary()
+        }
+        // Unlock after the crossfade completes. The original code
+        // relied on the 'ended' event but that NEVER fires when
+        // loop=true is set (verified browser behavior). Without
+        // an unlock, swappingRef stays true forever and no further
+        // crossfades happen. Use a setTimeout based on the actual
+        // crossfade duration instead.
+        window.setTimeout(() => {
+          swappingRef.current = false
+        }, CROSSFADE_SECONDS * 1000 + 200)
       }
     }
 
-    // When the primary fully ends, clear the swap lock so the NEW
-    // primary's timeupdate handler can trigger the next crossfade.
-    // Don't restart the old primary here — letting `loop` handle that
-    // means it's always ready to be the next secondary.
-    const onEnded = () => {
-      swappingRef.current = false
-    }
-
     primaryEl.addEventListener('timeupdate', onTimeUpdate)
-    primaryEl.addEventListener('ended', onEnded)
     return () => {
       primaryEl.removeEventListener('timeupdate', onTimeUpdate)
-      primaryEl.removeEventListener('ended', onEnded)
     }
   }, [primary])
 

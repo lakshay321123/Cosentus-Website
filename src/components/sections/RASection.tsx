@@ -61,8 +61,27 @@ export default function RASection() {
 
           {/* ROW 1, HEADER LEFT: paragraph (the headline 'Real People +
               AI. RCM Redefined.' previously sat here too, but it now
-              duplicates the hero headline above — removed). */}
+              duplicates the hero headline above — removed).
+              For a11y: the section still needs a semantic heading so
+              screen readers can navigate by heading. We render a
+              visually-hidden <h2> to provide it without altering the
+              visual design. */}
           <div style={{ gridColumn: 1, gridRow: 1 }}>
+            <h2
+              style={{
+                position: 'absolute',
+                width: 1,
+                height: 1,
+                padding: 0,
+                margin: -1,
+                overflow: 'hidden',
+                clip: 'rect(0, 0, 0, 0)',
+                whiteSpace: 'nowrap',
+                border: 0,
+              }}
+            >
+              Real People + AI. RCM Redefined.
+            </h2>
             <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
                 Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
