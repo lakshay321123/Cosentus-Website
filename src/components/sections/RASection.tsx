@@ -47,7 +47,8 @@ export default function RASection() {
             cell, and both cells in a row share that height. This is the only
             way to get true pixel-precise alignment between left and right
             content without flex-stretch hacks.
-              Row 1, header: left = eyebrow + H2 + paragraph, right = stats (9/15/23)
+              Row 1, header: 9/15/23 stats spanning both columns
+                              (paragraph moved to IntroVideoSection above)
               Row 2, body:   left = agent grid 3x3 + Explore Zeus button,
                               right = AI Workflow Panel */}
         <div className="ra-main-grid" style={{
@@ -59,14 +60,18 @@ export default function RASection() {
           alignItems: 'start',
         }}>
 
-          {/* ROW 1, HEADER LEFT: paragraph (the headline 'Real People +
-              AI. RCM Redefined.' previously sat here too, but it now
-              duplicates the hero headline above — removed).
-              For a11y: the section still needs a semantic heading so
-              screen readers can navigate by heading. We render a
-              visually-hidden <h2> to provide it without altering the
-              visual design. */}
-          <div style={{ gridColumn: 1, gridRow: 1 }}>
+          {/* ROW 1: 9 / 15 / 23 stats span the full width.
+              The narrative paragraph that used to sit in column 1 has
+              been extracted into IntroVideoSection (which lives above
+              this section on the home page). The visually-hidden h2
+              that anchored the section for screen readers moved with
+              the paragraph; this section now provides its own h2
+              below (also visually-hidden) so screen-reader navigation
+              by heading still works.
+              A11y note: this section still needs a semantic heading —
+              "9 AI Voice Agents" describes what's actually on screen
+              now that the paragraph has moved away. */}
+          <div style={{ gridColumn: '1 / span 2', gridRow: 1 }}>
             <h2
               style={{
                 position: 'absolute',
@@ -80,22 +85,15 @@ export default function RASection() {
                 border: 0,
               }}
             >
-              Real People + AI. RCM Redefined.
+              9 AI Voice Agents
             </h2>
-            <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 22, color: 'var(--gray-600)', lineHeight: 1.6, marginBottom: 0 }}>
-                Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
-              </p>
-            </RevealOnScroll>
-          </div>
-
-          {/* ROW 1, HEADER RIGHT: 9 / 15 / 23 stats, vertically centered in the row */}
-          <div style={{ gridColumn: 2, gridRow: 1, alignSelf: 'center', width: '100%' }}>
-            <RevealOnScroll direction="right" delay={0.15}>
+            <RevealOnScroll direction="up" delay={0.15}>
               <div className="ra-stats-row" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: 16,
+                maxWidth: 720,
+                margin: '0 auto',
               }}>
                 {[
                   { num: '9', label: 'Voice Agents' },
