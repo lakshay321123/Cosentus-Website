@@ -105,30 +105,48 @@ export default function HeroSection() {
            Done in CSS (not inline JS) so the layout is correct at
            initial paint with no SSR/hydration mismatch.
 
+           Desktop (>=769px): HIDDEN. The page-level
+           ImmersiveVideoBackground component renders the (rotated,
+           crossfading) video fixed behind every section, so the
+           hero's own copy is redundant and would just waste GPU
+           on decoding the same frames twice.
+
            Mobile (<=768px) — source is 360x640 (already portrait),
            so rotating would make light flow SIDEWAYS instead of
-           top→bottom. Plain inset:0 / 100% / 100% layout. */
+           top→bottom. Plain inset:0 / 100% / 100% layout. This is
+           the ONLY video on mobile (ImmersiveVideoBackground is
+           display: none below 768px because fixed-position video
+           has known repaint bugs on iOS Safari and the perf cost
+           is unacceptable on small devices). */
         .hero-video {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100vh;
-          height: 100vw;
-          object-fit: cover;
-          transform-origin: top left;
-          transform: translateX(100vw) rotate(90deg);
-          z-index: 0;
+          display: none;
         }
         @media (max-width: 768px) {
           .hero-video {
+            display: block;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             width: 100%;
             height: 100%;
+            object-fit: cover;
             transform: none;
             transform-origin: initial;
+            z-index: 0;
+          }
+        }
+
+        /* The hero's own gradient overlay is also desktop-redundant
+           because ImmersiveVideoBackground draws a page-wide overlay.
+           Hide it on desktop; keep on mobile. */
+        .hero-bg > div:last-child {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .hero-bg > div:last-child {
+            display: block;
           }
         }
 
