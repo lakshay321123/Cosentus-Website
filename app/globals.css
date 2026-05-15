@@ -319,6 +319,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
      video covers it); but keep it for first-paint flash protection.
      The page-level video sits BEHIND .hero so this stays harmless. */
   .home-immersive .hero { background: transparent; }
+  /* Hero headline size reduction on the home page only. The default
+     .hero h1 (clamp 52px..88px) was too dominant per user feedback —
+     consumed the whole viewport. New scale ~30% smaller. Other pages
+     keep the default. */
+  .home-immersive .hero h1 {
+    font-size: clamp(40px, 5vw, 64px);
+  }
   /* Hero fills exactly one viewport so the next section (RA paragraph
      + 9/15/23 stats) begins BELOW the fold. The longer 3-line headline
      made the previous layout too tight; flex layout with content

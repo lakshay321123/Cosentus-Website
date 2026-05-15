@@ -87,7 +87,7 @@ export default function InsightsTabsSection() {
             marginTop: 12,
             marginBottom: 36,
           }}>
-            <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Insights.</span>
+            <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Resources.</span>
           </h2>
         </RevealOnScroll>
 
@@ -95,7 +95,7 @@ export default function InsightsTabsSection() {
         <RevealOnScroll delay={0.15}>
           <div
             role="tablist"
-            aria-label="Insight categories"
+            aria-label="Resource categories"
             className="insights-tabs"
             style={{
               display: 'flex',
@@ -206,7 +206,7 @@ export default function InsightsTabsSection() {
             </svg>
           </Link>
           <Link href="/insights" className="btn-primary">
-            Browse All Insights
+            Browse All Resources
           </Link>
         </div>
       </div>

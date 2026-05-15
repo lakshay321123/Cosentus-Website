@@ -32,9 +32,9 @@ const footerNav = [
     ],
   },
   {
-    title: 'Insights',
+    title: 'Resources',
     links: [
-      { label: 'All Insights', href: '/insights' },
+      { label: 'All Resources', href: '/insights' },
       { label: 'Blog', href: '/blog' },
       { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },

@@ -37,7 +37,7 @@ const navItems = [
     ],
   },
   {
-    label: 'Insights',
+    label: 'Resources',
     href: '/insights',
     children: [
       { label: 'Blog', href: '/blog' },
