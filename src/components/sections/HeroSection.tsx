@@ -1,15 +1,11 @@
 'use client'
 
-import Link from 'next/link'
-
-const specialties = [
-  { label: 'Anesthesia', href: '/specialties/anesthesia' },
-  { label: 'Orthopedics', href: '/specialties/orthopedics' },
-  { label: 'Pain Management', href: '/specialties/pain-management' },
-  { label: 'ASCs', href: '/specialties/asc' },
-  { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
-  { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
-]
+// Hero specialty pills (Anesthesia / Orthopedics / Pain Management /
+// ASCs / Behavioral Health / Multi-Specialty) used to live here as a
+// 3-column glass-pill grid beneath the H1. They have been removed per
+// user direction: specialties get their own dedicated section lower
+// on the home page. The data + Link rendering moved to
+// SpecialtiesSection.tsx.
 
 export default function HeroSection() {
   // Hero no longer renders its own <video>. ImmersiveVideoBackground
@@ -36,39 +32,6 @@ export default function HeroSection() {
         <h1>
           Purpose Built<br />For Your Specialty,<br /><span className="accent">Real People + AI.</span> RCM Redefined.
         </h1>
-
-        {/* Specialty selector, tightly beneath the H1. */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 10,
-          maxWidth: 580,
-          margin: '24px 0 0',
-        }} className="hero-specialty-grid">
-          {specialties.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="btn-glass hero-specialty-tile"
-              style={{
-                borderRadius: 999,
-                height: 36,
-                padding: '0 16px',
-                justifyContent: 'center',
-                fontSize: 14,
-                fontWeight: 600,
-                letterSpacing: '0.01em',
-                fontFamily: 'var(--font-body)',
-                textDecoration: 'none',
-                background: 'rgba(0, 0, 0, 0.35)',
-                borderColor: 'rgba(255, 255, 255, 0.18)',
-                color: '#fff',
-              }}
-            >
-              <span>{s.label}</span>
-            </Link>
-          ))}
-        </div>
       </div>
 
       <style>{`
@@ -77,29 +40,6 @@ export default function HeroSection() {
            overlay. Hidden everywhere. */
         .hero-overlay {
           display: none;
-        }
-
-        @media (max-width: 768px) {
-          .hero-specialty-grid {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important;
-            gap: 10px !important;
-            max-width: 100% !important;
-            margin-top: 32px !important;
-          }
-          .hero-specialty-tile {
-            /* iOS HIG: 44px minimum touch target, 16px body font for readability.
-               Width comes from the grid 1fr cell so every pill is identical. */
-            width: 100% !important;
-            height: 44px !important;
-            padding: 0 16px !important;
-            font-size: 16px !important;
-          }
-        }
-        .hero-specialty-tile:hover {
-          background: rgba(0, 0, 0, 0.50) !important;
-          border-color: rgba(255, 255, 255, 0.30) !important;
-          color: #fff !important;
         }
       `}</style>
     </section>
