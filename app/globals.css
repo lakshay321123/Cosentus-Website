@@ -413,16 +413,60 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 
   /* Default text color across the home page shifts toward white to
-     stay readable over the dark video overlay. Section labels and
-     descriptions that were grey-700 become near-white. */
+     stay readable over the dark video overlay. This block is broad
+     on purpose — the user asked for "all text white" on the home
+     page. Coverage:
+     - Section labels / titles / descriptions (.section-* classes)
+     - Headings (h1..h6) and paragraphs (p) inside .home-immersive
+     - Inline-styled dark colors (var(--gray-700/800/900), #000, black)
+       caught via attribute selectors
+     The teal-accent preservation block below this restores brand
+     teal on any element matching [class*='accent']. */
   .home-immersive .section-title,
   .home-immersive .section-desc,
-  .home-immersive .section-label {
+  .home-immersive .section-label,
+  .home-immersive h1,
+  .home-immersive h2,
+  .home-immersive h3,
+  .home-immersive h4,
+  .home-immersive h5,
+  .home-immersive h6,
+  .home-immersive p,
+  .home-immersive li,
+  .home-immersive [style*="color: var(--gray-700)"],
+  .home-immersive [style*="color:var(--gray-700)"],
+  .home-immersive [style*="color: var(--gray-800)"],
+  .home-immersive [style*="color:var(--gray-800)"],
+  .home-immersive [style*="color: var(--gray-900)"],
+  .home-immersive [style*="color:var(--gray-900)"],
+  .home-immersive [style*="color: var(--gray-600)"],
+  .home-immersive [style*="color:var(--gray-600)"],
+  .home-immersive [style*="color: #000"],
+  .home-immersive [style*="color:#000"],
+  .home-immersive [style*="color: black"],
+  .home-immersive [style*="color:black"] {
     color: rgba(255, 255, 255, 0.95) !important;
   }
-  /* But the teal brand accents stay teal. */
-  .home-immersive .accent,
-  .home-immersive [class*="accent"] {
+  /* But the teal brand accents stay teal — except inside .hero,
+     where the design intentionally uses white-on-white for the
+     italic 'Specialty.' word. Hero accent stays white. */
+  .home-immersive .accent:not(.hero .accent),
+  .home-immersive *:not(.hero) [class*="accent"] {
+    color: #68D1E6 !important;
+  }
+  .home-immersive .hero .accent {
+    color: var(--white) !important;
+  }
+  /* Preserve any element that explicitly opts back into brand teal
+     via inline style — e.g. <span style="color: #00B5D6"> in
+     headings. The white-text block would have overridden these
+     without this rule. */
+  .home-immersive [style*="color: #00B5D6"],
+  .home-immersive [style*="color:#00B5D6"],
+  .home-immersive [style*="color: #36C2DE"],
+  .home-immersive [style*="color:#36C2DE"],
+  .home-immersive [style*="color: #68D1E6"],
+  .home-immersive [style*="color:#68D1E6"] {
     color: #68D1E6 !important;
   }
 }
