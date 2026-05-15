@@ -1828,6 +1828,159 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .btn-glass svg { width: 18px; height: 18px; transition: transform var(--transition-base); }
 .btn-glass:hover svg { transform: translateX(3px); }
 
+/* ===== INSIGHTS-TAB — pill tabs (Client Success / Blog / News / Events) =====
+   Liquid glass treatment matching .btn-primary/.btn-glass. Two states:
+   inactive (light teal-tint pill) and active (saturated teal pill). Both
+   use the same ::before lens pattern. Used in InsightsTabsSection.tsx
+   (sole call site); inline visual styles previously on the <button> have
+   been removed there, so all visual styling now lives here. */
+.insights-tab {
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-shadow: none;
+  transition: transform 300ms ease-out, color 200ms ease;
+}
+.insights-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: rgba(0, 181, 214, 0.18);
+  backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 181, 214, 0.18);
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+.insights-tab:hover { transform: scale(1.03); color: #fff; }
+.insights-tab:hover::before {
+  background-color: rgba(0, 181, 214, 0.60);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 181, 214, 0.42),
+    0px 0px 24px 0px rgba(0, 181, 214, 0.28);
+}
+.insights-tab:active { transform: scale(0.96); transition-duration: 0.1s; }
+.insights-tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 181, 214, 0.30);
+}
+/* Active tab uses the saturated teal fill matching .btn-primary's resting state. */
+.insights-tab-active { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30); }
+.insights-tab-active::before {
+  background-color: rgba(0, 181, 214, 0.85);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 181, 214, 0.32);
+}
+.insights-tab-active:hover { color: #fff; }
+.insights-tab-active:hover::before {
+  background-color: rgba(0, 181, 214, 1);
+}
+
+/* ===== LOAD-MORE-BTN — pagination pill on Insights/Blog grids =====
+   Sits on white. Teal-tinted glass like .btn-primary but smaller (12px
+   vertical padding rather than 48px fixed height). The <button> in
+   InsightSection.tsx keeps its inline padding/border-radius/font;
+   this rule layers the lens on top via ::before. The old white-pill
+   look (white bg, gray-300 border, gray-700 text) is overridden. */
+.load-more-btn {
+  position: relative !important;
+  isolation: isolate;
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+  transition: transform 300ms ease-out !important;
+}
+.load-more-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: rgba(0, 181, 214, 0.85);
+  backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 181, 214, 0.32);
+  transition:
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+.load-more-btn:hover { transform: scale(1.03); color: #fff !important; }
+.load-more-btn:hover::before {
+  background-color: rgba(0, 181, 214, 1);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 181, 214, 0.50),
+    0px 0px 24px 0px rgba(0, 181, 214, 0.32);
+}
+.load-more-btn:active { transform: scale(0.96); transition-duration: 0.1s; }
+.load-more-btn svg { stroke: currentColor; }
+
 /* ===== HERO BUTTON DARK-FROST OVERRIDE =====
    Scoped to .hero-actions only — buttons in PageHero/EHR hero sit on
    lighter videos and become near-invisible with the white-tint .btn-glass.
@@ -2426,23 +2579,52 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     margin-top: auto;
   }
   .drawer-cta {
+    cursor: pointer;
+    position: relative;
+    isolation: isolate;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 14px 24px;
-    background: #00B5D6;
-    color: white;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
     text-decoration: none;
     font-weight: 500;
     font-size: 15px;
-    transition: all 0.2s;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+    transition: transform 300ms ease-out;
     margin-bottom: 12px;
+  }
+  .drawer-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background-color: rgba(0, 181, 214, 0.85);
+    backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+      inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+      inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+      inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+      inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+      inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+      inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+      0px 6px 16px 0px rgba(0, 181, 214, 0.32);
+    transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1);
   }
   .drawer-cta:active {
     transform: scale(0.97);
-    background: #009ab8;
+  }
+  .drawer-cta:active::before {
+    background-color: rgba(0, 154, 184, 0.95);
   }
   .drawer-phone {
     display: block;
@@ -3279,9 +3461,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 100%;
 }
 
-/* Frosted glass call buttons — same recipe as reference .landing-foot-cta */
+/* Liquid-glass call buttons (Connect / Mute / End) in the voice modal.
+   Same lens pattern as .btn-glass — white-tinted lens for dark backgrounds.
+   Three variants change the lens color and text color:
+   - .connect: default white-tinted glass
+   - .mute.on: teal-tinted (indicates mic is muted)
+   - .end: red-tinted (hang up) */
 .call-btn {
   cursor: pointer;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3290,77 +3479,93 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   min-width: 48px;
   padding: 0 24px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(5px) saturate(120%);
-  -webkit-backdrop-filter: blur(5px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.20);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 8px 22px rgba(0, 0, 0, 0.32);
-  color: rgba(232, 246, 251, 0.88);
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
   font-family: 'Reddit Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+  transition: transform 300ms ease-out, color 200ms ease;
+}
+.call-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px) url(#liquid-glass-global) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.80),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.60),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.12),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.10),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 6px 16px 0px rgba(0, 0, 0, 0.32);
   transition:
-    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
 }
 .call-btn svg { width: 20px; height: 20px; flex: 0 0 auto; }
-.call-btn:hover {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.32);
-  background: rgba(255, 255, 255, 0.10);
-  transform: translateY(-1px);
+.call-btn:hover { transform: scale(1.03); color: #fff; }
+.call-btn:hover::before {
+  background-color: rgba(255, 255, 255, 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.40),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 12px 28px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(0, 181, 214, 0.28);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.42),
+    0px 0px 24px 0px rgba(0, 181, 214, 0.28);
 }
-.call-btn:active {
-  transform: translateY(0) scale(0.98);
-  transition-duration: 0.1s;
-}
+.call-btn:active { transform: scale(0.96); transition-duration: 0.1s; }
 .call-btn:focus-visible {
   outline: none;
-  border-color: rgba(0, 181, 214, 0.7);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 8px 22px rgba(0, 0, 0, 0.32),
-    0 0 0 3px rgba(0, 181, 214, 0.20);
+  box-shadow: 0 0 0 3px rgba(0, 181, 214, 0.35);
 }
 .call-btn.connect { padding: 0 32px; }
 .call-btn.mute { padding: 0 14px; }
-.call-btn.mute.on {
-  background: rgba(0, 181, 214, 0.18);
-  border-color: rgba(0, 181, 214, 0.55);
-  color: #68D1E6;
+/* Mute-on variant — teal lens to signal active muted state */
+.call-btn.mute.on { color: #68D1E6; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+.call-btn.mute.on::before {
+  background-color: rgba(0, 181, 214, 0.22);
 }
-.call-btn.mute.on:hover {
-  background: rgba(0, 181, 214, 0.26);
-  border-color: rgba(0, 181, 214, 0.75);
+.call-btn.mute.on:hover::before {
+  background-color: rgba(0, 181, 214, 0.32);
 }
-.call-btn.end {
-  padding: 0 14px;
-  border-color: rgba(255, 90, 110, 0.55);
-  color: #ff5a6e;
+/* End variant — red lens for hang-up */
+.call-btn.end { padding: 0 14px; color: #ff7c8a; }
+.call-btn.end::before {
+  background-color: rgba(255, 90, 110, 0.18);
 }
-.call-btn.end:hover {
-  color: #ff7c8a;
-  border-color: rgba(255, 90, 110, 0.85);
-  background: rgba(255, 90, 110, 0.08);
+.call-btn.end:hover { color: #ff96a2; }
+.call-btn.end:hover::before {
+  background-color: rgba(255, 90, 110, 0.30);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.40),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-    0 12px 28px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(255, 90, 110, 0.32);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 1.0),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.90),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.70),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.14),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.12),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12),
+    0px 12px 28px 0px rgba(0, 0, 0, 0.42),
+    0px 0px 24px 0px rgba(255, 90, 110, 0.32);
 }
 
 .call-prompt {
