@@ -71,16 +71,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="scroll-indicator">
-        <svg width="24" height="40" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="22" height="38" rx="11" stroke="rgba(255,255,255,0.4)" strokeWidth="2"/>
-          <circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.8)">
-            <animate attributeName="cy" values="12;24;12" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
-          </circle>
-        </svg>
-      </div>
-
       <style>{`
         /* The hero's own gradient overlay is now redundant on every
            viewport because ImmersiveVideoBackground draws a page-wide

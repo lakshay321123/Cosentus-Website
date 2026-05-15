@@ -83,7 +83,7 @@ export default function RASection() {
               Real People + AI. RCM Redefined.
             </h2>
             <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
+              <p style={{ fontSize: 22, color: 'var(--gray-600)', lineHeight: 1.6, marginBottom: 0 }}>
                 Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
               </p>
             </RevealOnScroll>
