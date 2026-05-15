@@ -339,6 +339,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .home-immersive .results-section::before {
   background: linear-gradient(180deg, transparent 0%, rgba(0, 30, 40, 0.30) 50%, transparent 100%);
 }
+/* Home-only: left-align the "Results Our Clients See" heading per
+   user direction. Scoped to .home-immersive so other pages that use
+   ResultsSection (e.g. /services) keep the centered layout. */
+.home-immersive .results-section .results-header {
+  text-align: left;
+}
 /* The teal stat numbers (#00B5D6) are hard to read over the video.
    A subtle glow brings them forward without changing the color. */
 .home-immersive .results-section .results-header h2,
