@@ -329,37 +329,35 @@ export default function AboutContent() {
             <RevealOnScroll delay={0.2}>
               <div className="about-360-card about-360-card-grey">
                 <p>
-                  With over 25 years of pioneering experience, Cosentus has established itself as one of the largest
-                  non private equity backed RCM companies in the country and has evolved into a 360-degree service
-                  solutions provider, transforming Revenue Cycle Management for healthcare practices &amp; medical
-                  billing companies.
+                  Healthcare organizations don&rsquo;t need more reports. They need clarity, accountability, and a
+                  partner that knows how to fix it. Cosentus is a revenue cycle management partner built for
+                  healthcare organizations that are tired of reacting to revenue problems after the damage is
+                  already done. We combine specialty-trained experts with AI-native technology to reduce denials,
+                  improve cash flow, and collect more of what you&rsquo;ve earned.
                 </p>
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
-                  We are committed to innovation, providing real-time insights through our proprietary technology and
-                  analytics to ensure better financial performance and operational efficiency.
-                </p>
-                <p>
-                  Partner with Cosentus to leverage our cutting-edge solutions and industry expertise, and thrive in
-                  today&rsquo;s competitive healthcare landscape.
+                  We manage the full revenue cycle from start to finish, including credentialing, eligibility and
+                  prior authorizations, coding, payment posting, rejection and denial management, root-cause
+                  analysis, appeals, patient billing, AR follow-up, and collections. Unlike traditional RCM vendors
+                  that hand over reports and expect you to become the crime scene investigator, Cosentus gives
+                  healthcare organizations full transparency, actionable insights, clear recommendations, and
+                  hands-on execution.
                 </p>
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={1.6}>
               <div className="about-360-card about-360-card-primary">
                 <p>
-                  <strong>Real People + AI.</strong> Cosentus combines <strong>Zeus</strong>, our AI platform, with
-                  specialty-trained teams to connect clinical, operational, and financial workflows&mdash;removing
-                  friction, preventing denials, and growing revenue across the revenue cycle.
-                </p>
-                <p>
-                  Our services include <strong>End-to-End Revenue Cycle Management</strong> and <strong>EHR &amp;
-                  Technology</strong>. Across 45+ specialties, Zeus runs 23 modules and 15 AI features&mdash;handling
-                  eligibility, prior authorizations, claims follow-up, AR tracking, and patient collections&mdash;while
-                  named human teams own every judgment call.
+                  <strong>Real People + AI.</strong> Our AI works alongside human expertise at every step,
+                  understanding every claim, predicting every denial, and learning your payers, while our
+                  specialists handle the judgment calls that technology alone can&rsquo;t make. Built around each
+                  client&rsquo;s specialty, payer mix, workflows, and goals, Cosentus delivers a more intelligent,
+                  transparent, and accountable way to manage revenue. You focus on your patients. We handle the
+                  revenue cycle.
                 </p>
               </div>
             </RevealOnScroll>
