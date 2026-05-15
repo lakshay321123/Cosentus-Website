@@ -4,7 +4,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import RevealText from '@/components/ui/RevealText'
 import AIWorkflowPanel from '@/components/sections/AIWorkflowPanel'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import { AGENTS } from '@/data/voice-agents'
@@ -60,18 +59,13 @@ export default function RASection() {
           alignItems: 'start',
         }}>
 
-          {/* ROW 1, HEADER LEFT: headline + paragraph */}
+          {/* ROW 1, HEADER LEFT: paragraph (the headline 'Real People +
+              AI. RCM Redefined.' previously sat here too, but it now
+              duplicates the hero headline above — removed). */}
           <div style={{ gridColumn: 1, gridRow: 1 }}>
-            <RevealText
-              as="h2"
-              perWordDelay={0.06}
-              style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}
-            >
-              {<>Real People + AI.<br />RCM <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Redefined.</span></>}
-            </RevealText>
-            <RevealOnScroll direction="left" delay={0.5}>
+            <RevealOnScroll direction="left" delay={0.2}>
               <p style={{ fontSize: 16, color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 0 }}>
-                Cosentus combines Zeus AI and human expertise to connect clinical, operational, and financial workflows &mdash; removing friction, preventing denials, and growing revenue across the revenue cycle.
+                Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
               </p>
             </RevealOnScroll>
           </div>
