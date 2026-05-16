@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
+import LightningOverlay from '@/components/ui/LightningOverlay'
 
 interface PageHeroProps {
   label?: string
@@ -16,9 +17,17 @@ interface PageHeroProps {
    * tall mobile viewport eats too much above-the-fold real estate.
    */
   compact?: boolean
+  /**
+   * When true, overlays a scroll-triggered WebGL lightning effect
+   * over the video background. Each wheel/touch/scroll-key event
+   * pulses a white lightning bolt through the hero. Used by the
+   * Zeus AI page (/cosentus-ai) to reinforce the 'AI thunder' theme.
+   * Honors prefers-reduced-motion (renders nothing).
+   */
+  lightning?: boolean
 }
 
-export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact }: PageHeroProps) {
+export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact, lightning }: PageHeroProps) {
   // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
@@ -56,6 +65,16 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
       >
         <source src={videoSrc || "/videos/hero-banner.mp4"} type="video/mp4" />
       </video>
+
+      {/* Scroll-triggered lightning overlay (opt-in via lightning prop).
+          Sits ABOVE the video and BELOW the gradient — the gradient
+          softens the bolts slightly which helps white lightning read
+          on bright frames of the underlying video. */}
+      {lightning && (
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, mixBlendMode: 'screen' }}>
+          <LightningOverlay />
+        </div>
+      )}
 
       {/* Dark overlay for readability */}
       <div style={{

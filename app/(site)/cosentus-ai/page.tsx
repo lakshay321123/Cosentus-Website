@@ -17,6 +17,7 @@ export default function CosentusAIPage() {
         subtitle="23 modules. 15 AI features. 45+ specialties. Run by AI, accountable to specialty-trained teams."
         ctaText="Get Your Financial MRI"
         ctaHref="/contact"
+        lightning
       />
       <RAPageContent />
       <CTASection />
