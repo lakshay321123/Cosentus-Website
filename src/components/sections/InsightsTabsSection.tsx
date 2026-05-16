@@ -87,7 +87,7 @@ export default function InsightsTabsSection() {
             marginTop: 12,
             marginBottom: 36,
           }}>
-            <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Resources.</span>
+            <span style={{ color: '#00B5D6' }}>Resources.</span>
           </h2>
         </RevealOnScroll>
 

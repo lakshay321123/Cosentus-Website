@@ -142,7 +142,6 @@ export default function SpecialtiesSection() {
         }
         .specialties-title .accent {
           color: #00B5D6;
-          font-style: italic;
         }
 
         .specialties-grid {
