@@ -283,18 +283,42 @@ const ScrollExpandMedia = ({
       >
         {mediaType === 'video' ? (
           <>
+            {/* Video element. Pattern intentionally mirrors PageHero.tsx
+                which is the proven-working video implementation on
+                /specialties/* pages. Key differences from the prior
+                attempt:
+                  - Uses <source src> as a child instead of the
+                    video src attribute. Some browsers / Next.js
+                    hydration paths fail to load video.src without
+                    a <source> fallback.
+                  - Inline width/height 100% via style prop, position
+                    absolute, so the element fills its rounded parent
+                    regardless of CSS-class specificity.
+                  - Dropped disablePictureInPicture and
+                    disableRemotePlayback — non-standard React props
+                    that React serializes to attributes with empty
+                    string values, which is fine for compliant browsers
+                    but adds unknown surface area. Not needed for the
+                    autoplay-loop-muted use case. */}
             <video
-              src={mediaSrc}
-              poster={posterSrc}
               autoPlay
               muted
               loop
               playsInline
               preload='auto'
-              className='scroll-expand-media-video'
-              disablePictureInPicture
-              disableRemotePlayback
-            />
+              poster={posterSrc}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            >
+              <source src={mediaSrc} type='video/mp4' />
+            </video>
             {/* Dark overlay, lighter than the 21st.dev original so
                 the small video frame is actually visible against the
                 dark immersive page bg. Lightens further as the user
