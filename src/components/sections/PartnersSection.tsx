@@ -49,7 +49,7 @@ export default function PartnersSection() {
       <div className="container">
         <RevealOnScroll>
           <div style={{ textAlign: 'left', marginBottom: 40 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'rgba(255, 255, 255, 0.95)' }}>Our Network</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'rgba(255, 255, 255, 0.95)' }}>Our <span className="accent">Network</span></div>
           </div>
         </RevealOnScroll>
 

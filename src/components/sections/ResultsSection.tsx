@@ -104,7 +104,7 @@ export default function ResultsSection() {
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
         <div className="results-header">
-          <RevealText as="h2" perWordDelay={0.07}>Results Our Clients See</RevealText>
+          <RevealText as="h2" perWordDelay={0.07}><span className="accent">Results</span> Our Clients See</RevealText>
         </div>
 
         {/* Desktop: grid layout */}

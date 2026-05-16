@@ -79,15 +79,15 @@ export default function InsightsTabsSection() {
         <RevealOnScroll delay={0.1}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(32px, 4.5vw, 56px)',
+            fontSize: 'clamp(32px, 4vw, 48px)',
             fontWeight: 300,
-            lineHeight: 1.05,
+            lineHeight: 1.1,
             letterSpacing: '-0.02em',
             color: 'var(--gray-900)',
             marginTop: 12,
             marginBottom: 36,
           }}>
-            <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Resources.</span>
+            <span style={{ color: '#00B5D6' }}>Resources</span>
           </h2>
         </RevealOnScroll>
 

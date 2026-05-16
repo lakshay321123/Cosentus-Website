@@ -339,11 +339,45 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .home-immersive .results-section::before {
   background: linear-gradient(180deg, transparent 0%, rgba(0, 30, 40, 0.30) 50%, transparent 100%);
 }
+/* Home-only: left-align the "Results Our Clients See" heading per
+   user direction. Scoped to .home-immersive so other pages that use
+   ResultsSection (e.g. /services) keep the centered layout.
+   The Results section uses .container-wide (1440px) for the 6-arrow
+   grid; constraining the .results-header to .container width (1280px)
+   makes the heading's LEFT edge line up with other home section
+   headings (RASection, Specialties) which use .container. */
+.home-immersive .results-section .results-header {
+  text-align: left;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Match the canonical section heading size used elsewhere on the
+   home page (Specialties, RASection) so all home headings feel like
+   the same family. The base .results-header h2 rule (clamp 28-40px)
+   stays untouched so /services and other pages don't change. Color
+   stays teal because that's how Results renders across every page —
+   user said "see from other pages" and the teal heading IS the
+   canonical Results style. */
+.home-immersive .results-section .results-header h2 {
+  font-size: clamp(32px, 4vw, 48px);
+}
 /* The teal stat numbers (#00B5D6) are hard to read over the video.
    A subtle glow brings them forward without changing the color. */
 .home-immersive .results-section .results-header h2,
 .home-immersive .results-section [class*="result"] {
   text-shadow: 0 2px 8px rgba(0, 30, 40, 0.65);
+}
+/* Home-only: the small labels under each arrow (REVENUE GROWTH /
+   NET COLLECTION / etc.) come from a CSS class .result-label with
+   color: var(--gray-500). Class definitions aren't caught by the
+   [style*="color: var(--gray-X)"] attribute-selector white-text
+   override family, so on the dark home page these labels render as
+   dim gray and are barely legible. Whiten on home only — keeps
+   /services rendering them gray-500 as designed. .result-sublabel
+   ("Up to") is intentionally teal and is NOT overridden here. */
+.home-immersive .results-section .result-label {
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* StatementSection — was inline background: '#000' AND has its own
@@ -1927,7 +1961,7 @@ body:has(main.home-immersive) .footer a:hover {
 
 /* In-place reveal modifier — for headings that sit at a tight section
    boundary on mobile (e.g. the homepage Results heading, which lives right
-   below RASection's AIWorkflowPanel). The default 50px translateY initial
+   below RASection's agent grid). The default 50px translateY initial
    state visually reads as "tucked under the previous section" during the
    0.9s scroll-in animation on slower devices. This modifier strips the
    translate while keeping blur clearing, so motion still reads but no
@@ -3990,4 +4024,188 @@ body:has(main.home-immersive) .footer a:hover {
 
 .careers-contact-line a:hover {
   text-decoration: underline;
+}
+
+/* ============================================================
+   HOME PAGE: LIQUID GLASS — NO HARD BORDERS
+
+   User direction: "I want liquid glass but don't want white
+   outline — it was too much."
+
+   The hard 1px solid white-translucent border was reading as a
+   visible outline against the dark immersive bg. The directional
+   inset white shadows (top-left highlight, bottom-right sheen)
+   are what give the "lit-edge" liquid-glass feel — those are
+   kept, but at lower alpha so they whisper instead of shout.
+
+   Approach: nuke the 1px borders and the equivalent
+   inset-zero-spread white ring (which acts like a 1px border via
+   box-shadow). Restore the directional highlight insets at
+   ~30-40% lower alpha. Outer drop shadow for depth.
+
+   Preserved:
+     - Frosted background tints + backdrop-filter (glass surface)
+     - Directional inset highlights (soft lit-edge feel)
+     - Outer drop shadows (depth)
+     - Agent circle teal border (#00B5D6) — brand accent, not white
+============================================================ */
+
+/* Cards, tabs, buttons, glass containers — strip border, replace
+   shadow stack with softer liquid-glass insets (no hard ring). */
+.home-immersive .insight-card,
+.home-immersive .insights-card,
+.home-immersive .service-card,
+.home-immersive .testimonial-card,
+.home-immersive .case-card,
+.home-immersive .case-card-content,
+.home-immersive .cta-box,
+.home-immersive .btn-primary,
+.home-immersive .insights-tab,
+.home-immersive .specialty-card-link,
+.home-immersive [style*="background: var(--white)"],
+.home-immersive [style*="background:var(--white)"],
+.home-immersive [style*="background: white"],
+.home-immersive [style*="background:white"],
+.home-immersive [style*="background: #fff"],
+.home-immersive [style*="background:#fff"],
+.home-immersive [style*="background: #FFFFFF"],
+.home-immersive [style*="background:#FFFFFF"] {
+  border: none !important;
+  box-shadow:
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.35),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.25),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+}
+
+/* Hover state — strengthen the lit-edge slightly (still no border)
+   so the user gets visual feedback on hover. */
+.home-immersive .insight-card:hover,
+.home-immersive .btn-primary:hover,
+.home-immersive .insights-tab:hover,
+.home-immersive .specialty-card-link:hover {
+  border: none !important;
+  box-shadow:
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.50),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.35),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.28),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.12),
+    0px 14px 32px 0px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* Testimonial arrows — keep glass tint, no border. */
+.home-immersive .t-arrow,
+.home-immersive .t-arrow:hover {
+  border: none !important;
+}
+
+/* Partners section + any section divider with border-top set
+   inline — strip the divider line (it was 1px white-translucent). */
+.home-immersive .partners-section,
+.home-immersive section[style*="border-top"] {
+  border-top: none !important;
+}
+
+/* Footer glass on home (uses :has() selector) — same treatment. */
+body:has(main.home-immersive) .footer {
+  border: none !important;
+  box-shadow:
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.30),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.18),
+    0px -2px 14px 0px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* ============================================================
+   HOME PAGE: INSIGHTS GRID HOVER-REVEAL EFFECT
+
+   User direction: 'just the hover effect — hover one card, others
+   dim/blur.' Keep current 3-card layout, dates, CTAs intact.
+
+   Pattern (adapted from a 21st.dev HoverRevealCards spec):
+     - Grid container hover -> ALL cards dim+blur+slight-shrink
+     - Individual card hover -> that card pops back to full opacity,
+       no blur, slight lift+scale-up
+
+   Implementation note: uses :hover, so touch devices skip the
+   effect entirely (taps just trigger navigation). Wrapped in
+   media query gate for prefers-reduced-motion.
+
+   Specificity chain:
+     .insight-card:hover                                  (0,1,0)
+       — existing hover lift from InsightCard.tsx
+     .insights-tabs-grid:hover .insight-card              (0,1,1)
+       — dim siblings; wins over the bare :hover because
+         child .insight-card always satisfies grid:hover when
+         a card is hovered
+     .insights-tabs-grid:hover .insight-card:hover        (0,2,1)
+       — restore focused card; wins over both
+
+   Transitions are added on the .insight-card itself (longhand
+   list including opacity + filter) so the dim/blur/restore
+   animate smoothly together. Existing inline transition is
+   overridden via CSS specificity (inline style normally wins,
+   but adding a same-property declaration in a stylesheet with
+   !important defeats inline). Using !important here is the
+   minimal-risk path; without it the inline transition list
+   (which doesn't include opacity/filter) would cause those
+   properties to snap rather than animate.
+============================================================ */
+
+.home-immersive .insight-card {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease !important;
+}
+
+/* When the grid is being hovered, dim every card. */
+.home-immersive .insights-tabs-grid:hover .insight-card {
+  opacity: 0.55;
+  filter: blur(2px);
+  transform: scale(0.98);
+}
+
+/* The card currently under the cursor: undo the dim, add a small
+   lift + scale-up so it visibly 'pops forward'. Specificity beats
+   the dim rule because of the extra :hover. */
+.home-immersive .insights-tabs-grid:hover .insight-card:hover {
+  opacity: 1;
+  filter: none;
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Honor reduced-motion: skip the dim/blur entirely. Cards still
+   navigate on click; users with motion sensitivity don't get a
+   suddenly-pulsing UI. */
+@media (prefers-reduced-motion: reduce) {
+  .home-immersive .insights-tabs-grid:hover .insight-card,
+  .home-immersive .insights-tabs-grid:hover .insight-card:hover {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   HOME PAGE: UNIFY HEADING SIZES
+
+   User direction: 'all home page headings should be the same size
+   as "Built for your specialty" (clamp 32-48px).' This applies to
+   sections whose component-level size differs from the reference.
+
+   The TestimonialsSection h2 is set inline to clamp(32px, 4.5vw,
+   56px) — slightly larger upper bound than the reference. On
+   non-home pages that inline value still wins. On the home page
+   we override it via specificity + !important so the heading
+   matches every other home section.
+============================================================ */
+
+.home-immersive .section.section-alt h2 {
+  font-size: clamp(32px, 4vw, 48px) !important;
+  line-height: 1.1 !important;
 }
