@@ -4025,3 +4025,78 @@ body:has(main.home-immersive) .footer a:hover {
 .careers-contact-line a:hover {
   text-decoration: underline;
 }
+
+/* ============================================================
+   HOME PAGE: STRIP ALL WHITE LIQUID-GLASS BORDERS / EDGE-LIGHTS
+
+   User direction: remove visible white outlines from every glass
+   box on the home page. Keep frosted backgrounds (the tint) and
+   keep outer drop shadows (depth). Kill:
+     - 1px white-translucent borders
+     - inset white shadows (the "lit edge" Apple-glass effect)
+     - white-translucent border-tops on section dividers
+
+   Approach: target every home-immersive glass element explicitly
+   and force border:none + a clean dark drop shadow. The !important
+   defeats both the previous CSS rules (which set 1px white borders)
+   and inline boxShadow values in tab/card components.
+
+   Preserved:
+     - Agent circle teal border (#00B5D6) — not a "white outline"
+     - Backdrop-filter blur on glass surfaces
+     - Frosted background tints (rgba 255,255,255 with low alpha)
+============================================================ */
+
+/* Cards, tabs, buttons, partner-strip dividers — strip borders. */
+.home-immersive .insight-card,
+.home-immersive .insights-card,
+.home-immersive .service-card,
+.home-immersive .testimonial-card,
+.home-immersive .case-card,
+.home-immersive .case-card-content,
+.home-immersive .cta-box,
+.home-immersive .btn-primary,
+.home-immersive .insights-tab,
+.home-immersive .specialty-card-link,
+.home-immersive [style*="background: var(--white)"],
+.home-immersive [style*="background:var(--white)"],
+.home-immersive [style*="background: white"],
+.home-immersive [style*="background:white"],
+.home-immersive [style*="background: #fff"],
+.home-immersive [style*="background:#fff"],
+.home-immersive [style*="background: #FFFFFF"],
+.home-immersive [style*="background:#FFFFFF"] {
+  border: none !important;
+  box-shadow:
+    0px 1px 4px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Hover states — keep the same flat shadow approach (no edge highlight). */
+.home-immersive .insight-card:hover,
+.home-immersive .btn-primary:hover,
+.home-immersive .insights-tab:hover,
+.home-immersive .specialty-card-link:hover {
+  border: none !important;
+  box-shadow:
+    0px 2px 6px 0px rgba(0, 0, 0, 0.12),
+    0px 14px 32px 0px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* Testimonial arrows + Partners section divider line. */
+.home-immersive .t-arrow,
+.home-immersive .t-arrow:hover {
+  border: none !important;
+}
+.home-immersive .partners-section,
+.home-immersive section[style*="border-top"] {
+  border-top: none !important;
+}
+
+/* Footer glass uses :has() — strip its border + inset shadows too. */
+body:has(main.home-immersive) .footer {
+  border: none !important;
+  box-shadow:
+    0px 1px 4px 0px rgba(0, 0, 0, 0.10),
+    0px -2px 14px 0px rgba(0, 0, 0, 0.18) !important;
+}
