@@ -42,22 +42,18 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Single-column stacked layout per user direction:
-              1. Visible H2 heading (left-aligned)
+        {/* Single-column stacked layout:
+              1. Visible H2 heading (centered)
               2. 9/15/23 stats row (centered, full-width strip)
               3. 3x3 agent grid (centered on the page)
               4. Explore Zeus button (centered under the grid)
-            The previous two-column layout (agents left, AIWorkflowPanel
-            right) is gone — workflow panel was removed per user
-            request because it competed with the agent grid for focus.
-            The agent grid is now the centerpiece of the section. */}
+            Agent grid is the centerpiece of the section. */}
         <div className="ra-stack">
 
-          {/* SECTION HEADING — visible, left-aligned.
-              Replaces the previous visually-hidden h2 that anchored
-              the section for screen readers only. Reference: the
-              cosentus-ai voice.html page uses this same copy
-              ('Click on any agent to start a conversation') as the
+          {/* SECTION HEADING — visible, centered, with teal accent
+              on the last word per home-page heading convention.
+              Reference: the cosentus-ai voice.html page uses this
+              same copy ('Click on any agent to start a conversation') as the
               call-to-action above the grid. */}
           <RevealOnScroll direction="up" delay={0.1}>
             <h2 className="ra-heading">

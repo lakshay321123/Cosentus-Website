@@ -1961,7 +1961,7 @@ body:has(main.home-immersive) .footer a:hover {
 
 /* In-place reveal modifier — for headings that sit at a tight section
    boundary on mobile (e.g. the homepage Results heading, which lives right
-   below RASection's AIWorkflowPanel). The default 50px translateY initial
+   below RASection's agent grid). The default 50px translateY initial
    state visually reads as "tucked under the previous section" during the
    0.9s scroll-in animation on slower devices. This modifier strips the
    translate while keeping blur clearing, so motion still reads but no

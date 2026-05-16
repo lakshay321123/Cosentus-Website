@@ -20,9 +20,9 @@ export default function Home() {
       <ImmersiveVideoBackground />
 
       {/* Page narrative flow:
-            1. HeroSection — "Purpose Built For Your Specialty,
-               Real People + AI. RCM Redefined." (the tagline; never
-               meant to be removed).
+            1. HeroSection — "Purpose Built / For Your Specialty /
+               Real People + AI. / RCM Redefined." (4-line typing
+               tagline; never meant to be removed).
             2. ScrollHeroSection — DNA helix video + "Combining
                expert teams..." paragraph. This is a normal in-page
                section (scroll-hijack removed from the underlying

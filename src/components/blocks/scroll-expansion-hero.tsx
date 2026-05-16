@@ -161,6 +161,84 @@ const ScrollExpandMedia = ({
       touchYRef.current = 0;
     };
 
+    // Keyboard handler — accessibility fix for keyboard-only users.
+    // Without this, the wheel/touch handlers advance progressRef but
+    // keyboard scroll keys (Space, PageDown, Arrow, Home/End) only
+    // trigger window scroll, which handleScroll snaps back. Result:
+    // keyboard users can't get past this section. We mirror the
+    // wheel handler's behavior, advancing/retreating progress on
+    // each key press until expandedRef flips true at progress 1
+    // (at which point the hijack releases and normal keyboard
+    // scroll resumes).
+    //
+    // Defensive: bail if focus is inside an editable element
+    // (input/textarea/contenteditable) — the section currently has
+    // no such elements but future content could; we should not eat
+    // arrow keys someone is using to navigate text.
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (!isSectionOwningViewport()) return;
+      if (expandedRef.current) return;
+
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tag = target.tagName;
+        if (
+          tag === 'INPUT' ||
+          tag === 'TEXTAREA' ||
+          tag === 'SELECT' ||
+          target.isContentEditable
+        ) {
+          return;
+        }
+      }
+
+      // Determine direction + step. Step size is tuned so a single
+      // PageDown advances roughly 35% of the animation — three
+      // presses to fully expand. Arrow keys advance less (~15%) for
+      // finer control. Space behaves like PageDown.
+      let delta = 0;
+      switch (e.key) {
+        case ' ':
+        case 'Spacebar': // legacy
+        case 'PageDown':
+          delta = 0.35;
+          break;
+        case 'ArrowDown':
+          delta = 0.15;
+          break;
+        case 'End':
+          delta = 1; // jumps to fully expanded
+          break;
+        case 'PageUp':
+          delta = -0.35;
+          break;
+        case 'ArrowUp':
+          delta = -0.15;
+          break;
+        case 'Home':
+          delta = -1; // back to start of section
+          break;
+        default:
+          return; // not a key we care about
+      }
+
+      // Allow scroll-up to exit top of section when already at 0,
+      // mirroring the wheel handler's behavior.
+      if (delta < 0 && progressRef.current <= 0) return;
+
+      e.preventDefault();
+      const newProgress = Math.min(
+        Math.max(progressRef.current + delta, 0),
+        1
+      );
+      progressRef.current = newProgress;
+      setScrollProgress(newProgress);
+
+      if (newProgress >= 1) {
+        expandedRef.current = true;
+      }
+    };
+
     // Pin scroll position to section-top while hijack is active.
     // Without this, momentum scroll (trackpad inertia) drifts past
     // preventDefault'd wheel events.
@@ -181,6 +259,7 @@ const ScrollExpandMedia = ({
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
@@ -188,6 +267,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('keydown', handleKeyDown);
     };
     // Empty deps — handlers read state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
