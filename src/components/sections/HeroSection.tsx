@@ -1,37 +1,49 @@
 'use client'
 
-// Hero specialty pills (Anesthesia / Orthopedics / Pain Management /
-// ASCs / Behavioral Health / Multi-Specialty) used to live here as a
-// 3-column glass-pill grid beneath the H1. They have been removed per
-// user direction: specialties get their own dedicated section lower
-// on the home page. The data + Link rendering moved to
-// SpecialtiesSection.tsx.
+// HeroSection: 4-line tagline typed out sequentially via
+// MultiLineTyping. The previous static <h1> with <br/>s is replaced
+// per user direction. Each line types character by character, then
+// the next line begins; once all 4 are typed the cursor stays
+// blinking on the last line.
+//
+// Specialty pills used to live here as a 3-column glass-pill grid.
+// They moved to SpecialtiesSection.tsx.
+//
+// Hero no longer renders its own <video>. ImmersiveVideoBackground
+// serves the page-level video for both desktop and mobile.
+
+import MultiLineTyping from '@/components/ui/MultiLineTyping'
+
+const TAGLINE_LINES = [
+  'Purpose Built',
+  'For Your Specialty',
+  'Real People + AI.',
+  'RCM Redefined.',
+]
 
 export default function HeroSection() {
-  // Hero no longer renders its own <video>. ImmersiveVideoBackground
-  // now serves the page-level video for both desktop AND mobile
-  // (mobile uses /images/hero-video-mobile.mp4 at native portrait
-  // orientation). Removing the local video also fixes the
-  // hidden-but-still-decoding issue flagged in coderabbit review of
-  // PR #135.
-  //
-  // The .hero-overlay gradient div below was previously hidden on
-  // desktop because ImmersiveVideoBackground draws its own page-wide
-  // gradient overlay. Mobile used to keep this overlay because the
-  // hero video lived inside the hero element. Now that the immersive
-  // video covers mobile too, the overlay is redundant everywhere —
-  // the CSS at the bottom of this file hides it universally.
-
   return (
     <section className="hero">
       <div className="hero-bg">
-        <div className="hero-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)', zIndex: 1 }} />
+        <div
+          className="hero-overlay"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(135deg, rgba(0,53,69,0.75) 0%, rgba(0,89,110,0.55) 40%, rgba(0,181,214,0.3) 100%)',
+            zIndex: 1,
+          }}
+        />
       </div>
 
       <div className="hero-content">
-        <h1>
-          Purpose Built<br />For Your Specialty<br /><span className="accent">Real People + AI.</span><br />RCM Redefined.
-        </h1>
+        <MultiLineTyping
+          as="h1"
+          lines={TAGLINE_LINES}
+          typingSpeed={55}
+          lineGap={300}
+        />
       </div>
 
       <style>{`
