@@ -4118,3 +4118,75 @@ body:has(main.home-immersive) .footer {
     inset 0px 3px 4px -2px rgba(0, 0, 0, 0.18),
     0px -2px 14px 0px rgba(0, 0, 0, 0.18) !important;
 }
+
+/* ============================================================
+   HOME PAGE: INSIGHTS GRID HOVER-REVEAL EFFECT
+
+   User direction: 'just the hover effect — hover one card, others
+   dim/blur.' Keep current 3-card layout, dates, CTAs intact.
+
+   Pattern (adapted from a 21st.dev HoverRevealCards spec):
+     - Grid container hover -> ALL cards dim+blur+slight-shrink
+     - Individual card hover -> that card pops back to full opacity,
+       no blur, slight lift+scale-up
+
+   Implementation note: uses :hover, so touch devices skip the
+   effect entirely (taps just trigger navigation). Wrapped in
+   media query gate for prefers-reduced-motion.
+
+   Specificity chain:
+     .insight-card:hover                                  (0,1,0)
+       — existing hover lift from InsightCard.tsx
+     .insights-tabs-grid:hover .insight-card              (0,1,1)
+       — dim siblings; wins over the bare :hover because
+         child .insight-card always satisfies grid:hover when
+         a card is hovered
+     .insights-tabs-grid:hover .insight-card:hover        (0,2,1)
+       — restore focused card; wins over both
+
+   Transitions are added on the .insight-card itself (longhand
+   list including opacity + filter) so the dim/blur/restore
+   animate smoothly together. Existing inline transition is
+   overridden via CSS specificity (inline style normally wins,
+   but adding a same-property declaration in a stylesheet with
+   !important defeats inline). Using !important here is the
+   minimal-risk path; without it the inline transition list
+   (which doesn't include opacity/filter) would cause those
+   properties to snap rather than animate.
+============================================================ */
+
+.home-immersive .insight-card {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease !important;
+}
+
+/* When the grid is being hovered, dim every card. */
+.home-immersive .insights-tabs-grid:hover .insight-card {
+  opacity: 0.55;
+  filter: blur(2px);
+  transform: scale(0.98);
+}
+
+/* The card currently under the cursor: undo the dim, add a small
+   lift + scale-up so it visibly 'pops forward'. Specificity beats
+   the dim rule because of the extra :hover. */
+.home-immersive .insights-tabs-grid:hover .insight-card:hover {
+  opacity: 1;
+  filter: none;
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Honor reduced-motion: skip the dim/blur entirely. Cards still
+   navigate on click; users with motion sensitivity don't get a
+   suddenly-pulsing UI. */
+@media (prefers-reduced-motion: reduce) {
+  .home-immersive .insights-tabs-grid:hover .insight-card,
+  .home-immersive .insights-tabs-grid:hover .insight-card:hover {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
