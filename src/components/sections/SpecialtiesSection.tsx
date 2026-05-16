@@ -74,7 +74,7 @@ export default function SpecialtiesSection() {
         <RevealOnScroll direction="up" delay={0.1}>
           <header className="specialties-header">
             <h2 className="specialties-title">
-              Built for <span className="accent">your</span> specialty.
+              Built for <span className="accent">your</span> specialty
             </h2>
           </header>
         </RevealOnScroll>

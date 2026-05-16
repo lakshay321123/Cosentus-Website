@@ -61,7 +61,7 @@ export default function RASection() {
               call-to-action above the grid. */}
           <RevealOnScroll direction="up" delay={0.1}>
             <h2 className="ra-heading">
-              Click on any agent to start a conversation
+              Click on any agent to start a <span className="accent">conversation</span>
             </h2>
           </RevealOnScroll>
 
@@ -148,24 +148,31 @@ export default function RASection() {
         }
 
         /* ===== Section heading =====
-           Smaller than the canonical .section-title (per user
-           direction: "smaller text"). Sized so the long sentence
-           "Click on any agent to start a conversation" fits on a
-           single line on desktop. At the upper clamp value (28px)
-           the text is ~616px wide; the 800px max-width gives
-           breathing room. On narrow mobile viewports it may wrap
-           to two lines, which is acceptable. */
+           Sized to match the canonical home-page heading scale
+           (clamp 32-48px, weight 300) used by SpecialtiesSection,
+           ResultsSection, PartnersSection, TestimonialsSection.
+           User direction: 'all home headings same size as Built
+           for your specialty.' This reverses an earlier
+           "smaller text" instruction.
+           At the upper clamp value (48px) the sentence "Click on
+           any agent to start a conversation" needs roughly 1050px
+           — set max-width: 1100px so it stays on one line on
+           wide viewports. Will wrap to two lines on narrower
+           viewports, expected. */
         .ra-heading {
           font-family: var(--font-display);
-          font-size: clamp(20px, 2.2vw, 28px);
+          font-size: clamp(32px, 4vw, 48px);
           font-weight: 300;
-          line-height: 1.3;
-          letter-spacing: -0.01em;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
           color: var(--gray-900);
           margin: 0 auto;
           text-align: center;
-          max-width: 800px;
+          max-width: 1100px;
           width: 100%;
+        }
+        .ra-heading .accent {
+          color: #00B5D6;
         }
 
         /* ===== 9 / 15 / 23 stats row =====

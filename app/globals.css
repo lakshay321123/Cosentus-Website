@@ -4190,3 +4190,22 @@ body:has(main.home-immersive) .footer {
     transform: none;
   }
 }
+
+/* ============================================================
+   HOME PAGE: UNIFY HEADING SIZES
+
+   User direction: 'all home page headings should be the same size
+   as "Built for your specialty" (clamp 32-48px).' This applies to
+   sections whose component-level size differs from the reference.
+
+   The TestimonialsSection h2 is set inline to clamp(32px, 4.5vw,
+   56px) — slightly larger upper bound than the reference. On
+   non-home pages that inline value still wins. On the home page
+   we override it via specificity + !important so the heading
+   matches every other home section.
+============================================================ */
+
+.home-immersive .section.section-alt h2 {
+  font-size: clamp(32px, 4vw, 48px) !important;
+  line-height: 1.1 !important;
+}
