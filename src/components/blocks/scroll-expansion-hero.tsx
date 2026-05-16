@@ -76,11 +76,16 @@ const ScrollExpandMedia = ({
   // scrollProgress drives all the inline-style math. Needs to be
   // state so render updates the inline transforms/sizes.
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  // Once true, the trailing paragraph (below the expanded video)
-  // fades in. Set when progress >= 0.85 and never resets back to
-  // false (avoids flicker if user reverses scroll near the threshold).
-  const [showTrailing, setShowTrailing] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Trailing text visibility is DERIVED from progress, not a sticky
+  // state. Previously I had useState that flipped true at 0.85 and
+  // never went back to false — but that caused the trailing text to
+  // stay visible AT THE SAME TIME as the side text whenever the
+  // user reached 0.85 once and then scrolled to a mid state. By
+  // deriving from progress, the trailing text correctly disappears
+  // when the user scrolls back.
+  const showTrailing = scrollProgress >= 0.85;
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
   // Refs for state read inside handlers (avoids stale closures
@@ -118,9 +123,6 @@ const ScrollExpandMedia = ({
 
       if (newProgress >= 1) {
         expandedRef.current = true;
-        setShowTrailing(true);
-      } else if (newProgress >= 0.85) {
-        setShowTrailing(true);
       }
     };
 
@@ -150,9 +152,6 @@ const ScrollExpandMedia = ({
 
       if (newProgress >= 1) {
         expandedRef.current = true;
-        setShowTrailing(true);
-      } else if (newProgress >= 0.85) {
-        setShowTrailing(true);
       }
 
       touchYRef.current = touchY;
