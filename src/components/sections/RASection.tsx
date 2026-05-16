@@ -149,8 +149,11 @@ export default function RASection() {
 
         /* ===== Section heading =====
            Matches the canonical .section-title style used across
-           the site (clamp 32-48px, light weight 300). Left-aligned
-           per user direction. */
+           the site (clamp 32-48px, light weight 300). Centered and
+           width-capped to match the stats row + agent grid below
+           (both 640px max-width), so the heading sits directly
+           above the "9 / 15 / 23" stats numbers rather than
+           spilling out to the section edges. */
         .ra-heading {
           font-family: var(--font-display);
           font-size: clamp(32px, 4vw, 48px);
@@ -158,8 +161,10 @@ export default function RASection() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           color: var(--gray-900);
-          margin: 0;
-          text-align: left;
+          margin: 0 auto;
+          text-align: center;
+          max-width: 640px;
+          width: 100%;
         }
 
         /* ===== 9 / 15 / 23 stats row =====
@@ -304,9 +309,6 @@ export default function RASection() {
            match the standalone voice.html reference. */
         @media (max-width: 700px) {
           .ra-stack { gap: 36px; }
-          .ra-heading {
-            text-align: left;
-          }
           .ra-agent-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 22px 10px;

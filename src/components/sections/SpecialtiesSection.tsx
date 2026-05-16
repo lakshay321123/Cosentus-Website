@@ -76,9 +76,6 @@ export default function SpecialtiesSection() {
             <h2 className="specialties-title">
               Built for <span className="accent">your</span> specialty.
             </h2>
-            <p className="specialties-subtitle">
-              Pick your specialty to see exactly how Cosentus handles its billing complexity.
-            </p>
           </header>
         </RevealOnScroll>
 
@@ -146,13 +143,6 @@ export default function SpecialtiesSection() {
         .specialties-title .accent {
           color: #00B5D6;
           font-style: italic;
-        }
-
-        .specialties-subtitle {
-          font-size: 17px;
-          line-height: 1.5;
-          color: var(--gray-600);
-          margin: 0;
         }
 
         .specialties-grid {

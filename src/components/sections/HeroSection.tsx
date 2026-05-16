@@ -30,7 +30,7 @@ export default function HeroSection() {
 
       <div className="hero-content">
         <h1>
-          Purpose Built<br />For Your Specialty,<br /><span className="accent">Real People + AI.</span> RCM Redefined.
+          Purpose Built<br />For Your Specialty<br /><span className="accent">Real People + AI.</span><br />RCM Redefined.
         </h1>
       </div>
 

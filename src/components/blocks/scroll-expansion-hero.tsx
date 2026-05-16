@@ -224,11 +224,11 @@ const ScrollExpandMedia = ({
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
   const mediaWidth = isMobile
-    ? 300 + easedProgress * 600  // 300 → 900 (will be clamped by maxWidth 95vw)
-    : 600 + easedProgress * 950; // 600 → 1550
+    ? 300 + easedProgress * 400  // 300 → 700
+    : 600 + easedProgress * 600; // 600 → 1200
   const mediaHeight = isMobile
-    ? 220 + easedProgress * 320 // 220 → 540
-    : 400 + easedProgress * 400; // 400 → 800
+    ? 220 + easedProgress * 180 // 220 → 400
+    : 400 + easedProgress * 200; // 400 → 600
 
   // Desktop: media translates from +25vw (right-half center) to 0.
   // Mobile: stays at center.
@@ -392,8 +392,8 @@ const ScrollExpandMedia = ({
           position: absolute;
           top: 50%;
           left: 50%;
-          max-width: 95vw;
-          max-height: 85vh;
+          max-width: 90vw;
+          max-height: 65vh;
           border-radius: 16px;
           overflow: hidden;
           /* Teal border + glow so the small frame is visible against
@@ -419,11 +419,14 @@ const ScrollExpandMedia = ({
           will-change: opacity;
         }
 
-        /* Trailing text — sits at the bottom-ish of the section,
-           visible only after expansion completes. */
+        /* Trailing text — positioned just BELOW the fully-expanded
+           media frame, not behind it. Frame is centered at top:50%
+           with max-height 65vh, so its bottom edge sits at 82.5vh.
+           Trailing text at top:85vh leaves a small visual gap and
+           sits in the cleared bottom strip. */
         .scroll-expand-trailing-text {
           position: absolute;
-          bottom: 8vh;
+          top: 85vh;
           left: 50%;
           transform: translateX(-50%);
           width: min(900px, 90vw);
@@ -445,7 +448,7 @@ const ScrollExpandMedia = ({
             font-size: 18px;
           }
           .scroll-expand-trailing-text {
-            bottom: 5vh;
+            top: 86vh;
             font-size: 15px;
           }
         }
