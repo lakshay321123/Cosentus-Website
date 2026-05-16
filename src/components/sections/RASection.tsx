@@ -148,22 +148,23 @@ export default function RASection() {
         }
 
         /* ===== Section heading =====
-           Matches the canonical .section-title style used across
-           the site (clamp 32-48px, light weight 300). Centered and
-           width-capped to match the stats row + agent grid below
-           (both 640px max-width), so the heading sits directly
-           above the "9 / 15 / 23" stats numbers rather than
-           spilling out to the section edges. */
+           Smaller than the canonical .section-title (per user
+           direction: "smaller text"). Sized so the long sentence
+           "Click on any agent to start a conversation" fits on a
+           single line on desktop. At the upper clamp value (28px)
+           the text is ~616px wide; the 800px max-width gives
+           breathing room. On narrow mobile viewports it may wrap
+           to two lines, which is acceptable. */
         .ra-heading {
           font-family: var(--font-display);
-          font-size: clamp(32px, 4vw, 48px);
+          font-size: clamp(20px, 2.2vw, 28px);
           font-weight: 300;
-          line-height: 1.1;
-          letter-spacing: -0.02em;
+          line-height: 1.3;
+          letter-spacing: -0.01em;
           color: var(--gray-900);
           margin: 0 auto;
           text-align: center;
-          max-width: 640px;
+          max-width: 800px;
           width: 100%;
         }
 
