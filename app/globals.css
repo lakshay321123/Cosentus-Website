@@ -4027,27 +4027,31 @@ body:has(main.home-immersive) .footer a:hover {
 }
 
 /* ============================================================
-   HOME PAGE: STRIP ALL WHITE LIQUID-GLASS BORDERS / EDGE-LIGHTS
+   HOME PAGE: LIQUID GLASS — NO HARD BORDERS
 
-   User direction: remove visible white outlines from every glass
-   box on the home page. Keep frosted backgrounds (the tint) and
-   keep outer drop shadows (depth). Kill:
-     - 1px white-translucent borders
-     - inset white shadows (the "lit edge" Apple-glass effect)
-     - white-translucent border-tops on section dividers
+   User direction: "I want liquid glass but don't want white
+   outline — it was too much."
 
-   Approach: target every home-immersive glass element explicitly
-   and force border:none + a clean dark drop shadow. The !important
-   defeats both the previous CSS rules (which set 1px white borders)
-   and inline boxShadow values in tab/card components.
+   The hard 1px solid white-translucent border was reading as a
+   visible outline against the dark immersive bg. The directional
+   inset white shadows (top-left highlight, bottom-right sheen)
+   are what give the "lit-edge" liquid-glass feel — those are
+   kept, but at lower alpha so they whisper instead of shout.
+
+   Approach: nuke the 1px borders and the equivalent
+   inset-zero-spread white ring (which acts like a 1px border via
+   box-shadow). Restore the directional highlight insets at
+   ~30-40% lower alpha. Outer drop shadow for depth.
 
    Preserved:
-     - Agent circle teal border (#00B5D6) — not a "white outline"
-     - Backdrop-filter blur on glass surfaces
-     - Frosted background tints (rgba 255,255,255 with low alpha)
+     - Frosted background tints + backdrop-filter (glass surface)
+     - Directional inset highlights (soft lit-edge feel)
+     - Outer drop shadows (depth)
+     - Agent circle teal border (#00B5D6) — brand accent, not white
 ============================================================ */
 
-/* Cards, tabs, buttons, partner-strip dividers — strip borders. */
+/* Cards, tabs, buttons, glass containers — strip border, replace
+   shadow stack with softer liquid-glass insets (no hard ring). */
 .home-immersive .insight-card,
 .home-immersive .insights-card,
 .home-immersive .service-card,
@@ -4068,35 +4072,49 @@ body:has(main.home-immersive) .footer a:hover {
 .home-immersive [style*="background:#FFFFFF"] {
   border: none !important;
   box-shadow:
-    0px 1px 4px 0px rgba(0, 0, 0, 0.10),
-    0px 8px 22px 0px rgba(0, 0, 0, 0.18) !important;
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.35),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.25),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.20),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.20),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
 }
 
-/* Hover states — keep the same flat shadow approach (no edge highlight). */
+/* Hover state — strengthen the lit-edge slightly (still no border)
+   so the user gets visual feedback on hover. */
 .home-immersive .insight-card:hover,
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover,
 .home-immersive .specialty-card-link:hover {
   border: none !important;
   box-shadow:
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.50),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.35),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.28),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
     0px 2px 6px 0px rgba(0, 0, 0, 0.12),
     0px 14px 32px 0px rgba(0, 0, 0, 0.28) !important;
 }
 
-/* Testimonial arrows + Partners section divider line. */
+/* Testimonial arrows — keep glass tint, no border. */
 .home-immersive .t-arrow,
 .home-immersive .t-arrow:hover {
   border: none !important;
 }
+
+/* Partners section + any section divider with border-top set
+   inline — strip the divider line (it was 1px white-translucent). */
 .home-immersive .partners-section,
 .home-immersive section[style*="border-top"] {
   border-top: none !important;
 }
 
-/* Footer glass uses :has() — strip its border + inset shadows too. */
+/* Footer glass on home (uses :has() selector) — same treatment. */
 body:has(main.home-immersive) .footer {
   border: none !important;
   box-shadow:
-    0px 1px 4px 0px rgba(0, 0, 0, 0.10),
+    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.30),
+    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.22),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.18),
     0px -2px 14px 0px rgba(0, 0, 0, 0.18) !important;
 }
