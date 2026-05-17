@@ -89,58 +89,75 @@ const STEP_Y_DESKTOP = 28
 const STEP_X_MOBILE = 22
 const STEP_Y_MOBILE = 16
 
-// When a card is focused, cards in front of it shift this much
-// further down the diagonal per-card-of-distance so the focused
-// card is no longer occluded.
-const PUSH_X_DESKTOP = 50
-const PUSH_Y_DESKTOP = 28
-const PUSH_X_MOBILE = 16
-const PUSH_Y_MOBILE = 12
-
 export default function HomeTestimonials({
   testimonials = defaultTestimonials,
   title = <>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>,
 }: Props = {}) {
+  // Hover for affordance (lift on rest cards). Click for focus
+  // (sends the card to the right-side reading area).
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
-  const [tappedIdx, setTappedIdx] = useState<number | null>(null)
+  const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [isNarrow, setIsNarrow] = useState(false)
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 900)
+    const check = () => {
+      const w = window.innerWidth
+      setIsMobile(w <= 900)
+      // Below 1200px the container doesn't have enough inner width
+      // to fit the stack + a side-by-side reading area cleanly
+      // (stack 660 + gap 60 + card 420 = 1140 needs ~1140 inner;
+      // a 1200px viewport with 24px padding * 2 leaves 1152 inner).
+      setIsNarrow(w < 1200)
+    }
     check()
     window.addEventListener('resize', check, { passive: true })
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // On mobile, tap is the focus mechanism; on desktop, hover is.
-  const focusedIdx = isMobile ? tappedIdx : hoveredIdx
-
-  // On mobile, tapping outside any card clears focus.
+  // Click outside any card clears focus (both desktop and mobile).
   useEffect(() => {
-    if (!isMobile) return
-    const onDocTap = (e: MouseEvent) => {
+    if (focusedIdx === null) return
+    const onDocClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null
       if (target && !target.closest('[data-testimonial-card]')) {
-        setTappedIdx(null)
+        setFocusedIdx(null)
       }
     }
-    document.addEventListener('click', onDocTap)
-    return () => document.removeEventListener('click', onDocTap)
-  }, [isMobile])
+    document.addEventListener('click', onDocClick)
+    return () => document.removeEventListener('click', onDocClick)
+  }, [focusedIdx])
 
   const stepX = isMobile ? STEP_X_MOBILE : STEP_X_DESKTOP
   const stepY = isMobile ? STEP_Y_MOBILE : STEP_Y_DESKTOP
-  const pushX = isMobile ? PUSH_X_MOBILE : PUSH_X_DESKTOP
-  const pushY = isMobile ? PUSH_Y_MOBILE : PUSH_Y_DESKTOP
 
-  // Reserve enough space so the stack doesn't overlap the next
-  // section. Worst case: focused = card 0, every later card shifts
-  // by (i * step) + (i * push) = i * (step + push).
   const N = testimonials.length
   const cardHeight = isMobile ? 220 : 280
   const cardWidth = isMobile ? 280 : 420
-  const reservedHeight = (N - 1) * (stepY + pushY) + cardHeight + 40
-  const reservedWidth = (N - 1) * (stepX + pushX) + cardWidth
+
+  // Stack reserved space (without any push, since focused card now
+  // exits the stack rather than displacing other cards).
+  const stackWidth = (N - 1) * stepX + cardWidth
+  const stackHeight = (N - 1) * stepY + cardHeight
+
+  // Mobile and narrow desktop don't have room for a side-by-side
+  // reading position — fall back to the "lift in place" focus
+  // behavior. Wide desktop gets the full slide-to-right treatment.
+  const useSlideOut = !isMobile && !isNarrow
+
+  // Reading-area position on the right of the stack (desktop only).
+  // Gap of 60-100px from the rightmost edge of the stack puts the
+  // focused card in the empty area visible in the user's screenshot.
+  const focusedX = stackWidth + 60
+  const focusedY = (stackHeight - cardHeight) / 2
+
+  // Container height needs to accommodate either the stack or the
+  // focused card position, whichever is taller.
+  const reservedHeight = Math.max(stackHeight + 40, cardHeight + 40)
+  // Container width needs to fit stack + reading area on desktop.
+  const reservedWidth = useSlideOut
+    ? focusedX + cardWidth
+    : stackWidth
 
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
@@ -185,20 +202,44 @@ export default function HomeTestimonials({
                 const baseX = i * stepX
                 const baseY = i * stepY
 
-                // If a card AHEAD of this one is focused (focusedIdx < i),
-                // push this card further along the diagonal.
-                let extraX = 0
-                let extraY = 0
-                if (focusedIdx !== null && focusedIdx < i) {
-                  const cardsAhead = i - focusedIdx
-                  extraX = cardsAhead * pushX
-                  extraY = cardsAhead * pushY
-                }
-                // If THIS card is focused, lift slightly toward viewer.
-                const liftY = focusedIdx === i ? (isMobile ? -8 : -14) : 0
-
                 const isFocused = focusedIdx === i
+                const isHovered = hoveredIdx === i && focusedIdx === null
+                const anyFocused = focusedIdx !== null
                 const skew = isMobile ? 0 : -8
+
+                // Build transform per card:
+                //  - Focused (desktop): slide to right reading area,
+                //    un-skew, scale up.
+                //  - Focused (mobile): lift in place (no slide; mobile
+                //    has no room for side-by-side).
+                //  - Unfocused while another is focused: stay in stack,
+                //    dim and blur slightly so the focused one stands
+                //    out.
+                //  - Hovered (and no card focused): lift slightly.
+                //  - Default: base stack position.
+                let transform: string
+                let opacity = 1
+                let cardFilter = 'grayscale(1)'
+                let extraBlur = ''
+
+                if (isFocused && useSlideOut) {
+                  transform = `translate(${focusedX}px, ${focusedY}px) skewY(0deg) scale(1.05)`
+                  cardFilter = 'grayscale(0)'
+                } else if (isFocused) {
+                  // Mobile: lift in place, no slide.
+                  transform = `translate(${baseX}px, ${baseY - 8}px) skewY(${skew}deg)`
+                  cardFilter = 'grayscale(0)'
+                } else if (anyFocused) {
+                  // Another card is focused — recede.
+                  transform = `translate(${baseX}px, ${baseY}px) skewY(${skew}deg)`
+                  opacity = 0.4
+                  extraBlur = ' blur(2px)'
+                } else if (isHovered) {
+                  // Hover affordance — lift slightly.
+                  transform = `translate(${baseX}px, ${baseY - 6}px) skewY(${skew}deg) scale(1.01)`
+                } else {
+                  transform = `translate(${baseX}px, ${baseY}px) skewY(${skew}deg)`
+                }
 
                 return (
                   <article
@@ -207,10 +248,11 @@ export default function HomeTestimonials({
                     onMouseEnter={() => !isMobile && setHoveredIdx(i)}
                     onMouseLeave={() => !isMobile && setHoveredIdx(null)}
                     onClick={(e) => {
-                      if (isMobile) {
-                        e.stopPropagation()
-                        setTappedIdx(prev => (prev === i ? null : i))
-                      }
+                      e.stopPropagation()
+                      // Toggle: clicking the focused card dismisses it;
+                      // clicking another card switches focus to that
+                      // card.
+                      setFocusedIdx(prev => (prev === i ? null : i))
                     }}
                     style={{
                       position: 'absolute',
@@ -218,11 +260,13 @@ export default function HomeTestimonials({
                       top: 0,
                       width: cardWidth,
                       minHeight: cardHeight,
-                      transform: `translate(${baseX + extraX}px, ${baseY + extraY + liftY}px) skewY(${skew}deg)`,
-                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease, box-shadow 0.5s ease, background 0.4s ease',
-                      filter: isFocused ? 'grayscale(0)' : 'grayscale(1)',
-                      zIndex: i + 1,
-                      cursor: isMobile ? 'pointer' : 'default',
+                      transform,
+                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, box-shadow 0.5s ease, background 0.4s ease, opacity 0.4s ease',
+                      filter: `${cardFilter}${extraBlur}`,
+                      opacity,
+                      // Focused card on top; otherwise stack-order by index.
+                      zIndex: isFocused ? 100 : i + 1,
+                      cursor: 'pointer',
                       // Cosentus pantone gray (#616161, RGB 97,97,97).
                       // Translucent so the page video bg shows through;
                       // backdropFilter adds the glass blur. Focused
@@ -234,14 +278,14 @@ export default function HomeTestimonials({
                       // thin for white text on bright frames of the
                       // underlying video.
                       background: isFocused
-                        ? 'rgba(97, 97, 97, 0.72)'
+                        ? 'rgba(97, 97, 97, 0.82)'
                         : 'rgba(97, 97, 97, 0.55)',
                       backdropFilter: 'blur(14px) saturate(140%)',
                       WebkitBackdropFilter: 'blur(14px) saturate(140%)',
                       borderRadius: 16,
                       padding: isMobile ? '20px 22px' : '28px 32px',
                       boxShadow: isFocused
-                        ? '0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10)'
+                        ? '0 30px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
                         : '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
                       display: 'flex',
                       flexDirection: 'column',
@@ -326,7 +370,7 @@ export default function HomeTestimonials({
             </div>
           </div>
 
-          {isMobile && (
+          {focusedIdx === null && (
             <div style={{
               textAlign: 'center',
               fontSize: 12,
@@ -334,7 +378,7 @@ export default function HomeTestimonials({
               marginTop: 24,
               fontStyle: 'italic',
             }}>
-              Tap a card to focus
+              {isMobile ? 'Tap a card to read it' : 'Click a card to read it'}
             </div>
           )}
         </RevealOnScroll>
