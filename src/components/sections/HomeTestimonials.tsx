@@ -219,17 +219,30 @@ export default function HomeTestimonials({
                       width: cardWidth,
                       minHeight: cardHeight,
                       transform: `translate(${baseX + extraX}px, ${baseY + extraY + liftY}px) skewY(${skew}deg)`,
-                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease, box-shadow 0.5s ease',
+                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease, box-shadow 0.5s ease, background 0.4s ease',
                       filter: isFocused ? 'grayscale(0)' : 'grayscale(1)',
                       zIndex: i + 1,
                       cursor: isMobile ? 'pointer' : 'default',
-                      background: 'var(--white)',
+                      // Cosentus pantone gray (#616161, RGB 97,97,97).
+                      // Translucent so the page video bg shows through;
+                      // backdropFilter adds the glass blur. Focused
+                      // cards bump opacity higher for stronger
+                      // readability. This explicit value dodges the
+                      // home-immersive attribute selector for
+                      // [style*="background: var(--white)"] which
+                      // would otherwise apply an 8%-white tint — too
+                      // thin for white text on bright frames of the
+                      // underlying video.
+                      background: isFocused
+                        ? 'rgba(97, 97, 97, 0.72)'
+                        : 'rgba(97, 97, 97, 0.55)',
+                      backdropFilter: 'blur(14px) saturate(140%)',
+                      WebkitBackdropFilter: 'blur(14px) saturate(140%)',
                       borderRadius: 16,
-                      border: '1px solid var(--gray-200)',
                       padding: isMobile ? '20px 22px' : '28px 32px',
                       boxShadow: isFocused
-                        ? '0 20px 50px rgba(0, 0, 0, 0.18)'
-                        : '0 8px 22px rgba(0, 0, 0, 0.10)',
+                        ? '0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10)'
+                        : '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
                       display: 'flex',
                       flexDirection: 'column',
                       gap: 12,
