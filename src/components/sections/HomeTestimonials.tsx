@@ -93,9 +93,18 @@ export default function HomeTestimonials({
   testimonials = defaultTestimonials,
   title = <>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>,
 }: Props = {}) {
-  // Hover for affordance (lift on rest cards). Click for focus
-  // (sends the card to the right-side reading area).
+  // Three states, in order of "commitment":
+  //   hoveredIdx — desktop only, mouse over a card. Triggers a
+  //     preview pop (lift + scale + colorize) but doesn't commit.
+  //   previewIdx — mobile only, after a single tap. Same visual
+  //     as desktop hover. Tap the same card again to promote it
+  //     to focusedIdx.
+  //   focusedIdx — committed focus. On wide desktop this triggers
+  //     the slide-to-right reading area. On mobile/narrow desktop
+  //     this just lifts the card a bit more and recedes the
+  //     others to 0.75 opacity.
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+  const [previewIdx, setPreviewIdx] = useState<number | null>(null)
   const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [isNarrow, setIsNarrow] = useState(false)
@@ -115,18 +124,19 @@ export default function HomeTestimonials({
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // Click outside any card clears focus (both desktop and mobile).
+  // Click outside any card clears both preview and focus.
   useEffect(() => {
-    if (focusedIdx === null) return
+    if (focusedIdx === null && previewIdx === null) return
     const onDocClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null
       if (target && !target.closest('[data-testimonial-card]')) {
         setFocusedIdx(null)
+        setPreviewIdx(null)
       }
     }
     document.addEventListener('click', onDocClick)
     return () => document.removeEventListener('click', onDocClick)
-  }, [focusedIdx])
+  }, [focusedIdx, previewIdx])
 
   const stepX = isMobile ? STEP_X_MOBILE : STEP_X_DESKTOP
   const stepY = isMobile ? STEP_Y_MOBILE : STEP_Y_DESKTOP
@@ -203,43 +213,55 @@ export default function HomeTestimonials({
                 const baseY = i * stepY
 
                 const isFocused = focusedIdx === i
-                const isHovered = hoveredIdx === i && focusedIdx === null
+                // Preview is hover on desktop, OR single-tap on mobile
+                // (before the second tap that commits to focus).
+                const isHovered = !isMobile && hoveredIdx === i
+                const isPreviewed = isMobile && previewIdx === i
+                const isPreview = (isHovered || isPreviewed) && focusedIdx === null
                 const anyFocused = focusedIdx !== null
                 const skew = isMobile ? 0 : -8
 
                 // Build transform per card:
-                //  - Focused (desktop): slide to right reading area,
-                //    un-skew, scale up.
-                //  - Focused (mobile): lift in place (no slide; mobile
-                //    has no room for side-by-side).
-                //  - Unfocused while another is focused: stay in stack,
-                //    dim and blur slightly so the focused one stands
-                //    out.
-                //  - Hovered (and no card focused): lift slightly.
-                //  - Default: base stack position.
+                //  - Focused (wide desktop): slide to right reading
+                //    area, un-skew, scale up 1.05.
+                //  - Focused (mobile/narrow): lift more in place,
+                //    keep skew.
+                //  - Preview (hover/single-tap, no commit yet): lift
+                //    forward, scale 1.04, colorize, z above siblings.
+                //  - Unfocused while another is focused: stay in
+                //    stack, opacity 0.75 (still readable).
+                //  - Default: base stack position, grayscale.
                 let transform: string
                 let opacity = 1
                 let cardFilter = 'grayscale(1)'
-                let extraBlur = ''
 
                 if (isFocused && useSlideOut) {
                   transform = `translate(${focusedX}px, ${focusedY}px) skewY(0deg) scale(1.05)`
                   cardFilter = 'grayscale(0)'
                 } else if (isFocused) {
-                  // Mobile: lift in place, no slide.
-                  transform = `translate(${baseX}px, ${baseY - 8}px) skewY(${skew}deg)`
+                  // Mobile / narrow desktop: lift more, no slide.
+                  transform = `translate(${baseX}px, ${baseY - 14}px) skewY(${skew}deg) scale(1.03)`
+                  cardFilter = 'grayscale(0)'
+                } else if (isPreview) {
+                  // Preview pop: lift, scale, colorize. Stays in
+                  // stack but pops noticeably forward and is
+                  // readable.
+                  transform = `translate(${baseX}px, ${baseY - 14}px) skewY(${skew}deg) scale(1.04)`
                   cardFilter = 'grayscale(0)'
                 } else if (anyFocused) {
-                  // Another card is focused — recede.
+                  // Another card is focused. Gentle recede — still
+                  // readable, just visually de-emphasized.
                   transform = `translate(${baseX}px, ${baseY}px) skewY(${skew}deg)`
-                  opacity = 0.4
-                  extraBlur = ' blur(2px)'
-                } else if (isHovered) {
-                  // Hover affordance — lift slightly.
-                  transform = `translate(${baseX}px, ${baseY - 6}px) skewY(${skew}deg) scale(1.01)`
+                  opacity = 0.75
                 } else {
                   transform = `translate(${baseX}px, ${baseY}px) skewY(${skew}deg)`
                 }
+
+                // zIndex layering:
+                //   focused: top (100)
+                //   preview/hover: above siblings but below focused (50)
+                //   rest: stack order (1..N)
+                const zIndex = isFocused ? 100 : isPreview ? 50 : i + 1
 
                 return (
                   <article
@@ -249,10 +271,28 @@ export default function HomeTestimonials({
                     onMouseLeave={() => !isMobile && setHoveredIdx(null)}
                     onClick={(e) => {
                       e.stopPropagation()
-                      // Toggle: clicking the focused card dismisses it;
-                      // clicking another card switches focus to that
-                      // card.
-                      setFocusedIdx(prev => (prev === i ? null : i))
+                      if (isMobile) {
+                        // Two-step on mobile:
+                        //   Tap 1 on a fresh card -> preview state.
+                        //   Tap 2 on the same card -> commit to focus.
+                        //   Tap a different card -> reset to preview.
+                        if (focusedIdx === i) {
+                          // Already focused — dismiss.
+                          setFocusedIdx(null)
+                          setPreviewIdx(null)
+                        } else if (previewIdx === i) {
+                          // Same card preview -> commit.
+                          setFocusedIdx(i)
+                          setPreviewIdx(null)
+                        } else {
+                          // Fresh card or different card -> preview.
+                          setPreviewIdx(i)
+                          setFocusedIdx(null)
+                        }
+                      } else {
+                        // Desktop: single click toggles focus.
+                        setFocusedIdx(prev => (prev === i ? null : i))
+                      }
                     }}
                     style={{
                       position: 'absolute',
@@ -261,11 +301,10 @@ export default function HomeTestimonials({
                       width: cardWidth,
                       minHeight: cardHeight,
                       transform,
-                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, box-shadow 0.5s ease, background 0.4s ease, opacity 0.4s ease',
-                      filter: `${cardFilter}${extraBlur}`,
+                      transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease, box-shadow 0.4s ease, background 0.35s ease, opacity 0.35s ease',
+                      filter: cardFilter,
                       opacity,
-                      // Focused card on top; otherwise stack-order by index.
-                      zIndex: isFocused ? 100 : i + 1,
+                      zIndex,
                       cursor: 'pointer',
                       // Cosentus pantone gray (#616161, RGB 97,97,97).
                       // Translucent so the page video bg shows through;
@@ -279,14 +318,18 @@ export default function HomeTestimonials({
                       // underlying video.
                       background: isFocused
                         ? 'rgba(97, 97, 97, 0.82)'
-                        : 'rgba(97, 97, 97, 0.55)',
+                        : isPreview
+                          ? 'rgba(97, 97, 97, 0.70)'
+                          : 'rgba(97, 97, 97, 0.55)',
                       backdropFilter: 'blur(14px) saturate(140%)',
                       WebkitBackdropFilter: 'blur(14px) saturate(140%)',
                       borderRadius: 16,
                       padding: isMobile ? '20px 22px' : '28px 32px',
                       boxShadow: isFocused
                         ? '0 30px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
-                        : '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+                        : isPreview
+                          ? '0 18px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10)'
+                          : '0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
                       display: 'flex',
                       flexDirection: 'column',
                       gap: 12,
@@ -370,7 +413,7 @@ export default function HomeTestimonials({
             </div>
           </div>
 
-          {focusedIdx === null && (
+          {focusedIdx === null && previewIdx === null && (
             <div style={{
               textAlign: 'center',
               fontSize: 12,
@@ -378,7 +421,9 @@ export default function HomeTestimonials({
               marginTop: 24,
               fontStyle: 'italic',
             }}>
-              {isMobile ? 'Tap a card to read it' : 'Click a card to read it'}
+              {isMobile
+                ? 'Tap to preview, tap again to focus'
+                : 'Hover to preview, click to focus'}
             </div>
           )}
         </RevealOnScroll>
