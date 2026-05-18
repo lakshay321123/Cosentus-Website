@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
-import TestimonialCard, { type CardPosition } from '@/components/ui/TestimonialCard'
+import TestimonialCard from '@/components/ui/TestimonialCard'
 
 /**
  * TestimonialsShuffleSection — home-page-only fan-stack variant of the
@@ -12,20 +12,24 @@ import TestimonialCard, { type CardPosition } from '@/components/ui/TestimonialC
  * carousel design is the documented "identical site-wide" pattern; this
  * is an intentional home-only divergence per design direction.
  *
- * Data:
- *   Uses the same 5 real Cosentus testimonials as the shared
- *   TestimonialsSection so no content is lost in the swap. All 5 are
- *   reachable via drag or the prev/next controls; only 3 are visible at
- *   a time (front/middle/back), with the remaining 2 sitting hidden
- *   behind 'back' until they cycle in.
+ * Stack model:
+ *   All N testimonials are rendered simultaneously. The visual fan
+ *   spreads from front (stackIndex 0, -6deg, x 0%) to back (stackIndex
+ *   N-1, +6deg, x 66%). Each card's rotate/x/opacity is derived by
+ *   linear interpolation across stackIndex inside the card component.
  *
- * Behaviour parity with the shared section:
- *   - Auto-advance every 5s
- *   - Pause on hover
- *   - Prev/next arrow buttons (reuse .t-arrow class so the global
- *     home-immersive liquid-glass styling in app/globals.css applies
- *     automatically)
- *   - Aria-labels on all controls
+ *   A single `offset` integer tracks which testimonial is at front:
+ *     testimonials[i].stackIndex == (i - offset + N) % N
+ *   So advancing = `setOffset(o => (o + 1) % N)`.
+ *
+ *   This replaced an earlier 4-state enum (front/middle/back/hidden)
+ *   that only showed 3 cards visually for N>3. Users perceived the
+ *   gap between "5 dots" and "3 visible cards" as a bug.
+ *
+ * Behaviour:
+ *   - Auto-advance every 5s, paused on hover.
+ *   - Drag the front card left > 150px to advance manually.
+ *   - Tap a dot to bring that testimonial directly to front.
  */
 
 export type ShuffleTestimonial = {
@@ -35,9 +39,14 @@ export type ShuffleTestimonial = {
   role: string
 }
 
-// Identical copy of the data in the shared TestimonialsSection. Kept
-// duplicated (not imported) so this component is self-contained and
-// the shared section can evolve independently for the other 7 pages.
+// The 5 testimonials shared with TestimonialsSection (kept duplicated, not
+// imported, so the shared section can evolve independently for the other
+// 7 pages) plus 3 sourced from specialty-page overrides already in the
+// repo. Sources:
+//   - Ryan King: app/(site)/specialties/orthopedics/OrthopedicsContent.tsx
+//   - Randy Robbins: app/(site)/specialties/anesthesia/AnesthesiaContent.tsx
+//   - Aubrie Mastrangelo: app/(site)/specialties/behavioral-health/BehavioralHealthContent.tsx
+// All are real Cosentus testimonials already in production on those pages.
 const defaultTestimonials: ShuffleTestimonial[] = [
   {
     tag: 'Anesthesia',
@@ -74,6 +83,27 @@ const defaultTestimonials: ShuffleTestimonial[] = [
     name: 'Sujan Vatturi',
     role: 'CIO, Hope Services Counseling Center',
   },
+  {
+    tag: 'Orthopedic',
+    quote:
+      'Dedicated, flexible, and responsive team. Very pleased with increase in collections and their ability to work denials.',
+    name: 'Ryan King',
+    role: 'Director of Operations, Hand Microsurgery & Reconstructive Orthopaedic',
+  },
+  {
+    tag: 'Anesthesia',
+    quote:
+      'The Accreda team is always available and proactively communicates with me. They do a great job of ensuring there are hands on each claim. Extremely efficient and effective.',
+    name: 'Randy Robbins, M.D.',
+    role: 'Anesthesia Group Practice Administrator',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote:
+      'An invaluable CalAIMS billing partner — proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.',
+    name: 'Aubrie Mastrangelo',
+    role: 'Division Director, Bill Wilson Center',
+  },
 ]
 
 /** Initials from a name — strips honorifics ("Dr.", "M.D.") because they
@@ -86,15 +116,6 @@ function getInitials(name: string): string {
     .map(w => w[0])
     .slice(0, 2)
     .join('')
-}
-
-function buildInitialPositions(count: number): CardPosition[] {
-  return Array.from({ length: count }, (_, i) => {
-    if (i === 0) return 'front'
-    if (i === 1) return 'middle'
-    if (i === 2) return 'back'
-    return 'hidden'
-  })
 }
 
 interface Props {
@@ -112,43 +133,39 @@ export default function TestimonialsShuffleSection({
     </>
   ),
 }: Props = {}) {
-  const [positions, setPositions] = useState<CardPosition[]>(() =>
-    buildInitialPositions(testimonials.length)
-  )
+  // `offset` is the index of the testimonial currently at the FRONT of
+  // the stack. A testimonial at array index `i` has stackIndex
+  // `(i - offset + N) % N` (0 means front). Advancing the stack is just
+  // `setOffset(o => (o + 1) % N)`. This is far simpler than the previous
+  // position-array rotation and naturally supports any N.
+  const [offset, setOffset] = useState(0)
   const [paused, setPaused] = useState(false)
 
-  // If the testimonials array length changes (rare — usually constant),
-  // rebuild the position assignment from scratch.
-  useEffect(() => {
-    setPositions(buildInitialPositions(testimonials.length))
-  }, [testimonials.length])
+  const N = testimonials.length
 
-  // Advance: rotate positions array right by 1 (pop last, unshift to start).
-  // Effect: front -> hidden, middle -> front, back -> middle, next-hidden -> back.
-  // Called by:
-  //   - the auto-advance interval below
-  //   - the front card's drag-left-past-threshold gesture
-  // Wrapped in useCallback so the auto-advance interval doesn't churn.
+  // If the testimonials array length shrinks below the current offset
+  // (very rare — callers usually pass a constant array), clamp.
+  useEffect(() => {
+    if (offset >= N && N > 0) setOffset(0)
+  }, [N, offset])
+
+  // Advance: bring the NEXT testimonial to front. Wrapped in useCallback
+  // so the auto-advance interval doesn't churn and so the same identity
+  // can be passed to TestimonialCard.
   const handleAdvance = useCallback(() => {
-    setPositions(prev => {
-      if (prev.length === 0) return prev
-      const next = [...prev]
-      const last = next.pop() as CardPosition
-      next.unshift(last)
-      return next
-    })
-  }, [])
+    setOffset(o => (N > 0 ? (o + 1) % N : 0))
+  }, [N])
 
-  // Auto-advance every 5s unless paused (matches existing TestimonialsSection cadence).
+  // Auto-advance every 5s unless paused. Skipped when there's only one
+  // testimonial — no point rotating a stack of one.
   useEffect(() => {
-    if (paused) return
+    if (paused || N <= 1) return
     const t = setInterval(handleAdvance, 5000)
     return () => clearInterval(t)
-  }, [paused, handleAdvance])
+  }, [paused, handleAdvance, N])
 
-  // Find which testimonial index is currently at 'front' — used for the
-  // active dot indicator below the stack.
-  const frontIdx = positions.indexOf('front')
+  // The testimonial currently at front — used for active dot highlight.
+  const frontIdx = offset
 
   return (
     <section className="section section-alt" style={{ overflow: 'hidden' }}>
@@ -199,8 +216,12 @@ export default function TestimonialsShuffleSection({
                   author={t.name}
                   role={t.role}
                   initials={getInitials(t.name)}
-                  position={positions[i] ?? 'hidden'}
-                  isFront={positions[i] === 'front'}
+                  // stackIndex: 0 means front. Modular arithmetic on the
+                  // offset means clicking the dot for testimonial[N-1]
+                  // brings it directly to front, with intermediate cards
+                  // animating into their new fan positions.
+                  stackIndex={(i - offset + N) % N}
+                  totalCards={N}
                   onShuffleAdvance={handleAdvance}
                 />
               ))}
@@ -217,28 +238,13 @@ export default function TestimonialsShuffleSection({
                 return (
                   <button
                     key={i}
-                    onClick={() => {
-                      // Bring testimonials[i] to 'front' by advancing
-                      // the positions array `steps` times in a single
-                      // state update. Each advance is "last -> first":
-                      // see handleAdvance for the rationale. Doing the
-                      // whole rotation in one setState prevents the
-                      // auto-advance interval from racing intermediate
-                      // states and keeps framer-motion animating
-                      // smoothly from current -> target positions.
-                      const current = positions.indexOf('front')
-                      if (current === -1) return
-                      const len = positions.length
-                      const steps = (i - current + len) % len
-                      setPositions(prev => {
-                        const next = [...prev]
-                        for (let s = 0; s < steps; s++) {
-                          const last = next.pop() as CardPosition
-                          next.unshift(last)
-                        }
-                        return next
-                      })
-                    }}
+                    // Bring testimonials[i] to front. With the offset
+                    // model this is just `setOffset(i)`: a testimonial
+                    // at array index i has stackIndex (i - offset + N) % N,
+                    // and we want that to be 0, so offset = i.
+                    // framer-motion animates each card from its current
+                    // computed position to its new computed position.
+                    onClick={() => setOffset(i)}
                     aria-label={`Go to testimonial ${i + 1}`}
                     aria-current={active ? 'true' : undefined}
                     style={{
@@ -254,20 +260,6 @@ export default function TestimonialsShuffleSection({
                   />
                 )
               })}
-            </div>
-
-            {/* Hint shown beneath the dots — discoverability for the
-                drag interaction (which is the primary nav now). Subtle
-                so it doesn't dominate. */}
-            <div
-              style={{
-                fontSize: 12,
-                color: 'rgba(255, 255, 255, 0.55)',
-                fontFamily: 'var(--font-display)',
-                letterSpacing: '0.02em',
-              }}
-            >
-              Drag the top card or tap a dot to browse
             </div>
           </div>
         </RevealOnScroll>

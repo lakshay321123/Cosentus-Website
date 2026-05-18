@@ -11,23 +11,22 @@ import { motion, type PanInfo } from 'framer-motion'
  * TestimonialsSection arrow buttons (.t-arrow): cyan tint, backdrop-blur,
  * inset highlights, soft cyan glow.
  *
- * The fan stack:
- *   front  -> rotate -6deg, x 0%   (visible, draggable)
- *   middle -> rotate  0deg, x 33%  (visible)
- *   back   -> rotate  6deg, x 66%  (visible, furthest)
- *   hidden -> same as back but opacity 0 and zIndex below back
- *
- * The "hidden" position lets the parent rotate through 4+ testimonials
- * while only 3 are visible at once; hidden cards sit behind 'back' and
- * fade in when their turn comes up.
+ * Stack model:
+ *   stackIndex 0 .. (totalCards - 1)
+ *     0                -> front card (-6deg, x 0%, fully opaque, draggable)
+ *     totalCards - 1   -> back card  (+6deg, x 66%, slightly faded)
+ *   Every card in between sits on a linear interpolation across rotate,
+ *   x-offset, and opacity. This replaces the earlier 4-state enum
+ *   (front/middle/back/hidden) which only worked for exactly 3 visible
+ *   cards. With 5+ testimonials, the old enum hid the extras at opacity
+ *   0 behind 'back', which read as "5 dots but only 3 cards" to users.
  *
  * Drag interaction:
- *   - Only the front card is draggable (dragListener bound to isFront).
+ *   - drag={true} + dragListener={isFront} matches the 21st.dev source
+ *     exactly; only the front card responds to pointer events.
  *   - dragConstraints clamps the visual drag to origin (elastic feel).
  *   - On release, if the user dragged left > 150px, fire onShuffleAdvance.
  */
-
-export type CardPosition = 'front' | 'middle' | 'back' | 'hidden'
 
 export interface TestimonialCardProps {
   /** The quoted testimonial text (rendered inside curly quotes). */
@@ -40,20 +39,25 @@ export interface TestimonialCardProps {
   tag?: string
   /** Initials displayed inside the gradient avatar circle. */
   initials: string
-  /** Current position in the fan stack. */
-  position: CardPosition
-  /** True iff this card is currently the front card (controls drag + cursor). */
-  isFront: boolean
+  /** 0 = front card; (totalCards - 1) = back-most card. */
+  stackIndex: number
+  /** Total number of cards in the fan stack (used to compute spread). */
+  totalCards: number
   /** Fired when the user drags the front card left past the threshold. */
   onShuffleAdvance: () => void
 }
 
-const POSITION_CONFIG: Record<CardPosition, { rotate: string; x: string; opacity: number; zIndex: number }> = {
-  front:  { rotate: '-6deg', x: '0%',  opacity: 1, zIndex: 4 },
-  middle: { rotate: '0deg',  x: '33%', opacity: 1, zIndex: 3 },
-  back:   { rotate: '6deg',  x: '66%', opacity: 1, zIndex: 2 },
-  hidden: { rotate: '6deg',  x: '66%', opacity: 0, zIndex: 1 },
-}
+// Fan-spread parameters — tuned to match the original 3-card 21st.dev
+// look at the endpoints (front = -6deg/0%, back = +6deg/66%). The
+// in-between cards are linearly interpolated.
+const ROTATE_FRONT_DEG = -6
+const ROTATE_BACK_DEG = 6
+const X_BACK_PERCENT = 66
+// Opacity fade from front to back. Light fade (1.0 -> 0.7) gives a depth
+// cue without making back cards unreadable. The dark-glass surface
+// already blocks bleed-through, so heavy fading isn't needed.
+const OPACITY_FRONT = 1
+const OPACITY_BACK = 0.7
 
 const DRAG_THRESHOLD_PX = 150
 
@@ -63,11 +67,22 @@ export default function TestimonialCard({
   role,
   tag,
   initials,
-  position,
-  isFront,
+  stackIndex,
+  totalCards,
   onShuffleAdvance,
 }: TestimonialCardProps) {
-  const cfg = POSITION_CONFIG[position]
+  // progress: 0 at front card, 1 at back card. Guard against div-by-zero
+  // when only one testimonial exists.
+  const denom = Math.max(1, totalCards - 1)
+  const progress = stackIndex / denom
+
+  const rotateDeg = ROTATE_FRONT_DEG + progress * (ROTATE_BACK_DEG - ROTATE_FRONT_DEG)
+  const xPercent = progress * X_BACK_PERCENT
+  const cardOpacity = OPACITY_FRONT + progress * (OPACITY_BACK - OPACITY_FRONT)
+  // Front card has highest z so it sits on top of all others.
+  const zIndex = totalCards - stackIndex
+
+  const isFront = stackIndex === 0
 
   const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     // info.offset.x is negative for left drags. Threshold matches the
@@ -80,7 +95,7 @@ export default function TestimonialCard({
   return (
     <motion.div
       style={{
-        zIndex: cfg.zIndex,
+        zIndex,
         // Glass surface — dark teal-navy gradient with a cyan rim.
         //
         // We deliberately moved AWAY from the bright cyan tint (rgba(0,181,214,0.12))
@@ -103,7 +118,11 @@ export default function TestimonialCard({
           'inset 0 -1px 0 rgba(0, 40, 55, 0.55), ' +     // darker shadow rim along the bottom
           '0 20px 60px rgba(0, 181, 214, 0.25)',         // soft cyan glow under the card
       }}
-      animate={{ rotate: cfg.rotate, x: cfg.x, opacity: cfg.opacity }}
+      animate={{
+        rotate: `${rotateDeg}deg`,
+        x: `${xPercent}%`,
+        opacity: cardOpacity,
+      }}
       // Drag config matches the 21st.dev source pattern exactly:
       //   drag={true}              -> drag is enabled on every card,
       //   dragListener={isFront}   -> but only the front card actually
