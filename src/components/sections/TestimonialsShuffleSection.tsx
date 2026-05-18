@@ -39,14 +39,9 @@ export type ShuffleTestimonial = {
   role: string
 }
 
-// The 5 testimonials shared with TestimonialsSection (kept duplicated, not
-// imported, so the shared section can evolve independently for the other
-// 7 pages) plus 3 sourced from specialty-page overrides already in the
-// repo. Sources:
-//   - Ryan King: app/(site)/specialties/orthopedics/OrthopedicsContent.tsx
-//   - Randy Robbins: app/(site)/specialties/anesthesia/AnesthesiaContent.tsx
-//   - Aubrie Mastrangelo: app/(site)/specialties/behavioral-health/BehavioralHealthContent.tsx
-// All are real Cosentus testimonials already in production on those pages.
+// The 5 testimonials shared with TestimonialsSection. Kept duplicated
+// (not imported) so this component is self-contained and the shared
+// section can evolve independently for the other 7 pages.
 const defaultTestimonials: ShuffleTestimonial[] = [
   {
     tag: 'Anesthesia',
@@ -82,27 +77,6 @@ const defaultTestimonials: ShuffleTestimonial[] = [
       'Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. Responsive to feedback and quick to implement.',
     name: 'Sujan Vatturi',
     role: 'CIO, Hope Services Counseling Center',
-  },
-  {
-    tag: 'Orthopedic',
-    quote:
-      'Dedicated, flexible, and responsive team. Very pleased with increase in collections and their ability to work denials.',
-    name: 'Ryan King',
-    role: 'Director of Operations, Hand Microsurgery & Reconstructive Orthopaedic',
-  },
-  {
-    tag: 'Anesthesia',
-    quote:
-      'The Accreda team is always available and proactively communicates with me. They do a great job of ensuring there are hands on each claim. Extremely efficient and effective.',
-    name: 'Randy Robbins, M.D.',
-    role: 'Anesthesia Group Practice Administrator',
-  },
-  {
-    tag: 'Behavioral Health',
-    quote:
-      'An invaluable CalAIMS billing partner — proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.',
-    name: 'Aubrie Mastrangelo',
-    role: 'Division Director, Bill Wilson Center',
   },
 ]
 
