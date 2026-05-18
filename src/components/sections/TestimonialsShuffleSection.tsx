@@ -125,6 +125,9 @@ export default function TestimonialsShuffleSection({
 
   // Advance: rotate positions array right by 1 (pop last, unshift to start).
   // Effect: front -> hidden, middle -> front, back -> middle, next-hidden -> back.
+  // Called by:
+  //   - the auto-advance interval below
+  //   - the front card's drag-left-past-threshold gesture
   // Wrapped in useCallback so the auto-advance interval doesn't churn.
   const handleAdvance = useCallback(() => {
     setPositions(prev => {
@@ -132,18 +135,6 @@ export default function TestimonialsShuffleSection({
       const next = [...prev]
       const last = next.pop() as CardPosition
       next.unshift(last)
-      return next
-    })
-  }, [])
-
-  // Reverse: rotate left by 1 (shift first, push to end).
-  // Effect: front -> middle, middle -> back, back -> hidden, last-hidden -> front.
-  const handleReverse = useCallback(() => {
-    setPositions(prev => {
-      if (prev.length === 0) return prev
-      const next = [...prev]
-      const first = next.shift() as CardPosition
-      next.push(first)
       return next
     })
   }, [])
@@ -215,143 +206,59 @@ export default function TestimonialsShuffleSection({
               ))}
             </div>
 
-            {/* Controls — prev/next arrows + position dots.
-                  .t-arrow class is reused from the shared TestimonialsSection;
-                  globals.css provides the home-immersive liquid-glass override
-                  for that class so styling matches the rest of the home page. */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-              <button
-                onClick={handleReverse}
-                aria-label="Previous testimonial"
-                className="t-arrow"
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: '50%',
-                  background: 'rgba(0, 181, 214, 0.18)',
-                  backdropFilter: 'blur(5px) saturate(120%)',
-                  WebkitBackdropFilter: 'blur(5px) saturate(120%)',
-                  border: '1px solid rgba(0, 181, 214, 0.45)',
-                  boxShadow:
-                    'inset 0 1px 0 rgba(255, 255, 255, 0.45), ' +
-                    'inset 0 -1px 0 rgba(0, 80, 100, 0.18), ' +
-                    '0 8px 22px rgba(0, 181, 214, 0.22)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition:
-                    'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1)',
-                  flexShrink: 0,
-                }}
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#00B5D6"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-
-              {/* Dots — one per testimonial; the active one is the
-                  card currently at 'front'. */}
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                {testimonials.map((_, i) => {
-                  const active = i === frontIdx
-                  return (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        // Step forward until testimonials[i] is at 'front'.
-                        // Up to length-1 advances; bail out via no-op if it
-                        // can't be found (shouldn't happen).
-                        const current = positions.indexOf('front')
-                        if (current === -1) return
-                        const len = positions.length
-                        let steps = (i - current + len) % len
-                        // Each step rotates right by 1; doing it in a single
-                        // state update prevents the auto-advance interval
-                        // from racing intermediate states.
-                        setPositions(prev => {
-                          let next = [...prev]
-                          for (let s = 0; s < steps; s++) {
-                            const last = next.pop() as CardPosition
-                            next.unshift(last)
-                          }
-                          return next
-                        })
-                      }}
-                      aria-label={`Go to testimonial ${i + 1}`}
-                      aria-current={active ? 'true' : undefined}
-                      style={{
-                        width: active ? 28 : 8,
-                        height: 8,
-                        borderRadius: 4,
-                        background: active ? '#00B5D6' : 'var(--gray-300)',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: 0,
-                        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      }}
-                    />
-                  )
-                })}
-              </div>
-
-              <button
-                onClick={handleAdvance}
-                aria-label="Next testimonial"
-                className="t-arrow"
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: '50%',
-                  background: 'rgba(0, 181, 214, 0.18)',
-                  backdropFilter: 'blur(5px) saturate(120%)',
-                  WebkitBackdropFilter: 'blur(5px) saturate(120%)',
-                  border: '1px solid rgba(0, 181, 214, 0.45)',
-                  boxShadow:
-                    'inset 0 1px 0 rgba(255, 255, 255, 0.45), ' +
-                    'inset 0 -1px 0 rgba(0, 80, 100, 0.18), ' +
-                    '0 8px 22px rgba(0, 181, 214, 0.22)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition:
-                    'background 200ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1), ' +
-                    'box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1)',
-                  flexShrink: 0,
-                }}
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#00B5D6"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
+            {/* Controls — dots only.
+                  Arrow buttons were removed per design direction; the
+                  remaining interactions are drag-left on the front card
+                  (which calls handleAdvance) and clicking a dot to bring
+                  that testimonial directly to front. */}
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              {testimonials.map((_, i) => {
+                const active = i === frontIdx
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      // Bring testimonials[i] to 'front' by advancing
+                      // the positions array `steps` times in a single
+                      // state update. Each advance is "last -> first":
+                      // see handleAdvance for the rationale. Doing the
+                      // whole rotation in one setState prevents the
+                      // auto-advance interval from racing intermediate
+                      // states and keeps framer-motion animating
+                      // smoothly from current -> target positions.
+                      const current = positions.indexOf('front')
+                      if (current === -1) return
+                      const len = positions.length
+                      const steps = (i - current + len) % len
+                      setPositions(prev => {
+                        const next = [...prev]
+                        for (let s = 0; s < steps; s++) {
+                          const last = next.pop() as CardPosition
+                          next.unshift(last)
+                        }
+                        return next
+                      })
+                    }}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    aria-current={active ? 'true' : undefined}
+                    style={{
+                      width: active ? 28 : 8,
+                      height: 8,
+                      borderRadius: 4,
+                      background: active ? '#00B5D6' : 'var(--gray-300)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0,
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                  />
+                )
+              })}
             </div>
 
-            {/* Hint shown beneath the controls — discoverability for the
-                drag interaction. Subtle so it doesn't dominate. */}
+            {/* Hint shown beneath the dots — discoverability for the
+                drag interaction (which is the primary nav now). Subtle
+                so it doesn't dominate. */}
             <div
               style={{
                 fontSize: 12,
@@ -360,30 +267,13 @@ export default function TestimonialsShuffleSection({
                 letterSpacing: '0.02em',
               }}
             >
-              Drag the top card or use the arrows to browse
+              Drag the top card or tap a dot to browse
             </div>
           </div>
         </RevealOnScroll>
       </div>
 
-      {/* Hover styles for the arrow buttons match the shared
-          TestimonialsSection's inline <style> block exactly. The
-          .home-immersive override in globals.css further re-tints these
-          to white-frost on the home page. */}
       <style>{`
-        .t-arrow:hover {
-          background: rgba(0, 181, 214, 0.85) !important;
-          border-color: rgba(0, 181, 214, 0.7) !important;
-          transform: translateY(-1px);
-          box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.55),
-            inset 0 -1px 0 rgba(0, 80, 100, 0.18),
-            0 12px 28px rgba(0, 181, 214, 0.42),
-            0 0 24px rgba(0, 181, 214, 0.28) !important;
-        }
-        .t-arrow:hover svg { stroke: white !important; }
-        .t-arrow:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
-
         /* Stack container — responsive offset so the fan reads centred
            on desktop and stays inside the viewport on narrower screens. */
         .tcard-stack {

@@ -81,32 +81,45 @@ export default function TestimonialCard({
     <motion.div
       style={{
         zIndex: cfg.zIndex,
-        // Glass surface — cyan tint matches the existing .t-arrow buttons
-        // (rgba(0,181,214,0.18)) but lighter at 0.12 to read cleanly at
-        // card scale. The inset highlights + outer glow are the
-        // signature 'liquid glass' feel from the same component.
-        background: 'rgba(0, 181, 214, 0.12)',
-        border: '1px solid rgba(0, 181, 214, 0.35)',
-        backdropFilter: 'blur(16px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(140%)',
+        // Glass surface — dark teal-navy gradient with a cyan rim.
+        //
+        // We deliberately moved AWAY from the bright cyan tint (rgba(0,181,214,0.12))
+        // because at 12% alpha over the home page's bright video background,
+        // the cards were near-transparent and text on cards behind bled
+        // through. This dark, opaque base blocks bleed-through while the
+        // cyan border + cyan glow + inset cyan highlight preserve the
+        // "liquid glass" identity from the .t-arrow buttons.
+        //
+        // Gradient direction matches the inset-highlight light source
+        // (top-left brighter, bottom-right darker) so the glass reads
+        // like it's catching light from above.
+        background:
+          'linear-gradient(135deg, rgba(10, 45, 65, 0.72) 0%, rgba(2, 22, 38, 0.82) 100%)',
+        border: '1px solid rgba(0, 181, 214, 0.45)',
+        backdropFilter: 'blur(20px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(150%)',
         boxShadow:
-          'inset 0 1px 0 rgba(255, 255, 255, 0.45), ' +
-          'inset 0 -1px 0 rgba(0, 80, 100, 0.18), ' +
-          '0 20px 60px rgba(0, 181, 214, 0.22)',
+          'inset 0 1px 0 rgba(0, 181, 214, 0.40), ' +    // bright cyan rim along the top
+          'inset 0 -1px 0 rgba(0, 40, 55, 0.55), ' +     // darker shadow rim along the bottom
+          '0 20px 60px rgba(0, 181, 214, 0.25)',         // soft cyan glow under the card
       }}
       animate={{ rotate: cfg.rotate, x: cfg.x, opacity: cfg.opacity }}
-      drag={isFront}
+      // Drag config matches the 21st.dev source pattern exactly:
+      //   drag={true}              -> drag is enabled on every card,
+      //   dragListener={isFront}   -> but only the front card actually
+      //                               listens to pointer events for drag.
+      // Earlier I had drag={isFront} (functionally similar) but matching
+      // the source removes any ambiguity if framer-motion's behaviour
+      // differs subtly between the two forms.
+      drag={true}
       dragElastic={0.35}
       dragListener={isFront}
       dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
       onDragEnd={handleDragEnd}
       transition={{ duration: 0.35 }}
       className={`absolute left-0 top-0 flex h-[450px] w-[350px] select-none flex-col items-center justify-center gap-5 rounded-2xl p-8 ${
-        isFront ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
+        isFront ? 'cursor-grab active:cursor-grabbing' : ''
       }`}
-      // pointer-events-none on non-front cards so clicks don't accidentally
-      // target middle/back cards (which can't be dragged anyway). The front
-      // card retains pointer events for drag.
     >
       {/* Specialty tag — small uppercase cyan label */}
       {tag && (
