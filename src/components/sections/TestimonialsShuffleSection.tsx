@@ -163,8 +163,16 @@ export default function TestimonialsShuffleSection({
 
         <RevealOnScroll delay={0.45}>
           <div
+            // Pause auto-advance on mouse hover (desktop) or touch
+            // (mobile). Without the touch handlers, the 5s rotation
+            // could shift a card out from under a user mid-read on
+            // phones. onTouchCancel covers the edge case where the OS
+            // interrupts the touch (e.g. a system gesture).
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
+            onTouchStart={() => setPaused(true)}
+            onTouchEnd={() => setPaused(false)}
+            onTouchCancel={() => setPaused(false)}
             style={{
               marginTop: 64,
               display: 'flex',
