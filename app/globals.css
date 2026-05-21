@@ -1389,14 +1389,45 @@ body:has(main.home-immersive) .footer a:hover {
 }
 
 .result-arrow-img {
+  /* Swapped from solid teal growth-arrow.png to the outlined glass
+     SVG. Aspect ratio changed from 1.26 (wider than tall) to ~0.70
+     (taller than wide) to match the SVG's natural proportions
+     (1430086 x 2047045 viewBox). The container is now a positioning
+     context so the number+sublabel can sit absolutely inside the
+     arrow's lower body. */
   width: 100%;
-  aspect-ratio: 1.26;
-  background: url('/images/growth-arrow.png') center / contain no-repeat;
+  aspect-ratio: 0.70;
+  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
+  position: relative;
+}
+
+/* Text living INSIDE the arrow shape (number + optional 'Up to' sublabel).
+   Positioned in the lower-middle of the arrow — the widest, most
+   legible part of the upward-pointing shape. The peak sits above,
+   the bottom border sits below; this content occupies roughly the
+   lower 40% of the arrow's vertical extent. */
+.result-arrow-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Anchor at ~62% from the top of the arrow (i.e. lower-middle area).
+     The peak of the SVG is at the top; the shape widens toward the
+     bottom. 62% puts the number visually centered in the wide body. */
+  top: 62%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Pseudo / sibling sparkles in the SVG are baked into the
+     background image — text sits naturally on top without z-index
+     fighting because the SVG renders as background, not as a
+     stacked DOM child. */
 }
 
 .result-text {
   padding: 12px 8px 0;
-  min-height: 90px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -2957,15 +2988,16 @@ body:has(main.home-immersive) .footer a:hover {
     max-width: 260px;
     margin: 0 auto;
   }
-  /* Results: bigger text, less gap from arrow on mobile */
+  /* Results — bigger text on mobile, narrower arrow column.
+     aspect-ratio matches the new glass-uparrow SVG (was 1.6 for the
+     old wide growth-arrow.png). */
   .results-mobile .result-arrow-img {
-    aspect-ratio: 1.6 !important;
-    max-width: 180px;
+    aspect-ratio: 0.70 !important;
+    max-width: 200px;
     margin: 0 auto;
   }
   .results-mobile .result-text {
     padding: 8px 8px 0 !important;
-    min-height: 70px !important;
   }
   .results-mobile .result-number {
     font-size: 32px !important;

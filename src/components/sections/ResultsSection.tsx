@@ -73,14 +73,27 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       }}
     >
       <div className="result-flip-card">
-        {/* FRONT, arrow + number + label */}
+        {/* FRONT — glass arrow with the number inside its lower body,
+            label (REVENUE GROWTH etc.) underneath the arrow.
+            Per user direction: replaced the solid teal growth-arrow.png
+            with the outlined glass_uparrow.svg, and moved the number
+            inside the arrow (was previously below). The label sits
+            below the arrow as before. */}
         <div className="result-flip-front">
-          <div className="result-arrow-img" />
-          <div className="result-text">
-            {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
-            <div className="result-number">
-              <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+          <div className="result-arrow-img">
+            {/* Stat content sitting INSIDE the arrow body.
+                Positioned absolutely via .result-arrow-content so it
+                lands in the lower-middle area (the widest, most
+                legible part of the arrow shape). */}
+            <div className="result-arrow-content">
+              {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+              <div className="result-number">
+                <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+              </div>
             </div>
+          </div>
+          {/* Label stays outside the arrow, beneath it. */}
+          <div className="result-text">
             <div className="result-label">{stat.label}</div>
           </div>
         </div>
