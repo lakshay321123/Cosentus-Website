@@ -1401,18 +1401,17 @@ body:has(main.home-immersive) .footer a:hover {
   position: relative;
 }
 
-/* Text living INSIDE the arrow shape (number + optional 'Up to' sublabel).
-   Positioned in the lower-middle of the arrow — the widest, most
-   legible part of the upward-pointing shape. The peak sits above,
-   the bottom border sits below; this content occupies roughly the
-   lower 40% of the arrow's vertical extent. */
+/* Text living INSIDE the arrow shape — full stat block: optional
+   "Up to" sublabel, the big number, then the small uppercase label
+   ("REVENUE GROWTH" etc.). All three sit in the lower-middle body
+   of the arrow where the silhouette is widest.
+   Vertical centering is via top: 62% + translateY(-50%). 62% rather
+   than the geometric middle (50%) puts the visual mass of the block
+   in the wide body of the arrow rather than near the narrowing peak. */
 .result-arrow-content {
   position: absolute;
   left: 0;
   right: 0;
-  /* Anchor at ~62% from the top of the arrow (i.e. lower-middle area).
-     The peak of the SVG is at the top; the shape widens toward the
-     bottom. 62% puts the number visually centered in the wide body. */
   top: 62%;
   transform: translateY(-50%);
   display: flex;
@@ -1420,19 +1419,16 @@ body:has(main.home-immersive) .footer a:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* Pseudo / sibling sparkles in the SVG are baked into the
-     background image — text sits naturally on top without z-index
-     fighting because the SVG renders as background, not as a
-     stacked DOM child. */
+  /* Tight inner padding so a long label like "PATIENT COLLECTION"
+     doesn't run into the angled walls of the arrow on narrow grid
+     columns. */
+  padding: 0 8px;
 }
 
-.result-text {
-  padding: 12px 8px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-}
+/* .result-text rule removed — the wrapper used to hold the
+   sublabel/number/label beneath the arrow, but all three now sit
+   inside .result-arrow-content within the arrow body. The wrapper
+   div was removed from the JSX too. */
 
 .result-sublabel {
   font-size: 13px;
@@ -1464,6 +1460,23 @@ body:has(main.home-immersive) .footer a:hover {
   line-height: 1.3;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Home-immersive overrides for the result stat text.
+   The base .result-number / .result-label / .result-sublabel rules
+   above keep their original cyan/grey colors for other pages that
+   reuse the .result-* classes (e.g. BillingCodingContent.tsx uses
+   the same inline-style arrow + class names). On the home page,
+   per direction "the text doesn't need to be in green color, you
+   can make it white", we re-color all three to white. */
+.home-immersive .result-number {
+  color: #fff;
+}
+.home-immersive .result-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+.home-immersive .result-sublabel {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
@@ -1499,69 +1512,51 @@ body:has(main.home-immersive) .footer a:hover {
   height: 100%;
 }
 
-/* Back face — absolutely positioned overlay that matches the front's box.
-   Rotated 180deg so it sits behind the front in 3D space.
-   Layout: flip text up top (shifted up via flex), stat identity (number +
-   label) anchored to the bottom for context — so the dollar-impact line
-   is visibly tied to the stat it's about. */
+/* Back face — same arrow silhouette as the front.
+   Previously this was a solid teal-gradient rectangle with rounded
+   corners that overlaid the arrow on flip. Per direction "this also
+   needs to be within the arrow, so you can remove the rectangle-ish
+   thing", the back now uses the SAME SVG background as the front so
+   the flip stays inside the arrow shape both faces.
+
+   Cleared explicitly:
+     - background gradient (was linear-gradient teal)
+     - border-radius (was 12px)
+     - padding (was 20/18/16, would offset the inner content)
+     - box-shadow (was a teal drop shadow tied to the rectangle look)
+   These were all part of the old rectangle and would fight the
+   silhouette if left in. */
 .result-flip-back {
   position: absolute;
   inset: 0;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  background: linear-gradient(140deg, #1F98AB 0%, #0D3D47 100%);
-  border-radius: 12px;
-  padding: 20px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 8px 24px rgba(13, 61, 71, 0.35);
+  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
 }
 
-/* Flip text up top — takes available space, vertically centered within
-   its zone (flex: 1 + flex centering) so it reads comfortably without
-   being crammed against the divider. */
+/* Flip impact text — sits inside the arrow body via the shared
+   .result-arrow-content positioner used by the front. Font size
+   reduced from 17px to ~14px because the arrow body is narrower
+   than the old rectangle was wide; the impact copy is up to 13
+   words ("On $3M in charges, that's $300K recovered every year.")
+   and needs to wrap into ~3 lines inside the silhouette without
+   spilling into the angled walls. */
 .result-flip-text {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 13px;
   line-height: 1.4;
-  color: white;
-  font-weight: 600;
+  color: #fff;
+  font-weight: 500;
   text-align: center;
   letter-spacing: -0.005em;
 }
 
-/* Stat identity at the bottom — same sizes as front, white instead of
-   teal/grey since the bg is dark teal. Divider line above for separation. */
-.result-flip-stat {
-  width: 100%;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.30);
-  text-align: center;
-}
-.result-flip-number {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 400;
-  color: white;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.result-flip-label {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.3;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
+/* .result-flip-stat / .result-flip-number / .result-flip-label
+   rules removed — the JSX no longer renders the duplicate stat
+   identity at the bottom of the flip card. The user sees the same
+   stat on the front before flipping, so repeating it on the back
+   inside the cramped arrow shape isn't worth the layout pressure. */
 
 /* When the user hovers ANY result item, dim the others to grey so the
    hovered one stands out. The hovered card is exempted by the second rule. */
@@ -2914,7 +2909,6 @@ body:has(main.home-immersive) .footer a:hover {
   .hero-case-link,
   .advantage-card,
   .service-card,
-  .result-text,
   .mobile-carousel-slide,
   .mobile-carousel-slide > * {
     overflow-wrap: break-word !important;
@@ -2995,9 +2989,6 @@ body:has(main.home-immersive) .footer a:hover {
     aspect-ratio: 0.70 !important;
     max-width: 200px;
     margin: 0 auto;
-  }
-  .results-mobile .result-text {
-    padding: 8px 8px 0 !important;
   }
   .results-mobile .result-number {
     font-size: 32px !important;

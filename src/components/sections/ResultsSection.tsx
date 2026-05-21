@@ -73,38 +73,36 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       }}
     >
       <div className="result-flip-card">
-        {/* FRONT — glass arrow with the number inside its lower body,
-            label (REVENUE GROWTH etc.) underneath the arrow.
-            Per user direction: replaced the solid teal growth-arrow.png
-            with the outlined glass_uparrow.svg, and moved the number
-            inside the arrow (was previously below). The label sits
-            below the arrow as before. */}
+        {/* FRONT — glass arrow with ALL stat content (sublabel,
+            number, label) inside the arrow body. The .result-text
+            wrapper that used to sit beneath the arrow is gone; per
+            user direction "labels can be under it [inside the
+            arrow]" — REVENUE GROWTH, NET COLLECTION, etc. now sit
+            below the number, still within the arrow shape. */}
         <div className="result-flip-front">
           <div className="result-arrow-img">
-            {/* Stat content sitting INSIDE the arrow body.
-                Positioned absolutely via .result-arrow-content so it
-                lands in the lower-middle area (the widest, most
-                legible part of the arrow shape). */}
             <div className="result-arrow-content">
               {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
               <div className="result-number">
                 <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
               </div>
+              <div className="result-label">{stat.label}</div>
             </div>
-          </div>
-          {/* Label stays outside the arrow, beneath it. */}
-          <div className="result-text">
-            <div className="result-label">{stat.label}</div>
           </div>
         </div>
-        {/* BACK, dollar-impact copy + stat identity at bottom for context */}
+        {/* BACK — same arrow shape, dollar-impact message inside.
+            Previously the back was a teal rectangle with a divider
+            and a duplicate stat identity at the bottom; per user
+            direction "this also needs to be within the arrow, so
+            you can remove the rectangle-ish thing", we replaced
+            both with the same SVG-shaped face used on the front.
+            The duplicate stat identity (small number + label at
+            bottom) was dropped — no room inside the portrait arrow
+            without crowding the impact message, and the user just
+            saw the same stat on the front before flipping. */}
         <div className="result-flip-back">
-          <div className="result-flip-text">{stat.flip}</div>
-          <div className="result-flip-stat">
-            <div className="result-flip-number">
-              {stat.prefix}{stat.target.toFixed(stat.decimals || 0)}{stat.suffix}
-            </div>
-            <div className="result-flip-label">{stat.label}</div>
+          <div className="result-arrow-content">
+            <div className="result-flip-text">{stat.flip}</div>
           </div>
         </div>
       </div>
