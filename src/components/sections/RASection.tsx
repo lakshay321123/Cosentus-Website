@@ -50,37 +50,46 @@ export default function RASection() {
             Agent grid is the centerpiece of the section. */}
         <div className="ra-stack">
 
-          {/* SECTION HEADER — left-aligned to match other home
-              sections (SpecialtiesSection uses the same pattern:
-              <header> wrapper with text-align: left and max-width
-              for readable line length).
+          {/* SECTION HEADER — left-aligned, max-width matches the
+              640px agent grid below per user direction so the H2
+              column aligns with the 3-agent column visually.
 
-              Per user direction the title and subheading were
+              Per user direction the title and supporting copy were
               swapped — the longer "Combining expert teams..."
-              sentence is now the H2, with "Click on any agent..."
-              as supporting copy below. No teal accent on the new
-              H2 because the long-form sentence has no natural
-              punchline word to highlight. */}
+              sentence is now the H2. No teal accent on the new H2
+              because the long-form sentence has no natural
+              punchline word to highlight.
+
+              The short call-to-action "Click on any agent to start
+              a conversation" used to live here as a subheading
+              under the H2; it moved to a centered position just
+              above the 9/15/23 stats row (see below). */}
           <header className="ra-header">
             <RevealOnScroll direction="up" delay={0.1}>
               <h2 className="ra-heading">
-                Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
+                Combining expert teams and Ai-powered technology to optimize your revenue cycle and drive smarter growth.
               </h2>
             </RevealOnScroll>
-
-            <RevealOnScroll direction="up" delay={0.14}>
-              <p className="ra-subheading">
-                Click on any agent to start a conversation.
-              </p>
-            </RevealOnScroll>
           </header>
+
+          {/* CTA above the stats row, centered. Moved here per user
+              direction ("click to start a conver... should be on
+              top of 9 modules etc. centre aligned"). Smaller +
+              softer than the H2 — reads as the activating
+              instruction immediately preceding the interactive
+              stats + agent grid below. */}
+          <RevealOnScroll direction="up" delay={0.14}>
+            <p className="ra-cta">
+              Click on any agent to start a conversation.
+            </p>
+          </RevealOnScroll>
 
           {/* 9 / 15 / 23 STATS — three-column strip, centered. */}
           <RevealOnScroll direction="up" delay={0.18}>
             <div className="ra-stats-row">
               {[
                 { num: '9', label: 'Voice Agents' },
-                { num: '15', label: 'AI Features' },
+                { num: '15', label: 'Ai Features' },
                 { num: '23', label: 'Modules' },
               ].map(stat => (
                 <div key={stat.label} className="ra-stat">
@@ -176,12 +185,15 @@ export default function RASection() {
            the long H2 and the supporting paragraph below it.
            margin-bottom matches the previous centered layout's
            spacing to the stats row below. */
+        /* Section header wrapper. Left-aligned to match the
+           SpecialtiesSection pattern (which uses the same
+           <header> + text-align:left + max-width approach).
+           Width 640px matches the .ra-stats-row and .ra-agent-grid
+           max-widths below per user direction — H2 column aligns
+           with the 3-agent column. */
         .ra-header {
           text-align: left;
-          max-width: 720px;
-          /* No margin-bottom: parent .ra-stack has gap: 48px which
-             already separates this header from the stats row
-             below. Adding margin here would double the spacing. */
+          max-width: 640px;
           margin: 0;
         }
 
@@ -193,10 +205,7 @@ export default function RASection() {
           letter-spacing: -0.02em;
           color: var(--gray-900);
           /* Left-aligned and width auto so the parent .ra-header's
-             720px max-width controls line length. Previously this
-             rule centered itself with margin: 0 auto + text-align
-             center + max-width: 1100px; superseded by the new
-             .ra-header wrapper. */
+             max-width controls line length. */
           margin: 0;
           text-align: left;
         }
@@ -204,22 +213,20 @@ export default function RASection() {
           color: #00B5D6;
         }
 
-        /* SUPPORTING SUBHEADING — secondary copy under the H2.
-           Smaller, lighter weight, softer color so it reads
-           clearly as supporting text under the title. Left-aligned
-           matching the parent .ra-header.
-
-           Color: literal rgba(255,255,255,0.75) since this section
-           is home-only and home-immersive's text override would
-           catch var(--gray-*) values anyway. */
-        .ra-subheading {
+        /* CENTERED CTA above the stats row — was previously a
+           left-aligned subheading directly under the H2; moved
+           here per user direction. Sized to read as a single
+           short instruction line: "Click on any agent to start a
+           conversation." */
+        .ra-cta {
           font-family: var(--font-body);
           font-size: clamp(15px, 1.4vw, 18px);
           font-weight: 400;
           line-height: 1.55;
           color: rgba(255, 255, 255, 0.75);
-          margin: 16px 0 0;
-          text-align: left;
+          margin: 0 auto;
+          text-align: center;
+          max-width: 640px;
         }
 
         /* ===== 9 / 15 / 23 stats row =====

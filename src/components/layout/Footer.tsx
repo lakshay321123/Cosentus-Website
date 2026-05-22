@@ -68,7 +68,7 @@ export default function Footer() {
                 style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
               />
               <p>
-                Real People + AI, RCM Redefined.
+                Real People + Ai, RCM Redefined.
               </p>
               <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
                 (877) 806-2286 &nbsp;|&nbsp;{' '}

@@ -17,7 +17,7 @@
 // 220/290/360px ascending L->R, all bottoms touching the hero
 // floor):
 //   1. Built For Your Specialty -> /specialties
-//   2. Zeus AI                  -> /zeus-ai
+//   2. Zeus Ai                  -> /cosentus-ai
 //   3. About Cosentus           -> /about
 // (Voice Agents card was dropped per user direction.) Each card
 // uses the same glass-square recipe (30% white wash + 1.5px white
@@ -36,7 +36,7 @@ import MultiLineTyping from '@/components/ui/MultiLineTyping'
 const TAGLINE_LINES = [
   'Purpose Built',
   'For Your Specialty',
-  'Real People + AI.',
+  'Real People + Ai.',
   'RCM Redefined.',
 ]
 
@@ -61,9 +61,9 @@ const HERO_CARDS: HeroCard[] = [
     height: 220,
   },
   {
-    title: 'Zeus AI',
+    title: 'Zeus Ai',
     blurb: 'Our agentic intelligence layer powering every claim and call.',
-    href: '/zeus-ai',
+    href: '/cosentus-ai',
     height: 290,
   },
   {
