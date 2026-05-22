@@ -298,20 +298,30 @@ export default function HeroSection() {
           position: relative;
           line-height: 0;
           text-decoration: none;
-          /* Hover transition is short and snappy (220ms) so the
-             effect feels responsive. Entrance transitions for
-             opacity/transform are declared in the CHOREOGRAPHY
-             section below and run on a longer 700ms curve with
-             per-element delays. */
+          /* Round the focus/hover outline to match the underlying
+             SVG pill so the hover shadow's corners look clean. The
+             SVG pill is fully rounded (border-radius would be ~half
+             the height = ~30px); using 999 for full pill rounding. */
+          border-radius: 999px;
+          /* Hover transition is short and snappy. Entrance
+             transitions for opacity/transform are declared in the
+             CHOREOGRAPHY section below. */
           transition:
             transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        /* Hover — matches btn-glass convention from globals.css:
-           small lift + brightness boost. */
+        /* Hover — mirrors .btn-primary:hover from globals.css:
+           lift + brightness + cyan-tinted box-shadow stack with
+           outer glow. The shadow is what makes the hover visible
+           — filter:brightness alone is barely perceptible on a
+           translucent glass-style SVG pill. */
         .hero-action:hover {
-          transform: translateY(-2px);
+          transform: translateY(-3px);
           filter: brightness(1.10);
+          box-shadow:
+            0 12px 28px rgba(0, 181, 214, 0.40),
+            0 0 24px rgba(0, 181, 214, 0.28);
         }
         /* Arrow disc nudges further right on hover — same pattern
            as .btn-glass:hover svg { transform: translateX(3px); }
@@ -395,19 +405,21 @@ export default function HeroSection() {
              here keeps the hover glow's corners clean. */
           border-radius: 24px;
         }
-        /* Hover — matches site convention (testimonial-card, btn-glass):
-             - Subtle lift (translateY -3px)
-             - Brightness boost (1.10)
-             - Soft drop-shadow + cyan-tinted glow ring
-           Same visual language as other interactive cards on the
-           page so the home reads cohesively. */
+        /* Hover — site convention scaled up so it's actually visible
+           against the translucent glass-style card SVGs. The .btn-primary
+           hover in globals.css uses a similar cyan-glow shadow stack;
+           applying that here at a stronger intensity since cards are
+           larger than buttons and need a more noticeable hover state.
+             - Lift (translateY -6px)
+             - Brightness boost (1.12)
+             - Cyan-tinted box-shadow stack (drop + glow ring + outer halo) */
         .hero-card:hover {
-          transform: translateY(-3px);
-          filter: brightness(1.10);
+          transform: translateY(-6px);
+          filter: brightness(1.12);
           box-shadow:
-            0 12px 32px rgba(0, 0, 0, 0.25),
-            0 0 0 1px rgba(0, 181, 214, 0.20),
-            0 0 24px rgba(0, 181, 214, 0.18);
+            0 16px 40px rgba(0, 0, 0, 0.35),
+            0 0 0 1px rgba(0, 181, 214, 0.35),
+            0 0 32px rgba(0, 181, 214, 0.35);
         }
         .hero-card img {
           display: block;
