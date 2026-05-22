@@ -1,10 +1,11 @@
 'use client'
 
 // HeroSection: 4-line tagline typed out sequentially via
-// MultiLineTyping. The previous static <h1> with <br/>s is replaced
-// per user direction. Each line types character by character, then
+// MultiLineTyping. Each line types character by character, then
 // the next line begins; once all 4 are typed the cursor stays
-// blinking on the last line.
+// blinking on the last line. When the headline finishes typing,
+// the bottom-row cards begin entering with a staggered
+// slide-up + fade animation.
 //
 // Specialty pills used to live here as a 3-column glass-pill grid.
 // They moved to SpecialtiesSection.tsx.
@@ -12,16 +13,23 @@
 // Hero no longer renders its own <video>. ImmersiveVideoBackground
 // serves the page-level video for both desktop and mobile.
 //
-// FOUR GLASS CARDS at the bottom of the hero (per user direction):
-//   1. Voice Agents — scrolls to the #ra section lower on the page
-//   2. Specialty    — links to /specialties
-//   3. Zeus AI      — links to /zeus-ai
-//   4. About Us     — links to /about
-// All four use the same glass-square recipe (30% white wash + 1.5px
-// white outline + two diagonal corner sparkles) as the Specialty
-// cards, Resource card bodies, Testimonial fan-stack, and Footer
+// THREE GLASS CARDS forming a bottom-aligned LADDER (heights
+// 220/290/360px ascending L->R, all bottoms touching the hero
+// floor):
+//   1. Built For Your Specialty -> /specialties
+//   2. Zeus AI                  -> /zeus-ai
+//   3. About Cosentus           -> /about
+// (Voice Agents card was dropped per user direction.) Each card
+// uses the same glass-square recipe (30% white wash + 1.5px white
+// outline + two diagonal corner sparkles) as the Specialty cards,
+// Resource card bodies, Testimonial fan-stack, and Footer
 // elsewhere in this PR. Single visual language across the home.
+//
+// Card entrance: gated on the headline finishing. Each card
+// translates 60px up from below + fades in over 600ms, with a
+// 120ms stagger between cards.
 
+import { useState } from 'react'
 import Link from 'next/link'
 import MultiLineTyping from '@/components/ui/MultiLineTyping'
 
@@ -67,6 +75,13 @@ const HERO_CARDS: HeroCard[] = [
 ]
 
 export default function HeroSection() {
+  // Gates the bottom-row card entrance animation. Set to true by
+  // MultiLineTyping's onComplete callback once all 4 lines of the
+  // headline have finished typing. The 'cards-ready' class added
+  // to .hero-cards triggers the per-card slide-up + fade transition
+  // defined in the <style> block below.
+  const [headlineDone, setHeadlineDone] = useState(false)
+
   return (
     <section className="hero">
       <div className="hero-bg">
@@ -88,6 +103,7 @@ export default function HeroSection() {
           lines={TAGLINE_LINES}
           typingSpeed={55}
           lineGap={300}
+          onComplete={() => setHeadlineDone(true)}
         />
       </div>
 
@@ -96,15 +112,27 @@ export default function HeroSection() {
           (HERO_CARDS[i].height); they all share the same baseline
           (bottom: 0 on parent) so the ladder rises from left to
           right. Per user direction: rounded corners, visible gaps
-          between cards. Voice Agents card was dropped from the
-          original 4-card set. */}
-      <div className="hero-cards">
-        {HERO_CARDS.map((card) => (
+          between cards.
+
+          Cards start hidden (opacity 0 + translateY 60px). When the
+          headline finishes typing, .hero-cards gets the
+          'cards-ready' class, which kicks off the per-card
+          transition. Each card has its own transition-delay
+          (--stagger * index) so they appear one after the other
+          120ms apart. */}
+      <div className={`hero-cards${headlineDone ? ' cards-ready' : ''}`}>
+        {HERO_CARDS.map((card, idx) => (
           <Link
             key={card.title}
             href={card.href}
             className="hero-card"
-            style={{ height: card.height }}
+            style={{
+              height: card.height,
+              // Per-card stagger: card 0 starts immediately,
+              // card 1 at +120ms, card 2 at +240ms. Read by the
+              // .hero-card transition-delay rule via the CSS var.
+              ['--card-delay' as string]: `${idx * 120}ms`,
+            }}
           >
             <h3 className="hero-card-title">{card.title}</h3>
             <p className="hero-card-blurb">{card.blurb}</p>
@@ -200,15 +228,53 @@ export default function HeroSection() {
           box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
           text-decoration: none;
           color: inherit;
+
+          /* ENTRANCE STATE — cards start invisible and translated
+             down. Once parent .hero-cards gets .cards-ready class
+             (after MultiLineTyping finishes), the transition fires
+             and each card slides up + fades in. */
+          opacity: 0;
+          transform: translateY(60px);
+
+          /* Combined transition: entrance properties (opacity,
+             transform) on a longer duration with per-card stagger;
+             hover properties (background, border, shadow) on a
+             shorter duration with no delay so hover stays snappy
+             after entrance completes. */
           transition:
-            transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--card-delay, 0ms),
+            transform 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--card-delay, 0ms),
             background-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
+        /* Cards-ready: headline finished typing, slide each card
+           into place. Per-card --card-delay drives the stagger
+           (set inline in JSX as idx * 120ms). */
+        .hero-cards.cards-ready .hero-card {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        /* Accessibility: skip the slide-in entirely for users who
+           opted out of motion. Cards appear instantly when
+           cards-ready fires. */
+        @media (prefers-reduced-motion: reduce) {
+          .hero-card {
+            opacity: 0;
+            transform: none;
+            transition: none;
+          }
+          .hero-cards.cards-ready .hero-card {
+            opacity: 1;
+          }
+        }
+
         .hero-card:hover {
           /* Cards no longer touch neighbours, so transform:translateY
-             is safe again. Lift on hover for tactile feedback. */
+             is safe again. Lift on hover for tactile feedback. The
+             entrance transform sets translateY(0); hover overrides
+             to translateY(-4px). Because both target the same
+             property the transition between them is smooth. */
           transform: translateY(-4px);
           background-color: rgba(255, 255, 255, 0.42);
           border-color: rgba(255, 255, 255, 0.75);
