@@ -796,12 +796,13 @@ body:has(main.home-immersive) .footer-top {
   animation-delay: -14s;
 }
 
-/* Grid pattern overlay */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  /* grid pattern removed */
-}
+/* (previously a .hero-grid "grid pattern overlay" lived here.
+   Removed in this commit: the grid pattern feature had already
+   been removed (rule body was empty besides position:absolute /
+   inset:0), and the class name was claimed by the new
+   HeroSection.tsx 2-column grid. Renamed there to
+   .hero-layout-grid to avoid the collision; this dead rule is
+   removed here to prevent future name conflicts.) */
 
 .page-hero-section {
   min-height: 50vh;

@@ -86,7 +86,7 @@ export default function HeroSection() {
         Purpose Built For Your Specialty. Real People + Ai. RCM Redefined.
       </h1>
 
-      <div className="hero-grid">
+      <div className="hero-layout-grid">
         {/* LEFT column: headlines + button row */}
         <div className="hero-left">
           <img
@@ -177,7 +177,7 @@ export default function HeroSection() {
            The hero is a 100vh positioning context. globals.css scopes
            .home-immersive .hero with display:flex + justify-content:
            center which fights any custom layout we declare. We force
-           display:block here so .hero-grid (our 2-column flex) controls
+           display:block here so .hero-layout-grid (our 2-column flex) controls
            its own children's positioning. */
         .hero {
           position: relative;
@@ -212,7 +212,7 @@ export default function HeroSection() {
              LEFT  -> headline + buttons centered in upper half
              RIGHT -> cards bottom-aligned, touching right edge
         */
-        .hero-grid {
+        .hero-layout-grid {
           /* Anchor top + bottom to fill the hero vertically.
              Horizontal axis matches .container (globals.css line 78):
                max-width: var(--container)  (1280px)
@@ -252,7 +252,7 @@ export default function HeroSection() {
           /* Headline anchored at ~38% from top of viewport.
              padding-top sets the starting Y; the column stretches
              to the bottom of the grid cell via the grid's
-             align-items: stretch (set on .hero-grid). */
+             align-items: stretch (set on .hero-layout-grid). */
           padding-top: 38vh;
           /* Padding-bottom must equal the card bottom inset (14vh)
              so the button row, when pushed to the bottom of the
@@ -348,7 +348,7 @@ export default function HeroSection() {
            All cards bottom-aligned. The 14vh bottom padding matches
            the .hero-left padding-bottom so the button row's bottom
            and the card bottoms share the EXACT same y-coordinate.
-           Right horizontal inset comes from .hero-grid's symmetric
+           Right horizontal inset comes from .hero-layout-grid's symmetric
            padding (7% on each side). */
         .hero-cards {
           display: flex;
@@ -459,7 +459,7 @@ export default function HeroSection() {
            single column. Headlines + buttons on top; cards stack
            as a centered horizontal row below. */
         @media (max-width: 768px) {
-          .hero-grid {
+          .hero-layout-grid {
             position: static;
             display: flex;
             flex-direction: column;
