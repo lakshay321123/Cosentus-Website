@@ -190,10 +190,12 @@ export default function TestimonialCard({
         {initials}
       </div>
 
-      {/* Quote — white text reads on cyan-tint glass over the home-page
-          immersive video background. Using literal '#fff' (not a gray
-          CSS var) so the home-immersive global color-overrides don't
-          affect it. */}
+      {/* Quote — dark navy text reads on the 30% white glass wash.
+          Previously white text was used because the card surface was
+          a dark teal-navy gradient; with the new glass-square recipe
+          (lighter wash) the text needs to flip to dark. Every card
+          cycles through being the front, so all cards get dark text
+          (not just stackIndex 0). */}
       <blockquote
         style={{
           margin: 0,
@@ -201,9 +203,9 @@ export default function TestimonialCard({
           fontFamily: 'var(--font-display)',
           fontSize: 15,
           lineHeight: 1.55,
-          color: '#ffffff',
+          color: '#0a2d41',
           fontStyle: 'italic',
-          fontWeight: 300,
+          fontWeight: 400,
         }}
       >
         &ldquo;{testimonial}&rdquo;
@@ -211,11 +213,11 @@ export default function TestimonialCard({
 
       {/* Attribution */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: '#ffffff', fontFamily: 'var(--font-display)' }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
           {author}
         </div>
         {role && (
-          <div style={{ fontSize: 12, color: 'rgba(255, 255, 255, 0.7)', textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
             {role}
           </div>
         )}
