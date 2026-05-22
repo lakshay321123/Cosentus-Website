@@ -1430,24 +1430,27 @@ body:has(main.home-immersive) .footer a:hover {
   padding: 0 12px;
 }
 
-/* FLIP face uses a DIFFERENT anchoring strategy: bottom-aligned.
+/* FLIP face uses a DIFFERENT anchoring strategy: TOP-aligned.
    The impact text varies from 3 to 4 lines per stat. With the
    front-face centering rule, taller blocks would sit lower and
-   shorter blocks higher — bottoms would not align. Per user
-   direction "align the last line of impact text at the same y on
-   every card", we override the anchor here:
-     - top: auto + bottom: 12%   pins the block's BOTTOM edge
-     - transform: none           cancels the front face's vertical translate
-     - justify-content: flex-end keeps flex children stacked from the
-                                  bottom upward (last line at the bottom)
-   Result: 3-line and 4-line impact messages have their LAST line
-   land at the same y position across all 6 cards. The top line
-   floats higher on the longer messages. */
+   shorter ones higher — top edges would not align.
+
+   Per user direction "align on flip, but text should be UP not at
+   the bottom — at the bottom looks weird", we anchor the TOP edge:
+     - top: 40%               pins the block's TOP edge inside the
+                              arrow's upper shaft area
+     - transform: none        cancels the front face's translateY
+     - justify-content: flex-start  flex children stack from top
+   Result: 3-line and 4-line messages start at the same y;
+   longer messages just extend further down. Both fit inside the
+   silhouette:
+     - 3-line block (~21% of arrow height): top 40%, bottom 61%
+     - 4-line block (~28% of arrow height): top 40%, bottom 68%
+   Arrow's shaft runs ~40%–95%, so both stay in the readable area. */
 .result-flip-back .result-arrow-content {
-  top: auto;
-  bottom: 12%;
+  top: 40%;
   transform: none;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 /* .result-text rule removed — the wrapper used to hold the
