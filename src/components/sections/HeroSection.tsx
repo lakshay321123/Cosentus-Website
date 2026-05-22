@@ -218,23 +218,40 @@ export default function HeroSection() {
           display: grid;
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           align-items: stretch;
-          /* Padding only on left + bottom; right cards touch the
-             viewport edge per spec. */
-          padding: 0 0 0 7%;
+          /* Symmetric horizontal padding: same 7% inset on both
+             sides so the right card cluster sits the same distance
+             from the right viewport edge as the headline sits from
+             the left edge. Per user direction "the right 3 tiles
+             boxes - are touching the right screen, why? same gap
+             as on left of the layout should be given on the right". */
+          padding: 0 7% 0 7%;
           z-index: 3;
         }
 
-        /* ===== LEFT: headline stack + button row ===== */
+        /* ===== LEFT: headline stack + button row =====
+           Per spec measurements:
+             - Headline 1 "Purpose Built" TOP starts at ~38% from
+               viewport top
+             - Button row BOTTOM sits at ~14% from viewport bottom
+               (aligned with card bottoms — both share the same
+               baseline as the staircase)
+           Implementation: flex column from headline-top to button-
+           bottom anchored, with margin-top:auto on the button row
+           pushing it down to the bottom of the column. */
         .hero-left {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          /* Vertically anchor the stack in the upper-middle so it
-             matches the spec's vertical position (~38% from top
-             center). */
-          justify-content: center;
-          padding-top: 4vh;
-          padding-bottom: 18vh;
+          /* Headline anchored at ~38% from top of viewport.
+             padding-top sets the starting Y; the column stretches
+             to the bottom of the grid cell via the grid's
+             align-items: stretch (set on .hero-grid). */
+          padding-top: 38vh;
+          /* Padding-bottom must equal the card bottom inset (14vh)
+             so the button row, when pushed to the bottom of the
+             left column via margin-top:auto, ends up at the SAME
+             baseline as the card bottoms. */
+          padding-bottom: 14vh;
           gap: 14px;
         }
 
@@ -252,12 +269,16 @@ export default function HeroSection() {
           margin-top: -10px;
         }
 
-        /* ===== Button row ===== */
+        /* ===== Button row =====
+           margin-top: auto pushes this row to the bottom of the
+           .hero-left flex column, so the row's BOTTOM sits at the
+           column's padding-bottom (14vh from viewport bottom),
+           matching the card bottoms. */
         .hero-actions {
           display: flex;
           align-items: center;
           gap: 14px;
-          margin-top: 24px;
+          margin-top: auto;
         }
 
         /* Our Specialties: pill + arrow disc.
@@ -295,9 +316,12 @@ export default function HeroSection() {
           right: -8%;
           top: 50%;
           transform: translateY(-50%);
-          /* Slightly taller than the pill so it pokes out subtly
-             at the top + bottom (matches spec). */
-          height: 115%;
+          /* Per user direction "Our specialties button why is the
+             circle and arrow bigger than it?" — the arrow disc
+             should be roughly the same height as the pill, not
+             dramatically larger. Setting equal to the pill height
+             so they read as a single composed button. */
+          height: 100%;
           width: auto;
         }
         .hero-action-contact img {
@@ -307,15 +331,17 @@ export default function HeroSection() {
         }
 
         /* ===== RIGHT: card staircase =====
-           All cards bottom-aligned. Cluster touches right viewport
-           edge and sits ~13% above the bottom (per spec). */
+           All cards bottom-aligned. The 14vh bottom padding matches
+           the .hero-left padding-bottom so the button row's bottom
+           and the card bottoms share the EXACT same y-coordinate.
+           Right horizontal inset comes from .hero-grid's symmetric
+           padding (7% on each side). */
         .hero-cards {
           display: flex;
           align-items: flex-end;
           justify-content: flex-end;
           gap: 2.3vw;
-          padding-bottom: 13vh;
-          padding-right: 0;
+          padding-bottom: 14vh;
         }
 
         .hero-card {
