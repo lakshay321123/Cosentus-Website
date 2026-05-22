@@ -1464,19 +1464,25 @@ body:has(main.home-immersive) .footer a:hover {
 
 /* Home-immersive overrides for the result stat text.
    The base .result-number / .result-label / .result-sublabel rules
-   above keep their original cyan/grey colors for other pages that
-   reuse the .result-* classes (e.g. BillingCodingContent.tsx uses
-   the same inline-style arrow + class names). On the home page,
-   per direction "the text doesn't need to be in green color, you
-   can make it white", we re-color all three to white. */
+   above keep their original cyan/grey colors AND sizes for other
+   pages that reuse the .result-* classes (e.g.
+   BillingCodingContent.tsx uses the same inline-style arrow + class
+   names). On the home page:
+     - colors re-tinted to white (per earlier direction)
+     - sizes bumped per direction "text can be bigger in the arrow"
+       (number went from clamp(28,3.5vw,44) to clamp(36,4.5vw,58);
+       label from 12px to 16px; sublabel from 13px to 15px). */
 .home-immersive .result-number {
   color: #fff;
+  font-size: clamp(36px, 4.5vw, 58px);
 }
 .home-immersive .result-label {
   color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
+  font-size: 15px;
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
@@ -1536,15 +1542,13 @@ body:has(main.home-immersive) .footer a:hover {
 }
 
 /* Flip impact text — sits inside the arrow body via the shared
-   .result-arrow-content positioner used by the front. Font size
-   reduced from 17px to ~14px because the arrow body is narrower
-   than the old rectangle was wide; the impact copy is up to 13
-   words ("On $3M in charges, that's $300K recovered every year.")
-   and needs to wrap into ~3 lines inside the silhouette without
-   spilling into the angled walls. */
+   .result-arrow-content positioner used by the front. 16px reads
+   comfortably; the longest impact message wraps to ~3 lines inside
+   the arrow silhouette. Bumped from an earlier 13px which was too
+   small per user direction "text can be bigger on flip". */
 .result-flip-text {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.4;
   color: #fff;
   font-weight: 500;
@@ -2290,14 +2294,20 @@ body:has(main.home-immersive) .footer a:hover {
   box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px rgba(0,181,214,0.1);
 }
 
-/* Result items — hover glow */
+/* Result items — hover lift only.
+   The previous rule had `box-shadow: 0 20px 40px rgba(0,181,214,0.2)`
+   which traced the rectangular bounding box of the .result-item.
+   Since the arrow silhouette has transparent corners (it's a portrait
+   shape inside a rect container), the cyan box-shadow showed through
+   those corners and read as a rectangle outline behind the arrow on
+   hover and on the flipped state. Removed; the translateY + brightness
+   plus the flip animation itself provide the hover signal. */
 .result-item {
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .result-item:hover {
   transform: translateY(-4px);
   filter: brightness(1.1);
-  box-shadow: 0 20px 40px rgba(0,181,214,0.2);
 }
 
 /* ===== HERO TEXT ANIMATIONS ===== */
@@ -2991,10 +3001,10 @@ body:has(main.home-immersive) .footer a:hover {
     margin: 0 auto;
   }
   .results-mobile .result-number {
-    font-size: 32px !important;
+    font-size: 40px !important;
   }
   .results-mobile .result-label {
-    font-size: 11px !important;
+    font-size: 13px !important;
   }
   /* Hero: left-align everything consistently on mobile */
   .hero-actions .btn-ghost {
