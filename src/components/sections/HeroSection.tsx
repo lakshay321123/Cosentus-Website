@@ -298,13 +298,27 @@ export default function HeroSection() {
           position: relative;
           line-height: 0;
           text-decoration: none;
+          /* Hover transition is short and snappy (220ms) so the
+             effect feels responsive. Entrance transitions for
+             opacity/transform are declared in the CHOREOGRAPHY
+             section below and run on a longer 700ms curve with
+             per-element delays. */
           transition:
             transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
+        /* Hover — matches btn-glass convention from globals.css:
+           small lift + brightness boost. */
         .hero-action:hover {
           transform: translateY(-2px);
           filter: brightness(1.10);
+        }
+        /* Arrow disc nudges further right on hover — same pattern
+           as .btn-glass:hover svg { transform: translateX(3px); }
+           in globals.css. Composes with the disc's existing
+           vertical centering transform (translateY(-50%)). */
+        .hero-action-specialties:hover .hero-action-arrow {
+          transform: translateY(-50%) translateX(4px);
         }
         .hero-action-pill {
           display: block;
@@ -337,6 +351,10 @@ export default function HeroSection() {
              button. */
           height: 100%;
           width: auto;
+          /* Smooth the hover nudge (arrow shifts +4px right when
+             the parent Specialties button is hovered). Without this
+             transition the shift would snap rather than glide. */
+          transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         .hero-action-contact img {
           display: block;
@@ -364,13 +382,32 @@ export default function HeroSection() {
           line-height: 0;
           text-decoration: none;
           color: inherit;
+          /* Hover transition is short and snappy. Entrance
+             transitions (opacity/transform with the bounce curve)
+             are declared in the CHOREOGRAPHY section. */
           transition:
             transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          /* Reserve a small border-radius so the box-shadow's
+             corners match the SVG's rounded shape. The actual
+             card visual comes from the SVG, but a matched radius
+             here keeps the hover glow's corners clean. */
+          border-radius: 24px;
         }
+        /* Hover — matches site convention (testimonial-card, btn-glass):
+             - Subtle lift (translateY -3px)
+             - Brightness boost (1.10)
+             - Soft drop-shadow + cyan-tinted glow ring
+           Same visual language as other interactive cards on the
+           page so the home reads cohesively. */
         .hero-card:hover {
-          transform: translateY(-4px);
-          filter: brightness(1.12);
+          transform: translateY(-3px);
+          filter: brightness(1.10);
+          box-shadow:
+            0 12px 32px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(0, 181, 214, 0.20),
+            0 0 24px rgba(0, 181, 214, 0.18);
         }
         .hero-card img {
           display: block;
@@ -400,48 +437,95 @@ export default function HeroSection() {
           width: calc(clamp(110px, 10.5vw, 200px) * 0.82 * 1.353);
         }
 
-        /* ===== CHOREOGRAPHY ===== */
+        /* ===== CHOREOGRAPHY — "Cinematic Pan" =====
+           Per user direction "Cinematic Pan: Headline lines fade-up
+           from below (one line at a time, ~1s per line). Buttons
+           slide in from LEFT. Cards slide in from RIGHT one at a
+           time with subtle bounce settle. Total ~4.5s."
+
+           Timeline (from page load):
+             0ms     Headline 1 starts fading up (1000ms)
+             1000ms  Headline 2 starts fading up (1000ms)
+             2100ms  Specialties button slides in from LEFT (700ms)
+             2400ms  Contact button slides in from LEFT (700ms)
+             2800ms  Zeus card slides in from RIGHT + bounce (800ms)
+             3300ms  Agents card slides in from RIGHT + bounce (800ms)
+             3800ms  Net card slides in from RIGHT + bounce (800ms)
+             4600ms  Everything settled
+
+           Direction notation:
+             headlines  : translateY(40px) -> 0   (rising from below)
+             buttons    : translateX(-50px) -> 0  (sliding from left)
+             cards      : translateX(80px) -> 0   (sliding from right)
+
+           Easing notes:
+             Headlines + buttons use cubic-bezier(0.16, 1, 0.3, 1)
+             — a smooth ease-out with no overshoot.
+             Cards use cubic-bezier(0.34, 1.56, 0.64, 1) — an
+             ease-out-back curve that overshoots slightly (~7%)
+             then settles back, producing the "bounce settle"
+             requested. */
+
+        /* All animated elements start hidden. Specific initial
+           transforms set per element type so each travels its own
+           direction. */
         .hero-headline-1,
-        .hero-headline-2,
-        .hero-action,
-        .hero-card {
+        .hero-headline-2 {
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(40px);
           transition:
-            opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-            transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+            opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+            transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-action {
-          transform: translateY(20px);
-          transition:
-            opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-            transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
-            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        .hero-card {
-          transform: translateY(40px);
+          opacity: 0;
+          /* Slide in from the left side of the viewport. */
+          transform: translateX(-50px);
+          /* Transition entrance properties on a 700ms curve;
+             keep filter (used for hover brightness) on a separate
+             snappy 220ms so hover stays responsive. */
           transition:
             opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
             transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
+        .hero-card {
+          opacity: 0;
+          /* Slide in from the right side. Cards are positioned
+             on the right of the layout, so sliding them in from
+             further right reads as "entering from off-screen". */
+          transform: translateX(80px);
+          /* Ease-out-back overshoots ~7% past the target then
+             settles back, producing a subtle bounce. The
+             transform transition uses this curve; opacity uses
+             the standard smooth ease-out (no overshoot needed
+             for opacity). */
+          transition:
+            opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+            transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1),
+            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
 
+        /* Reveal state — added by useEffect after mount via a
+           rAF chain (so initial state paints before transitions
+           fire). */
         .hero-ready .hero-headline-1,
         .hero-ready .hero-headline-2,
         .hero-ready .hero-action,
         .hero-ready .hero-card {
           opacity: 1;
-          transform: translateY(0);
+          transform: translate(0, 0);
         }
 
-        /* Staggered delays */
-        .hero-ready .hero-headline-1 { transition-delay: 0ms; }
-        .hero-ready .hero-headline-2 { transition-delay: 200ms; }
-        .hero-ready .hero-action-specialties { transition-delay: 500ms; }
-        .hero-ready .hero-action-contact     { transition-delay: 600ms; }
-        .hero-ready .hero-card-zeus    { transition-delay: 800ms; }
-        .hero-ready .hero-card-agents  { transition-delay: 920ms; }
-        .hero-ready .hero-card-net     { transition-delay: 1040ms; }
+        /* Per-element delays — the "cinematic pan" sequencing. */
+        .hero-ready .hero-headline-1         { transition-delay: 0ms; }
+        .hero-ready .hero-headline-2         { transition-delay: 1000ms; }
+        .hero-ready .hero-action-specialties { transition-delay: 2100ms; }
+        .hero-ready .hero-action-contact     { transition-delay: 2400ms; }
+        .hero-ready .hero-card-zeus          { transition-delay: 2800ms; }
+        .hero-ready .hero-card-agents        { transition-delay: 3300ms; }
+        .hero-ready .hero-card-net           { transition-delay: 3800ms; }
 
         @media (prefers-reduced-motion: reduce) {
           .hero-headline-1,
