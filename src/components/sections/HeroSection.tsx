@@ -213,18 +213,25 @@ export default function HeroSection() {
              RIGHT -> cards bottom-aligned, touching right edge
         */
         .hero-grid {
+          /* Anchor top + bottom to fill the hero vertically.
+             Horizontal axis matches .container (globals.css line 78):
+               max-width: var(--container)  (1280px)
+               margin: 0 auto                (centered)
+               padding: 0 24px               (24px gutter each side)
+             Same convention as .nav-inner, RASection, SpecialtiesSection,
+             ServicesSection, CaseStudiesSection, InsightsTabsSection.
+             Hero now aligns with every other section on the page. */
           position: absolute;
-          inset: 0;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          max-width: var(--container);
+          margin: 0 auto;
+          padding: 0 24px;
           display: grid;
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           align-items: stretch;
-          /* Symmetric horizontal padding: same 7% inset on both
-             sides so the right card cluster sits the same distance
-             from the right viewport edge as the headline sits from
-             the left edge. Per user direction "the right 3 tiles
-             boxes - are touching the right screen, why? same gap
-             as on left of the layout should be given on the right". */
-          padding: 0 7% 0 7%;
           z-index: 3;
         }
 
