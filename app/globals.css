@@ -566,7 +566,7 @@ body:has(main.home-immersive) .footer {
      width there's no border-radius to follow, but the sparkles
      should still not bleed past the visual edges). */
   overflow: hidden !important;
-  color: #0a2d41 !important;
+  color: #fff !important;
 }
 
 /* GLASS-SQUARE diagonal sparkles on the home footer.
@@ -614,45 +614,28 @@ body:has(main.home-immersive) .footer > * {
   color: rgba(255, 255, 255, 0.95) !important;
 }
 
-/* Footer text/link colors over the new lighter glass-square surface.
-   Flipped from white (old dark-bg) to dark navy because the 30%
-   white wash makes white text unreadable. Same #0a2d41 as the
-   testimonial cards in this PR. */
+/* Footer text/link colors — kept WHITE on the new glass-square
+   surface per user direction ("only black isn't looking good,
+   white will be visible, just keep it white"). The 30% white wash
+   over the dark video reads as a medium translucent layer, and
+   white text on it has enough contrast given the video bg's dark
+   regions. */
 body:has(main.home-immersive) .footer,
 body:has(main.home-immersive) .footer * {
-  color: #0a2d41;
+  color: rgba(255, 255, 255, 0.95);
 }
 body:has(main.home-immersive) .footer a {
-  color: rgba(10, 45, 65, 0.85);
+  color: rgba(255, 255, 255, 0.85);
 }
 body:has(main.home-immersive) .footer a:hover {
-  color: #0a2d41 !important;
+  color: rgba(255, 255, 255, 1) !important;
 }
 
-/* Divider line between sections of .footer-top and above .footer-bottom
-   was rgba(255,255,255,0.2) — invisible on the lighter wash. Flip to
-   a translucent dark navy to match the new text color. */
+/* Divider line between footer-top and footer-bottom. Translucent
+   white at 20% — visible on the 30% white wash because the wash
+   itself is partly transparent over the dark video below. */
 body:has(main.home-immersive) .footer-top {
-  border-bottom-color: rgba(10, 45, 65, 0.20) !important;
-}
-
-/* Cosentus wordmark in the footer brand area uses
-   `filter: brightness(0) invert(1)` inline (Footer.tsx:68) to make
-   the black logo white. On the new lighter footer it needs to be
-   dark again — override the inline filter with `brightness(0)` only
-   (no invert) so the logo renders as pure black/navy. */
-body:has(main.home-immersive) .footer-brand-text img {
-  filter: brightness(0) !important;
-}
-
-/* Accolades strip image (.footer-accolades-strip > img) is the
-   white-on-transparent PNG (`/all-accolades-white-transparent.png`).
-   On the lighter glass surface, white badges become invisible. We
-   `filter: invert(1)` to flip white pixels to dark while keeping
-   the transparent background intact — the simplest fix without
-   needing a separate dark asset. */
-body:has(main.home-immersive) .footer-accolades-strip img {
-  filter: invert(1) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.20) !important;
 }
 
 /* Home-page button + tabs visual recipe lives at the bottom of this
