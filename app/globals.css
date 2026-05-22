@@ -1430,27 +1430,35 @@ body:has(main.home-immersive) .footer a:hover {
   padding: 0 12px;
 }
 
-/* FLIP face uses a DIFFERENT anchoring strategy: TOP-aligned.
-   The impact text varies from 3 to 4 lines per stat. With the
-   front-face centering rule, taller blocks would sit lower and
-   shorter ones higher — top edges would not align.
+/* FLIP face anchored to the SHAFT CENTER, not the arrow center.
+   The arrow has two regions:
+     - Top ~0%-40% = the head (triangular peak)
+     - Bottom ~40%-95% = the shaft (constant-width body)
+   The shaft is where text is readable (wide, vertical walls).
+   Geometric center of the shaft sits at ~67% of the arrow's total
+   height.
 
-   Per user direction "align on flip, but text should be UP not at
-   the bottom — at the bottom looks weird", we anchor the TOP edge:
-     - top: 40%               pins the block's TOP edge inside the
-                              arrow's upper shaft area
-     - transform: none        cancels the front face's translateY
-     - justify-content: flex-start  flex children stack from top
-   Result: 3-line and 4-line messages start at the same y;
-   longer messages just extend further down. Both fit inside the
-   silhouette:
-     - 3-line block (~21% of arrow height): top 40%, bottom 61%
-     - 4-line block (~28% of arrow height): top 40%, bottom 68%
-   Arrow's shaft runs ~40%–95%, so both stay in the readable area. */
+   We previously top-aligned the impact text at 40% so all cards'
+   tops lined up. Per user direction the text looked "weird" sitting
+   right at the head/shaft boundary; they want it visually centered
+   in the body. Cross-card top alignment is sacrificed for visual
+   centering — 3-line and 4-line blocks center at the same y, but
+   their top lines start at different y (3-line top is closer to
+   center, 4-line top is higher up).
+
+   Implementation:
+     - top: 67%               anchor point at shaft center
+     - transform: translateY(-50%)  centers the block on that anchor
+     - justify-content: center  flex children stack centered
+
+   Geometry (verified at 286px-tall arrow):
+     - 3-line block (~21% of arrow): top 56.5%, bottom 77.5%
+     - 4-line block (~28% of arrow): top 53%,   bottom 81%
+     - Shaft runs 40%-95% — both fit inside */
 .result-flip-back .result-arrow-content {
-  top: 40%;
-  transform: none;
-  justify-content: flex-start;
+  top: 67%;
+  transform: translateY(-50%);
+  justify-content: center;
 }
 
 /* .result-text rule removed — the wrapper used to hold the
