@@ -595,43 +595,11 @@ body:has(main.home-immersive) .footer a:hover {
    rgba(255,255,255,0.2) which works fine on the frosted bg. No
    change there. */
 
-/* ------------------------------------------------------------------
-   .btn-primary on the home page — switch from solid-teal to the same
-   white liquid-glass recipe used inside the CTA box. Site-wide the
-   button stays teal (other pages use it on light/grey backgrounds
-   where teal reads well); on the immersive home page the teal pills
-   fight the no-teal aesthetic, so we override.
-   This catches BOTH the 'View All Client Success Stories' and
-   'Browse All Insights' buttons in the Insights section.
------------------------------------------------------------------- */
-.home-immersive .btn-primary {
-  background: rgba(255, 255, 255, 0.06) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
-  color: rgba(255, 255, 255, 0.95) !important;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
-    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
-}
-.home-immersive .btn-primary:hover {
-  background: rgba(255, 255, 255, 0.14) !important;
-  border-color: rgba(255, 255, 255, 0.30) !important;
-  color: #fff !important;
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.70),
-    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.55),
-    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.45),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-    0px 12px 28px 0px rgba(0, 0, 0, 0.30) !important;
-}
+/* Home-page button + tabs visual recipe lives at the bottom of this
+   file (search for "GLASS-PILL recipe") — placed after the
+   kill-borders block so its border/box-shadow declarations win in
+   source order. The earlier home-immersive .btn-primary block that
+   used to live here has been replaced. */
 
 /* ------------------------------------------------------------------
    Insight card CTA — 'Read Client Success Story →' / 'Read Article →'
@@ -4094,6 +4062,132 @@ body:has(main.home-immersive) .footer a:hover {
     inset 0px 3px 4px -2px rgba(0, 0, 0, 0.22),
     0px 2px 6px 0px rgba(0, 0, 0, 0.12),
     0px 14px 32px 0px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* ------------------------------------------------------------------
+   GLASS-PILL recipe for home-page buttons + tabs.
+
+   PLACEMENT NOTE — this block intentionally sits AFTER the
+   "kill-borders" multi-selector rule above (which set
+   `border: none !important` and a complex inset-highlight box-shadow
+   on .home-immersive .btn-primary, .home-immersive .insights-tab,
+   etc.). Both rules have equal specificity and use !important, so
+   source order decides — our border + simpler outer shadow win
+   because we're declared later.
+
+   Visual source: glass_button1.svg (CorelDRAW export, supplied by
+   user). The SVG is three layers stacked:
+     1. Thin white outline ring          -> CSS border
+     2. 30% white wash inside the ring   -> CSS background
+     3. Two diagonal sparkle highlights  -> ::before + ::after with
+        linear-gradients (top-left = bright, bottom-right = bright,
+        both fading to transparent toward the middle)
+
+   Anchored on TWO selectors so a single rule covers both surfaces:
+     - .home-immersive .btn-primary       (RA, Insights, CTA CTAs)
+     - .home-immersive .insights-tab      (Blog/News/Events/Press tabs)
+
+   Site-wide .btn-primary (other 17+ pages) is untouched; this only
+   re-themes the home page where the dark immersive video background
+   makes the outline-glass look read correctly.
+
+   Per user direction the live HTML <Link>/<button> elements are kept
+   intact — text, hover, focus, keyboard, screen readers all work as
+   before. The SVG is reproduced in CSS, not inlined.
+------------------------------------------------------------------ */
+.home-immersive .btn-primary,
+.home-immersive .insights-tab {
+  /* 30% white wash inside the ring — matches the SVG's .fil1
+     (fill-opacity 0.30). Backdrop blur kept so the pill picks up the
+     blurred video bg behind it; the SVG itself has no blur because
+     it's a static export, but live in-browser blur is what sells
+     "glass" on a moving video. */
+  background: rgba(255, 255, 255, 0.30) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  /* Thin white outline — matches the SVG's .fil0 (fill-opacity 0.50).
+     1.5px reads similar at ~48px-tall pill scale to the SVG's ~66u
+     border at 3965u tall. */
+  border: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  /* Soft outer shadow only — no inset highlights (the kill-borders
+     block above set complex insets; we override with a simpler
+     outer-only shadow because the SVG has no inset highlights and
+     they'd fight the corner-sparkle pseudo-elements below). */
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20) !important;
+  /* Pseudo-elements need a positioning context. */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagonal sparkle — TOP-LEFT corner.
+   Matches the SVG's #id0 mask: linearGradient from top-left (white,
+   opaque) to mid-shape (white, transparent), masking a full white
+   stroke. In CSS the equivalent is a pseudo-element filling the
+   button bounds, painted with the same gradient. The pill's
+   border-radius clips the pseudo because we set overflow:hidden on
+   the host above. */
+.home-immersive .btn-primary::before,
+.home-immersive .insights-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.00) 45%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Diagonal sparkle — BOTTOM-RIGHT corner.
+   Matches the SVG's #id2 mask: gradient from bottom-right to mid-shape. */
+.home-immersive .btn-primary::after,
+.home-immersive .insights-tab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.00) 45%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Lift any wrapper children (icons in <span>, etc.) above the
+   sparkle pseudos. Bare text nodes are unaffected — they render in
+   the element's content layer which already sits above pseudo
+   elements per spec; this rule is for explicit child elements. */
+.home-immersive .btn-primary > *,
+.home-immersive .insights-tab > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover — brighten the wash + the outline + lift slightly.
+   Using `border:` shorthand (not just `border-color:`) because the
+   kill-borders rule earlier in this file declares
+   `border: none !important` on .home-immersive .btn-primary:hover —
+   setting only border-color wouldn't bring the line back. */
+.home-immersive .btn-primary:hover,
+.home-immersive .insights-tab:hover {
+  background: rgba(255, 255, 255, 0.42) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30) !important;
+}
+
+/* Active (selected) tab — slightly more solid wash so the selected
+   tab reads as "pressed/lit" vs the inactive ones.
+   Same border-shorthand override reason as the hover rule above. */
+.home-immersive .insights-tab-active {
+  background: rgba(255, 255, 255, 0.42) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
+  color: #fff !important;
 }
 
 /* Testimonial arrows — keep glass tint, no border. */
