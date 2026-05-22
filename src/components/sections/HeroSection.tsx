@@ -32,39 +32,37 @@ const TAGLINE_LINES = [
   'RCM Redefined.',
 ]
 
-// Each hero card's content + click destination. Box 1 uses an in-page
-// anchor (#ra) so it scrolls to the Voice Agents section on the same
-// page; the others are Next.js route links.
+// Each hero card's content + click destination + height. Ladder
+// composition: card 1 shortest, card 3 tallest. All three are Next.js
+// <Link>s to route pages (Voice Agents card was dropped per user
+// direction).
 type HeroCard = {
   title: string
   blurb: string
   href: string
-  /** True when href is an in-page anchor — renders as <a> instead of
-   *  Next <Link> to use native browser scroll-into-view behavior. */
-  scroll?: boolean
+  /** Card height in px on desktop. Forms a rising ladder when
+   *  rendered left-to-right in HERO_CARDS order. */
+  height: number
 }
 
 const HERO_CARDS: HeroCard[] = [
   {
-    title: 'Voice Agents',
-    blurb: 'Meet the team that handles your front-office calls 24/7.',
-    href: '#ra',
-    scroll: true,
-  },
-  {
     title: 'Built For Your Specialty',
     blurb: 'Anesthesia, Pain, Orthopedics, ASCs, Behavioral, Multi-Specialty.',
     href: '/specialties',
+    height: 220,
   },
   {
     title: 'Zeus AI',
     blurb: 'Our agentic intelligence layer powering every claim and call.',
     href: '/zeus-ai',
+    height: 290,
   },
   {
     title: 'About Cosentus',
     blurb: '25 years of RCM. Now redefined.',
     href: '/about',
+    height: 360,
   },
 ]
 
@@ -93,32 +91,25 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* 4 glass cards pinned to the bottom of the hero. Rendered
-          OUTSIDE .hero-content so they break free from the container's
-          max-width constraint and span the full viewport edge-to-edge.
-          Box 1 uses a plain <a> with hash anchor for native scroll to
-          #ra; the other three are Next.js <Link> to route pages. */}
+      {/* 3 glass cards forming a bottom-aligned ladder at the
+          bottom of the hero. Each card has its own height
+          (HERO_CARDS[i].height); they all share the same baseline
+          (bottom: 0 on parent) so the ladder rises from left to
+          right. Per user direction: rounded corners, visible gaps
+          between cards. Voice Agents card was dropped from the
+          original 4-card set. */}
       <div className="hero-cards">
-        {HERO_CARDS.map((card) => {
-          const inner = (
-            <>
-              <h3 className="hero-card-title">{card.title}</h3>
-              <p className="hero-card-blurb">{card.blurb}</p>
-            </>
-          )
-          if (card.scroll) {
-            return (
-              <a key={card.title} href={card.href} className="hero-card">
-                {inner}
-              </a>
-            )
-          }
-          return (
-            <Link key={card.title} href={card.href} className="hero-card">
-              {inner}
-            </Link>
-          )
-        })}
+        {HERO_CARDS.map((card) => (
+          <Link
+            key={card.title}
+            href={card.href}
+            className="hero-card"
+            style={{ height: card.height }}
+          >
+            <h3 className="hero-card-title">{card.title}</h3>
+            <p className="hero-card-blurb">{card.blurb}</p>
+          </Link>
+        ))}
       </div>
 
       <style>{`
@@ -159,18 +150,16 @@ export default function HeroSection() {
           padding-bottom: 0 !important;
         }
 
-        /* 4 glass cards pinned to the bottom of the hero, full-bleed
-           edge-to-edge. Fixed height (not strict 1:1 aspect ratio)
-           so:
-             1. Card height doesn't scale with viewport width.
-                Previously at 2400px viewport with 4 cols + 1:1
-                aspect, each card was 600x600 — eating the H1.
-             2. All four cards have the SAME visible height
-                regardless of how much content is inside, so they
-                look consistently proportioned (the previous
-                aspect-ratio approach made cards with denser content
-                appear visually compressed even though their box
-                was the same size).
+        /* 3 glass cards forming a bottom-aligned ladder at the
+           bottom of the hero. Per user direction:
+             - 3 cards (Voice Agents dropped)
+             - heights vary in a ladder: short / medium / tall
+             - bottoms all align (touch the hero's bottom edge)
+             - cards do NOT touch each other or the viewport edges
+               (visible gaps between, side padding on the row)
+             - rounded corners matching the source glass_square.svg
+               (~9% of the side; values clamped to a reasonable
+               24px since cards are no longer strict squares)
         */
         .hero-cards {
           position: absolute;
@@ -178,10 +167,18 @@ export default function HeroSection() {
           right: 0;
           bottom: 0;
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 0;
+          grid-template-columns: repeat(3, 1fr);
+          /* align-items: end pins each card's bottom edge to the
+             grid track's bottom, so all 3 cards share the same
+             baseline regardless of their individual heights —
+             producing the ladder rising upward. */
+          align-items: end;
+          gap: 24px;
+          /* Side + bottom padding so the row sits INSIDE the
+             viewport with breathing room from the edges (no
+             full-bleed anymore). */
+          padding: 0 40px 40px;
           z-index: 3;
-          height: 280px;
         }
 
         .hero-card {
@@ -190,24 +187,32 @@ export default function HeroSection() {
           display: flex;
           flex-direction: column;
           padding: 32px 28px;
-          /* No border-radius — strict edge-to-edge with sharp
-             corners against neighbors and the viewport. */
-          border-radius: 0;
+          /* Rounded corners matching glass_square.svg's geometry
+             (radius 566.87 / side 6370.52 = 8.9% of side). At our
+             card widths (~500-700px) that ratio would be huge;
+             clamping to a tasteful 24px which still reads as
+             clearly rounded without overpowering the type inside. */
+          border-radius: 24px;
           background: rgba(255, 255, 255, 0.30);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
+          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
           text-decoration: none;
           color: inherit;
           transition:
+            transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             background-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         .hero-card:hover {
+          /* Cards no longer touch neighbours, so transform:translateY
+             is safe again. Lift on hover for tactile feedback. */
+          transform: translateY(-4px);
           background-color: rgba(255, 255, 255, 0.42);
           border-color: rgba(255, 255, 255, 0.75);
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.30);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
         }
 
         /* Diagonal sparkle — TOP-LEFT corner (matches glass_square.svg
@@ -216,6 +221,7 @@ export default function HeroSection() {
           content: '';
           position: absolute;
           inset: 0;
+          border-radius: inherit;
           background: linear-gradient(
             135deg,
             rgba(255, 255, 255, 0.55) 0%,
@@ -229,6 +235,7 @@ export default function HeroSection() {
           content: '';
           position: absolute;
           inset: 0;
+          border-radius: inherit;
           background: linear-gradient(
             315deg,
             rgba(255, 255, 255, 0.55) 0%,
@@ -245,11 +252,11 @@ export default function HeroSection() {
 
         .hero-card-title {
           font-family: var(--font-display);
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 700;
           line-height: 1.25;
           letter-spacing: -0.005em;
-          margin: 0 0 10px;
+          margin: 0 0 12px;
           color: #fff;
         }
         .hero-card-blurb {
@@ -259,11 +266,13 @@ export default function HeroSection() {
           margin: 0;
         }
 
-        /* Tablet: 2x2 grid. Row height doubles since two stacked rows. */
+        /* Tablet: 3 columns still fit at ~900px viewport but get
+           tighter. Reduce card heights proportionally so the row
+           doesn't take too much vertical space. */
         @media (max-width: 900px) {
           .hero-cards {
-            grid-template-columns: repeat(2, 1fr);
-            height: 380px;
+            gap: 16px;
+            padding: 0 24px 24px;
           }
           .hero-card {
             padding: 22px 20px;
@@ -275,14 +284,18 @@ export default function HeroSection() {
             font-size: 13px;
           }
         }
-        /* Mobile: 1x4 column stack. Auto height so cards size to
-           their content rather than a fixed total. */
+        /* Mobile: stack to 1 column. The ladder collapses — each card
+           sizes to its content. Per-card inline height is overridden
+           to auto so the cards size naturally; the ladder pattern
+           only makes sense at desktop widths. */
         @media (max-width: 580px) {
           .hero-cards {
             grid-template-columns: 1fr;
-            height: auto;
+            gap: 12px;
+            padding: 0 16px 16px;
           }
           .hero-card {
+            height: auto !important;
             padding: 18px 18px;
           }
           .hero-card-title {
