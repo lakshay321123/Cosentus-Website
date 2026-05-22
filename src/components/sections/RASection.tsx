@@ -61,6 +61,17 @@ export default function RASection() {
             </h2>
           </RevealOnScroll>
 
+          {/* SUPPORTING SUBHEADING — secondary copy under the H2 that
+              frames the agents+stats section. Added per user
+              direction with the 'Combining expert teams...' wording.
+              Reveal delay 0.14 puts it between the H2 (0.10) and the
+              stats row (0.18) so the cascade reads top-to-bottom. */}
+          <RevealOnScroll direction="up" delay={0.14}>
+            <p className="ra-subheading">
+              Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
+            </p>
+          </RevealOnScroll>
+
           {/* 9 / 15 / 23 STATS — three-column strip, centered. */}
           <RevealOnScroll direction="up" delay={0.18}>
             <div className="ra-stats-row">
@@ -169,6 +180,32 @@ export default function RASection() {
         }
         .ra-heading .accent {
           color: #00B5D6;
+        }
+
+        /* SUPPORTING SUBHEADING — secondary copy under the H2.
+           Smaller, lighter weight, softer color so it reads
+           clearly as supporting text under the title. Tighter
+           max-width than the H2 (650 vs 1100) so it wraps to ~2
+           lines on desktop, which keeps it visually grouped with
+           the title rather than spreading across the section
+           width.
+
+           Color: literal rgba(255,255,255,0.75) since this section
+           is home-only and home-immersive's text override would
+           catch var(--gray-*) values anyway. Off-home rendering
+           would fall back to this same soft white, which still
+           reads on the dark video bg used everywhere this section
+           appears today. */
+        .ra-subheading {
+          font-family: var(--font-body);
+          font-size: clamp(15px, 1.4vw, 18px);
+          font-weight: 400;
+          line-height: 1.55;
+          color: rgba(255, 255, 255, 0.75);
+          margin: 16px auto 0;
+          text-align: center;
+          max-width: 650px;
+          width: 100%;
         }
 
         /* ===== 9 / 15 / 23 stats row =====
