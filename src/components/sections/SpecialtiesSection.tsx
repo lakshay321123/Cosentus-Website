@@ -1,65 +1,107 @@
 'use client'
 
 /**
- * SpecialtiesSection
+ * SpecialtiesSection — Home page section showcasing the six specialty
+ * practices Cosentus serves.
  *
- * Dedicated home-page section showcasing the six specialty practices
- * Cosentus serves, each linking to its own specialty page. Replaces
- * (and richens) the small glass pills that used to live in the hero.
+ * Layout: a 3D auto-rotating circular gallery (CircularGallery
+ * component, adapted from 21st.dev). Each card is a vertical
+ * 300x420 tile with a representative photo, title, blurb, and
+ * "Learn more" affordance — clicking anywhere on the card routes
+ * to the specialty page.
  *
- * Why a dedicated section instead of pills in the hero:
- *   - Hero is now narrative-only (H1 + immersive video) so the viewer
- *     gets a clean first impression before being asked to choose
- *   - Specialties deserve more than a label — a short value-prop line
- *     per card makes the page useful for a CFO/admin who's deciding
- *     whether to click through
- *   - Card layout lets the section breathe and act as a hard visual
- *     break between the agent-grid and the results numbers above and
- *     below it in the page flow
+ * Previous version was a static 3x2 grid of glass-square cards.
+ * Replaced per user direction:
+ *   "for this section, convert boxes into Rectangular vertical
+ *    boxes, same text, use this 21st dev as the animation and
+ *    anchor".
  *
- * Each card is a Next <Link>, so the whole tile is clickable and
- * keyboard-navigable. No JS click handlers needed.
+ * Photo selection: Unsplash photo IDs verified to return 200 OK
+ * during build. Several are GENERIC medical imagery rather than
+ * specialty-accurate — user accepted this trade-off ("Use what I
+ * find from Unsplash even if some photos are generic medical").
+ * Items flagged with TODO comments are the weakest matches and
+ * should be replaced once specialty-specific photos are sourced.
  */
 
-import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import CircularGallery, {
+  type CircularGalleryItem,
+} from '@/components/ui/CircularGallery'
 
-type Specialty = {
-  label: string
-  href: string
-  blurb: string
-}
+// Unsplash photo URL helper — keeps the long query string out of
+// each data row. q=80 is the sweet spot for visual quality vs
+// transfer size; w=900 gives ~3x DPR headroom on a 300px display
+// width without sending oversized files.
+const unsplash = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?w=900&auto=format&fit=crop&q=80`
 
-const specialties: Specialty[] = [
+const specialties: CircularGalleryItem[] = [
   {
-    label: 'Anesthesia',
+    title: 'Anesthesia',
+    blurb:
+      'Time-unit precision, modifier accuracy, and concurrency rules — built by anesthesia veterans.',
     href: '/specialties/anesthesia',
-    blurb: 'Time-unit precision, modifier accuracy, and concurrency rules — built by anesthesia veterans.',
+    photoUrl: unsplash('1551076805-e1869033e561'),
+    photoPos: 'center',
+    photoAlt: 'Operating room interior',
   },
   {
-    label: 'Orthopedics',
+    title: 'Orthopedics',
+    // TODO: better photo. Verified Unsplash IDs around "ortho/bone/
+    // x-ray/joint" returned anatomy models that don't read as
+    // orthopedic specifically. Using a generic surgical/healthcare
+    // photo as the placeholder; should be swapped for an ortho-
+    // specific image (X-ray, MRI, joint replacement, sports medicine).
+    blurb:
+      'Surgical coding, global periods, implant pass-throughs, and workers\u2019 comp handled end-to-end.',
     href: '/specialties/orthopedics',
-    blurb: 'Surgical coding, global periods, implant pass-throughs, and workers\u2019 comp handled end-to-end.',
+    photoUrl: unsplash('1576091160550-2173dba999ef'),
+    photoPos: 'center',
+    photoAlt: 'Healthcare professional with stethoscope',
   },
   {
-    label: 'Pain Management',
+    title: 'Pain Management',
+    // TODO: better photo. Currently generic medical imagery; should
+    // be replaced with a pain-management-specific photo (spine
+    // injection, RFA, interventional pain procedure).
+    blurb:
+      'Interventional injections, RFA, SCS, medical-necessity documentation defense.',
     href: '/specialties/pain-management',
-    blurb: 'Interventional injections, RFA, SCS, medical-necessity documentation defense.',
+    photoUrl: unsplash('1559757175-5700dde675bc'),
+    photoPos: 'center',
+    photoAlt: 'Pain management treatment',
   },
   {
-    label: 'ASCs',
+    title: 'ASCs',
+    blurb:
+      'Coordinated facility + professional billing, case costing, contract underpayment recovery.',
     href: '/specialties/asc',
-    blurb: 'Coordinated facility + professional billing, case costing, contract underpayment recovery.',
+    photoUrl: unsplash('1581595220892-b0739db3ba8c'),
+    photoPos: 'center',
+    photoAlt: 'Surgeons performing a procedure in a surgical center',
   },
   {
-    label: 'Behavioral Health',
+    title: 'Behavioral Health',
+    // TODO: better photo. Currently a generic professional headshot
+    // rather than a therapy-specific image; should be swapped for
+    // something more recognisable (counsellor session, calm
+    // therapeutic environment).
+    blurb:
+      'Time-based therapy CPTs, IOP/PHP bundling, telehealth modifiers, authorization tracking.',
     href: '/specialties/behavioral-health',
-    blurb: 'Time-based therapy CPTs, IOP/PHP bundling, telehealth modifiers, authorization tracking.',
+    photoUrl: unsplash('1573497019940-1c28c88b4f3e'),
+    photoPos: 'center',
+    photoAlt: 'Behavioral health professional',
   },
   {
-    label: 'Multi-Specialty',
+    title: 'Multi-Specialty',
+    blurb:
+      'Mixed-specialty groups, multi-site operations, and primary care \u2014 one accountable RCM partner.',
     href: '/specialties/multi-specialty',
-    blurb: 'Mixed-specialty groups, multi-site operations, and primary care \u2014 one accountable RCM partner.',
+    photoUrl: unsplash('1532938911079-1b06ac7ceec7'),
+    photoPos: 'center',
+    photoAlt: 'Physician with stethoscope, representing general practice',
   },
 ]
 
@@ -79,40 +121,12 @@ export default function SpecialtiesSection() {
           </header>
         </RevealOnScroll>
 
-        <div className="specialties-grid">
-          {specialties.map((s, i) => (
-            <RevealOnScroll
-              key={s.href}
-              direction="up"
-              delay={0.15 + i * 0.05}
-            >
-              <Link href={s.href} className="specialty-card">
-                <div className="specialty-card-inner">
-                  <h3 className="specialty-card-title">{s.label}</h3>
-                  <p className="specialty-card-blurb">{s.blurb}</p>
-                  <span className="specialty-card-cta" aria-hidden="true">
-                    Learn more
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="specialty-card-arrow"
-                    >
-                      <path
-                        d="M3 7h8m0 0L7 3m4 4l-4 4"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            </RevealOnScroll>
-          ))}
+        {/* Gallery sits in a fixed-height container so the section
+            doesn't grow as the cards rotate around the Y axis. The
+            cards are 420px tall; the container is 620px so there's
+            breathing room above + below the tallest card. */}
+        <div className="specialties-gallery-wrap">
+          <CircularGallery items={specialties} radius={620} />
         </div>
       </div>
 
@@ -123,9 +137,7 @@ export default function SpecialtiesSection() {
         }
 
         .specialties-header {
-          /* Left-aligned per user direction. max-width keeps line
-             length readable for the subtitle; margin-bottom matches
-             the previous centered layout. */
+          /* Left-aligned to match other home section headers. */
           text-align: left;
           max-width: 720px;
           margin: 0 0 48px;
@@ -144,117 +156,20 @@ export default function SpecialtiesSection() {
           color: #00B5D6;
         }
 
-        .specialties-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-        }
-
-        .specialty-card {
-          /* Whole tile is the link; remove default underline + inherit
-             color so the inner styles win. */
-          display: block;
-          text-decoration: none;
-          color: inherit;
-          height: 100%;
-          /* The visual frame is the inner div so the focus ring on
-             the link reads as a tight outline around the actual card.
-             Default link focus ring would feel detached. */
-          border-radius: 16px;
-        }
-        .specialty-card:focus-visible {
-          outline: 2px solid #00B5D6;
-          outline-offset: 3px;
-        }
-
-        .specialty-card-inner {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          padding: 28px;
-          border-radius: 16px;
-          /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg
-             (CorelDRAW export supplied by user). The SVG composes to
-             two visible layers:
-               1. 50% white outline ring (~1% of side thick) -> border
-               2. 30% white wash inside the ring             -> background
-             The SVG body is uniformly flat — no diagonal gradients
-             across the face. */
-          background: rgba(255, 255, 255, 0.20);
-          border: 1.5px solid rgba(255, 255, 255, 0.50);
-          backdrop-filter: blur(20px) saturate(160%);
-          -webkit-backdrop-filter: blur(20px) saturate(160%);
-          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
-          /* overflow:hidden so any future :after content (none today)
-             clips to the rounded corners. position kept for any
-             absolute children. */
+        /* The gallery needs a definite height so the absolutely-
+           positioned cards inside have a reference frame. 620px
+           gives the rotating 420px-tall cards 100px breathing room
+           on each side. */
+        .specialties-gallery-wrap {
           position: relative;
-          overflow: hidden;
-          transition:
-            transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            background-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg.
-           The SVG composes to:
-             1. .fil1 = 30% white wash       -> background (above)
-             2. .fil0 = 50% white outline    -> border (above)
-           That's it. Previously we had ::before/::after pseudos
-           painting full-face diagonal gradients, but the source
-           SVG has flat body + thin outline only. Removed per user
-           direction "100% copy of what I sent you". */
-
-        .specialty-card:hover .specialty-card-inner {
-          transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.32);
-          border-color: rgba(255, 255, 255, 0.75);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
-        }
-
-        .specialty-card-title {
-          font-family: var(--font-display);
-          font-size: 22px;
-          font-weight: 700;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
-          margin: 0 0 12px;
-          color: var(--gray-900);
-        }
-
-        .specialty-card-blurb {
-          font-size: 15px;
-          line-height: 1.5;
-          color: var(--gray-600);
-          margin: 0 0 20px;
-          /* Flex-grow so the CTA always sits at the bottom of the
-             card regardless of blurb length. */
-          flex: 1;
-        }
-
-        .specialty-card-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 14px;
-          font-weight: 600;
-          letter-spacing: 0.02em;
-          color: #00B5D6;
-          /* Arrow nudges right on hover via the .specialty-card:hover
-             selector below — gives the affordance some life. */
-        }
-
-        .specialty-card-arrow {
-          transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        .specialty-card:hover .specialty-card-arrow {
-          transform: translateX(3px);
+          width: 100%;
+          height: 620px;
         }
 
         @media (max-width: 1024px) {
-          .specialties-grid {
-            grid-template-columns: repeat(2, 1fr);
+          /* Smaller container on narrower viewports. */
+          .specialties-gallery-wrap {
+            height: 540px;
           }
         }
         @media (max-width: 600px) {
@@ -262,18 +177,8 @@ export default function SpecialtiesSection() {
             padding-top: 64px;
             padding-bottom: 64px;
           }
-          .specialties-grid {
-            grid-template-columns: 1fr;
-            gap: 14px;
-          }
-          .specialty-card-inner {
-            padding: 22px;
-          }
-          .specialty-card-title {
-            font-size: 20px;
-          }
-          .specialty-card-blurb {
-            font-size: 14.5px;
+          .specialties-gallery-wrap {
+            height: 480px;
           }
         }
       `}</style>
