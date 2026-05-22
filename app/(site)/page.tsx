@@ -6,7 +6,7 @@ import SpecialtiesSection from '@/components/sections/SpecialtiesSection'
 import ResultsSection from '@/components/sections/ResultsSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
-import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import TestimonialsShuffleSection from '@/components/sections/TestimonialsShuffleSection'
 import CTASection from '@/components/sections/CTASection'
 
 export default function Home() {
@@ -32,7 +32,9 @@ export default function Home() {
             5. ResultsSection — numbers with up arrows
             6. InsightsTabsSection — Resources tabs
             7. PartnersSection — Our Network
-            8. TestimonialsSection — What Our Clients Say
+            8. TestimonialsShuffleSection — What Our Clients Say
+               (home-only fan-stack glass-card variant; other pages
+               still use the shared TestimonialsSection carousel)
             9. CTASection */}
       <HeroSection />
       <ScrollHeroSection />
@@ -41,7 +43,7 @@ export default function Home() {
       <ResultsSection />
       <InsightsTabsSection />
       <PartnersSection />
-      <TestimonialsSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
+      <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       <CTASection />
     </main>
   )
