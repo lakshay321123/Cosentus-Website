@@ -270,6 +270,49 @@ export default function TestimonialsShuffleSection({
             transform-origin: center center;
           }
         }
+
+        /* GLASS-SQUARE recipe diagonal sparkles — applied ONLY to the
+           front card so the fan-stack doesn't have 5 cards' worth of
+           overlapping highlights fighting each other. Back cards keep
+           the same glass base (30% white wash, white border) inherited
+           from the inline style; they just don't get the sparkle
+           pseudo-elements.
+
+           Source: glass_square.svg (CorelDRAW export). Same recipe
+           used for the Specialty cards in this PR. */
+        .tcard-front::before,
+        .tcard-front::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          border-radius: inherit;
+        }
+        /* Top-left sparkle (matches glass_square.svg mask#id0). */
+        .tcard-front::before {
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.00) 45%
+          );
+        }
+        /* Bottom-right sparkle (matches glass_square.svg mask#id2). */
+        .tcard-front::after {
+          background: linear-gradient(
+            315deg,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.00) 45%
+          );
+        }
+
+        /* Lift card content above the sparkle pseudos.
+           The tag, avatar, blockquote, and attribution all need to sit
+           above the gradient sparkles so they read clearly. */
+        .tcard > * {
+          position: relative;
+          z-index: 1;
+        }
       `}</style>
     </section>
   )
