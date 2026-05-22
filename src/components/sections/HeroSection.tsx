@@ -309,18 +309,25 @@ export default function HeroSection() {
         }
         .hero-action-arrow {
           /* Arrow disc is the round button on the right end of the
-             pill. Position absolutely so it overlaps the pill's right
-             edge — center-aligned vertically with the pill. The
-             arrow SVG is 1:1 square. */
+             pill. Position absolutely so it sits AT the pill's right
+             edge — center-aligned vertically with the pill.
+
+             Spec measurement: arrow disc extends only ~0.3% past
+             the pill's right edge (4px on a 1195px pill). Earlier
+             I used right:-8% which pushed it ~8% past the pill,
+             making the disc detach visually from the pill and look
+             like it was floating in the gap between buttons.
+
+             right:0 = arrow's right edge aligns with pill's right edge.
+             A small negative value (-1%) places the disc center
+             roughly on the pill's right edge, extending the disc
+             slightly past — matches spec. */
           position: absolute;
-          right: -8%;
+          right: -1%;
           top: 50%;
           transform: translateY(-50%);
-          /* Per user direction "Our specialties button why is the
-             circle and arrow bigger than it?" — the arrow disc
-             should be roughly the same height as the pill, not
-             dramatically larger. Setting equal to the pill height
-             so they read as a single composed button. */
+          /* Same height as the pill so they read as a composed
+             button. */
           height: 100%;
           width: auto;
         }
@@ -470,7 +477,7 @@ export default function HeroSection() {
             height: 44px;
           }
           .hero-action-arrow {
-            height: 115%;
+            height: 100%;
           }
           .hero-cards {
             padding: 0;
