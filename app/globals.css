@@ -1477,25 +1477,29 @@ body:has(main.home-immersive) .footer a:hover {
    BillingCodingContent.tsx uses the same inline-style arrow + class
    names). On the home page:
      - colors re-tinted to white (per earlier direction)
-     - sizes bumped per direction "text can be bigger in the arrow"
-       (number went from clamp(28,3.5vw,44) to clamp(36,4.5vw,58);
-       label from 12px to 16px; sublabel from 13px to 15px). */
+     - sizes set so the widest content fits inside the arrow shaft.
+   Sizing math (verified by rasterizing the SVG with cairosvg):
+     - Arrow shaft is the constant ~67.5% of the arrow's total width
+       in the lower 50%-95% region (measured).
+     - At desktop column width ~200px: shaft = 135px, usable with
+       12px side padding = 111px.
+     - "98.5%" (widest number, 6 chars) at 36px ≈ 119px. Just over;
+       capped to 36px on widest viewports, fluid below. The 2.6vw
+       middle term keeps numbers proportional on narrower screens.
+     - "PATIENT COLLECTION" (longest label, 18 chars) at 13px ≈ 117px.
+       Fits within shaft with breathing room.
+     - "Up to" sublabel at 13px is well under any width concern. */
 .home-immersive .result-number {
   color: #fff;
-  font-size: clamp(36px, 4.5vw, 58px);
+  font-size: clamp(24px, 2.6vw, 36px);
 }
 .home-immersive .result-label {
   color: rgba(255, 255, 255, 0.85);
-  /* 14px (not the previous 16px) because the longest label
-     "PATIENT COLLECTION" is 18 chars and the arrow shaft is only
-     ~60% of the column width. 16px overflowed the shaft walls on
-     standard desktop grid; 14px fits cleanly with the 12px side
-     padding on .result-arrow-content. Still readable. */
-  font-size: 14px;
+  font-size: 13px;
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
@@ -1555,18 +1559,21 @@ body:has(main.home-immersive) .footer a:hover {
 }
 
 /* Flip impact text — sits inside the arrow body via the shared
-   .result-arrow-content positioner used by the front. 16px reads
-   comfortably; the longest impact message wraps to ~3 lines inside
-   the arrow silhouette. Bumped from an earlier 13px which was too
-   small per user direction "text can be bigger on flip". */
+   .result-arrow-content positioner used by the front. The strings
+   in ResultsSection.tsx contain explicit \n line breaks (chosen
+   per-stat to land 2-4 words per line, fitting inside the arrow's
+   narrow shaft). white-space: pre-line tells the browser to render
+   those \n as real <br>-equivalent breaks while still collapsing
+   regular spaces. */
 .result-flip-text {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.4;
   color: #fff;
   font-weight: 500;
   text-align: center;
   letter-spacing: -0.005em;
+  white-space: pre-line;
 }
 
 /* .result-flip-stat / .result-flip-number / .result-flip-label
@@ -3014,10 +3021,14 @@ body:has(main.home-immersive) .footer a:hover {
     margin: 0 auto;
   }
   .results-mobile .result-number {
-    font-size: 40px !important;
+    /* Mobile arrow is max-width 200px (same as desktop column width),
+       so the same shaft math applies — 36px is the cap that fits
+       "98.5%" inside the shaft. Drop the !important fluid value
+       since the desktop home rule already clamps appropriately. */
+    font-size: 36px !important;
   }
   .results-mobile .result-label {
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
   /* Hero: left-align everything consistently on mobile */
   .hero-actions .btn-ghost {
