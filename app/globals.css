@@ -609,30 +609,6 @@ body:has(main.home-immersive) .footer-top {
   border-bottom-color: rgba(255, 255, 255, 0.20) !important;
 }
 
-/* ------------------------------------------------------------------
-   CINDY voice-agent widget — HIDDEN on the home page.
-
-   CindyVoiceAgent (src/components/ui/CindyVoiceAgent.tsx) renders a
-   fixed-position avatar button at bottom-right (right:28, bottom:110
-   on desktop) plus an expanded chat panel at the same anchor when
-   activated. The new home hero (per user-supplied design, May 2026)
-   places 3 cards at the bottom-right of the hero — exactly where
-   Cindy floats — and the two collide visually.
-
-   Hiding Cindy only on the home page; the widget still renders on
-   every other route (specialties, services, etc.) where the layout
-   has room for it.
-
-   The "Meet Our 24/7 Ai Agents" card in the new hero already
-   provides an entry point to the agent surface, so the home isn't
-   losing the affordance entirely — it just moves into the hero
-   composition instead of floating separately.
------------------------------------------------------------------- */
-body:has(main.home-immersive) .cindy-avatar,
-body:has(main.home-immersive) .cindy-panel {
-  display: none !important;
-}
-
 /* Home-page button + tabs visual recipe lives at the bottom of this
    file (search for "GLASS-PILL recipe") — placed after the
    kill-borders block so its border/box-shadow declarations win in
