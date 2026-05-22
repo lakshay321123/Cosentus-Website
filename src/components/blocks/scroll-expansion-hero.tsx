@@ -93,6 +93,18 @@ const ScrollExpandMedia = ({
   const progressRef = useRef<number>(0);
   const expandedRef = useRef<boolean>(false);
   const touchYRef = useRef<number>(0);
+  // Tracks whether a programmatic (anchor-click / hashchange) scroll
+  // is in progress. The scroll-lock guards below (handleWheel,
+  // handleTouchMove, handleScroll, handleKeyDown) bypass their lock
+  // when this is true so that browser-native anchor scroll can pass
+  // THROUGH this section to reach anchors that live below it
+  // (e.g. #ra, #specialties, #results on the home page).
+  //
+  // Without this bypass, the handleScroll snap-back at
+  // window.scrollTo(0, sectionTopAbsolute) kicks in the moment the
+  // anchor scroll passes the section's top, pulling the page back
+  // up — user observes "stuck on the second section".
+  const programmaticScrollRef = useRef<boolean>(false);
 
   // Is the section's top at or above viewport top, AND its bottom
   // still below viewport top? In that state the section is "owning
@@ -108,6 +120,10 @@ const ScrollExpandMedia = ({
     const handleWheel = (e: WheelEvent) => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
+      // Bypass the lock entirely while a programmatic anchor-scroll
+      // is in flight. The native scroll passes through this section
+      // to reach a target below.
+      if (programmaticScrollRef.current) return;
       // Allow scroll-up to exit the top of the section when
       // progress is already at 0.
       if (e.deltaY < 0 && progressRef.current <= 0) return;
@@ -133,6 +149,9 @@ const ScrollExpandMedia = ({
     const handleTouchMove = (e: TouchEvent) => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
+      // Bypass during programmatic anchor scroll — mobile parity
+      // with the wheel handler.
+      if (programmaticScrollRef.current) return;
       if (!touchYRef.current) return;
 
       const touchY = e.touches[0].clientY;
@@ -178,6 +197,9 @@ const ScrollExpandMedia = ({
     const handleKeyDown = (e: KeyboardEvent): void => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
+      // Bypass during programmatic anchor scroll — same reasoning
+      // as the other handlers.
+      if (programmaticScrollRef.current) return;
 
       const target = e.target as HTMLElement | null;
       if (target) {
@@ -245,6 +267,13 @@ const ScrollExpandMedia = ({
     const handleScroll = (): void => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
+      // Critical bypass: do NOT snap back during programmatic
+      // anchor scroll. This is the guard that was responsible for
+      // the "stuck on second section" bug — anchor clicks to #ra /
+      // #specialties / #results scroll past this section, and
+      // without this bypass the snap-back would yank the page
+      // back to this section's top.
+      if (programmaticScrollRef.current) return;
       const el = sectionRef.current;
       if (!el) return;
       const sectionTopAbsolute =
@@ -254,12 +283,67 @@ const ScrollExpandMedia = ({
       }
     };
 
+    // ===== Programmatic-scroll detection =====
+    // Setting programmaticScrollRef.current = true tells the four
+    // handlers above to bypass their scroll-lock. Set the flag when:
+    //   (1) a same-page anchor link is clicked (e.g. <a href="#ra">)
+    //   (2) the URL hash changes (browser back/forward, or
+    //       location.hash assignments)
+    //
+    // The flag is cleared by a scheduled timer 1500ms later — native
+    // browser smooth-scroll-to-anchor typically completes in 600-
+    // 1000ms; 1500ms covers slow devices with some buffer. The timer
+    // is captured in a ref so consecutive anchor clicks reset it
+    // rather than overlapping resets.
+    let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const armProgrammaticBypass = (): void => {
+      programmaticScrollRef.current = true;
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        programmaticScrollRef.current = false;
+        resetTimer = null;
+      }, 1500);
+    };
+
+    const handleAnchorClick = (e: MouseEvent): void => {
+      // Only same-page anchor links — must have an href starting
+      // with "#". We walk up from the click target since the actual
+      // <a> may not be e.target directly (clicks on inner <img> or
+      // <span> children land here).
+      let node: HTMLElement | null = e.target as HTMLElement | null;
+      while (node && node !== document.body) {
+        if (node.tagName === 'A') {
+          const href = (node as HTMLAnchorElement).getAttribute('href');
+          if (href && href.startsWith('#') && href.length > 1) {
+            armProgrammaticBypass();
+          }
+          return;
+        }
+        node = node.parentElement;
+      }
+    };
+
+    const handleHashChange = (): void => {
+      // Covers back/forward navigation and any JS-driven
+      // location.hash assignment that browsers don't fire a click
+      // event for.
+      armProgrammaticBypass();
+    };
+
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd);
     window.addEventListener('keydown', handleKeyDown);
+    // Anchor click listener at the DOCUMENT level so it catches
+    // every in-page anchor link regardless of where it lives in the
+    // tree. Capture phase = true so we run BEFORE the browser starts
+    // its smooth-scroll, ensuring the bypass flag is set before
+    // the snap-back guard could fire on the first scroll event.
+    document.addEventListener('click', handleAnchorClick, true);
+    window.addEventListener('hashchange', handleHashChange);
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
@@ -268,6 +352,9 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleAnchorClick, true);
+      window.removeEventListener('hashchange', handleHashChange);
+      if (resetTimer) clearTimeout(resetTimer);
     };
     // Empty deps — handlers read state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
