@@ -91,33 +91,34 @@ export default function HeroSection() {
           typingSpeed={55}
           lineGap={300}
         />
+      </div>
 
-        {/* 4 glass cards spanning the bottom of the hero. Each is
-            fully clickable; box 1 uses a plain <a> with hash anchor
-            for native smooth-scroll to #ra, the other three are
-            Next.js <Link> to route pages. */}
-        <div className="hero-cards">
-          {HERO_CARDS.map((card) => {
-            const inner = (
-              <>
-                <h3 className="hero-card-title">{card.title}</h3>
-                <p className="hero-card-blurb">{card.blurb}</p>
-              </>
-            )
-            if (card.scroll) {
-              return (
-                <a key={card.title} href={card.href} className="hero-card">
-                  {inner}
-                </a>
-              )
-            }
+      {/* 4 glass cards pinned to the bottom of the hero. Rendered
+          OUTSIDE .hero-content so they break free from the container's
+          max-width constraint and span the full viewport edge-to-edge.
+          Box 1 uses a plain <a> with hash anchor for native scroll to
+          #ra; the other three are Next.js <Link> to route pages. */}
+      <div className="hero-cards">
+        {HERO_CARDS.map((card) => {
+          const inner = (
+            <>
+              <h3 className="hero-card-title">{card.title}</h3>
+              <p className="hero-card-blurb">{card.blurb}</p>
+            </>
+          )
+          if (card.scroll) {
             return (
-              <Link key={card.title} href={card.href} className="hero-card">
+              <a key={card.title} href={card.href} className="hero-card">
                 {inner}
-              </Link>
+              </a>
             )
-          })}
-        </div>
+          }
+          return (
+            <Link key={card.title} href={card.href} className="hero-card">
+              {inner}
+            </Link>
+          )
+        })}
       </div>
 
       <style>{`
@@ -128,60 +129,69 @@ export default function HeroSection() {
           display: none;
         }
 
-        /* The hero is min-height: 100vh (set in globals.css). Make it
-           a flex column so the H1 sits at the top and the .hero-cards
-           row gets pushed to the bottom via margin-top: auto. This
-           survives the typing animation (which changes the H1's
-           rendered height as lines appear) without the cards moving. */
-        .home-immersive .hero-content {
-          display: flex;
-          flex-direction: column;
-          padding-bottom: 56px;
+        /* .hero is the absolute-positioning context for .hero-cards.
+           globals.css declares position: relative on .hero already
+           (via .home-immersive scope), but we make it explicit here
+           to be robust against any future change. */
+        .hero {
+          position: relative;
         }
 
+        /* 4 glass cards pinned to the bottom of the hero, full-bleed
+           edge-to-edge (no container max-width). Each card is a 1:1
+           square per user direction. With 4 columns at a 1440px
+           viewport, each square is 360x360; the bottom 360px of the
+           hero is occupied by this row. */
         .hero-cards {
-          /* margin-top: auto pushes this row to the bottom of the
-             flex hero-content column, regardless of H1 height. */
-          margin-top: auto;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 18px;
-          padding-top: 48px;
+          /* No gap — cards touch each other and the section edges. The
+             1.5px borders between adjacent cards add visually as a
+             single line; acceptable for the strict-fill look. */
+          gap: 0;
+          z-index: 3;
         }
 
-        /* GLASS-SQUARE recipe — same as Specialty cards, Resource
-           card bodies, Testimonial cards, and footer in this PR.
-           Reproducing the look in CSS (not stretching glass_square.svg)
-           so the border thickness stays uniform at any aspect ratio. */
+        /* Strict 1:1 square per card. Per user direction "lots of
+           internal whitespace" is intentional — the title + blurb
+           anchor to the top-left of each square and the rest is
+           open space. */
         .hero-card {
           position: relative;
           overflow: hidden;
+          aspect-ratio: 1 / 1;
           display: flex;
           flex-direction: column;
-          padding: 22px 20px;
-          border-radius: 16px;
+          padding: 28px 24px;
+          /* No border-radius — strict squares with sharp corners,
+             flush against each other and the viewport edges. */
+          border-radius: 0;
           background: rgba(255, 255, 255, 0.30);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
-          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
+          /* No box-shadow — the cards sit edge-to-edge against each
+             other; outer shadows would visually leak into neighbors.
+             Hover still gets a shadow. */
           text-decoration: none;
           color: inherit;
           transition:
-            transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             background-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         .hero-card:hover {
-          transform: translateY(-4px);
           background-color: rgba(255, 255, 255, 0.42);
           border-color: rgba(255, 255, 255, 0.75);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.30);
         }
 
         /* Diagonal sparkle — TOP-LEFT corner (matches glass_square.svg
-           mask#id0: 135deg gradient). */
+           mask#id0: 135deg gradient fading at 45%). */
         .hero-card::before {
           content: '';
           position: absolute;
@@ -215,40 +225,54 @@ export default function HeroSection() {
 
         .hero-card-title {
           font-family: var(--font-display);
-          font-size: 16px;
+          font-size: 20px;
           font-weight: 700;
           line-height: 1.25;
           letter-spacing: -0.005em;
-          margin: 0 0 6px;
+          margin: 0 0 10px;
           color: #fff;
         }
         .hero-card-blurb {
-          font-size: 13px;
-          line-height: 1.45;
+          font-size: 14px;
+          line-height: 1.5;
           color: rgba(255, 255, 255, 0.85);
           margin: 0;
+          /* Title + blurb anchor to the top-left of the square; the
+             rest of the square's 360x360 area is intentional negative
+             space (per user direction). */
         }
 
-        /* Tablet: 2 columns. */
+        /* Tablet: 2x2 grid. Each card becomes wider (half-viewport)
+           and the row takes up half-viewport-width of vertical space.
+           Still touching the bottom + edges. */
         @media (max-width: 900px) {
           .hero-cards {
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            padding-top: 32px;
+          }
+          .hero-card {
+            padding: 22px 20px;
+          }
+          .hero-card-title {
+            font-size: 17px;
+          }
+          .hero-card-blurb {
+            font-size: 13px;
           }
         }
-        /* Mobile: single column stack. */
+        /* Mobile: 1x4 column stack. 1:1 squares at full viewport width
+           means each square is ~viewport-width tall, which is
+           excessive for mobile — drop aspect-ratio override so cards
+           become naturally-tall rectangles sized to their content. */
         @media (max-width: 580px) {
           .hero-cards {
             grid-template-columns: 1fr;
-            gap: 12px;
-            padding-top: 24px;
           }
           .hero-card {
-            padding: 16px 18px;
+            aspect-ratio: auto;
+            padding: 18px 18px;
           }
           .hero-card-title {
-            font-size: 15px;
+            font-size: 16px;
           }
           .hero-card-blurb {
             font-size: 12.5px;
