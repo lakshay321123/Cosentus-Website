@@ -180,7 +180,7 @@ export default function SpecialtiesSection() {
                2. 30% white wash inside the ring             -> background
              The SVG body is uniformly flat — no diagonal gradients
              across the face. */
-          background: rgba(255, 255, 255, 0.30);
+          background: rgba(255, 255, 255, 0.20);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -208,7 +208,7 @@ export default function SpecialtiesSection() {
 
         .specialty-card:hover .specialty-card-inner {
           transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.42);
+          background-color: rgba(255, 255, 255, 0.32);
           border-color: rgba(255, 255, 255, 0.75);
           box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
         }

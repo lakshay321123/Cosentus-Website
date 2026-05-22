@@ -234,7 +234,7 @@ export default function HeroSection() {
              full-face diagonal gradients, which made the cards look
              much glossier than the source SVG. Removed per user
              direction "100% copy of what I sent you". */
-          background: rgba(255, 255, 255, 0.30);
+          background: rgba(255, 255, 255, 0.20);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -289,7 +289,7 @@ export default function HeroSection() {
              to translateY(-4px). Because both target the same
              property the transition between them is smooth. */
           transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.42);
+          background-color: rgba(255, 255, 255, 0.32);
           border-color: rgba(255, 255, 255, 0.75);
           box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
         }

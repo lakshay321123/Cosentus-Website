@@ -555,7 +555,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    inset-highlight stack from before this design language. */
 body:has(main.home-immersive) .footer {
   position: relative !important;
-  background-color: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.20) !important;
   background-image: none !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
@@ -4233,11 +4233,14 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .btn-primary,
 .home-immersive .insights-tab {
   /* 30% white wash inside the ring — matches the SVG's .fil1
-     (fill-opacity 0.30). Backdrop blur kept so the pill picks up the
-     blurred video bg behind it; the SVG itself has no blur because
-     it's a static export, but live in-browser blur is what sells
-     "glass" on a moving video. */
-  background: rgba(255, 255, 255, 0.30) !important;
+     (fill-opacity 0.30, reduced to 0.20 per user direction
+     "change opacity from 30 to 20%" — cards/buttons feel less
+     visible at 0.20 over the dark video bg). Backdrop blur
+     kept so the pill picks up the blurred video bg behind it;
+     the SVG itself has no blur because it's a static export,
+     but live in-browser blur is what sells "glass" on a moving
+     video. */
+  background: rgba(255, 255, 255, 0.20) !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
   /* Thin white outline — matches the SVG's .fil0 (fill-opacity 0.50).
@@ -4271,7 +4274,7 @@ body:has(main.home-immersive) .footer-top {
    setting only border-color wouldn't bring the line back. */
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;
   transform: translateY(-1px);
@@ -4282,7 +4285,7 @@ body:has(main.home-immersive) .footer-top {
    tab reads as "pressed/lit" vs the inactive ones.
    Same border-shorthand override reason as the hover rule above. */
 .home-immersive .insights-tab-active {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;
 }
@@ -4312,7 +4315,7 @@ body:has(main.home-immersive) .footer-top {
    where the glass treatment reads correctly.
 ------------------------------------------------------------------ */
 .home-immersive .insight-card-body {
-  background: rgba(255, 255, 255, 0.30) !important;
+  background: rgba(255, 255, 255, 0.20) !important;
   border-top: 1.5px solid rgba(255, 255, 255, 0.50) !important;
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
