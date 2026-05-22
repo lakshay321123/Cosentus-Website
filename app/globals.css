@@ -1412,17 +1412,25 @@ body:has(main.home-immersive) .footer a:hover {
   position: absolute;
   left: 0;
   right: 0;
-  top: 62%;
+  /* Vertical anchor for content sitting inside the arrow shape.
+     55% places the block's center slightly above geometric center,
+     which keeps both faces fully inside the silhouette:
+       Front (sublabel + number + label, ~100px tall):
+         block bottom ~66% of arrow height -> well inside
+       Flip (3 lines of impact text, ~67px tall):
+         block bottom ~65% -> well inside
+     The previous value of 62% pushed both blocks too close to the
+     arrow's bottom edge after the recent text-size bumps. */
+  top: 55%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* Tight inner padding so a long label like "PATIENT COLLECTION"
-     doesn't run into the angled walls of the arrow on narrow grid
-     columns. */
-  padding: 0 8px;
+  /* Inner padding gives long labels (PATIENT COLLECTION,
+     AR > 120 DAYS) breathing room from the angled walls. */
+  padding: 0 12px;
 }
 
 /* .result-text rule removed — the wrapper used to hold the
@@ -1478,7 +1486,12 @@ body:has(main.home-immersive) .footer a:hover {
 }
 .home-immersive .result-label {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 16px;
+  /* 14px (not the previous 16px) because the longest label
+     "PATIENT COLLECTION" is 18 chars and the arrow shaft is only
+     ~60% of the column width. 16px overflowed the shaft walls on
+     standard desktop grid; 14px fits cleanly with the 12px side
+     padding on .result-arrow-content. Still readable. */
+  font-size: 14px;
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
