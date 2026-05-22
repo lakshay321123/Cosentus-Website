@@ -132,26 +132,31 @@ export default function HeroSection() {
         /* .hero is the absolute-positioning context for .hero-cards.
            globals.css declares position: relative on .hero already
            (via .home-immersive scope), but we make it explicit here
-           to be robust against any future change. */
+           to be robust against any future change.
+
+           globals.css's @media (min-width: 769px) block ALSO declares
+           .home-immersive .hero as a flex column with
+           justify-content: center — which vertically centers
+           .hero-content within the 100vh hero. With the 280px bottom
+           card row added, the centered H1 ended up overlapping the
+           cards. Override to flex-start so the H1 anchors at the
+           top and padding-top below actually controls position. */
         .hero {
           position: relative;
         }
+        .home-immersive .hero {
+          justify-content: flex-start !important;
+        }
 
         /* Shift the hero H1 UP so it isn't covered by the bottom
-           card row. globals.css declares .hero-content { padding:
-           140px 40px 80px }; my override here reduces padding-top to
-           anchor the H1 closer to the top of the hero, freeing
-           middle space and ensuring all 4 lines of the typing copy
-           remain visible above the cards.
-
-           Card row height is fixed at 280px below; with that height
-           pinned to the bottom, the remaining vertical space above
-           is (100vh - 280px). At 800px viewport that's 520px for
-           the H1; at 1080px viewport that's 800px. The reduced
-           padding-top gives the H1 room to fit. */
+           card row. globals.css's @media block sets padding-top:
+           140px on .home-immersive .hero-content. With justify-content
+           now anchored to the top, this padding-top actually
+           controls H1 position. Keeping the original 140px since
+           the H1 was already legible at that offset before — the
+           overlap was caused by flex centering, not by padding. */
         .home-immersive .hero-content {
-          padding-top: 90px;
-          padding-bottom: 0;
+          padding-bottom: 0 !important;
         }
 
         /* 4 glass cards pinned to the bottom of the hero, full-bleed
