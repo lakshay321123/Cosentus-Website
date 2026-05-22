@@ -4311,6 +4311,78 @@ body:has(main.home-immersive) .footer a:hover {
   color: #fff !important;
 }
 
+/* ------------------------------------------------------------------
+   GLASS-SQUARE recipe for .insight-card-body (the panel under the
+   image on Resources/Insights cards on the home page).
+
+   PLACEMENT NOTE — placed AFTER the kill-borders rule above which
+   targets `.home-immersive .insight-card` with `border: none` and
+   complex insets. We're styling the INNER BODY here, not the outer
+   card, so there's no direct override conflict — but `!important`
+   is needed to defeat the inline styles on the body div in
+   InsightCard.tsx (it has inline `padding`, `display`, `flexDirection`,
+   `flex` which we preserve, but we need bg + border to also win
+   against any inherited inline expectations).
+
+   Source: glass_square.svg (CorelDRAW). Same recipe as the
+   Specialties cards (PR #144 base):
+     1. 30% white wash interior  -> background
+     2. 50% white outline ring   -> 1.5px border
+     3. Top-left + bottom-right diagonal sparkles -> ::before/::after
+
+   Scope: .home-immersive only. Other pages that use InsightCard
+   (/insights, /blog, /news, /events) keep their original white
+   body — the new look only applies on the dark home video bg
+   where the glass treatment reads correctly.
+------------------------------------------------------------------ */
+.home-immersive .insight-card-body {
+  background: rgba(255, 255, 255, 0.30) !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* Pseudo-elements need a positioning context. */
+  position: relative;
+  /* No overflow:hidden — the parent .insight-card already has
+     overflow:hidden which clips both pseudos and image to the
+     card's rounded corners. */
+}
+
+/* Diagonal sparkle — TOP-LEFT corner of the body panel.
+   Matches glass_square.svg mask#id0. */
+.home-immersive .insight-card-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.00) 45%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Diagonal sparkle — BOTTOM-RIGHT corner of the body panel.
+   Matches glass_square.svg mask#id2. */
+.home-immersive .insight-card-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.00) 45%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Lift body content (date, h3 title, CTA span) above the sparkles. */
+.home-immersive .insight-card-body > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Testimonial arrows — keep glass tint, no border. */
 .home-immersive .t-arrow,
 .home-immersive .t-arrow:hover {

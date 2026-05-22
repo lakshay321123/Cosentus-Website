@@ -84,7 +84,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
       )}
 
       {/* Body */}
-      <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div className="insight-card-body" style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {item.date && (
           <div style={{
             fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
