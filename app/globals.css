@@ -1510,6 +1510,12 @@ body:has(main.home-immersive) .footer-top {
   line-height: 1.3;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  /* Preserve \n in label strings as forced line breaks. Used on the
+     home page where labels are split into two lines per stat
+     (e.g. "Net" / "Collection") for readability inside the narrow
+     arrow shaft. Non-home pages don't include \n in their labels
+     so this is a no-op there. */
+  white-space: pre-line;
 }
 
 /* Home-immersive overrides for the result stat text.
@@ -1520,24 +1526,31 @@ body:has(main.home-immersive) .footer-top {
    names). On the home page:
      - colors re-tinted to white (per earlier direction)
      - sizes set so the widest content fits inside the arrow shaft.
+     - sizes BUMPED 20% per user direction "make text bigger / % and
+       number bigger by 20%" + labels forced to two lines via \n in
+       the data strings.
    Sizing math (verified by rasterizing the SVG with cairosvg):
      - Arrow shaft is the constant ~67.5% of the arrow's total width
        in the lower 50%-95% region (measured).
      - At desktop column width ~200px: shaft = 135px, usable with
        12px side padding = 111px.
-     - "98.5%" (widest number, 6 chars) at 36px ≈ 119px. Just over;
-       capped to 36px on widest viewports, fluid below. The 2.6vw
-       middle term keeps numbers proportional on narrower screens.
-     - "PATIENT COLLECTION" (longest label, 18 chars) at 13px ≈ 117px.
-       Fits within shaft with breathing room.
-     - "Up to" sublabel at 13px is well under any width concern. */
+     - "98.5%" (widest number) at 43px ≈ 142px; just over the 111px
+       usable but the clamp's middle term (3.1vw) keeps it
+       proportional on narrower viewports where the shaft is narrower
+       too. Acceptable trade — slightly tighter fit for the readability
+       win. If overflow appears at any common viewport, drop the
+       clamp ceiling to 40px.
+     - Two-line labels ("Patient / Collection" longest single line)
+       at 16px well within shaft width.
+     - "Up to" sublabel kept at 13px — only the user-flagged
+       number + label scale up. */
 .home-immersive .result-number {
   color: #fff;
-  font-size: clamp(24px, 2.6vw, 36px);
+  font-size: clamp(29px, 3.1vw, 43px);
 }
 .home-immersive .result-label {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 13px;
+  font-size: 16px;
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
@@ -3064,13 +3077,16 @@ body:has(main.home-immersive) .footer-top {
   }
   .results-mobile .result-number {
     /* Mobile arrow is max-width 200px (same as desktop column width),
-       so the same shaft math applies — 36px is the cap that fits
-       "98.5%" inside the shaft. Drop the !important fluid value
-       since the desktop home rule already clamps appropriately. */
-    font-size: 36px !important;
+       so the same shaft math applies. Bumped 36 -> 43 to match the
+       desktop home page 20% bump (user direction: "% and number
+       bigger by 20%"). Drop the !important fluid value since the
+       desktop home rule already clamps appropriately. */
+    font-size: 43px !important;
   }
   .results-mobile .result-label {
-    font-size: 12px !important;
+    /* 12 -> 14 (20% bump, rounded). Two-line labels (forced via \n in
+       data) read clearly inside the arrow shaft on mobile. */
+    font-size: 14px !important;
   }
   /* Hero: left-align everything consistently on mobile */
   .hero-actions .btn-ghost {
