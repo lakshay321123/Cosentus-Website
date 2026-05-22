@@ -1412,15 +1412,12 @@ body:has(main.home-immersive) .footer a:hover {
   position: absolute;
   left: 0;
   right: 0;
-  /* Vertical anchor for content sitting inside the arrow shape.
+  /* Vertical anchor for FRONT face content.
      55% places the block's center slightly above geometric center,
-     which keeps both faces fully inside the silhouette:
-       Front (sublabel + number + label, ~100px tall):
-         block bottom ~66% of arrow height -> well inside
-       Flip (3 lines of impact text, ~67px tall):
-         block bottom ~65% -> well inside
-     The previous value of 62% pushed both blocks too close to the
-     arrow's bottom edge after the recent text-size bumps. */
+     keeping the (sublabel + number + label) block fully inside the
+     silhouette. The sublabel slot is always rendered in the JSX
+     (with a non-breaking space when empty), so the number row sits
+     at the same y-position across all 6 cards. */
   top: 55%;
   transform: translateY(-50%);
   display: flex;
@@ -1431,6 +1428,26 @@ body:has(main.home-immersive) .footer a:hover {
   /* Inner padding gives long labels (PATIENT COLLECTION,
      AR > 120 DAYS) breathing room from the angled walls. */
   padding: 0 12px;
+}
+
+/* FLIP face uses a DIFFERENT anchoring strategy: bottom-aligned.
+   The impact text varies from 3 to 4 lines per stat. With the
+   front-face centering rule, taller blocks would sit lower and
+   shorter blocks higher — bottoms would not align. Per user
+   direction "align the last line of impact text at the same y on
+   every card", we override the anchor here:
+     - top: auto + bottom: 12%   pins the block's BOTTOM edge
+     - transform: none           cancels the front face's vertical translate
+     - justify-content: flex-end keeps flex children stacked from the
+                                  bottom upward (last line at the bottom)
+   Result: 3-line and 4-line impact messages have their LAST line
+   land at the same y position across all 6 cards. The top line
+   floats higher on the longer messages. */
+.result-flip-back .result-arrow-content {
+  top: auto;
+  bottom: 12%;
+  transform: none;
+  justify-content: flex-end;
 }
 
 /* .result-text rule removed — the wrapper used to hold the

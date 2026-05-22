@@ -87,7 +87,15 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
         <div className="result-flip-front">
           <div className="result-arrow-img">
             <div className="result-arrow-content">
-              {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
+              {/* Sublabel slot is ALWAYS rendered (even when stat.sublabel
+                  is empty, we render a non-breaking space) so every card
+                  reserves the same vertical space for this row. Without
+                  this, only the first card (with "Up to") had a sublabel
+                  in the DOM, which pushed its number down relative to
+                  the other 5 cards. Empty cards now contribute the same
+                  line-height as the populated one, keeping the number
+                  row aligned across all 6 stats. */}
+              <div className="result-sublabel">{stat.sublabel || '\u00A0'}</div>
               <div className="result-number">
                 <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
               </div>
