@@ -3589,6 +3589,41 @@ body:has(main.home-immersive) .footer a:hover {
   50%      { transform: scale(1.025); box-shadow: 0 0 70px rgba(0, 181, 214, 0.7), inset 0 0 36px rgba(0, 181, 214, 0.22); }
 }
 
+/* --- Scene-style popup image (no circle) ---
+   Used in the call modal when the agent has a `popupImage` field set
+   (e.g. April). The image is rendered at its intrinsic aspect ratio, and
+   the teal glow is composed from layered drop-shadow filters. Unlike a
+   box-shadow on a circle, drop-shadow uses the image's alpha mask — so
+   the glow traces the actual silhouette (every body part, the calendar,
+   the checkmark) rather than the rectangular bounding box. The 4.5s
+   breathing animation matches the rhythm of the original .call-avatar
+   so the modal's overall feel stays the same. */
+.call-popup-image {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  filter:
+    drop-shadow(0 0 18px rgba(0, 181, 214, 0.55))
+    drop-shadow(0 0 40px rgba(0, 181, 214, 0.35))
+    drop-shadow(0 0 80px rgba(104, 209, 230, 0.25));
+  animation: callPopupImageBreathe 4.5s ease-in-out infinite;
+}
+@keyframes callPopupImageBreathe {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 18px rgba(0, 181, 214, 0.55))
+      drop-shadow(0 0 40px rgba(0, 181, 214, 0.35))
+      drop-shadow(0 0 80px rgba(104, 209, 230, 0.25));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 26px rgba(0, 181, 214, 0.75))
+      drop-shadow(0 0 60px rgba(0, 181, 214, 0.5))
+      drop-shadow(0 0 110px rgba(104, 209, 230, 0.35));
+  }
+}
+
 .call-name {
   font-family: 'Reddit Sans', sans-serif;
   font-size: 22px;
@@ -3765,6 +3800,7 @@ body:has(main.home-immersive) .footer a:hover {
   .call-card::before,
   .call-avatar-wrap::before,
   .call-avatar,
+  .call-popup-image,
   .call-status .dot,
   .call-waveform .bar {
     animation: none !important;

@@ -64,6 +64,11 @@ export interface VoiceAgent {
   img: string          // filename in /public/images/
   agentId: string | null  // Retell agent_xxx id, or null = demo mode
   greeting: string     // initial transcript text shown before SDK update
+  popupImage?: string  // optional /public/images/ filename — when set, the
+                       // modal renders this PNG with a drop-shadow glow
+                       // INSTEAD of the circular avatar (no circle, no rings).
+                       // The glow follows the PNG's alpha mask so it traces
+                       // the actual silhouette (girl + calendar, etc.).
 }
 
 // ---------------------------------------------------------------------------
@@ -317,15 +322,27 @@ export default function VoiceCallModal({
           </svg>
         </button>
 
-        <div className={`call-avatar-wrap${agentTalking ? ' is-talking' : ''}`}>
-          <div className="call-avatar-ring" />
-          <div className="call-avatar-ring delay1" />
-          <div className="call-avatar-ring delay2" />
-          <div
-            className="call-avatar"
-            style={{ backgroundImage: `url('/images/${agent.img}')` }}
+        {agent.popupImage ? (
+          // Scene-style PNG (no circle, no expanding rings). The glow comes
+          // from drop-shadow filters in .call-popup-image, which follow the
+          // image's alpha mask, so the halo traces the actual silhouette
+          // (e.g. April's girl + calendar) rather than a rectangle.
+          <img
+            className="call-popup-image"
+            src={`/images/${agent.popupImage}`}
+            alt={agent.name}
           />
-        </div>
+        ) : (
+          <div className={`call-avatar-wrap${agentTalking ? ' is-talking' : ''}`}>
+            <div className="call-avatar-ring" />
+            <div className="call-avatar-ring delay1" />
+            <div className="call-avatar-ring delay2" />
+            <div
+              className="call-avatar"
+              style={{ backgroundImage: `url('/images/${agent.img}')` }}
+            />
+          </div>
+        )}
 
         <div>
           <p className="call-role">{agent.role} Agent</p>
