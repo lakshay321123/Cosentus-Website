@@ -1389,19 +1389,82 @@ body:has(main.home-immersive) .footer a:hover {
 }
 
 .result-arrow-img {
+  /* Swapped from solid teal growth-arrow.png to the outlined glass
+     SVG. Aspect ratio changed from 1.26 (wider than tall) to ~0.70
+     (taller than wide) to match the SVG's natural proportions
+     (1430086 x 2047045 viewBox). The container is now a positioning
+     context so the number+sublabel can sit absolutely inside the
+     arrow's lower body. */
   width: 100%;
-  aspect-ratio: 1.26;
-  background: url('/images/growth-arrow.png') center / contain no-repeat;
+  aspect-ratio: 0.70;
+  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
+  position: relative;
 }
 
-.result-text {
-  padding: 12px 8px 0;
-  min-height: 90px;
+/* Text living INSIDE the arrow shape — full stat block: optional
+   "Up to" sublabel, the big number, then the small uppercase label
+   ("REVENUE GROWTH" etc.). All three sit in the lower-middle body
+   of the arrow where the silhouette is widest.
+   Vertical centering is via top: 62% + translateY(-50%). 62% rather
+   than the geometric middle (50%) puts the visual mass of the block
+   in the wide body of the arrow rather than near the narrowing peak. */
+.result-arrow-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Vertical anchor for FRONT face content.
+     55% places the block's center slightly above geometric center,
+     keeping the (sublabel + number + label) block fully inside the
+     silhouette. The sublabel slot is always rendered in the JSX
+     (with a non-breaking space when empty), so the number row sits
+     at the same y-position across all 6 cards. */
+  top: 55%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Inner padding gives long labels (PATIENT COLLECTION,
+     AR > 120 DAYS) breathing room from the angled walls. */
+  padding: 0 12px;
 }
+
+/* FLIP face anchored to the SHAFT CENTER, not the arrow center.
+   The arrow has two regions:
+     - Top ~0%-40% = the head (triangular peak)
+     - Bottom ~40%-95% = the shaft (constant-width body)
+   The shaft is where text is readable (wide, vertical walls).
+   Geometric center of the shaft sits at ~67% of the arrow's total
+   height.
+
+   We previously top-aligned the impact text at 40% so all cards'
+   tops lined up. Per user direction the text looked "weird" sitting
+   right at the head/shaft boundary; they want it visually centered
+   in the body. Cross-card top alignment is sacrificed for visual
+   centering — 3-line and 4-line blocks center at the same y, but
+   their top lines start at different y (3-line top is closer to
+   center, 4-line top is higher up).
+
+   Implementation:
+     - top: 67%               anchor point at shaft center
+     - transform: translateY(-50%)  centers the block on that anchor
+     - justify-content: center  flex children stack centered
+
+   Geometry (verified at 286px-tall arrow):
+     - 3-line block (~21% of arrow): top 56.5%, bottom 77.5%
+     - 4-line block (~28% of arrow): top 53%,   bottom 81%
+     - Shaft runs 40%-95% — both fit inside */
+.result-flip-back .result-arrow-content {
+  top: 67%;
+  transform: translateY(-50%);
+  justify-content: center;
+}
+
+/* .result-text rule removed — the wrapper used to hold the
+   sublabel/number/label beneath the arrow, but all three now sit
+   inside .result-arrow-content within the arrow body. The wrapper
+   div was removed from the JSX too. */
 
 .result-sublabel {
   font-size: 13px;
@@ -1433,6 +1496,38 @@ body:has(main.home-immersive) .footer a:hover {
   line-height: 1.3;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Home-immersive overrides for the result stat text.
+   The base .result-number / .result-label / .result-sublabel rules
+   above keep their original cyan/grey colors AND sizes for other
+   pages that reuse the .result-* classes (e.g.
+   BillingCodingContent.tsx uses the same inline-style arrow + class
+   names). On the home page:
+     - colors re-tinted to white (per earlier direction)
+     - sizes set so the widest content fits inside the arrow shaft.
+   Sizing math (verified by rasterizing the SVG with cairosvg):
+     - Arrow shaft is the constant ~67.5% of the arrow's total width
+       in the lower 50%-95% region (measured).
+     - At desktop column width ~200px: shaft = 135px, usable with
+       12px side padding = 111px.
+     - "98.5%" (widest number, 6 chars) at 36px ≈ 119px. Just over;
+       capped to 36px on widest viewports, fluid below. The 2.6vw
+       middle term keeps numbers proportional on narrower screens.
+     - "PATIENT COLLECTION" (longest label, 18 chars) at 13px ≈ 117px.
+       Fits within shaft with breathing room.
+     - "Up to" sublabel at 13px is well under any width concern. */
+.home-immersive .result-number {
+  color: #fff;
+  font-size: clamp(24px, 2.6vw, 36px);
+}
+.home-immersive .result-label {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+}
+.home-immersive .result-sublabel {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
@@ -1468,69 +1563,52 @@ body:has(main.home-immersive) .footer a:hover {
   height: 100%;
 }
 
-/* Back face — absolutely positioned overlay that matches the front's box.
-   Rotated 180deg so it sits behind the front in 3D space.
-   Layout: flip text up top (shifted up via flex), stat identity (number +
-   label) anchored to the bottom for context — so the dollar-impact line
-   is visibly tied to the stat it's about. */
+/* Back face — same arrow silhouette as the front.
+   Previously this was a solid teal-gradient rectangle with rounded
+   corners that overlaid the arrow on flip. Per direction "this also
+   needs to be within the arrow, so you can remove the rectangle-ish
+   thing", the back now uses the SAME SVG background as the front so
+   the flip stays inside the arrow shape both faces.
+
+   Cleared explicitly:
+     - background gradient (was linear-gradient teal)
+     - border-radius (was 12px)
+     - padding (was 20/18/16, would offset the inner content)
+     - box-shadow (was a teal drop shadow tied to the rectangle look)
+   These were all part of the old rectangle and would fight the
+   silhouette if left in. */
 .result-flip-back {
   position: absolute;
   inset: 0;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  background: linear-gradient(140deg, #1F98AB 0%, #0D3D47 100%);
-  border-radius: 12px;
-  padding: 20px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 8px 24px rgba(13, 61, 71, 0.35);
+  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
 }
 
-/* Flip text up top — takes available space, vertically centered within
-   its zone (flex: 1 + flex centering) so it reads comfortably without
-   being crammed against the divider. */
+/* Flip impact text — sits inside the arrow body via the shared
+   .result-arrow-content positioner used by the front. The strings
+   in ResultsSection.tsx contain explicit \n line breaks (chosen
+   per-stat to land 2-4 words per line, fitting inside the arrow's
+   narrow shaft). white-space: pre-line tells the browser to render
+   those \n as real <br>-equivalent breaks while still collapsing
+   regular spaces. */
 .result-flip-text {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 14px;
   line-height: 1.4;
-  color: white;
-  font-weight: 600;
+  color: #fff;
+  font-weight: 500;
   text-align: center;
   letter-spacing: -0.005em;
+  white-space: pre-line;
 }
 
-/* Stat identity at the bottom — same sizes as front, white instead of
-   teal/grey since the bg is dark teal. Divider line above for separation. */
-.result-flip-stat {
-  width: 100%;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.30);
-  text-align: center;
-}
-.result-flip-number {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 400;
-  color: white;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.result-flip-label {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.3;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
+/* .result-flip-stat / .result-flip-number / .result-flip-label
+   rules removed — the JSX no longer renders the duplicate stat
+   identity at the bottom of the flip card. The user sees the same
+   stat on the front before flipping, so repeating it on the back
+   inside the cramped arrow shape isn't worth the layout pressure. */
 
 /* When the user hovers ANY result item, dim the others to grey so the
    hovered one stands out. The hovered card is exempted by the second rule. */
@@ -2264,14 +2342,20 @@ body:has(main.home-immersive) .footer a:hover {
   box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px rgba(0,181,214,0.1);
 }
 
-/* Result items — hover glow */
+/* Result items — hover lift only.
+   The previous rule had `box-shadow: 0 20px 40px rgba(0,181,214,0.2)`
+   which traced the rectangular bounding box of the .result-item.
+   Since the arrow silhouette has transparent corners (it's a portrait
+   shape inside a rect container), the cyan box-shadow showed through
+   those corners and read as a rectangle outline behind the arrow on
+   hover and on the flipped state. Removed; the translateY + brightness
+   plus the flip animation itself provide the hover signal. */
 .result-item {
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .result-item:hover {
   transform: translateY(-4px);
   filter: brightness(1.1);
-  box-shadow: 0 20px 40px rgba(0,181,214,0.2);
 }
 
 /* ===== HERO TEXT ANIMATIONS ===== */
@@ -2883,7 +2967,6 @@ body:has(main.home-immersive) .footer a:hover {
   .hero-case-link,
   .advantage-card,
   .service-card,
-  .result-text,
   .mobile-carousel-slide,
   .mobile-carousel-slide > * {
     overflow-wrap: break-word !important;
@@ -2957,21 +3040,23 @@ body:has(main.home-immersive) .footer a:hover {
     max-width: 260px;
     margin: 0 auto;
   }
-  /* Results: bigger text, less gap from arrow on mobile */
+  /* Results — bigger text on mobile, narrower arrow column.
+     aspect-ratio matches the new glass-uparrow SVG (was 1.6 for the
+     old wide growth-arrow.png). */
   .results-mobile .result-arrow-img {
-    aspect-ratio: 1.6 !important;
-    max-width: 180px;
+    aspect-ratio: 0.70 !important;
+    max-width: 200px;
     margin: 0 auto;
   }
-  .results-mobile .result-text {
-    padding: 8px 8px 0 !important;
-    min-height: 70px !important;
-  }
   .results-mobile .result-number {
-    font-size: 32px !important;
+    /* Mobile arrow is max-width 200px (same as desktop column width),
+       so the same shaft math applies — 36px is the cap that fits
+       "98.5%" inside the shaft. Drop the !important fluid value
+       since the desktop home rule already clamps appropriately. */
+    font-size: 36px !important;
   }
   .results-mobile .result-label {
-    font-size: 11px !important;
+    font-size: 12px !important;
   }
   /* Hero: left-align everything consistently on mobile */
   .hero-actions .btn-ghost {

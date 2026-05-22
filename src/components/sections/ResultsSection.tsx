@@ -41,18 +41,23 @@ function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
 }
 
 const stats = [
+  // Flip messages use explicit \n line breaks per stat so each line is
+  // 2-4 words and the wrapped text fits inside the arrow shaft (the
+  // shaft is only ~67.5% of the arrow's total width, so long lines
+  // overflow the angled walls). CSS renders \n as a hard break via
+  // white-space: pre-line on .result-flip-text.
   { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to',
-    flip: 'Tens of thousands more per month. Within 90 days.' },
+    flip: 'Tens of thousands\nmore per month.\nWithin 90 days.' },
   { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '',
-    flip: '$98 collected on every $100. Most practices stop at $91.' },
+    flip: '$98 collected\non every $100.\nMost practices\nstop at $91.' },
   { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '',
-    flip: 'On $3M in charges, that\u2019s $300K recovered every year.' },
+    flip: 'On $3M in charges,\nthat\u2019s $300K recovered\nevery year.' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1,
-    flip: 'Coding errors cost thousands monthly. We catch 98.5% of them.' },
+    flip: 'Coding errors cost\nthousands monthly.\nWe catch 98.5%\nof them.' },
   { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '',
-    flip: 'Aging claims rot. We keep cash moving \u2014 fast.' },
+    flip: 'Aging claims rot.\nWe keep cash\nmoving \u2014 fast.' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '',
-    flip: 'Most practices collect under 50%. We recover the rest \u2014 in 50+ languages.' },
+    flip: 'Most practices collect\nunder 50%.\nWe recover the rest\nin 50+ languages.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
@@ -73,25 +78,44 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       }}
     >
       <div className="result-flip-card">
-        {/* FRONT, arrow + number + label */}
+        {/* FRONT — glass arrow with ALL stat content (sublabel,
+            number, label) inside the arrow body. The .result-text
+            wrapper that used to sit beneath the arrow is gone; per
+            user direction "labels can be under it [inside the
+            arrow]" — REVENUE GROWTH, NET COLLECTION, etc. now sit
+            below the number, still within the arrow shape. */}
         <div className="result-flip-front">
-          <div className="result-arrow-img" />
-          <div className="result-text">
-            {stat.sublabel && <div className="result-sublabel">{stat.sublabel}</div>}
-            <div className="result-number">
-              <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+          <div className="result-arrow-img">
+            <div className="result-arrow-content">
+              {/* Sublabel slot is ALWAYS rendered (even when stat.sublabel
+                  is empty, we render a non-breaking space) so every card
+                  reserves the same vertical space for this row. Without
+                  this, only the first card (with "Up to") had a sublabel
+                  in the DOM, which pushed its number down relative to
+                  the other 5 cards. Empty cards now contribute the same
+                  line-height as the populated one, keeping the number
+                  row aligned across all 6 stats. */}
+              <div className="result-sublabel">{stat.sublabel || '\u00A0'}</div>
+              <div className="result-number">
+                <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals || 0} />
+              </div>
+              <div className="result-label">{stat.label}</div>
             </div>
-            <div className="result-label">{stat.label}</div>
           </div>
         </div>
-        {/* BACK, dollar-impact copy + stat identity at bottom for context */}
+        {/* BACK — same arrow shape, dollar-impact message inside.
+            Previously the back was a teal rectangle with a divider
+            and a duplicate stat identity at the bottom; per user
+            direction "this also needs to be within the arrow, so
+            you can remove the rectangle-ish thing", we replaced
+            both with the same SVG-shaped face used on the front.
+            The duplicate stat identity (small number + label at
+            bottom) was dropped — no room inside the portrait arrow
+            without crowding the impact message, and the user just
+            saw the same stat on the front before flipping. */}
         <div className="result-flip-back">
-          <div className="result-flip-text">{stat.flip}</div>
-          <div className="result-flip-stat">
-            <div className="result-flip-number">
-              {stat.prefix}{stat.target.toFixed(stat.decimals || 0)}{stat.suffix}
-            </div>
-            <div className="result-flip-label">{stat.label}</div>
+          <div className="result-arrow-content">
+            <div className="result-flip-text">{stat.flip}</div>
           </div>
         </div>
       </div>
