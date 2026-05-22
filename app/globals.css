@@ -569,42 +569,13 @@ body:has(main.home-immersive) .footer {
   color: #fff !important;
 }
 
-/* GLASS-SQUARE diagonal sparkles on the home footer.
-   Source: glass_square.svg (CorelDRAW). At footer scale these read
-   as soft corner highlights rather than crisp glass sparkles, but
-   the visual language stays consistent with the other home cards.
-   The 45% gradient stop means the sparkle fades out before
-   reaching the middle of the footer — important because the footer
-   is much wider than a card. */
-body:has(main.home-immersive) .footer::before,
-body:has(main.home-immersive) .footer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-body:has(main.home-immersive) .footer::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 30%
-  );
-}
-body:has(main.home-immersive) .footer::after {
-  background: linear-gradient(
-    315deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 30%
-  );
-}
-
-/* Lift the footer's container above the sparkle pseudos so links
-   and text render on top of (not under) the corner gradients. */
-body:has(main.home-immersive) .footer > * {
-  position: relative;
-  z-index: 1;
-}
+/* GLASS-SQUARE recipe on the home footer: 100% faithful to
+   glass_square.svg — flat 30% white wash + 50% white outline
+   only. Previously had ::before/::after sparkles painting
+   diagonal full-face gradients, but the source SVG body is
+   uniformly flat. Removed per user direction "100% copy of
+   what I sent you". The footer body wash + border declarations
+   are above; nothing else needed here. */
 
 /* CTA box uses .btn-primary inside; that button's white-tint override
    is defined elsewhere and still applies. Just make sure the headline
@@ -4284,52 +4255,14 @@ body:has(main.home-immersive) .footer-top {
   overflow: hidden;
 }
 
-/* Diagonal sparkle — TOP-LEFT corner.
-   Matches the SVG's #id0 mask: linearGradient from top-left (white,
-   opaque) to mid-shape (white, transparent), masking a full white
-   stroke. In CSS the equivalent is a pseudo-element filling the
-   button bounds, painted with the same gradient. The pill's
-   border-radius clips the pseudo because we set overflow:hidden on
-   the host above. */
-.home-immersive .btn-primary::before,
-.home-immersive .insights-tab::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Diagonal sparkle — BOTTOM-RIGHT corner.
-   Matches the SVG's #id2 mask: gradient from bottom-right to mid-shape. */
-.home-immersive .btn-primary::after,
-.home-immersive .insights-tab::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    315deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Lift any wrapper children (icons in <span>, etc.) above the
-   sparkle pseudos. Bare text nodes are unaffected — they render in
-   the element's content layer which already sits above pseudo
-   elements per spec; this rule is for explicit child elements. */
-.home-immersive .btn-primary > *,
-.home-immersive .insights-tab > * {
-  position: relative;
-  z-index: 1;
-}
+/* GLASS-PILL recipe for btn-primary + insights-tab — 100%
+   faithful to glass_button1.svg. The SVG composes to:
+     1. 30% white wash (.fil1)         -> background (above)
+     2. 50% white outline (.fil0)      -> border (above)
+   Body is uniformly flat. Previously had ::before/::after pseudos
+   painting diagonal full-face gradients, but the source SVG has
+   flat body + thin outline only. Removed per user direction
+   "100% copy of what I sent you". */
 
 /* Hover — brighten the wash + the outline + lift slightly.
    Using `border:` shorthand (not just `border-color:`) because the
@@ -4390,41 +4323,11 @@ body:has(main.home-immersive) .footer-top {
      card's rounded corners. */
 }
 
-/* Diagonal sparkle — TOP-LEFT corner of the body panel.
-   Matches glass_square.svg mask#id0. */
-.home-immersive .insight-card-body::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Diagonal sparkle — BOTTOM-RIGHT corner of the body panel.
-   Matches glass_square.svg mask#id2. */
-.home-immersive .insight-card-body::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    315deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Lift body content (date, h3 title, CTA span) above the sparkles. */
-.home-immersive .insight-card-body > * {
-  position: relative;
-  z-index: 1;
-}
+/* GLASS-SQUARE recipe for .insight-card-body — 100% faithful to
+   glass_square.svg. The SVG body is uniformly flat 30% white
+   with a thin outline ring. Previously had ::before/::after
+   pseudos painting diagonal full-face gradients, removed per
+   user direction "100% copy of what I sent you". */
 
 /* Testimonial arrows — keep glass tint, no border. */
 .home-immersive .t-arrow,

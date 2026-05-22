@@ -221,6 +221,19 @@ export default function HeroSection() {
              clamping to a tasteful 24px which still reads as
              clearly rounded without overpowering the type inside. */
           border-radius: 24px;
+          /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg
+             rendered over the dark video bg. The SVG composes to:
+               1. .fil1 = 30% white wash (the body)         -> background
+               2. .fil0 = 50% white outline ring (~1% thick) -> border
+             That's it. The .fil2 masked layers in the SVG are ring
+             shapes (not full-face fills), with subtle brighter arcs
+             on the top-left and bottom-right of the outline. When
+             rendered they're barely perceptible — the dominant
+             visual is "30% white card with a thin lighter border".
+             Previously this used ::before/::after pseudos with
+             full-face diagonal gradients, which made the cards look
+             much glossier than the source SVG. Removed per user
+             direction "100% copy of what I sent you". */
           background: rgba(255, 255, 255, 0.30);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
@@ -279,41 +292,6 @@ export default function HeroSection() {
           background-color: rgba(255, 255, 255, 0.42);
           border-color: rgba(255, 255, 255, 0.75);
           box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
-        }
-
-        /* Diagonal sparkle — TOP-LEFT corner (matches glass_square.svg
-           mask#id0: 135deg gradient fading at 45%). */
-        .hero-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0.00) 45%
-          );
-          pointer-events: none;
-          z-index: 0;
-        }
-        /* BOTTOM-RIGHT corner (mask#id2: 315deg gradient). */
-        .hero-card::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: linear-gradient(
-            315deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0.00) 45%
-          );
-          pointer-events: none;
-          z-index: 0;
-        }
-        /* Lift card contents above the sparkles. */
-        .hero-card > * {
-          position: relative;
-          z-index: 1;
         }
 
         .hero-card-title {

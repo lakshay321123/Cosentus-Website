@@ -173,22 +173,21 @@ export default function SpecialtiesSection() {
           height: 100%;
           padding: 28px;
           border-radius: 16px;
-          /* Glass-square recipe from glass_square.svg (CorelDRAW export
-             supplied by user). The SVG is three layers stacked:
-               1. Thin white outline ring          -> border below
-               2. 30% white wash inside the ring   -> background below
-               3. Two diagonal sparkle highlights  -> ::before + ::after
-             Same recipe family as the glass-pill buttons in PR #142.
-             Reproducing the look in CSS so the border + corners stay
-             crisp at any aspect ratio (the SVG itself is 1:1 — these
-             cards are ~1.8:1 so a stretched SVG would distort). */
+          /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg
+             (CorelDRAW export supplied by user). The SVG composes to
+             two visible layers:
+               1. 50% white outline ring (~1% of side thick) -> border
+               2. 30% white wash inside the ring             -> background
+             The SVG body is uniformly flat — no diagonal gradients
+             across the face. */
           background: rgba(255, 255, 255, 0.30);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
           box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
-          /* Pseudo-elements (sparkles) need a positioning context and
-             clipping so they don't bleed past the rounded corners. */
+          /* overflow:hidden so any future :after content (none today)
+             clips to the rounded corners. position kept for any
+             absolute children. */
           position: relative;
           overflow: hidden;
           transition:
@@ -198,48 +197,14 @@ export default function SpecialtiesSection() {
             box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        /* Diagonal sparkle — TOP-LEFT corner.
-           Matches glass_square.svg's mask#id0: linearGradient from
-           top-left (white) to mid-shape (transparent), masking a full
-           white stroke. We paint the same gradient into a pseudo
-           covering the whole card. The card's border-radius clips it
-           because overflow:hidden is set on the host. */
-        .specialty-card-inner::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0.00) 45%
-          );
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* Diagonal sparkle — BOTTOM-RIGHT corner.
-           Matches glass_square.svg's mask#id2: gradient from
-           bottom-right to mid-shape. */
-        .specialty-card-inner::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            315deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0.00) 45%
-          );
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* Lift the card's content above the sparkle pseudo-elements.
-           Without z-index here, text could sit under the sparkles in
-           the stacking context. */
-        .specialty-card-inner > * {
-          position: relative;
-          z-index: 1;
-        }
+        /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg.
+           The SVG composes to:
+             1. .fil1 = 30% white wash       -> background (above)
+             2. .fil0 = 50% white outline    -> border (above)
+           That's it. Previously we had ::before/::after pseudos
+           painting full-face diagonal gradients, but the source
+           SVG has flat body + thin outline only. Removed per user
+           direction "100% copy of what I sent you". */
 
         .specialty-card:hover .specialty-card-inner {
           transform: translateY(-4px);
