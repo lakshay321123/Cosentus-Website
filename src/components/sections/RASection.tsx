@@ -50,27 +50,30 @@ export default function RASection() {
             Agent grid is the centerpiece of the section. */}
         <div className="ra-stack">
 
-          {/* SECTION HEADING — visible, centered, with teal accent
-              on the last word per home-page heading convention.
-              Reference: the cosentus-ai voice.html page uses this
-              same copy ('Click on any agent to start a conversation') as the
-              call-to-action above the grid. */}
-          <RevealOnScroll direction="up" delay={0.1}>
-            <h2 className="ra-heading">
-              Click on any agent to start a <span className="accent">conversation</span>
-            </h2>
-          </RevealOnScroll>
+          {/* SECTION HEADER — left-aligned to match other home
+              sections (SpecialtiesSection uses the same pattern:
+              <header> wrapper with text-align: left and max-width
+              for readable line length).
 
-          {/* SUPPORTING SUBHEADING — secondary copy under the H2 that
-              frames the agents+stats section. Added per user
-              direction with the 'Combining expert teams...' wording.
-              Reveal delay 0.14 puts it between the H2 (0.10) and the
-              stats row (0.18) so the cascade reads top-to-bottom. */}
-          <RevealOnScroll direction="up" delay={0.14}>
-            <p className="ra-subheading">
-              Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
-            </p>
-          </RevealOnScroll>
+              Per user direction the title and subheading were
+              swapped — the longer "Combining expert teams..."
+              sentence is now the H2, with "Click on any agent..."
+              as supporting copy below. No teal accent on the new
+              H2 because the long-form sentence has no natural
+              punchline word to highlight. */}
+          <header className="ra-header">
+            <RevealOnScroll direction="up" delay={0.1}>
+              <h2 className="ra-heading">
+                Combining expert teams and AI-powered technology to optimize your revenue cycle and drive smarter growth.
+              </h2>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="up" delay={0.14}>
+              <p className="ra-subheading">
+                Click on any agent to start a conversation.
+              </p>
+            </RevealOnScroll>
+          </header>
 
           {/* 9 / 15 / 23 STATS — three-column strip, centered. */}
           <RevealOnScroll direction="up" delay={0.18}>
@@ -166,6 +169,22 @@ export default function RASection() {
            — set max-width: 1100px so it stays on one line on
            wide viewports. Will wrap to two lines on narrower
            viewports, expected. */
+        /* Section header wrapper. Left-aligned to match the
+           SpecialtiesSection pattern (which uses the same
+           <header> + text-align:left + max-width approach). The
+           720px max-width keeps line length readable for both
+           the long H2 and the supporting paragraph below it.
+           margin-bottom matches the previous centered layout's
+           spacing to the stats row below. */
+        .ra-header {
+          text-align: left;
+          max-width: 720px;
+          /* No margin-bottom: parent .ra-stack has gap: 48px which
+             already separates this header from the stats row
+             below. Adding margin here would double the spacing. */
+          margin: 0;
+        }
+
         .ra-heading {
           font-family: var(--font-display);
           font-size: clamp(32px, 4vw, 48px);
@@ -173,10 +192,13 @@ export default function RASection() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           color: var(--gray-900);
-          margin: 0 auto;
-          text-align: center;
-          max-width: 1100px;
-          width: 100%;
+          /* Left-aligned and width auto so the parent .ra-header's
+             720px max-width controls line length. Previously this
+             rule centered itself with margin: 0 auto + text-align
+             center + max-width: 1100px; superseded by the new
+             .ra-header wrapper. */
+          margin: 0;
+          text-align: left;
         }
         .ra-heading .accent {
           color: #00B5D6;
@@ -184,28 +206,20 @@ export default function RASection() {
 
         /* SUPPORTING SUBHEADING — secondary copy under the H2.
            Smaller, lighter weight, softer color so it reads
-           clearly as supporting text under the title. Tighter
-           max-width than the H2 (650 vs 1100) so it wraps to ~2
-           lines on desktop, which keeps it visually grouped with
-           the title rather than spreading across the section
-           width.
+           clearly as supporting text under the title. Left-aligned
+           matching the parent .ra-header.
 
            Color: literal rgba(255,255,255,0.75) since this section
            is home-only and home-immersive's text override would
-           catch var(--gray-*) values anyway. Off-home rendering
-           would fall back to this same soft white, which still
-           reads on the dark video bg used everywhere this section
-           appears today. */
+           catch var(--gray-*) values anyway. */
         .ra-subheading {
           font-family: var(--font-body);
           font-size: clamp(15px, 1.4vw, 18px);
           font-weight: 400;
           line-height: 1.55;
           color: rgba(255, 255, 255, 0.75);
-          margin: 16px auto 0;
-          text-align: center;
-          max-width: 650px;
-          width: 100%;
+          margin: 16px 0 0;
+          text-align: left;
         }
 
         /* ===== 9 / 15 / 23 stats row =====
