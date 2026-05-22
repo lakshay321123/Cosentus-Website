@@ -102,7 +102,7 @@ export default function HeroSection() {
             loading="eager"
           />
 
-          <div className="hero-actions">
+          <div className="hero-action-row">
             {/* Our Specialties = pill + arrow disc composed.
                 The arrow sits at the right end of the pill,
                 overlapping its right edge per spec. Wrapped in
@@ -281,7 +281,7 @@ export default function HeroSection() {
            .hero-left flex column, so the row's BOTTOM sits at the
            column's padding-bottom (14vh from viewport bottom),
            matching the card bottoms. */
-        .hero-actions {
+        .hero-action-row {
           display: flex;
           align-items: center;
           gap: 14px;
@@ -474,7 +474,7 @@ export default function HeroSection() {
             width: 88%;
             max-width: 360px;
           }
-          .hero-actions {
+          .hero-action-row {
             margin-top: 14px;
           }
           .hero-action-pill {
