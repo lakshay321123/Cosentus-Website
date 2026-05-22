@@ -53,11 +53,19 @@ export interface TestimonialCardProps {
 const ROTATE_FRONT_DEG = -6
 const ROTATE_BACK_DEG = 6
 const X_BACK_PERCENT = 66
-// Opacity fade from front to back. Light fade (1.0 -> 0.7) gives a depth
-// cue without making back cards unreadable. The dark-glass surface
-// already blocks bleed-through, so heavy fading isn't needed.
+// Opacity fade from front to back. Reduced from 0.70 to 0.35 at back
+// because the new lighter glass surface (30% white wash) means a
+// 0.70 back card would still show through enough to bleed text from
+// the front card and feel busy. 0.35 at back keeps depth cues but
+// pushes background cards much further visually.
 const OPACITY_FRONT = 1
-const OPACITY_BACK = 0.7
+const OPACITY_BACK = 0.35
+// Blur fade — front is sharp, back is heavily blurred. The back cards
+// are intentionally unreadable; their job is to suggest "there are
+// more testimonials here" via a stack of out-of-focus glass shapes.
+// The front card stays crisp at 0px.
+const BLUR_FRONT_PX = 0
+const BLUR_BACK_PX = 6
 
 const DRAG_THRESHOLD_PX = 150
 
@@ -79,6 +87,7 @@ export default function TestimonialCard({
   const rotateDeg = ROTATE_FRONT_DEG + progress * (ROTATE_BACK_DEG - ROTATE_FRONT_DEG)
   const xPercent = progress * X_BACK_PERCENT
   const cardOpacity = OPACITY_FRONT + progress * (OPACITY_BACK - OPACITY_FRONT)
+  const cardBlurPx = BLUR_FRONT_PX + progress * (BLUR_BACK_PX - BLUR_FRONT_PX)
   // Front card has highest z so it sits on top of all others.
   const zIndex = totalCards - stackIndex
 
@@ -96,27 +105,33 @@ export default function TestimonialCard({
     <motion.div
       style={{
         zIndex,
-        // Glass surface — dark teal-navy gradient with a cyan rim.
-        //
-        // We deliberately moved AWAY from the bright cyan tint (rgba(0,181,214,0.12))
-        // because at 12% alpha over the home page's bright video background,
-        // the cards were near-transparent and text on cards behind bled
-        // through. This dark, opaque base blocks bleed-through while the
-        // cyan border + cyan glow + inset cyan highlight preserve the
-        // "liquid glass" identity from the .t-arrow buttons.
-        //
-        // Gradient direction matches the inset-highlight light source
-        // (top-left brighter, bottom-right darker) so the glass reads
-        // like it's catching light from above.
-        background:
-          'linear-gradient(135deg, rgba(10, 45, 65, 0.72) 0%, rgba(2, 22, 38, 0.82) 100%)',
-        border: '1px solid rgba(0, 181, 214, 0.45)',
-        backdropFilter: 'blur(20px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-        boxShadow:
-          'inset 0 1px 0 rgba(0, 181, 214, 0.40), ' +    // bright cyan rim along the top
-          'inset 0 -1px 0 rgba(0, 40, 55, 0.55), ' +     // darker shadow rim along the bottom
-          '0 20px 60px rgba(0, 181, 214, 0.25)',         // soft cyan glow under the card
+        // GLASS-SQUARE RECIPE — matches glass_square.svg supplied by
+        // user. Applied to ALL cards in the fan for a cohesive look;
+        // back-card readability is handled via opacity + filter blur
+        // (see cardBlurPx above and `filter` below). Layers:
+        //   1. 30% white wash interior  -> background
+        //   2. 50% white outline ring   -> 1.5px border
+        //   3. Top-left + bottom-right diagonal sparkles
+        //                               -> ::before/::after on .tcard-front
+        // Sparkles only render on the FRONT card (.tcard-front in the
+        // <style> block below) so the stack doesn't have 5 cards' worth
+        // of overlapping highlights fighting each other.
+        background: 'rgba(255, 255, 255, 0.20)',
+        border: '1.5px solid rgba(255, 255, 255, 0.50)',
+        backdropFilter: 'blur(20px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+        boxShadow: '0 20px 60px rgba(0, 181, 214, 0.25)',
+        // Filter blur fades from sharp (front) to soft (back). This is
+        // distinct from backdrop-filter above which blurs the bg behind
+        // the card; `filter` here blurs the card itself, making non-front
+        // cards visually recede.
+        filter: cardBlurPx > 0 ? `blur(${cardBlurPx}px)` : undefined,
+        // Pseudo-elements (sparkles) need a positioning context and
+        // clipping. The motion.div has tailwind `absolute` in className
+        // (sets position:absolute), which is the positioning context.
+        // overflow:hidden ensures the diagonal sparkles clip to the
+        // card's rounded corners.
+        overflow: 'hidden',
       }}
       animate={{
         rotate: `${rotateDeg}deg`,
@@ -127,16 +142,13 @@ export default function TestimonialCard({
       //   drag={true}              -> drag is enabled on every card,
       //   dragListener={isFront}   -> but only the front card actually
       //                               listens to pointer events for drag.
-      // Earlier I had drag={isFront} (functionally similar) but matching
-      // the source removes any ambiguity if framer-motion's behaviour
-      // differs subtly between the two forms.
       drag={true}
       dragElastic={0.35}
       dragListener={isFront}
       dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
       onDragEnd={handleDragEnd}
       transition={{ duration: 0.35 }}
-      className={`absolute left-0 top-0 flex h-[450px] w-[350px] select-none flex-col items-center justify-center gap-5 rounded-2xl p-8 ${
+      className={`tcard ${isFront ? 'tcard-front' : 'tcard-back'} absolute left-0 top-0 flex h-[450px] w-[350px] select-none flex-col items-center justify-center gap-5 rounded-2xl p-8 ${
         isFront ? 'cursor-grab active:cursor-grabbing' : ''
       }`}
     >
@@ -178,10 +190,12 @@ export default function TestimonialCard({
         {initials}
       </div>
 
-      {/* Quote — white text reads on cyan-tint glass over the home-page
-          immersive video background. Using literal '#fff' (not a gray
-          CSS var) so the home-immersive global color-overrides don't
-          affect it. */}
+      {/* Quote — dark navy text reads on the 30% white glass wash.
+          Previously white text was used because the card surface was
+          a dark teal-navy gradient; with the new glass-square recipe
+          (lighter wash) the text needs to flip to dark. Every card
+          cycles through being the front, so all cards get dark text
+          (not just stackIndex 0). */}
       <blockquote
         style={{
           margin: 0,
@@ -189,9 +203,9 @@ export default function TestimonialCard({
           fontFamily: 'var(--font-display)',
           fontSize: 15,
           lineHeight: 1.55,
-          color: '#ffffff',
+          color: '#0a2d41',
           fontStyle: 'italic',
-          fontWeight: 300,
+          fontWeight: 400,
         }}
       >
         &ldquo;{testimonial}&rdquo;
@@ -199,11 +213,11 @@ export default function TestimonialCard({
 
       {/* Attribution */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: '#ffffff', fontFamily: 'var(--font-display)' }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
           {author}
         </div>
         {role && (
-          <div style={{ fontSize: 12, color: 'rgba(255, 255, 255, 0.7)', textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
             {role}
           </div>
         )}

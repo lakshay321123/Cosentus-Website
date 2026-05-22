@@ -46,17 +46,17 @@ const stats = [
   // shaft is only ~67.5% of the arrow's total width, so long lines
   // overflow the angled walls). CSS renders \n as a hard break via
   // white-space: pre-line on .result-flip-text.
-  { target: 30, suffix: '%', prefix: '', label: 'Revenue Growth', sublabel: 'Up to',
+  { target: 30, suffix: '%', prefix: '', label: 'Revenue\nGrowth', sublabel: 'Up to',
     flip: 'Tens of thousands\nmore per month.\nWithin 90 days.' },
-  { target: 98, suffix: '%', prefix: '>', label: 'Net Collection', sublabel: '',
+  { target: 98, suffix: '%', prefix: '>', label: 'Net\nCollection', sublabel: '',
     flip: '$98 collected\non every $100.\nMost practices\nstop at $91.' },
-  { target: 99, suffix: '%', prefix: '>', label: 'Clean Claim Rate', sublabel: '',
+  { target: 99, suffix: '%', prefix: '>', label: 'Clean\nClaim Rate', sublabel: '',
     flip: 'On $3M in charges,\nthat\u2019s $300K recovered\nevery year.' },
-  { target: 98.5, suffix: '%', prefix: '', label: 'Coding Accuracy', sublabel: '', decimals: 1,
+  { target: 98.5, suffix: '%', prefix: '', label: 'Coding\nAccuracy', sublabel: '', decimals: 1,
     flip: 'Coding errors cost\nthousands monthly.\nWe catch 98.5%\nof them.' },
-  { target: 10, suffix: '%', prefix: '< ', label: 'AR > 120 Days', sublabel: '',
+  { target: 10, suffix: '%', prefix: '< ', label: 'AR\n> 120 Days', sublabel: '',
     flip: 'Aging claims rot.\nWe keep cash\nmoving \u2014 fast.' },
-  { target: 80, suffix: '%+', prefix: '', label: 'Patient Collection', sublabel: '',
+  { target: 80, suffix: '%+', prefix: '', label: 'Patient\nCollection', sublabel: '',
     flip: 'Most practices collect\nunder 50%.\nWe recover the rest\nin 50+ languages.' },
 ]
 

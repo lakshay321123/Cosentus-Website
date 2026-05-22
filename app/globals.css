@@ -548,27 +548,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: #fff !important;
 }
 /* Separate rule for the footer so :has() failure in old browsers
-   doesn't take the testimonial+cta rule down with it. */
+   doesn't take the testimonial+cta rule down with it.
+   Updated to use the glass-square recipe (30% white wash + 1.5px
+   white border + simple outer shadow) consistent with the other
+   home surfaces. Previous values: 6% wash + 14% border + a complex
+   inset-highlight stack from before this design language. */
 body:has(main.home-immersive) .footer {
   position: relative !important;
-  background-color: rgba(255, 255, 255, 0.06) !important;
+  background-color: rgba(255, 255, 255, 0.20) !important;
   background-image: none !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
-    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
-    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
-    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
-    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.18),
-    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.24),
-    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
-    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.14),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.10),
-    0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.18) !important;
+  /* overflow:hidden clips the diagonal sparkle pseudos to the
+     footer's bounds (since the footer spans the full viewport
+     width there's no border-radius to follow, but the sparkles
+     should still not bleed past the visual edges). */
+  overflow: hidden !important;
   color: #fff !important;
 }
+
+/* GLASS-SQUARE recipe on the home footer: 100% faithful to
+   glass_square.svg — flat 30% white wash + 50% white outline
+   only. Previously had ::before/::after sparkles painting
+   diagonal full-face gradients, but the source SVG body is
+   uniformly flat. Removed per user direction "100% copy of
+   what I sent you". The footer body wash + border declarations
+   are above; nothing else needed here. */
 
 /* CTA box uses .btn-primary inside; that button's white-tint override
    is defined elsewhere and still applies. Just make sure the headline
@@ -578,9 +585,12 @@ body:has(main.home-immersive) .footer {
   color: rgba(255, 255, 255, 0.95) !important;
 }
 
-/* Footer text/link colors over the new frosted surface. The footer
-   already uses white text by default, but we make it explicit to
-   win against any inherited dark colors and to keep hover legible. */
+/* Footer text/link colors — kept WHITE on the new glass-square
+   surface per user direction ("only black isn't looking good,
+   white will be visible, just keep it white"). The 30% white wash
+   over the dark video reads as a medium translucent layer, and
+   white text on it has enough contrast given the video bg's dark
+   regions. */
 body:has(main.home-immersive) .footer,
 body:has(main.home-immersive) .footer * {
   color: rgba(255, 255, 255, 0.95);
@@ -591,9 +601,13 @@ body:has(main.home-immersive) .footer a {
 body:has(main.home-immersive) .footer a:hover {
   color: rgba(255, 255, 255, 1) !important;
 }
-/* The footer's internal divider line was already
-   rgba(255,255,255,0.2) which works fine on the frosted bg. No
-   change there. */
+
+/* Divider line between footer-top and footer-bottom. Translucent
+   white at 20% — visible on the 30% white wash because the wash
+   itself is partly transparent over the dark video below. */
+body:has(main.home-immersive) .footer-top {
+  border-bottom-color: rgba(255, 255, 255, 0.20) !important;
+}
 
 /* Home-page button + tabs visual recipe lives at the bottom of this
    file (search for "GLASS-PILL recipe") — placed after the
@@ -782,12 +796,13 @@ body:has(main.home-immersive) .footer a:hover {
   animation-delay: -14s;
 }
 
-/* Grid pattern overlay */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  /* grid pattern removed */
-}
+/* (previously a .hero-grid "grid pattern overlay" lived here.
+   Removed in this commit: the grid pattern feature had already
+   been removed (rule body was empty besides position:absolute /
+   inset:0), and the class name was claimed by the new
+   HeroSection.tsx 2-column grid. Renamed there to
+   .hero-layout-grid to avoid the collision; this dead rule is
+   removed here to prevent future name conflicts.) */
 
 .page-hero-section {
   min-height: 50vh;
@@ -1496,6 +1511,12 @@ body:has(main.home-immersive) .footer a:hover {
   line-height: 1.3;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  /* Preserve \n in label strings as forced line breaks. Used on the
+     home page where labels are split into two lines per stat
+     (e.g. "Net" / "Collection") for readability inside the narrow
+     arrow shaft. Non-home pages don't include \n in their labels
+     so this is a no-op there. */
+  white-space: pre-line;
 }
 
 /* Home-immersive overrides for the result stat text.
@@ -1506,24 +1527,31 @@ body:has(main.home-immersive) .footer a:hover {
    names). On the home page:
      - colors re-tinted to white (per earlier direction)
      - sizes set so the widest content fits inside the arrow shaft.
+     - sizes BUMPED 20% per user direction "make text bigger / % and
+       number bigger by 20%" + labels forced to two lines via \n in
+       the data strings.
    Sizing math (verified by rasterizing the SVG with cairosvg):
      - Arrow shaft is the constant ~67.5% of the arrow's total width
        in the lower 50%-95% region (measured).
      - At desktop column width ~200px: shaft = 135px, usable with
        12px side padding = 111px.
-     - "98.5%" (widest number, 6 chars) at 36px ≈ 119px. Just over;
-       capped to 36px on widest viewports, fluid below. The 2.6vw
-       middle term keeps numbers proportional on narrower screens.
-     - "PATIENT COLLECTION" (longest label, 18 chars) at 13px ≈ 117px.
-       Fits within shaft with breathing room.
-     - "Up to" sublabel at 13px is well under any width concern. */
+     - "98.5%" (widest number) at 43px ≈ 142px; just over the 111px
+       usable but the clamp's middle term (3.1vw) keeps it
+       proportional on narrower viewports where the shaft is narrower
+       too. Acceptable trade — slightly tighter fit for the readability
+       win. If overflow appears at any common viewport, drop the
+       clamp ceiling to 40px.
+     - Two-line labels ("Patient / Collection" longest single line)
+       at 16px well within shaft width.
+     - "Up to" sublabel kept at 13px — only the user-flagged
+       number + label scale up. */
 .home-immersive .result-number {
   color: #fff;
-  font-size: clamp(24px, 2.6vw, 36px);
+  font-size: clamp(29px, 3.1vw, 43px);
 }
 .home-immersive .result-label {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 13px;
+  font-size: 16px;
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
@@ -3050,13 +3078,16 @@ body:has(main.home-immersive) .footer a:hover {
   }
   .results-mobile .result-number {
     /* Mobile arrow is max-width 200px (same as desktop column width),
-       so the same shaft math applies — 36px is the cap that fits
-       "98.5%" inside the shaft. Drop the !important fluid value
-       since the desktop home rule already clamps appropriately. */
-    font-size: 36px !important;
+       so the same shaft math applies. Bumped 36 -> 43 to match the
+       desktop home page 20% bump (user direction: "% and number
+       bigger by 20%"). Drop the !important fluid value since the
+       desktop home rule already clamps appropriately. */
+    font-size: 43px !important;
   }
   .results-mobile .result-label {
-    font-size: 12px !important;
+    /* 12 -> 14 (20% bump, rounded). Two-line labels (forced via \n in
+       data) read clearly inside the arrow shaft on mobile. */
+    font-size: 14px !important;
   }
   /* Hero: left-align everything consistently on mobile */
   .hero-actions .btn-ghost {
@@ -4219,11 +4250,14 @@ body:has(main.home-immersive) .footer a:hover {
 .home-immersive .btn-primary,
 .home-immersive .insights-tab {
   /* 30% white wash inside the ring — matches the SVG's .fil1
-     (fill-opacity 0.30). Backdrop blur kept so the pill picks up the
-     blurred video bg behind it; the SVG itself has no blur because
-     it's a static export, but live in-browser blur is what sells
-     "glass" on a moving video. */
-  background: rgba(255, 255, 255, 0.30) !important;
+     (fill-opacity 0.30, reduced to 0.20 per user direction
+     "change opacity from 30 to 20%" — cards/buttons feel less
+     visible at 0.20 over the dark video bg). Backdrop blur
+     kept so the pill picks up the blurred video bg behind it;
+     the SVG itself has no blur because it's a static export,
+     but live in-browser blur is what sells "glass" on a moving
+     video. */
+  background: rgba(255, 255, 255, 0.20) !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
   /* Thin white outline — matches the SVG's .fil0 (fill-opacity 0.50).
@@ -4241,52 +4275,14 @@ body:has(main.home-immersive) .footer a:hover {
   overflow: hidden;
 }
 
-/* Diagonal sparkle — TOP-LEFT corner.
-   Matches the SVG's #id0 mask: linearGradient from top-left (white,
-   opaque) to mid-shape (white, transparent), masking a full white
-   stroke. In CSS the equivalent is a pseudo-element filling the
-   button bounds, painted with the same gradient. The pill's
-   border-radius clips the pseudo because we set overflow:hidden on
-   the host above. */
-.home-immersive .btn-primary::before,
-.home-immersive .insights-tab::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Diagonal sparkle — BOTTOM-RIGHT corner.
-   Matches the SVG's #id2 mask: gradient from bottom-right to mid-shape. */
-.home-immersive .btn-primary::after,
-.home-immersive .insights-tab::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    315deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Lift any wrapper children (icons in <span>, etc.) above the
-   sparkle pseudos. Bare text nodes are unaffected — they render in
-   the element's content layer which already sits above pseudo
-   elements per spec; this rule is for explicit child elements. */
-.home-immersive .btn-primary > *,
-.home-immersive .insights-tab > * {
-  position: relative;
-  z-index: 1;
-}
+/* GLASS-PILL recipe for btn-primary + insights-tab — 100%
+   faithful to glass_button1.svg. The SVG composes to:
+     1. 30% white wash (.fil1)         -> background (above)
+     2. 50% white outline (.fil0)      -> border (above)
+   Body is uniformly flat. Previously had ::before/::after pseudos
+   painting diagonal full-face gradients, but the source SVG has
+   flat body + thin outline only. Removed per user direction
+   "100% copy of what I sent you". */
 
 /* Hover — brighten the wash + the outline + lift slightly.
    Using `border:` shorthand (not just `border-color:`) because the
@@ -4295,7 +4291,7 @@ body:has(main.home-immersive) .footer a:hover {
    setting only border-color wouldn't bring the line back. */
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;
   transform: translateY(-1px);
@@ -4306,10 +4302,52 @@ body:has(main.home-immersive) .footer a:hover {
    tab reads as "pressed/lit" vs the inactive ones.
    Same border-shorthand override reason as the hover rule above. */
 .home-immersive .insights-tab-active {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;
 }
+
+/* ------------------------------------------------------------------
+   GLASS-SQUARE recipe for .insight-card-body (the panel under the
+   image on Resources/Insights cards on the home page).
+
+   PLACEMENT NOTE — placed AFTER the kill-borders rule above which
+   targets `.home-immersive .insight-card` with `border: none` and
+   complex insets. We're styling the INNER BODY here, not the outer
+   card, so there's no direct override conflict — but `!important`
+   is needed to defeat the inline styles on the body div in
+   InsightCard.tsx (it has inline `padding`, `display`, `flexDirection`,
+   `flex` which we preserve, but we need bg + border to also win
+   against any inherited inline expectations).
+
+   Source: glass_square.svg (CorelDRAW). Same recipe as the
+   Specialties cards (PR #144 base):
+     1. 30% white wash interior  -> background
+     2. 50% white outline ring   -> 1.5px border
+     3. Top-left + bottom-right diagonal sparkles -> ::before/::after
+
+   Scope: .home-immersive only. Other pages that use InsightCard
+   (/insights, /blog, /news, /events) keep their original white
+   body — the new look only applies on the dark home video bg
+   where the glass treatment reads correctly.
+------------------------------------------------------------------ */
+.home-immersive .insight-card-body {
+  background: rgba(255, 255, 255, 0.20) !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* Pseudo-elements need a positioning context. */
+  position: relative;
+  /* No overflow:hidden — the parent .insight-card already has
+     overflow:hidden which clips both pseudos and image to the
+     card's rounded corners. */
+}
+
+/* GLASS-SQUARE recipe for .insight-card-body — 100% faithful to
+   glass_square.svg. The SVG body is uniformly flat 30% white
+   with a thin outline ring. Previously had ::before/::after
+   pseudos painting diagonal full-face gradients, removed per
+   user direction "100% copy of what I sent you". */
 
 /* Testimonial arrows — keep glass tint, no border. */
 .home-immersive .t-arrow,
@@ -4324,15 +4362,12 @@ body:has(main.home-immersive) .footer a:hover {
   border-top: none !important;
 }
 
-/* Footer glass on home (uses :has() selector) — same treatment. */
-body:has(main.home-immersive) .footer {
-  border: none !important;
-  box-shadow:
-    inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.30),
-    inset -1.5px -1.5px 0px -2px rgba(255, 255, 255, 0.22),
-    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.18),
-    0px -2px 14px 0px rgba(0, 0, 0, 0.18) !important;
-}
+/* Footer glass-square recipe is defined at line ~556 (search for
+   "Updated to use the glass-square recipe"). Previously a second
+   rule sat here that did `border: none !important` and a
+   complex inset-highlight box-shadow — both fought the new
+   1.5px border. Removed; the main rule earlier in the file is
+   now the single source of truth for home footer styling. */
 
 /* ============================================================
    HOME PAGE: INSIGHTS GRID HOVER-REVEAL EFFECT

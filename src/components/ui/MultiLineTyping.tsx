@@ -28,6 +28,11 @@
  *                matches the previous static h1.
  *   as           Tag for the root element. Defaults to 'h1' so the
  *                Hero usage keeps a single semantic heading.
+ *   onComplete   Optional callback fired exactly once when the
+ *                typing animation finishes (or immediately if
+ *                prefers-reduced-motion is active). Used by
+ *                HeroSection to sequence the bottom-row card
+ *                entrance animations after the headline is done.
  *
  * Accessibility:
  *   - The full text of all lines is included in a visually-hidden
@@ -46,6 +51,7 @@ interface MultiLineTypingProps {
   lineClass?: string
   as?: 'h1' | 'h2' | 'div'
   style?: CSSProperties
+  onComplete?: () => void
 }
 
 export default function MultiLineTyping({
@@ -56,6 +62,7 @@ export default function MultiLineTyping({
   lineClass,
   as: Tag = 'h1',
   style,
+  onComplete,
 }: MultiLineTypingProps) {
   // Respect prefers-reduced-motion: render fully typed instantly.
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -70,6 +77,16 @@ export default function MultiLineTyping({
   const lineRef = useRef(0)
   const charRef = useRef(0)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Track whether onComplete has already fired so we never call it
+  // twice — guards against React StrictMode double-invocation in
+  // dev and against any future re-render path.
+  const completedRef = useRef(false)
+  // Stash the latest onComplete in a ref so the typing effect
+  // doesn't restart when the parent re-renders with a new closure.
+  const onCompleteRef = useRef<(() => void) | undefined>(onComplete)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
 
   // Detect reduced-motion preference. Runs once on mount.
   useEffect(() => {
@@ -80,9 +97,15 @@ export default function MultiLineTyping({
   // Drive the typing animation.
   useEffect(() => {
     if (reducedMotion) {
-      // Skip animation: mark as fully done.
+      // Skip animation: mark as fully done. Also fire onComplete
+      // immediately so consumers don't wait on a typing sequence
+      // that never runs.
       setCurrentLineIndex(lines.length)
       setCurrentCharCount(0)
+      if (!completedRef.current) {
+        completedRef.current = true
+        onCompleteRef.current?.()
+      }
       return
     }
 
@@ -91,8 +114,15 @@ export default function MultiLineTyping({
       const charIdx = charRef.current
 
       // All lines finished — stop scheduling timers. Cursor keeps
-      // blinking via CSS animation on the last line.
-      if (lineIdx >= lines.length) return
+      // blinking via CSS animation on the last line. Fire
+      // onComplete once.
+      if (lineIdx >= lines.length) {
+        if (!completedRef.current) {
+          completedRef.current = true
+          onCompleteRef.current?.()
+        }
+        return
+      }
 
       const line = lines[lineIdx]
 
@@ -109,6 +139,14 @@ export default function MultiLineTyping({
         setCurrentCharCount(0)
         if (lineRef.current < lines.length) {
           timeoutRef.current = setTimeout(step, lineGap)
+        } else {
+          // All lines just finished. Fire onComplete on the next
+          // tick so the cursor blink + final line render commit
+          // before consumers react.
+          if (!completedRef.current) {
+            completedRef.current = true
+            onCompleteRef.current?.()
+          }
         }
       }
     }

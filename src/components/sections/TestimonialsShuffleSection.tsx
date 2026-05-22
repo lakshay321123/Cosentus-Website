@@ -270,6 +270,15 @@ export default function TestimonialsShuffleSection({
             transform-origin: center center;
           }
         }
+
+        /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg.
+           All cards (front + back) use the 30% white wash + 50%
+           white border defined inline in TestimonialCard.tsx. The
+           SVG body is flat — no diagonal full-face gradients.
+           Previously ::before/::after pseudos painted diagonal
+           sparkles only on the front card, but the source SVG has
+           flat body + thin outline only. Removed per user
+           direction "100% copy of what I sent you". */
       `}</style>
     </section>
   )

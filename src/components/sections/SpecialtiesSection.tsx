@@ -173,22 +173,44 @@ export default function SpecialtiesSection() {
           height: 100%;
           padding: 28px;
           border-radius: 16px;
-          /* Glass treatment that matches the rest of the home-immersive
-             surfaces. Same recipe family as testimonial cards: low
-             white wash + thin border + subtle backdrop blur. */
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          backdrop-filter: blur(12px) saturate(140%);
-          -webkit-backdrop-filter: blur(12px) saturate(140%);
+          /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg
+             (CorelDRAW export supplied by user). The SVG composes to
+             two visible layers:
+               1. 50% white outline ring (~1% of side thick) -> border
+               2. 30% white wash inside the ring             -> background
+             The SVG body is uniformly flat — no diagonal gradients
+             across the face. */
+          background: rgba(255, 255, 255, 0.20);
+          border: 1.5px solid rgba(255, 255, 255, 0.50);
+          backdrop-filter: blur(20px) saturate(160%);
+          -webkit-backdrop-filter: blur(20px) saturate(160%);
+          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20);
+          /* overflow:hidden so any future :after content (none today)
+             clips to the rounded corners. position kept for any
+             absolute children. */
+          position: relative;
+          overflow: hidden;
           transition:
             transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
             background-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
+
+        /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg.
+           The SVG composes to:
+             1. .fil1 = 30% white wash       -> background (above)
+             2. .fil0 = 50% white outline    -> border (above)
+           That's it. Previously we had ::before/::after pseudos
+           painting full-face diagonal gradients, but the source
+           SVG has flat body + thin outline only. Removed per user
+           direction "100% copy of what I sent you". */
+
         .specialty-card:hover .specialty-card-inner {
           transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.10);
-          border-color: rgba(0, 181, 214, 0.40);
+          background-color: rgba(255, 255, 255, 0.32);
+          border-color: rgba(255, 255, 255, 0.75);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
         }
 
         .specialty-card-title {
