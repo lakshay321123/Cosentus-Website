@@ -137,11 +137,36 @@ export default function HeroSection() {
           position: relative;
         }
 
+        /* Shift the hero H1 UP so it isn't covered by the bottom
+           card row. globals.css declares .hero-content { padding:
+           140px 40px 80px }; my override here reduces padding-top to
+           anchor the H1 closer to the top of the hero, freeing
+           middle space and ensuring all 4 lines of the typing copy
+           remain visible above the cards.
+
+           Card row height is fixed at 280px below; with that height
+           pinned to the bottom, the remaining vertical space above
+           is (100vh - 280px). At 800px viewport that's 520px for
+           the H1; at 1080px viewport that's 800px. The reduced
+           padding-top gives the H1 room to fit. */
+        .home-immersive .hero-content {
+          padding-top: 90px;
+          padding-bottom: 0;
+        }
+
         /* 4 glass cards pinned to the bottom of the hero, full-bleed
-           edge-to-edge (no container max-width). Each card is a 1:1
-           square per user direction. With 4 columns at a 1440px
-           viewport, each square is 360x360; the bottom 360px of the
-           hero is occupied by this row. */
+           edge-to-edge. Fixed height (not strict 1:1 aspect ratio)
+           so:
+             1. Card height doesn't scale with viewport width.
+                Previously at 2400px viewport with 4 cols + 1:1
+                aspect, each card was 600x600 — eating the H1.
+             2. All four cards have the SAME visible height
+                regardless of how much content is inside, so they
+                look consistently proportioned (the previous
+                aspect-ratio approach made cards with denser content
+                appear visually compressed even though their box
+                was the same size).
+        */
         .hero-cards {
           position: absolute;
           left: 0;
@@ -149,34 +174,24 @@ export default function HeroSection() {
           bottom: 0;
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          /* No gap — cards touch each other and the section edges. The
-             1.5px borders between adjacent cards add visually as a
-             single line; acceptable for the strict-fill look. */
           gap: 0;
           z-index: 3;
+          height: 280px;
         }
 
-        /* Strict 1:1 square per card. Per user direction "lots of
-           internal whitespace" is intentional — the title + blurb
-           anchor to the top-left of each square and the rest is
-           open space. */
         .hero-card {
           position: relative;
           overflow: hidden;
-          aspect-ratio: 1 / 1;
           display: flex;
           flex-direction: column;
-          padding: 28px 24px;
-          /* No border-radius — strict squares with sharp corners,
-             flush against each other and the viewport edges. */
+          padding: 32px 28px;
+          /* No border-radius — strict edge-to-edge with sharp
+             corners against neighbors and the viewport. */
           border-radius: 0;
           background: rgba(255, 255, 255, 0.30);
           border: 1.5px solid rgba(255, 255, 255, 0.50);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
-          /* No box-shadow — the cards sit edge-to-edge against each
-             other; outer shadows would visually leak into neighbors.
-             Hover still gets a shadow. */
           text-decoration: none;
           color: inherit;
           transition:
@@ -237,17 +252,13 @@ export default function HeroSection() {
           line-height: 1.5;
           color: rgba(255, 255, 255, 0.85);
           margin: 0;
-          /* Title + blurb anchor to the top-left of the square; the
-             rest of the square's 360x360 area is intentional negative
-             space (per user direction). */
         }
 
-        /* Tablet: 2x2 grid. Each card becomes wider (half-viewport)
-           and the row takes up half-viewport-width of vertical space.
-           Still touching the bottom + edges. */
+        /* Tablet: 2x2 grid. Row height doubles since two stacked rows. */
         @media (max-width: 900px) {
           .hero-cards {
             grid-template-columns: repeat(2, 1fr);
+            height: 380px;
           }
           .hero-card {
             padding: 22px 20px;
@@ -259,16 +270,14 @@ export default function HeroSection() {
             font-size: 13px;
           }
         }
-        /* Mobile: 1x4 column stack. 1:1 squares at full viewport width
-           means each square is ~viewport-width tall, which is
-           excessive for mobile — drop aspect-ratio override so cards
-           become naturally-tall rectangles sized to their content. */
+        /* Mobile: 1x4 column stack. Auto height so cards size to
+           their content rather than a fixed total. */
         @media (max-width: 580px) {
           .hero-cards {
             grid-template-columns: 1fr;
+            height: auto;
           }
           .hero-card {
-            aspect-ratio: auto;
             padding: 18px 18px;
           }
           .hero-card-title {
