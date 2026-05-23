@@ -370,7 +370,17 @@ export default function RASection() {
           .ra-agent-grid { gap: 28px 36px; }
         }
         /* Phones: tighter gap, smaller circles, keep 3 columns to
-           match the standalone voice.html reference. */
+           match the standalone voice.html reference.
+
+           Font sizes bumped May 2026 per user feedback "agent name
+           and designation too small to read on mobile":
+             name 16px -> 18px  (was below iOS readability minimum)
+             role 12.5px -> 14px  (was in legal-text territory)
+           These now match the /cosentus-ai page's agent grid so
+           the brand feels consistent across both renders. Layout
+           is unchanged — 18/14 still fits inside the 96px circle's
+           ~107px column at 360px viewport without wrapping the
+           short agent names. */
         @media (max-width: 700px) {
           .ra-stack { gap: 36px; }
           .ra-agent-grid {
@@ -378,8 +388,8 @@ export default function RASection() {
             gap: 22px 10px;
           }
           .ra-agent-circle { width: 96px; height: 96px; }
-          .ra-agent-name { font-size: 16px; }
-          .ra-agent-role { font-size: 12.5px; }
+          .ra-agent-name { font-size: 18px; }
+          .ra-agent-role { font-size: 14px; }
         }
         @media (max-width: 420px) {
           .ra-agent-grid {
