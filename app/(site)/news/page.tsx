@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function NewsPage() {
   return (
     <main>
-      <PageHero title="News" compact />
+      <PageHero title="News" band />
       <NewsListContent />
       <CTASection />
     </main>

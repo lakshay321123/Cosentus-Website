@@ -17,6 +17,13 @@
   --primary-wash: #D6EBF2;
   --primary-ghost: #D6EBF2;
 
+  /* Band-hero background — used by .page-hero-section--band (Resources
+     sub-pages) and the /faqs hero. Darker than --primary (#00B5D6) so
+     white text on it passes WCAG AA contrast for large text (~4.13:1
+     vs #00B5D6's 2.41:1 which failed the AA 3.0:1 threshold). Visually
+     still reads as the brand teal family, just one shade deeper. */
+  --band-bg: #0088A8;
+
   --gray-900: #000000;
   --gray-800: #000000;
   --gray-700: #000000;
@@ -818,6 +825,40 @@ body:has(main.home-immersive) .footer-top {
 @media (max-width: 768px) {
   .page-hero-section--compact {
     min-height: 25vh;
+  }
+}
+
+/* Band variant — used by Resources sub-pages (Blog, Client Stories,
+   News, Events, Insights) and the /faqs page. Replaces the video
+   hero with a flat brand-teal band. The component (PageHero.tsx)
+   handles the background colour + skipping the video; this block
+   handles the geometry.
+
+   Heights chosen May 2026 per user direction "medium" tier:
+     desktop 220px / mobile 160px. Stays under the navbar's fade-in
+     threshold but is thick enough to read as a deliberate band
+     rather than a separator.
+
+   Padding overrides .hero-content's default 140/40/80. Top padding
+   (~110 desktop / 80 mobile) is just enough to clear the fixed
+   navbar (~80px tall) plus a small breathing gap. Bottom padding
+   keeps the title from sitting on the lower band edge. */
+.page-hero-section--band {
+  min-height: 220px;
+}
+.page-hero-section--band .hero-content {
+  padding: 110px 40px 40px;
+}
+@media (max-width: 768px) {
+  .page-hero-section--band {
+    min-height: 160px;
+  }
+  /* !important required because a later @media (max-width: 768px) rule
+     at ~line 3338 declares `.hero-content { padding: 100px 16px 48px !important }`
+     which would otherwise beat this rule's specificity and break the
+     band's intended mobile geometry. CodeRabbit PR #162 finding #2. */
+  .page-hero-section--band .hero-content {
+    padding: 80px 24px 24px !important;
   }
 }
 
