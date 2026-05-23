@@ -100,14 +100,14 @@ function SliderRow({
         marginBottom: 12,
       }}>
         <label style={{
-          fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
+          fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
           letterSpacing: '0.02em', textTransform: 'uppercase',
           fontFamily: 'var(--font-display)',
         }}>
           {label}
         </label>
-        <span style={{
-          fontSize: 32, fontWeight: 400, color: 'var(--primary)',
+        <span className="rcm-calc-liveval" style={{
+          fontWeight: 400, color: 'var(--primary)',
           fontFamily: 'var(--font-display)', lineHeight: 1,
         }}>
           {value}{suffix}
@@ -169,7 +169,7 @@ export default function RCMCalculatorSection() {
         <RevealOnScroll delay={0.1}>
           <p style={{
             textAlign: 'center', maxWidth: 560, margin: '0 auto 56px',
-            fontSize: 18, lineHeight: 1.55, color: 'rgba(255,255,255,0.85)',
+            fontSize: 20, lineHeight: 1.55, color: 'rgba(255,255,255,0.85)',
           }}>
             Move the sliders. See what's recoverable.
           </p>
@@ -185,14 +185,14 @@ export default function RCMCalculatorSection() {
                   marginBottom: 12,
                 }}>
                   <label style={{
-                    fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
+                    fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
                     letterSpacing: '0.02em', textTransform: 'uppercase',
                     fontFamily: 'var(--font-display)',
                   }}>
                     Monthly Charges
                   </label>
-                  <span style={{
-                    fontSize: 32, fontWeight: 400, color: 'var(--primary)',
+                  <span className="rcm-calc-liveval" style={{
+                    fontWeight: 400, color: 'var(--primary)',
                     fontFamily: 'var(--font-display)', lineHeight: 1,
                   }}>
                     {fmt$(monthly * 1000)}
@@ -230,7 +230,7 @@ export default function RCMCalculatorSection() {
               />
 
               <p style={{
-                fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
+                fontSize: 15, lineHeight: 1.65, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
                 marginTop: 24,
               }}>
                 Estimates based on industry averages and Cosentus's published benchmarks (98% NCR, 95% appeal success, &lt;15% AR over 90 days). Buckets approximate independently and may overlap. Actual results depend on specialty, payer mix, and starting baseline.
@@ -240,21 +240,21 @@ export default function RCMCalculatorSection() {
             {/* RIGHT: Result */}
             <div className="rcm-calc-result">
               <div style={{
-                fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.75)',
+                fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.75)',
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 marginBottom: 12,
               }}>
                 Up to
               </div>
-              <div style={{
-                fontSize: 'clamp(56px, 8vw, 88px)', fontWeight: 300, color: 'var(--white)',
+              <div className="rcm-calc-bignum" style={{
+                fontWeight: 300, color: 'var(--white)',
                 fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 12,
                 letterSpacing: '-0.02em',
               }}>
                 {fmt$(tweenedTotal)}
               </div>
               <div style={{
-                fontSize: 18, fontWeight: 400, color: 'rgba(255,255,255,0.85)',
+                fontSize: 22, fontWeight: 400, color: 'rgba(255,255,255,0.85)',
                 marginBottom: 44,
               }}>
                 in annual recovery potential
@@ -275,19 +275,15 @@ export default function RCMCalculatorSection() {
                 </div>
               </div>
 
-              {/* CTA uses the site-canonical .btn-primary class (saturated
-                  teal + white text + no arrow). Site convention is no
-                  arrows on buttons — see globals.css line ~964
-                  '.btn-primary svg { display: none }'. Removed the
-                  manual unicode arrow span as well to honour the
-                  same rule visually. alignSelf override so the
-                  inline-flex pill aligns to the left of the result
-                  panel rather than stretching. */}
-              <Link
-                href="/contact"
-                className="btn-primary"
-                style={{ alignSelf: 'flex-start' }}
-              >
+              {/* CTA uses a dedicated .rcm-calc-cta class — NOT .btn-primary.
+                  Reason: .home-immersive .btn-primary is replaced with a
+                  glass-pill recipe (translucent white wash, thin border).
+                  That made the button read as muddy / bluish over the
+                  frosted card behind it. User direction May 2026:
+                  'remove the blue from here. put it in white text'.
+                  A solid teal pill with crisp white text reads cleaner.
+                  No arrow per the same site convention. */}
+              <Link href="/contact" className="rcm-calc-cta">
                 Get Your Free Revenue Analysis
               </Link>
             </div>

@@ -1794,6 +1794,72 @@ body:has(main.home-immersive) .footer-top {
   height: 6px;
 }
 
+/* Big recovery number ($XXX,XXX in the result panel). Font-size is
+   class-based (not inline) so the mobile media query below can
+   override it without needing !important. clamp() so the number
+   scales between large-but-readable on mid-range desktops and
+   hero-scale on wide monitors. */
+.rcm-calc-bignum {
+  font-size: clamp(56px, 8vw, 88px);
+}
+
+/* The teal numerals next to each slider label (e.g. '$500,000',
+   '10%', '25%'). Also class-based for the same mobile-override
+   reason. These are the values the user is actively reading as they
+   drag, so they're large but not hero-scale. */
+.rcm-calc-liveval {
+  font-size: 32px;
+}
+
+/* CTA — dedicated class, NOT .btn-primary. The home-immersive
+   override at globals.css line ~4555 replaces .btn-primary with a
+   glass-pill recipe (translucent white wash + thin border), which
+   reads as muddy / bluish over the frosted-glass card behind it on
+   the calculator. User direction May 2026 ('remove the blue from
+   here. put it in white text') was to make this a solid, crisp pill.
+
+   This rule is anchored on .rcm-calc-cta and therefore is not
+   touched by any of the home-immersive .btn-primary / glass-pill
+   blocks. Solid brand teal, white text, no arrow (site convention
+   from globals.css line ~960). */
+.rcm-calc-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  height: 52px;
+  padding: 0 36px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 22px rgba(0, 181, 214, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition:
+    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.rcm-calc-cta:hover {
+  background: #00C8E8;   /* slightly brighter teal */
+  color: #fff;           /* explicit so home-immersive whitewash
+                            doesn't change it on hover */
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 28px rgba(0, 181, 214, 0.50),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+}
+.rcm-calc-cta:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 100ms;
+}
+
 /* ===== MOBILE: stack the two halves and convert the vertical divider
    to a horizontal one ===== */
 @media (max-width: 768px) {
@@ -1811,16 +1877,38 @@ body:has(main.home-immersive) .footer-top {
   }
   .rcm-calc-inputs,
   .rcm-calc-result {
-    padding: 32px 24px;
+    padding: 32px 22px;
   }
+
+  /* Big number shrinks on narrow viewports so '$1,255,500' doesn't
+     overflow the result panel. clamp(40, 11vw, 56) keeps it large
+     enough to feel like a hero number on phones (~52px on a 480px
+     screen) while never blowing past ~56px on small screens. */
+  .rcm-calc-bignum {
+    font-size: clamp(40px, 11vw, 56px);
+  }
+  /* Slider live values — still prominent but ~75% of desktop size
+     so they fit comfortably alongside the slider label on a narrow
+     row. */
+  .rcm-calc-liveval {
+    font-size: 24px;
+  }
+  /* Bucket values + labels — step down so the 3-column row doesn't
+     crowd at narrow widths. */
   .rcm-calc-breakdown {
-    gap: 8px;
+    gap: 10px;
   }
   .rcm-calc-bucket-value {
-    font-size: 22px;
+    font-size: 20px;
   }
   .rcm-calc-bucket-label {
-    font-size: 12px;
+    font-size: 11px;
+  }
+  /* CTA — slightly more compact on mobile. */
+  .rcm-calc-cta {
+    height: 48px;
+    padding: 0 28px;
+    font-size: 14px;
   }
 }
 
