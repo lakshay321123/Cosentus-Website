@@ -60,7 +60,7 @@ export default function FAQsPage() {
                 fontWeight: 300,
                 lineHeight: 1.05,
                 letterSpacing: '-0.02em',
-                color: 'var(--gray-900)',
+                color: 'rgba(255, 255, 255, 0.95)',
                 marginTop: 0,
                 marginBottom: 18,
               }}
@@ -127,8 +127,20 @@ export default function FAQsPage() {
 
       <style>{`
         .faqs-page {
-          /* Sits over the global ImmersiveVideoBackground inherited
-             from the (site) layout. No local bg needed. */
+          /* /faqs needs its own dark bg because the (site) layout
+             does NOT provide ImmersiveVideoBackground — that lives
+             on the homepage only. Without this, body's default
+             var(--white) shows through and the white-on-glass
+             text becomes invisible. The radial gradient mimics
+             the home page's dark navy/teal feel without the
+             ~1.9MB video weight. */
+          background: radial-gradient(
+            ellipse 110% 80% at 50% 15%,
+            #0a2d41 0%,
+            #061c2a 55%,
+            #030f17 100%
+          );
+          min-height: 100vh;
           padding-top: 120px;
           padding-bottom: 96px;
         }
