@@ -255,7 +255,7 @@ export default function RCMContent() {
           <RevealOnScroll>
             <div className="section-title">Frequently Asked Questions</div>
           </RevealOnScroll>
-          <div style={{ marginTop: 48, maxWidth: 880, marginLeft: 'auto', marginRight: 'auto' }}>
+          <div style={{ marginTop: 48, maxWidth: 880 }}>
             <FAQList faqs={rcmFaqs} />
           </div>
         </div>
