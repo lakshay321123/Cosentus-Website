@@ -303,31 +303,57 @@ export default function HeroSection() {
              SVG pill is fully rounded (border-radius would be ~half
              the height = ~30px); using 999 for full pill rounding. */
           border-radius: 999px;
+          /* White wash starts transparent; fades in on hover so the
+             translucent SVG pill brightens like frosted glass under
+             light. Mirrors .btn-glass:hover (background: rgba(255,
+             255, 255, 0.10)) — NOT .btn-primary's teal fill, since
+             user feedback was "highlight should be white only, not
+             blue". Clip the wash to the pill shape so it doesn't
+             leak past the SVG's rounded edges. */
+          background-color: transparent;
+          overflow: hidden;
           /* Hover transition is short and snappy. Entrance
              transitions for opacity/transform are declared in the
              CHOREOGRAPHY section below. */
           transition:
+            background-color 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        /* Hover — mirrors .btn-primary:hover from globals.css:
-           lift + brightness + cyan-tinted box-shadow stack with
-           outer glow. The shadow is what makes the hover visible
-           — filter:brightness alone is barely perceptible on a
-           translucent glass-style SVG pill. */
-        .hero-action:hover {
-          transform: translateY(-3px);
-          filter: brightness(1.10);
-          box-shadow:
-            0 12px 28px rgba(0, 181, 214, 0.40),
-            0 0 24px rgba(0, 181, 214, 0.28);
+        /* Hover — WHITE highlight only (no cyan).
+             - White background-color wash fades in. The SVG pill is
+               translucent (fill-opacity 0.3/0.5), so the white wash
+               shows through and the pill brightens uniformly — like
+               frosted glass under light. Matches .btn-glass:hover
+               convention from globals.css.
+             - Brightness 1.15 intensifies the SVG itself.
+             - Dark drop shadow ONLY (no cyan glow, no halo). Cyan
+               glow against the dark video bg reads as a sharp ring
+               around the button, not as light emanating from it —
+               user explicitly rejected the blue tint.
+             - Lift -2px gives a clear "rising off the page" feel
+               that the white wash alone wouldn't provide.
+           IMPORTANT: scoped under .hero-ready (specificity 0,3,0) to
+           beat the post-entrance reset '.hero-ready .hero-action'
+           rule below (specificity 0,2,0) which sets transform:
+           translate(0,0). Without this scope, the hover transform
+           never applies — same specificity, later rule wins by
+           source order, and the lift is silently broken. This was
+           the pre-existing bug since b3f9960. */
+        .hero-ready .hero-action:hover {
+          background-color: rgba(255, 255, 255, 0.18);
+          transform: translateY(-2px);
+          filter: brightness(1.15);
+          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
         }
         /* Arrow disc nudges further right on hover — same pattern
            as .btn-glass:hover svg { transform: translateX(3px); }
            in globals.css. Composes with the disc's existing
-           vertical centering transform (translateY(-50%)). */
-        .hero-action-specialties:hover .hero-action-arrow {
+           vertical centering transform (translateY(-50%)). Scoped
+           under .hero-ready for the same specificity reason as the
+           main hover rule above. */
+        .hero-ready .hero-action-specialties:hover .hero-action-arrow {
           transform: translateY(-50%) translateX(4px);
         }
         .hero-action-pill {
@@ -405,21 +431,52 @@ export default function HeroSection() {
              here keeps the hover glow's corners clean. */
           border-radius: 24px;
         }
-        /* Hover — site convention scaled up so it's actually visible
-           against the translucent glass-style card SVGs. The .btn-primary
-           hover in globals.css uses a similar cyan-glow shadow stack;
-           applying that here at a stronger intensity since cards are
-           larger than buttons and need a more noticeable hover state.
-             - Lift (translateY -6px)
-             - Brightness boost (1.12)
-             - Cyan-tinted box-shadow stack (drop + glow ring + outer halo) */
-        .hero-card:hover {
-          transform: translateY(-6px);
-          filter: brightness(1.12);
-          box-shadow:
-            0 16px 40px rgba(0, 0, 0, 0.35),
-            0 0 0 1px rgba(0, 181, 214, 0.35),
-            0 0 32px rgba(0, 181, 214, 0.35);
+        /* Hover — bold, clearly-perceptible "nudge" effect. User
+           explicitly said the previous lift was invisible and the
+           cyan ring/halo looked like an outline. White-only aesthetic
+           per the same feedback applied to the buttons above.
+             - translateY(-14px) scale(1.06) — big lift + clear grow,
+               so the card visibly pops forward. No subtlety; user
+               wanted obvious movement.
+             - Brightness 1.22 + saturate 1.10 — translucent SVG cards
+               brighten markedly.
+             - Shadow: big dark drop only. No cyan ring (0 0 0 1px),
+               no centered cyan halo (0 0 32px). The previous shadow
+               stack was producing an "outline" look on the dark video
+               bg; pure dark drop reads cleanly as the card lifting
+               off the page.
+             - Transition override on :hover only. The base .hero-card
+               transition (set in the CHOREOGRAPHY block below) is
+               800ms bouncy on transform for the entrance
+               animation; that's too slow + overshoots for a mouse
+               hover. Snap to 220ms on hover-IN. Hover-OUT reverts to
+               the choreography's bouncy transition — giving a
+               satisfying settle-back as the card relaxes into place.
+           IMPORTANT 1: scoped under .hero-ready (specificity 0,3,0)
+           to beat the post-entrance reset '.hero-ready .hero-card'
+           rule below — without this scope, the hover transform is
+           overridden by the reset's transform: translate(0,0).
+
+           IMPORTANT 2: transform uses !important. After moving the
+           entrance from a transition to a keyframe animation with
+           animation-fill-mode: both, the animation HOLDS its 'to'
+           keyframe value (translateX(0)) indefinitely. Per the
+           CSS Animations spec, animation-held values sit at a
+           cascade level ABOVE normal author rules — so this :hover
+           rule's transform was being silently overridden by the
+           animation's held value. !important on the :hover transform
+           promotes it above the animation cascade. Author-important
+           > animation > author-normal. filter + box-shadow don't
+           need this because the @keyframes only animates transform.
+           This was the root cause behind 'now nothing is happening'. */
+        .hero-ready .hero-card:hover {
+          transform: translateY(-14px) scale(1.06) !important;
+          filter: brightness(1.22) saturate(1.10);
+          box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
+          transition:
+            transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         .hero-card img {
           display: block;
@@ -505,47 +562,107 @@ export default function HeroSection() {
           opacity: 0;
           /* Slide in from the right side. Cards are positioned
              on the right of the layout, so sliding them in from
-             further right reads as "entering from off-screen". */
+             further right reads as "entering from off-screen".
+             The entrance slide is driven by the @keyframes
+             hero-card-enter animation below (not by transition),
+             which lets the transition property keep transform on
+             a snappy 220ms curve for hover. Without this split,
+             un-hovering reverted transform on the entrance's
+             800ms bouncy curve — i.e. cards swam back to rest
+             over nearly a full second after hover-out, which the
+             user explicitly called out as too slow. */
           transform: translateX(80px);
-          /* Ease-out-back overshoots ~7% past the target then
-             settles back, producing a subtle bounce. The
-             transform transition uses this curve; opacity uses
-             the standard smooth ease-out (no overshoot needed
-             for opacity). */
           transition:
             opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
-            transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1),
+            transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
+        /* Cards-only entrance animation. Replaces what used to be
+           a transition on transform (800ms bouncy). Using an animation
+           means the entrance's 800ms bouncy slide is decoupled from
+           the transform transition, so the transition can stay snappy
+           (220ms above) for hover/un-hover. animation-fill-mode: both
+           keeps the 'from' keyframe value applied during animation-delay
+           (before the animation starts) and the 'to' value held after
+           the animation completes — so the card sits at translateX(80)
+           through its delay window and at translateX(0) afterward. */
+        @keyframes hero-card-enter {
+          from { transform: translateX(80px); }
+          to   { transform: translateX(0); }
+        }
+
         /* Reveal state — added by useEffect after mount via a
            rAF chain (so initial state paints before transitions
-           fire). */
+           fire). Headlines + buttons use transition-based reveal
+           (transform set to translate(0,0) which their transition
+           rules animate to). Cards use the keyframe animation
+           defined above; their transform is held by the animation,
+           NOT declared here — declaring transform here would
+           conflict with the animation and break hover-out timing. */
         .hero-ready .hero-headline-1,
         .hero-ready .hero-headline-2,
-        .hero-ready .hero-action,
-        .hero-ready .hero-card {
+        .hero-ready .hero-action {
           opacity: 1;
           transform: translate(0, 0);
         }
+        .hero-ready .hero-card {
+          opacity: 1;
+          animation: hero-card-enter 800ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
 
-        /* Per-element delays — the "cinematic pan" sequencing. */
+        /* Per-element delays — the "cinematic pan" sequencing.
+           Cards need BOTH transition-delay (for opacity fade-in
+           which is still transition-based) AND animation-delay
+           (for the slide-in keyframe). They must match so opacity
+           and slide land together. */
         .hero-ready .hero-headline-1         { transition-delay: 0ms; }
         .hero-ready .hero-headline-2         { transition-delay: 1000ms; }
         .hero-ready .hero-action-specialties { transition-delay: 2100ms; }
         .hero-ready .hero-action-contact     { transition-delay: 2400ms; }
-        .hero-ready .hero-card-zeus          { transition-delay: 2800ms; }
-        .hero-ready .hero-card-agents        { transition-delay: 3300ms; }
-        .hero-ready .hero-card-net           { transition-delay: 3800ms; }
+        .hero-ready .hero-card-zeus          { transition-delay: 2800ms; animation-delay: 2800ms; }
+        .hero-ready .hero-card-agents        { transition-delay: 3300ms; animation-delay: 3300ms; }
+        .hero-ready .hero-card-net           { transition-delay: 3800ms; animation-delay: 3800ms; }
 
         @media (prefers-reduced-motion: reduce) {
+          /* Cover both the base selectors AND the high-specificity
+             hover selectors. The hover rules now use !important on
+             transform (to beat the entrance animation's cascade
+             level), which means a plain '.hero-card { transform:
+             none !important }' would lose to '.hero-ready .hero-card
+             :hover { transform: ... !important }' on specificity.
+             Listing the hover selectors explicitly here brings them
+             back under reduced-motion suppression.
+
+             NOTE on the arrow disc: it's deliberately NOT in this
+             group. The arrow's base centering is 'transform:
+             translateY(-50%)', so applying 'transform: none !important'
+             to it would knock it out of vertical center on hover.
+             It gets its own rule below that preserves centering and
+             only suppresses the +4px horizontal nudge. */
           .hero-headline-1,
           .hero-headline-2,
           .hero-action,
-          .hero-card {
+          .hero-card,
+          .hero-ready .hero-action:hover,
+          .hero-ready .hero-card:hover {
             opacity: 1 !important;
             transform: none !important;
+            transition: none !important;
+            /* Cards now use a keyframe animation for entrance;
+               kill it under reduced-motion the same way we kill
+               the transitions for headlines + buttons. */
+            animation: none !important;
+          }
+
+          /* Arrow disc: keep base vertical centering, suppress the
+             4px horizontal nudge. Without this, the rule group above
+             would set transform: none, killing the translateY(-50%)
+             base centering and making the arrow snap to the top of
+             the pill on hover. */
+          .hero-ready .hero-action-specialties:hover .hero-action-arrow {
+            transform: translateY(-50%) !important;
             transition: none !important;
           }
         }
