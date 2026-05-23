@@ -452,16 +452,25 @@ export default function HeroSection() {
                hover. Snap to 220ms on hover-IN. Hover-OUT reverts to
                the choreography's bouncy transition — giving a
                satisfying settle-back as the card relaxes into place.
-           IMPORTANT: scoped under .hero-ready (specificity 0,3,0) to
-           beat the post-entrance reset '.hero-ready .hero-card' rule
-           below (specificity 0,2,0) which sets transform: translate
-           (0,0). Without this scope, the hover transform never
-           applies — same specificity, later rule wins by source
-           order, and the lift is silently broken. This was the
-           root-cause bug behind every "hover effect not working"
-           complaint since b3f9960. */
+           IMPORTANT 1: scoped under .hero-ready (specificity 0,3,0)
+           to beat the post-entrance reset '.hero-ready .hero-card'
+           rule below — without this scope, the hover transform is
+           overridden by the reset's transform: translate(0,0).
+
+           IMPORTANT 2: transform uses !important. After moving the
+           entrance from a transition to a keyframe animation with
+           animation-fill-mode: both, the animation HOLDS its 'to'
+           keyframe value (translateX(0)) indefinitely. Per the
+           CSS Animations spec, animation-held values sit at a
+           cascade level ABOVE normal author rules — so this :hover
+           rule's transform was being silently overridden by the
+           animation's held value. !important on the :hover transform
+           promotes it above the animation cascade. Author-important
+           > animation > author-normal. filter + box-shadow don't
+           need this because the @keyframes only animates transform.
+           This was the root cause behind 'now nothing is happening'. */
         .hero-ready .hero-card:hover {
-          transform: translateY(-14px) scale(1.06);
+          transform: translateY(-14px) scale(1.06) !important;
           filter: brightness(1.22) saturate(1.10);
           box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
           transition:
@@ -617,10 +626,21 @@ export default function HeroSection() {
         .hero-ready .hero-card-net           { transition-delay: 3800ms; animation-delay: 3800ms; }
 
         @media (prefers-reduced-motion: reduce) {
+          /* Cover both the base selectors AND the high-specificity
+             hover selectors. The hover rules now use !important on
+             transform (to beat the entrance animation's cascade
+             level), which means a plain '.hero-card { transform:
+             none !important }' would lose to '.hero-ready .hero-card
+             :hover { transform: ... !important }' on specificity.
+             Listing the hover selectors explicitly here brings them
+             back under reduced-motion suppression. */
           .hero-headline-1,
           .hero-headline-2,
           .hero-action,
-          .hero-card {
+          .hero-card,
+          .hero-ready .hero-action:hover,
+          .hero-ready .hero-action-specialties:hover .hero-action-arrow,
+          .hero-ready .hero-card:hover {
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
