@@ -145,7 +145,7 @@ export default function TestimonialCard({
       dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
       onDragEnd={handleDragEnd}
       transition={{ duration: 0.35 }}
-      className={`tcard ${isFront ? 'tcard-front' : 'tcard-back'} absolute left-0 top-0 flex h-[450px] w-[350px] select-none flex-col items-center justify-center gap-5 rounded-2xl p-8 ${
+      className={`tcard ${isFront ? 'tcard-front' : 'tcard-back'} absolute left-0 top-0 flex h-[420px] w-[280px] sm:h-[450px] sm:w-[350px] select-none flex-col items-center justify-center gap-4 sm:gap-5 rounded-2xl p-6 sm:p-8 ${
         isFront ? 'cursor-grab active:cursor-grabbing' : ''
       }`}
     >
