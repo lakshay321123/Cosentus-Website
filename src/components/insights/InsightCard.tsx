@@ -136,13 +136,27 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
       </div>
 
       <style>{`
-        .insight-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(0, 181, 214, 0.12);
-          border-color: rgba(0, 181, 214, 0.3);
-        }
-        .insight-card:hover .insight-card-img {
-          transform: scale(1.05);
+        /* Hover lift / image zoom — gated behind hover:hover so touch
+           devices don't get sticky-hover. On mobile, before this gate,
+           tapping or even scroll-touching a card during a swipe left
+           the card stuck in the "hovered" state (visible translateY +
+           border highlight) while the user moved on to the next card.
+           Result: the user's last-touched card kept the highlight even
+           when it was no longer the active one in the carousel viewport.
+
+           hover:hover matches pointing devices that can actually hover
+           (mouse, trackpad, pen). Touch screens report hover:none and
+           never enter these rules — clean carousel UX, no sticky
+           highlight artifacts. */
+        @media (hover: hover) {
+          .insight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 181, 214, 0.12);
+            border-color: rgba(0, 181, 214, 0.3);
+          }
+          .insight-card:hover .insight-card-img {
+            transform: scale(1.05);
+          }
         }
       `}</style>
     </Link>

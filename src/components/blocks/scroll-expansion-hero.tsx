@@ -391,10 +391,13 @@ const ScrollExpandMedia = ({
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
   const mediaWidth = isMobile
-    ? 300 + easedProgress * 400  // 300 → 700
+    ? 240 + easedProgress * 100  // 240 → 340 (vertical-friendly)
     : 600 + easedProgress * 600; // 600 → 1200
   const mediaHeight = isMobile
-    ? 220 + easedProgress * 180 // 220 → 400
+    ? 300 + easedProgress * 220 // 300 → 520 (taller-than-wide so a
+                                //              9:16 vertical video
+                                //              swap renders without
+                                //              letterboxing)
     : 400 + easedProgress * 200; // 400 → 600
 
   // Desktop: media translates from +25vw (right-half center) to 0.
@@ -608,14 +611,59 @@ const ScrollExpandMedia = ({
 
         /* Mobile layout — vertical stack, no horizontal translate. */
         @media (max-width: 767px) {
+          /* Cut the section's reserved height from a full viewport
+             to 70vh so the post-expansion empty space below the
+             video doesn't leave a giant dead zone before the next
+             section. The scroll-hijack mechanism is unaffected: it
+             owns the viewport via isSectionOwningViewport (top<=0
+             && bottom>0) and snaps the page back to the section's
+             top during expansion, so the absolute scroll distance
+             of the section doesn't drive the hijack. Section height
+             only affects the empty bottom strip seen after release.
+
+             Per user direction: "after the video, there is too much
+             of a gap here". 30vh of dead space recovered. */
+          .scroll-expand-section {
+            height: 70vh;
+            /* overflow: visible on mobile because the trailing text
+               (below) is positioned outside the section's vertical
+               bounds. With the base overflow:hidden it would be
+               clipped. Side text on mobile is positioned at top:20%
+               width:88vw without horizontal translate (mobile uses
+               vertical layout, per the rule below), so nothing else
+               needs the section to clip. */
+            overflow: visible;
+          }
           .scroll-expand-side-text {
             width: 88vw;
             top: 20%;
             text-align: center;
             font-size: 18px;
           }
+          /* Media frame on mobile — vertical-aspect-friendly.
+             max-width 80vw + max-height 60vh creates a taller-than-
+             wide envelope. When the current horizontal DNA video is
+             swapped for the upcoming vertical (9:16) video, the new
+             asset will fill the frame naturally with no letterboxing
+             — object-fit:cover already handles aspect crop for the
+             interim horizontal source.
+
+             Per user direction: "I think there will be a vertical
+             video, so you can create it in a way that it becomes
+             vertical". */
+          .scroll-expand-media-frame {
+            max-width: 80vw;
+            max-height: 60vh;
+          }
           .scroll-expand-trailing-text {
-            top: 86vh;
+            /* Was top: 86vh — that worked when the section was 100vh
+               (text inside, near the bottom). The section is now 70vh
+               on mobile, so 86vh puts the text 16vh BELOW the section
+               with overflow:hidden clipping it. Anchor the text to
+               the section's bottom edge instead — 12px gap below the
+               section, sitting in the breathing room before the next
+               section starts. */
+            top: calc(100% + 12px);
             font-size: 15px;
           }
         }

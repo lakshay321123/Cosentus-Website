@@ -23,6 +23,7 @@
 
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 type Specialty = {
   label: string
@@ -64,6 +65,64 @@ const specialties: Specialty[] = [
 ]
 
 export default function SpecialtiesSection() {
+  /* Mobile carousel pages of 3.
+     Per user direction "i want to show 3 specialties at a time. Show
+     three and then scroll for the next three. Auto scroll."
+
+     6 cards split into 2 pages of 3 stacked vertically:
+       Page 1: Anesthesia, Orthopedics, Pain Management
+       Page 2: ASCs, Behavioral Health, Multi-Specialty
+     Each page becomes one slide of the carousel. MobileCarousel
+     handles auto-scroll, dots, touch swipe, IntersectionObserver
+     enter, reduced-motion respect — the same proven component
+     already used by Results / Services / Advantages on this page.
+
+     The PAGE_SIZE = 3 is a deliberate choice; 6 specialties / 3
+     per page gives exactly 2 slides, which reads as a binary
+     "first half / second half" pagination. A different total
+     would need different grouping. */
+  const PAGE_SIZE = 3
+  const pages: Specialty[][] = []
+  for (let i = 0; i < specialties.length; i += PAGE_SIZE) {
+    pages.push(specialties.slice(i, i + PAGE_SIZE))
+  }
+
+  // Single card renderer reused for both desktop and mobile layouts
+  // so any future copy/icon/CTA changes only touch one place.
+  const renderCard = (s: Specialty, i: number) => (
+    <RevealOnScroll
+      key={s.href}
+      direction="up"
+      delay={0.15 + i * 0.05}
+    >
+      <Link href={s.href} className="specialty-card">
+        <div className="specialty-card-inner">
+          <h3 className="specialty-card-title">{s.label}</h3>
+          <p className="specialty-card-blurb">{s.blurb}</p>
+          <span className="specialty-card-cta" aria-hidden="true">
+            Learn more
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="specialty-card-arrow"
+            >
+              <path
+                d="M3 7h8m0 0L7 3m4 4l-4 4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </div>
+      </Link>
+    </RevealOnScroll>
+  )
+
   return (
     <section
       className="section specialties-section"
@@ -79,40 +138,29 @@ export default function SpecialtiesSection() {
           </header>
         </RevealOnScroll>
 
-        <div className="specialties-grid">
-          {specialties.map((s, i) => (
-            <RevealOnScroll
-              key={s.href}
-              direction="up"
-              delay={0.15 + i * 0.05}
-            >
-              <Link href={s.href} className="specialty-card">
-                <div className="specialty-card-inner">
-                  <h3 className="specialty-card-title">{s.label}</h3>
-                  <p className="specialty-card-blurb">{s.blurb}</p>
-                  <span className="specialty-card-cta" aria-hidden="true">
-                    Learn more
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="specialty-card-arrow"
-                    >
-                      <path
-                        d="M3 7h8m0 0L7 3m4 4l-4 4"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            </RevealOnScroll>
-          ))}
+        {/* Desktop / tablet: existing grid layout (3-col >1024px, 2-col 601-1024px).
+            Hidden on mobile via the .specialties-desktop CSS rule below. */}
+        <div className="specialties-grid specialties-desktop">
+          {specialties.map(renderCard)}
+        </div>
+
+        {/* Mobile (<=600px): MobileCarousel with each slide containing
+            3 cards stacked vertically. Auto-scrolls between Page 1
+            (Anesthesia / Orthopedics / Pain Management) and Page 2
+            (ASCs / Behavioral Health / Multi-Specialty). MobileCarousel
+            renders <>{children}</> on desktop, but we hide this whole
+            block via CSS on desktop anyway so the desktop grid above
+            is the only visible layout there. autoScrollInterval 5000ms
+            (vs MobileCarousel default 4000) — gives the user enough
+            time to read 3 cards per page before advancing. */}
+        <div className="specialties-mobile">
+          <MobileCarousel autoScrollInterval={5000}>
+            {pages.map((page, pageIdx) => (
+              <div key={pageIdx} className="specialties-page">
+                {page.map((s, i) => renderCard(s, pageIdx * PAGE_SIZE + i))}
+              </div>
+            ))}
+          </MobileCarousel>
         </div>
       </div>
 
@@ -206,11 +254,19 @@ export default function SpecialtiesSection() {
            SVG has flat body + thin outline only. Removed per user
            direction "100% copy of what I sent you". */
 
-        .specialty-card:hover .specialty-card-inner {
-          transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.32);
-          border-color: rgba(255, 255, 255, 0.75);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+        /* Hover lift — gated behind @media (hover: hover) so this
+           doesn't fire as sticky-hover on the mobile carousel below.
+           Same fix applied to .insight-card and .hero-card. Touch
+           devices report hover:none and skip these rules entirely,
+           so the card the user grabbed during a swipe doesn't stay
+           visually "lifted" after they've moved on to the next one. */
+        @media (hover: hover) {
+          .specialty-card:hover .specialty-card-inner {
+            transform: translateY(-4px);
+            background-color: rgba(255, 255, 255, 0.32);
+            border-color: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+          }
         }
 
         .specialty-card-title {
@@ -248,8 +304,10 @@ export default function SpecialtiesSection() {
         .specialty-card-arrow {
           transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        .specialty-card:hover .specialty-card-arrow {
-          transform: translateX(3px);
+        @media (hover: hover) {
+          .specialty-card:hover .specialty-card-arrow {
+            transform: translateX(3px);
+          }
         }
 
         @media (max-width: 1024px) {
@@ -257,13 +315,32 @@ export default function SpecialtiesSection() {
             grid-template-columns: repeat(2, 1fr);
           }
         }
+
+        /* Desktop / tablet: show the grid layout, hide mobile carousel.
+           Mobile: show the carousel, hide the grid. Mirrors the same
+           desktop/mobile toggle pattern used by ResultsSection. */
+        .specialties-mobile {
+          display: none;
+        }
         @media (max-width: 600px) {
           .specialties-section {
             padding-top: 64px;
             padding-bottom: 64px;
           }
-          .specialties-grid {
-            grid-template-columns: 1fr;
+          .specialties-desktop {
+            display: none;
+          }
+          .specialties-mobile {
+            display: block;
+          }
+          /* Each carousel slide is a "page" of 3 cards stacked vertically.
+             MobileCarousel sizes each slide to 100% width with 'padding: 0 8px'
+             and 'overflow: hidden'. We use that width for the column of
+             cards; gap 14px between the stacked cards keeps the visual
+             rhythm consistent with the desktop grid. */
+          .specialties-page {
+            display: flex;
+            flex-direction: column;
             gap: 14px;
           }
           .specialty-card-inner {

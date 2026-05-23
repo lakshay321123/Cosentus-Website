@@ -47,6 +47,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const ASSETS = {
   headline1: '/images/hero/headline-1.svg',
@@ -71,6 +72,22 @@ export default function HeroSection() {
     })
     return () => cancelAnimationFrame(f1)
   }, [])
+
+  // Auto-scroll for the mobile carousel is now handled by the
+  // <MobileCarousel> component below. Removed the previous custom
+  // useEffect (with cardsRef + offsetLeft math + IntersectionObserver
+  // + scrollTo) because two real-world issues kept biting it:
+  //   1. offsetLeft was resolving against an unexpected positioned
+  //      ancestor (not the scroll container), so scrollTo targets
+  //      were wrong values. Even after adding position:relative to
+  //      .hero-cards, the user reported autoplay still wasn't
+  //      advancing on the live preview.
+  //   2. Maintaining two parallel autoplay implementations (this
+  //      file + MobileCarousel) was diverging in subtle ways.
+  // MobileCarousel uses translateX percentages instead of offsetLeft
+  // so it has no positioning-dependency. Same component already
+  // drives Results / Services / Advantages / Specialties carousels
+  // on this page — one battle-tested implementation everywhere.
 
   return (
     <section className="hero">
@@ -144,31 +161,42 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* RIGHT column: 3-card staircase, bottom-aligned */}
+        {/* RIGHT column: 3-card staircase on desktop, MobileCarousel
+            carousel on mobile.
+            MobileCarousel renders its children as a bare fragment on
+            desktop (returns <>{children}</>) so the existing .hero-cards
+            staircase CSS still applies. On mobile (<=768px) MobileCarousel
+            renders its own track + dots and handles autoplay /
+            touch swipe / IntersectionObserver enter / reduced-motion
+            internally. Removed the previous ref+useEffect because the
+            offsetLeft-based scroll math wasn't reliably advancing the
+            carousel on the live preview. */}
         <div className="hero-cards">
-          <Link
-            href="/cosentus-ai"
-            className="hero-card hero-card-zeus"
-            aria-label="Zeus Ai — 360 Degree RCM & EHR Platform"
-          >
-            <img src={ASSETS.cardZeus} alt="Zeus Ai — 360 Degree RCM & EHR Platform" loading="eager" />
-          </Link>
+          <MobileCarousel autoScrollInterval={3500} darkMode>
+            <Link
+              href="/cosentus-ai"
+              className="hero-card hero-card-zeus"
+              aria-label="Zeus Ai — 360 Degree RCM & EHR Platform"
+            >
+              <img src={ASSETS.cardZeus} alt="Zeus Ai — 360 Degree RCM & EHR Platform" loading="eager" />
+            </Link>
 
-          <Link
-            href="#ra"
-            className="hero-card hero-card-agents"
-            aria-label="Meet our 24/7 Ai Agents, Optimize Workflow"
-          >
-            <img src={ASSETS.cardAgents} alt="Meet our 24/7 Ai Agents, Optimize Workflow" loading="eager" />
-          </Link>
+            <Link
+              href="#ra"
+              className="hero-card hero-card-agents"
+              aria-label="Meet our 24/7 Ai Agents, Optimize Workflow"
+            >
+              <img src={ASSETS.cardAgents} alt="Meet our 24/7 Ai Agents, Optimize Workflow" loading="eager" />
+            </Link>
 
-          <Link
-            href="#results"
-            className="hero-card hero-card-net"
-            aria-label="Greater than 98 percent net collection"
-          >
-            <img src={ASSETS.cardNetCollection} alt=">98% Net Collection" loading="eager" />
-          </Link>
+            <Link
+              href="#results"
+              className="hero-card hero-card-net"
+              aria-label="Greater than 98 percent net collection"
+            >
+              <img src={ASSETS.cardNetCollection} alt=">98% Net Collection" loading="eager" />
+            </Link>
+          </MobileCarousel>
         </div>
       </div>
 
@@ -468,15 +496,26 @@ export default function HeroSection() {
            promotes it above the animation cascade. Author-important
            > animation > author-normal. filter + box-shadow don't
            need this because the @keyframes only animates transform.
-           This was the root cause behind 'now nothing is happening'. */
-        .hero-ready .hero-card:hover {
-          transform: translateY(-14px) scale(1.06) !important;
-          filter: brightness(1.22) saturate(1.10);
-          box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
-          transition:
-            transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+           This was the root cause behind 'now nothing is happening'.
+
+           IMPORTANT 3: gated behind @media (hover: hover) so this
+           dramatic lift+scale doesn't fire as sticky-hover on the
+           mobile carousel. Touch devices report hover:none and skip
+           this rule entirely — same sticky-hover fix we apply to
+           .insight-card and .specialty-card. Without the gate, the
+           card the user grabbed during swipe would retain the
+           translateY/scale highlight even after they moved on to
+           the next card. */
+        @media (hover: hover) {
+          .hero-ready .hero-card:hover {
+            transform: translateY(-14px) scale(1.06) !important;
+            filter: brightness(1.22) saturate(1.10);
+            box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
+            transition:
+              transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          }
         }
         .hero-card img {
           display: block;
@@ -699,22 +738,57 @@ export default function HeroSection() {
           .hero-action-arrow {
             height: 100%;
           }
+          /* HERO FEATURE CARDS — mobile carousel
+             Per user direction "I can show them one at a time, bigger
+             ones... they can be scrolling left to right, but much
+             bigger than this."
+
+             Implementation: <MobileCarousel> wraps the three cards in
+             HeroSection.tsx. On mobile MobileCarousel renders its own
+             track + dots and handles autoplay / touch swipe /
+             IntersectionObserver / reduced-motion internally. On
+             desktop it returns <>{children}</> so the staircase CSS
+             above still applies unchanged.
+
+             Why we use MobileCarousel here instead of CSS scroll-snap:
+             the previous custom autoplay (useEffect + offsetLeft +
+             scrollTo) wasn't reliably advancing the carousel on the
+             live preview — even after adding position:relative to
+             make offsetLeft resolve correctly. MobileCarousel uses
+             translateX percentages instead, so there's no positioning
+             dependency. Same component already drives the Results,
+             Services, Advantages, and Specialties carousels on this
+             page; one implementation everywhere is easier to maintain.
+
+             .hero-cards on mobile is now just a passthrough container
+             — MobileCarousel's own wrapper handles overflow and width.
+             We reset the desktop staircase flex rules here so they
+             don't fight MobileCarousel's track layout. */
           .hero-cards {
+            display: block;
             padding: 0;
-            justify-content: center;
-            gap: 10px;
+            gap: 0;
+            /* The hero-layout-grid parent already carries 16px
+               horizontal padding on mobile, so the carousel edge
+               aligns with the rest of the hero content. */
           }
-          .hero-card-zeus {
-            width: 90px;
-            height: 90px;
+          /* Each card sits inside one MobileCarousel slide (100%
+             width with 8px horizontal padding). Cards now use 100%
+             width of their slide so the card fills the visible area
+             instead of sitting at a fixed pixel width with empty
+             space around it — this matches the user direction "bigger
+             ones, one at a time". Heights still capped to ~230px so
+             the carousel doesn't dominate the viewport. */
+          .hero-card {
+            display: block;
+            width: 100%;
+            height: 230px;
           }
-          .hero-card-agents {
-            height: 117px;
-            width: 90px;
-          }
-          .hero-card-net {
-            height: 74px;
-            width: 100px;
+          .hero-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
           }
         }
       `}</style>
