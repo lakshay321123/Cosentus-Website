@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
+import ResultsSection from '@/components/sections/ResultsSection'
 
 const rcmSteps = [
   { agent: 'Elly', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" /></svg>, title: 'Eligibility Verification', desc: 'Elly verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.' },
@@ -17,75 +17,6 @@ const rcmSteps = [
   { agent: null, icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>, title: 'Credentialing & Contracting', desc: 'Provider credentialing, re-credentialing, and contract analytics to protect reimbursement rates.' },
   { agent: null, icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>, title: 'Reporting & Analytics', desc: 'Real-time dashboards by provider, payer, procedure, and denial category. Weekly reviews and QBRs included.' },
 ]
-
-const keyResults = [
-  { value: '>98%', label: 'Net Collection Rate' },
-  { value: '>99%', label: 'Clean Claim Rate' },
-  { value: '48hr', label: 'Charge Lag' },
-  { value: '<15%', label: 'AR >90 Days' },
-  { value: '30%', label: 'Revenue Growth (12mo)' },
-]
-
-/* ── RCM 360 FAQs ──
-   Topic structure mirrors the cosentus.com/services/complete-practice-
-   management/ FAQ block per user direction (definition / importance /
-   what's included / vs. alternatives / how it works / outcomes /
-   specialties / verification). Answers are grounded in this page's
-   existing data — rcmSteps (the 10 stages) and keyResults (the 5
-   metrics) above — so the FAQ cannot contradict what the rest of the
-   page already claims. */
-const rcmFaqs = [
-  { q: 'What is RCM 360?',
-    a: 'RCM 360 is Cosentus\u2019s end-to-end revenue cycle management offering. We manage every stage of your revenue cycle \u2014 from patient registration and eligibility verification through coding, claim submission, payment posting, denial management, and patient collections \u2014 with specialty-trained teams supported by AI voice agents. One accountable team. One dashboard. Every dollar.' },
-  { q: 'Why is end-to-end revenue cycle management important?',
-    a: 'Most practices run their revenue cycle in disconnected pieces \u2014 eligibility in one system, coding in another, denials handled by a third group. Every handoff between teams is a gap where revenue leaks. Missed eligibility checks become rejections. Slow prior authorizations become OR delays. Unworked denials age out of timely filing. RCM 360 closes those gaps by owning the cycle end to end under one accountable team.' },
-  { q: 'What services are included in RCM 360?',
-    a: 'Eligibility verification, prior authorization management, pre-service payment collection, charge capture with AAPC-certified coding, claim scrubbing and submission, payment posting and reconciliation, AR follow-up, denial management and appeals, patient billing and collections in 50+ languages, credentialing and contracting, and real-time reporting dashboards.' },
-  { q: 'What\u2019s the difference between RCM 360 and traditional medical billing services?',
-    a: 'Traditional billing services usually cover only the back end \u2014 claim submission and basic follow-up. RCM 360 covers the entire cycle, both front-end activities (eligibility, prior auth, pre-service collection) and back-end activities (denials, underpayment recovery, patient billing), with AI handling repetitive volume and named human specialists handling judgment work.' },
-  { q: 'How does RCM 360 use AI?',
-    a: 'Specialized AI voice agents handle the high-volume repetitive workflows \u2014 eligibility verification, prior authorization follow-ups, pre-service patient outreach, claim status checks, payment reconciliation, and patient collections in 50+ languages. Human specialists own the work that requires judgment: complex coding, clinical denial appeals, underpayment recovery, and payer negotiation. AI handles volume, humans handle judgment, every action surfaces to your dashboard.' },
-  { q: 'What measurable outcomes can I expect from RCM 360?',
-    a: 'Greater than 98% net collection rate, greater than 99% clean claim rate, charge lag of 48 hours, AR over 90 days under 15%, and up to 30% revenue growth within twelve months. Actual results depend on specialty, payer mix, and starting baseline.' },
-  { q: 'What specialties does RCM 360 support?',
-    a: 'Anesthesia, orthopedics, pain management, ambulatory surgery centers (ASCs), behavioral health, and multi-specialty practices. Each specialty has a dedicated team trained on its specific coding rules, payer policies, and common denial patterns.' },
-  { q: 'How do I track and verify performance?',
-    a: 'Real-time dashboards segmented by provider, payer, procedure, and denial category, plus weekly check-ins with your account team, monthly operational reviews, and quarterly business reviews. You see every claim status, every denial reason, and every dollar in motion \u2014 no waiting for end-of-month reports.' },
-]
-
-/* ── Inline FAQItem / FAQGroup ──
-   Pattern matches BillingCodingContent.tsx, EHRContent.tsx, and
-   PracticeManagementContent.tsx, which all keep these components
-   inline rather than sharing a single ui/FAQ.tsx. Staying consistent
-   with the codebase here \u2014 a shared component would be a separate
-   refactor across all four services pages. */
-
-function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boolean; onToggle: () => void }) {
-  return (
-    <div style={{ marginBottom: 8, borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', overflow: 'hidden', transition: 'border-color 0.2s ease', borderColor: isOpen ? '#00B5D6' : 'var(--gray-200)' }}>
-      <button onClick={onToggle} aria-expanded={isOpen} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '18px 24px', background: isOpen ? 'var(--primary-ghost)' : 'var(--gray-50)', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16, transition: 'background 0.2s ease', fontFamily: 'var(--font-body)' }}>
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>{q}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2.5} style={{ flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s ease' }}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-      </button>
-      {isOpen && (
-        <div style={{ padding: '0 24px 20px', background: 'white' }}>
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)', paddingTop: 12, margin: 0 }}>{a}</p>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function FAQList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
-  const [openIndex, setOpenIndex] = useState(-1)
-  return (
-    <div>
-      {faqs.map((faq, i) => (
-        <FAQItem key={i} q={faq.q} a={faq.a} isOpen={openIndex === i} onToggle={() => setOpenIndex(openIndex === i ? -1 : i)} />
-      ))}
-    </div>
-  )
-}
 
 export default function RCMContent() {
   return (
@@ -201,65 +132,27 @@ export default function RCMContent() {
         </div>
       </section>
 
-      {/* Key Results, interactive cards */}
-      <section className="section">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
-            <div className="section-title">Measurable Outcomes</div>
-          </RevealOnScroll>
-          <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
-            {keyResults.map((r, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
-                <div
-                  style={{
-                    padding: '32px 16px', background: 'var(--white)', borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-6px)'
-                    e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,181,214,0.15)'
-                    e.currentTarget.style.borderColor = '#00B5D6'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = 'none'
-                    e.currentTarget.style.borderColor = 'var(--gray-200)'
-                  }}
-                >
-                  <div style={{ fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 300, color: '#00B5D6', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.3 }}>{r.label}</div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <div className="results-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={3000}>
-              {keyResults.map((r, i) => (
-                <div key={i} style={{ padding: '32px 16px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', textAlign: 'center' }}>
-                  <div style={{ fontSize: 36, fontWeight: 300, color: '#00B5D6', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{r.label}</div>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
+      {/* Results / Outcomes \u2014 dropped in the home page's ResultsSection
+          component (6 arrow-shape stat cards with flip cards) per user
+          direction: 'copy results our clients see with these arrows and
+          design into this section'. Replaces the previous 'Measurable
+          Outcomes' block that rendered keyResults as 5 plain rectangle
+          cards. The ResultsSection component is hardcoded with 6 stats
+          and the heading 'Results Our Clients See' \u2014 same content the
+          home page shows.
 
-      {/* FAQ \u2014 last section on the RCM 360 page per user direction.
-          Uses 'section-alt' for the soft grey background, matching the
-          FAQ section on BillingCodingContent.tsx so the page rhythm
-          alternates white \u2192 alt \u2192 white \u2192 alt as you scroll. */}
-      <section className="section section-alt" id="faq">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-title">Frequently Asked Questions</div>
-          </RevealOnScroll>
-          <div style={{ marginTop: 48, maxWidth: 880 }}>
-            <FAQList faqs={rcmFaqs} />
-          </div>
-        </div>
-      </section>
+          Wrapped in .rcm-results-on-teal so the section renders on a
+          solid teal panel with white text. Without this wrapper the
+          glass-arrow SVG (white gradient designed for dark bg) is
+          invisible on the RCM page's white surface and the teal stat
+          numbers/teal heading clash with the teal arrows. User direction
+          May 2026 after seeing the preview: 'i cant see the arrows /
+          you can give this section a blue teel background / so that
+          all this is visible and all text can be white'. See globals.css
+          for the override rule set. */}
+      <div className="rcm-results-on-teal">
+        <ResultsSection />
+      </div>
     </>
   )
 }

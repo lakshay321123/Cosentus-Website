@@ -1571,6 +1571,58 @@ body:has(main.home-immersive) .footer-top {
   font-size: 16px;
 }
 
+/* ===== RCM 360 page: ResultsSection on a solid teal panel =====
+   The RCM page has no immersive video background (unlike home), so
+   the home-immersive treatment (transparent panel, glass arrows over
+   video, white text with shadow) doesn't translate — the section
+   would render with base styles: white background + teal arrows that
+   read as nearly invisible.
+
+   User direction May 2026 with a screenshot of the broken state:
+     'i cant see the arrows / you can give this section a blue teel
+      background / so that all this is visible and all text can be
+      white'
+
+   Solution: wrap <ResultsSection /> on the RCM page in
+   <div className="rcm-results-on-teal"> and override the section's
+   background to solid teal (#00B5D6 — the brand primary used
+   elsewhere on the site) and force every stat-text element to white.
+   The glass-uparrow.svg uses white gradient stops with varying
+   opacity, so it renders as a translucent white arrow against teal —
+   visible.
+
+   Why a dedicated class and not reuse .home-immersive:
+   the home page's overrides assume a video is rendering behind the
+   transparent section. Without that video, .home-immersive on the
+   RCM page would still render transparent over white — same arrow
+   visibility problem. A dedicated wrapper with solid teal bg is the
+   correct fix for a video-less page. */
+.rcm-results-on-teal .results-section {
+  background: var(--primary);
+}
+.rcm-results-on-teal .results-section .results-header h2,
+.rcm-results-on-teal .results-section .results-header h2 .accent {
+  color: var(--white);
+}
+.rcm-results-on-teal .result-number {
+  color: var(--white);
+}
+.rcm-results-on-teal .result-label {
+  color: rgba(255, 255, 255, 0.90);
+}
+.rcm-results-on-teal .result-sublabel {
+  color: rgba(255, 255, 255, 0.85);
+}
+.rcm-results-on-teal .result-flip-text {
+  color: var(--white);
+}
+/* Footnote 'Verified client results...' uses inline color:
+   var(--gray-500) in ResultsSection.tsx — invisible on teal. The
+   !important is needed because inline styles otherwise win. */
+.rcm-results-on-teal .results-section p {
+  color: rgba(255, 255, 255, 0.80) !important;
+}
+
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
 .result-item {
   perspective: 1200px;
