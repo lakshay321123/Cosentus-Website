@@ -100,6 +100,34 @@ export default function TestimonialCard({
 
   return (
     <motion.div
+      // framer-motion 12 + Next.js SSR: when a motion component has
+      // `animate` but no `initial` prop, framer-motion has to infer
+      // a starting state. During server-side rendering it emits the
+      // base style attribute (the `style` prop below + drag-related
+      // styles like touch-action/user-select that framer-motion
+      // injects for `drag={true}`) but its handling of animatable
+      // values like `rotate`/`x`/`opacity` differs between the
+      // server static-render path and the client first-render path,
+      // which has historically caused hydration text-content
+      // mismatches on the `style` attribute (React errors #418 /
+      // #423 / #425). The scroll-expansion-hero motion.div on the
+      // same home page does NOT have this issue because it has an
+      // explicit `initial={{ opacity: 0 }}`.
+      //
+      // `initial={false}` tells framer-motion: "treat `animate` as
+      // the current state from the very first render — no entrance
+      // animation, no initial-state inference". This collapses the
+      // server static-render path and the client first-render path
+      // into the same code path, eliminating the asymmetry.
+      //
+      // Trade-off: the fan-spread positions (rotate, x, opacity)
+      // appear instantly on mount instead of animating from a
+      // default rest state. Since `animate` is also re-evaluated on
+      // every prop change (stackIndex updates as the carousel
+      // advances), the SHUFFLE transition between cards is preserved
+      // — `initial={false}` only suppresses the *first-mount*
+      // animation, not subsequent ones.
+      initial={false}
       style={{
         zIndex,
         // GLASS-SQUARE RECIPE — matches glass_square.svg supplied by
