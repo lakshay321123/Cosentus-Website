@@ -113,7 +113,7 @@ export default function TestimonialCard({
         // Sparkles only render on the FRONT card (.tcard-front in the
         // <style> block below) so the stack doesn't have 5 cards' worth
         // of overlapping highlights fighting each other.
-        background: 'rgba(255, 255, 255, 0.20)',
+        background: 'rgba(255, 255, 255, 0.40)',
         border: '1.5px solid rgba(255, 255, 255, 0.50)',
         backdropFilter: 'blur(20px) saturate(160%)',
         WebkitBackdropFilter: 'blur(20px) saturate(160%)',
