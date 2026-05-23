@@ -3456,6 +3456,21 @@ body:has(main.home-immersive) .footer-top {
     max-width: 260px;
     margin: 0 auto;
   }
+
+  /* Push the arrow down 10px so the peak gets breathing room at the
+     top — without this, the top of the peak sits flush against the
+     card's upper edge and reads as 'cut off'. Applied to BOTH faces
+     so front and back stay vertically aligned during the flip (any
+     asymmetry would cause a visible jump mid-rotation). padding-top
+     pushes the flex children down within their container; the card's
+     natural height grows by 10px because the front face is in normal
+     flow and contributes to the card's height. The absolutely-
+     positioned back face matches via inset:0. */
+  .results-mobile .result-flip-front,
+  .results-mobile .result-flip-back {
+    padding-top: 10px;
+  }
+
   /* Results — bigger text on mobile, narrower arrow column.
      aspect-ratio matches the new glass-uparrow SVG (was 1.6 for the
      old wide growth-arrow.png).
