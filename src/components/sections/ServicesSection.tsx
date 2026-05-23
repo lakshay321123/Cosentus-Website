@@ -11,7 +11,7 @@ const services = [
     num: '01',
     title: 'End-to-End Revenue Cycle Management',
     desc: 'From credentialing to final patient payment. Every step. Every dollar. One team.',
-    href: '/services/rcm',
+    href: '/healthcare-revenue-cycle-management',
     stat: '>98%',
     statLabel: 'Net Collection',
     image: '/images/homepage/rcm-full.jpg',

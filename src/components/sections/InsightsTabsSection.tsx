@@ -12,7 +12,7 @@ import { eventsData } from '@/data/eventsData'
 
 const caseStudyItems: InsightCardData[] = [
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: '15-surgeon ASC. Days in AR 75 → 37. Clean claims 83% → 98%. Collections doubled.',
     image: '/images/homepage/surgery-center.jpg',
     // 'center 20%' keeps subjects' heads in frame across all three
@@ -26,14 +26,14 @@ const caseStudyItems: InsightCardData[] = [
     tag: 'ASC',
   },
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: 'Multi-modality pain clinic. E&M documentation + ultrasound coding + electronic WC submission. 26% revenue increase.',
     image: '/images/homepage/doctor-consult.jpg',
     imagePosition: 'center 20%',
     tag: 'Pain Management',
   },
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: '$1.5M to $2.2M. Workers\u2019 Comp turnaround cut from 45 to 28 days.',
     image: '/images/homepage/medical-tech.jpg',
     imagePosition: 'center 20%',
@@ -52,7 +52,7 @@ const newsItems: InsightCardData[] = [...newsArticles]
   .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0))
   .slice(0, 3)
   .map(a => ({
-    href: `/news/${encodeURIComponent(a.slug)}`,
+    href: `/in-news/${encodeURIComponent(a.slug)}`,
     title: a.title,
     date: a.date,
     tag: a.tag,
@@ -73,9 +73,9 @@ const eventItems: InsightCardData[] = [...eventsData]
 type TabKey = 'cases' | 'blog' | 'news' | 'events'
 
 const tabs: { key: TabKey; label: string; items: InsightCardData[]; ctaLabel: string; viewAllHref: string; viewAllLabel: string }[] = [
-  { key: 'cases',  label: 'Client Success', items: caseStudyItems, ctaLabel: 'Read Client Success Story', viewAllHref: '/case-studies', viewAllLabel: 'View All Client Success Stories' },
+  { key: 'cases',  label: 'Client Success', items: caseStudyItems, ctaLabel: 'Read Client Success Story', viewAllHref: '/casestudies-wp', viewAllLabel: 'View All Client Success Stories' },
   { key: 'blog',   label: 'Blog',           items: blogItems,      ctaLabel: 'Read Article',              viewAllHref: '/blog',          viewAllLabel: 'View All Blog Posts' },
-  { key: 'news',   label: 'News',           items: newsItems,      ctaLabel: 'Read More',                 viewAllHref: '/news',          viewAllLabel: 'View All News' },
+  { key: 'news',   label: 'News',           items: newsItems,      ctaLabel: 'Read More',                 viewAllHref: '/in-news',          viewAllLabel: 'View All News' },
   { key: 'events', label: 'Events',         items: eventItems,     ctaLabel: 'View Event',                viewAllHref: '/events',        viewAllLabel: 'View All Events' },
 ]
 

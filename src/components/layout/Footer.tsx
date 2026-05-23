@@ -26,7 +26,7 @@ const footerNav = [
   },
   {
     title: 'RCM 360',
-    href: '/services/rcm',
+    href: '/healthcare-revenue-cycle-management',
     links: [],
   },
   {
@@ -34,8 +34,8 @@ const footerNav = [
     links: [
       { label: 'All Resources', href: '/insights' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Client Stories', href: '/case-studies' },
-      { label: 'News', href: '/news' },
+      { label: 'Client Stories', href: '/casestudies-wp' },
+      { label: 'News', href: '/in-news' },
       { label: 'Events', href: '/events' },
     ],
   },

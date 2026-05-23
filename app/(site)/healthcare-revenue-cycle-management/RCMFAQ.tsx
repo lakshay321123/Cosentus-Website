@@ -76,7 +76,7 @@ export default function RCMFAQ() {
     /* section-alt for soft grey background — matches the FAQ
        section style on BillingCodingContent.tsx. The id='faq' anchor
        is preserved from the PR #155 implementation so any external
-       links to /services/rcm#faq still work. */
+       links to /healthcare-revenue-cycle-management#faq still work. */
     <section className="section section-alt" id="faq">
       <div className="container">
         <RevealOnScroll>

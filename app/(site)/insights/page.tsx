@@ -17,19 +17,19 @@ export const metadata: Metadata = {
 // (Matches CaseStudiesSection.tsx — the homepage already shows these.)
 const caseStudyItems: InsightCardData[] = [
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: '15-surgeon ASC. Days in AR 75 → 37. Clean claims 83% → 98%. Collections doubled.',
     image: '/images/homepage/surgery-center.jpg',
     tag: 'ASC',
   },
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: 'Multi-modality pain clinic. E&M documentation + ultrasound coding + electronic WC submission. 26% revenue increase.',
     image: '/images/homepage/doctor-consult.jpg',
     tag: 'Pain Management',
   },
   {
-    href: '/case-studies',
+    href: '/casestudies-wp',
     title: '$1.5M to $2.2M. Workers\u2019 Comp turnaround cut from 45 to 28 days.',
     image: '/images/homepage/medical-tech.jpg',
     tag: 'Orthopedic',
@@ -56,7 +56,7 @@ const newsItems: InsightCardData[] = [...newsArticles]
     return db - da
   })
   .map(a => ({
-    href: `/news/${encodeURIComponent(a.slug)}`,
+    href: `/in-news/${encodeURIComponent(a.slug)}`,
     title: a.title,
     date: a.date,
     tag: a.tag,
@@ -98,7 +98,7 @@ export default function InsightsPage() {
         label="CLIENT SUCCESS STORIES"
         title="Client Success Stories"
         items={caseStudyItems}
-        viewAllHref="/case-studies"
+        viewAllHref="/casestudies-wp"
         ctaLabel="Read Client Success Story"
       />
 
@@ -115,7 +115,7 @@ export default function InsightsPage() {
         label="NEWS & PRESS"
         title="News &amp; Press"
         items={newsItems}
-        viewAllHref="/news"
+        viewAllHref="/in-news"
         ctaLabel="Read More"
       />
 
