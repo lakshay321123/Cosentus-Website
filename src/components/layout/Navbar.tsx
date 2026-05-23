@@ -40,8 +40,16 @@ const navItems = [
       { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
-      { label: 'Partnership', href: '/partnership' },
     ],
+  },
+  {
+    // Partnership promoted out of the Resources dropdown to its own
+    // top-level tab per user direction May 2026. Placed between
+    // Resources and Zeus Ai so Zeus Ai keeps the featured rightmost
+    // slot, and Partnership sits next to the other supporting-content
+    // tabs rather than competing with the AI product position.
+    label: 'Partnership',
+    href: '/partnership',
   },
   {
     label: 'Zeus Ai',
