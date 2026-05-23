@@ -6,46 +6,51 @@ import type { FAQ } from '@/data/faqs'
 /**
  * FAQCard — single Q&A card in the homepage / /faqs section.
  *
- * Visual recipe — matches the homepage design language:
- *   1. Liquid-glass surface: 40% white wash + 50% white outline +
- *      backdrop-blur + cyan-cast box-shadow. Same recipe used by the
- *      TestimonialsShuffleSection cards.
- *   2. Cyan uppercase eyebrow tag (category) — same letter-spacing
- *      treatment as the partner section labels.
- *   3. Question rendered in the display serif, italic, navy. The
+ * Visual recipe — matches the homepage canonical glass-square:
+ *   1. Liquid-glass surface: 20% white wash + 1.5px white outline
+ *      + backdrop-blur(20px) saturate(160%). The inset highlight
+ *      shadow stack is applied via app/globals.css under the
+ *      `.home-immersive .faq-card-inner` selector — same recipe
+ *      InsightCard / testimonial-card / specialty-card-link use,
+ *      so the FAQ cards sit cohesively within the page instead of
+ *      reading as a brighter/whiter alien insert. (Per user
+ *      direction "are these cards using the same transparency and
+ *      settings like on the other sections" — yes, now they are.)
+ *   2. Cyan uppercase eyebrow tag (category) with a fading
+ *      underline detail.
+ *   3. Question rendered in the display serif, italic, white. The
  *      italic-serif treatment echoes the "Clients" and "Network"
  *      accent words in the page H2s.
- *   4. **Arrow disc** in the bottom-right corner — the SIGNATURE
- *      visual element from the hero "Our Specialties" pill. Circular,
- *      cyan-on-white, contains a chevron that rotates 180° on expand.
- *      On hover the disc nudges down 4px with the exact same
- *      cubic-bezier(0.22, 0.61, 0.36, 1) easing the hero arrow uses.
+ *   4. **Arrow disc** — the EXACT same /images/hero/btn-specialties-arrow.svg
+ *      used by the hero "Our Specialties" button. The asset is a
+ *      white-filled circle with a right-arrow cutout. We rotate it
+ *      90° clockwise at rest so the arrow points DOWN ("open me"),
+ *      and rotate to -90° when expanded so the arrow points UP
+ *      ("close me"). Per user direction: "you can just reverse the
+ *      circle with the arrow, and you can put it on this FAQ
+ *      section on the home page with the arrow pointing down."
  *
  * Expand mechanics — SEO-safe:
- *   - The answer text is ALWAYS rendered in the DOM regardless of
- *     expand state. Visibility is controlled via CSS
- *     `grid-template-rows: 0fr → 1fr` which animates smoothly without
- *     requiring a known content height. Crawlers and LLM ingestion
- *     read the full text from the rendered HTML even when collapsed.
+ *   - Answer text is ALWAYS rendered in the DOM regardless of
+ *     expand state. Visibility is controlled via
+ *     `grid-template-rows: 0fr → 1fr` which animates smoothly
+ *     without a known content height. Crawlers + LLM ingestion
+ *     read the full text from rendered HTML even when collapsed.
  *   - The expand toggle is a `<button>` with `aria-expanded` and
  *     `aria-controls` so screen readers announce state correctly.
- *   - With JavaScript disabled the answer falls back to fully
- *     expanded (because we never apply the `data-expanded="false"`
- *     attribute server-side — the initial server render has the
- *     answer panel open; client-side hydration then collapses it
- *     down to the closed state).
- *     ^ This means the no-JS / pre-hydration paint shows answers
- *       expanded for ~1 frame. Acceptable: it's the SEO-friendly
- *       default, and the visual flash is the same kind users get
- *       with any progressive-enhancement collapse.
+ *   - With JavaScript disabled the answer panel falls back to
+ *     expanded (the server initially renders `data-expanded=false`
+ *     but without JS hydration the user just sees the closed state
+ *     visually; the FULL answer text is still in the DOM and
+ *     reachable by crawlers).
  */
 export default function FAQCard({
   faq,
   defaultExpanded = false,
 }: {
   faq: FAQ
-  /** If true the card starts expanded. Useful on /faqs where the
-   *  first card per category can be shown open as an entry point. */
+  /** If true the card starts expanded. Used on /faqs where the
+   *  first card of the first category can act as a worked example. */
   defaultExpanded?: boolean
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded)
@@ -62,14 +67,14 @@ export default function FAQCard({
 
         <h3 className="faq-card-question">{faq.question}</h3>
 
-        {/* Answer wrapper — collapsed via grid-template-rows: 0fr.
-            The inner .faq-card-answer-inner has overflow: hidden so the
-            text clips while the parent is animating between 0fr and 1fr. */}
+        {/* Answer panel — animated collapse via grid-template-rows.
+            The inner div has overflow:hidden so content clips while
+            the parent grid row animates between 0fr and 1fr. */}
         <div
           id={answerId}
           className="faq-card-answer"
           role="region"
-          aria-labelledby={`faq-${faq.slug}-question`}
+          aria-labelledby={`faq-${faq.slug}`}
         >
           <div className="faq-card-answer-inner">
             <div className="faq-card-divider" aria-hidden="true" />
@@ -77,9 +82,10 @@ export default function FAQCard({
           </div>
         </div>
 
-        {/* Arrow disc — the signature element. Circular cyan disc
-            in the bottom-right corner. Click toggles expand state.
-            The chevron rotates 180° between states. */}
+        {/* Arrow disc — the signature element from the hero. Same
+            SVG asset used for "Our Specialties", rotated to point
+            down at rest. The button itself has no background of
+            its own; the asset IS the disc. */}
         <button
           type="button"
           className="faq-card-disc"
@@ -88,68 +94,50 @@ export default function FAQCard({
           aria-label={expanded ? `Hide answer to: ${faq.question}` : `Show answer to: ${faq.question}`}
           onClick={() => setExpanded(v => !v)}
         >
-          <svg
-            className="faq-card-chevron"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
+          <img
+            src="/images/hero/btn-specialties-arrow.svg"
+            alt=""
             aria-hidden="true"
-          >
-            {/* Down chevron at rest; the button rotates 180deg when
-                aria-expanded=true (see CSS below). */}
-            <path
-              d="M5 7.5l5 5 5-5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            className="faq-card-disc-arrow"
+            draggable={false}
+          />
         </button>
       </div>
 
       <style jsx>{`
         .faq-card {
-          /* The outer container is position:relative so the arrow
-             disc can be absolutely positioned in the bottom-right.
-             The inner div carries the glass surface so the disc's
-             box-shadow doesn't clip against the card's overflow. */
+          /* The outer article is just a wrapper — the visual card
+             surface is the inner div, because the global glass
+             selector in app/globals.css targets .faq-card-inner. */
           position: relative;
           height: 100%;
-          /* The grid-template-rows trick: when this attribute flips
-             to false, the .faq-card-answer row collapses to 0fr,
-             smoothly animating height down to zero with no need to
-             know the content height in advance. */
         }
 
         .faq-card-inner {
-          /* Glass surface — matches TestimonialsShuffleSection cards
-             so the FAQ section reads as a cohesive part of the page,
-             not an alien insert. Same 40% white wash + 50% white
-             border + backdrop-blur + cyan cast shadow recipe. */
+          /* 20% white wash matches the canonical homepage
+             glass-square (.insight-card-body, .testimonial-card,
+             etc.). The inset-shadow + border-strip recipe is
+             applied globally by the rule under
+             '.home-immersive .faq-card-inner' in app/globals.css
+             — same one used by InsightCard etc. We don't repeat
+             the border or shadow here because the global rule
+             carries !important and would override anyway. */
           position: relative;
           height: 100%;
-          background: rgba(255, 255, 255, 0.40);
-          border: 1.5px solid rgba(255, 255, 255, 0.50);
+          background: rgba(255, 255, 255, 0.20);
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
-          box-shadow: 0 20px 60px rgba(0, 181, 214, 0.18);
           border-radius: 20px;
-          padding: 28px 28px 88px 28px;
-          /* Bottom padding leaves room for the arrow disc (56px disc
-             + 16px margin) without the answer text crashing into it. */
+          padding: 28px 28px 96px 28px;
+          /* Bottom padding leaves a 96px clearance for the 56px
+             arrow disc + its 20px margin. */
           display: flex;
           flex-direction: column;
-          transition: transform 350ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            box-shadow 350ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            border-color 350ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          transition: transform 350ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .faq-card:hover .faq-card-inner {
           transform: translateY(-3px);
-          box-shadow: 0 28px 70px rgba(0, 181, 214, 0.28);
-          border-color: rgba(255, 255, 255, 0.70);
         }
 
         .faq-card-tag {
@@ -159,10 +147,9 @@ export default function FAQCard({
           text-transform: uppercase;
           color: #00B5D6;
           margin-bottom: 18px;
-          /* Sublime detail: a 1px line under the tag, fading from
-             cyan to transparent. Mirrors the way the partner logos
-             section uses a faint top border to delineate it. */
           padding-bottom: 12px;
+          /* Faint cyan-to-transparent underline — echoes the
+             editorial line under section labels elsewhere. */
           background-image: linear-gradient(
             to right,
             rgba(0, 181, 214, 0.45) 0%,
@@ -174,16 +161,16 @@ export default function FAQCard({
         }
 
         .faq-card-question {
-          /* Display serif italic — echoes the "Clients" / "Network"
-             accent in the page H2s. Navy text reads on the 40% white
-             wash glass surface. */
+          /* Display serif italic — matches the "Clients" / "Network"
+             accent treatment in the page H2s. White text reads
+             cleanly against the 20% white wash + dark page bg. */
           font-family: var(--font-display);
           font-style: italic;
           font-weight: 400;
           font-size: clamp(20px, 1.45vw, 24px);
           line-height: 1.25;
           letter-spacing: -0.01em;
-          color: #0a2d41;
+          color: rgba(255, 255, 255, 0.96);
           margin: 0;
         }
 
@@ -203,7 +190,7 @@ export default function FAQCard({
 
         .faq-card-answer-inner {
           /* min-height: 0 lets the grid row actually shrink to 0fr;
-             without it, the implicit min-height: auto would prevent
+             without it the implicit min-height:auto would prevent
              the collapse from going all the way to zero. */
           min-height: 0;
           overflow: hidden;
@@ -215,95 +202,94 @@ export default function FAQCard({
           margin-bottom: 18px;
           background: linear-gradient(
             to right,
-            rgba(10, 45, 65, 0.18) 0%,
-            rgba(10, 45, 65, 0) 70%
+            rgba(255, 255, 255, 0.30) 0%,
+            rgba(255, 255, 255, 0) 75%
           );
         }
 
         .faq-card-answer-text {
           font-size: 15px;
           line-height: 1.65;
-          color: rgba(10, 45, 65, 0.85);
+          color: rgba(255, 255, 255, 0.82);
           margin: 0;
         }
 
         .faq-card-disc {
-          /* The signature arrow disc — circular, white-on-cyan-tint,
-             absolutely positioned in the bottom-right. The visual
-             grammar (round disc with chevron, hover nudge) is taken
-             directly from the hero "Our Specialties" arrow. */
+          /* Pure positioning + click-target wrapper for the SVG
+             asset. The asset IS the disc visual — no background,
+             no border, no extra ring. */
           position: absolute;
-          right: 24px;
-          bottom: 24px;
-          width: 52px;
-          height: 52px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(0, 181, 214, 0.55);
-          background: rgba(0, 181, 214, 0.18);
-          color: #00B5D6;
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
+          right: 22px;
+          bottom: 22px;
+          width: 56px;
+          height: 56px;
+          padding: 0;
+          background: transparent;
+          border: none;
           cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          /* Two transitions composed: the chevron rotates on
-             expand, and on hover the whole disc nudges down +4px
-             (same direction-aware nudge the hero arrow uses, but
-             vertical because that's where the answer will appear). */
+          display: block;
+          /* Hover nudge: button drops 4px on hover — same direction
+             as the arrow points (down), reinforcing the "click to
+             reveal what's below" affordance. Same easing as the
+             hero arrow nudge. */
           transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            background-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
-          box-shadow: 0 6px 18px rgba(0, 181, 214, 0.20);
+            filter 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .faq-card:hover .faq-card-disc {
           transform: translateY(4px);
-          background: rgba(0, 181, 214, 0.28);
-          border-color: rgba(0, 181, 214, 0.80);
-          box-shadow: 0 10px 24px rgba(0, 181, 214, 0.32);
+          /* Subtle cyan glow on hover to echo the brand accent. */
+          filter: drop-shadow(0 4px 12px rgba(0, 181, 214, 0.45));
         }
 
         .faq-card-disc:focus-visible {
           outline: 2px solid #00B5D6;
-          outline-offset: 3px;
+          outline-offset: 4px;
+          border-radius: 50%;
         }
 
-        .faq-card-chevron {
-          /* The chevron rotates 180° between expand states. When
-             closed it points down (open me); when open it points
-             up (close me). The rotation is on the SVG, not on the
-             button, so the hover nudge transform on the button
-             stays independent. */
-          transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        .faq-card-disc-arrow {
+          /* The asset is a white disc with a RIGHT-pointing arrow
+             cutout. Rotate 90° clockwise at rest so the arrow
+             points DOWN (closed state — "open me"). On expand,
+             rotate to -90° so the arrow points UP ("close me").
+             The disc itself rotates with the arrow, but it's a
+             perfect circle so visually only the arrow moves. */
+          display: block;
+          width: 100%;
+          height: 100%;
+          transform: rotate(90deg);
+          transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          /* Subtle drop-shadow at rest so the white disc reads
+             cleanly against a 20% white card surface. */
+          filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.30));
         }
 
-        .faq-card[data-expanded='true'] .faq-card-chevron {
-          transform: rotate(180deg);
+        .faq-card[data-expanded='true'] .faq-card-disc-arrow {
+          transform: rotate(-90deg);
         }
 
-        /* Open state: a faint cyan glow line at the top edge to mark
-           the expanded card visually within a row of closed cards. */
-        .faq-card[data-expanded='true'] .faq-card-inner {
-          border-color: rgba(0, 181, 214, 0.45);
-          box-shadow: 0 24px 64px rgba(0, 181, 214, 0.25),
-            inset 0 1px 0 rgba(0, 181, 214, 0.30);
-        }
+        /* Expand indicator: the rotating arrow + the hover lift
+           are the primary expand-state cues. We don't override the
+           card shadow here because the global rule under
+           '.home-immersive .faq-card:hover .faq-card-inner' already
+           handles hover state with !important; layering an
+           expanded-state override would create a specificity fight
+           on hover-of-expanded. Less is cleaner. */
 
         @media (max-width: 768px) {
           .faq-card-inner {
-            padding: 24px 22px 80px 22px;
+            padding: 24px 22px 84px 22px;
             border-radius: 18px;
           }
           .faq-card-question {
             font-size: 18px;
           }
           .faq-card-disc {
-            width: 46px;
-            height: 46px;
-            right: 20px;
-            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            right: 18px;
+            bottom: 18px;
           }
         }
       `}</style>
