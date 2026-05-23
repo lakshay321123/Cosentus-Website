@@ -1441,8 +1441,13 @@ body:has(main.home-immersive) .footer-top {
   justify-content: center;
   text-align: center;
   /* Inner padding gives long labels (PATIENT COLLECTION,
-     AR > 120 DAYS) breathing room from the angled walls. */
-  padding: 0 12px;
+     AR > 120 DAYS) breathing room from the angled walls. 14px
+     (bumped from the original 12px) per user direction "dont make
+     it touch edge to edge" — applies to front + back face since
+     both share .result-arrow-content. The 2px extra each side
+     reduces usable shaft width by 4px total but visually keeps
+     text off the silhouette outline. */
+  padding: 0 14px;
 }
 
 /* FLIP face anchored to the SHAFT CENTER, not the arrow center.
@@ -1530,6 +1535,11 @@ body:has(main.home-immersive) .footer-top {
      - sizes BUMPED 20% per user direction "make text bigger / % and
        number bigger by 20%" + labels forced to two lines via \n in
        the data strings.
+     - "Up to" sublabel sized to match the label per user direction
+       on Mar 2026 PR "Upto needs to be same size and Revenue growth"
+       — previously 13px against 16px label. Now both 16px. Empty
+       sublabels (other 5 cards render '\u00A0') consume the same
+       16px line so the number row stays aligned across all cards.
    Sizing math (verified by rasterizing the SVG with cairosvg):
      - Arrow shaft is the constant ~67.5% of the arrow's total width
        in the lower 50%-95% region (measured).
@@ -1542,9 +1552,8 @@ body:has(main.home-immersive) .footer-top {
        win. If overflow appears at any common viewport, drop the
        clamp ceiling to 40px.
      - Two-line labels ("Patient / Collection" longest single line)
-       at 16px well within shaft width.
-     - "Up to" sublabel kept at 13px — only the user-flagged
-       number + label scale up. */
+       at 16px well within shaft width. "Up to" at 16px is shorter
+       still — no overflow risk. */
 .home-immersive .result-number {
   color: #fff;
   font-size: clamp(29px, 3.1vw, 43px);
@@ -1555,7 +1564,7 @@ body:has(main.home-immersive) .footer-top {
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
@@ -1616,14 +1625,20 @@ body:has(main.home-immersive) .footer-top {
 
 /* Flip impact text — sits inside the arrow body via the shared
    .result-arrow-content positioner used by the front. The strings
-   in ResultsSection.tsx contain explicit \n line breaks (chosen
-   per-stat to land 2-4 words per line, fitting inside the arrow's
-   narrow shaft). white-space: pre-line tells the browser to render
-   those \n as real <br>-equivalent breaks while still collapsing
-   regular spaces. */
+   in ResultsSection.tsx contain explicit \n line breaks (2-3 words
+   per line, max ~17 chars per line — the practical width limit at
+   16px against the arrow shaft, established by the 'Tens of
+   thousands' reference line). white-space: pre-line tells the
+   browser to render those \n as real <br>-equivalent breaks while
+   still collapsing regular spaces.
+
+   font-size is FIXED at 16px (was previously a clamp that scaled
+   with viewport). User direction Mar 2026: 'Font size should be
+   the same in all'. Matches the front label's 16px so the front
+   and back faces share a typographic baseline. */
 .result-flip-text {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
   color: #fff;
   font-weight: 500;

@@ -42,22 +42,23 @@ function Counter({ target, prefix = '', suffix = '', decimals = 0 }: {
 
 const stats = [
   // Flip messages use explicit \n line breaks per stat so each line is
-  // 2-4 words and the wrapped text fits inside the arrow shaft (the
+  // 2-3 words max and the wrapped text fits inside the arrow shaft (the
   // shaft is only ~67.5% of the arrow's total width, so long lines
   // overflow the angled walls). CSS renders \n as a hard break via
-  // white-space: pre-line on .result-flip-text.
+  // white-space: pre-line on .result-flip-text. Strict 2-3 limit per
+  // user direction "you can have 2-3 max words per line".
   { target: 30, suffix: '%', prefix: '', label: 'Revenue\nGrowth', sublabel: 'Up to',
     flip: 'Tens of thousands\nmore per month.\nWithin 90 days.' },
   { target: 98, suffix: '%', prefix: '>', label: 'Net\nCollection', sublabel: '',
     flip: '$98 collected\non every $100.\nMost practices\nstop at $91.' },
   { target: 99, suffix: '%', prefix: '>', label: 'Clean\nClaim Rate', sublabel: '',
-    flip: 'On $3M in charges,\nthat\u2019s $300K recovered\nevery year.' },
+    flip: '$3M in charges?\nWe recover $300K\nevery year.' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding\nAccuracy', sublabel: '', decimals: 1,
     flip: 'Coding errors cost\nthousands monthly.\nWe catch 98.5%\nof them.' },
   { target: 10, suffix: '%', prefix: '< ', label: 'AR\n> 120 Days', sublabel: '',
     flip: 'Aging claims rot.\nWe keep cash\nmoving \u2014 fast.' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient\nCollection', sublabel: '',
-    flip: 'Most practices collect\nunder 50%.\nWe recover the rest\nin 50+ languages.' },
+    flip: 'Most collect 50%.\nWe recover more,\nin 50+ languages.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {
