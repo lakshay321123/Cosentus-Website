@@ -367,8 +367,8 @@ function DraggableMarquee({ items }: { items: typeof solutions }) {
                   <img
                     src={`/images/${s.agent.img}`}
                     alt=""
-                    width={40}
-                    height={40}
+                    width={80}
+                    height={80}
                     draggable={false}
                   />
                 </Link>
@@ -615,19 +615,22 @@ export default function AnesthesiaContent() {
             .anes-card-eyebrow-row {
               display: flex;
               align-items: center;
-              gap: 12px;
+              gap: 16px;
             }
             /* Clickable circular avatar. Wrapped in Next.js <Link>.
                Hover effect: subtle scale + brighter border. The
                onPointerDown on the Link in JSX prevents the marquee
                drag handler from also receiving the gesture, so the
-               click is unambiguous. */
+               click is unambiguous.
+               Size: 80px so the agent face is actually recognizable.
+               Preview feedback was 'you can't even see anything' at
+               the previous 40px size — doubled. */
             .anes-card-avatar {
               display: inline-flex;
               align-items: center;
               justify-content: center;
-              width: 40px;
-              height: 40px;
+              width: 80px;
+              height: 80px;
               border-radius: 50%;
               overflow: hidden;
               border: 2px solid #00B5D6;
@@ -639,8 +642,8 @@ export default function AnesthesiaContent() {
                 border-color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
             }
             .anes-card-avatar:hover {
-              transform: scale(1.08);
-              box-shadow: 0 4px 12px -4px rgba(0, 181, 214, 0.45);
+              transform: scale(1.06);
+              box-shadow: 0 6px 18px -6px rgba(0, 181, 214, 0.5);
               border-color: #00A0C0;
             }
             .anes-card-avatar:focus-visible {
