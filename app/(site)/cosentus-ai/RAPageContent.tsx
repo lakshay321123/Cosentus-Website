@@ -300,8 +300,15 @@ export default function RAPageContent() {
                 width: 96px !important;
                 height: 96px !important;
               }
+              /* Role font bumped May 2026 per user feedback "agent
+                 name and designation too small to read on mobile":
+                 13px -> 14px. The name above is set inline at 18px
+                 and has no mobile media override, so it stays 18px
+                 on mobile — already in the readable range. The two
+                 grids (here + the homepage RASection) now both
+                 render 18px name / 14px role on mobile. */
               .ra-tech-agents-grid .ra-tech-agent-role {
-                font-size: 13px !important;
+                font-size: 14px !important;
               }
             }
             @media (max-width: 420px) {
