@@ -553,39 +553,68 @@ export default function HeroSection() {
           opacity: 0;
           /* Slide in from the right side. Cards are positioned
              on the right of the layout, so sliding them in from
-             further right reads as "entering from off-screen". */
+             further right reads as "entering from off-screen".
+             The entrance slide is driven by the @keyframes
+             hero-card-enter animation below (not by transition),
+             which lets the transition property keep transform on
+             a snappy 220ms curve for hover. Without this split,
+             un-hovering reverted transform on the entrance's
+             800ms bouncy curve — i.e. cards swam back to rest
+             over nearly a full second after hover-out, which the
+             user explicitly called out as too slow. */
           transform: translateX(80px);
-          /* Ease-out-back overshoots ~7% past the target then
-             settles back, producing a subtle bounce. The
-             transform transition uses this curve; opacity uses
-             the standard smooth ease-out (no overshoot needed
-             for opacity). */
           transition:
             opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
-            transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1),
+            transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
+        /* Cards-only entrance animation. Replaces what used to be
+           a transition on transform (800ms bouncy). Using an animation
+           means the entrance's 800ms bouncy slide is decoupled from
+           the transform transition, so the transition can stay snappy
+           (220ms above) for hover/un-hover. animation-fill-mode: both
+           keeps the 'from' keyframe value applied during animation-delay
+           (before the animation starts) and the 'to' value held after
+           the animation completes — so the card sits at translateX(80)
+           through its delay window and at translateX(0) afterward. */
+        @keyframes hero-card-enter {
+          from { transform: translateX(80px); }
+          to   { transform: translateX(0); }
+        }
+
         /* Reveal state — added by useEffect after mount via a
            rAF chain (so initial state paints before transitions
-           fire). */
+           fire). Headlines + buttons use transition-based reveal
+           (transform set to translate(0,0) which their transition
+           rules animate to). Cards use the keyframe animation
+           defined above; their transform is held by the animation,
+           NOT declared here — declaring transform here would
+           conflict with the animation and break hover-out timing. */
         .hero-ready .hero-headline-1,
         .hero-ready .hero-headline-2,
-        .hero-ready .hero-action,
-        .hero-ready .hero-card {
+        .hero-ready .hero-action {
           opacity: 1;
           transform: translate(0, 0);
         }
+        .hero-ready .hero-card {
+          opacity: 1;
+          animation: hero-card-enter 800ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
 
-        /* Per-element delays — the "cinematic pan" sequencing. */
+        /* Per-element delays — the "cinematic pan" sequencing.
+           Cards need BOTH transition-delay (for opacity fade-in
+           which is still transition-based) AND animation-delay
+           (for the slide-in keyframe). They must match so opacity
+           and slide land together. */
         .hero-ready .hero-headline-1         { transition-delay: 0ms; }
         .hero-ready .hero-headline-2         { transition-delay: 1000ms; }
         .hero-ready .hero-action-specialties { transition-delay: 2100ms; }
         .hero-ready .hero-action-contact     { transition-delay: 2400ms; }
-        .hero-ready .hero-card-zeus          { transition-delay: 2800ms; }
-        .hero-ready .hero-card-agents        { transition-delay: 3300ms; }
-        .hero-ready .hero-card-net           { transition-delay: 3800ms; }
+        .hero-ready .hero-card-zeus          { transition-delay: 2800ms; animation-delay: 2800ms; }
+        .hero-ready .hero-card-agents        { transition-delay: 3300ms; animation-delay: 3300ms; }
+        .hero-ready .hero-card-net           { transition-delay: 3800ms; animation-delay: 3800ms; }
 
         @media (prefers-reduced-motion: reduce) {
           .hero-headline-1,
@@ -595,6 +624,10 @@ export default function HeroSection() {
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
+            /* Cards now use a keyframe animation for entrance;
+               kill it under reduced-motion the same way we kill
+               the transitions for headlines + buttons. */
+            animation: none !important;
           }
         }
 
