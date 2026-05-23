@@ -21,6 +21,7 @@
  * keyboard-navigable. No JS click handlers needed.
  */
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
@@ -64,6 +65,102 @@ const specialties: Specialty[] = [
 ]
 
 export default function SpecialtiesSection() {
+  // Ref to the .specialties-grid container. On mobile (<=600px) this
+  // container is a horizontal scroll-snap carousel; the autoplay
+  // effect below advances it. On desktop the same container is a
+  // 3-column CSS grid with no overflow scroll, so scrollTo is a
+  // no-op there — safe to keep the ref attached for both viewports.
+  const gridRef = useRef<HTMLDivElement | null>(null)
+
+  /* ============================================================
+     AUTO-SCROLL the mobile specialties carousel.
+
+     Behaviour mirrors the hero-cards autoplay (HeroSection.tsx)
+     because the UX rules for a 3-second-interval card carousel
+     are the same regardless of section:
+
+       - Mobile only (<=600px). Desktop is a static 3-col grid.
+       - Respects prefers-reduced-motion (WCAG 2.3.3 baseline).
+       - Pauses when section is offscreen (IntersectionObserver).
+       - Stops permanently on first user interaction. Auto-scroll
+         that fights manual swipe is the #1 carousel UX failure.
+       - Stops at the last card — no wrap-around. With 6 specialty
+         cards, jumping back to Anesthesia after Multi-Specialty
+         would feel jarring; once the user has seen all six, the
+         carousel idles and they can swipe back manually.
+       - 3500ms interval matches the hero so the two carousels on
+         the page don't get out of sync with each other in a way
+         that would compete for attention.
+
+     Implementation: Element.scrollTo({behavior:'smooth'}) drives
+     the native scroll-snap; no animation library, no JS-driven
+     transforms. Pure CSS does the visual transition.
+     ============================================================ */
+  useEffect(() => {
+    const el = gridRef.current
+    if (!el) return
+
+    // Match the CSS breakpoint exactly (600px in the @media block
+    // below). If they diverge the carousel behaviour and visual
+    // layout will disagree.
+    const isMobile = window.matchMedia('(max-width: 600px)').matches
+    if (!isMobile) return
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    // Each card is wrapped in a RevealOnScroll <div> so the direct
+    // children of .specialties-grid are <div> not <a>. Target the
+    // wrappers because scroll-snap-align is applied to them in CSS.
+    const cards = Array.from(el.children) as HTMLElement[]
+    if (cards.length === 0) return
+
+    const scrollTargets = cards.map(c => c.offsetLeft)
+
+    let currentIndex = 0
+    let userHasInteracted = false
+    let isVisible = true
+
+    const tick = () => {
+      if (userHasInteracted || !isVisible) return
+      currentIndex += 1
+      if (currentIndex >= scrollTargets.length) {
+        clearInterval(timer)
+        return
+      }
+      el.scrollTo({
+        left: scrollTargets[currentIndex],
+        behavior: 'smooth',
+      })
+    }
+
+    const timer = window.setInterval(tick, 3500)
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+      },
+      { threshold: 0.15 },
+    )
+    observer.observe(el)
+
+    const onUserIntent = () => {
+      userHasInteracted = true
+      clearInterval(timer)
+    }
+    el.addEventListener('pointerdown', onUserIntent, { passive: true })
+    el.addEventListener('wheel', onUserIntent, { passive: true })
+    el.addEventListener('keydown', onUserIntent)
+
+    return () => {
+      clearInterval(timer)
+      observer.disconnect()
+      el.removeEventListener('pointerdown', onUserIntent)
+      el.removeEventListener('wheel', onUserIntent)
+      el.removeEventListener('keydown', onUserIntent)
+    }
+  }, [])
+
   return (
     <section
       className="section specialties-section"
@@ -79,7 +176,7 @@ export default function SpecialtiesSection() {
           </header>
         </RevealOnScroll>
 
-        <div className="specialties-grid">
+        <div className="specialties-grid" ref={gridRef}>
           {specialties.map((s, i) => (
             <RevealOnScroll
               key={s.href}
@@ -206,11 +303,19 @@ export default function SpecialtiesSection() {
            SVG has flat body + thin outline only. Removed per user
            direction "100% copy of what I sent you". */
 
-        .specialty-card:hover .specialty-card-inner {
-          transform: translateY(-4px);
-          background-color: rgba(255, 255, 255, 0.32);
-          border-color: rgba(255, 255, 255, 0.75);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+        /* Hover lift — gated behind @media (hover: hover) so this
+           doesn't fire as sticky-hover on the mobile carousel below.
+           Same fix applied to .insight-card and .hero-card. Touch
+           devices report hover:none and skip these rules entirely,
+           so the card the user grabbed during a swipe doesn't stay
+           visually "lifted" after they've moved on to the next one. */
+        @media (hover: hover) {
+          .specialty-card:hover .specialty-card-inner {
+            transform: translateY(-4px);
+            background-color: rgba(255, 255, 255, 0.32);
+            border-color: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+          }
         }
 
         .specialty-card-title {
@@ -248,8 +353,10 @@ export default function SpecialtiesSection() {
         .specialty-card-arrow {
           transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        .specialty-card:hover .specialty-card-arrow {
-          transform: translateX(3px);
+        @media (hover: hover) {
+          .specialty-card:hover .specialty-card-arrow {
+            transform: translateX(3px);
+          }
         }
 
         @media (max-width: 1024px) {
@@ -262,12 +369,50 @@ export default function SpecialtiesSection() {
             padding-top: 64px;
             padding-bottom: 64px;
           }
+
+          /* On mobile, the specialties grid becomes a horizontal
+             scroll-snap carousel — same pattern used by the hero
+             cards and the Insights tab grid below. One card visible
+             at a time with a peek of the next on the right edge to
+             telegraph swipeability. The autoplay useEffect above
+             advances the carousel every 3.5s.
+
+             Why not the previous full-width-stacked layout: with 6
+             specialty cards stacked vertically, the section occupied
+             ~1350px of mobile real estate (per earlier measurement).
+             Converting to a carousel collapses that to a single
+             card-height row, recovering ~5 vertical viewports of
+             page scroll, and aligns the section's mobile pattern
+             with the rest of the homepage carousels for visual
+             consistency. */
           .specialties-grid {
-            grid-template-columns: 1fr;
+            display: flex;
+            grid-template-columns: none;
+            overflow-x: auto;
+            overflow-y: visible;
+            scroll-snap-type: x mandatory;
             gap: 14px;
+            padding: 4px 0 14px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .specialties-grid::-webkit-scrollbar {
+            display: none;
+          }
+          .specialties-grid > * {
+            /* RevealOnScroll wraps each card in a <div>; that wrapper
+               is what scroll-snaps. flex 0 0 86% gives one card the
+               primary visible area with ~14% reserved for the peek
+               of the next card on the right. */
+            flex: 0 0 86%;
+            scroll-snap-align: start;
           }
           .specialty-card-inner {
             padding: 22px;
+            /* Cards need to be a consistent height in the carousel
+               so swipe between them doesn't show layout shift as
+               blurbs of different lengths change card height. */
+            min-height: 200px;
           }
           .specialty-card-title {
             font-size: 20px;

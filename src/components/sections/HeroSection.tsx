@@ -589,15 +589,26 @@ export default function HeroSection() {
            promotes it above the animation cascade. Author-important
            > animation > author-normal. filter + box-shadow don't
            need this because the @keyframes only animates transform.
-           This was the root cause behind 'now nothing is happening'. */
-        .hero-ready .hero-card:hover {
-          transform: translateY(-14px) scale(1.06) !important;
-          filter: brightness(1.22) saturate(1.10);
-          box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
-          transition:
-            transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+           This was the root cause behind 'now nothing is happening'.
+
+           IMPORTANT 3: gated behind @media (hover: hover) so this
+           dramatic lift+scale doesn't fire as sticky-hover on the
+           mobile carousel. Touch devices report hover:none and skip
+           this rule entirely — same sticky-hover fix we apply to
+           .insight-card and .specialty-card. Without the gate, the
+           card the user grabbed during swipe would retain the
+           translateY/scale highlight even after they moved on to
+           the next card. */
+        @media (hover: hover) {
+          .hero-ready .hero-card:hover {
+            transform: translateY(-14px) scale(1.06) !important;
+            filter: brightness(1.22) saturate(1.10);
+            box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
+            transition:
+              transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          }
         }
         .hero-card img {
           display: block;
