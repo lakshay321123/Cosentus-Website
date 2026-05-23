@@ -21,9 +21,9 @@
  * keyboard-navigable. No JS click handlers needed.
  */
 
-import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 type Specialty = {
   label: string
@@ -65,101 +65,63 @@ const specialties: Specialty[] = [
 ]
 
 export default function SpecialtiesSection() {
-  // Ref to the .specialties-grid container. On mobile (<=600px) this
-  // container is a horizontal scroll-snap carousel; the autoplay
-  // effect below advances it. On desktop the same container is a
-  // 3-column CSS grid with no overflow scroll, so scrollTo is a
-  // no-op there — safe to keep the ref attached for both viewports.
-  const gridRef = useRef<HTMLDivElement | null>(null)
+  /* Mobile carousel pages of 3.
+     Per user direction "i want to show 3 specialties at a time. Show
+     three and then scroll for the next three. Auto scroll."
 
-  /* ============================================================
-     AUTO-SCROLL the mobile specialties carousel.
+     6 cards split into 2 pages of 3 stacked vertically:
+       Page 1: Anesthesia, Orthopedics, Pain Management
+       Page 2: ASCs, Behavioral Health, Multi-Specialty
+     Each page becomes one slide of the carousel. MobileCarousel
+     handles auto-scroll, dots, touch swipe, IntersectionObserver
+     enter, reduced-motion respect — the same proven component
+     already used by Results / Services / Advantages on this page.
 
-     Behaviour mirrors the hero-cards autoplay (HeroSection.tsx)
-     because the UX rules for a 3-second-interval card carousel
-     are the same regardless of section:
+     The PAGE_SIZE = 3 is a deliberate choice; 6 specialties / 3
+     per page gives exactly 2 slides, which reads as a binary
+     "first half / second half" pagination. A different total
+     would need different grouping. */
+  const PAGE_SIZE = 3
+  const pages: Specialty[][] = []
+  for (let i = 0; i < specialties.length; i += PAGE_SIZE) {
+    pages.push(specialties.slice(i, i + PAGE_SIZE))
+  }
 
-       - Mobile only (<=600px). Desktop is a static 3-col grid.
-       - Respects prefers-reduced-motion (WCAG 2.3.3 baseline).
-       - Pauses when section is offscreen (IntersectionObserver).
-       - Stops permanently on first user interaction. Auto-scroll
-         that fights manual swipe is the #1 carousel UX failure.
-       - Stops at the last card — no wrap-around. With 6 specialty
-         cards, jumping back to Anesthesia after Multi-Specialty
-         would feel jarring; once the user has seen all six, the
-         carousel idles and they can swipe back manually.
-       - 3500ms interval matches the hero so the two carousels on
-         the page don't get out of sync with each other in a way
-         that would compete for attention.
-
-     Implementation: Element.scrollTo({behavior:'smooth'}) drives
-     the native scroll-snap; no animation library, no JS-driven
-     transforms. Pure CSS does the visual transition.
-     ============================================================ */
-  useEffect(() => {
-    const el = gridRef.current
-    if (!el) return
-
-    // Match the CSS breakpoint exactly (600px in the @media block
-    // below). If they diverge the carousel behaviour and visual
-    // layout will disagree.
-    const isMobile = window.matchMedia('(max-width: 600px)').matches
-    if (!isMobile) return
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    // Each card is wrapped in a RevealOnScroll <div> so the direct
-    // children of .specialties-grid are <div> not <a>. Target the
-    // wrappers because scroll-snap-align is applied to them in CSS.
-    const cards = Array.from(el.children) as HTMLElement[]
-    if (cards.length === 0) return
-
-    const scrollTargets = cards.map(c => c.offsetLeft)
-
-    let currentIndex = 0
-    let userHasInteracted = false
-    let isVisible = true
-
-    const tick = () => {
-      if (userHasInteracted || !isVisible) return
-      currentIndex += 1
-      if (currentIndex >= scrollTargets.length) {
-        clearInterval(timer)
-        return
-      }
-      el.scrollTo({
-        left: scrollTargets[currentIndex],
-        behavior: 'smooth',
-      })
-    }
-
-    const timer = window.setInterval(tick, 3500)
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting
-      },
-      { threshold: 0.15 },
-    )
-    observer.observe(el)
-
-    const onUserIntent = () => {
-      userHasInteracted = true
-      clearInterval(timer)
-    }
-    el.addEventListener('pointerdown', onUserIntent, { passive: true })
-    el.addEventListener('wheel', onUserIntent, { passive: true })
-    el.addEventListener('keydown', onUserIntent)
-
-    return () => {
-      clearInterval(timer)
-      observer.disconnect()
-      el.removeEventListener('pointerdown', onUserIntent)
-      el.removeEventListener('wheel', onUserIntent)
-      el.removeEventListener('keydown', onUserIntent)
-    }
-  }, [])
+  // Single card renderer reused for both desktop and mobile layouts
+  // so any future copy/icon/CTA changes only touch one place.
+  const renderCard = (s: Specialty, i: number) => (
+    <RevealOnScroll
+      key={s.href}
+      direction="up"
+      delay={0.15 + i * 0.05}
+    >
+      <Link href={s.href} className="specialty-card">
+        <div className="specialty-card-inner">
+          <h3 className="specialty-card-title">{s.label}</h3>
+          <p className="specialty-card-blurb">{s.blurb}</p>
+          <span className="specialty-card-cta" aria-hidden="true">
+            Learn more
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="specialty-card-arrow"
+            >
+              <path
+                d="M3 7h8m0 0L7 3m4 4l-4 4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </div>
+      </Link>
+    </RevealOnScroll>
+  )
 
   return (
     <section
@@ -176,40 +138,29 @@ export default function SpecialtiesSection() {
           </header>
         </RevealOnScroll>
 
-        <div className="specialties-grid" ref={gridRef}>
-          {specialties.map((s, i) => (
-            <RevealOnScroll
-              key={s.href}
-              direction="up"
-              delay={0.15 + i * 0.05}
-            >
-              <Link href={s.href} className="specialty-card">
-                <div className="specialty-card-inner">
-                  <h3 className="specialty-card-title">{s.label}</h3>
-                  <p className="specialty-card-blurb">{s.blurb}</p>
-                  <span className="specialty-card-cta" aria-hidden="true">
-                    Learn more
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="specialty-card-arrow"
-                    >
-                      <path
-                        d="M3 7h8m0 0L7 3m4 4l-4 4"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            </RevealOnScroll>
-          ))}
+        {/* Desktop / tablet: existing grid layout (3-col >1024px, 2-col 601-1024px).
+            Hidden on mobile via the .specialties-desktop CSS rule below. */}
+        <div className="specialties-grid specialties-desktop">
+          {specialties.map(renderCard)}
+        </div>
+
+        {/* Mobile (<=600px): MobileCarousel with each slide containing
+            3 cards stacked vertically. Auto-scrolls between Page 1
+            (Anesthesia / Orthopedics / Pain Management) and Page 2
+            (ASCs / Behavioral Health / Multi-Specialty). MobileCarousel
+            renders <>{children}</> on desktop, but we hide this whole
+            block via CSS on desktop anyway so the desktop grid above
+            is the only visible layout there. autoScrollInterval 5000ms
+            (vs MobileCarousel default 4000) — gives the user enough
+            time to read 3 cards per page before advancing. */}
+        <div className="specialties-mobile">
+          <MobileCarousel autoScrollInterval={5000}>
+            {pages.map((page, pageIdx) => (
+              <div key={pageIdx} className="specialties-page">
+                {page.map((s, i) => renderCard(s, pageIdx * PAGE_SIZE + i))}
+              </div>
+            ))}
+          </MobileCarousel>
         </div>
       </div>
 
@@ -364,55 +315,36 @@ export default function SpecialtiesSection() {
             grid-template-columns: repeat(2, 1fr);
           }
         }
+
+        /* Desktop / tablet: show the grid layout, hide mobile carousel.
+           Mobile: show the carousel, hide the grid. Mirrors the same
+           desktop/mobile toggle pattern used by ResultsSection. */
+        .specialties-mobile {
+          display: none;
+        }
         @media (max-width: 600px) {
           .specialties-section {
             padding-top: 64px;
             padding-bottom: 64px;
           }
-
-          /* On mobile, the specialties grid becomes a horizontal
-             scroll-snap carousel — same pattern used by the hero
-             cards and the Insights tab grid below. One card visible
-             at a time with a peek of the next on the right edge to
-             telegraph swipeability. The autoplay useEffect above
-             advances the carousel every 3.5s.
-
-             Why not the previous full-width-stacked layout: with 6
-             specialty cards stacked vertically, the section occupied
-             ~1350px of mobile real estate (per earlier measurement).
-             Converting to a carousel collapses that to a single
-             card-height row, recovering ~5 vertical viewports of
-             page scroll, and aligns the section's mobile pattern
-             with the rest of the homepage carousels for visual
-             consistency. */
-          .specialties-grid {
-            display: flex;
-            grid-template-columns: none;
-            overflow-x: auto;
-            overflow-y: visible;
-            scroll-snap-type: x mandatory;
-            gap: 14px;
-            padding: 4px 0 14px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-          }
-          .specialties-grid::-webkit-scrollbar {
+          .specialties-desktop {
             display: none;
           }
-          .specialties-grid > * {
-            /* RevealOnScroll wraps each card in a <div>; that wrapper
-               is what scroll-snaps. flex 0 0 86% gives one card the
-               primary visible area with ~14% reserved for the peek
-               of the next card on the right. */
-            flex: 0 0 86%;
-            scroll-snap-align: start;
+          .specialties-mobile {
+            display: block;
+          }
+          /* Each carousel slide is a "page" of 3 cards stacked vertically.
+             MobileCarousel sizes each slide to 100% width with 'padding: 0 8px'
+             and 'overflow: hidden'. We use that width for the column of
+             cards; gap 14px between the stacked cards keeps the visual
+             rhythm consistent with the desktop grid. */
+          .specialties-page {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
           }
           .specialty-card-inner {
             padding: 22px;
-            /* Cards need to be a consistent height in the carousel
-               so swipe between them doesn't show layout shift as
-               blurbs of different lengths change card height. */
-            min-height: 200px;
           }
           .specialty-card-title {
             font-size: 20px;

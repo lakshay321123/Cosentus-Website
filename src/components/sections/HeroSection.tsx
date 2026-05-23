@@ -873,6 +873,21 @@ export default function HeroSection() {
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;          /* Firefox */
+            /* position: relative makes .hero-cards the offsetParent
+               for its .hero-card children. Without this, child
+               offsetLeft is measured against a positioned ancestor
+               somewhere further up the tree (likely <body>), so the
+               autoplay useEffect's scrollTo(left: card.offsetLeft)
+               math drifts to wrong positions — the timer fires but
+               the cards visibly don't advance.
+
+               This was the root cause of 'The Top boxes are not
+               auto scrolling' on the previous deployment. Tested by
+               inspection: .hero-card has position: relative declared
+               but .hero-cards did not — so offsetLeft on cards was
+               resolving against an ancestor's coordinate system,
+               not the scroll container's. */
+            position: relative;
             /* The parent .hero-layout-grid carries 16px horizontal
                padding on mobile, so cards naturally start 16px from
                the screen edge. We don't add more padding inside the
