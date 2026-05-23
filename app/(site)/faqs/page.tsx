@@ -175,7 +175,7 @@ export default function FAQsPage() {
            small breathing gap. align-items: center vertically
            centres the H1 inside the band. */
         .faqs-hero {
-          background: var(--primary);
+          background: var(--band-bg);
           min-height: 220px;
           display: flex;
           align-items: center;

@@ -68,7 +68,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
   // Default: positioned/overflow setup for the absolutely-positioned
   // video + overlay layers below.
   const sectionStyle: React.CSSProperties = band
-    ? { position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', background: 'var(--primary)' }
+    ? { position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', background: 'var(--band-bg)' }
     : { position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }
 
   return (

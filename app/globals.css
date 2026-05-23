@@ -17,6 +17,13 @@
   --primary-wash: #D6EBF2;
   --primary-ghost: #D6EBF2;
 
+  /* Band-hero background — used by .page-hero-section--band (Resources
+     sub-pages) and the /faqs hero. Darker than --primary (#00B5D6) so
+     white text on it passes WCAG AA contrast for large text (~4.13:1
+     vs #00B5D6's 2.41:1 which failed the AA 3.0:1 threshold). Visually
+     still reads as the brand teal family, just one shade deeper. */
+  --band-bg: #0088A8;
+
   --gray-900: #000000;
   --gray-800: #000000;
   --gray-700: #000000;
@@ -846,8 +853,12 @@ body:has(main.home-immersive) .footer-top {
   .page-hero-section--band {
     min-height: 160px;
   }
+  /* !important required because a later @media (max-width: 768px) rule
+     at ~line 3338 declares `.hero-content { padding: 100px 16px 48px !important }`
+     which would otherwise beat this rule's specificity and break the
+     band's intended mobile geometry. CodeRabbit PR #162 finding #2. */
   .page-hero-section--band .hero-content {
-    padding: 80px 24px 24px;
+    padding: 80px 24px 24px !important;
   }
 }
 
