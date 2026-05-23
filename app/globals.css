@@ -1626,16 +1626,27 @@ body:has(main.home-immersive) .footer-top {
 /* ============================================================
    RCM CALCULATOR — home page section
    ============================================================
-   Glass-card calculator that sits on the immersive video bg
-   on the home page. See src/components/sections/RCMCalculatorSection.tsx.
+   Frosted-glass calculator that sits on the immersive video bg.
+   Matches the home-immersive recipe used by .insights-card /
+   .service-card / .testimonial-card elsewhere on the page:
+     - background: rgba(255,255,255,0.08)
+     - backdrop-filter: blur(12px) saturate(140%)
+     - 1px white-translucent border
+     - White text throughout, teal accents for emphasis
+
+   Previously this section used solid white inputs panel + solid teal
+   gradient result panel — visually broke the immersive aesthetic
+   (user feedback: 'why is this colour, have you seen the landing
+   page?'). Restyled to be one cohesive glass card with a vertical
+   hairline divider on desktop / horizontal on mobile.
 
    Structure:
      .rcm-calc-section      = section wrapper (transparent over video)
-     .rcm-calc-card         = the frosted-glass two-column card
-       .rcm-calc-inputs       = LEFT: white panel with sliders
-       .rcm-calc-result       = RIGHT: teal gradient panel with $
+     .rcm-calc-card         = the single frosted-glass card
+       .rcm-calc-inputs       = LEFT: sliders, hairline-divided
+       .rcm-calc-result       = RIGHT: big $, breakdown, CTA
          .rcm-calc-breakdown    = 3-bucket row inside result
-         .rcm-calc-cta          = primary CTA button at the bottom
+         .rcm-calc-cta          = pill CTA at the bottom
      .rcm-calc-slider       = custom range-input styling
                               (Chromium/WebKit + Firefox forks)
 ============================================================ */
@@ -1649,10 +1660,12 @@ body:has(main.home-immersive) .footer-top {
 }
 
 /* Card: 2-column grid on desktop, stacked on mobile. The card itself
-   is the focal element — white inputs panel on the left, teal
-   gradient result panel on the right, separated by a thin teal divider
-   on desktop. Slight outer glow (the teal --shadow-glow token) so it
-   reads as 'premium / interactive' on the dark video background. */
+   is ONE frosted-glass surface (matching the home-immersive recipe
+   exactly: 8% white wash + 12px blur with 140% saturation). The two
+   halves are separated by a hairline at the column border.
+
+   The teal-tinted shadow (--shadow-glow already defined in globals)
+   lifts the card subtly off the video without solid color slabs. */
 .rcm-calc-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1660,45 +1673,41 @@ body:has(main.home-immersive) .footer-top {
   margin: 0 auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--white);
-  box-shadow: var(--shadow-xl), 0 0 80px rgba(0,181,214,0.18);
-  border: 1px solid rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-xl), 0 0 60px rgba(0,181,214,0.15);
 }
 
-/* LEFT: inputs panel. White background. Generous padding. The label +
-   live value (e.g. 'DENIAL RATE 10%') sit above each slider with a
-   thin breathing margin so the eye reads label -> value -> control. */
+/* LEFT: inputs panel. Transparent (the card's frost shows through).
+   Right border is a hairline that becomes the visual divider between
+   inputs and result on desktop. On mobile this becomes a bottom
+   border (see media query). */
 .rcm-calc-inputs {
   padding: 48px;
-  background: var(--white);
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-/* RIGHT: result panel. Teal gradient — darker at top for depth, the
-   brand --primary at the bottom. Result text is white throughout.
-   Padding matches the inputs panel so the two halves balance.
-
-   On mobile (single column), this stays as a separate visual block
-   below the inputs — the radius shape adapts via the media query
-   below. */
+/* RIGHT: result panel. Same transparent frost. Padding matches the
+   inputs panel so the two halves balance. Flex column so the big $
+   sits top, breakdown middle, CTA bottom-left. */
 .rcm-calc-result {
   padding: 48px;
-  background: linear-gradient(180deg, #0098B5 0%, var(--primary) 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: var(--white);
 }
 
-/* 3-column breakdown row inside the result panel. Each bucket shows
-   one of the three calculated recoveries (denials / AR / NCR). Thin
-   white-with-alpha border at the top of the row visually separates
-   it from the big headline number above. */
+/* 3-column breakdown row inside the result panel. Thin white-with-alpha
+   border at the top of the row visually separates it from the big
+   headline number above. */
 .rcm-calc-breakdown {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.25);
+  border-top: 1px solid rgba(255,255,255,0.18);
   margin-bottom: 32px;
 }
 .rcm-calc-bucket {
@@ -1715,14 +1724,13 @@ body:has(main.home-immersive) .footer-top {
 .rcm-calc-bucket-label {
   font-size: 11px;
   font-weight: 500;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.65);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-/* CTA button — white pill on the teal result panel, inverts on hover.
-   Sits on its own line so it has room to breathe; aligned to the left
-   so the visual weight reads with the recovery number above it. */
+/* CTA — white pill on the glass bg. Reads bright against the dark
+   frosted card; inverts on hover with a subtle lift. */
 .rcm-calc-cta {
   display: inline-flex;
   align-items: center;
@@ -1737,26 +1745,25 @@ body:has(main.home-immersive) .footer-top {
   letter-spacing: 0.02em;
   text-decoration: none;
   transition: var(--transition-base);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.20);
 }
 .rcm-calc-cta:hover {
   background: rgba(255,255,255,0.92);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.20);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
 }
 
 /* ===== SLIDER STYLING =====
-   Native <input type="range"> rendering varies wildly across browsers.
-   These rules normalize the track + thumb to the brand teal across
-   Chrome/Safari/Edge (-webkit-) and Firefox (-moz-). The track is a
-   thin gray rail; the thumb is a teal circle with a subtle ring on
-   hover for affordance. */
+   Native <input type='range'> rendering varies wildly across browsers.
+   These rules normalize the track + thumb for the dark-frost context.
+   The track is a thin white-translucent rail (visible on dark); the
+   thumb is the brand teal with a white ring for affordance. */
 .rcm-calc-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 6px;
-  background: var(--gray-200);
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   outline: none;
   cursor: pointer;
@@ -1772,14 +1779,14 @@ body:has(main.home-immersive) .footer-top {
   border-radius: 50%;
   background: var(--primary);
   border: 3px solid var(--white);
-  box-shadow: 0 2px 8px rgba(0,181,214,0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.40);
   cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
 .rcm-calc-slider:hover::-webkit-slider-thumb,
 .rcm-calc-slider:active::-webkit-slider-thumb {
   transform: scale(1.15);
-  box-shadow: 0 4px 16px rgba(0,181,214,0.5);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
 }
 
 /* Firefox thumb */
@@ -1789,26 +1796,25 @@ body:has(main.home-immersive) .footer-top {
   border-radius: 50%;
   background: var(--primary);
   border: 3px solid var(--white);
-  box-shadow: 0 2px 8px rgba(0,181,214,0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.40);
   cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
 .rcm-calc-slider:hover::-moz-range-thumb,
 .rcm-calc-slider:active::-moz-range-thumb {
   transform: scale(1.15);
-  box-shadow: 0 4px 16px rgba(0,181,214,0.5);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
 }
 
-/* Firefox track — the WebKit track is rendered by the base rule above,
-   but Firefox needs an explicit ::-moz-range-track to apply the same
-   look. */
+/* Firefox track */
 .rcm-calc-slider::-moz-range-track {
-  background: var(--gray-200);
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   height: 6px;
 }
 
-/* ===== MOBILE: stack the two halves and tighten padding ===== */
+/* ===== MOBILE: stack the two halves and convert the vertical divider
+   to a horizontal one ===== */
 @media (max-width: 768px) {
   .rcm-calc-section {
     padding-top: 64px;
@@ -1818,12 +1824,14 @@ body:has(main.home-immersive) .footer-top {
     grid-template-columns: 1fr;
     max-width: 100%;
   }
+  .rcm-calc-inputs {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  }
   .rcm-calc-inputs,
   .rcm-calc-result {
     padding: 32px 24px;
   }
-  /* On mobile the breakdown crowds in 3 columns at narrow widths;
-     drop to a 1-row scrolling rhythm with smaller buckets. */
   .rcm-calc-breakdown {
     gap: 8px;
   }

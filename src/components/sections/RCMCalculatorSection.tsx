@@ -100,7 +100,7 @@ function SliderRow({
         marginBottom: 12,
       }}>
         <label style={{
-          fontSize: 13, fontWeight: 500, color: '#616161',   // brand dark gray; literal so home-immersive [style*='color: var(--gray-X)'] doesn't rewrite to white on the white inputs panel
+          fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
           letterSpacing: '0.02em', textTransform: 'uppercase',
           fontFamily: 'var(--font-display)',
         }}>
@@ -185,7 +185,7 @@ export default function RCMCalculatorSection() {
                   marginBottom: 12,
                 }}>
                   <label style={{
-                    fontSize: 13, fontWeight: 500, color: '#616161',   // brand dark gray; literal so home-immersive [style*='color: var(--gray-X)'] doesn't rewrite to white on the white inputs panel
+                    fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
                     letterSpacing: '0.02em', textTransform: 'uppercase',
                     fontFamily: 'var(--font-display)',
                   }}>
@@ -230,7 +230,7 @@ export default function RCMCalculatorSection() {
               />
 
               <p style={{
-                fontSize: 12, lineHeight: 1.6, color: '#888888',   // muted gray for the disclaimer; literal so the home-immersive override doesn't rewrite to white
+                fontSize: 12, lineHeight: 1.6, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
                 marginTop: 24,
               }}>
                 Estimates based on industry averages and Cosentus's published benchmarks (98% NCR, 95% appeal success, &lt;15% AR over 90 days). Buckets approximate independently and may overlap. Actual results depend on specialty, payer mix, and starting baseline.
