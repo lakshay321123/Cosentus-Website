@@ -162,17 +162,14 @@ export default function RCMCalculatorSection() {
     <section className="section rcm-calc-section">
       <div className="container">
         <RevealOnScroll>
-          <div className="section-title" style={{ textAlign: 'center', marginBottom: 12 }}>
-            Your Practice. The Numbers.
+          {/* Headline only — subline removed May 2026 per user direction.
+              Reason: the sliders + their values are self-evidently
+              interactive, so the 'Move the sliders. See what's recoverable.'
+              instruction was redundant. Headline gets full marginBottom
+              (56) since there's no subline to bridge to the card. */}
+          <div className="section-title" style={{ textAlign: 'center', marginBottom: 56 }}>
+            How Much Revenue Are You Losing?
           </div>
-        </RevealOnScroll>
-        <RevealOnScroll delay={0.1}>
-          <p style={{
-            textAlign: 'center', maxWidth: 560, margin: '0 auto 56px',
-            fontSize: 20, lineHeight: 1.55, color: 'rgba(255,255,255,0.85)',
-          }}>
-            Move the sliders. See what's recoverable.
-          </p>
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.2}>
