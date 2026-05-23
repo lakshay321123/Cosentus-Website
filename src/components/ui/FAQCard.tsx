@@ -63,8 +63,6 @@ export default function FAQCard({
       id={`faq-${faq.slug}`}
     >
       <div className="faq-card-inner">
-        <div className="faq-card-tag">{faq.category}</div>
-
         <h3 className="faq-card-question">{faq.question}</h3>
 
         {/* Answer panel — animated collapse via grid-template-rows.
@@ -128,9 +126,10 @@ export default function FAQCard({
           backdrop-filter: blur(20px) saturate(160%);
           -webkit-backdrop-filter: blur(20px) saturate(160%);
           border-radius: 20px;
-          padding: 28px 28px 96px 28px;
-          /* Bottom padding leaves a 96px clearance for the 56px
-             arrow disc + its 20px margin. */
+          padding: 28px 28px 82px 28px;
+          /* Bottom padding leaves an 82px clearance for the 44px
+             arrow disc + its 22px margin from edge + breathing
+             room from the answer text above. */
           display: flex;
           flex-direction: column;
           transition: transform 350ms cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -138,26 +137,6 @@ export default function FAQCard({
 
         .faq-card:hover .faq-card-inner {
           transform: translateY(-3px);
-        }
-
-        .faq-card-tag {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #00B5D6;
-          margin-bottom: 18px;
-          padding-bottom: 12px;
-          /* Faint cyan-to-transparent underline — echoes the
-             editorial line under section labels elsewhere. */
-          background-image: linear-gradient(
-            to right,
-            rgba(0, 181, 214, 0.45) 0%,
-            rgba(0, 181, 214, 0) 60%
-          );
-          background-repeat: no-repeat;
-          background-position: 0 100%;
-          background-size: 80% 1px;
         }
 
         .faq-card-question {
@@ -221,8 +200,8 @@ export default function FAQCard({
           position: absolute;
           right: 22px;
           bottom: 22px;
-          width: 56px;
-          height: 56px;
+          width: 44px;
+          height: 44px;
           padding: 0;
           background: transparent;
           border: none;
@@ -279,15 +258,15 @@ export default function FAQCard({
 
         @media (max-width: 768px) {
           .faq-card-inner {
-            padding: 24px 22px 84px 22px;
+            padding: 24px 22px 72px 22px;
             border-radius: 18px;
           }
           .faq-card-question {
             font-size: 18px;
           }
           .faq-card-disc {
-            width: 48px;
-            height: 48px;
+            width: 38px;
+            height: 38px;
             right: 18px;
             bottom: 18px;
           }
