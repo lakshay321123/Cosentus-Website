@@ -187,21 +187,230 @@ export default function AnesthesiaContent() {
       {/* RCM Solutions: Complete Anesthesia Revenue Cycle — 8 cards
           per Specialty Pages doc (v1, May 19 2026). Card titles and
           descriptions are verbatim from the doc; references to Chris
-          and Cindy match the AI agents on the homepage. */}
+          and Cindy match the AI agents on the homepage.
+
+          Layout: an asymmetric bento grid inspired by the 21st Dev
+          bento-product-features pattern, rebuilt natively (no
+          shadcn / framer-motion import) to match the rest of the
+          site's styling conventions.
+
+          - 4 columns x 3 rows on desktop
+          - Card 1 (lead, col 1, rows 1-2): Anesthesia-Specific Coding,
+            larger title, teal accent stripe, eyebrow label
+          - Cards 2-7 (rows 1 and 2, cols 2-4): standard 1x1 cards
+            auto-placed by the grid in source order
+          - Card 8 (wide footer, row 3, spans all 4 cols): Analytics
+            & Visibility, two-column inner layout with a pulsing
+            "LIVE" pill to hint at real-time dashboards
+          - Hover on any card: -3px lift + teal border + soft shadow
+          - Stagger reveal via RevealOnScroll with incrementing delay
+          - Mobile (<=900px): collapses to a single column, the wide
+            card stacks its content vertically */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 48 }}>
-            {solutions.map((s, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.06}>
-                <div className="solution-card" style={{ padding: '24px 28px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', height: '100%' }}>
-                  <h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{s.t}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--gray-600)', margin: 0 }}>{s.d}</p>
+          <div className="anes-bento" style={{ marginTop: 48 }}>
+            {/* Lead card — Anesthesia-Specific Coding (col 1, spans 2 rows) */}
+            <RevealOnScroll className="anes-bento__pos--lead" delay={0.1}>
+              <div className="anes-bento__card anes-bento__card--lead">
+                <div className="anes-bento__eyebrow">SPECIALTY EXPERTISE</div>
+                <h3 className="anes-bento__title anes-bento__title--lead">{solutions[0].t}</h3>
+                <p className="anes-bento__desc">{solutions[0].d}</p>
+                {/* Pulsing teal dot at bottom-left as a small visual anchor
+                    so the tall card doesn't feel empty in its lower half */}
+                <div className="anes-bento__lead-anchor" aria-hidden="true">
+                  <span className="anes-bento__pulse-dot" />
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            {/* Standard cards 2-7 — auto-placed into the remaining cells */}
+            {solutions.slice(1, 7).map((s, i) => (
+              <RevealOnScroll key={s.t} delay={0.15 + i * 0.05}>
+                <div className="anes-bento__card">
+                  <h3 className="anes-bento__title">{s.t}</h3>
+                  <p className="anes-bento__desc">{s.d}</p>
                 </div>
               </RevealOnScroll>
             ))}
+
+            {/* Wide footer — Analytics & Visibility, spans all 4 cols on row 3 */}
+            <RevealOnScroll className="anes-bento__pos--wide" delay={0.5}>
+              <div className="anes-bento__card anes-bento__card--wide">
+                <div className="anes-bento__wide-text">
+                  <h3 className="anes-bento__title">{solutions[7].t}</h3>
+                  <p className="anes-bento__desc">{solutions[7].d}</p>
+                </div>
+                <div className="anes-bento__pulse" aria-hidden="true">
+                  <span className="anes-bento__pulse-dot" />
+                  LIVE
+                </div>
+              </div>
+            </RevealOnScroll>
           </div>
+
+          <style>{`
+            .anes-bento {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              grid-auto-rows: minmax(180px, auto);
+              gap: 16px;
+            }
+
+            /* Position classes applied to the RevealOnScroll wrapper
+               (which is the actual grid item). Inner .anes-bento__card
+               fills 100% height via the card style block below. */
+            .anes-bento__pos--lead {
+              grid-column: 1 / 2;
+              grid-row: 1 / 3;
+            }
+            .anes-bento__pos--wide {
+              grid-column: 1 / 5;
+              grid-row: 3;
+            }
+
+            /* Base card */
+            .anes-bento__card {
+              height: 100%;
+              background: var(--white);
+              border: 1px solid var(--gray-200);
+              border-radius: 16px;
+              padding: 28px 30px;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              position: relative;
+              overflow: hidden;
+              transition: border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .anes-bento__card:hover {
+              border-color: #00B5D6;
+              transform: translateY(-3px);
+              box-shadow: 0 16px 36px -16px rgba(0, 181, 214, 0.22);
+            }
+
+            /* Lead variant */
+            .anes-bento__card--lead {
+              background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
+              padding: 38px 34px 32px;
+              gap: 14px;
+            }
+            .anes-bento__card--lead::before {
+              content: '';
+              position: absolute;
+              top: 0; left: 0;
+              width: 4px;
+              height: 100%;
+              background: linear-gradient(180deg, #00B5D6 0%, rgba(0,181,214,0.4) 100%);
+            }
+            .anes-bento__lead-anchor {
+              margin-top: auto;
+              padding-top: 24px;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            }
+
+            /* Wide variant — title/desc on left, LIVE pill on right */
+            .anes-bento__card--wide {
+              flex-direction: row;
+              align-items: center;
+              justify-content: space-between;
+              gap: 32px;
+              padding: 28px 36px;
+            }
+            .anes-bento__wide-text {
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+              max-width: 720px;
+            }
+
+            /* Typography */
+            .anes-bento__eyebrow {
+              font-family: var(--font-display);
+              font-size: 11px;
+              font-weight: 500;
+              letter-spacing: 0.14em;
+              text-transform: uppercase;
+              color: #00B5D6;
+              margin: 0 0 2px 0;
+            }
+            .anes-bento__title {
+              font-size: 17px;
+              font-weight: 500;
+              color: var(--gray-900);
+              margin: 0;
+              line-height: 1.3;
+            }
+            .anes-bento__title--lead {
+              font-size: 22px;
+              font-weight: 400;
+              font-family: var(--font-display);
+              line-height: 1.2;
+              letter-spacing: -0.01em;
+            }
+            .anes-bento__desc {
+              font-size: 14.5px;
+              line-height: 1.6;
+              color: var(--gray-600);
+              margin: 0;
+            }
+
+            /* Pulsing LIVE indicator on wide card + dot on lead card */
+            .anes-bento__pulse {
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              font-size: 11px;
+              font-weight: 600;
+              letter-spacing: 0.12em;
+              color: #00B5D6;
+              background: rgba(0, 181, 214, 0.08);
+              border: 1px solid rgba(0, 181, 214, 0.22);
+              border-radius: 999px;
+              padding: 8px 14px 8px 12px;
+              flex-shrink: 0;
+            }
+            .anes-bento__pulse-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: #00B5D6;
+              animation: anes-bento-pulse 1.8s ease-in-out infinite;
+            }
+            @keyframes anes-bento-pulse {
+              0%, 100% { opacity: 1; transform: scale(1); }
+              50% { opacity: 0.45; transform: scale(0.7); }
+            }
+
+            /* Tablet: 2 columns, lead and wide both span full width */
+            @media (max-width: 1100px) {
+              .anes-bento { grid-template-columns: repeat(2, 1fr); }
+              .anes-bento__pos--lead { grid-column: 1 / -1; grid-row: auto; }
+              .anes-bento__pos--wide { grid-column: 1 / -1; grid-row: auto; }
+            }
+
+            /* Mobile: single column, wide card stacks */
+            @media (max-width: 720px) {
+              .anes-bento {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto;
+              }
+              .anes-bento__card { padding: 24px 24px; }
+              .anes-bento__card--lead { padding: 28px 24px; }
+              .anes-bento__card--wide {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 24px;
+              }
+              .anes-bento__title--lead { font-size: 20px; }
+            }
+          `}</style>
         </div>
       </section>
 
