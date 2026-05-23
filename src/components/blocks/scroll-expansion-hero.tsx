@@ -625,6 +625,14 @@ const ScrollExpandMedia = ({
              of a gap here". 30vh of dead space recovered. */
           .scroll-expand-section {
             height: 70vh;
+            /* overflow: visible on mobile because the trailing text
+               (below) is positioned outside the section's vertical
+               bounds. With the base overflow:hidden it would be
+               clipped. Side text on mobile is positioned at top:20%
+               width:88vw without horizontal translate (mobile uses
+               vertical layout, per the rule below), so nothing else
+               needs the section to clip. */
+            overflow: visible;
           }
           .scroll-expand-side-text {
             width: 88vw;
@@ -648,7 +656,14 @@ const ScrollExpandMedia = ({
             max-height: 60vh;
           }
           .scroll-expand-trailing-text {
-            top: 86vh;
+            /* Was top: 86vh — that worked when the section was 100vh
+               (text inside, near the bottom). The section is now 70vh
+               on mobile, so 86vh puts the text 16vh BELOW the section
+               with overflow:hidden clipping it. Anchor the text to
+               the section's bottom edge instead — 12px gap below the
+               section, sitting in the breathing room before the next
+               section starts. */
+            top: calc(100% + 12px);
             font-size: 15px;
           }
         }
