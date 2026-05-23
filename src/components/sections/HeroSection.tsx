@@ -303,11 +303,13 @@ export default function HeroSection() {
              SVG pill is fully rounded (border-radius would be ~half
              the height = ~30px); using 999 for full pill rounding. */
           border-radius: 999px;
-          /* Cyan wash starts transparent; fades in on hover so the
-             translucent SVG pill appears to "light up" with teal —
-             same visual feel as .btn-primary's solid teal fill on the
-             Explore Zeus button. Clip the wash to the pill shape so
-             it doesn't leak past the SVG's rounded edges. */
+          /* White wash starts transparent; fades in on hover so the
+             translucent SVG pill brightens like frosted glass under
+             light. Mirrors .btn-glass:hover (background: rgba(255,
+             255, 255, 0.10)) — NOT .btn-primary's teal fill, since
+             user feedback was "highlight should be white only, not
+             blue". Clip the wash to the pill shape so it doesn't
+             leak past the SVG's rounded edges. */
           background-color: transparent;
           overflow: hidden;
           /* Hover transition is short and snappy. Entrance
@@ -319,25 +321,24 @@ export default function HeroSection() {
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        /* Hover — mirrors .btn-primary:hover (Explore Zeus button) by
-           making the BUTTON ITSELF light up cyan, not just adding a
-           ring around it.
-             - Cyan background-color wash fades in. Because the SVG
-               pill is translucent (fill-opacity 0.3/0.5), the wash
-               shows through and the whole pill reads as cyan. This
-               mimics .btn-primary's solid teal fill on hover.
-             - Brightness + saturation bump intensifies the pill's
-               white text + cyan tint.
-             - Drop shadow ONLY (no centered halo). The centered halo
-               we previously had read as a "ring around the button"
-               on the translucent SVG against the dark video bg — i.e.
-               an outline, not a glow. Dropping it eliminates that.
-             - Lift -1px matches .btn-primary:hover exactly. */
+        /* Hover — WHITE highlight only (no cyan).
+             - White background-color wash fades in. The SVG pill is
+               translucent (fill-opacity 0.3/0.5), so the white wash
+               shows through and the pill brightens uniformly — like
+               frosted glass under light. Matches .btn-glass:hover
+               convention from globals.css.
+             - Brightness 1.15 intensifies the SVG itself.
+             - Dark drop shadow ONLY (no cyan glow, no halo). Cyan
+               glow against the dark video bg reads as a sharp ring
+               around the button, not as light emanating from it —
+               user explicitly rejected the blue tint.
+             - Lift -2px gives a clear "rising off the page" feel
+               that the white wash alone wouldn't provide. */
         .hero-action:hover {
-          background-color: rgba(0, 181, 214, 0.40);
-          transform: translateY(-1px);
-          filter: brightness(1.12) saturate(1.15);
-          box-shadow: 0 12px 28px rgba(0, 181, 214, 0.50);
+          background-color: rgba(255, 255, 255, 0.18);
+          transform: translateY(-2px);
+          filter: brightness(1.15);
+          box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
         }
         /* Arrow disc nudges further right on hover — same pattern
            as .btn-glass:hover svg { transform: translateX(3px); }
@@ -421,20 +422,20 @@ export default function HeroSection() {
              here keeps the hover glow's corners clean. */
           border-radius: 24px;
         }
-        /* Hover — "nudge" effect requested by user. Replaces the
-           previous lift-only hover whose cyan ring ('0 0 0 1px') and
-           centered halo ('0 0 32px') read as a hard outline around
-           the translucent card SVG rather than the card lifting off
-           the page.
-             - translateY(-10px) scale(1.04) — clearer lift + slight
-               grow so the card visibly nudges forward toward the
-               user, not just sliding up.
-             - Brightness 1.18 + slight saturate so the cyan-tinted
-               SVG appears to brighten (more perceptible on translucent
-               SVG than 1.12).
-             - Shadow: big dark drop + soft cyan drop shadow below.
-               No 1px ring, no centered halo — both produced the
-               "outlined" feel.
+        /* Hover — bold, clearly-perceptible "nudge" effect. User
+           explicitly said the previous lift was invisible and the
+           cyan ring/halo looked like an outline. White-only aesthetic
+           per the same feedback applied to the buttons above.
+             - translateY(-14px) scale(1.06) — big lift + clear grow,
+               so the card visibly pops forward. No subtlety; user
+               wanted obvious movement.
+             - Brightness 1.22 + saturate 1.10 — translucent SVG cards
+               brighten markedly.
+             - Shadow: big dark drop only. No cyan ring (0 0 0 1px),
+               no centered cyan halo (0 0 32px). The previous shadow
+               stack was producing an "outline" look on the dark video
+               bg; pure dark drop reads cleanly as the card lifting
+               off the page.
              - Transition override on :hover only. The base .hero-card
                transition (set in the CHOREOGRAPHY block below at
                line ~515) is 800ms bouncy on transform for the entrance
@@ -443,11 +444,9 @@ export default function HeroSection() {
                the choreography's bouncy transition — giving a
                satisfying settle-back as the card relaxes into place. */
         .hero-card:hover {
-          transform: translateY(-10px) scale(1.04);
-          filter: brightness(1.18) saturate(1.10);
-          box-shadow:
-            0 22px 44px rgba(0, 0, 0, 0.42),
-            0 12px 28px rgba(0, 181, 214, 0.35);
+          transform: translateY(-14px) scale(1.06);
+          filter: brightness(1.22) saturate(1.10);
+          box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
           transition:
             transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
             filter 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
