@@ -104,21 +104,25 @@ export default function FAQsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
 
-          <RevealOnScroll direction="up" delay={0.2}>
-            <div className="faqs-cta">
-              <div className="faqs-cta-text">
-                <h3 className="faqs-cta-heading">Question we didn&rsquo;t answer?</h3>
-                <p className="faqs-cta-sub">
-                  Ask it during the free revenue analysis. No commitment, no script.
-                </p>
-              </div>
-              <Link href="/contact" className="faqs-cta-link">
+      {/* CTA — uses the canonical .cta-section + .cta-box + .btn-primary
+          classes from the homepage CTASection so the visual treatment
+          matches identically. The shared glass-pill recipe is applied
+          via app/globals.css selectors extended to also match a
+          .faqs-page ancestor (see the .cta-section / .cta-box /
+          .btn-primary blocks around lines 408, 530, 4196, 4269, etc.). */}
+      <section className="cta-section">
+        <div className="container">
+          <RevealOnScroll direction="scale">
+            <div className="cta-box">
+              <RevealText as="h2" perWordDelay={0.06} baseDelay={0.15}>
+                Still have a question?
+              </RevealText>
+              <Link href="/contact" className="btn-primary">
                 Get Your Free Revenue Analysis
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </Link>
             </div>
           </RevealOnScroll>
@@ -203,76 +207,12 @@ export default function FAQsPage() {
           align-items: start;
         }
 
-        .faqs-cta {
-          margin-top: 72px;
-          padding: 36px 40px;
-          border-radius: 22px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          backdrop-filter: blur(20px) saturate(160%);
-          -webkit-backdrop-filter: blur(20px) saturate(160%);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 28px;
-          flex-wrap: wrap;
-        }
-
-        .faqs-cta-heading {
-          font-family: var(--font-display);
-          font-weight: 300;
-          font-size: clamp(20px, 1.8vw, 28px);
-          color: rgba(255, 255, 255, 0.95);
-          margin: 0 0 6px 0;
-          letter-spacing: -0.01em;
-        }
-
-        .faqs-cta-sub {
-          font-size: 15px;
-          color: rgba(255, 255, 255, 0.70);
-          margin: 0;
-        }
-
-        .faqs-cta-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 14px 26px;
-          background: rgba(0, 181, 214, 0.18);
-          border: 1.5px solid rgba(0, 181, 214, 0.55);
-          color: #fff;
-          font-weight: 600;
-          font-size: 15px;
-          border-radius: 999px;
-          text-decoration: none;
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          transition: background-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            transform 250ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            border-color 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        .faqs-cta-link:hover {
-          background: rgba(0, 181, 214, 0.28);
-          border-color: rgba(0, 181, 214, 0.80);
-          transform: translateY(-1px);
-        }
-
-        .faqs-cta-link svg {
-          transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        .faqs-cta-link:hover svg {
-          transform: translateX(3px);
-        }
-
         @media (max-width: 900px) {
           .faqs-group-grid { grid-template-columns: 1fr; gap: 16px; }
         }
 
         @media (max-width: 640px) {
           .faqs-page { padding-top: 88px; padding-bottom: 64px; }
-          .faqs-cta { padding: 28px; flex-direction: column; align-items: flex-start; }
         }
       `}</style>
     </main>

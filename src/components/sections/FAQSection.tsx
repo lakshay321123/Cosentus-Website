@@ -43,17 +43,11 @@ export default function FAQSection() {
                 letterSpacing: '-0.02em',
                 color: 'var(--gray-900)',
                 marginTop: 0,
-                marginBottom: 16,
+                marginBottom: 0,
               }}
             >
-              <>
-                Common questions,{' '}
-                <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>answered straight.</span>
-              </>
+              FAQ&rsquo;s
             </RevealText>
-            <p className="faq-subtitle">
-              What practice owners and administrators ask us most often before signing on.
-            </p>
           </header>
         </RevealOnScroll>
 
@@ -92,14 +86,6 @@ export default function FAQSection() {
         .faq-header {
           max-width: 760px;
           margin-bottom: 56px;
-        }
-
-        .faq-subtitle {
-          font-size: 17px;
-          line-height: 1.6;
-          color: rgba(255, 255, 255, 0.72);
-          margin: 0;
-          max-width: 620px;
         }
 
         .faq-grid {
