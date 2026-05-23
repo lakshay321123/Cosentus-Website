@@ -1530,6 +1530,11 @@ body:has(main.home-immersive) .footer-top {
      - sizes BUMPED 20% per user direction "make text bigger / % and
        number bigger by 20%" + labels forced to two lines via \n in
        the data strings.
+     - "Up to" sublabel sized to match the label per user direction
+       on Mar 2026 PR "Upto needs to be same size and Revenue growth"
+       — previously 13px against 16px label. Now both 16px. Empty
+       sublabels (other 5 cards render '\u00A0') consume the same
+       16px line so the number row stays aligned across all cards.
    Sizing math (verified by rasterizing the SVG with cairosvg):
      - Arrow shaft is the constant ~67.5% of the arrow's total width
        in the lower 50%-95% region (measured).
@@ -1542,9 +1547,8 @@ body:has(main.home-immersive) .footer-top {
        win. If overflow appears at any common viewport, drop the
        clamp ceiling to 40px.
      - Two-line labels ("Patient / Collection" longest single line)
-       at 16px well within shaft width.
-     - "Up to" sublabel kept at 13px — only the user-flagged
-       number + label scale up. */
+       at 16px well within shaft width. "Up to" at 16px is shorter
+       still — no overflow risk. */
 .home-immersive .result-number {
   color: #fff;
   font-size: clamp(29px, 3.1vw, 43px);
@@ -1555,7 +1559,7 @@ body:has(main.home-immersive) .footer-top {
 }
 .home-immersive .result-sublabel {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
