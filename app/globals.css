@@ -1441,8 +1441,13 @@ body:has(main.home-immersive) .footer-top {
   justify-content: center;
   text-align: center;
   /* Inner padding gives long labels (PATIENT COLLECTION,
-     AR > 120 DAYS) breathing room from the angled walls. */
-  padding: 0 12px;
+     AR > 120 DAYS) breathing room from the angled walls. 14px
+     (bumped from the original 12px) per user direction "dont make
+     it touch edge to edge" — applies to front + back face since
+     both share .result-arrow-content. The 2px extra each side
+     reduces usable shaft width by 4px total but visually keeps
+     text off the silhouette outline. */
+  padding: 0 14px;
 }
 
 /* FLIP face anchored to the SHAFT CENTER, not the arrow center.
@@ -1621,13 +1626,20 @@ body:has(main.home-immersive) .footer-top {
 /* Flip impact text — sits inside the arrow body via the shared
    .result-arrow-content positioner used by the front. The strings
    in ResultsSection.tsx contain explicit \n line breaks (chosen
-   per-stat to land 2-4 words per line, fitting inside the arrow's
-   narrow shaft). white-space: pre-line tells the browser to render
-   those \n as real <br>-equivalent breaks while still collapsing
-   regular spaces. */
+   per-stat to land 2-3 words per line — strict max — fitting
+   inside the arrow's narrow shaft). white-space: pre-line tells
+   the browser to render those \n as real <br>-equivalent breaks
+   while still collapsing regular spaces.
+
+   font-size uses clamp so it matches the front label (16px) on wide
+   desktop viewports — bumped from the previous fixed 14px per user
+   direction "text on the flip needs to increase like on the front".
+   On narrower viewports it scales down to the previous 14px so the
+   widest lines (e.g. "Tens of thousands", "Most practices collect")
+   don't overflow the shaft. */
 .result-flip-text {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: clamp(14px, 1.2vw, 16px);
   line-height: 1.4;
   color: #fff;
   font-weight: 500;
