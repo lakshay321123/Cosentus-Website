@@ -7,6 +7,7 @@ import ResultsSection from '@/components/sections/ResultsSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
 import TestimonialsShuffleSection from '@/components/sections/TestimonialsShuffleSection'
+import FAQSection from '@/components/sections/FAQSection'
 import CTASection from '@/components/sections/CTASection'
 
 export default function Home() {
@@ -35,7 +36,10 @@ export default function Home() {
             8. TestimonialsShuffleSection — What Our Clients Say
                (home-only fan-stack glass-card variant; other pages
                still use the shared TestimonialsSection carousel)
-            9. CTASection */}
+            9. FAQSection — 3 priority FAQs with arrow-disc
+               expander. Full /faqs index page exists but is
+               intentionally NOT in the global nav.
+           10. CTASection */}
       <HeroSection />
       <ScrollHeroSection />
       <RASection />
@@ -44,6 +48,7 @@ export default function Home() {
       <InsightsTabsSection />
       <PartnersSection />
       <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
+      <FAQSection />
       <CTASection />
     </main>
   )
