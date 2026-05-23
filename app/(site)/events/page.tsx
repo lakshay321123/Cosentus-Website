@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <main>
-      <PageHero title="Events" compact />
+      <PageHero title="Events" band />
 
       <EventsContent />
 

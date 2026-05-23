@@ -821,6 +821,36 @@ body:has(main.home-immersive) .footer-top {
   }
 }
 
+/* Band variant — used by Resources sub-pages (Blog, Client Stories,
+   News, Events, Insights) and the /faqs page. Replaces the video
+   hero with a flat brand-teal band. The component (PageHero.tsx)
+   handles the background colour + skipping the video; this block
+   handles the geometry.
+
+   Heights chosen May 2026 per user direction "medium" tier:
+     desktop 220px / mobile 160px. Stays under the navbar's fade-in
+     threshold but is thick enough to read as a deliberate band
+     rather than a separator.
+
+   Padding overrides .hero-content's default 140/40/80. Top padding
+   (~110 desktop / 80 mobile) is just enough to clear the fixed
+   navbar (~80px tall) plus a small breathing gap. Bottom padding
+   keeps the title from sitting on the lower band edge. */
+.page-hero-section--band {
+  min-height: 220px;
+}
+.page-hero-section--band .hero-content {
+  padding: 110px 40px 40px;
+}
+@media (max-width: 768px) {
+  .page-hero-section--band {
+    min-height: 160px;
+  }
+  .page-hero-section--band .hero-content {
+    padding: 80px 24px 24px;
+  }
+}
+
 .hero-content {
   position: relative;
   z-index: 2;

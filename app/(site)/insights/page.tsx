@@ -81,7 +81,14 @@ const eventItems: InsightCardData[] = [...eventsData]
 export default function InsightsPage() {
   return (
     <main>
+      {/* band: solid brand-teal band (~220px desktop / 160px mobile).
+          label + subtitle are kept in source as documentation but
+          the component intentionally suppresses them in band mode
+          — the 4 sections below this hero (Case Studies, Blog,
+          News, Events) already serve as the directory the subtitle
+          described. */}
       <PageHero
+        band
         label="INSIGHTS"
         title="What We're Publishing."
         subtitle="Case studies, blog posts, news, and events from Cosentus, all in one place."

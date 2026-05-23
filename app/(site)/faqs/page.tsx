@@ -56,33 +56,45 @@ export default function FAQsPage() {
               perWordDelay={0.05}
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(36px, 5vw, 64px)',
+                /* Sized for the 220/160px band. Was clamp(36, 5vw, 64)
+                   when the hero sat inside a 100vh dark page. */
+                fontSize: 'clamp(28px, 3.5vw, 42px)',
                 fontWeight: 300,
                 lineHeight: 1.05,
                 letterSpacing: '-0.02em',
-                color: 'rgba(255, 255, 255, 0.95)',
+                color: 'rgba(255, 255, 255, 0.98)',
                 marginTop: 0,
-                marginBottom: 18,
+                marginBottom: 0,
               }}
             >
               <>
                 Frequently asked,{' '}
-                <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>directly answered.</span>
+                {/* Accent on "directly answered" was #00B5D6 (brand teal)
+                    when the hero bg was dark. Now that the hero IS teal,
+                    teal-on-teal would be invisible — switched to white.
+                    Italic flourish retained so the editorial cadence
+                    still reads. */}
+                <span style={{ color: 'rgba(255, 255, 255, 0.98)', fontStyle: 'italic' }}>directly answered.</span>
               </>
             </RevealText>
-          </RevealOnScroll>
-          <RevealOnScroll direction="up" delay={0.18}>
-            <p className="faqs-subtitle">
-              The questions practice owners, CFOs, and administrators ask us before they sign on —
-              and the straight answers we give back. If your question isn&rsquo;t here, ask us directly
-              during the free revenue analysis.
-            </p>
           </RevealOnScroll>
         </div>
       </section>
 
       <section className="faqs-body">
         <div className="container">
+          {/* Lead paragraph — was the hero subtitle in the previous
+              dark-page layout. Moved here so the teal band stays
+              clean at ~220px and the framing copy isn't lost. Sits
+              above the first FAQ group, in the dark area below the
+              band. */}
+          <RevealOnScroll direction="up" delay={0.05}>
+            <p className="faqs-lead">
+              The questions practice owners, CFOs, and administrators ask us before they sign on —
+              and the straight answers we give back. If your question isn&rsquo;t here, ask us directly
+              during the free revenue analysis.
+            </p>
+          </RevealOnScroll>
           {grouped.map((group, gi) => (
             <div key={group.category} className="faqs-group">
               <RevealOnScroll direction="up" delay={0.1}>
@@ -137,7 +149,12 @@ export default function FAQsPage() {
              var(--white) shows through and the white-on-glass
              text becomes invisible. The radial gradient mimics
              the home page's dark navy/teal feel without the
-             ~1.9MB video weight. */
+             ~1.9MB video weight.
+
+             padding-top removed May 2026: the nav-clearance padding
+             now lives inside .faqs-hero so the teal band can extend
+             to the top of the viewport (would otherwise leave a
+             120px dark strip above the band). */
           background: radial-gradient(
             ellipse 110% 80% at 50% 15%,
             #0a2d41 0%,
@@ -145,24 +162,47 @@ export default function FAQsPage() {
             #030f17 100%
           );
           min-height: 100vh;
-          padding-top: 120px;
           padding-bottom: 96px;
         }
 
+        /* Teal band hero — matches the Resources sub-pages
+           (Blog, Client Stories, News, Events, Insights) which use
+           PageHero band prop. Same height (220 desktop / 160 mobile)
+           and same brand-teal background, hand-rolled here because
+           /faqs uses its own custom hero (not PageHero).
+
+           padding-top: 110px clears the ~80px fixed nav with a
+           small breathing gap. align-items: center vertically
+           centres the H1 inside the band. */
         .faqs-hero {
-          padding-bottom: 48px;
+          background: var(--primary);
+          min-height: 220px;
+          display: flex;
+          align-items: center;
+          padding-top: 110px;
+          padding-bottom: 40px;
+        }
+        @media (max-width: 768px) {
+          .faqs-hero {
+            min-height: 160px;
+            padding-top: 80px;
+            padding-bottom: 24px;
+          }
         }
 
-        .faqs-subtitle {
+        /* Lead paragraph — moved from the hero (was .faqs-subtitle)
+           to the body so the teal band stays lean. Sits above the
+           first FAQ group on the dark page background. */
+        .faqs-lead {
           font-size: 18px;
           line-height: 1.65;
           color: rgba(255, 255, 255, 0.78);
           max-width: 680px;
-          margin: 0;
+          margin: 0 0 40px 0;
         }
 
         .faqs-body {
-          padding-top: 24px;
+          padding-top: 56px;
         }
 
         .faqs-group {
