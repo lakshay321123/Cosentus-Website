@@ -68,7 +68,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
                   gap: 6,
                   color: 'var(--gray-700)',
                   textDecoration: 'none',
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   fontWeight: 500,
                   transition: 'color 0.2s ease',
                 }}
@@ -82,7 +82,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
 
               <div style={{
                 color: 'var(--gray-600)',
-                fontSize: 14,
+                fontSize: 'var(--text-sm)',
                 fontWeight: 500,
               }}>
                 {imageCount > 0 && <>{imageCount} {imageCount === 1 ? 'photo' : 'photos'}</>}
@@ -118,8 +118,8 @@ export default async function WeCareGalleryPage({ params }: Params) {
                   textDecoration: 'none',
                   transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>← Previous</span>
-                  <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{prev.title}</span>
+                  <span style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>← Previous</span>
+                  <span style={{ fontSize: 'var(--text-base)', fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{prev.title}</span>
                 </Link>
               ) : <span />}
               {next ? (
@@ -135,8 +135,8 @@ export default async function WeCareGalleryPage({ params }: Params) {
                   alignItems: 'flex-end' as const,
                   transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Next →</span>
-                  <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{next.title}</span>
+                  <span style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Next →</span>
+                  <span style={{ fontSize: 'var(--text-base)', fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{next.title}</span>
                 </Link>
               ) : <span />}
             </div>

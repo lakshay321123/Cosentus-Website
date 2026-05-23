@@ -63,8 +63,8 @@ export default function StatementSection() {
             ].map((item, i) => (
               <RevealOnScroll key={i} delay={0.25 + i * 0.12}>
                 <div>
-                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: 'white', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{item.q}</h4>
-                  <p style={{ fontSize: 16, lineHeight: 1.7, color: 'white' }}>{item.a}</p>
+                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 700, color: 'white', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{item.q}</h4>
+                  <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.7, color: 'white' }}>{item.a}</p>
                 </div>
               </RevealOnScroll>
             ))}
@@ -72,7 +72,7 @@ export default function StatementSection() {
 
           <RevealOnScroll delay={0.6}>
             <div style={{ textAlign: 'center', marginTop: 56 }}>
-              <Link href="/contact" className="btn-glass" style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: 13, padding: '0 52px' }}>
+              <Link href="/contact" className="btn-glass" style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: 'var(--text-xs)', padding: '0 52px' }}>
                 {"Let's Talk"}
               </Link>
             </div>

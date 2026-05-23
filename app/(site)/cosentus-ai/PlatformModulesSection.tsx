@@ -155,7 +155,7 @@ export default function PlatformModulesSection() {
           </h2>
         </RevealOnScroll>
         <RevealOnScroll delay={0.2}>
-          <p style={{ fontSize: 17, lineHeight: 1.7, color: 'var(--gray-600)', maxWidth: 720, marginBottom: 56 }}>
+          <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.7, color: 'var(--gray-600)', maxWidth: 720, marginBottom: 56 }}>
             Every step of the revenue cycle, in one system. Click any module to see how it works.
           </p>
         </RevealOnScroll>
@@ -185,7 +185,7 @@ export default function PlatformModulesSection() {
                   <div key={cat}>
                     <div style={{
                       padding: '14px 24px 10px',
-                      fontSize: 10,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 700,
                       letterSpacing: '0.16em',
                       textTransform: 'uppercase',
@@ -223,7 +223,7 @@ export default function PlatformModulesSection() {
                           }}
                         >
                           <span style={{
-                            fontSize: 11, fontWeight: 700,
+                            fontSize: 'var(--text-xxs)', fontWeight: 700,
                             color: isActive ? '#00B5D6' : 'var(--gray-400)',
                             fontFamily: 'var(--font-display)',
                             letterSpacing: '0.04em',
@@ -231,7 +231,7 @@ export default function PlatformModulesSection() {
                             {m.num}
                           </span>
                           <span style={{
-                            fontSize: 14, fontWeight: isActive ? 600 : 500,
+                            fontSize: 'var(--text-sm)', fontWeight: isActive ? 600 : 500,
                             color: isActive ? 'var(--gray-900)' : 'var(--gray-700)',
                             fontFamily: 'var(--font-display)',
                             letterSpacing: '-0.005em',
@@ -240,7 +240,7 @@ export default function PlatformModulesSection() {
                           </span>
                           {m.agent && (
                             <span style={{
-                              fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
+                              fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.12em',
                               color: '#00B5D6',
                               background: isActive ? 'white' : '#D6EBF2',
                               padding: '3px 7px', borderRadius: 3,
@@ -290,13 +290,13 @@ export default function PlatformModulesSection() {
                     boxShadow: '0 0 12px rgba(255,255,255,0.9)',
                     animation: 'mod-pulse 1.6s ease-in-out infinite',
                   }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
+                  <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
                     {selected.name} · {demo ? 'Live' : 'Module'}
                   </div>
                 </div>
                 {selected.agent && (
                   <div style={{
-                    fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
+                    fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
                     background: 'rgba(255,255,255,0.18)',
                     padding: '4px 10px',
                     borderRadius: 4,
@@ -323,7 +323,7 @@ export default function PlatformModulesSection() {
                       }}>
                         {demo.metric}
                       </div>
-                      <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginTop: 8 }}>
+                      <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginTop: 8 }}>
                         {demo.metricLabel}
                       </div>
                     </div>
@@ -336,10 +336,10 @@ export default function PlatformModulesSection() {
                       borderRadius: 8,
                       marginBottom: 14,
                     }}>
-                      <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.75, marginBottom: 4 }}>
+                      <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.75, marginBottom: 4 }}>
                         Sample Encounter
                       </div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: 'white', fontFamily: 'var(--font-display)' }}>
+                      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'white', fontFamily: 'var(--font-display)' }}>
                         {demo.headline}
                       </div>
                     </div>
@@ -380,11 +380,11 @@ export default function PlatformModulesSection() {
                               </svg>
                             </div>
                           )}
-                          <span style={{ fontSize: 13, color: 'white', flex: 1, opacity: 0.9 }}>
+                          <span style={{ fontSize: 'var(--text-xs)', color: 'white', flex: 1, opacity: 0.9 }}>
                             {r.label}
                           </span>
                           <span style={{
-                            fontSize: 13, fontWeight: 600, color: 'white',
+                            fontSize: 'var(--text-xs)', fontWeight: 600, color: 'white',
                             fontFamily: 'var(--font-display)', letterSpacing: '-0.005em',
                           }}>
                             {r.value}
@@ -396,7 +396,7 @@ export default function PlatformModulesSection() {
                     {/* Footer */}
                     <div style={{
                       marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.3)',
-                      fontSize: 12, color: 'white', opacity: 0.85, lineHeight: 1.5,
+                      fontSize: 'var(--text-xxs)', color: 'white', opacity: 0.85, lineHeight: 1.5,
                     }}>
                       {demo.footer}
                     </div>
@@ -416,7 +416,7 @@ export default function PlatformModulesSection() {
                       }}>
                         {selected.name}
                       </div>
-                      <div style={{ fontSize: 15, color: 'white', opacity: 0.95, lineHeight: 1.6 }}>
+                      <div style={{ fontSize: 'var(--text-base)', color: 'white', opacity: 0.95, lineHeight: 1.6 }}>
                         {selected.desc}
                       </div>
                     </div>
@@ -427,16 +427,16 @@ export default function PlatformModulesSection() {
                       borderRadius: 8,
                       marginTop: 32,
                     }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 14 }}>
+                      <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 14 }}>
                         Module Capabilities
                       </div>
-                      <div style={{ fontSize: 14, color: 'white', lineHeight: 1.7 }}>
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'white', lineHeight: 1.7 }}>
                         Integrated with the rest of the system. Data flows in real time across all 23 modules, with no copy-paste, no manual handoffs, and no information lost between teams.
                       </div>
                     </div>
                     <div style={{
                       marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.3)',
-                      fontSize: 12, color: 'white', opacity: 0.85,
+                      fontSize: 'var(--text-xxs)', color: 'white', opacity: 0.85,
                     }}>
                       Click an AI module on the left to see a live demo
                     </div>
@@ -470,7 +470,7 @@ export default function PlatformModulesSection() {
                 {/* Top row: category + AI badge + counter */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <span style={{
-                    fontSize: 11,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 700,
                     letterSpacing: '0.16em',
                     textTransform: 'uppercase',
@@ -481,7 +481,7 @@ export default function PlatformModulesSection() {
                   </span>
                   {m.agent && (
                     <span style={{
-                      fontSize: 10,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 700,
                       letterSpacing: '0.12em',
                       color: '#00B5D6',
@@ -497,7 +497,7 @@ export default function PlatformModulesSection() {
                 {/* Module number + name */}
                 <div>
                   <div style={{
-                    fontSize: 13,
+                    fontSize: 'var(--text-xs)',
                     fontWeight: 700,
                     color: '#00B5D6',
                     fontFamily: 'var(--font-display)',
@@ -521,7 +521,7 @@ export default function PlatformModulesSection() {
 
                 {/* Description */}
                 <p style={{
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   lineHeight: 1.55,
                   color: 'var(--gray-600)',
                   margin: 0,
@@ -534,7 +534,7 @@ export default function PlatformModulesSection() {
                   marginTop: 'auto',
                   paddingTop: 12,
                   borderTop: '1px solid var(--gray-100)',
-                  fontSize: 11,
+                  fontSize: 'var(--text-xxs)',
                   fontWeight: 700,
                   letterSpacing: '0.12em',
                   color: 'var(--gray-400)',

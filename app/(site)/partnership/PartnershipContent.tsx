@@ -90,7 +90,7 @@ export default function PartnershipContent() {
         }
 
         .stat-label {
-          font-size: 13px;
+          font-size: var(--text-xs);
           color: var(--gray-500);
           text-transform: uppercase;
           letter-spacing: 0.1em;
@@ -145,14 +145,14 @@ export default function PartnershipContent() {
         }
 
         .solution-title {
-          font-size: 18px;
+          font-size: var(--text-lg);
           font-weight: 500;
           color: white;
           margin-bottom: 10px;
         }
 
         .solution-desc {
-          font-size: 15px;
+          font-size: var(--text-base);
           color: rgba(255,255,255,0.55);
           line-height: 1.6;
         }
@@ -170,7 +170,7 @@ export default function PartnershipContent() {
           padding: 14px 18px;
           border: 1px solid var(--gray-200);
           border-radius: var(--radius-sm);
-          font-size: 15px;
+          font-size: var(--text-base);
           font-family: var(--font-display);
           background: var(--gray-50);
           transition: border-color 0.3s;
@@ -298,7 +298,7 @@ export default function PartnershipContent() {
 
         .partnership-thinkgrowth-pillar-title {
           font-family: var(--font-display);
-          font-size: 20px;
+          font-size: var(--text-xl);
           font-weight: 700;
           color: white;
           line-height: 1.25;
@@ -306,7 +306,7 @@ export default function PartnershipContent() {
         }
 
         .partnership-thinkgrowth-pillar-desc {
-          font-size: 16px;
+          font-size: var(--text-base);
           font-weight: 400;
           color: white;
           line-height: 1.55;
@@ -449,13 +449,13 @@ export default function PartnershipContent() {
       <section style={{ padding: '0 0 60px' }}>
         <div className="container">
           <RevealOnScroll>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>
+            <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>
               About Cosentus
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 24, maxWidth: 880, lineHeight: 1.2 }}>
               Independently owned. Powered by AI. Proven at scale.
             </h2>
-            <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
+            <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
               With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
             </p>
           </RevealOnScroll>
@@ -539,9 +539,9 @@ export default function PartnershipContent() {
           <div className="cta-grid" style={{ display: 'grid', gap: 48, alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
             <RevealOnScroll>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Get Started</div>
+                <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Get Started</div>
                 <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 20 }}>Partner with Cosentus</h2>
-                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)' }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-600)' }}>
                   At Cosentus, we understand the unique challenges faced by medical billing companies. Our tailored solutions and innovative approach ensure that our partners can overcome these hurdles and achieve sustainable growth.
                 </p>
               </div>

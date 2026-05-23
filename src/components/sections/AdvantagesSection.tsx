@@ -50,7 +50,7 @@ export default function AdvantagesSection() {
                 boxShadow: '0 12px 40px rgba(0,181,214,0.3)',
               }}>
                 <div style={{ fontSize: 32, fontWeight: 300, fontFamily: 'var(--font-display)', lineHeight: 1 }}>25+</div>
-                <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
+                <div style={{ fontSize: 'var(--text-xxs)', opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
               </div>
             </div>
           </RevealOnScroll>
@@ -78,8 +78,8 @@ export default function AdvantagesSection() {
                     <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--primary-ghost)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
                       <div style={{ width: 18, height: 18, color: '#00B5D6' }}>{adv.icon}</div>
                     </div>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>{adv.title}</h4>
-                    <p style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, margin: 0 }}>{adv.desc}</p>
+                    <h4 style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>{adv.title}</h4>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)', lineHeight: 1.5, margin: 0 }}>{adv.desc}</p>
                   </div>
                 </RevealOnScroll>
               ))}

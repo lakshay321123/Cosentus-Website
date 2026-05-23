@@ -143,7 +143,7 @@ export default function WeCarePage() {
       <section className="section">
         <div className="container" style={{ maxWidth: 900 }}>
           <RevealOnScroll>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
+            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 'var(--text-lg)', lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
               WeCare represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
               When practices get paid accurately and on time, they can focus fully on patient care,
               and we can focus on making a difference beyond healthcare.
@@ -161,7 +161,7 @@ export default function WeCarePage() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <p style={{
-              fontSize: 16,
+              fontSize: 'var(--text-base)',
               lineHeight: 1.7,
               color: 'var(--gray-700)',
               maxWidth: 640,
@@ -232,7 +232,7 @@ export default function WeCarePage() {
                             left: 12,
                             background: 'rgba(0, 181, 214, 0.95)',
                             color: '#fff',
-                            fontSize: 10,
+                            fontSize: 'var(--text-xxs)',
                             fontWeight: 600,
                             letterSpacing: '0.06em',
                             textTransform: 'uppercase' as const,
@@ -254,7 +254,7 @@ export default function WeCarePage() {
                         alignItems: 'center',
                       }}>
                         <h3 style={{
-                          fontSize: 15,
+                          fontSize: 'var(--text-base)',
                           fontWeight: 500,
                           lineHeight: 1.4,
                           color: 'var(--gray-900)',

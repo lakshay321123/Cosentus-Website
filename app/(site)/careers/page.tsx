@@ -64,7 +64,7 @@ export default function CareersPage() {
               className="section-desc"
               style={{
                 maxWidth: 880,
-                fontSize: 17,
+                fontSize: 'var(--text-md)',
                 lineHeight: 1.8,
                 marginTop: 24,
               }}
@@ -81,7 +81,7 @@ export default function CareersPage() {
               style={{
                 fontStyle: 'italic',
                 fontWeight: 600,
-                fontSize: 18,
+                fontSize: 'var(--text-lg)',
                 color: 'var(--primary)',
                 marginTop: 28,
               }}
@@ -94,7 +94,7 @@ export default function CareersPage() {
               className="section-desc"
               style={{
                 maxWidth: 880,
-                fontSize: 17,
+                fontSize: 'var(--text-md)',
                 lineHeight: 1.8,
                 marginTop: 16,
               }}
@@ -130,7 +130,7 @@ export default function CareersPage() {
                 maxWidth: 760,
                 marginTop: 20,
                 color: 'rgba(255,255,255,0.95)',
-                fontSize: 18,
+                fontSize: 'var(--text-lg)',
                 lineHeight: 1.7,
               }}
             >

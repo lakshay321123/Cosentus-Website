@@ -64,17 +64,17 @@ function ServiceCard({ svc }: { svc: typeof services[0] }) {
             background: 'rgba(0,181,214,0.9)', backdropFilter: 'blur(8px)',
             borderRadius: 10, padding: '10px 16px', textAlign: 'center',
           }}>
-            <div style={{ fontSize: 24, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{svc.stat}</div>
-            <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.75)', marginTop: 2, textTransform: 'uppercase' as const, letterSpacing: '0.06em', fontWeight: 500 }}>{svc.statLabel}</div>
+            <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{svc.stat}</div>
+            <div style={{ fontSize: 'var(--text-xxs)', color: 'rgba(255,255,255,0.75)', marginTop: 2, textTransform: 'uppercase' as const, letterSpacing: '0.06em', fontWeight: 500 }}>{svc.statLabel}</div>
           </div>
         </div>
 
         {/* Content */}
         <div style={{ padding: '28px 28px 32px', flex: 1, display: 'flex', flexDirection: 'column' as const }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: hovered ? '#00B5D6' : 'var(--gray-400)', letterSpacing: '0.05em', marginBottom: 10, transition: 'color 0.3s', fontFamily: 'var(--font-display)' }}>{svc.num}</div>
+          <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: hovered ? '#00B5D6' : 'var(--gray-400)', letterSpacing: '0.05em', marginBottom: 10, transition: 'color 0.3s', fontFamily: 'var(--font-display)' }}>{svc.num}</div>
           <h4 style={{ fontSize: 22, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 10, transition: 'color 0.3s', ...(hovered ? { color: '#00B5D6' } : {}) }}>{svc.title}</h4>
-          <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--gray-500)', margin: 0 }}>{svc.desc}</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 24, fontSize: 13, fontWeight: 600, color: '#00B5D6', letterSpacing: '0.02em' }}>
+          <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--gray-500)', margin: 0 }}>{svc.desc}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 24, fontSize: 'var(--text-xs)', fontWeight: 600, color: '#00B5D6', letterSpacing: '0.02em' }}>
             Learn More
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
               style={{ transition: 'transform 0.3s', transform: hovered ? 'translateX(4px)' : 'none' }}>

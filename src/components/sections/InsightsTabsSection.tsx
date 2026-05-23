@@ -133,7 +133,7 @@ export default function InsightsTabsSection() {
                     height: 44,
                     padding: '0 24px',
                     borderRadius: 999,
-                    fontSize: 14,
+                    fontSize: 'var(--text-sm)',
                     fontWeight: 600,
                     fontFamily: 'var(--font-body)',
                     letterSpacing: '0.02em',
@@ -177,7 +177,7 @@ export default function InsightsTabsSection() {
               borderRadius: 'var(--radius-md)',
               textAlign: 'center',
               color: 'var(--gray-500)',
-              fontSize: 15,
+              fontSize: 'var(--text-base)',
             }}>
               New content coming soon.
             </div>
@@ -260,14 +260,14 @@ export default function InsightsTabsSection() {
             flex: 1 1 0 !important;
             min-width: 0 !important;
             padding: 10px 12px !important;
-            font-size: 14px !important;
+            font-size: var(--text-sm) !important;
             white-space: nowrap !important;
             justify-content: center !important;
           }
           .insights-cta-row .cta-label-full { display: none !important; }
           .insights-cta-row .cta-label-short { display: inline !important; }
           .insights-tabs { gap: 6px !important; }
-          .insights-tab { padding: 9px 16px !important; font-size: 14px !important; }
+          .insights-tab { padding: 9px 16px !important; font-size: var(--text-sm) !important; }
         }
         /* Default (>580px): show full label, hide the short one. */
         .insights-cta-row .cta-label-full { display: inline; }

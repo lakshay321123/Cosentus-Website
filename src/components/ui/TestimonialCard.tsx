@@ -153,7 +153,7 @@ export default function TestimonialCard({
       {tag && (
         <div
           style={{
-            fontSize: 18,
+            fontSize: 'var(--text-lg)',
             fontWeight: 700,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
@@ -180,7 +180,7 @@ export default function TestimonialCard({
           margin: 0,
           textAlign: 'center',
           fontFamily: 'var(--font-display)',
-          fontSize: 20,
+          fontSize: 'var(--text-xl)',
           lineHeight: 1.5,
           color: '#0a2d41',
           fontStyle: 'italic',
@@ -192,11 +192,11 @@ export default function TestimonialCard({
 
       {/* Attribution */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-        <div style={{ fontSize: 17, fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
+        <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
           {author}
         </div>
         {role && (
-          <div style={{ fontSize: 14, color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
             {role}
           </div>
         )}

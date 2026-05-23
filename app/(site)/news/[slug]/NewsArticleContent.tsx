@@ -36,7 +36,7 @@ function renderMarkdown(text: string) {
       elements.push(
         <h2 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 16,
+          fontSize: 'var(--text-base)',
           fontWeight: 700,
           color: 'var(--gray-900)',
           marginTop: 36,
@@ -59,7 +59,7 @@ function renderMarkdown(text: string) {
       elements.push(
         <h3 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 16,
+          fontSize: 'var(--text-base)',
           fontWeight: 600,
           color: 'var(--gray-900)',
           marginTop: 28,
@@ -80,7 +80,7 @@ function renderMarkdown(text: string) {
       elements.push(
         <h4 key={key++} style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 16,
+          fontSize: 'var(--text-base)',
           fontWeight: 600,
           color: 'var(--gray-900)',
           marginTop: 24,
@@ -106,7 +106,7 @@ function renderMarkdown(text: string) {
           marginLeft: 4,
         }}>
           <p style={{
-            fontSize: 16,
+            fontSize: 'var(--text-base)',
             lineHeight: 1.75,
             color: 'var(--gray-700)',
           }}>
@@ -128,7 +128,7 @@ function renderMarkdown(text: string) {
           marginLeft: 4,
         }}>
           <p style={{
-            fontSize: 16,
+            fontSize: 'var(--text-base)',
             lineHeight: 1.75,
             color: 'var(--gray-700)',
           }}>
@@ -153,7 +153,7 @@ function renderMarkdown(text: string) {
             marginBottom: 16,
             marginLeft: 4,
           }}>
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-700)' }}>
+            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-700)' }}>
               <strong style={{ fontWeight: 600, color: 'var(--gray-900)' }}>{label}:</strong>{' '}
               {formatInline(desc)}
             </p>
@@ -166,7 +166,7 @@ function renderMarkdown(text: string) {
     // Regular paragraph
     elements.push(
       <p key={key++} style={{
-        fontSize: 16,
+        fontSize: 'var(--text-base)',
         lineHeight: 1.8,
         color: 'var(--gray-700)',
         marginBottom: 16,
@@ -229,7 +229,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '8px 16px', background: 'rgba(255,255,255,0.08)',
                 border: '1px solid rgba(255,255,255,0.15)', borderRadius: 'var(--radius-sm)',
-                color: 'rgba(255,255,255,0.8)', fontSize: 13, fontFamily: 'var(--font-display)',
+                color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-xs)', fontFamily: 'var(--font-display)',
                 cursor: 'pointer', marginBottom: 24,
               }}
             >
@@ -244,9 +244,9 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
               <span style={{
                 padding: '4px 12px', background: 'rgba(0,181,214,0.2)', borderRadius: 'var(--radius-sm)',
-                fontSize: 11, fontWeight: 500, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em',
+                fontSize: 'var(--text-xxs)', fontWeight: 500, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em',
               }}>{article.tag}</span>
-              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>{article.date}</span>
+              <span style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.6)' }}>{article.date}</span>
             </div>
           </RevealOnScroll>
 
@@ -262,7 +262,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
 
           {article.featuredIn && (
             <RevealOnScroll delay={0.3}>
-              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.7)' }}>
                 Featured in, {article.featuredIn}
                 {article.featuredDate && ` | ${article.featuredDate}`}
               </p>
@@ -323,14 +323,14 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
                     }}>
                       <span style={{
                         display: 'inline-block', padding: '3px 8px', background: 'var(--primary-ghost)',
-                        borderRadius: 'var(--radius-sm)', fontSize: 10, fontWeight: 500,
+                        borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-xxs)', fontWeight: 500,
                         color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.04em',
                         marginBottom: 10, alignSelf: 'flex-start',
                       }}>{related.tag}</span>
-                      <h4 style={{ fontSize: 15, fontWeight: 400, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>
+                      <h4 style={{ fontSize: 'var(--text-base)', fontWeight: 400, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>
                         {related.title}
                       </h4>
-                      <p style={{ fontSize: 13, color: 'var(--gray-500)', marginTop: 12 }}>{related.date}</p>
+                      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)', marginTop: 12 }}>{related.date}</p>
                     </div>
                   </Link>
                 </RevealOnScroll>

@@ -399,7 +399,7 @@ export default function AboutContent() {
           }
           .about-360-card p {
             margin: 0 0 20px;
-            font-size: 19px;
+            font-size: var(--text-xl);
             line-height: 1.6;
             color: #fff;
           }
@@ -419,7 +419,7 @@ export default function AboutContent() {
               padding: 32px 24px;
               justify-content: flex-start;
             }
-            .about-360-card p { font-size: 16px; }
+            .about-360-card p { font-size: var(--text-base); }
           }
         `}</style>
       </section>
@@ -435,7 +435,7 @@ export default function AboutContent() {
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
                   <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
@@ -555,7 +555,7 @@ export default function AboutContent() {
             padding-left: 18px;
             margin: 0;
             max-width: 100%;
-            font-size: 15px;
+            font-size: var(--text-base);
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.92);
           }
@@ -579,7 +579,7 @@ export default function AboutContent() {
               margin-bottom: 12px;
             }
             .about-process-list {
-              font-size: 14px;
+              font-size: var(--text-sm);
               padding-left: 16px;
             }
           }
@@ -603,7 +603,7 @@ export default function AboutContent() {
           {selectedPerson && (
             <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.5)', padding: 20 }} onClick={() => setSelectedPerson(null)}>
               <div style={{ background: 'white', borderRadius: 16, border: '2px solid #00B5D6', maxWidth: 520, width: '100%', overflow: 'hidden' }} onClick={e => e.stopPropagation()}>
-                <button onClick={() => setSelectedPerson(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'var(--gray-100)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 16, zIndex: 1 }}>✕</button>
+                <button onClick={() => setSelectedPerson(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'var(--gray-100)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 'var(--text-base)', zIndex: 1 }}>✕</button>
                 <div style={{ padding: '28px 28px 20px', display: 'flex', alignItems: 'center', gap: 20 }}>
                   <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '3px solid #00B5D6', background: '#f0f4f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {selectedPerson.photo ? (
@@ -614,11 +614,11 @@ export default function AboutContent() {
                   </div>
                   <div>
                     <h3 style={{ fontSize: 22, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{selectedPerson.name}</h3>
-                    <p style={{ fontSize: 14, color: '#00B5D6', margin: 0, fontWeight: 500 }}>{selectedPerson.title}</p>
+                    <p style={{ fontSize: 'var(--text-sm)', color: '#00B5D6', margin: 0, fontWeight: 500 }}>{selectedPerson.title}</p>
                   </div>
                 </div>
                 <div style={{ padding: '0 28px 28px' }}>
-                  <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-700)' }}>{selectedPerson.bio}</p>
+                  <p style={{ fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--gray-700)' }}>{selectedPerson.bio}</p>
                 </div>
               </div>
             </div>

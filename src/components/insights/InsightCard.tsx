@@ -62,7 +62,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
               position: 'absolute', top: 14, left: 14,
               background: 'rgba(0, 181, 214, 0.95)',
               color: 'white',
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+              fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
               padding: '5px 10px', borderRadius: 4,
               backdropFilter: 'blur(4px)',
             }}>
@@ -83,7 +83,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
         }}>
           {item.tag && (
             <span style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase',
+              fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase',
               color: '#00B5D6',
             }}>
               {item.tag}
@@ -96,7 +96,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
       <div className="insight-card-body" style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         {item.date && (
           <div style={{
-            fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
+            fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--gray-500)',
             marginBottom: 8,
           }}>
@@ -105,7 +105,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
         )}
         <h3 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 17, fontWeight: 600,
+          fontSize: 'var(--text-md)', fontWeight: 600,
           lineHeight: 1.35,
           letterSpacing: '-0.01em',
           color: 'var(--gray-900)',
@@ -124,7 +124,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          fontSize: 13, fontWeight: 600,
+          fontSize: 'var(--text-xs)', fontWeight: 600,
           color: '#00B5D6',
         }}>
           <span>{ctaLabel}</span>

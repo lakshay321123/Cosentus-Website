@@ -117,10 +117,10 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
         }}
       >
         <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-        <h3 style={{ fontSize: 20, fontWeight: 600, color: '#000', margin: '0 0 8px' }}>
+        <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 600, color: '#000', margin: '0 0 8px' }}>
           Thank you!
         </h3>
-        <p style={{ fontSize: 15, color: 'var(--gray-600)', margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--gray-600)', margin: 0 }}>
           We&apos;ll be in touch within one business day to schedule your revenue
           analysis
           {locationName ? ` from our ${locationName} team` : ''}.
@@ -144,7 +144,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
           <label
             style={{
               display: 'block',
-              fontSize: 13,
+              fontSize: 'var(--text-xs)',
               fontWeight: 400,
               color: 'var(--gray-700)',
               marginBottom: 6,
@@ -163,7 +163,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
               padding: '12px 16px',
               border: '1px solid var(--gray-200)',
               borderRadius: 'var(--radius-sm)',
-              fontSize: 15,
+              fontSize: 'var(--text-base)',
               fontFamily: 'var(--font-body)',
               outline: 'none',
               transition: 'border-color var(--transition-fast)',
@@ -176,7 +176,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
         <label
           style={{
             display: 'block',
-            fontSize: 13,
+            fontSize: 'var(--text-xs)',
             fontWeight: 400,
             color: 'var(--gray-700)',
             marginBottom: 6,
@@ -193,7 +193,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
             padding: '12px 16px',
             border: '1px solid var(--gray-200)',
             borderRadius: 'var(--radius-sm)',
-            fontSize: 15,
+            fontSize: 'var(--text-base)',
             fontFamily: 'var(--font-body)',
             outline: 'none',
             background: 'white',
@@ -275,7 +275,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
               padding: '12px 16px',
               border: '1px solid var(--gray-200)',
               borderRadius: 'var(--radius-sm)',
-              fontSize: 15,
+              fontSize: 'var(--text-base)',
               fontFamily: 'var(--font-body)',
               outline: 'none',
               marginTop: 10,
@@ -289,7 +289,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
         <label
           style={{
             display: 'block',
-            fontSize: 13,
+            fontSize: 'var(--text-xs)',
             fontWeight: 400,
             color: 'var(--gray-700)',
             marginBottom: 6,
@@ -307,7 +307,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
             padding: '12px 16px',
             border: '1px solid var(--gray-200)',
             borderRadius: 'var(--radius-sm)',
-            fontSize: 15,
+            fontSize: 'var(--text-base)',
             fontFamily: 'var(--font-body)',
             outline: 'none',
             resize: 'vertical',
@@ -338,7 +338,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
           </svg>
         )}
       </button>
-      <p style={{ fontSize: 12, color: 'var(--gray-500)', marginTop: 8 }}>
+      <p style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', marginTop: 8 }}>
         We protect client information under HIPAA and SOC 2 standards.
       </p>
     </form>

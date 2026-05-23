@@ -242,7 +242,7 @@ export default function ChatWidget() {
           border-radius: 50%;
           background: #fff;
           color: #00B5D6;
-          font-size: 11px;
+          font-size: var(--text-xxs);
           font-weight: 700;
           display: flex;
           align-items: center;
@@ -406,7 +406,7 @@ export default function ChatWidget() {
           background: rgba(40, 52, 68, 0.7);
           color: rgba(232, 246, 251, 0.9);
           font-family: inherit;
-          font-size: 12px;
+          font-size: var(--text-xxs);
           font-weight: 400;
           line-height: 1.35;
           letter-spacing: 0.1px;
@@ -516,7 +516,7 @@ export default function ChatWidget() {
           border: 1px solid rgba(104, 209, 230, 0.18);
           color: #fff;
           font-family: inherit;
-          font-size: 14px;
+          font-size: var(--text-sm);
           padding: 10px 14px;
           border-radius: 999px;
           outline: none;
@@ -570,9 +570,9 @@ export default function ChatWidget() {
             max-height: calc(var(--chat-vh, 100dvh) - 16px);
             border-radius: 20px;
           }
-          .grace-name { font-size: 17px; }
-          .grace-tag { font-size: 13px; }
-          .grace-welcome-text { font-size: 15px; line-height: 1.5; }
+          .grace-name { font-size: var(--text-md); }
+          .grace-tag { font-size: var(--text-xs); }
+          .grace-welcome-text { font-size: var(--text-base); line-height: 1.5; }
           .grace-msg-bubble {
             font-size: 16.5px;
             line-height: 1.5;
@@ -580,8 +580,8 @@ export default function ChatWidget() {
             max-width: 86%;
           }
           .grace-suggest-grid { grid-template-columns: 1fr; }
-          .grace-suggest-chip { font-size: 14px; min-height: 56px; padding: 13px 14px; }
-          .grace-input { font-size: 16px; }
+          .grace-suggest-chip { font-size: var(--text-sm); min-height: 56px; padding: 13px 14px; }
+          .grace-input { font-size: var(--text-base); }
           .grace-send { width: 44px; height: 44px; }
         }
       `}</style>

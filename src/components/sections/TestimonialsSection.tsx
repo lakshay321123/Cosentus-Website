@@ -156,7 +156,7 @@ export default function TestimonialsSection({
                       {/* Tag — optional. Only renders if the testimonial provides one. */}
                       {t.tag && (
                         <div style={{
-                          fontSize: 11,
+                          fontSize: 'var(--text-xxs)',
                           fontWeight: 700,
                           letterSpacing: '0.16em',
                           textTransform: 'uppercase',
@@ -214,7 +214,7 @@ export default function TestimonialsSection({
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: 16,
+                          fontSize: 'var(--text-base)',
                           fontWeight: 700,
                           color: 'white',
                           flexShrink: 0,
@@ -223,10 +223,10 @@ export default function TestimonialsSection({
                           {getInitials(t.name)}
                         </div>
                         <div>
-                          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--gray-900)', fontFamily: 'var(--font-display)' }}>
+                          <div style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--gray-900)', fontFamily: 'var(--font-display)' }}>
                             {t.name}
                           </div>
-                          <div style={{ fontSize: 13, color: 'var(--gray-500)', marginTop: 2 }}>
+                          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)', marginTop: 2 }}>
                             {t.role}
                           </div>
                         </div>

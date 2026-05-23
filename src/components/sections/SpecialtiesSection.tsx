@@ -280,7 +280,7 @@ export default function SpecialtiesSection() {
         }
 
         .specialty-card-blurb {
-          font-size: 15px;
+          font-size: var(--text-base);
           line-height: 1.5;
           color: var(--gray-600);
           margin: 0 0 20px;
@@ -293,7 +293,7 @@ export default function SpecialtiesSection() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          font-size: 14px;
+          font-size: var(--text-sm);
           font-weight: 600;
           letter-spacing: 0.02em;
           color: #00B5D6;
@@ -347,7 +347,7 @@ export default function SpecialtiesSection() {
             padding: 22px;
           }
           .specialty-card-title {
-            font-size: 20px;
+            font-size: var(--text-xl);
           }
           .specialty-card-blurb {
             font-size: 14.5px;

@@ -68,7 +68,7 @@ export default function Footer() {
               <p>
                 Real People + Ai, RCM Redefined.
               </p>
-              <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
+              <p style={{ marginTop: 12, fontSize: 'var(--text-sm)', color: 'var(--white)' }}>
                 (877) 806-2286 &nbsp;|&nbsp;{' '}
                 <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
               </p>

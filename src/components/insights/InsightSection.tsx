@@ -63,7 +63,7 @@ export default function InsightSection({
               <Link
                 href={viewAllHref}
                 style={{
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   fontWeight: 600,
                   color: '#00B5D6',
                   textDecoration: 'none',
@@ -97,7 +97,7 @@ export default function InsightSection({
             borderRadius: 'var(--radius-md)',
             textAlign: 'center',
             color: 'var(--gray-500)',
-            fontSize: 15,
+            fontSize: 'var(--text-base)',
           }}>
             {emptyMessage}
           </div>
@@ -120,7 +120,7 @@ export default function InsightSection({
             <button
               onClick={() => setVisible(v => Math.min(v + loadMoreStep, total))}
               style={{
-                fontSize: 14,
+                fontSize: 'var(--text-sm)',
                 fontWeight: 600,
                 color: 'var(--gray-700)',
                 background: 'var(--white)',

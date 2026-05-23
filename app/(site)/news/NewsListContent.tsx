@@ -28,7 +28,7 @@ export default function NewsListContent() {
                 }}
                 className="news-row"
                 >
-                  <div style={{ fontSize: 14, color: 'var(--gray-500)', fontWeight: 400 }}>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--gray-500)', fontWeight: 400 }}>
                     {article.date}
                   </div>
                   <div>
@@ -37,18 +37,18 @@ export default function NewsListContent() {
                       padding: '3px 10px',
                       background: 'var(--primary-ghost)',
                       borderRadius: 'var(--radius-sm)',
-                      fontSize: 11,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 500,
                       color: 'var(--primary)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.04em',
                       marginBottom: 8,
                     }}>{article.tag}</span>
-                    <h3 style={{ fontSize: 17, fontWeight: 400, color: 'var(--gray-900)', lineHeight: 1.5 }}>
+                    <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 400, color: 'var(--gray-900)', lineHeight: 1.5 }}>
                       {article.title}
                     </h3>
                     {article.featuredIn && (
-                      <p style={{ fontSize: 13, color: 'var(--gray-500)', marginTop: 6 }}>
+                      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)', marginTop: 6 }}>
                         Featured in {article.featuredIn}
                       </p>
                     )}

@@ -187,7 +187,7 @@ export default function FAQCard({
         }
 
         .faq-card-answer-text {
-          font-size: 15px;
+          font-size: var(--text-base);
           line-height: 1.65;
           color: rgba(255, 255, 255, 0.82);
           margin: 0;
@@ -262,7 +262,7 @@ export default function FAQCard({
             border-radius: 18px;
           }
           .faq-card-question {
-            font-size: 18px;
+            font-size: var(--text-lg);
           }
           .faq-card-disc {
             width: 38px;

@@ -18,7 +18,7 @@ export default function PlatformSection() {
             </h2>
           </RevealOnScroll>
           <RevealOnScroll direction="right" delay={0.15}>
-            <p style={{ fontSize: 17, color: 'var(--gray-500)', lineHeight: 1.7, fontWeight: 300 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--gray-500)', lineHeight: 1.7, fontWeight: 300 }}>
               MedCloud. AI-native from day one. Not retrofitted onto legacy systems.
               Your practice runs on it, or we plug into yours.
             </p>
@@ -43,7 +43,7 @@ export default function PlatformSection() {
               onMouseLeave={e => { e.currentTarget.style.background = '#00B5D6' }}
               >
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(40px, 5vw, 64px)', color: 'white', lineHeight: 1 }}>{item.n}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 10 }}>{item.l}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xxs)', fontWeight: 500, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 10 }}>{item.l}</div>
               </div>
             </RevealOnScroll>
           ))}
@@ -51,7 +51,7 @@ export default function PlatformSection() {
 
         <RevealOnScroll delay={0.5}>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Link href="/cosentus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 13 }}>
+            <Link href="/cosentus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 'var(--text-xs)' }}>
               Explore Zeus
             </Link>
           </div>

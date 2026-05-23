@@ -111,7 +111,7 @@ export default function LocationPageContent({ location }: Props) {
         >
           <p
             style={{
-              fontSize: 12,
+              fontSize: 'var(--text-xxs)',
               fontWeight: 500,
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
@@ -171,7 +171,7 @@ export default function LocationPageContent({ location }: Props) {
               <div style={{ marginBottom: 24 }}>
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 400,
                     color: 'var(--gray-500)',
                     textTransform: 'uppercase',
@@ -181,7 +181,7 @@ export default function LocationPageContent({ location }: Props) {
                 >
                   Address
                 </div>
-                <div style={{ fontSize: 17, color: 'var(--gray-800)' }}>
+                <div style={{ fontSize: 'var(--text-md)', color: 'var(--gray-800)' }}>
                   {address.street}
                   <br />
                   {address.city}, {address.region} {address.postalCode}
@@ -191,7 +191,7 @@ export default function LocationPageContent({ location }: Props) {
               <div style={{ marginBottom: 24 }}>
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 400,
                     color: 'var(--gray-500)',
                     textTransform: 'uppercase',
@@ -203,7 +203,7 @@ export default function LocationPageContent({ location }: Props) {
                 </div>
                 <a
                   href={`tel:${phone.replace(/\D/g, '')}`}
-                  style={{ fontSize: 17, color: 'var(--primary)', fontWeight: 400 }}
+                  style={{ fontSize: 'var(--text-md)', color: 'var(--primary)', fontWeight: 400 }}
                 >
                   {phone}
                 </a>
@@ -212,7 +212,7 @@ export default function LocationPageContent({ location }: Props) {
               <div style={{ marginBottom: 28 }}>
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 400,
                     color: 'var(--gray-500)',
                     textTransform: 'uppercase',
@@ -222,7 +222,7 @@ export default function LocationPageContent({ location }: Props) {
                 >
                   Hours
                 </div>
-                <div style={{ fontSize: 17, color: 'var(--gray-800)' }}>
+                <div style={{ fontSize: 'var(--text-md)', color: 'var(--gray-800)' }}>
                   Monday–Friday, 9am–5pm
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function LocationPageContent({ location }: Props) {
             <div>
               <p
                 style={{
-                  fontSize: 17,
+                  fontSize: 'var(--text-md)',
                   lineHeight: 1.7,
                   color: 'var(--gray-700)',
                   margin: 0,
@@ -313,14 +313,14 @@ export default function LocationPageContent({ location }: Props) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 18,
+                    fontSize: 'var(--text-lg)',
                     fontWeight: 600,
                     marginBottom: 16,
                   }}
                 >
                   {step.num}
                 </div>
-                <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.6, color: 'var(--gray-600)' }}>
                   {step.text}
                 </p>
               </div>
@@ -353,14 +353,14 @@ export default function LocationPageContent({ location }: Props) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 18,
+                      fontSize: 'var(--text-lg)',
                       fontWeight: 600,
                       marginBottom: 16,
                     }}
                   >
                     {step.num}
                   </div>
-                  <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--gray-600)' }}>
+                  <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.6, color: 'var(--gray-600)' }}>
                     {step.text}
                   </p>
                 </div>

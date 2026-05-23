@@ -523,7 +523,7 @@ function CindyInner() {
 
       {showPopup && !dismissed && (
         <div className="cindy-panel" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
-          <button onClick={dismissCindy} aria-label="Close Grace" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(255,255,255,0.20)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 14, transition: 'background 200ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.35)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.20)' }}>✕</button>
+          <button onClick={dismissCindy} aria-label="Close Grace" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(255,255,255,0.20)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 'var(--text-sm)', transition: 'background 200ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.35)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.20)' }}>✕</button>
 
           <div style={{ background: 'linear-gradient(135deg, #00B5D6 0%, #0090A8 100%)', padding: '24px 24px 32px', textAlign: 'center' }}>
             <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 12px', border: '3px solid white', overflow: 'hidden', position: 'relative', boxShadow: isListening ? '0 0 0 4px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3)' : '0 4px 16px rgba(0,0,0,0.2)', animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite' }}>
@@ -532,36 +532,36 @@ function CindyInner() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               {isListening && <div style={{ display: 'flex', gap: 3 }}>{[0,1,2,3,4].map(i => <div key={i} style={{ width: 3, height: 8, background: 'white', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />)}</div>}
-              <span style={{ fontSize: 13, color: 'white', fontWeight: 500 }}>{stateLabel}</span>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'white', fontWeight: 500 }}>{stateLabel}</span>
             </div>
           </div>
 
           <div style={{ padding: '20px 24px', minHeight: 80, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             {!isConnected ? (
               <>
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
+                <p style={{ fontSize: 'var(--text-sm)', lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
                   Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Grace</strong>, your AI voice guide. I can navigate, fill forms, and answer any questions. Ready?
                 </p>
                 {startError && (
-                  <p role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', border: '1px solid #F5C5C5', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px' }}>
+                  <p role="alert" style={{ fontSize: 'var(--text-xxs)', lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', border: '1px solid #F5C5C5', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px' }}>
                     {startError}
                   </p>
                 )}
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={startConversation} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
-                  <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 14, cursor: 'pointer' }}>Later</button>
+                  <button onClick={startConversation} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 'var(--text-sm)', fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
+                  <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 'var(--text-sm)', cursor: 'pointer' }}>Later</button>
                 </div>
               </>
             ) : (
               <>
-                <div style={{ fontSize: 12, lineHeight: 1.5, color: '#888', marginBottom: 12, textAlign: 'center', minHeight: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--text-xxs)', lineHeight: 1.5, color: '#888', marginBottom: 12, textAlign: 'center', minHeight: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {actionLabel ? (
                     <p style={{ margin: 0, color: '#00B5D6', fontWeight: 500 }}>{actionLabel}</p>
                   ) : (
                     <p style={{ margin: 0, color: '#00B5D6' }}>Go ahead, just talk naturally...</p>
                   )}
                 </div>
-                <button onClick={endConversation} aria-label="End conversation" style={{ width: '100%', padding: '10px', borderRadius: 12, border: '1px solid #ddd', cursor: 'pointer', background: 'white', color: '#999', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <button onClick={endConversation} aria-label="End conversation" style={{ width: '100%', padding: '10px', borderRadius: 12, border: '1px solid #ddd', cursor: 'pointer', background: 'white', color: '#999', fontSize: 'var(--text-xxs)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                   End Conversation
                 </button>
               </>

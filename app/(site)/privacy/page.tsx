@@ -3,7 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 
 export const metadata: Metadata = { title: 'Privacy Policy | Cosentus' }
 
-const h3Style = { fontSize: 20, fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
+const h3Style = { fontSize: 'var(--text-xl)', fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
 const strongStyle = { color: 'var(--gray-900)' }
 
 export default function PrivacyPage() {
@@ -12,7 +12,7 @@ export default function PrivacyPage() {
       <PageHero title="Privacy Policy" />
       <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
-          <div style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-700)' }}>
+          <div style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-700)' }}>
 
             <p>We take your privacy very seriously. Please read this privacy policy carefully as it contains important information on who we are, how and why we collect, store, use, and share your personal information. It also explains your rights in relation to your personal information and how to contact us or supervisory authorities in the event you have a complaint.</p>
 
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
             <p>We may also need to share some personal information with other parties, such as potential buyers of some or all of our business or during a re-structuring. We will typically anonymize information, but this may not always be possible. The recipient of the information will be bound by confidentiality obligations.</p>
 
             <h3 style={h3Style}>7. Personal Information We Disclosed for a Business Purpose</h3>
-            <p style={{ fontWeight: 600, color: 'var(--gray-900)', fontSize: 16 }}>WE DO NOT, AND WILL NOT, SELL YOUR PERSONAL INFORMATION.</p>
+            <p style={{ fontWeight: 600, color: 'var(--gray-900)', fontSize: 'var(--text-base)' }}>WE DO NOT, AND WILL NOT, SELL YOUR PERSONAL INFORMATION.</p>
             <p>In the preceding 12 months, we have disclosed for a business purpose to one or more third parties the following categories of personal information: identifiers; information that identifies, relates to, describes, or is capable of being associated with a particular individual; characteristics of protected classifications under California or federal law; commercial information; biometric information; internet or other electronic network activity information; geolocation data; professional or employment-related information; and inferences drawn from any of the information identified above to create a profile about a consumer.</p>
 
             <h3 style={h3Style}>8. Where Your Personal Information is Held</h3>

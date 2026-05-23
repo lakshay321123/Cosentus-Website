@@ -164,7 +164,7 @@ function InteractiveMindMap() {
             {/* Label */}
             <div style={{
               textAlign: 'center', marginTop: 5,
-              fontSize: 11, fontWeight: isActive ? 700 : 500,
+              fontSize: 'var(--text-xxs)', fontWeight: isActive ? 700 : 500,
               color: 'white',
               lineHeight: 1.25, whiteSpace: 'pre-line',
               transition: 'all 0.3s ease',
@@ -214,7 +214,7 @@ function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boo
         border: 'none', cursor: 'pointer', textAlign: 'left',
         gap: 16, transition: 'background 0.2s ease', fontFamily: 'var(--font-body)',
       }}>
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>{q}</span>
+        <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>{q}</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2.5}
           style={{ flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s ease' }}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -222,7 +222,7 @@ function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boo
       </button>
       {isOpen && (
         <div style={{ padding: '0 24px 20px', background: 'white' }}>
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)', paddingTop: 12, margin: 0 }}>{a}</p>
+          <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', paddingTop: 12, margin: 0 }}>{a}</p>
         </div>
       )}
     </div>
@@ -233,7 +233,7 @@ function FAQGroup({ title, faqs }: { title: string; faqs: Array<{ q: string; a: 
   const [openIndex, setOpenIndex] = useState(-1)
   return (
     <div style={{ marginBottom: 48 }}>
-      <h3 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16, fontFamily: 'var(--font-display)' }}>{title}</h3>
+      <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16, fontFamily: 'var(--font-display)' }}>{title}</h3>
       <div>
         {faqs.map((faq, i) => (
           <FAQItem key={i} q={faq.q} a={faq.a} isOpen={openIndex === i} onToggle={() => setOpenIndex(openIndex === i ? -1 : i)} />
@@ -314,7 +314,7 @@ export default function PracticeManagementContent() {
                 </h3>
                 {benefits.map((b, i) => (
                   <div key={i} style={{ marginBottom: 20 }}>
-                    <p style={{ fontSize: 15, lineHeight: 1.75 }}>
+                    <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75 }}>
                       <strong>{b.title}:</strong> {b.desc}
                     </p>
                   </div>
