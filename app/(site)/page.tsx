@@ -4,6 +4,7 @@ import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
 import RASection from '@/components/sections/RASection'
 import SpecialtiesSection from '@/components/sections/SpecialtiesSection'
 import ResultsSection from '@/components/sections/ResultsSection'
+import RCMCalculatorSection from '@/components/sections/RCMCalculatorSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
 import TestimonialsShuffleSection from '@/components/sections/TestimonialsShuffleSection'
@@ -31,20 +32,26 @@ export default function Home() {
             3. RASection — 9 AI voice agents + stats
             4. SpecialtiesSection — 6-card grid
             5. ResultsSection — numbers with up arrows
-            6. InsightsTabsSection — Resources tabs
-            7. PartnersSection — Our Network
-            8. TestimonialsShuffleSection — What Our Clients Say
+            6. RCMCalculatorSection — live "what could you recover"
+               calculator. Sits after Results so the narrative flows
+               "here's what we deliver" → "now see what those numbers
+               mean for YOUR practice". 3 inputs, 3-bucket breakdown,
+               existing site-wide CTA to /contact.
+            7. InsightsTabsSection — Resources tabs
+            8. PartnersSection — Our Network
+            9. TestimonialsShuffleSection — What Our Clients Say
                (home-only fan-stack glass-card variant; other pages
                still use the shared TestimonialsSection carousel)
-            9. FAQSection — 3 priority FAQs with arrow-disc
+           10. FAQSection — 3 priority FAQs with arrow-disc
                expander. Full /faqs index page exists but is
                intentionally NOT in the global nav.
-           10. CTASection */}
+           11. CTASection */}
       <HeroSection />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
       <ResultsSection />
+      <RCMCalculatorSection />
       <InsightsTabsSection />
       <PartnersSection />
       <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
