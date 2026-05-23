@@ -1623,6 +1623,248 @@ body:has(main.home-immersive) .footer-top {
   color: rgba(255, 255, 255, 0.80) !important;
 }
 
+/* ============================================================
+   RCM CALCULATOR — home page section
+   ============================================================
+   Frosted-glass calculator that sits on the immersive video bg.
+   Matches the home-immersive recipe used by .insights-card /
+   .service-card / .testimonial-card elsewhere on the page:
+     - background: rgba(255,255,255,0.08)
+     - backdrop-filter: blur(12px) saturate(140%)
+     - 1px white-translucent border
+     - White text throughout, teal accents for emphasis
+
+   Previously this section used solid white inputs panel + solid teal
+   gradient result panel — visually broke the immersive aesthetic
+   (user feedback: 'why is this colour, have you seen the landing
+   page?'). Restyled to be one cohesive glass card with a vertical
+   hairline divider on desktop / horizontal on mobile.
+
+   Structure:
+     .rcm-calc-section      = section wrapper (transparent over video)
+     .rcm-calc-card         = the single frosted-glass card
+       .rcm-calc-inputs       = LEFT: sliders, hairline-divided
+       .rcm-calc-result       = RIGHT: big $, breakdown, CTA
+         .rcm-calc-breakdown    = 3-bucket row inside result
+         .rcm-calc-cta          = pill CTA at the bottom
+     .rcm-calc-slider       = custom range-input styling
+                              (Chromium/WebKit + Firefox forks)
+============================================================ */
+
+/* Section wrapper transparent on the home page's immersive video bg.
+   Generous vertical padding so it doesn't feel cramped between
+   ResultsSection (above) and InsightsTabsSection (below). */
+.rcm-calc-section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+/* Card: 2-column grid on desktop, stacked on mobile. The card itself
+   is ONE frosted-glass surface (matching the home-immersive recipe
+   exactly: 8% white wash + 12px blur with 140% saturation). The two
+   halves are separated by a hairline at the column border.
+
+   The teal-tinted shadow (--shadow-glow already defined in globals)
+   lifts the card subtly off the video without solid color slabs. */
+.rcm-calc-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-xl), 0 0 60px rgba(0,181,214,0.15);
+}
+
+/* LEFT: inputs panel. Transparent (the card's frost shows through).
+   Right border is a hairline that becomes the visual divider between
+   inputs and result on desktop. On mobile this becomes a bottom
+   border (see media query). */
+.rcm-calc-inputs {
+  padding: 48px;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* RIGHT: result panel. Same transparent frost. Padding matches the
+   inputs panel so the two halves balance. Flex column so the big $
+   sits top, breakdown middle, CTA bottom-left. */
+.rcm-calc-result {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 3-column breakdown row inside the result panel. Thin white-with-alpha
+   border at the top of the row visually separates it from the big
+   headline number above. */
+.rcm-calc-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.18);
+  margin-bottom: 40px;
+}
+.rcm-calc-bucket {
+  text-align: left;
+}
+.rcm-calc-bucket-value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.rcm-calc-bucket-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* CTA was previously .rcm-calc-cta (custom white pill). Switched to
+   the site-canonical .btn-primary class (saturated teal + white text)
+   per user direction May 2026 ('make the button like the buttons on
+   the page. Remove the blue text.'). Block intentionally removed; the
+   component now uses className='btn-primary' directly. */
+/* ===== SLIDER STYLING =====
+   Native <input type='range'> rendering varies wildly across browsers.
+   These rules normalize the track + thumb for the dark-frost context.
+   The track is a thin white-translucent rail (visible on dark); the
+   thumb is the brand teal with a white ring for affordance. */
+.rcm-calc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+.rcm-calc-slider:focus { outline: none; }
+
+/* WebKit thumb */
+.rcm-calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.40);
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.rcm-calc-slider:hover::-webkit-slider-thumb,
+.rcm-calc-slider:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
+}
+
+/* Firefox thumb */
+.rcm-calc-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.40);
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.rcm-calc-slider:hover::-moz-range-thumb,
+.rcm-calc-slider:active::-moz-range-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
+}
+
+/* Firefox track */
+.rcm-calc-slider::-moz-range-track {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  height: 6px;
+}
+
+/* Big recovery number ($XXX,XXX in the result panel). Font-size is
+   class-based (not inline) so the mobile media query below can
+   override it without needing !important. clamp() so the number
+   scales between large-but-readable on mid-range desktops and
+   hero-scale on wide monitors. */
+.rcm-calc-bignum {
+  font-size: clamp(56px, 8vw, 88px);
+}
+
+/* The teal numerals next to each slider label (e.g. '$500,000',
+   '10%', '25%'). Also class-based for the same mobile-override
+   reason. These are the values the user is actively reading as they
+   drag, so they're large but not hero-scale. */
+.rcm-calc-liveval {
+  font-size: 32px;
+}
+
+/* The .rcm-calc-cta class (solid-teal pill) that used to live here
+   was removed May 2026. User direction: button must match other CTAs
+   on the home page, which all use .btn-primary (glass-pill via the
+   .home-immersive override at ~line 4555). Component now uses
+   className='btn-primary' directly; no calculator-specific button
+   styling needed. */
+
+/* ===== MOBILE: stack the two halves and convert the vertical divider
+   to a horizontal one ===== */
+@media (max-width: 768px) {
+  .rcm-calc-section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  .rcm-calc-card {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+  .rcm-calc-inputs {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  }
+  .rcm-calc-inputs,
+  .rcm-calc-result {
+    padding: 32px 22px;
+  }
+
+  /* Big number shrinks on narrow viewports so '$1,255,500' doesn't
+     overflow the result panel. clamp(40, 11vw, 56) keeps it large
+     enough to feel like a hero number on phones (~52px on a 480px
+     screen) while never blowing past ~56px on small screens. */
+  .rcm-calc-bignum {
+    font-size: clamp(40px, 11vw, 56px);
+  }
+  /* Slider live values — still prominent but ~75% of desktop size
+     so they fit comfortably alongside the slider label on a narrow
+     row. */
+  .rcm-calc-liveval {
+    font-size: 24px;
+  }
+  /* Bucket values + labels — step down so the 3-column row doesn't
+     crowd at narrow widths. */
+  .rcm-calc-breakdown {
+    gap: 10px;
+  }
+  .rcm-calc-bucket-value {
+    font-size: 20px;
+  }
+  .rcm-calc-bucket-label {
+    font-size: 11px;
+  }
+}
+
+
 /* ===== 3D FLIP — result arrows flip on hover to reveal dollar-impact copy ===== */
 .result-item {
   perspective: 1200px;
