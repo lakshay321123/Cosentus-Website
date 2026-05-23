@@ -68,16 +68,133 @@ const testimonials = [
 // per the Specialty Pages doc (v1, May 19 2026). Card titles and
 // descriptions are verbatim from the doc. References to Chris and
 // Cindy match the AI agents introduced on the homepage.
+//
+// Each card carries an `eyebrow` (small caps label above the title)
+// and an `anim` key that selects the bottom decorative animation
+// (see CardAnimation switch below).
 const solutions = [
-  { t: 'Anesthesia-Specific Coding', d: 'Base units, time units, modifiers, concurrency. Coded accurately for every case type including cardiac, OB, pain, and regional.' },
-  { t: 'Payer-Specific Billing Rules', d: 'Each payer reimburses anesthesia differently. Our team knows the rules for every major carrier and adapts accordingly.' },
-  { t: 'Credentialing & Enrollment', d: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.' },
-  { t: 'Prior Authorization', d: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.' },
-  { t: 'Denial Management & Appeals', d: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.' },
-  { t: 'AR Follow-Up & Collections', d: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.' },
-  { t: 'Patient Billing & Support', d: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.' },
-  { t: 'Analytics & Visibility', d: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.' },
+  { t: 'Anesthesia-Specific Coding', d: 'Base units, time units, modifiers, concurrency. Coded accurately for every case type including cardiac, OB, pain, and regional.', eyebrow: 'SPECIALTY EXPERTISE', anim: 'modifiers' as const },
+  { t: 'Payer-Specific Billing Rules', d: 'Each payer reimburses anesthesia differently. Our team knows the rules for every major carrier and adapts accordingly.', eyebrow: 'PAYER INTELLIGENCE', anim: 'rules' as const },
+  { t: 'Credentialing & Enrollment', d: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', eyebrow: 'FRONT OFFICE', anim: 'badges' as const },
+  { t: 'Prior Authorization', d: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', eyebrow: 'AUTHORIZATIONS', anim: 'stamp' as const },
+  { t: 'Denial Management & Appeals', d: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', eyebrow: 'DENIAL PREVENTION', anim: 'stat' as const },
+  { t: 'AR Follow-Up & Collections', d: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', eyebrow: 'AI AGENT \u2014 CHRIS', anim: 'pulse' as const },
+  { t: 'Patient Billing & Support', d: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', eyebrow: 'AI AGENT \u2014 CINDY', anim: 'languages' as const },
+  { t: 'Analytics & Visibility', d: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', eyebrow: 'REAL-TIME INSIGHTS', anim: 'chart' as const },
 ]
+
+type AnimKind = typeof solutions[number]['anim']
+
+/**
+ * CardAnimation — small decorative SVG/CSS motif rendered in the
+ * bottom half of each RCM Solutions card. Each motif is themed to
+ * the card's content (modifier codes for coding, badges for
+ * credentialing, etc.). All animations are CSS-only (transforms +
+ * opacity) and respect prefers-reduced-motion via the parent
+ * class .anes-marquee[data-reduced=true] which freezes them.
+ */
+function CardAnimation({ kind }: { kind: AnimKind }) {
+  switch (kind) {
+    case 'modifiers':
+      // 4 anesthesia modifier pills bobbing at different phases
+      return (
+        <div className="anim anim-modifiers" aria-hidden="true">
+          {['AA', 'QK', 'QY', 'AD'].map((code, i) => (
+            <span key={code} className={`anim-mod-pill anim-mod-pill-${i}`}>{code}</span>
+          ))}
+        </div>
+      )
+    case 'rules':
+      // 3 layered "rule sheets" — top one slides horizontally
+      return (
+        <div className="anim anim-rules" aria-hidden="true">
+          <span className="anim-rule-sheet anim-rule-sheet-back" />
+          <span className="anim-rule-sheet anim-rule-sheet-mid" />
+          <span className="anim-rule-sheet anim-rule-sheet-front">
+            <span className="anim-rule-line" style={{ width: '70%' }} />
+            <span className="anim-rule-line" style={{ width: '50%' }} />
+            <span className="anim-rule-line" style={{ width: '60%' }} />
+          </span>
+        </div>
+      )
+    case 'badges':
+      // 3 circle badges with checkmarks fading in sequentially
+      return (
+        <div className="anim anim-badges" aria-hidden="true">
+          {[0, 1, 2].map(i => (
+            <span key={i} className={`anim-badge anim-badge-${i}`}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+          ))}
+        </div>
+      )
+    case 'stamp':
+      // Progress bar with a stamp dot moving along it
+      return (
+        <div className="anim anim-stamp" aria-hidden="true">
+          <div className="anim-stamp-track">
+            <div className="anim-stamp-fill" />
+            <div className="anim-stamp-dot" />
+          </div>
+          <div className="anim-stamp-label">APPROVED</div>
+        </div>
+      )
+    case 'stat':
+      // Big 95% with rising bars beside it
+      return (
+        <div className="anim anim-stat" aria-hidden="true">
+          <div className="anim-stat-number">
+            95<span className="anim-stat-pct">%</span>
+          </div>
+          <div className="anim-stat-bars">
+            {[0, 1, 2, 3].map(i => (
+              <span key={i} className={`anim-stat-bar anim-stat-bar-${i}`} />
+            ))}
+          </div>
+        </div>
+      )
+    case 'pulse':
+      // Phone icon with 3 concentric pulse rings
+      return (
+        <div className="anim anim-pulse" aria-hidden="true">
+          <span className="anim-pulse-ring anim-pulse-ring-0" />
+          <span className="anim-pulse-ring anim-pulse-ring-1" />
+          <span className="anim-pulse-ring anim-pulse-ring-2" />
+          <span className="anim-pulse-core">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72a2 2 0 011.72 2z" />
+            </svg>
+          </span>
+        </div>
+      )
+    case 'languages':
+      // Multilingual chat bubbles cycling
+      return (
+        <div className="anim anim-langs" aria-hidden="true">
+          {[
+            { code: 'EN', i: 0 },
+            { code: 'ES', i: 1 },
+            { code: '中', i: 2 },
+            { code: 'FR', i: 3 },
+            { code: 'AR', i: 4 },
+          ].map(({ code, i }) => (
+            <span key={code} className={`anim-lang-bubble anim-lang-bubble-${i}`}>{code}</span>
+          ))}
+        </div>
+      )
+    case 'chart':
+      // Bar chart growing sequentially
+      return (
+        <div className="anim anim-chart" aria-hidden="true">
+          {[36, 52, 28, 64, 44, 72, 58].map((h, i) => (
+            <span key={i} className={`anim-chart-bar anim-chart-bar-${i}`} style={{ height: `${h}%` }} />
+          ))}
+        </div>
+      )
+  }
+}
 
 export default function AnesthesiaContent() {
   return (
@@ -189,226 +306,463 @@ export default function AnesthesiaContent() {
           descriptions are verbatim from the doc; references to Chris
           and Cindy match the AI agents on the homepage.
 
-          Layout: an asymmetric bento grid inspired by the 21st Dev
-          bento-product-features pattern, rebuilt natively (no
-          shadcn / framer-motion import) to match the rest of the
-          site's styling conventions.
+          Layout: a horizontal auto-scrolling marquee carousel where
+          every card uses the same "lead" treatment that the bento
+          version had on its first cell (teal accent stripe, gradient
+          white-to-pale-teal background, eyebrow label, display-font
+          title). Each card carries a unique CSS animation in its
+          lower half tied to the card's content.
 
-          - 4 columns x 3 rows on desktop
-          - Card 1 (lead, col 1, rows 1-2): Anesthesia-Specific Coding,
-            larger title, teal accent stripe, eyebrow label
-          - Cards 2-7 (rows 1 and 2, cols 2-4): standard 1x1 cards
-            auto-placed by the grid in source order
-          - Card 8 (wide footer, row 3, spans all 4 cols): Analytics
-            & Visibility, two-column inner layout with a pulsing
-            "LIVE" pill to hint at real-time dashboards
-          - Hover on any card: -3px lift + teal border + soft shadow
-          - Stagger reveal via RevealOnScroll with incrementing delay
-          - Mobile (<=900px): collapses to a single column, the wide
-            card stacks its content vertically */}
+          Marquee mechanics follow the same pattern as the existing
+          .testimonials-track in globals.css:
+            - The track is rendered with the 8 cards TWICE so the
+              transform: translateX(0) -> -50% loop is seamless
+            - Linear 60s loop on desktop (slightly slower than the
+              50s testimonials ticker because the cards are taller
+              and more content-dense)
+            - .anes-marquee-track:hover pauses the animation
+            - Edge fade via mask-image so cards don't pop in/out
+              hard at the container boundaries
+            - prefers-reduced-motion: reduce pauses the marquee
+              and all internal card animations
+
+          Card width clamps to roughly 25% of a 1280px container
+          (300-340px) so four cards are visible at once on desktop,
+          which matches the user's "have four visible, scrolling"
+          direction. Mobile shows fewer naturally as the viewport
+          narrows. */}
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
+        </div>
 
-          <div className="anes-bento" style={{ marginTop: 48 }}>
-            {/* Lead card — Anesthesia-Specific Coding (col 1, spans 2 rows) */}
-            <RevealOnScroll className="anes-bento__pos--lead" delay={0.1}>
-              <div className="anes-bento__card anes-bento__card--lead">
-                <div className="anes-bento__eyebrow">SPECIALTY EXPERTISE</div>
-                <h3 className="anes-bento__title anes-bento__title--lead">{solutions[0].t}</h3>
-                <p className="anes-bento__desc">{solutions[0].d}</p>
-                {/* Pulsing teal dot at bottom-left as a small visual anchor
-                    so the tall card doesn't feel empty in its lower half */}
-                <div className="anes-bento__lead-anchor" aria-hidden="true">
-                  <span className="anes-bento__pulse-dot" />
+        {/* Marquee lives OUTSIDE .container so the cards can scroll
+            edge-to-edge. The fade mask on .anes-marquee handles the
+            "appears from the right, disappears on the left" feel. */}
+        <div className="anes-marquee" style={{ marginTop: 48 }}>
+          <div className="anes-marquee-track">
+            {/* Cards rendered twice so translateX(-50%) loops seamlessly */}
+            {[...solutions, ...solutions].map((s, i) => (
+              <article key={i} className="anes-card" aria-hidden={i >= solutions.length}>
+                <div className="anes-card-stripe" />
+                <div className="anes-card-eyebrow">{s.eyebrow}</div>
+                <h3 className="anes-card-title">{s.t}</h3>
+                <p className="anes-card-desc">{s.d}</p>
+                <div className="anes-card-anim">
+                  <CardAnimation kind={s.anim} />
                 </div>
-              </div>
-            </RevealOnScroll>
-
-            {/* Standard cards 2-7 — auto-placed into the remaining cells */}
-            {solutions.slice(1, 7).map((s, i) => (
-              <RevealOnScroll key={s.t} delay={0.15 + i * 0.05}>
-                <div className="anes-bento__card">
-                  <h3 className="anes-bento__title">{s.t}</h3>
-                  <p className="anes-bento__desc">{s.d}</p>
-                </div>
-              </RevealOnScroll>
+              </article>
             ))}
-
-            {/* Wide footer — Analytics & Visibility, spans all 4 cols on row 3 */}
-            <RevealOnScroll className="anes-bento__pos--wide" delay={0.5}>
-              <div className="anes-bento__card anes-bento__card--wide">
-                <div className="anes-bento__wide-text">
-                  <h3 className="anes-bento__title">{solutions[7].t}</h3>
-                  <p className="anes-bento__desc">{solutions[7].d}</p>
-                </div>
-                <div className="anes-bento__pulse" aria-hidden="true">
-                  <span className="anes-bento__pulse-dot" />
-                  LIVE
-                </div>
-              </div>
-            </RevealOnScroll>
           </div>
 
           <style>{`
-            .anes-bento {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              grid-auto-rows: minmax(180px, auto);
-              gap: 16px;
+            /* === Marquee container === */
+            .anes-marquee {
+              overflow: hidden;
+              position: relative;
+              /* Edge fade so cards don't cut hard at the edges */
+              -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+            }
+            .anes-marquee-track {
+              display: flex;
+              gap: 20px;
+              width: max-content;
+              padding: 8px 20px;
+              animation: anes-marquee-scroll 60s linear infinite;
+              will-change: transform;
+            }
+            .anes-marquee-track:hover {
+              animation-play-state: paused;
+            }
+            @keyframes anes-marquee-scroll {
+              from { transform: translateX(0); }
+              to   { transform: translateX(calc(-50% - 10px)); }
             }
 
-            /* Position classes applied to the RevealOnScroll wrapper
-               (which is the actual grid item). Inner .anes-bento__card
-               fills 100% height via the card style block below. */
-            .anes-bento__pos--lead {
-              grid-column: 1 / 2;
-              grid-row: 1 / 3;
-            }
-            .anes-bento__pos--wide {
-              grid-column: 1 / 5;
-              grid-row: 3;
-            }
-
-            /* Base card */
-            .anes-bento__card {
-              height: 100%;
-              background: var(--white);
+            /* === Card (all 8 share this — uniform lead-style) === */
+            .anes-card {
+              flex-shrink: 0;
+              width: clamp(280px, 22vw, 330px);
+              height: 420px;
+              background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
               border: 1px solid var(--gray-200);
               border-radius: 16px;
-              padding: 28px 30px;
+              padding: 36px 30px 28px;
               display: flex;
               flex-direction: column;
-              gap: 10px;
+              gap: 12px;
               position: relative;
               overflow: hidden;
               transition: border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
                 transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
                 box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
             }
-            .anes-bento__card:hover {
+            .anes-card:hover {
               border-color: #00B5D6;
               transform: translateY(-3px);
               box-shadow: 0 16px 36px -16px rgba(0, 181, 214, 0.22);
             }
-
-            /* Lead variant */
-            .anes-bento__card--lead {
-              background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
-              padding: 38px 34px 32px;
-              gap: 14px;
-            }
-            .anes-bento__card--lead::before {
-              content: '';
+            .anes-card-stripe {
               position: absolute;
               top: 0; left: 0;
               width: 4px;
               height: 100%;
               background: linear-gradient(180deg, #00B5D6 0%, rgba(0,181,214,0.4) 100%);
             }
-            .anes-bento__lead-anchor {
-              margin-top: auto;
-              padding-top: 24px;
-              display: flex;
-              align-items: center;
-              gap: 8px;
-            }
-
-            /* Wide variant — title/desc on left, LIVE pill on right */
-            .anes-bento__card--wide {
-              flex-direction: row;
-              align-items: center;
-              justify-content: space-between;
-              gap: 32px;
-              padding: 28px 36px;
-            }
-            .anes-bento__wide-text {
-              display: flex;
-              flex-direction: column;
-              gap: 8px;
-              max-width: 720px;
-            }
-
-            /* Typography */
-            .anes-bento__eyebrow {
+            .anes-card-eyebrow {
               font-family: var(--font-display);
               font-size: 11px;
               font-weight: 500;
               letter-spacing: 0.14em;
               text-transform: uppercase;
               color: #00B5D6;
-              margin: 0 0 2px 0;
             }
-            .anes-bento__title {
-              font-size: 17px;
-              font-weight: 500;
+            .anes-card-title {
+              font-family: var(--font-display);
+              font-size: 20px;
+              font-weight: 400;
               color: var(--gray-900);
               margin: 0;
-              line-height: 1.3;
-            }
-            .anes-bento__title--lead {
-              font-size: 22px;
-              font-weight: 400;
-              font-family: var(--font-display);
               line-height: 1.2;
               letter-spacing: -0.01em;
             }
-            .anes-bento__desc {
-              font-size: 14.5px;
+            .anes-card-desc {
+              font-size: 14px;
               line-height: 1.6;
               color: var(--gray-600);
               margin: 0;
             }
-
-            /* Pulsing LIVE indicator on wide card + dot on lead card */
-            .anes-bento__pulse {
-              display: inline-flex;
+            .anes-card-anim {
+              margin-top: auto;
+              height: 110px;
+              position: relative;
+              display: flex;
               align-items: center;
-              gap: 8px;
-              font-size: 11px;
+              justify-content: center;
+            }
+
+            /* === Per-card animations === */
+
+            /* Modifiers: 4 floating pills */
+            .anim-modifiers {
+              position: relative;
+              width: 100%;
+              height: 100%;
+            }
+            .anim-mod-pill {
+              position: absolute;
+              font-family: var(--font-display);
+              font-size: 14px;
               font-weight: 600;
-              letter-spacing: 0.12em;
+              letter-spacing: 0.05em;
               color: #00B5D6;
               background: rgba(0, 181, 214, 0.08);
-              border: 1px solid rgba(0, 181, 214, 0.22);
+              border: 1px solid rgba(0, 181, 214, 0.25);
               border-radius: 999px;
-              padding: 8px 14px 8px 12px;
-              flex-shrink: 0;
+              padding: 6px 14px;
+              animation: anes-pill-float 4s ease-in-out infinite;
             }
-            .anes-bento__pulse-dot {
-              width: 8px;
-              height: 8px;
+            .anim-mod-pill-0 { left: 8%;  top: 18%; animation-delay: 0s;    }
+            .anim-mod-pill-1 { left: 38%; top: 8%;  animation-delay: -1s;   }
+            .anim-mod-pill-2 { left: 30%; top: 58%; animation-delay: -2s;   }
+            .anim-mod-pill-3 { left: 62%; top: 38%; animation-delay: -3s;   }
+            @keyframes anes-pill-float {
+              0%, 100% { transform: translateY(0); }
+              50%      { transform: translateY(-8px); }
+            }
+
+            /* Rules: 3 stacked rule sheets */
+            .anim-rules {
+              position: relative;
+              width: 100%;
+              height: 100%;
+            }
+            .anim-rule-sheet {
+              position: absolute;
+              border-radius: 8px;
+              background: var(--white);
+              border: 1px solid rgba(0, 181, 214, 0.25);
+              box-shadow: 0 4px 12px -6px rgba(0, 181, 214, 0.18);
+            }
+            .anim-rule-sheet-back {
+              width: 56%; height: 70%;
+              left: 22%; top: 22%;
+              opacity: 0.5;
+              transform: rotate(-3deg);
+            }
+            .anim-rule-sheet-mid {
+              width: 60%; height: 72%;
+              left: 20%; top: 16%;
+              opacity: 0.75;
+              transform: rotate(1.5deg);
+            }
+            .anim-rule-sheet-front {
+              width: 64%; height: 76%;
+              left: 18%; top: 10%;
+              padding: 10px 14px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              gap: 6px;
+              animation: anes-rules-slide 5s ease-in-out infinite;
+            }
+            .anim-rule-line {
+              height: 4px;
+              border-radius: 2px;
+              background: rgba(0, 181, 214, 0.35);
+            }
+            @keyframes anes-rules-slide {
+              0%, 100% { transform: translateX(0) rotate(0deg); }
+              50%      { transform: translateX(6px) rotate(-1deg); }
+            }
+
+            /* Badges: 3 circles with checkmarks fading in */
+            .anim-badges {
+              display: flex;
+              gap: 14px;
+              align-items: center;
+            }
+            .anim-badge {
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              background: rgba(0, 181, 214, 0.08);
+              border: 1.5px solid #00B5D6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              animation: anes-badge-fade 3s ease-in-out infinite;
+            }
+            .anim-badge-0 { animation-delay: 0s; }
+            .anim-badge-1 { animation-delay: 0.4s; }
+            .anim-badge-2 { animation-delay: 0.8s; }
+            @keyframes anes-badge-fade {
+              0%, 80%, 100% { opacity: 1; transform: scale(1); }
+              40%           { opacity: 0.4; transform: scale(0.88); }
+            }
+
+            /* Stamp: progress bar with moving dot + label */
+            .anim-stamp {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 12px;
+              padding: 0 16px;
+            }
+            .anim-stamp-track {
+              position: relative;
+              width: 100%;
+              height: 6px;
+              background: rgba(0, 181, 214, 0.12);
+              border-radius: 999px;
+              overflow: visible;
+            }
+            .anim-stamp-fill {
+              position: absolute;
+              top: 0; left: 0;
+              height: 100%;
+              background: #00B5D6;
+              border-radius: 999px;
+              animation: anes-stamp-fill 3.5s ease-in-out infinite;
+            }
+            .anim-stamp-dot {
+              position: absolute;
+              top: 50%;
+              width: 14px;
+              height: 14px;
               border-radius: 50%;
               background: #00B5D6;
-              animation: anes-bento-pulse 1.8s ease-in-out infinite;
+              box-shadow: 0 0 0 4px rgba(0, 181, 214, 0.22);
+              transform: translate(-50%, -50%);
+              animation: anes-stamp-dot 3.5s ease-in-out infinite;
             }
-            @keyframes anes-bento-pulse {
-              0%, 100% { opacity: 1; transform: scale(1); }
-              50% { opacity: 0.45; transform: scale(0.7); }
+            @keyframes anes-stamp-fill {
+              0%, 100% { width: 0%; }
+              60%      { width: 100%; }
+              80%      { width: 100%; }
+            }
+            @keyframes anes-stamp-dot {
+              0%, 100% { left: 0%; }
+              60%      { left: 100%; }
+              80%      { left: 100%; }
+            }
+            .anim-stamp-label {
+              font-family: var(--font-display);
+              font-size: 11px;
+              font-weight: 600;
+              letter-spacing: 0.16em;
+              color: #00B5D6;
             }
 
-            /* Tablet: 2 columns, lead and wide both span full width */
-            @media (max-width: 1100px) {
-              .anes-bento { grid-template-columns: repeat(2, 1fr); }
-              .anes-bento__pos--lead { grid-column: 1 / -1; grid-row: auto; }
-              .anes-bento__pos--wide { grid-column: 1 / -1; grid-row: auto; }
+            /* Stat: big 95% number + rising bars */
+            .anim-stat {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 18px;
+              width: 100%;
+            }
+            .anim-stat-number {
+              font-family: var(--font-display);
+              font-size: 56px;
+              font-weight: 300;
+              color: var(--gray-900);
+              line-height: 1;
+              letter-spacing: -0.03em;
+            }
+            .anim-stat-pct {
+              font-size: 28px;
+              color: #00B5D6;
+              margin-left: 2px;
+            }
+            .anim-stat-bars {
+              display: flex;
+              align-items: flex-end;
+              gap: 4px;
+              height: 60px;
+            }
+            .anim-stat-bar {
+              width: 6px;
+              background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.4) 100%);
+              border-radius: 2px;
+              transform-origin: bottom;
+              animation: anes-stat-bar-grow 2.5s ease-in-out infinite;
+            }
+            .anim-stat-bar-0 { height: 28%; animation-delay: 0s;   }
+            .anim-stat-bar-1 { height: 50%; animation-delay: 0.15s;}
+            .anim-stat-bar-2 { height: 72%; animation-delay: 0.3s; }
+            .anim-stat-bar-3 { height: 95%; animation-delay: 0.45s;}
+            @keyframes anes-stat-bar-grow {
+              0%, 100% { transform: scaleY(1); }
+              50%      { transform: scaleY(0.5); }
             }
 
-            /* Mobile: single column, wide card stacks */
+            /* Pulse: phone + concentric rings (Chris) */
+            .anim-pulse {
+              position: relative;
+              width: 80px;
+              height: 80px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .anim-pulse-ring {
+              position: absolute;
+              inset: 0;
+              border-radius: 50%;
+              border: 1.5px solid #00B5D6;
+              animation: anes-pulse-ring 2.4s ease-out infinite;
+              opacity: 0;
+            }
+            .anim-pulse-ring-0 { animation-delay: 0s; }
+            .anim-pulse-ring-1 { animation-delay: 0.8s; }
+            .anim-pulse-ring-2 { animation-delay: 1.6s; }
+            @keyframes anes-pulse-ring {
+              0%   { transform: scale(0.5); opacity: 0.9; }
+              80%  { transform: scale(1.6); opacity: 0; }
+              100% { transform: scale(1.6); opacity: 0; }
+            }
+            .anim-pulse-core {
+              position: relative;
+              width: 44px;
+              height: 44px;
+              border-radius: 50%;
+              background: rgba(0, 181, 214, 0.1);
+              border: 1.5px solid #00B5D6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 1;
+            }
+
+            /* Languages: chat bubbles cycling (Cindy) */
+            .anim-langs {
+              position: relative;
+              width: 100%;
+              height: 100%;
+            }
+            .anim-lang-bubble {
+              position: absolute;
+              font-family: var(--font-display);
+              font-size: 14px;
+              font-weight: 600;
+              color: #00B5D6;
+              background: var(--white);
+              border: 1px solid rgba(0, 181, 214, 0.3);
+              border-radius: 14px;
+              padding: 6px 12px;
+              box-shadow: 0 4px 10px -4px rgba(0, 181, 214, 0.2);
+              animation: anes-lang-cycle 5s ease-in-out infinite;
+              opacity: 0;
+            }
+            .anim-lang-bubble-0 { left: 6%;  top: 16%;  animation-delay: 0s;   }
+            .anim-lang-bubble-1 { left: 38%; top: 8%;   animation-delay: 1s;   }
+            .anim-lang-bubble-2 { left: 68%; top: 20%;  animation-delay: 2s;   }
+            .anim-lang-bubble-3 { left: 16%; top: 56%;  animation-delay: 3s;   }
+            .anim-lang-bubble-4 { left: 52%; top: 56%;  animation-delay: 4s;   }
+            @keyframes anes-lang-cycle {
+              0%, 100%  { opacity: 0; transform: scale(0.8); }
+              15%, 60%  { opacity: 1; transform: scale(1); }
+              75%       { opacity: 0; transform: scale(0.8); }
+            }
+
+            /* Chart: animated bar chart */
+            .anim-chart {
+              display: flex;
+              align-items: flex-end;
+              gap: 6px;
+              height: 80%;
+              padding: 0 12px;
+            }
+            .anim-chart-bar {
+              flex: 1;
+              background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.35) 100%);
+              border-radius: 3px 3px 0 0;
+              transform-origin: bottom;
+              animation: anes-chart-grow 3s ease-in-out infinite;
+            }
+            .anim-chart-bar-0 { animation-delay: 0s;    }
+            .anim-chart-bar-1 { animation-delay: 0.1s;  }
+            .anim-chart-bar-2 { animation-delay: 0.2s;  }
+            .anim-chart-bar-3 { animation-delay: 0.3s;  }
+            .anim-chart-bar-4 { animation-delay: 0.4s;  }
+            .anim-chart-bar-5 { animation-delay: 0.5s;  }
+            .anim-chart-bar-6 { animation-delay: 0.6s;  }
+            @keyframes anes-chart-grow {
+              0%, 100% { transform: scaleY(1); }
+              50%      { transform: scaleY(0.4); }
+            }
+
+            /* Reduced motion: freeze everything but keep static visuals */
+            @media (prefers-reduced-motion: reduce) {
+              .anes-marquee-track,
+              .anim-mod-pill,
+              .anim-rule-sheet-front,
+              .anim-badge,
+              .anim-stamp-fill,
+              .anim-stamp-dot,
+              .anim-stat-bar,
+              .anim-pulse-ring,
+              .anim-lang-bubble,
+              .anim-chart-bar {
+                animation: none !important;
+              }
+              /* Make language bubbles all visible at rest so the
+                 card isn't blank when animations are off */
+              .anim-lang-bubble { opacity: 1; transform: scale(1); }
+            }
+
+            /* Tablet/mobile: same marquee, just narrower cards */
             @media (max-width: 720px) {
-              .anes-bento {
-                grid-template-columns: 1fr;
-                grid-auto-rows: auto;
+              .anes-card {
+                width: 78vw;
+                height: 400px;
+                padding: 28px 24px 24px;
               }
-              .anes-bento__card { padding: 24px 24px; }
-              .anes-bento__card--lead { padding: 28px 24px; }
-              .anes-bento__card--wide {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-                padding: 24px;
-              }
-              .anes-bento__title--lead { font-size: 20px; }
+              .anes-card-title { font-size: 19px; }
+              .anes-marquee-track { animation-duration: 50s; }
             }
           `}</style>
         </div>
