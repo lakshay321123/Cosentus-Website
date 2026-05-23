@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
@@ -202,6 +203,163 @@ function CardAnimation({ kind }: { kind: AnimKind }) {
   }
 }
 
+/**
+ * DraggableMarquee — auto-scrolling card track with drag-to-scrub.
+ *
+ * Why a JS-controlled marquee instead of CSS keyframes:
+ *   The previous version used `animation: anes-marquee-scroll 60s
+ *   linear infinite` with hover-to-pause. Preview feedback was that
+ *   readers also want to be able to drag the track left/right to
+ *   land on a specific card. CSS keyframes don't combine cleanly
+ *   with manual position control — resuming from a dragged position
+ *   would require splicing animation-delay math and still risks
+ *   jumps. A single requestAnimationFrame loop that updates a ref
+ *   and writes inline transform is simpler and gives precise drag
+ *   control with no flicker.
+ *
+ * State lives in refs (not useState) so high-frequency updates
+ * during scroll/drag don't trigger React re-renders for every
+ * frame. The component renders once and the RAF loop mutates the
+ * track's style directly via the trackRef.
+ *
+ * Seamless loop: the cards are rendered twice, so when the track
+ * has translated past -halfWidth we add halfWidth back. The user
+ * sees a continuous strip — there's no visible reset.
+ *
+ * Hover and drag both suppress the auto-scroll tick. When the user
+ * releases the pointer the loop resumes from wherever the drag
+ * left it.
+ *
+ * Touch: PointerEvents fire for both mouse and touch. CSS
+ * `touch-action: pan-y` lets vertical page scrolling pass through
+ * so swiping up/down on the marquee still scrolls the page on
+ * mobile; only horizontal pans are captured by the marquee.
+ *
+ * Reduced motion: respects prefers-reduced-motion at mount time
+ * by skipping the RAF speed update entirely. Drag still works.
+ */
+function DraggableMarquee({ items }: { items: typeof solutions }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const translateXRef = useRef(0)
+  const halfWidthRef = useRef(0)
+  const isDraggingRef = useRef(false)
+  const isHoveringRef = useRef(false)
+  const dragStartRef = useRef({ pointerX: 0, translateX: 0 })
+  const rafRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (!trackRef.current) return
+
+    // Total scrollable distance is exactly half the track width
+    // (since items are rendered twice). Re-measure on window resize
+    // because card widths use clamp() and change at breakpoints.
+    const measureHalfWidth = () => {
+      if (!trackRef.current) return
+      halfWidthRef.current = trackRef.current.scrollWidth / 2
+    }
+    measureHalfWidth()
+    window.addEventListener('resize', measureHalfWidth)
+
+    // Respect reduced-motion preference for the auto-scroll only —
+    // dragging still works, the marquee just doesn't move on its own.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // Speed: roughly matches the previous 60s CSS animation
+    // (half-track distance over 60s at ~60fps). Tunable.
+    const SPEED_PX_PER_FRAME = 0.55
+
+    const tick = () => {
+      const shouldAutoScroll =
+        !isDraggingRef.current && !isHoveringRef.current && !reducedMotion
+
+      if (shouldAutoScroll) {
+        translateXRef.current -= SPEED_PX_PER_FRAME
+      }
+
+      // Wrap to keep position in (-halfWidth, 0] range. The seamless
+      // duplication of cards means a wrap is visually invisible.
+      const half = halfWidthRef.current
+      if (half > 0) {
+        if (translateXRef.current <= -half) translateXRef.current += half
+        else if (translateXRef.current > 0) translateXRef.current -= half
+      }
+
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translate3d(${translateXRef.current}px, 0, 0)`
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+
+    return () => {
+      window.removeEventListener('resize', measureHalfWidth)
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Capture so we keep getting pointermove/pointerup even if the
+    // pointer leaves the element bounds mid-drag.
+    e.currentTarget.setPointerCapture(e.pointerId)
+    isDraggingRef.current = true
+    dragStartRef.current = {
+      pointerX: e.clientX,
+      translateX: translateXRef.current,
+    }
+  }
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return
+    const delta = e.clientX - dragStartRef.current.pointerX
+    translateXRef.current = dragStartRef.current.translateX + delta
+    // No setState — the RAF tick (which is still running) will
+    // pick up the new translateXRef value next frame and write it
+    // to the DOM. We could also write it here for snappier feel,
+    // but RAF batches DOM writes which is friendlier under load.
+  }
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = false
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    }
+  }
+
+  return (
+    <div
+      className="anes-marquee"
+      onMouseEnter={() => { isHoveringRef.current = true }}
+      onMouseLeave={() => { isHoveringRef.current = false }}
+      style={{ marginTop: 48 }}
+    >
+      <div
+        ref={trackRef}
+        className="anes-marquee-track"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
+        {/* Cards rendered twice for seamless loop. The second set is
+            aria-hidden so screen readers don't read each card twice. */}
+        {[...items, ...items].map((s, i) => (
+          <article key={i} className="anes-card" aria-hidden={i >= items.length}>
+            <div className="anes-card-stripe" />
+            <div className="anes-card-eyebrow">{s.eyebrow}</div>
+            <h3 className="anes-card-title">{s.t}</h3>
+            <p className="anes-card-desc">{s.d}</p>
+            <div className="anes-card-anim">
+              <CardAnimation kind={s.anim} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function AnesthesiaContent() {
   return (
     <>
@@ -319,18 +477,15 @@ export default function AnesthesiaContent() {
           title). Each card carries a unique CSS animation in its
           lower half tied to the card's content.
 
-          Marquee mechanics follow the same pattern as the existing
-          .testimonials-track in globals.css:
-            - The track is rendered with the 8 cards TWICE so the
-              transform: translateX(0) -> -50% loop is seamless
-            - Linear 60s loop on desktop (slightly slower than the
-              50s testimonials ticker because the cards are taller
-              and more content-dense)
-            - .anes-marquee-track:hover pauses the animation
-            - Edge fade via mask-image so cards don't pop in/out
-              hard at the container boundaries
-            - prefers-reduced-motion: reduce pauses the marquee
-              and all internal card animations
+          Marquee mechanics (see DraggableMarquee component above):
+            - Cards rendered TWICE so the translateX loop is seamless
+            - JS-controlled position via requestAnimationFrame, ~0.55px
+              per frame (~33px/sec at 60fps). No CSS keyframes anymore.
+            - Pause on hover, drag to scrub left/right (PointerEvents
+              so it works for mouse and touch)
+            - Edge fade via mask-image
+            - prefers-reduced-motion: reduce stops the auto-scroll;
+              dragging still works
 
           Card width clamps to roughly 25% of a 1280px container
           (300-340px) so four cards are visible at once on desktop,
@@ -344,25 +499,19 @@ export default function AnesthesiaContent() {
 
         {/* Marquee lives OUTSIDE .container so the cards can scroll
             edge-to-edge. The fade mask on .anes-marquee handles the
-            "appears from the right, disappears on the left" feel. */}
-        <div className="anes-marquee" style={{ marginTop: 48 }}>
-          <div className="anes-marquee-track">
-            {/* Cards rendered twice so translateX(-50%) loops seamlessly */}
-            {[...solutions, ...solutions].map((s, i) => (
-              <article key={i} className="anes-card" aria-hidden={i >= solutions.length}>
-                <div className="anes-card-stripe" />
-                <div className="anes-card-eyebrow">{s.eyebrow}</div>
-                <h3 className="anes-card-title">{s.t}</h3>
-                <p className="anes-card-desc">{s.d}</p>
-                <div className="anes-card-anim">
-                  <CardAnimation kind={s.anim} />
-                </div>
-              </article>
-            ))}
-          </div>
+            "appears from the right, disappears on the left" feel.
+            Marquee logic moved into DraggableMarquee — see component
+            above for drag-to-scrub behavior. */}
+        <DraggableMarquee items={solutions} />
 
           <style>{`
-            /* === Marquee container === */
+            /* === Marquee container ===
+               Track motion is now JS-controlled via DraggableMarquee
+               above. No CSS animation here — the previous keyframe
+               (anes-marquee-scroll) was removed when drag-to-scrub
+               was added, because resuming a CSS keyframe from a
+               dragged position requires animation-delay math that's
+               messier than a single RAF loop. */
             .anes-marquee {
               overflow: hidden;
               position: relative;
@@ -375,15 +524,22 @@ export default function AnesthesiaContent() {
               gap: 20px;
               width: max-content;
               padding: 8px 20px;
-              animation: anes-marquee-scroll 60s linear infinite;
               will-change: transform;
+              /* Grab cursor signals draggability. Switches to grabbing
+                 while the pointer is held down. */
+              cursor: grab;
+              /* touch-action: pan-y lets vertical page scrolling pass
+                 through on mobile while still capturing horizontal
+                 pans for the drag handler. */
+              touch-action: pan-y;
+              /* Prevent text selection during drag — important
+                 because card titles/descriptions are real text and
+                 a slow drag otherwise selects them. */
+              user-select: none;
+              -webkit-user-select: none;
             }
-            .anes-marquee-track:hover {
-              animation-play-state: paused;
-            }
-            @keyframes anes-marquee-scroll {
-              from { transform: translateX(0); }
-              to   { transform: translateX(calc(-50% - 10px)); }
+            .anes-marquee-track:active {
+              cursor: grabbing;
             }
 
             /* === Card (all 8 share this — uniform lead-style) === */
@@ -815,10 +971,11 @@ export default function AnesthesiaContent() {
                 padding: 28px 24px 24px;
               }
               .anes-card-title { font-size: 19px; }
-              .anes-marquee-track { animation-duration: 50s; }
+              /* JS marquee speed is constant across breakpoints —
+                 the visual speed difference at narrower viewports
+                 is acceptable since the user can drag to scrub. */
             }
           `}</style>
-        </div>
       </section>
 
 
