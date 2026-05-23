@@ -139,7 +139,7 @@ async function seed() {
     { _id: 'svc-billing', title: 'Medical Billing & Coding', description: 'Specialty-trained coders and billers. End-to-end claim submission, denial management, appeals, and follow-up — 98.5% coding accuracy and >99% clean claim rates.', link: '/services/billing-coding', location: 'homepage', order: 1 },
     { _id: 'svc-pm', title: 'Complete Practice Management', description: 'Front desk operations, credentialing, scheduling, financial counseling, and operational support — so your team can focus on patients.', link: '/services/practice-management', location: 'homepage', order: 2 },
     { _id: 'svc-ehr', title: 'EHR & Technology', description: 'EHR agnostic — seamlessly integrated with your existing systems. Or upgrade to Medcloud for real-time analytics and AI-powered workflows.', link: '/services/ehr-technology', location: 'homepage', order: 3 },
-    { _id: 'svc-rcm', title: 'Comprehensive RCM', description: 'The full revenue cycle managed end-to-end: eligibility, coding, submission, denials, payments, patient collections, and reporting.', link: '/services/rcm', location: 'homepage', order: 4 },
+    { _id: 'svc-rcm', title: 'Comprehensive RCM', description: 'The full revenue cycle managed end-to-end: eligibility, coding, submission, denials, payments, patient collections, and reporting.', link: '/healthcare-revenue-cycle-management', location: 'homepage', order: 4 },
   ]
   for (const s of services) {
     await client.createOrReplace({ ...s, _type: 'service' })

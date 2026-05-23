@@ -30,15 +30,15 @@ const navItems = [
   },
   {
     label: 'RCM 360',
-    href: '/services/rcm',
+    href: '/healthcare-revenue-cycle-management',
   },
   {
     label: 'Resources',
     href: '/insights',
     children: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Client Stories', href: '/case-studies' },
-      { label: 'News', href: '/news' },
+      { label: 'Client Stories', href: '/casestudies-wp' },
+      { label: 'News', href: '/in-news' },
       { label: 'Events', href: '/events' },
     ],
   },

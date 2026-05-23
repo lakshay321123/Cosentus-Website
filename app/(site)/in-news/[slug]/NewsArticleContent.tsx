@@ -224,7 +224,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
         <div className="hero-content" style={{ paddingTop: 140, paddingBottom: 50, position: 'relative', zIndex: 2, maxWidth: 'var(--container)', margin: '0 auto', width: '100%' }}>
           <RevealOnScroll>
             <button
-              onClick={() => router.push('/news')}
+              onClick={() => router.push('/in-news')}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '8px 16px', background: 'rgba(255,255,255,0.08)',
@@ -314,7 +314,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
               {relatedArticles.map((related, i) => (
                 <RevealOnScroll key={related.slug} delay={0.15 + i * 0.1}>
-                  <Link href={`/news/${encodeURIComponent(related.slug)}`} style={{ textDecoration: 'none' }}>
+                  <Link href={`/in-news/${encodeURIComponent(related.slug)}`} style={{ textDecoration: 'none' }}>
                     <div className="case-card" style={{
                       padding: '28px 24px', background: 'white',
                       border: '1px solid var(--gray-200)', borderRadius: 'var(--radius-md)',

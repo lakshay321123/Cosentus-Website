@@ -4,7 +4,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 /**
  * ProblemSolutionSection — single source of truth for every "Problem / Solution" split
- * across the site. Used on /cosentus-ai, /partnership, /services/rcm, /specialties/orthopedics,
+ * across the site. Used on /cosentus-ai, /partnership, /healthcare-revenue-cycle-management, /specialties/orthopedics,
  * /specialties/asc, /specialties/pain-management, /specialties/multi-specialty,
  * /specialties/behavioral-health.
  *

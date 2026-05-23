@@ -15,7 +15,7 @@ export default function NewsListContent() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginTop: 48 }}>
           {newsArticlesMeta.map((article, i) => (
             <RevealOnScroll key={article.slug} delay={Math.min(i * 0.05, 0.4)}>
-              <Link href={`/news/${encodeURIComponent(article.slug)}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link href={`/in-news/${encodeURIComponent(article.slug)}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <article style={{
                   display: 'grid',
                   gridTemplateColumns: '140px 1fr auto',

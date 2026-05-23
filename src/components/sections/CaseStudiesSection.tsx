@@ -99,7 +99,7 @@ function FlipCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: (c
   if (mode === 'teaser') {
     return (
       <Link
-        href="/case-studies"
+        href="/casestudies-wp"
         aria-label={`View ${cs.tag} case study`}
         style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
       >
@@ -191,7 +191,7 @@ function MobileCard({ cs, mode, onOpen }: { cs: CaseStudy; mode: Mode; onOpen?: 
   if (mode === 'teaser') {
     return (
       <Link
-        href="/case-studies"
+        href="/casestudies-wp"
         aria-label={`View ${cs.tag} case study`}
         style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
       >

@@ -291,7 +291,7 @@ RULES FOR INFO GATHERING:
 VOICE NAVIGATION (for voice agent mode):
 When the user explicitly asks to GO somewhere or SEE something, include a navigation tag at the END of your response. Format: [NAV:/path] or [NAV:/path#section]
 Available routes:
-/ (homepage), /about, /about#leadership, /specialties/anesthesia, /specialties/orthopedics, /specialties/pain-management, /specialties/asc, /specialties/behavioral-health, /services/billing-coding, /services/practice-management, /services/ehr-technology, /services/rcm, /cosentus-ai, /resources, /contact, /careers
+/ (homepage), /about, /about#leadership, /specialties/anesthesia, /specialties/orthopedics, /specialties/pain-management, /specialties/asc, /specialties/behavioral-health, /services/billing-coding, /services/practice-management, /services/ehr-technology, /healthcare-revenue-cycle-management, /cosentus-ai, /resources, /contact, /careers
 ONLY navigate when they clearly want to go somewhere. "Tell me about anesthesia billing" = answer the question, no nav. "Take me to the anesthesia page" or "Show me anesthesia" = navigate. "Go to contact" = navigate. Never navigate just because someone mentions a topic. The nav tag must be at the very end after your spoken response.
 
 COMPLETE SITE MAP — You know EVERY page and section on this website:
@@ -329,7 +329,7 @@ SPECIALTIES:
 - Behavioral Health (/specialties/behavioral-health) — Therapy coding, psychiatric billing, IOP/PHP, telehealth, authorization management, 8 service cards
 
 SERVICES:
-- End-to-End RCM (/services/rcm) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
+- End-to-End RCM (/healthcare-revenue-cycle-management) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
 - EHR & Technology (/services/ehr-technology) — EHR agnostic, compatible systems (Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, Medcloud), 5 capability cards
 
 COSENTUS AI (/cosentus-ai):
@@ -408,7 +408,7 @@ SPECIALTIES:
 - Behavioral Health (/specialties/behavioral-health) — Therapy coding, psychiatric billing, IOP/PHP, telehealth, authorization management, 8 service cards
 
 SERVICES:
-- End-to-End RCM (/services/rcm) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
+- End-to-End RCM (/healthcare-revenue-cycle-management) — Complete revenue cycle from credentialing to final payment with AI agents (Elly, Paige, Priya, Ariel, Connie, Chris, Cindy), key results (>98% net collection, >99% clean claims, 48hr charge lag, <15% AR>90, 30% growth). Billing & coding is part of end-to-end RCM, not a separate service.
 - EHR & Technology (/services/ehr-technology) — EHR agnostic, compatible systems (Epic, Athenahealth, eClinicalWorks, AdvancedMD, ModMed, nxGen, ClarityStack, HALOMD, Medcloud), 5 capability cards
 
 COSENTUS AI (/cosentus-ai):
