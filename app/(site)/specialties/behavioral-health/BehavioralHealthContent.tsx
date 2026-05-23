@@ -91,11 +91,16 @@ const testimonials = [
 // distinction that trips up generic billers.)
 //
 // Card 2 uses 'meds' (capsule pills) — fits "Medication
-// Management" directly. Card 4 uses 'badges' (3 telehealth
-// modifier types validated). Card 6 uses 'pulse' for Crisis
-// & Add-On — phone+rings reads as "crisis contact" rhythm,
-// which is semantically appropriate here (unlike Pain's
-// Med Management card where pulse was a mismatch).
+// Management" directly. Card 4 uses the bespoke 'telehealth'
+// animation (monitor + play triangle + pulsing live dot) —
+// earlier draft used 'badges' (3 floating ticks) which preview
+// feedback said didn't connect to telehealth. Card 6 uses
+// 'badges' (3 check circles) — the doc itself lists exactly
+// three categories on this card ("crisis interventions,
+// prolonged services, and behavioral health add-on codes"),
+// so 3 ticks reads as "all three captured". Earlier draft used
+// 'pulse' which preview feedback flagged as wrong-fit
+// (phone+rings reads as "call", not crisis code capture).
 const solutions: SpecialtySolution[] = [
   {
     eyebrow: 'TIME-BASED CODING',
@@ -120,7 +125,7 @@ const solutions: SpecialtySolution[] = [
     eyebrow: 'TELEHEALTH COMPLIANCE',
     title: 'Telehealth Billing',
     description: 'Correct place-of-service codes and modifier usage across payers. Rules change often. Our team stays current.',
-    anim: 'badges',
+    anim: 'telehealth',
   },
   {
     eyebrow: 'AUTHORIZATIONS',
@@ -132,7 +137,7 @@ const solutions: SpecialtySolution[] = [
     eyebrow: 'CRISIS INTERVENTION',
     title: 'Crisis & Add-On Services',
     description: 'Accurate capture of crisis interventions, prolonged services, and behavioral health add-on codes.',
-    anim: 'pulse',
+    anim: 'badges',
   },
   {
     eyebrow: 'AI AGENT \u2014 CINDY',

@@ -40,6 +40,7 @@ export type AnimKind =
   | 'chart'      // Bar chart with staggered scale (Analytics)
   | 'defense'    // Document + shield-check pulse (Pre-Payment Review)
   | 'meds'       // Capsule pills cycling (Medication Management)
+  | 'telehealth' // Monitor + play triangle + pulsing live dot (Telehealth)
 
 export type SpecialtySolution = {
   /** Small caps eyebrow label above the title */
@@ -190,6 +191,32 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
               </svg>
             </span>
           ))}
+        </div>
+      )
+    case 'telehealth':
+      // Monitor outline with a play triangle inside (read as
+      // "video call active") plus a pulsing live indicator dot
+      // in the top-right corner. Used on Behavioral Health for
+      // the Telehealth Billing card. Earlier draft used 'badges'
+      // (3 floating ticks) which preview feedback said didn't
+      // connect to telehealth at all.
+      return (
+        <div className="anim anim-telehealth" aria-hidden="true">
+          <svg viewBox="0 0 60 52" width="60" height="52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Monitor screen — pale-teal fill so the play
+                triangle inside reads against a screen, not just
+                empty space. */}
+            <rect x="2" y="2" width="56" height="38" rx="4" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
+            {/* Monitor stand */}
+            <rect x="26" y="40" width="8" height="6" fill="#00B5D6" fillOpacity="0.4" />
+            <rect x="18" y="46" width="24" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.4" />
+            {/* Play triangle centered on the screen */}
+            <path d="M24 13 L24 29 L39 21 Z" fill="#00B5D6" />
+            {/* Pulsing live indicator dot in the top-right
+                corner of the screen. Opacity-only animation so
+                cross-browser SVG-transform issues don't apply. */}
+            <circle cx="50" cy="9" r="3" fill="#00B5D6" className="anim-telehealth-dot" />
+          </svg>
         </div>
       )
   }
@@ -842,6 +869,26 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           }
         }
 
+        /* Telehealth: monitor frame with a play triangle inside
+           (reads as "video call active") and a small pulsing
+           live indicator dot in the top-right corner of the
+           screen. The dot uses opacity-only animation because
+           CSS transforms on SVG elements are inconsistent
+           cross-browser. Used for Telehealth Billing (Behavioral
+           Health). */
+        .anim-telehealth {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .anim-telehealth-dot {
+          animation: spec-telehealth-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes spec-telehealth-pulse {
+          0%, 100% { opacity: 1;    }
+          50%      { opacity: 0.25; }
+        }
+
         /* Reduced motion: freeze everything but keep visuals visible */
         @media (prefers-reduced-motion: reduce) {
           .spec-marquee-track,
@@ -855,7 +902,8 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           .anim-lang-bubble,
           .anim-chart-bar,
           .anim-defense-shield,
-          .anim-med-cap {
+          .anim-med-cap,
+          .anim-telehealth-dot {
             animation: none !important;
           }
           .anim-lang-bubble {
