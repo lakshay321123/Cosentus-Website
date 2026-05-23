@@ -1938,6 +1938,31 @@ body:has(main.home-immersive) .footer-top {
   margin-bottom: 20px;
 }
 
+/* When a footer column heading is a link (currently only 'RCM 360' —
+   col.href is set in src/components/layout/Footer.tsx footerNav), the
+   inner <a> would otherwise be picked up by the generic .footer-col a
+   rule below (font-size: 14px; display: block; padding: 4px 0; etc.)
+   and render at link size in title case, vertically offset from the
+   plain-<h5> headings ('ABOUT US' / 'SPECIALTIES' / 'RESOURCES').
+   Forcing every typographic property to inherit makes the link look
+   identical to a plain <h5>: same 13px, uppercase, letter-spaced,
+   font-display, weight 300, inline (no block-level padding offset),
+   and aligned to the same baseline as the other column headings.
+   The :hover rule still fades the heading on hover so the link
+   affordance is preserved. */
+.footer-col h5 a {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  display: inline;
+  padding: 0;
+  transition: var(--transition-fast);
+}
+.footer-col h5 a:hover { color: rgba(255,255,255,0.6); }
+
 .footer-col a {
   display: block;
   font-size: 14px;
