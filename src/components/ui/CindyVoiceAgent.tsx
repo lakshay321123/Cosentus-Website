@@ -29,7 +29,7 @@ function CindyInner() {
   const DISMISS_KEY = 'cindy-dismissed-until'
   const DISMISS_TTL_MS = 24 * 60 * 60 * 1000 // 24h
 
-  // Delay Cindy popup by 4 seconds — but skip entirely if recently dismissed.
+  // Delay Cindy popup by 10 seconds — but skip entirely if recently dismissed.
   useEffect(() => {
     let dismissedUntil = 0
     try {
@@ -37,7 +37,7 @@ function CindyInner() {
       if (raw) dismissedUntil = parseInt(raw, 10) || 0
     } catch { /* localStorage blocked — fall through to default behavior */ }
     if (dismissedUntil > Date.now()) { setDismissed(true); return }
-    const timer = setTimeout(() => setShowPopup(true), 4000)
+    const timer = setTimeout(() => setShowPopup(true), 10000)
     return () => clearTimeout(timer)
   }, [])
   const [blinking, setBlinking] = useState(false)
