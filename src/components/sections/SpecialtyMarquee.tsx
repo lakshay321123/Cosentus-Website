@@ -41,6 +41,7 @@ export type AnimKind =
   | 'defense'    // Document + shield-check pulse (Pre-Payment Review)
   | 'meds'       // Capsule pills cycling (Medication Management)
   | 'telehealth' // Monitor + play triangle + pulsing live dot (Telehealth)
+  | 'eligibility'// Insurance card + pulsing verification check (Eligibility)
 
 export type SpecialtySolution = {
   /** Small caps eyebrow label above the title */
@@ -216,6 +217,40 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
                 corner of the screen. Opacity-only animation so
                 cross-browser SVG-transform issues don't apply. */}
             <circle cx="50" cy="9" r="3" fill="#00B5D6" className="anim-telehealth-dot" />
+          </svg>
+        </div>
+      )
+    case 'eligibility':
+      // Insurance card outline with detail lines (cardholder
+      // name / ID / group, abstracted) plus a check badge that
+      // pulses in and out — reads as "patient's coverage
+      // verified, next patient verified, next patient..."
+      // Used on Multi-Specialty for Cross-Specialty Eligibility.
+      // Earlier draft used 'rules' (4x3 grid sweep) which
+      // preview feedback flagged as having no semantic
+      // connection to insurance verification — a grid of cells
+      // reads as "data" not "eligibility". Opacity-only
+      // animation to avoid cross-browser SVG transform issues.
+      return (
+        <div className="anim anim-eligibility" aria-hidden="true">
+          <svg viewBox="0 0 80 50" width="80" height="50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Insurance card body */}
+            <rect x="2" y="2" width="76" height="46" rx="5" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
+            {/* Cardholder detail lines (abstracted name / ID /
+                group strip — fixed visible at rest, no
+                animation, so the card always reads as an ID
+                card. */}
+            <line x1="10" y1="14" x2="40" y2="14" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+            <line x1="10" y1="22" x2="50" y2="22" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+            <line x1="10" y1="30" x2="34" y2="30" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+            {/* Verification check badge — circle + tick, both
+                pulsing together so the badge appears/disappears
+                as one unit. Positioned bottom-right of the card
+                where a "verified" stamp would naturally sit. */}
+            <g className="anim-eligibility-check">
+              <circle cx="62" cy="34" r="10" fill="#00B5D6" />
+              <path d="M57.5 34 L60.5 37 L66.5 30.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
           </svg>
         </div>
       )
@@ -889,6 +924,28 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           50%      { opacity: 0.25; }
         }
 
+        /* Eligibility: insurance-card outline with detail lines
+           (cardholder name/ID/group abstracted as horizontal
+           strokes) and a verification check badge bottom-right.
+           The check badge (circle + tick wrapped in a single
+           <g>) fades in, holds, fades out — reads as a stream
+           of verifications completing one after another. Used
+           for Cross-Specialty Eligibility on Multi-Specialty.
+           Opacity-only animation to keep SVG transform
+           cross-browser quirks out of scope. */
+        .anim-eligibility {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .anim-eligibility-check {
+          animation: spec-eligibility-verify 2.2s ease-in-out infinite;
+        }
+        @keyframes spec-eligibility-verify {
+          0%, 100%  { opacity: 0; }
+          25%, 75%  { opacity: 1; }
+        }
+
         /* Reduced motion: freeze everything but keep visuals visible */
         @media (prefers-reduced-motion: reduce) {
           .spec-marquee-track,
@@ -903,7 +960,8 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           .anim-chart-bar,
           .anim-defense-shield,
           .anim-med-cap,
-          .anim-telehealth-dot {
+          .anim-telehealth-dot,
+          .anim-eligibility-check {
             animation: none !important;
           }
           .anim-lang-bubble {
@@ -914,6 +972,12 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
              at rest so the card doesn't look empty. */
           .anim-med-cap {
             color: #00B5D6;
+          }
+          /* Leave the eligibility check visible at rest so the
+             card communicates "verified" even with animation
+             frozen. */
+          .anim-eligibility-check {
+            opacity: 1;
           }
         }
 

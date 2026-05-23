@@ -60,8 +60,12 @@ const testimonials = [
 //     93000 (EKG). Length 5 each, matches BH's pill width.
 //   Card 2 'badges' — 3 check circles = "enrolled, registered,
 //     approved" rhythm for credentialing.
-//   Card 3 'rules' — 4x3 grid sweep = "every encounter, every
-//     department" coverage.
+//   Card 3 'eligibility' — insurance card outline + pulsing
+//     verification check badge. Reads directly as "patient's
+//     coverage verified" for each cycle. Earlier draft used
+//     'rules' (4x3 grid sweep) which preview feedback flagged
+//     as having no semantic connection to eligibility — a grid
+//     of cells reads as "data" not "insurance verification".
 //   Card 4 'stamp' — Prior Auth uses 'stamp' on every specialty
 //     page (consistency).
 //   Card 5 'defense' — document + shield-check = "root cause
@@ -90,7 +94,7 @@ const solutions: SpecialtySolution[] = [
     eyebrow: 'CROSS-SPECIALTY',
     title: 'Cross-Specialty Eligibility',
     description: 'Live insurance verification for every encounter, every department. No gaps between service lines.',
-    anim: 'rules',
+    anim: 'eligibility',
   },
   {
     eyebrow: 'AUTHORIZATIONS',
