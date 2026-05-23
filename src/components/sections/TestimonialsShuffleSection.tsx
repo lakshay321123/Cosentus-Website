@@ -80,18 +80,6 @@ const defaultTestimonials: ShuffleTestimonial[] = [
   },
 ]
 
-/** Initials from a name — strips honorifics ("Dr.", "M.D.") because they
- *  contain dots; takes the first 2 capitalised initials. Mirrors the
- *  helper in TestimonialsSection.tsx exactly. */
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .filter(w => w.length > 0 && w[0] === w[0].toUpperCase() && !w.includes('.'))
-    .map(w => w[0])
-    .slice(0, 2)
-    .join('')
-}
-
 interface Props {
   /** Override the default testimonial set. */
   testimonials?: ShuffleTestimonial[]
@@ -197,7 +185,6 @@ export default function TestimonialsShuffleSection({
                   testimonial={t.quote}
                   author={t.name}
                   role={t.role}
-                  initials={getInitials(t.name)}
                   // stackIndex: 0 means front. Modular arithmetic on the
                   // offset means clicking the dot for testimonial[N-1]
                   // brings it directly to front, with intermediate cards

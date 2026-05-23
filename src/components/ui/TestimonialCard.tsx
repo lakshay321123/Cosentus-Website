@@ -37,8 +37,6 @@ export interface TestimonialCardProps {
   role?: string
   /** Optional specialty tag shown at the top of the card. */
   tag?: string
-  /** Initials displayed inside the gradient avatar circle. */
-  initials: string
   /** 0 = front card; (totalCards - 1) = back-most card. */
   stackIndex: number
   /** Total number of cards in the fan stack (used to compute spread). */
@@ -74,7 +72,6 @@ export default function TestimonialCard({
   author,
   role,
   tag,
-  initials,
   stackIndex,
   totalCards,
   onShuffleAdvance,
@@ -156,7 +153,7 @@ export default function TestimonialCard({
       {tag && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 14,
             fontWeight: 700,
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
@@ -167,28 +164,10 @@ export default function TestimonialCard({
         </div>
       )}
 
-      {/* Avatar — gradient circle with initials (matches existing
-          TestimonialsSection avatar styling exactly so site-wide identity
-          stays consistent). */}
-      <div
-        aria-hidden="true"
-        style={{
-          width: 72,
-          height: 72,
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #00B5D6 0%, #36C2DE 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 22,
-          fontWeight: 700,
-          color: '#ffffff',
-          boxShadow: '0 4px 12px rgba(0, 181, 214, 0.35)',
-          flexShrink: 0,
-        }}
-      >
-        {initials}
-      </div>
+      {/* Avatar removed — design direction May 2026: the JF/initials
+          circle and its cyan glow were distracting on the dark page
+          background. With it gone the quote becomes the natural visual
+          anchor and the in-card text was bumped up to fill the space. */}
 
       {/* Quote — dark navy text reads on the 30% white glass wash.
           Previously white text was used because the card surface was
@@ -201,8 +180,8 @@ export default function TestimonialCard({
           margin: 0,
           textAlign: 'center',
           fontFamily: 'var(--font-display)',
-          fontSize: 15,
-          lineHeight: 1.55,
+          fontSize: 20,
+          lineHeight: 1.5,
           color: '#0a2d41',
           fontStyle: 'italic',
           fontWeight: 400,
@@ -212,12 +191,12 @@ export default function TestimonialCard({
       </blockquote>
 
       {/* Attribution */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <div style={{ fontSize: 17, fontWeight: 700, color: '#0a2d41', fontFamily: 'var(--font-display)' }}>
           {author}
         </div>
         {role && (
-          <div style={{ fontSize: 12, color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
+          <div style={{ fontSize: 14, color: 'rgba(10, 45, 65, 0.70)', textAlign: 'center' }}>
             {role}
           </div>
         )}
