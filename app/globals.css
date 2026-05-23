@@ -1626,12 +1626,25 @@ body:has(main.home-immersive) .footer-top {
 }
 .rcm-results-on-teal .result-number {
   color: var(--white);
+  /* Match .home-immersive .result-number font-size exactly. The base
+     .result-number rule clamps 28-44px; .home-immersive bumps to
+     clamp(29px, 3.1vw, 43px) per user direction "% and number bigger
+     by 20%". Without this override on the RCM page the numbers
+     dropped back to the smaller base curve. */
+  font-size: clamp(29px, 3.1vw, 43px);
 }
 .rcm-results-on-teal .result-label {
   color: rgba(255, 255, 255, 0.90);
+  /* Match .home-immersive .result-label. Base is 12px; home bumped
+     to 16px. Same applies here so the RCM page reads identically. */
+  font-size: 16px;
 }
 .rcm-results-on-teal .result-sublabel {
   color: rgba(255, 255, 255, 0.85);
+  /* Match .home-immersive .result-sublabel. Base 13px -> 16px to
+     match the label per user direction on Mar 2026 PR "Upto needs
+     to be same size and Revenue growth". */
+  font-size: 16px;
 }
 .rcm-results-on-teal .result-flip-text {
   color: var(--white);
