@@ -446,8 +446,8 @@ export default function HeroSection() {
                bg; pure dark drop reads cleanly as the card lifting
                off the page.
              - Transition override on :hover only. The base .hero-card
-               transition (set in the CHOREOGRAPHY block below at
-               line ~550) is 800ms bouncy on transform for the entrance
+               transition (set in the CHOREOGRAPHY block below) is
+               800ms bouncy on transform for the entrance
                animation; that's too slow + overshoots for a mouse
                hover. Snap to 220ms on hover-IN. Hover-OUT reverts to
                the choreography's bouncy transition — giving a
@@ -633,13 +633,19 @@ export default function HeroSection() {
              none !important }' would lose to '.hero-ready .hero-card
              :hover { transform: ... !important }' on specificity.
              Listing the hover selectors explicitly here brings them
-             back under reduced-motion suppression. */
+             back under reduced-motion suppression.
+
+             NOTE on the arrow disc: it's deliberately NOT in this
+             group. The arrow's base centering is 'transform:
+             translateY(-50%)', so applying 'transform: none !important'
+             to it would knock it out of vertical center on hover.
+             It gets its own rule below that preserves centering and
+             only suppresses the +4px horizontal nudge. */
           .hero-headline-1,
           .hero-headline-2,
           .hero-action,
           .hero-card,
           .hero-ready .hero-action:hover,
-          .hero-ready .hero-action-specialties:hover .hero-action-arrow,
           .hero-ready .hero-card:hover {
             opacity: 1 !important;
             transform: none !important;
@@ -648,6 +654,16 @@ export default function HeroSection() {
                kill it under reduced-motion the same way we kill
                the transitions for headlines + buttons. */
             animation: none !important;
+          }
+
+          /* Arrow disc: keep base vertical centering, suppress the
+             4px horizontal nudge. Without this, the rule group above
+             would set transform: none, killing the translateY(-50%)
+             base centering and making the arrow snap to the top of
+             the pill on hover. */
+          .hero-ready .hero-action-specialties:hover .hero-action-arrow {
+            transform: translateY(-50%) !important;
+            transition: none !important;
           }
         }
 
