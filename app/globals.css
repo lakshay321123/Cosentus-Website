@@ -405,7 +405,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* CTASection — was light grey background. The teal .cta-box inside
    it stays solid teal (we WANT the CTA to pop against the video). */
-.home-immersive .cta-section {
+.home-immersive .cta-section,
+.faqs-page .cta-section {
   background: transparent;
 }
 
@@ -527,7 +528,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    where only the footer fallback degrades to solid teal.
 ===================================================================== */
 .home-immersive .testimonial-card,
-.home-immersive .cta-box {
+.home-immersive .cta-box,
+.faqs-page .cta-box {
   position: relative !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
   background-image: none !important;
@@ -581,7 +583,9 @@ body:has(main.home-immersive) .footer {
    is defined elsewhere and still applies. Just make sure the headline
    and inner content stay white over the frosted surface. */
 .home-immersive .cta-box h2,
-.home-immersive .cta-box * {
+.home-immersive .cta-box *,
+.faqs-page .cta-box h2,
+.faqs-page .cta-box * {
   color: rgba(255, 255, 255, 0.95) !important;
 }
 
@@ -4249,6 +4253,10 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .btn-primary,
 .home-immersive .insights-tab,
 .home-immersive .specialty-card-link,
+.home-immersive .faq-card-inner,
+.faqs-page .faq-card-inner,
+.faqs-page .cta-box,
+.faqs-page .btn-primary,
 .home-immersive [style*="background: var(--white)"],
 .home-immersive [style*="background:var(--white)"],
 .home-immersive [style*="background: white"],
@@ -4272,7 +4280,10 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .insight-card:hover,
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover,
-.home-immersive .specialty-card-link:hover {
+.home-immersive .specialty-card-link:hover,
+.home-immersive .faq-card:hover .faq-card-inner,
+.faqs-page .faq-card:hover .faq-card-inner,
+.faqs-page .btn-primary:hover {
   border: none !important;
   box-shadow:
     inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.50),
@@ -4315,7 +4326,8 @@ body:has(main.home-immersive) .footer-top {
    before. The SVG is reproduced in CSS, not inlined.
 ------------------------------------------------------------------ */
 .home-immersive .btn-primary,
-.home-immersive .insights-tab {
+.home-immersive .insights-tab,
+.faqs-page .btn-primary {
   /* 30% white wash inside the ring — matches the SVG's .fil1
      (fill-opacity 0.30, reduced to 0.20 per user direction
      "change opacity from 30 to 20%" — cards/buttons feel less
@@ -4357,7 +4369,8 @@ body:has(main.home-immersive) .footer-top {
    `border: none !important` on .home-immersive .btn-primary:hover —
    setting only border-color wouldn't bring the line back. */
 .home-immersive .btn-primary:hover,
-.home-immersive .insights-tab:hover {
+.home-immersive .insights-tab:hover,
+.faqs-page .btn-primary:hover {
   background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;
