@@ -149,15 +149,15 @@ export default function TestimonialCard({
         isFront ? 'cursor-grab active:cursor-grabbing' : ''
       }`}
     >
-      {/* Specialty tag — small uppercase cyan label */}
+      {/* Specialty tag — uppercase eyebrow above the quote */}
       {tag && (
         <div
           style={{
-            fontSize: 14,
+            fontSize: 18,
             fontWeight: 700,
-            letterSpacing: '0.16em',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: '#00B5D6',
+            color: '#0a2d41',
           }}
         >
           {tag}
