@@ -15,18 +15,28 @@ const caseStudyItems: InsightCardData[] = [
     href: '/case-studies',
     title: '15-surgeon ASC. Days in AR 75 → 37. Clean claims 83% → 98%. Collections doubled.',
     image: '/images/homepage/surgery-center.jpg',
+    // 'center 20%' keeps subjects' heads in frame across all three
+    // Client Success images. doctor-consult.jpg is 800x1200
+    // (portrait); the default centre crop dropped to torso level
+    // (no head) and 'center top' anchored too aggressively (only
+    // forehead visible because the source has compositional
+    // headroom at the top). 20% lands the face/head zone in the
+    // middle of the visible window.
+    imagePosition: 'center 20%',
     tag: 'ASC',
   },
   {
     href: '/case-studies',
     title: 'Multi-modality pain clinic. E&M documentation + ultrasound coding + electronic WC submission. 26% revenue increase.',
     image: '/images/homepage/doctor-consult.jpg',
+    imagePosition: 'center 20%',
     tag: 'Pain Management',
   },
   {
     href: '/case-studies',
     title: '$1.5M to $2.2M. Workers\u2019 Comp turnaround cut from 45 to 28 days.',
     image: '/images/homepage/medical-tech.jpg',
+    imagePosition: 'center 20%',
     tag: 'Orthopedic',
   },
 ]

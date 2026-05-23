@@ -6,6 +6,14 @@ export type InsightCardData = {
   href: string
   title: string
   image?: string
+  /**
+   * Optional CSS object-position value for the cover image (e.g.
+   * 'center top', '50% 20%'). Useful when the source image is a
+   * portrait or has the subject in the upper portion and the
+   * default centre-centre crop would cut the head off in the
+   * 16:9 container. Defaults to 'center center'.
+   */
+  imagePosition?: string
   tag?: string
   date?: string
   external?: boolean // true → opens in new tab
@@ -45,6 +53,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: item.imagePosition ?? 'center center',
               transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
