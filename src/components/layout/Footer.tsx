@@ -115,7 +115,21 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Cosentus. All rights reserved.</p>
+          {/* `new Date().getFullYear()` evaluates at SSR time (Vercel
+              build server, UTC) AND at client hydration (visitor's
+              local TZ). For most of the year these return the same
+              value (e.g. both '2026'), but the period around New Year
+              UTC vs local TZ can briefly disagree (e.g. server still
+              sees 2026, client already in 2027). React would flag
+              this as a hydration text-content mismatch (error #425).
+
+              `suppressHydrationWarning` on the surrounding <p> tells
+              React that any divergence in the text inside is
+              intentional — React keeps the server-rendered text and
+              skips warning. The year is corrected on the next client
+              render anyway. This is the canonical fix for
+              build-time-vs-client-time year displays. */}
+          <p suppressHydrationWarning>&copy; {new Date().getFullYear()} Cosentus. All rights reserved.</p>
           <div className="footer-legal">
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms & Conditions</Link>
