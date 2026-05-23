@@ -25,11 +25,9 @@ const footerNav = [
     ],
   },
   {
-    title: 'Services',
-    links: [
-      { label: 'End-to-End RCM', href: '/services/rcm' },
-      { label: 'EHR & Technology', href: '/services/ehr-technology' },
-    ],
+    title: 'RCM 360',
+    href: '/services/rcm',
+    links: [],
   },
   {
     title: 'Resources',
@@ -102,7 +100,11 @@ export default function Footer() {
 
           {footerNav.map((col) => (
             <div key={col.title} className="footer-col">
-              <h5>{col.title}</h5>
+              {col.href ? (
+                <h5><Link href={col.href}>{col.title}</Link></h5>
+              ) : (
+                <h5>{col.title}</h5>
+              )}
               {col.links.map((link) => (
                 <Link key={link.href} href={link.href}>
                   {link.label}

@@ -29,12 +29,8 @@ const navItems = [
     ],
   },
   {
-    label: 'Services',
-    href: '/services',
-    children: [
-      { label: 'End-to-End RCM', href: '/services/rcm' },
-      { label: 'EHR & Technology', href: '/services/ehr-technology' },
-    ],
+    label: 'RCM 360',
+    href: '/services/rcm',
   },
   {
     label: 'Resources',
