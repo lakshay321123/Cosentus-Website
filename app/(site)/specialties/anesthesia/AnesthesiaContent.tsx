@@ -85,25 +85,37 @@ export default function AnesthesiaContent() {
       {/* The Problem, Split impact section.
           Headline + 4 bullets per the Specialty Pages doc
           (v1, May 19 2026). Previously a single prose paragraph,
-          converted to the doc's standardized bullet structure. */}
+          converted to the doc's standardized bullet structure.
+
+          Layout notes:
+          - Both panels use justifyContent: 'flex-start' so the two
+            headlines sit at the SAME vertical position (top, after
+            padding). Center alignment made them drift apart visually
+            because each side's content height differed.
+          - Bullet font-size is 18px (up from 15px) — preview feedback
+            was the previous size was hard to read. 18 sits well
+            against the clamp(26, 3vw, 36) headline without competing
+            with it.
+          - The "THE ACCREDA DIFFERENCE" eyebrow label was removed
+            per direction — the headline alone carries the section. */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
-          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
+          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 24 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
                 Base Units, Time Units, Modifiers. One Wrong Move and Revenue Disappears.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 500 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Base units, time-unit accuracy, medical direction modifiers, and concurrency rules trip up generic billing teams every day',
                   'Payers have their own anesthesia-specific reimbursement rules. What works for one doesn\u2019t work for another',
                   'Authorization lapses on high-cost cases lead to write-offs that could have been prevented',
                   'Without anesthesia-trained coders, undercoding and missed charges become the norm',
                 ].map((bullet, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, lineHeight: 1.65, color: 'var(--gray-600)', marginBottom: 14 }}>
-                    <span aria-hidden="true" style={{ flexShrink: 0, width: 6, height: 6, borderRadius: '50%', background: '#00B5D6', marginTop: 9 }} />
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
                     <span>{bullet}</span>
                   </li>
                 ))}
@@ -111,26 +123,23 @@ export default function AnesthesiaContent() {
             </RevealOnScroll>
           </div>
 
-          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
+          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>THE ACCREDA DIFFERENCE</div>
-            </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 24 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
                 Anesthesia Experts + AI Working Together
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 500 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Dedicated anesthesia billing team that understands units, modifiers, concurrency, and the rules each payer follows, because that\u2019s all they do',
                   'AI handles eligibility verification, authorization tracking, and claim follow-up across your full volume',
                   'Every denied claim gets a root cause review to prevent the same issue from recurring',
                   'Live dashboards showing collections by provider, case type, payer, and facility',
                 ].map((bullet, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, lineHeight: 1.65, color: 'rgba(255,255,255,0.95)', marginBottom: 14 }}>
-                    <span aria-hidden="true" style={{ flexShrink: 0, width: 6, height: 6, borderRadius: '50%', background: 'white', marginTop: 9 }} />
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
                     <span>{bullet}</span>
                   </li>
                 ))}
