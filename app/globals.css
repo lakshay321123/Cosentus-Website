@@ -3341,6 +3341,51 @@ body:has(main.home-immersive) .footer-top {
     padding: 48px 0;
   }
 
+  /* Mobile rhythm tokens — explicit overrides for sections whose
+     desktop padding doesn't fold into the .section base rule.
+     Goal: a consistent ~48px vertical cadence on mobile across the
+     homepage so section-to-section spacing reads as a regular beat
+     instead of the desktop's 60/64/100 mix.
+
+     Sections covered:
+       - .cta-section          desktop 100/100 -> mobile 48/48
+       - .results-section      desktop 60/0    -> mobile 48/48
+                               (the 0 desktop bottom was deliberate
+                                so the cyan stat bar bleeds into
+                                the next section visually; on mobile
+                                there's no horizontal width to make
+                                that effective, so it just collides)
+       - .specialties-section  desktop 64/64   -> mobile 48/48
+                               (no .specialties-section selector
+                                in globals.css — the desktop value
+                                lives in the inline styled-jsx of
+                                SpecialtiesSection.tsx. The mobile
+                                override here uses !important to
+                                beat that inline style's specificity
+                                inside the media query.)
+       - .faq-section          desktop 96/96, mobile inline 64/64
+                               -> aligned to 48/48 here so the
+                                FAQ section reads on the same beat
+                                as Testimonials/Partners/Insights
+                                above it.
+
+     All of these declare !important because several of the targets
+     have inline styled-jsx rules from individual section components
+     that would otherwise win the specificity fight inside the media
+     query. */
+  .cta-section {
+    padding: 48px 0 !important;
+  }
+  .results-section {
+    padding: 48px 0 !important;
+  }
+  .specialties-section {
+    padding: 48px 0 !important;
+  }
+  .faq-section {
+    padding: 48px 0 !important;
+  }
+
   .nav-inner {
     padding: 0 16px;
   }
