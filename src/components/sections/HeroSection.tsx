@@ -45,8 +45,9 @@
  *   - All Link wrappers have aria-label matching the SVG content
  */
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const ASSETS = {
   headline1: '/images/hero/headline-1.svg',
@@ -60,13 +61,6 @@ const ASSETS = {
 } as const
 
 export default function HeroSection() {
-  // Ref to the mobile carousel scroll container. Used by the
-  // auto-scroll effect below to programmatically advance through
-  // Zeus -> Agents -> Net Collection. Same DOM element on desktop,
-  // but the desktop layout has no overflow scroll so scrollTo is a
-  // no-op there — safe to leave the ref attached on both viewports.
-  const cardsRef = useRef<HTMLDivElement | null>(null)
-
   // Choreography trigger: add .hero-ready to the section root once
   // mounted so entrance transitions fire. Two-deep rAF so the initial
   // opacity:0/translateY state actually renders before transition.
@@ -79,116 +73,21 @@ export default function HeroSection() {
     return () => cancelAnimationFrame(f1)
   }, [])
 
-  /* ============================================================
-     AUTO-SCROLL the mobile hero-cards carousel.
-
-     Behaviour (each is a deliberate UX choice — see commit msg):
-       - Mobile only: skip entirely when viewport > 768px (the
-         desktop layout is a static staircase, not a carousel).
-       - Respect prefers-reduced-motion: users with vestibular
-         conditions get nauseated by auto-motion; we abort autoplay
-         entirely when the OS-level reduced-motion preference is set.
-         WCAG 2.3.3 / accessibility baseline.
-       - Pause when the hero is offscreen: IntersectionObserver
-         pauses the timer when the user has scrolled past the hero,
-         saves battery / CPU and keeps the carousel positioned at
-         a predictable state if the user scrolls back up.
-       - Stop permanently on first user interaction: if the user
-         touches the carousel, we cancel the timer and never
-         restart. Auto-scroll that fights manual swipe is the
-         #1 carousel UX failure mode — once they have shown intent
-         to drive, we hand over control completely.
-       - Stop at the last card (no wrap): Zeus -> Agents -> Net,
-         then idle. A wrap-around jump from Net back to Zeus is
-         disorienting and not helpful — the user has now seen all
-         three; further movement would just be motion for motion's
-         sake.
-
-     Implementation:
-       Tick interval 3500ms. On each tick we Element.scrollTo()
-       to a position offset N * (cardWidth + gap), letting the
-       browser's native smooth-scroll + the existing
-       scroll-snap-type: x mandatory rule produce the animation.
-       No external animation library needed.
-     ============================================================ */
-  useEffect(() => {
-    const el = cardsRef.current
-    if (!el) return
-
-    // Mobile-only — exit on desktop. We use the same breakpoint
-    // (768px) the CSS uses so visual layout and JS behaviour agree.
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    if (!isMobile) return
-
-    // Reduced-motion users — abort entirely. Static layout, no
-    // ticker. They can still swipe manually.
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    // Capture card list and dimensions. We compute scroll targets
-    // once and reuse them — the layout doesn't change between mounts
-    // because the cards have fixed widths in the mobile CSS.
-    const cards = Array.from(el.querySelectorAll<HTMLElement>('.hero-card'))
-    if (cards.length === 0) return
-
-    // Build absolute scroll-left targets for each card. Native
-    // offsetLeft is relative to the cards container itself (which
-    // is the scroll viewport), so these read directly as scrollLeft
-    // values. Subtracting the parent's scrollLeft origin (always 0
-    // initially) is not needed.
-    const scrollTargets = cards.map(c => c.offsetLeft)
-
-    let currentIndex = 0
-    let userHasInteracted = false
-    let isVisible = true
-
-    const tick = () => {
-      if (userHasInteracted || !isVisible) return
-      currentIndex += 1
-      if (currentIndex >= scrollTargets.length) {
-        // Reached the end — stop ticker. No wrap-around.
-        clearInterval(timer)
-        return
-      }
-      el.scrollTo({
-        left: scrollTargets[currentIndex],
-        behavior: 'smooth',
-      })
-    }
-
-    const timer = window.setInterval(tick, 3500)
-
-    // Visibility — pause when the hero is offscreen.
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting
-      },
-      { threshold: 0.1 },
-    )
-    observer.observe(el)
-
-    // User-interaction kill switch — first touch/pointer/scroll
-    // disables autoplay forever. We listen to a few events to
-    // catch every form of input: pointerdown (touch + mouse +
-    // stylus), wheel (mousewheel + trackpad), keydown (keyboard
-    // a11y). 'scroll' alone isn't reliable because the autoplay
-    // itself emits scroll events.
-    const onUserIntent = () => {
-      userHasInteracted = true
-      clearInterval(timer)
-    }
-    el.addEventListener('pointerdown', onUserIntent, { passive: true })
-    el.addEventListener('wheel', onUserIntent, { passive: true })
-    el.addEventListener('keydown', onUserIntent)
-
-    return () => {
-      clearInterval(timer)
-      observer.disconnect()
-      el.removeEventListener('pointerdown', onUserIntent)
-      el.removeEventListener('wheel', onUserIntent)
-      el.removeEventListener('keydown', onUserIntent)
-    }
-  }, [])
+  // Auto-scroll for the mobile carousel is now handled by the
+  // <MobileCarousel> component below. Removed the previous custom
+  // useEffect (with cardsRef + offsetLeft math + IntersectionObserver
+  // + scrollTo) because two real-world issues kept biting it:
+  //   1. offsetLeft was resolving against an unexpected positioned
+  //      ancestor (not the scroll container), so scrollTo targets
+  //      were wrong values. Even after adding position:relative to
+  //      .hero-cards, the user reported autoplay still wasn't
+  //      advancing on the live preview.
+  //   2. Maintaining two parallel autoplay implementations (this
+  //      file + MobileCarousel) was diverging in subtle ways.
+  // MobileCarousel uses translateX percentages instead of offsetLeft
+  // so it has no positioning-dependency. Same component already
+  // drives Results / Services / Advantages / Specialties carousels
+  // on this page — one battle-tested implementation everywhere.
 
   return (
     <section className="hero">
@@ -262,34 +161,42 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* RIGHT column: 3-card staircase on desktop, scroll-snap
-            horizontal carousel on mobile. The ref is consumed by the
-            autoplay useEffect above to advance Zeus -> Agents -> Net
-            every 3.5s on mobile; ignored on desktop. */}
-        <div className="hero-cards" ref={cardsRef}>
-          <Link
-            href="/cosentus-ai"
-            className="hero-card hero-card-zeus"
-            aria-label="Zeus Ai — 360 Degree RCM & EHR Platform"
-          >
-            <img src={ASSETS.cardZeus} alt="Zeus Ai — 360 Degree RCM & EHR Platform" loading="eager" />
-          </Link>
+        {/* RIGHT column: 3-card staircase on desktop, MobileCarousel
+            carousel on mobile.
+            MobileCarousel renders its children as a bare fragment on
+            desktop (returns <>{children}</>) so the existing .hero-cards
+            staircase CSS still applies. On mobile (<=768px) MobileCarousel
+            renders its own track + dots and handles autoplay /
+            touch swipe / IntersectionObserver enter / reduced-motion
+            internally. Removed the previous ref+useEffect because the
+            offsetLeft-based scroll math wasn't reliably advancing the
+            carousel on the live preview. */}
+        <div className="hero-cards">
+          <MobileCarousel autoScrollInterval={3500} darkMode>
+            <Link
+              href="/cosentus-ai"
+              className="hero-card hero-card-zeus"
+              aria-label="Zeus Ai — 360 Degree RCM & EHR Platform"
+            >
+              <img src={ASSETS.cardZeus} alt="Zeus Ai — 360 Degree RCM & EHR Platform" loading="eager" />
+            </Link>
 
-          <Link
-            href="#ra"
-            className="hero-card hero-card-agents"
-            aria-label="Meet our 24/7 Ai Agents, Optimize Workflow"
-          >
-            <img src={ASSETS.cardAgents} alt="Meet our 24/7 Ai Agents, Optimize Workflow" loading="eager" />
-          </Link>
+            <Link
+              href="#ra"
+              className="hero-card hero-card-agents"
+              aria-label="Meet our 24/7 Ai Agents, Optimize Workflow"
+            >
+              <img src={ASSETS.cardAgents} alt="Meet our 24/7 Ai Agents, Optimize Workflow" loading="eager" />
+            </Link>
 
-          <Link
-            href="#results"
-            className="hero-card hero-card-net"
-            aria-label="Greater than 98 percent net collection"
-          >
-            <img src={ASSETS.cardNetCollection} alt=">98% Net Collection" loading="eager" />
-          </Link>
+            <Link
+              href="#results"
+              className="hero-card hero-card-net"
+              aria-label="Greater than 98 percent net collection"
+            >
+              <img src={ASSETS.cardNetCollection} alt=">98% Net Collection" loading="eager" />
+            </Link>
+          </MobileCarousel>
         </div>
       </div>
 
@@ -836,103 +743,52 @@ export default function HeroSection() {
              ones... they can be scrolling left to right, but much
              bigger than this."
 
-             Strategy: CSS scroll-snap horizontal carousel. The card
-             row turns into a swipeable strip on mobile; user swipes
-             left/right to see Zeus -> Agents -> Net Collection one
-             at a time. No JS needed — native browser swipe + snap
-             behaviour. Desktop staircase layout is untouched (this
-             rule lives inside @media max-width:768px).
+             Implementation: <MobileCarousel> wraps the three cards in
+             HeroSection.tsx. On mobile MobileCarousel renders its own
+             track + dots and handles autoplay / touch swipe /
+             IntersectionObserver / reduced-motion internally. On
+             desktop it returns <>{children}</> so the staircase CSS
+             above still applies unchanged.
 
-             Each card scales from the original ~90-117px range up to
-             ~230px tall so the content (label + value) reads at a
-             glance. Width on each card is proportional to its SVG's
-             native aspect (kept identical to the desktop ratios so
-             the visual composition stays intact).
+             Why we use MobileCarousel here instead of CSS scroll-snap:
+             the previous custom autoplay (useEffect + offsetLeft +
+             scrollTo) wasn't reliably advancing the carousel on the
+             live preview — even after adding position:relative to
+             make offsetLeft resolve correctly. MobileCarousel uses
+             translateX percentages instead, so there's no positioning
+             dependency. Same component already drives the Results,
+             Services, Advantages, and Specialties carousels on this
+             page; one implementation everywhere is easier to maintain.
 
-             '.hero-cards' becomes the scroll viewport:
-               - overflow-x: auto              swipeable
-               - scroll-snap-type: x mandatory snaps to each card
-               - scrollbar hidden              no horizontal bar
-               - gap: 14px                     peek of next card on
-                                               the right edge of the
-                                               viewport signals
-                                               "swipe me"
-
-             Cards snap-align to 'start' (not 'center') because the
-             three widths (230 / 176 / 311) differ enough that center-
-             snap produces irregular pause points on swipe. Start-
-             snap gives a predictable cadence: each swipe parks one
-             card flush with the viewport's left edge. */
+             .hero-cards on mobile is now just a passthrough container
+             — MobileCarousel's own wrapper handles overflow and width.
+             We reset the desktop staircase flex rules here so they
+             don't fight MobileCarousel's track layout. */
           .hero-cards {
+            display: block;
             padding: 0;
-            justify-content: flex-start;
-            align-items: stretch;
-            gap: 14px;
-            overflow-x: auto;
-            overflow-y: visible;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;          /* Firefox */
-            /* position: relative makes .hero-cards the offsetParent
-               for its .hero-card children. Without this, child
-               offsetLeft is measured against a positioned ancestor
-               somewhere further up the tree (likely <body>), so the
-               autoplay useEffect's scrollTo(left: card.offsetLeft)
-               math drifts to wrong positions — the timer fires but
-               the cards visibly don't advance.
-
-               This was the root cause of 'The Top boxes are not
-               auto scrolling' on the previous deployment. Tested by
-               inspection: .hero-card has position: relative declared
-               but .hero-cards did not — so offsetLeft on cards was
-               resolving against an ancestor's coordinate system,
-               not the scroll container's. */
-            position: relative;
-            /* The parent .hero-layout-grid carries 16px horizontal
-               padding on mobile, so cards naturally start 16px from
-               the screen edge. We don't add more padding inside the
-               carousel — that would double-up the edge gap. */
+            gap: 0;
+            /* The hero-layout-grid parent already carries 16px
+               horizontal padding on mobile, so the carousel edge
+               aligns with the rest of the hero content. */
           }
-          .hero-cards::-webkit-scrollbar {
-            display: none;                  /* Chrome/Safari */
-          }
+          /* Each card sits inside one MobileCarousel slide (100%
+             width with 8px horizontal padding). Cards now use 100%
+             width of their slide so the card fills the visible area
+             instead of sitting at a fixed pixel width with empty
+             space around it — this matches the user direction "bigger
+             ones, one at a time". Heights still capped to ~230px so
+             the carousel doesn't dominate the viewport. */
           .hero-card {
-            flex: 0 0 auto;                 /* don't shrink — preserve
-                                               each card's intended
-                                               size in the strip */
-            scroll-snap-align: start;       /* each card snaps to the
-                                               start edge of the
-                                               viewport on swipe.
-                                               'start' (not 'center')
-                                               because mixed widths
-                                               (230/176/311) center-
-                                               snap inconsistently;
-                                               start-snap gives a
-                                               predictable cadence. */
-          }
-          /* Sizes — scaled up from the previous tiny values to feel
-             like a hero pillar instead of a footnote. Heights aligned
-             to ~230px so the strip has a consistent skyline.
-             Widths derive from each SVG's native aspect ratio:
-               Zeus              square 1:1     -> 230 x 230
-               Agents            0.766:1 tall   -> 176 x 230
-               Net Collection    1.353:1 wide   -> 311 x 230
-
-             At 390px viewport with 14px gap + 16px padding on each
-             side, the largest card (Net at 311) shows fully with
-             ~33px of the next card peeking, signaling scrollability
-             without ambiguity. */
-          .hero-card-zeus {
-            width: 230px;
+            display: block;
+            width: 100%;
             height: 230px;
           }
-          .hero-card-agents {
-            width: 176px;
-            height: 230px;
-          }
-          .hero-card-net {
-            width: 311px;
-            height: 230px;
+          .hero-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
           }
         }
       `}</style>

@@ -1918,7 +1918,34 @@ body:has(main.home-immersive) .footer-top {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: rotateY(180deg);
+  /* Background SVG moved to the .result-flip-back-arrow child wrapper
+     below — mirrors the front face's .result-arrow-img exactly so the
+     SVG silhouette (including the prominent outward-jutting wings of
+     the arrow head) renders identically on both faces. The previous
+     direct background:url(...) on .result-flip-back was rendering the
+     SVG inside the wider .result-flip-card container (260px on mobile)
+     which caused the arrow wings to clip — described by user as 'on
+     flip the arrow gets cut'. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Back-face arrow wrapper — geometric twin of .result-arrow-img.
+   Inherits the same width/aspect/max-width and same background SVG.
+   The positioning of .result-arrow-content children (the flip text)
+   is unchanged because .result-flip-back .result-arrow-content already
+   has its own top: 67% rule (shaft-anchored). The fact that
+   .result-arrow-content now lives one level deeper in the DOM doesn't
+   change its absolute positioning — it positions against the nearest
+   positioned ancestor (.result-flip-back-arrow has position: relative
+   below). */
+.result-flip-back-arrow {
+  width: 100%;
+  aspect-ratio: 0.70;
   background: url('/images/glass-uparrow.svg') center / contain no-repeat;
+  position: relative;
 }
 
 /* Flip impact text — sits inside the arrow body via the shared
@@ -3408,8 +3435,13 @@ body:has(main.home-immersive) .footer-top {
   }
   /* Results — bigger text on mobile, narrower arrow column.
      aspect-ratio matches the new glass-uparrow SVG (was 1.6 for the
-     old wide growth-arrow.png). */
-  .results-mobile .result-arrow-img {
+     old wide growth-arrow.png).
+     The two selectors apply the SAME constraints to both faces:
+     .result-arrow-img on the front, .result-flip-back-arrow on the
+     back. Both must share identical bounding boxes so the flipped
+     SVG silhouette matches the front exactly (wings included). */
+  .results-mobile .result-arrow-img,
+  .results-mobile .result-flip-back-arrow {
     aspect-ratio: 0.70 !important;
     max-width: 200px;
     margin: 0 auto;

@@ -115,8 +115,22 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
             without crowding the impact message, and the user just
             saw the same stat on the front before flipping. */}
         <div className="result-flip-back">
-          <div className="result-arrow-content">
-            <div className="result-flip-text">{stat.flip}</div>
+          {/* .result-flip-back-arrow mirrors .result-arrow-img exactly
+              so the SVG renders at the same bounding box on both faces.
+              Previously the back face had the SVG as a background
+              directly on .result-flip-back (which inherits the full
+              .result-flip-card width — 260px on mobile). The wider
+              container made background:contain scale the SVG so its
+              widest part (the outward 'wings' of the arrow head) did
+              not match the front face's visible silhouette — the user
+              described this as 'on flip the arrow gets cut'. By giving
+              the back face the same max-width 200 / aspect-ratio 0.70
+              wrapper the front uses, both faces show the SAME arrow
+              silhouette and the wings stay visible after flip. */}
+          <div className="result-flip-back-arrow">
+            <div className="result-arrow-content">
+              <div className="result-flip-text">{stat.flip}</div>
+            </div>
           </div>
         </div>
       </div>
