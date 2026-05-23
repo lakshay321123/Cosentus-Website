@@ -1598,14 +1598,14 @@ body:has(main.home-immersive) .footer-top {
    visibility problem. A dedicated wrapper with solid teal bg is the
    correct fix for a video-less page. */
 .rcm-results-on-teal .results-section {
-  background: #00B5D6;
+  background: var(--primary);
 }
 .rcm-results-on-teal .results-section .results-header h2,
 .rcm-results-on-teal .results-section .results-header h2 .accent {
-  color: #FFFFFF;
+  color: var(--white);
 }
 .rcm-results-on-teal .result-number {
-  color: #FFFFFF;
+  color: var(--white);
 }
 .rcm-results-on-teal .result-label {
   color: rgba(255, 255, 255, 0.90);
@@ -1614,7 +1614,7 @@ body:has(main.home-immersive) .footer-top {
   color: rgba(255, 255, 255, 0.85);
 }
 .rcm-results-on-teal .result-flip-text {
-  color: #FFFFFF;
+  color: var(--white);
 }
 /* Footnote 'Verified client results...' uses inline color:
    var(--gray-500) in ResultsSection.tsx — invisible on teal. The

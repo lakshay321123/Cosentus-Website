@@ -31,7 +31,7 @@ const rcmFaqs = [
   { q: 'How does RCM 360 use AI?',
     a: 'Specialized AI voice agents handle the high-volume repetitive workflows — eligibility verification, prior authorization follow-ups, pre-service patient outreach, claim status checks, payment reconciliation, and patient collections in 50+ languages. Human specialists own the work that requires judgment: complex coding, clinical denial appeals, underpayment recovery, and payer negotiation. AI handles volume, humans handle judgment, every action surfaces to your dashboard.' },
   { q: 'What measurable outcomes can I expect from RCM 360?',
-    a: 'Greater than 98% net collection rate, greater than 99% clean claim rate, charge lag of 48 hours, AR over 90 days under 15%, and up to 30% revenue growth within twelve months. Actual results depend on specialty, payer mix, and starting baseline.' },
+    a: 'Greater than 98% net collection rate, greater than 99% clean claim rate, charge lag of 48 hours, AR over 120 days under 10%, and up to 30% revenue growth within twelve months. Actual results depend on specialty, payer mix, and starting baseline.' },
   { q: 'What specialties does RCM 360 support?',
     a: 'Anesthesia, orthopedics, pain management, ambulatory surgery centers (ASCs), behavioral health, and multi-specialty practices. Each specialty has a dedicated team trained on its specific coding rules, payer policies, and common denial patterns.' },
   { q: 'How do I track and verify performance?',
