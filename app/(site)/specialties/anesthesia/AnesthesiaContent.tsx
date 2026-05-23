@@ -96,25 +96,32 @@ type AnimKind = typeof solutions[number]['anim']
 function CardAnimation({ kind }: { kind: AnimKind }) {
   switch (kind) {
     case 'modifiers':
-      // 4 anesthesia modifier pills bobbing at different phases
+      // Anesthesia modifier codes laid out cleanly in a row. One
+      // pill at a time gets the "active" treatment (scale up, brighter
+      // border, teal fill) cycling through AA -> QK -> QY -> AD.
+      // Reads more like "we know all four" than the previous scattered
+      // floating pills which were hard to track.
       return (
         <div className="anim anim-modifiers" aria-hidden="true">
-          {['AA', 'QK', 'QY', 'AD'].map((code, i) => (
-            <span key={code} className={`anim-mod-pill anim-mod-pill-${i}`}>{code}</span>
-          ))}
+          <div className="anim-mod-row">
+            {['AA', 'QK', 'QY', 'AD'].map((code, i) => (
+              <span key={code} className={`anim-mod-pill anim-mod-pill-${i}`}>{code}</span>
+            ))}
+          </div>
         </div>
       )
     case 'rules':
-      // 3 layered "rule sheets" — top one slides horizontally
+      // A 4x3 grid of small cells that brighten in a diagonal wave,
+      // representing the variability of payer rule sets. Previous
+      // 3-stacked-sheets animation was too subtle — user said they
+      // didn't see any motion. This is unmistakably moving.
       return (
         <div className="anim anim-rules" aria-hidden="true">
-          <span className="anim-rule-sheet anim-rule-sheet-back" />
-          <span className="anim-rule-sheet anim-rule-sheet-mid" />
-          <span className="anim-rule-sheet anim-rule-sheet-front">
-            <span className="anim-rule-line" style={{ width: '70%' }} />
-            <span className="anim-rule-line" style={{ width: '50%' }} />
-            <span className="anim-rule-line" style={{ width: '60%' }} />
-          </span>
+          <div className="anim-rules-grid">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span key={i} className={`anim-rule-cell anim-rule-cell-${i}`} />
+            ))}
+          </div>
         </div>
       )
     case 'badges':
@@ -170,18 +177,17 @@ function CardAnimation({ kind }: { kind: AnimKind }) {
         </div>
       )
     case 'languages':
-      // Multilingual chat bubbles cycling
+      // Three chat bubbles in a conversation layout — left/right/left
+      // alignment with tail corners, suggesting a translated exchange.
+      // Each bubble carries a greeting in a different language. The
+      // sequence fades in 0/0.8s/1.6s and resets at 4s. Previous
+      // scattered-bubble version was hard to scan; this reads as a
+      // real conversation.
       return (
         <div className="anim anim-langs" aria-hidden="true">
-          {[
-            { code: 'EN', i: 0 },
-            { code: 'ES', i: 1 },
-            { code: '中', i: 2 },
-            { code: 'FR', i: 3 },
-            { code: 'AR', i: 4 },
-          ].map(({ code, i }) => (
-            <span key={code} className={`anim-lang-bubble anim-lang-bubble-${i}`}>{code}</span>
-          ))}
+          <span className="anim-lang-bubble anim-lang-bubble-left anim-lang-bubble-0">Hello</span>
+          <span className="anim-lang-bubble anim-lang-bubble-right anim-lang-bubble-1">Hola</span>
+          <span className="anim-lang-bubble anim-lang-bubble-left anim-lang-bubble-2">你好</span>
         </div>
       )
     case 'chart':
@@ -444,77 +450,101 @@ export default function AnesthesiaContent() {
 
             /* === Per-card animations === */
 
-            /* Modifiers: 4 floating pills */
+            /* Modifiers: clean row of 4 pills with sequential highlight.
+               Each pill is dimmed by default; one at a time gets the
+               full teal treatment with a small scale-up. */
             .anim-modifiers {
-              position: relative;
               width: 100%;
               height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .anim-mod-row {
+              display: flex;
+              gap: 10px;
             }
             .anim-mod-pill {
-              position: absolute;
               font-family: var(--font-display);
               font-size: 14px;
               font-weight: 600;
               letter-spacing: 0.05em;
-              color: #00B5D6;
-              background: rgba(0, 181, 214, 0.08);
-              border: 1px solid rgba(0, 181, 214, 0.25);
+              color: rgba(0, 181, 214, 0.55);
+              background: rgba(0, 181, 214, 0.06);
+              border: 1px solid rgba(0, 181, 214, 0.2);
               border-radius: 999px;
-              padding: 6px 14px;
-              animation: anes-pill-float 4s ease-in-out infinite;
+              padding: 7px 14px;
+              transform-origin: center;
+              animation: anes-mod-cycle 3.2s ease-in-out infinite;
             }
-            .anim-mod-pill-0 { left: 8%;  top: 18%; animation-delay: 0s;    }
-            .anim-mod-pill-1 { left: 38%; top: 8%;  animation-delay: -1s;   }
-            .anim-mod-pill-2 { left: 30%; top: 58%; animation-delay: -2s;   }
-            .anim-mod-pill-3 { left: 62%; top: 38%; animation-delay: -3s;   }
-            @keyframes anes-pill-float {
-              0%, 100% { transform: translateY(0); }
-              50%      { transform: translateY(-8px); }
+            .anim-mod-pill-0 { animation-delay: 0s;   }
+            .anim-mod-pill-1 { animation-delay: 0.4s; }
+            .anim-mod-pill-2 { animation-delay: 0.8s; }
+            .anim-mod-pill-3 { animation-delay: 1.2s; }
+            @keyframes anes-mod-cycle {
+              0%, 100%, 50% {
+                color: rgba(0, 181, 214, 0.55);
+                background: rgba(0, 181, 214, 0.06);
+                border-color: rgba(0, 181, 214, 0.2);
+                transform: scale(1);
+                box-shadow: none;
+              }
+              12.5% {
+                color: var(--white);
+                background: #00B5D6;
+                border-color: #00B5D6;
+                transform: scale(1.12);
+                box-shadow: 0 6px 14px -6px rgba(0, 181, 214, 0.55);
+              }
             }
 
-            /* Rules: 3 stacked rule sheets */
+            /* Rules: 4x3 grid of cells. Cells brighten in a diagonal
+               wave (delay increases along the i+j diagonal) which reads
+               like a sweep crossing the grid. Visibly animated unlike
+               the previous 6px-shift sheet stack. */
             .anim-rules {
-              position: relative;
               width: 100%;
               height: 100%;
-            }
-            .anim-rule-sheet {
-              position: absolute;
-              border-radius: 8px;
-              background: var(--white);
-              border: 1px solid rgba(0, 181, 214, 0.25);
-              box-shadow: 0 4px 12px -6px rgba(0, 181, 214, 0.18);
-            }
-            .anim-rule-sheet-back {
-              width: 56%; height: 70%;
-              left: 22%; top: 22%;
-              opacity: 0.5;
-              transform: rotate(-3deg);
-            }
-            .anim-rule-sheet-mid {
-              width: 60%; height: 72%;
-              left: 20%; top: 16%;
-              opacity: 0.75;
-              transform: rotate(1.5deg);
-            }
-            .anim-rule-sheet-front {
-              width: 64%; height: 76%;
-              left: 18%; top: 10%;
-              padding: 10px 14px;
               display: flex;
-              flex-direction: column;
+              align-items: center;
               justify-content: center;
+            }
+            .anim-rules-grid {
+              display: grid;
+              grid-template-columns: repeat(4, 16px);
+              grid-template-rows: repeat(3, 16px);
               gap: 6px;
-              animation: anes-rules-slide 5s ease-in-out infinite;
             }
-            .anim-rule-line {
-              height: 4px;
-              border-radius: 2px;
-              background: rgba(0, 181, 214, 0.35);
+            .anim-rule-cell {
+              border-radius: 3px;
+              background: rgba(0, 181, 214, 0.12);
+              border: 1px solid rgba(0, 181, 214, 0.22);
+              animation: anes-rule-wave 2.8s ease-in-out infinite;
             }
-            @keyframes anes-rules-slide {
-              0%, 100% { transform: translateX(0) rotate(0deg); }
-              50%      { transform: translateX(6px) rotate(-1deg); }
+            /* Diagonal sweep delays: (col + row) * 0.12s */
+            .anim-rule-cell-0  { animation-delay: 0s;    }
+            .anim-rule-cell-1  { animation-delay: 0.12s; }
+            .anim-rule-cell-2  { animation-delay: 0.24s; }
+            .anim-rule-cell-3  { animation-delay: 0.36s; }
+            .anim-rule-cell-4  { animation-delay: 0.12s; }
+            .anim-rule-cell-5  { animation-delay: 0.24s; }
+            .anim-rule-cell-6  { animation-delay: 0.36s; }
+            .anim-rule-cell-7  { animation-delay: 0.48s; }
+            .anim-rule-cell-8  { animation-delay: 0.24s; }
+            .anim-rule-cell-9  { animation-delay: 0.36s; }
+            .anim-rule-cell-10 { animation-delay: 0.48s; }
+            .anim-rule-cell-11 { animation-delay: 0.60s; }
+            @keyframes anes-rule-wave {
+              0%, 60%, 100% {
+                background: rgba(0, 181, 214, 0.12);
+                border-color: rgba(0, 181, 214, 0.22);
+                transform: scale(1);
+              }
+              25%, 35% {
+                background: #00B5D6;
+                border-color: #00B5D6;
+                transform: scale(1.12);
+              }
             }
 
             /* Badges: 3 circles with checkmarks fading in */
@@ -677,42 +707,65 @@ export default function AnesthesiaContent() {
               z-index: 1;
             }
 
-            /* Languages: chat bubbles cycling (Cindy) */
+            /* Languages: 3 chat bubbles staged as a conversation —
+               left-aligned 'Hello', right-aligned 'Hola', left-aligned
+               '你好' (Chinese). Bubbles have tail corners (one rounded
+               corner reduced) and the right one is teal-tinted to read
+               like an outbound message. Reads as a real translated
+               exchange rather than scattered language codes. */
             .anim-langs {
-              position: relative;
               width: 100%;
               height: 100%;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              gap: 6px;
+              padding: 0 18px;
             }
             .anim-lang-bubble {
-              position: absolute;
-              font-family: var(--font-display);
-              font-size: 14px;
-              font-weight: 600;
-              color: #00B5D6;
+              font-size: 13px;
+              font-weight: 500;
+              color: var(--gray-900);
               background: var(--white);
               border: 1px solid rgba(0, 181, 214, 0.3);
               border-radius: 14px;
-              padding: 6px 12px;
-              box-shadow: 0 4px 10px -4px rgba(0, 181, 214, 0.2);
-              animation: anes-lang-cycle 5s ease-in-out infinite;
+              padding: 6px 14px;
+              width: fit-content;
+              max-width: 75%;
+              box-shadow: 0 2px 6px -2px rgba(0, 181, 214, 0.18);
               opacity: 0;
+              animation: anes-lang-message 4.2s ease-in-out infinite;
             }
-            .anim-lang-bubble-0 { left: 6%;  top: 16%;  animation-delay: 0s;   }
-            .anim-lang-bubble-1 { left: 38%; top: 8%;   animation-delay: 1s;   }
-            .anim-lang-bubble-2 { left: 68%; top: 20%;  animation-delay: 2s;   }
-            .anim-lang-bubble-3 { left: 16%; top: 56%;  animation-delay: 3s;   }
-            .anim-lang-bubble-4 { left: 52%; top: 56%;  animation-delay: 4s;   }
-            @keyframes anes-lang-cycle {
-              0%, 100%  { opacity: 0; transform: scale(0.8); }
-              15%, 60%  { opacity: 1; transform: scale(1); }
-              75%       { opacity: 0; transform: scale(0.8); }
+            .anim-lang-bubble-left {
+              align-self: flex-start;
+              border-bottom-left-radius: 4px;
+            }
+            .anim-lang-bubble-right {
+              align-self: flex-end;
+              background: rgba(0, 181, 214, 0.12);
+              border-color: rgba(0, 181, 214, 0.4);
+              color: #006B81;
+              border-bottom-right-radius: 4px;
+            }
+            .anim-lang-bubble-0 { animation-delay: 0s;   }
+            .anim-lang-bubble-1 { animation-delay: 0.7s; }
+            .anim-lang-bubble-2 { animation-delay: 1.4s; }
+            @keyframes anes-lang-message {
+              0%, 70%, 100% { opacity: 0; transform: translateY(6px); }
+              15%, 60%      { opacity: 1; transform: translateY(0); }
             }
 
-            /* Chart: animated bar chart */
+            /* Chart: animated bar chart.
+               BUG FIX: previously missing width: 100% meant the chart
+               as a flex child of .anes-card-anim shrank to 0 because
+               its bars used flex: 1 (basis 0%) with no parent width
+               to distribute across. That's why the Analytics card
+               looked empty in preview. */
             .anim-chart {
               display: flex;
               align-items: flex-end;
               gap: 6px;
+              width: 100%;
               height: 80%;
               padding: 0 12px;
             }
@@ -739,7 +792,7 @@ export default function AnesthesiaContent() {
             @media (prefers-reduced-motion: reduce) {
               .anes-marquee-track,
               .anim-mod-pill,
-              .anim-rule-sheet-front,
+              .anim-rule-cell,
               .anim-badge,
               .anim-stamp-fill,
               .anim-stamp-dot,
@@ -751,7 +804,7 @@ export default function AnesthesiaContent() {
               }
               /* Make language bubbles all visible at rest so the
                  card isn't blank when animations are off */
-              .anim-lang-bubble { opacity: 1; transform: scale(1); }
+              .anim-lang-bubble { opacity: 1; transform: translateY(0); }
             }
 
             /* Tablet/mobile: same marquee, just narrower cards */
