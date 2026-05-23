@@ -333,8 +333,15 @@ export default function HeroSection() {
                around the button, not as light emanating from it —
                user explicitly rejected the blue tint.
              - Lift -2px gives a clear "rising off the page" feel
-               that the white wash alone wouldn't provide. */
-        .hero-action:hover {
+               that the white wash alone wouldn't provide.
+           IMPORTANT: scoped under .hero-ready (specificity 0,3,0) to
+           beat the post-entrance reset '.hero-ready .hero-action'
+           rule below (specificity 0,2,0) which sets transform:
+           translate(0,0). Without this scope, the hover transform
+           never applies — same specificity, later rule wins by
+           source order, and the lift is silently broken. This was
+           the pre-existing bug since b3f9960. */
+        .hero-ready .hero-action:hover {
           background-color: rgba(255, 255, 255, 0.18);
           transform: translateY(-2px);
           filter: brightness(1.15);
@@ -343,8 +350,10 @@ export default function HeroSection() {
         /* Arrow disc nudges further right on hover — same pattern
            as .btn-glass:hover svg { transform: translateX(3px); }
            in globals.css. Composes with the disc's existing
-           vertical centering transform (translateY(-50%)). */
-        .hero-action-specialties:hover .hero-action-arrow {
+           vertical centering transform (translateY(-50%)). Scoped
+           under .hero-ready for the same specificity reason as the
+           main hover rule above. */
+        .hero-ready .hero-action-specialties:hover .hero-action-arrow {
           transform: translateY(-50%) translateX(4px);
         }
         .hero-action-pill {
@@ -438,12 +447,20 @@ export default function HeroSection() {
                off the page.
              - Transition override on :hover only. The base .hero-card
                transition (set in the CHOREOGRAPHY block below at
-               line ~515) is 800ms bouncy on transform for the entrance
+               line ~550) is 800ms bouncy on transform for the entrance
                animation; that's too slow + overshoots for a mouse
                hover. Snap to 220ms on hover-IN. Hover-OUT reverts to
                the choreography's bouncy transition — giving a
-               satisfying settle-back as the card relaxes into place. */
-        .hero-card:hover {
+               satisfying settle-back as the card relaxes into place.
+           IMPORTANT: scoped under .hero-ready (specificity 0,3,0) to
+           beat the post-entrance reset '.hero-ready .hero-card' rule
+           below (specificity 0,2,0) which sets transform: translate
+           (0,0). Without this scope, the hover transform never
+           applies — same specificity, later rule wins by source
+           order, and the lift is silently broken. This was the
+           root-cause bug behind every "hover effect not working"
+           complaint since b3f9960. */
+        .hero-ready .hero-card:hover {
           transform: translateY(-14px) scale(1.06);
           filter: brightness(1.22) saturate(1.10);
           box-shadow: 0 26px 50px rgba(0, 0, 0, 0.50);
