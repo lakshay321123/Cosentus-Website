@@ -179,21 +179,20 @@ export default function RASection() {
            wide viewports. Will wrap to two lines on narrower
            viewports, expected. */
         /* Section header wrapper. Left-aligned to match the
-           SpecialtiesSection pattern (which uses the same
-           <header> + text-align:left + max-width approach). The
-           720px max-width keeps line length readable for both
-           the long H2 and the supporting paragraph below it.
-           margin-bottom matches the previous centered layout's
-           spacing to the stats row below. */
-        /* Section header wrapper. Left-aligned to match the
-           SpecialtiesSection pattern (which uses the same
-           <header> + text-align:left + max-width approach).
-           Width 640px matches the .ra-stats-row and .ra-agent-grid
-           max-widths below per user direction — H2 column aligns
-           with the 3-agent column. */
+           SpecialtiesSection pattern (same <header> + text-align:left
+           + max-width approach).
+
+           max-width was previously 640px to align the H2 column with
+           the 640px agent grid below. User direction May 2026:
+           'write this Text in Two lines / left aligned only' — at
+           640px the 110-char H2 wraps to 5 lines at 48px font.
+           Widened to 100% so the heading uses the full .container
+           (1280px max), which gives 2 lines naturally on wide
+           desktop. Trade-off: H2 no longer visually aligns with the
+           640px agent grid below. */
         .ra-header {
           text-align: left;
-          max-width: 640px;
+          max-width: 100%;
           margin: 0;
         }
 
@@ -205,9 +204,13 @@ export default function RASection() {
           letter-spacing: -0.02em;
           color: var(--gray-900);
           /* Left-aligned and width auto so the parent .ra-header's
-             max-width controls line length. */
+             max-width controls line length.
+             text-wrap: balance distributes words evenly across the
+             wrapped lines so we get ~55 chars + ~55 chars instead
+             of a long-line + short-tail break. */
           margin: 0;
           text-align: left;
+          text-wrap: balance;
         }
         .ra-heading .accent {
           color: #00B5D6;
