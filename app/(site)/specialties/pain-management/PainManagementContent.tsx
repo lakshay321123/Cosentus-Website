@@ -53,9 +53,14 @@ const testimonials = [
 // Note vs. Anesthesia/Orthopedics: the doc deliberately omits an
 // "AR Follow-Up & Collections" Chris card on Pain Management.
 // Only Cindy appears, on Card 7 "Patient Billing & Support".
-// The pulse animation is reused on Card 5 (Med Management & Drug
-// Screening) without an agent — read as ongoing monitoring/
-// touchpoints rather than a phone call.
+//
+// Card 3 uses the bespoke 'defense' animation (document + shield-
+// check pulse) — earlier draft used 'badges' (3 floating ticks)
+// which preview feedback said didn't connect to documentation
+// defense. Card 5 uses the bespoke 'meds' animation (capsule
+// pills cycling) — earlier draft reused 'pulse' (phone rings)
+// which preview feedback flagged as visually reading as "call",
+// not medication.
 //
 // Modifier labels chosen to match the doc card's emphasis on
 // "modifiers for laterality and imaging guidance":
@@ -79,7 +84,7 @@ const solutions: SpecialtySolution[] = [
     eyebrow: 'PAYER DEFENSE',
     title: 'Pre-Payment Review Defense',
     description: 'When payers trigger reviews, we prepare and defend your documentation with clinical evidence.',
-    anim: 'badges',
+    anim: 'defense',
   },
   {
     eyebrow: 'AUTHORIZATIONS',
@@ -88,10 +93,10 @@ const solutions: SpecialtySolution[] = [
     anim: 'stamp',
   },
   {
-    eyebrow: 'ONGOING MONITORING',
+    eyebrow: 'MEDICATION OVERSIGHT',
     title: 'Medication Management & Drug Screening',
     description: 'Proper coding for medication management visits, drug screening, and related services.',
-    anim: 'pulse',
+    anim: 'meds',
   },
   {
     eyebrow: 'DENIAL PREVENTION',

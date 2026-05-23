@@ -38,6 +38,8 @@ export type AnimKind =
   | 'pulse'      // Phone icon with pulse rings (AR / Chris)
   | 'languages'  // Multilingual chat bubbles (Patient Billing / Cindy)
   | 'chart'      // Bar chart with staggered scale (Analytics)
+  | 'defense'    // Document + shield-check pulse (Pre-Payment Review)
+  | 'meds'       // Capsule pills cycling (Medication Management)
 
 export type SpecialtySolution = {
   /** Small caps eyebrow label above the title */
@@ -149,6 +151,44 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         <div className="anim anim-chart" aria-hidden="true">
           {[36, 52, 28, 64, 44, 72, 58].map((h, i) => (
             <span key={i} className={`anim-chart-bar anim-chart-bar-${i}`} style={{ height: `${h}%` }} />
+          ))}
+        </div>
+      )
+    case 'defense':
+      // Clinical document with a shield-check overlapping its
+      // bottom-right corner. The shield pulses (scale + glow) to
+      // signal "documentation defended". Used on Pain Management
+      // for the Pre-Payment Review Defense card.
+      return (
+        <div className="anim anim-defense" aria-hidden="true">
+          <svg className="anim-defense-doc" viewBox="0 0 44 56" width="44" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="40" height="52" rx="3" fill="#FFFFFF" stroke="#00B5D6" strokeOpacity="0.45" strokeWidth="1.5" />
+            <rect x="8" y="12" width="28" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
+            <rect x="8" y="20" width="22" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
+            <rect x="8" y="28" width="26" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
+            <rect x="8" y="36" width="20" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
+          </svg>
+          <svg className="anim-defense-shield" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 2 L32 7 L32 17 C32 25 26 32 18 34 C10 32 4 25 4 17 L4 7 Z" fill="#00B5D6" stroke="#FFFFFF" strokeWidth="2" />
+            <path d="M11 18 L16 23 L25 13" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        </div>
+      )
+    case 'meds':
+      // Three two-tone capsule pills, sequential color/scale
+      // highlight cycle (same rhythm as modifier pills but with
+      // pill SVGs instead of CPT-code text). Used on Pain
+      // Management for the Medication Management & Drug
+      // Screening card. Unambiguous medication visual.
+      return (
+        <div className="anim anim-meds" aria-hidden="true">
+          {[0, 1, 2].map(i => (
+            <span key={i} className={`anim-med-cap anim-med-cap-${i}`}>
+              <svg viewBox="0 0 44 16" width="44" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="42" height="14" rx="7" fill="currentColor" stroke="#00B5D6" strokeWidth="1.5" />
+                <line x1="22" y1="1" x2="22" y2="15" stroke="#00B5D6" strokeWidth="1.5" />
+              </svg>
+            </span>
           ))}
         </div>
       )
@@ -729,6 +769,79 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           50%      { transform: scaleY(0.4); }
         }
 
+        /* Defense: clinical document with a shield-check badge
+           overlapping its bottom-right. Shield pulses in scale
+           and drops a glow to read as "documentation defended".
+           Used for Pre-Payment Review Defense (Pain Management). */
+        .anim-defense {
+          position: relative;
+          width: 80px;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .anim-defense-doc {
+          /* Slight left/up nudge so the shield can sit on the
+             bottom-right corner without being clipped. */
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-58%, -50%);
+        }
+        .anim-defense-shield {
+          position: absolute;
+          bottom: 2px;
+          right: 2px;
+          transform-origin: center;
+          filter: drop-shadow(0 4px 10px rgba(0, 181, 214, 0.35));
+          animation: spec-defense-pulse 2.4s ease-in-out infinite;
+        }
+        @keyframes spec-defense-pulse {
+          0%, 100% {
+            transform: scale(1);
+            filter: drop-shadow(0 4px 10px rgba(0, 181, 214, 0.35));
+          }
+          50% {
+            transform: scale(1.14);
+            filter: drop-shadow(0 6px 16px rgba(0, 181, 214, 0.55));
+          }
+        }
+
+        /* Meds: 3 two-tone capsule pills with sequential color
+           + scale highlight. Same rhythm as modifier pills but
+           visually distinct (no text, capsule SVG). The fill is
+           controlled via 'color' + 'fill: currentColor' so the
+           pill body transitions from pale teal to solid teal
+           when active. Used for Medication Management & Drug
+           Screening (Pain Management). */
+        .anim-meds {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+        }
+        .anim-med-cap {
+          display: inline-flex;
+          color: rgba(0, 181, 214, 0.08);
+          transform-origin: center;
+          animation: spec-med-cycle 3.2s ease-in-out infinite;
+        }
+        .anim-med-cap-0 { animation-delay: 0s;   }
+        .anim-med-cap-1 { animation-delay: 0.4s; }
+        .anim-med-cap-2 { animation-delay: 0.8s; }
+        @keyframes spec-med-cycle {
+          0%, 100%, 50% {
+            color: rgba(0, 181, 214, 0.08);
+            transform: scale(1);
+            filter: none;
+          }
+          12.5% {
+            color: #00B5D6;
+            transform: scale(1.18);
+            filter: drop-shadow(0 6px 14px rgba(0, 181, 214, 0.5));
+          }
+        }
+
         /* Reduced motion: freeze everything but keep visuals visible */
         @media (prefers-reduced-motion: reduce) {
           .spec-marquee-track,
@@ -740,12 +853,19 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
           .anim-stat-bar,
           .anim-pulse-ring,
           .anim-lang-bubble,
-          .anim-chart-bar {
+          .anim-chart-bar,
+          .anim-defense-shield,
+          .anim-med-cap {
             animation: none !important;
           }
           .anim-lang-bubble {
             opacity: 1;
             transform: translateY(0);
+          }
+          /* Leave the med capsule in the active (filled) state
+             at rest so the card doesn't look empty. */
+          .anim-med-cap {
+            color: #00B5D6;
           }
         }
 
