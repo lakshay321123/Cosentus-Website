@@ -1706,53 +1706,34 @@ body:has(main.home-immersive) .footer-top {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  padding-top: 24px;
+  padding-top: 32px;
   border-top: 1px solid rgba(255,255,255,0.18);
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 .rcm-calc-bucket {
   text-align: left;
 }
 .rcm-calc-bucket-value {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 26px;
   font-weight: 400;
   color: var(--white);
   line-height: 1.1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .rcm-calc-bucket-label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   color: rgba(255,255,255,0.65);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-/* CTA — white pill on the glass bg. Reads bright against the dark
-   frosted card; inverts on hover with a subtle lift. */
-.rcm-calc-cta {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  padding: 14px 28px;
-  border-radius: 999px;
-  background: var(--white);
-  color: var(--primary);
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: var(--transition-base);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.20);
-}
-.rcm-calc-cta:hover {
-  background: rgba(255,255,255,0.92);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.28);
-}
-
+/* CTA was previously .rcm-calc-cta (custom white pill). Switched to
+   the site-canonical .btn-primary class (saturated teal + white text)
+   per user direction May 2026 ('make the button like the buttons on
+   the page. Remove the blue text.'). Block intentionally removed; the
+   component now uses className='btn-primary' directly. */
 /* ===== SLIDER STYLING =====
    Native <input type='range'> rendering varies wildly across browsers.
    These rules normalize the track + thumb for the dark-frost context.
@@ -1836,10 +1817,10 @@ body:has(main.home-immersive) .footer-top {
     gap: 8px;
   }
   .rcm-calc-bucket-value {
-    font-size: 16px;
+    font-size: 22px;
   }
   .rcm-calc-bucket-label {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
