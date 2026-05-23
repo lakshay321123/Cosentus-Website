@@ -171,7 +171,7 @@ export default function RAPageContent() {
               margin-bottom: 4px !important;
             }
             .zeus-why-cell .zeus-why-desc {
-              font-size: 11px !important;
+              font-size: var(--text-xxs) !important;
               line-height: 1.35 !important;
             }
           }
@@ -567,7 +567,7 @@ export default function RAPageContent() {
                         color: 'var(--gray-900)',
                       }}>{proto.name}</span>
                       <span style={{
-                        fontSize: 11,
+                        fontSize: 'var(--text-xxs)',
                         color: 'var(--gray-500)',
                         fontFamily: 'monospace',
                       }}>{proto.detail}</span>
@@ -757,7 +757,7 @@ export default function RAPageContent() {
                       fontWeight: 500,
                     }}>{kpi.label}</span>
                     <span style={{
-                      fontSize: 11,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 600,
                       padding: '4px 8px',
                       borderRadius: 999,

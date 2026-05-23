@@ -50,7 +50,7 @@ export default function AdvantagesSection() {
                 boxShadow: '0 12px 40px rgba(0,181,214,0.3)',
               }}>
                 <div style={{ fontSize: 32, fontWeight: 300, fontFamily: 'var(--font-display)', lineHeight: 1 }}>25+</div>
-                <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
+                <div style={{ fontSize: 'var(--text-xxs)', opacity: 0.8, marginTop: 4, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Years of RCM</div>
               </div>
             </div>
           </RevealOnScroll>

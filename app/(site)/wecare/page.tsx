@@ -232,7 +232,7 @@ export default function WeCarePage() {
                             left: 12,
                             background: 'rgba(0, 181, 214, 0.95)',
                             color: '#fff',
-                            fontSize: 10,
+                            fontSize: 'var(--text-xxs)',
                             fontWeight: 600,
                             letterSpacing: '0.06em',
                             textTransform: 'uppercase' as const,

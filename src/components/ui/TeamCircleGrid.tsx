@@ -251,7 +251,7 @@ export default function TeamCircleGrid({
             font-weight: 700;
           }
           .team-circle-title {
-            font-size: 11px;
+            font-size: var(--text-xxs);
             margin-top: 3px;
           }
         }

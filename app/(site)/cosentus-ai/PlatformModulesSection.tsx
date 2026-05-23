@@ -185,7 +185,7 @@ export default function PlatformModulesSection() {
                   <div key={cat}>
                     <div style={{
                       padding: '14px 24px 10px',
-                      fontSize: 10,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 700,
                       letterSpacing: '0.16em',
                       textTransform: 'uppercase',
@@ -223,7 +223,7 @@ export default function PlatformModulesSection() {
                           }}
                         >
                           <span style={{
-                            fontSize: 11, fontWeight: 700,
+                            fontSize: 'var(--text-xxs)', fontWeight: 700,
                             color: isActive ? '#00B5D6' : 'var(--gray-400)',
                             fontFamily: 'var(--font-display)',
                             letterSpacing: '0.04em',
@@ -290,13 +290,13 @@ export default function PlatformModulesSection() {
                     boxShadow: '0 0 12px rgba(255,255,255,0.9)',
                     animation: 'mod-pulse 1.6s ease-in-out infinite',
                   }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
+                  <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'white', fontFamily: 'var(--font-display)' }}>
                     {selected.name} · {demo ? 'Live' : 'Module'}
                   </div>
                 </div>
                 {selected.agent && (
                   <div style={{
-                    fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
+                    fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
                     background: 'rgba(255,255,255,0.18)',
                     padding: '4px 10px',
                     borderRadius: 4,
@@ -336,7 +336,7 @@ export default function PlatformModulesSection() {
                       borderRadius: 8,
                       marginBottom: 14,
                     }}>
-                      <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.75, marginBottom: 4 }}>
+                      <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white', opacity: 0.75, marginBottom: 4 }}>
                         Sample Encounter
                       </div>
                       <div style={{ fontSize: 14, fontWeight: 600, color: 'white', fontFamily: 'var(--font-display)' }}>
@@ -427,7 +427,7 @@ export default function PlatformModulesSection() {
                       borderRadius: 8,
                       marginTop: 32,
                     }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 14 }}>
+                      <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'white', opacity: 0.85, marginBottom: 14 }}>
                         Module Capabilities
                       </div>
                       <div style={{ fontSize: 14, color: 'white', lineHeight: 1.7 }}>
@@ -470,7 +470,7 @@ export default function PlatformModulesSection() {
                 {/* Top row: category + AI badge + counter */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <span style={{
-                    fontSize: 11,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 700,
                     letterSpacing: '0.16em',
                     textTransform: 'uppercase',
@@ -481,7 +481,7 @@ export default function PlatformModulesSection() {
                   </span>
                   {m.agent && (
                     <span style={{
-                      fontSize: 10,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 700,
                       letterSpacing: '0.12em',
                       color: '#00B5D6',
@@ -534,7 +534,7 @@ export default function PlatformModulesSection() {
                   marginTop: 'auto',
                   paddingTop: 12,
                   borderTop: '1px solid var(--gray-100)',
-                  fontSize: 11,
+                  fontSize: 'var(--text-xxs)',
                   fontWeight: 700,
                   letterSpacing: '0.12em',
                   color: 'var(--gray-400)',

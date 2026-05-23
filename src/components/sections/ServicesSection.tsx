@@ -71,7 +71,7 @@ function ServiceCard({ svc }: { svc: typeof services[0] }) {
 
         {/* Content */}
         <div style={{ padding: '28px 28px 32px', flex: 1, display: 'flex', flexDirection: 'column' as const }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: hovered ? '#00B5D6' : 'var(--gray-400)', letterSpacing: '0.05em', marginBottom: 10, transition: 'color 0.3s', fontFamily: 'var(--font-display)' }}>{svc.num}</div>
+          <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: hovered ? '#00B5D6' : 'var(--gray-400)', letterSpacing: '0.05em', marginBottom: 10, transition: 'color 0.3s', fontFamily: 'var(--font-display)' }}>{svc.num}</div>
           <h4 style={{ fontSize: 22, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 10, transition: 'color 0.3s', ...(hovered ? { color: '#00B5D6' } : {}) }}>{svc.title}</h4>
           <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--gray-500)', margin: 0 }}>{svc.desc}</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 24, fontSize: 13, fontWeight: 600, color: '#00B5D6', letterSpacing: '0.02em' }}>

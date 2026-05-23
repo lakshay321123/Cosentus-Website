@@ -223,7 +223,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           <div style={{
             display: 'inline-block', padding: '4px 14px',
             background: 'rgba(0,181,214,0.25)', borderRadius: 6,
-            fontSize: 11, fontWeight: 500, color: '#68D1E6',
+            fontSize: 'var(--text-xxs)', fontWeight: 500, color: '#68D1E6',
             textTransform: 'uppercase', letterSpacing: '0.06em',
             marginBottom: 16,
           }}>
@@ -319,7 +319,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
               )}
               {/* Share Buttons */}
               <div style={{ marginTop: 24 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--gray-500)', marginBottom: 10 }}>Share</div>
+                <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--gray-500)', marginBottom: 10 }}>Share</div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   {[
                     { label: 'LinkedIn', color: '#00B5D6', icon: 'M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zM.02 24h4.96V7.5H.02V24zm7.66-16.5h4.76v2.255h.066c.663-1.255 2.283-2.575 4.698-2.575C21.756 7.18 24 9.75 24 14.69V24h-4.98v-8.26c0-1.97-.036-4.5-2.742-4.5-2.746 0-3.165 2.145-3.165 4.36V24H8.14V7.5h-.46z', url: (slug: string) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://cosentus.com/blog/${slug}`)}` },

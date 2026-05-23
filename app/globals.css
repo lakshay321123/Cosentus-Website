@@ -65,6 +65,95 @@
 
   --container: 1280px;
   --container-wide: 1440px;
+
+  /* ===== TYPOGRAPHY SCALE — iOS HIG aligned ====================
+     Introduced May 2026 to fix the long-running "iOS-readable"
+     debt. Prior to this, the site had ~200 inline font-size px
+     values scattered across CSS + TSX with no shared source of
+     truth, and `body` had no font-size declaration (so it inherited
+     the browser default 16px). Past "iOS-readable" fixes were done
+     piecemeal — see commits cb0eca1, 46438fb, 66f5b1c, d5ae1d5,
+     1732409, b6e01fb — and kept regressing as new components were
+     added with their own px values.
+
+     This scale gives every text size a name and ONE place to tune.
+     Mobile values (set in the @media block below) are bumped to
+     match Apple's Human Interface Guidelines — body 17pt, etc.
+
+     Migration policy:
+       - New components MUST use these vars, not raw px
+       - Existing 10/11px occurrences were migrated in the same
+         commit that introduced this scale (those were the worst
+         offenders — eyebrow labels below readability)
+       - 12-30px existing declarations are left alone for now;
+         migrate to vars when the surrounding component is touched
+
+     Scale slots (with iOS HIG mapping):
+       --text-xxs   eyebrow/category labels (iOS Caption 2 ≈ 11pt)
+       --text-xs    footnote, fine print     (iOS Caption 1 ≈ 12pt)
+       --text-sm    secondary body           (iOS Footnote   ≈ 13pt)
+       --text-base  body — page default      (iOS Body       ≈ 17pt)
+       --text-md    callout                  (iOS Callout    ≈ 16pt)
+       --text-lg    intro / sub-headline     (iOS Subhead    ≈ 15pt)
+       --text-xl    large body / quote       (iOS Title 3    ≈ 20pt)
+       --text-2xl   small section heading
+       --text-3xl   section heading
+       --text-4xl   page heading — fluid via clamp()
+       --text-5xl   hero subhead — fluid
+       --text-6xl   hero title — fluid
+
+     Why our --text-md is below --text-base on the iOS chart:
+     iOS Callout is meant for inline emphasized snippets shorter
+     than full body paragraphs. We use --text-base as the page-wide
+     body (17pt on mobile = iOS Body) and --text-md as a slightly
+     larger desktop emphasis (17px desktop, 19px mobile). */
+
+  --text-xxs:  12px;
+  --text-xs:   13px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-md:   17px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+  --text-4xl:  clamp(32px, 4vw, 48px);
+  --text-5xl:  clamp(40px, 5vw, 64px);
+  --text-6xl:  clamp(48px, 7vw, 88px);
+
+  /* Line heights — pair with the scale above as needed */
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose:   1.75;
+
+  /* Font weights — single source of truth */
+  --weight-light:    300;
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+}
+
+/* ===== MOBILE TYPE BUMP — iOS-readable sizing ==================
+   On phones/tablets the scale shifts up by 1-4px per slot so body
+   text hits 17px (iOS Body 17pt) and eyebrow micro-labels clear
+   the 12px floor. The 768px breakpoint matches Tailwind's md:
+   inverse and the rest of the site's existing mobile rules. */
+@media (max-width: 768px) {
+  :root {
+    --text-xxs:  13px;
+    --text-xs:   14px;
+    --text-sm:   15px;
+    --text-base: 17px;
+    --text-md:   19px;
+    --text-lg:   20px;
+    --text-xl:   22px;
+    --text-2xl:  28px;
+    --text-3xl:  34px;
+    /* --text-4xl/5xl/6xl already fluid via clamp(); no override */
+  }
 }
 
 /* ===== RESET & BASE ===== */
@@ -83,6 +172,10 @@ body {
   background: var(--white);
   line-height: 1.6;
   overflow-x: hidden;
+  /* Was unset (browser default 16px). Now driven by the type
+     scale so the entire site picks up the mobile 17px bump
+     automatically wherever explicit font-size isn't set. */
+  font-size: var(--text-base);
 }
 
 img { max-width: 100%; display: block; }
@@ -1065,7 +1158,7 @@ body:has(main.home-immersive) .footer-top {
 
 .hero-case-tag {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: var(--text-xxs);
   font-weight: 300;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1122,7 +1215,7 @@ body:has(main.home-immersive) .footer-top {
 .testimonial-tag {
   flex-shrink: 0;
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: var(--text-xxs);
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1928,7 +2021,7 @@ body:has(main.home-immersive) .footer-top {
     font-size: 20px;
   }
   .rcm-calc-bucket-label {
-    font-size: 11px;
+    font-size: var(--text-xxs);
   }
 }
 
@@ -3494,7 +3587,7 @@ body:has(main.home-immersive) .footer-top {
     line-height: 1.5 !important;
   }
   .hero-case-tag {
-    font-size: 10px !important;
+    font-size: var(--text-xxs) !important;
   }
 
   /* ----- Carousel toggles ----- */

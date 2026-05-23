@@ -70,7 +70,7 @@ export default function EventsContent() {
       .evt-row{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:2px;border-radius:12px;overflow:hidden;border:1px solid var(--gray-200);transition:box-shadow 0.4s,border-color 0.4s;cursor:pointer;min-height:420px}
       .evt-row.active{border-color:var(--primary);box-shadow:0 8px 40px rgba(0,181,214,0.1);min-height:520px}
       .evt-text{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:center;background:white}
-      .evt-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:12px;width:fit-content}
+      .evt-tag{display:inline-block;font-size:var(--text-xxs);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:12px;width:fit-content}
       .evt-title{font-size:clamp(18px,2vw,24px);font-weight:600;color:var(--gray-900);line-height:1.3;margin-bottom:8px}
       .evt-date{font-size:13px;color:var(--gray-500);margin-bottom:4px}
       .evt-location{font-size:13px;color:var(--gray-500);display:flex;align-items:center;gap:6px;margin-bottom:16px}

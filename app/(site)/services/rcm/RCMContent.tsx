@@ -103,11 +103,11 @@ export default function RCMContent() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-400)' }}>{String(i + 1).padStart(2, '0')}</span>
+                      <span style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: 'var(--gray-400)' }}>{String(i + 1).padStart(2, '0')}</span>
                       <h4 style={{ fontSize: 15, fontWeight: 600, color: 'var(--gray-900)', margin: 0 }}>{step.title}</h4>
                     </div>
                     {step.agent && (
-                      <span style={{ fontSize: 11, padding: '2px 8px', background: 'var(--primary-ghost)', borderRadius: 4, color: '#00B5D6', fontWeight: 500, display: 'inline-block', marginBottom: 6 }}>AI Agent: {step.agent}</span>
+                      <span style={{ fontSize: 'var(--text-xxs)', padding: '2px 8px', background: 'var(--primary-ghost)', borderRadius: 4, color: '#00B5D6', fontWeight: 500, display: 'inline-block', marginBottom: 6 }}>AI Agent: {step.agent}</span>
                     )}
                     <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', margin: 0 }}>{step.desc}</p>
                   </div>
@@ -122,7 +122,7 @@ export default function RCMContent() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                     <div style={{ width: 36, height: 36, borderRadius: '50%', background: step.agent ? '#00B5D6' : 'var(--gray-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: step.agent ? 'white' : 'var(--gray-500)', flexShrink: 0 }}>{step.icon}</div>
                     <div><h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>{step.title}</h4>
-                    {step.agent && <span style={{ fontSize: 11, color: '#00B5D6' }}>{step.agent}</span>}</div>
+                    {step.agent && <span style={{ fontSize: 'var(--text-xxs)', color: '#00B5D6' }}>{step.agent}</span>}</div>
                   </div>
                   <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--gray-600)', margin: 0 }}>{step.desc}</p>
                 </div>

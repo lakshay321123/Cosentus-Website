@@ -164,7 +164,7 @@ function InteractiveMindMap() {
             {/* Label */}
             <div style={{
               textAlign: 'center', marginTop: 5,
-              fontSize: 11, fontWeight: isActive ? 700 : 500,
+              fontSize: 'var(--text-xxs)', fontWeight: isActive ? 700 : 500,
               color: 'white',
               lineHeight: 1.25, whiteSpace: 'pre-line',
               transition: 'all 0.3s ease',

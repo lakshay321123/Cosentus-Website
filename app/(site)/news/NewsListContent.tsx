@@ -37,7 +37,7 @@ export default function NewsListContent() {
                       padding: '3px 10px',
                       background: 'var(--primary-ghost)',
                       borderRadius: 'var(--radius-sm)',
-                      fontSize: 11,
+                      fontSize: 'var(--text-xxs)',
                       fontWeight: 500,
                       color: 'var(--primary)',
                       textTransform: 'uppercase',

@@ -242,7 +242,7 @@ export default function ChatWidget() {
           border-radius: 50%;
           background: #fff;
           color: #00B5D6;
-          font-size: 11px;
+          font-size: var(--text-xxs);
           font-weight: 700;
           display: flex;
           align-items: center;

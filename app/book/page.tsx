@@ -136,7 +136,7 @@ export default function BookingPage() {
                     background: isSelected ? '#00B5D6' : '#F5F5F5', color: isSelected ? 'white' : '#000',
                     fontSize: 13, fontWeight: isSelected ? 600 : 400, minWidth: 80, textAlign: 'center',
                   }}>
-                    <div style={{ fontSize: 11, color: isSelected ? 'rgba(255,255,255,0.7)' : '#616161' }}>{d.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: isSelected ? 'rgba(255,255,255,0.7)' : '#616161' }}>{d.toLocaleDateString('en-US', { weekday: 'short' })}</div>
                     <div style={{ marginTop: 2 }}>{d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
                   </button>
                 )

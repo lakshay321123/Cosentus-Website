@@ -244,7 +244,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
               <span style={{
                 padding: '4px 12px', background: 'rgba(0,181,214,0.2)', borderRadius: 'var(--radius-sm)',
-                fontSize: 11, fontWeight: 500, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em',
+                fontSize: 'var(--text-xxs)', fontWeight: 500, color: '#00B5D6', textTransform: 'uppercase', letterSpacing: '0.06em',
               }}>{article.tag}</span>
               <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>{article.date}</span>
             </div>
@@ -323,7 +323,7 @@ export default function NewsArticleContent({ article }: NewsArticleContentProps)
                     }}>
                       <span style={{
                         display: 'inline-block', padding: '3px 8px', background: 'var(--primary-ghost)',
-                        borderRadius: 'var(--radius-sm)', fontSize: 10, fontWeight: 500,
+                        borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-xxs)', fontWeight: 500,
                         color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.04em',
                         marginBottom: 10, alignSelf: 'flex-start',
                       }}>{related.tag}</span>

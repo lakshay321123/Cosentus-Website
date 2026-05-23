@@ -156,7 +156,7 @@ export default function TestimonialsSection({
                       {/* Tag — optional. Only renders if the testimonial provides one. */}
                       {t.tag && (
                         <div style={{
-                          fontSize: 11,
+                          fontSize: 'var(--text-xxs)',
                           fontWeight: 700,
                           letterSpacing: '0.16em',
                           textTransform: 'uppercase',

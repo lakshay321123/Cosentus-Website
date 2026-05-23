@@ -118,7 +118,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
                   textDecoration: 'none',
                   transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>← Previous</span>
+                  <span style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>← Previous</span>
                   <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{prev.title}</span>
                 </Link>
               ) : <span />}
@@ -135,7 +135,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
                   alignItems: 'flex-end' as const,
                   transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Next →</span>
+                  <span style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Next →</span>
                   <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginTop: 4 }}>{next.title}</span>
                 </Link>
               ) : <span />}

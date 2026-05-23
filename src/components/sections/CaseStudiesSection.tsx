@@ -62,7 +62,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           <img src={cs.image} alt={cs.tag} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#00B5D6', marginBottom: 8 }}>{cs.tag}</div>
+            <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#00B5D6', marginBottom: 8 }}>{cs.tag}</div>
             <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{cs.stat}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{cs.statLabel}</div>
           </div>
@@ -77,7 +77,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           padding: 32,
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
         }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>{cs.tag}</div>
+          <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>{cs.tag}</div>
           <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 20 }}>{cs.stat}</div>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 24 }}>{cs.title}</p>
           <span style={{

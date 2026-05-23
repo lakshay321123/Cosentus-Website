@@ -150,7 +150,7 @@ export default function BlogContent() {
                     padding: '5px 14px',
                     background: 'var(--primary)',
                     borderRadius: 20,
-                    fontSize: 10,
+                    fontSize: 'var(--text-xxs)',
                     fontWeight: 600,
                     color: 'white',
                     textTransform: 'uppercase',
