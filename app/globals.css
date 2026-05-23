@@ -1413,11 +1413,31 @@ body:has(main.home-immersive) .footer-top {
      (taller than wide) to match the SVG's natural proportions
      (1430086 x 2047045 viewBox). The container is now a positioning
      context so the number+sublabel can sit absolutely inside the
-     arrow's lower body. */
+     arrow's lower body.
+     The SVG itself is a child <img> (see .result-arrow-svg below)
+     instead of a background-image — needed because the SVG has
+     linear-gradient masks (the glass effect) which background-image
+     rendering can drop, hiding the outward wings of the arrow head
+     at small render sizes. <img> uses the browser's primary SVG
+     renderer which handles the masks correctly. */
   width: 100%;
   aspect-ratio: 0.70;
-  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
   position: relative;
+}
+
+/* SVG <img> child inside .result-arrow-img and .result-flip-back-arrow.
+   position: absolute + inset: 0 + object-fit: contain mirrors the
+   previous background:contain behavior — SVG fills the wrapper while
+   preserving aspect ratio. pointer-events: none keeps the click
+   target on the parent .result-item flip button, not the image. */
+.result-arrow-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Text living INSIDE the arrow shape — full stat block: optional
@@ -1944,8 +1964,11 @@ body:has(main.home-immersive) .footer-top {
 .result-flip-back-arrow {
   width: 100%;
   aspect-ratio: 0.70;
-  background: url('/images/glass-uparrow.svg') center / contain no-repeat;
   position: relative;
+  /* SVG is now a child <img class="result-arrow-svg"> — same approach
+     as .result-arrow-img on the front face. Was previously a
+     background-image but that path loses the masked outward wings
+     of the arrow head. See .result-arrow-svg rule above. */
 }
 
 /* Flip impact text — sits inside the arrow body via the shared
