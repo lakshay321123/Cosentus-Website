@@ -52,13 +52,13 @@ const stats = [
   { target: 98, suffix: '%', prefix: '>', label: 'Net\nCollection', sublabel: '',
     flip: '$98 collected\non every $100.\nMost practices\nstop at $91.' },
   { target: 99, suffix: '%', prefix: '>', label: 'Clean\nClaim Rate', sublabel: '',
-    flip: 'On $3M\nin charges,\nthat\u2019s $300K recovered\nevery year.' },
+    flip: '$3M in charges?\nWe recover $300K\nevery year.' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding\nAccuracy', sublabel: '', decimals: 1,
     flip: 'Coding errors cost\nthousands monthly.\nWe catch 98.5%\nof them.' },
   { target: 10, suffix: '%', prefix: '< ', label: 'AR\n> 120 Days', sublabel: '',
     flip: 'Aging claims rot.\nWe keep cash\nmoving \u2014 fast.' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient\nCollection', sublabel: '',
-    flip: 'Most practices collect\nunder 50%.\nWe recover\nthe rest in\n50+ languages.' },
+    flip: 'Most collect 50%.\nWe recover more,\nin 50+ languages.' },
 ]
 
 function StatCard({ stat }: { stat: typeof stats[0] }) {

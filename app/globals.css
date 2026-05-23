@@ -1625,21 +1625,20 @@ body:has(main.home-immersive) .footer-top {
 
 /* Flip impact text — sits inside the arrow body via the shared
    .result-arrow-content positioner used by the front. The strings
-   in ResultsSection.tsx contain explicit \n line breaks (chosen
-   per-stat to land 2-3 words per line — strict max — fitting
-   inside the arrow's narrow shaft). white-space: pre-line tells
-   the browser to render those \n as real <br>-equivalent breaks
-   while still collapsing regular spaces.
+   in ResultsSection.tsx contain explicit \n line breaks (2-3 words
+   per line, max ~17 chars per line — the practical width limit at
+   16px against the arrow shaft, established by the 'Tens of
+   thousands' reference line). white-space: pre-line tells the
+   browser to render those \n as real <br>-equivalent breaks while
+   still collapsing regular spaces.
 
-   font-size uses clamp so it matches the front label (16px) on wide
-   desktop viewports — bumped from the previous fixed 14px per user
-   direction "text on the flip needs to increase like on the front".
-   On narrower viewports it scales down to the previous 14px so the
-   widest lines (e.g. "Tens of thousands", "Most practices collect")
-   don't overflow the shaft. */
+   font-size is FIXED at 16px (was previously a clamp that scaled
+   with viewport). User direction Mar 2026: 'Font size should be
+   the same in all'. Matches the front label's 16px so the front
+   and back faces share a typographic baseline. */
 .result-flip-text {
   font-family: var(--font-display);
-  font-size: clamp(14px, 1.2vw, 16px);
+  font-size: 16px;
   line-height: 1.4;
   color: #fff;
   font-weight: 500;
