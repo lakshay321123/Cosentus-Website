@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
@@ -79,8 +80,8 @@ const solutions = [
   { t: 'Credentialing & Enrollment', d: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', eyebrow: 'FRONT OFFICE', anim: 'badges' as const },
   { t: 'Prior Authorization', d: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', eyebrow: 'AUTHORIZATIONS', anim: 'stamp' as const },
   { t: 'Denial Management & Appeals', d: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', eyebrow: 'DENIAL PREVENTION', anim: 'stat' as const },
-  { t: 'AR Follow-Up & Collections', d: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', eyebrow: 'AI AGENT \u2014 CHRIS', anim: 'pulse' as const },
-  { t: 'Patient Billing & Support', d: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', eyebrow: 'AI AGENT \u2014 CINDY', anim: 'languages' as const },
+  { t: 'AR Follow-Up & Collections', d: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', eyebrow: 'AI AGENT \u2014 CHRIS', anim: 'pulse' as const, agent: { name: 'Chris', img: 'chris.png' } },
+  { t: 'Patient Billing & Support', d: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', eyebrow: 'AI AGENT \u2014 CINDY', anim: 'languages' as const, agent: { name: 'Cindy', img: 'cindy.png' } },
   { t: 'Analytics & Visibility', d: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', eyebrow: 'REAL-TIME INSIGHTS', anim: 'chart' as const },
 ]
 
@@ -347,7 +348,35 @@ function DraggableMarquee({ items }: { items: typeof solutions }) {
         {[...items, ...items].map((s, i) => (
           <article key={i} className="anes-card" aria-hidden={i >= items.length}>
             <div className="anes-card-stripe" />
-            <div className="anes-card-eyebrow">{s.eyebrow}</div>
+            {/* Eyebrow row: agent cards (Chris, Cindy) get a clickable
+                circular avatar to the left of the eyebrow text that
+                links to the R+A page where the agents are fully
+                described. Non-agent cards render the eyebrow text only. */}
+            {s.agent ? (
+              <div className="anes-card-eyebrow-row">
+                <Link
+                  href="/cosentus-ai"
+                  className="anes-card-avatar"
+                  aria-label={`Meet ${s.agent.name}, our AI agent`}
+                  // Stop drag events from being interpreted as a click
+                  // and stop click events from bubbling into the drag
+                  // handler on the track. Without this, every drag
+                  // that started on the avatar would also navigate.
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={`/images/${s.agent.img}`}
+                    alt=""
+                    width={40}
+                    height={40}
+                    draggable={false}
+                  />
+                </Link>
+                <span className="anes-card-eyebrow">{s.eyebrow}</span>
+              </div>
+            ) : (
+              <div className="anes-card-eyebrow">{s.eyebrow}</div>
+            )}
             <h3 className="anes-card-title">{s.t}</h3>
             <p className="anes-card-desc">{s.d}</p>
             <div className="anes-card-anim">
@@ -574,11 +603,59 @@ export default function AnesthesiaContent() {
             }
             .anes-card-eyebrow {
               font-family: var(--font-display);
-              font-size: 11px;
-              font-weight: 500;
-              letter-spacing: 0.14em;
+              font-size: 16px;
+              font-weight: 600;
+              letter-spacing: 0.1em;
               text-transform: uppercase;
               color: #00B5D6;
+            }
+            /* Eyebrow row for agent cards (Chris, Cindy) — avatar
+               sits to the left of the eyebrow text, vertically
+               centered. */
+            .anes-card-eyebrow-row {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            }
+            /* Clickable circular avatar. Wrapped in Next.js <Link>.
+               Hover effect: subtle scale + brighter border. The
+               onPointerDown on the Link in JSX prevents the marquee
+               drag handler from also receiving the gesture, so the
+               click is unambiguous. */
+            .anes-card-avatar {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              overflow: hidden;
+              border: 2px solid #00B5D6;
+              background: var(--white);
+              flex-shrink: 0;
+              cursor: pointer;
+              transition: transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                border-color 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+            .anes-card-avatar:hover {
+              transform: scale(1.08);
+              box-shadow: 0 4px 12px -4px rgba(0, 181, 214, 0.45);
+              border-color: #00A0C0;
+            }
+            .anes-card-avatar:focus-visible {
+              outline: none;
+              box-shadow: 0 0 0 3px rgba(0, 181, 214, 0.35);
+            }
+            .anes-card-avatar img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              display: block;
+              /* Prevent the native image drag-and-drop ghost from
+                 hijacking pointer drags on the marquee. */
+              -webkit-user-drag: none;
+              user-select: none;
             }
             .anes-card-title {
               font-family: var(--font-display);
