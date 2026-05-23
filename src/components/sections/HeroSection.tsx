@@ -699,22 +699,93 @@ export default function HeroSection() {
           .hero-action-arrow {
             height: 100%;
           }
+          /* HERO FEATURE CARDS — mobile carousel
+             Per user direction "I can show them one at a time, bigger
+             ones... they can be scrolling left to right, but much
+             bigger than this."
+
+             Strategy: CSS scroll-snap horizontal carousel. The card
+             row turns into a swipeable strip on mobile; user swipes
+             left/right to see Zeus -> Agents -> Net Collection one
+             at a time. No JS needed — native browser swipe + snap
+             behaviour. Desktop staircase layout is untouched (this
+             rule lives inside @media max-width:768px).
+
+             Each card scales from the original ~90-117px range up to
+             ~230px tall so the content (label + value) reads at a
+             glance. Width on each card is proportional to its SVG's
+             native aspect (kept identical to the desktop ratios so
+             the visual composition stays intact).
+
+             '.hero-cards' becomes the scroll viewport:
+               - overflow-x: auto              swipeable
+               - scroll-snap-type: x mandatory snaps to each card
+               - scrollbar hidden              no horizontal bar
+               - gap: 14px                     peek of next card on
+                                               the right edge of the
+                                               viewport signals
+                                               "swipe me"
+
+             Cards snap-align to 'start' (not 'center') because the
+             three widths (230 / 176 / 311) differ enough that center-
+             snap produces irregular pause points on swipe. Start-
+             snap gives a predictable cadence: each swipe parks one
+             card flush with the viewport's left edge. */
           .hero-cards {
             padding: 0;
-            justify-content: center;
-            gap: 10px;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 14px;
+            overflow-x: auto;
+            overflow-y: visible;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;          /* Firefox */
+            /* The parent .hero-layout-grid carries 16px horizontal
+               padding on mobile, so cards naturally start 16px from
+               the screen edge. We don't add more padding inside the
+               carousel — that would double-up the edge gap. */
           }
+          .hero-cards::-webkit-scrollbar {
+            display: none;                  /* Chrome/Safari */
+          }
+          .hero-card {
+            flex: 0 0 auto;                 /* don't shrink — preserve
+                                               each card's intended
+                                               size in the strip */
+            scroll-snap-align: start;       /* each card snaps to the
+                                               start edge of the
+                                               viewport on swipe.
+                                               'start' (not 'center')
+                                               because mixed widths
+                                               (230/176/311) center-
+                                               snap inconsistently;
+                                               start-snap gives a
+                                               predictable cadence. */
+          }
+          /* Sizes — scaled up from the previous tiny values to feel
+             like a hero pillar instead of a footnote. Heights aligned
+             to ~230px so the strip has a consistent skyline.
+             Widths derive from each SVG's native aspect ratio:
+               Zeus              square 1:1     -> 230 x 230
+               Agents            0.766:1 tall   -> 176 x 230
+               Net Collection    1.353:1 wide   -> 311 x 230
+
+             At 390px viewport with 14px gap + 16px padding on each
+             side, the largest card (Net at 311) shows fully with
+             ~33px of the next card peeking, signaling scrollability
+             without ambiguity. */
           .hero-card-zeus {
-            width: 90px;
-            height: 90px;
+            width: 230px;
+            height: 230px;
           }
           .hero-card-agents {
-            height: 117px;
-            width: 90px;
+            width: 176px;
+            height: 230px;
           }
           .hero-card-net {
-            height: 74px;
-            width: 100px;
+            width: 311px;
+            height: 230px;
           }
         }
       `}</style>
