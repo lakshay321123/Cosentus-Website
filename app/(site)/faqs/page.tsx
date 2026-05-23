@@ -197,7 +197,7 @@ export default function FAQsPage() {
            to the body so the teal band stays lean. Sits above the
            first FAQ group on the dark page background. */
         .faqs-lead {
-          font-size: 18px;
+          font-size: var(--text-lg);
           line-height: 1.65;
           color: rgba(255, 255, 255, 0.78);
           max-width: 680px;

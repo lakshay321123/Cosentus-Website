@@ -257,7 +257,7 @@ export default function GalleryLightbox({ items, activeIndex, onClose, onNavigat
           top: 24px;
           left: 24px;
           color: rgba(255, 255, 255, 0.7);
-          font-size: 13px;
+          font-size: var(--text-xs);
           font-weight: 500;
           letter-spacing: 0.04em;
           font-family: var(--font-body);
@@ -275,7 +275,7 @@ export default function GalleryLightbox({ items, activeIndex, onClose, onNavigat
           .lightbox-arrow { width: 40px; height: 40px; }
           .lightbox-arrow-prev { left: 8px; }
           .lightbox-arrow-next { right: 8px; }
-          .lightbox-counter { top: 16px; left: 16px; font-size: 12px; }
+          .lightbox-counter { top: 16px; left: 16px; font-size: var(--text-xxs); }
         }
       `}</style>
     </div>

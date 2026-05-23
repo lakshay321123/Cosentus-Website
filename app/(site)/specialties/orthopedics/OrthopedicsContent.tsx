@@ -76,7 +76,7 @@ export default function OrthopedicsContent() {
           <RevealOnScroll delay={0.5}>
             <div style={{ marginTop: 40, padding: '24px 32px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', borderLeft: '4px solid #00B5D6', display: 'flex', alignItems: 'center', gap: 16 }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={1.5} style={{ flexShrink: 0 }}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-              <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)', margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--gray-600)', margin: 0 }}>
                 <strong style={{ color: 'var(--gray-900)' }}>Alta Management Solutions:</strong> In May 2025, Cosentus acquired Alta, expanding orthopedic and multi-specialty surgical expertise, ASC management, and contract negotiation capabilities.
               </p>
             </div>
@@ -94,17 +94,17 @@ export default function OrthopedicsContent() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Prior Authorization Management
                 </h2>
-                <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
                   Paige tracks and clears authorizations for scheduled orthopedic procedures, knee replacements, spinal fusions, arthroscopic surgeries. Zero procedural delays. Zero OR schedule disruptions.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>Zero</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedural Delays</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedural Delays</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>24/7</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Auth Tracking</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Auth Tracking</div>
                   </div>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function OrthopedicsContent() {
         <div className="container">
         <RevealOnScroll><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
+            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Surgical practice veterans with deep orthopedic and ASC expertise, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>

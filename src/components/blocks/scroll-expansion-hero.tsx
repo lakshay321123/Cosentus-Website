@@ -638,7 +638,7 @@ const ScrollExpandMedia = ({
             width: 88vw;
             top: 20%;
             text-align: center;
-            font-size: 18px;
+            font-size: var(--text-lg);
           }
           /* Media frame on mobile — vertical-aspect-friendly.
              max-width 80vw + max-height 60vh creates a taller-than-
@@ -664,7 +664,7 @@ const ScrollExpandMedia = ({
                section, sitting in the breathing room before the next
                section starts. */
             top: calc(100% + 12px);
-            font-size: 15px;
+            font-size: var(--text-base);
           }
         }
       `}</style>

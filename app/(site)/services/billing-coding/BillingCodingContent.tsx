@@ -176,12 +176,12 @@ function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boo
   return (
     <div style={{ marginBottom: 8, borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', overflow: 'hidden', transition: 'border-color 0.2s ease', borderColor: isOpen ? '#00B5D6' : 'var(--gray-200)' }}>
       <button onClick={onToggle} aria-expanded={isOpen} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '18px 24px', background: isOpen ? 'var(--primary-ghost)' : 'var(--gray-50)', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16, transition: 'background 0.2s ease', fontFamily: 'var(--font-body)' }}>
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>{q}</span>
+        <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--gray-900)', lineHeight: 1.5, flex: 1 }}>{q}</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#00B5D6" strokeWidth={2.5} style={{ flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s ease' }}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </button>
       {isOpen && (
         <div style={{ padding: '0 24px 20px', background: 'white' }}>
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)', paddingTop: 12, margin: 0 }}>{a}</p>
+          <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', paddingTop: 12, margin: 0 }}>{a}</p>
         </div>
       )}
     </div>
@@ -192,7 +192,7 @@ function FAQGroup({ title, faqs }: { title: string; faqs: Array<{ q: string; a: 
   const [openIndex, setOpenIndex] = useState(-1)
   return (
     <div style={{ marginBottom: 48 }}>
-      <h3 style={{ fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16, fontFamily: 'var(--font-display)' }}>{title}</h3>
+      <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16, fontFamily: 'var(--font-display)' }}>{title}</h3>
       <div>
         {faqs.map((faq, i) => (
           <FAQItem key={i} q={faq.q} a={faq.a} isOpen={openIndex === i} onToggle={() => setOpenIndex(openIndex === i ? -1 : i)} />
@@ -270,7 +270,7 @@ export default function BillingCodingContent() {
                   <img src="/images/icons/c2.png" alt="Medical Billing" style={{ width: 56, height: 56 }} />
                   <h3 style={{ fontSize: 26, fontWeight: 700, fontFamily: 'var(--font-display)', lineHeight: 1.2 }}>MEDICAL BILLING<br />& CODING</h3>
                 </div>
-                <p style={{ fontSize: 16, lineHeight: 1.8, color: 'rgba(255,255,255,0.9)' }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'rgba(255,255,255,0.9)' }}>
                   Our approach to Billing Management is not just about processing invoices; it&apos;s a transformative journey for your practice. Revenue Cycle Management, at its core, is a financial process utilizing medical billing software to track patient care episodes from registration and appointment scheduling to the final payment of a balance. It&apos;s the lifeline of your practice&apos;s financial health, ensuring that you get paid fully and promptly for the services you provide.
                 </p>
               </div>
@@ -295,8 +295,8 @@ export default function BillingCodingContent() {
                 <div style={{ position: 'relative', textAlign: 'center' }}>
                   <div style={{ width: '100%', aspectRatio: '1.26', background: "url('/images/growth-arrow.png') center / contain no-repeat", position: 'relative' }} />
                   <div style={{ marginTop: -60, position: 'relative', zIndex: 2, padding: '0 20px 20px' }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 700, color: 'var(--primary)', marginBottom: 8 }}>{s.title}</h4>
-                    <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--gray-600)' }}>{s.desc}</p>
+                    <h4 style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--primary)', marginBottom: 8 }}>{s.title}</h4>
+                    <p style={{ fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--gray-600)' }}>{s.desc}</p>
                   </div>
                 </div>
               </RevealOnScroll>
@@ -336,8 +336,8 @@ export default function BillingCodingContent() {
               <RevealOnScroll key={i} delay={0.1 + i * 0.08}>
                 <div style={{ padding: 32, background: 'var(--white)', borderRadius: 'var(--radius-md)', border: '1px solid var(--gray-200)', transition: 'border-color 0.3s ease, box-shadow 0.3s ease' }} className="advantage-card">
                   <div style={{ fontSize: 36, fontWeight: 200, color: 'var(--primary)', marginBottom: 12, fontFamily: 'var(--font-display)' }}>{p.step}</div>
-                  <h4 style={{ fontSize: 16, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{p.title}</h4>
-                  <p style={{ fontSize: 14, color: 'var(--gray-600)', lineHeight: 1.6 }}>{p.desc}</p>
+                  <h4 style={{ fontSize: 'var(--text-base)', fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{p.title}</h4>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--gray-600)', lineHeight: 1.6 }}>{p.desc}</p>
                 </div>
               </RevealOnScroll>
             ))}
@@ -365,7 +365,7 @@ export default function BillingCodingContent() {
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderLeftColor = 'rgba(255,255,255,0.3)' }}
                 >
                   <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, fontFamily: 'var(--font-display)', marginBottom: 4, animation: 'fadeSlideUp 0.6s ease forwards', animationDelay: `${0.3 + i * 0.2}s`, opacity: 0 }}>{item.stat}</div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
+                  <div style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
@@ -373,7 +373,7 @@ export default function BillingCodingContent() {
           <RevealOnScroll delay={0.5}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 32 }}>
               {['Blazing fast turnaround', 'Seamless transition & ramp-up', 'Optimized collections & cashflow'].map((t, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15, color: 'rgba(255,255,255,0.85)', cursor: 'default', transition: 'color 0.3s ease, transform 0.3s ease' }}
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.85)', cursor: 'default', transition: 'color 0.3s ease, transform 0.3s ease' }}
                   onMouseEnter={e => { e.currentTarget.style.color = 'white'; e.currentTarget.style.transform = 'translateX(4px)' }}
                   onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.transform = 'translateX(0)' }}
                 >
@@ -400,7 +400,7 @@ export default function BillingCodingContent() {
         <div style={{ position: 'relative', width: '100%', overflow: 'hidden', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
           <div style={{ display: 'flex', animation: 'scrollTicker 25s linear infinite', width: 'max-content' }}>
             {[...specialties, ...specialties].map((s, i) => (
-              <span key={i} style={{ whiteSpace: 'nowrap', padding: '0 32px', fontSize: 18, fontWeight: 300, color: 'var(--gray-700)', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span key={i} style={{ whiteSpace: 'nowrap', padding: '0 32px', fontSize: 'var(--text-lg)', fontWeight: 300, color: 'var(--gray-700)', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}><path d="M7 0v14M0 7h14" stroke="#00B5D6" strokeWidth="2" strokeLinecap="round" /></svg>
                 {s}
               </span>

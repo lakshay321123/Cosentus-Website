@@ -45,7 +45,7 @@ export default function LocationTabs() {
         .location-tabs::-webkit-scrollbar { display: none; }
         .location-tab {
           padding: 14px 20px;
-          font-size: 14px;
+          font-size: var(--text-sm);
           font-weight: 500;
           letter-spacing: 0.02em;
           color: var(--gray-600);

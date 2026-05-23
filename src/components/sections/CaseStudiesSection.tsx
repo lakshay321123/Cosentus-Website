@@ -64,7 +64,7 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
             <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#00B5D6', marginBottom: 8 }}>{cs.tag}</div>
             <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{cs.stat}</div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{cs.statLabel}</div>
+            <div style={{ fontSize: 'var(--text-xxs)', color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{cs.statLabel}</div>
           </div>
         </div>
 
@@ -79,10 +79,10 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
         }}>
           <div style={{ fontSize: 'var(--text-xxs)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>{cs.tag}</div>
           <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 20 }}>{cs.stat}</div>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 24 }}>{cs.title}</p>
+          <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 24 }}>{cs.title}</p>
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, fontWeight: 600, color: 'white',
+            fontSize: 'var(--text-xs)', fontWeight: 600, color: 'white',
             letterSpacing: '0.05em', textTransform: 'uppercase' as const,
           }}>
             Read Client Success Story
@@ -151,7 +151,7 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
         }} />
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 18px' }}>
           <div style={{
-            fontSize: 12, fontWeight: 700, letterSpacing: '0.1em',
+            fontSize: 'var(--text-xxs)', fontWeight: 700, letterSpacing: '0.1em',
             textTransform: 'uppercase' as const, color: '#68D1E6',
             marginBottom: 6,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
@@ -162,7 +162,7 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
             textShadow: '0 2px 8px rgba(0,0,0,0.6)',
           }}>{cs.stat}</div>
           <div style={{
-            fontSize: 14, color: 'rgba(255,255,255,0.95)', marginTop: 4,
+            fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.95)', marginTop: 4,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
           }}>{cs.statLabel}</div>
         </div>
@@ -171,12 +171,12 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
       {/* Bottom — title + CTA on teal panel */}
       <div style={{ padding: '18px 20px 22px' }}>
         <p style={{
-          fontSize: 17, lineHeight: 1.45,
+          fontSize: 'var(--text-md)', lineHeight: 1.45,
           color: 'rgba(255,255,255,0.98)', margin: 0, marginBottom: 16,
         }}>{cs.title}</p>
         <span style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
-          fontSize: 14, fontWeight: 700, color: 'white',
+          fontSize: 'var(--text-sm)', fontWeight: 700, color: 'white',
           letterSpacing: '0.06em', textTransform: 'uppercase' as const,
         }}>
           Read Client Success Story
@@ -268,21 +268,21 @@ export default function CaseStudiesSection({ mode = 'teaser' }: { mode?: Mode } 
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             padding: '12px 24px', background: '#1a1a1a', flexShrink: 0,
           }}>
-            <h3 style={{ fontSize: 15, fontWeight: 500, color: 'white', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 500, color: 'white', margin: 0 }}>
               {viewingPdf.tag}, {viewingPdf.statLabel}
             </h3>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <a
                 href={viewingPdf.pdf}
                 download
-                style={{ fontSize: 13, color: '#00B5D6', textDecoration: 'none', fontWeight: 500, padding: '6px 16px', border: '1px solid #00B5D6', borderRadius: 6 }}
+                style={{ fontSize: 'var(--text-xs)', color: '#00B5D6', textDecoration: 'none', fontWeight: 500, padding: '6px 16px', border: '1px solid #00B5D6', borderRadius: 6 }}
               >
                 Download PDF
               </a>
               <button
                 onClick={() => setViewingPdf(null)}
                 aria-label="Close PDF viewer"
-                style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 18 }}
+                style={{ background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white', fontSize: 'var(--text-lg)' }}
               >
                 ✕
               </button>

@@ -23,6 +23,30 @@ module.exports = {
       fontFamily: {
         reddit: ['"Reddit Sans"', 'sans-serif'],
       },
+      // Tailwind text-* utilities aligned to the CSS-variable type
+      // scale defined in app/globals.css :root. Using var(--text-*)
+      // here means Tailwind classes like text-base, text-lg, text-xl
+      // pick up the mobile @media bump automatically (because the
+      // vars themselves change at <=768px in globals.css).
+      //
+      // Overrides Tailwind's built-in defaults intentionally — we
+      // want ONE source of truth, not parallel scales.
+      // [size, line-height-css-var] form. Line heights point to
+      // the --leading-* vars from globals.css.
+      fontSize: {
+        xxs:  ['var(--text-xxs)',  { lineHeight: 'var(--leading-snug)'    }],
+        xs:   ['var(--text-xs)',   { lineHeight: 'var(--leading-snug)'    }],
+        sm:   ['var(--text-sm)',   { lineHeight: 'var(--leading-normal)'  }],
+        base: ['var(--text-base)', { lineHeight: 'var(--leading-relaxed)' }],
+        md:   ['var(--text-md)',   { lineHeight: 'var(--leading-relaxed)' }],
+        lg:   ['var(--text-lg)',   { lineHeight: 'var(--leading-snug)'    }],
+        xl:   ['var(--text-xl)',   { lineHeight: 'var(--leading-snug)'    }],
+        '2xl':['var(--text-2xl)',  { lineHeight: 'var(--leading-tight)'   }],
+        '3xl':['var(--text-3xl)',  { lineHeight: 'var(--leading-tight)'   }],
+        '4xl':['var(--text-4xl)',  { lineHeight: 'var(--leading-tight)'   }],
+        '5xl':['var(--text-5xl)',  { lineHeight: 'var(--leading-tight)'   }],
+        '6xl':['var(--text-6xl)',  { lineHeight: 'var(--leading-tight)'   }],
+      },
     },
   },
   plugins: [],

@@ -83,7 +83,7 @@ export default function RAPageContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{
-              fontSize: 16,
+              fontSize: 'var(--text-base)',
               color: 'var(--gray-700)',
               lineHeight: 1.7,
               maxWidth: 640,
@@ -124,7 +124,7 @@ export default function RAPageContent() {
                   </div>
                   <div className="zeus-why-label" style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: 18,
+                    fontSize: 'var(--text-lg)',
                     fontWeight: 600,
                     color: 'var(--gray-900)',
                     marginBottom: 6,
@@ -133,7 +133,7 @@ export default function RAPageContent() {
                     {stat.label}
                   </div>
                   <div className="zeus-why-desc" style={{
-                    fontSize: 14,
+                    fontSize: 'var(--text-sm)',
                     color: 'var(--gray-700)',
                     lineHeight: 1.5,
                   }}>
@@ -167,7 +167,7 @@ export default function RAPageContent() {
               margin-bottom: 6px !important;
             }
             .zeus-why-cell .zeus-why-label {
-              font-size: 13px !important;
+              font-size: var(--text-xs) !important;
               margin-bottom: 4px !important;
             }
             .zeus-why-cell .zeus-why-desc {
@@ -197,7 +197,7 @@ export default function RAPageContent() {
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
                 Voice AI: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
-              <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
+              <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 'var(--text-base)', marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
               </p>
             </RevealOnScroll>
@@ -257,7 +257,7 @@ export default function RAPageContent() {
                     {/* Name, bold, matches homepage style */}
                     <div style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 18,
+                      fontSize: 'var(--text-lg)',
                       fontWeight: 700,
                       color: 'var(--gray-900)',
                       letterSpacing: '0.01em',
@@ -267,7 +267,7 @@ export default function RAPageContent() {
                     </div>
                     <div className="ra-tech-agent-role" style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 14,
+                      fontSize: 'var(--text-sm)',
                       fontWeight: 500,
                       color: 'var(--gray-700)',
                       marginTop: 4,
@@ -308,7 +308,7 @@ export default function RAPageContent() {
                  grids (here + the homepage RASection) now both
                  render 18px name / 14px role on mobile. */
               .ra-tech-agents-grid .ra-tech-agent-role {
-                font-size: 14px !important;
+                font-size: var(--text-sm) !important;
               }
             }
             @media (max-width: 420px) {
@@ -370,7 +370,7 @@ export default function RAPageContent() {
                       border: i <= activeStep ? '3px solid var(--primary)' : '3px solid var(--gray-300)',
                       background: i <= activeStep ? 'var(--primary)' : 'var(--white)',
                       color: i <= activeStep ? 'white' : 'var(--gray-500)',
-                      fontSize: 20, fontWeight: 600, fontFamily: 'var(--font-display)',
+                      fontSize: 'var(--text-xl)', fontWeight: 600, fontFamily: 'var(--font-display)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                       boxShadow: activeStep === i ? '0 0 0 8px rgba(0,181,214,0.15), 0 4px 20px rgba(0,181,214,0.3)' : 'none',
@@ -380,7 +380,7 @@ export default function RAPageContent() {
                     {/* Step label below */}
                     <span className="step-timeline-label" style={{
                       position: 'absolute', top: 'calc(100% + 12px)', left: '50%', transform: 'translateX(-50%)',
-                      fontSize: 12, fontWeight: activeStep === i ? 500 : 400, whiteSpace: 'nowrap',
+                      fontSize: 'var(--text-xxs)', fontWeight: activeStep === i ? 500 : 400, whiteSpace: 'nowrap',
                       color: activeStep === i ? 'var(--primary)' : 'var(--gray-500)',
                       transition: 'all 0.3s ease', letterSpacing: '0.01em',
                     }}>
@@ -404,13 +404,13 @@ export default function RAPageContent() {
                     <div style={{
                       width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)',
                       color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 18, fontWeight: 600, flexShrink: 0,
+                      fontSize: 'var(--text-lg)', fontWeight: 600, flexShrink: 0,
                     }}>{steps[activeStep].num}</div>
                     <h4 style={{ fontSize: 22, fontWeight: 500, color: 'var(--gray-900)', margin: 0 }}>
                       {steps[activeStep].title}
                     </h4>
                   </div>
-                  <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)', margin: 0, paddingLeft: 56 }}>
+                  <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-600)', margin: 0, paddingLeft: 56 }}>
                     {steps[activeStep].desc}
                   </p>
                 </div>
@@ -482,7 +482,7 @@ export default function RAPageContent() {
               </RevealOnScroll>
               <RevealOnScroll direction="left" delay={0.2}>
                 <p style={{
-                  fontSize: 16,
+                  fontSize: 'var(--text-base)',
                   color: 'var(--gray-700)',
                   lineHeight: 1.7,
                   marginBottom: 32,
@@ -524,7 +524,7 @@ export default function RAPageContent() {
                         {stat.num}
                       </div>
                       <div style={{
-                        fontSize: 12,
+                        fontSize: 'var(--text-xxs)',
                         color: 'var(--gray-700)',
                         textTransform: 'uppercase',
                         letterSpacing: '0.06em',
@@ -562,7 +562,7 @@ export default function RAPageContent() {
                     }}>
                       <span style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 13,
+                        fontSize: 'var(--text-xs)',
                         fontWeight: 700,
                         color: 'var(--gray-900)',
                       }}>{proto.name}</span>
@@ -712,7 +712,7 @@ export default function RAPageContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{
-              fontSize: 16,
+              fontSize: 'var(--text-base)',
               color: 'var(--gray-700)',
               lineHeight: 1.7,
               maxWidth: 560,
@@ -750,7 +750,7 @@ export default function RAPageContent() {
                 }} className="zeus-kpi-card">
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                     <span style={{
-                      fontSize: 13,
+                      fontSize: 'var(--text-xs)',
                       color: 'var(--gray-700)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
@@ -786,7 +786,7 @@ export default function RAPageContent() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
-                    fontSize: 12,
+                    fontSize: 'var(--text-xxs)',
                     flexWrap: 'wrap',
                   }}>
                     <span style={{ color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 500 }}>Industry</span>
@@ -835,7 +835,7 @@ export default function RAPageContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.1}>
             <p style={{
-              fontSize: 16,
+              fontSize: 'var(--text-base)',
               color: 'var(--gray-700)',
               lineHeight: 1.7,
               maxWidth: 640,

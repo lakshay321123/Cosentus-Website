@@ -246,7 +246,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
           <nav aria-label="Breadcrumb" style={{ marginBottom: 32 }}>
             <Link href="/blog" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontSize: 13, color: 'var(--gray-500)',
+              fontSize: 'var(--text-xs)', color: 'var(--gray-500)',
               transition: 'color 0.2s',
             }}>
               <ArrowLeftIcon /> Back to all articles
@@ -271,7 +271,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   width: '100%', padding: '14px 16px',
                   background: 'var(--primary)', borderRadius: '10px 10px' + (tocOpen ? ' 0 0' : ' 10px 10px'),
                   border: 'none', cursor: 'pointer',
-                  color: 'white', fontSize: 14, fontWeight: 600,
+                  color: 'white', fontSize: 'var(--text-sm)', fontWeight: 600,
                   fontFamily: 'var(--font-display)',
                   letterSpacing: '0.02em',
                 }}
@@ -343,7 +343,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
               {/* Intro */}
               {post.intro.map((p, i) => (
                 <p key={i} style={{
-                  fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                  fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-700)',
                   marginBottom: 16, fontFamily: 'var(--font-body)',
                 }}>
                   {p}
@@ -359,7 +359,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 16,
+                        fontSize: 'var(--text-base)',
                         fontWeight: 700,
                         color: 'var(--gray-900)',
                         lineHeight: 1.75,
@@ -379,7 +379,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       id={section.id}
                       style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 16,
+                        fontSize: 'var(--text-base)',
                         fontWeight: 600,
                         color: 'var(--gray-900)',
                         lineHeight: 1.75,
@@ -434,7 +434,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                           return (
                             <h4 key={j} style={{
                               fontFamily: 'var(--font-display)',
-                              fontSize: 16,
+                              fontSize: 'var(--text-base)',
                               fontWeight: 600,
                               color: 'var(--gray-900)',
                               lineHeight: 1.75,
@@ -454,7 +454,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                       if (trimmed.endsWith(':') && trimmed.length < 80) {
                         return (
                           <p key={j} style={{
-                            fontSize: 16, lineHeight: 1.8, color: 'var(--gray-900)',
+                            fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-900)',
                             marginTop: 20, marginBottom: 6, fontWeight: 600,
                           }}>
                             {trimmed}
@@ -494,7 +494,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                     }}
                                   >
                                     <span style={{
-                                      fontSize: 16, fontWeight: 600, color: 'var(--gray-900)',
+                                      fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--gray-900)',
                                       lineHeight: 1.5, flex: 1,
                                     }}>
                                       {qa.question}
@@ -520,7 +520,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                       background: 'white',
                                     }}>
                                       <p style={{
-                                        fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)',
+                                        fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)',
                                         paddingTop: 12,
                                       }}>
                                         {qa.answer}
@@ -549,7 +549,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                                 marginLeft: 4,
                               }}>
                                 <p style={{
-                                  fontSize: 16, lineHeight: 1.75, color: 'var(--gray-700)',
+                                  fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-700)',
                                 }}>
                                   {item.trim()}
                                 </p>
@@ -568,7 +568,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                           {segments.map((seg, si) => seg.type === 'heading' ? (
                             <h4 key={si} style={{
                               fontFamily: 'var(--font-display)',
-                              fontSize: 16,
+                              fontSize: 'var(--text-base)',
                               fontWeight: 600,
                               color: 'var(--gray-900)',
                               lineHeight: 1.75,
@@ -582,7 +582,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                             </h4>
                           ) : (
                             <p key={si} style={{
-                              fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                              fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-700)',
                               marginBottom: 16,
                             }}>
                               {seg.content}
@@ -594,7 +594,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
 
                     return (
                       <p key={j} style={{
-                        fontSize: 16, lineHeight: 1.8, color: 'var(--gray-700)',
+                        fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-700)',
                         marginBottom: 16,
                       }}>
                         {text}
@@ -607,7 +607,7 @@ export default function BlogPostContent({ post }: { post: BlogPost }) {
                   <figure key={`img-${i}-${imgIdx}`} style={{ margin: '32px 0', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--gray-200)', background: 'var(--gray-50)' }}>
                     <img src={img.url} alt={img.alt} loading="lazy" style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 400, objectFit: 'cover' }} />
                     {img.caption && (
-                      <figcaption style={{ padding: '12px 16px', fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.5, fontStyle: 'italic', borderTop: '1px solid var(--gray-200)' }}>
+                      <figcaption style={{ padding: '12px 16px', fontSize: 'var(--text-xs)', color: 'var(--gray-500)', lineHeight: 1.5, fontStyle: 'italic', borderTop: '1px solid var(--gray-200)' }}>
                         {img.caption}
                       </figcaption>
                     )}

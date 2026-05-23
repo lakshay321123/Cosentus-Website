@@ -73,7 +73,7 @@ export default function WeCareOrganisations({ organisations }: Props) {
                   <p
                     key={pi}
                     style={{
-                      fontSize: 14,
+                      fontSize: 'var(--text-sm)',
                       lineHeight: 1.7,
                       color: 'var(--gray-600)',
                       marginTop: pi > 0 ? 12 : 0,
@@ -169,7 +169,7 @@ export default function WeCareOrganisations({ organisations }: Props) {
         }
 
         .wecare-org-name {
-          font-size: 18px;
+          font-size: var(--text-lg);
           font-weight: 500;
           color: var(--gray-900);
           margin-bottom: 12px;
@@ -202,7 +202,7 @@ export default function WeCareOrganisations({ organisations }: Props) {
           border: none;
           padding: 0;
           cursor: pointer;
-          font-size: 13px;
+          font-size: var(--text-xs);
           font-weight: 500;
           color: var(--primary);
           font-family: inherit;
@@ -211,7 +211,7 @@ export default function WeCareOrganisations({ organisations }: Props) {
           text-decoration: underline;
         }
         .wecare-org-visit {
-          font-size: 13px;
+          font-size: var(--text-xs);
           font-weight: 500;
           color: var(--gray-700);
           text-decoration: none;

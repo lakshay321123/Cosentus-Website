@@ -345,13 +345,13 @@ function Interactive360Wheel() {
         <div style={{
           position: 'absolute', bottom: -8, left: '50%', transform: 'translateX(-50%)',
           background: 'var(--primary)', color: 'white', padding: '8px 20px',
-          borderRadius: 'var(--radius-sm)', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap',
+          borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-xs)', fontWeight: 500, whiteSpace: 'nowrap',
           boxShadow: 'var(--shadow-md)', pointerEvents: 'none',
         }}>
           {wheelSegments[hovered].label.replace('\n', ' ')}
         </div>
       )}
-      <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 16 }}>
+      <p style={{ textAlign: 'center', fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', marginTop: 16 }}>
         Drag to spin · Hover to explore
       </p>
     </div>
@@ -386,7 +386,7 @@ function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boo
         }}
       >
         <span style={{
-          fontSize: 15, fontWeight: 600, color: 'var(--gray-900)',
+          fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--gray-900)',
           lineHeight: 1.5, flex: 1,
         }}>
           {q}
@@ -406,7 +406,7 @@ function FAQItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpen: boo
       {isOpen && (
         <div style={{ padding: '0 24px 20px', background: 'white' }}>
           <p style={{
-            fontSize: 15, lineHeight: 1.75, color: 'var(--gray-600)',
+            fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)',
             paddingTop: 12, margin: 0,
           }}>
             {a}
@@ -423,7 +423,7 @@ function FAQSection({ title, faqs }: { title: string; faqs: Array<{ q: string; a
   return (
     <div style={{ marginBottom: 48 }}>
       <h3 style={{
-        fontSize: 18, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16,
+        fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--gray-900)', marginBottom: 16,
         fontFamily: 'var(--font-display)',
       }}>
         {title}
@@ -512,7 +512,7 @@ export default function EHRContent() {
             <RevealOnScroll direction="right">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
-                  <span style={{ fontSize: 24, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
+                  <span style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>Medcloud</span>
                 </div>
                 <h3 style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.3, marginBottom: 32 }}>
                   Cutting-edge EHR & Practice Management Software
@@ -523,7 +523,7 @@ export default function EHRContent() {
                       padding: '16px 24px',
                       background: 'rgba(255,255,255,0.12)',
                       borderLeft: '3px solid rgba(255,255,255,0.5)',
-                      fontSize: 16, fontWeight: 400,
+                      fontSize: 'var(--text-base)', fontWeight: 400,
                       marginBottom: 8, borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
                     }}>
                       {h}
@@ -586,7 +586,7 @@ export default function EHRContent() {
                   background: ehr === 'Medcloud' ? 'var(--primary)' : 'var(--white)',
                   color: ehr === 'Medcloud' ? 'white' : 'var(--gray-700)',
                   borderRadius: 'var(--radius-sm)',
-                  fontSize: 15, fontWeight: ehr === 'Medcloud' ? 600 : 400,
+                  fontSize: 'var(--text-base)', fontWeight: ehr === 'Medcloud' ? 600 : 400,
                   border: `1px solid ${ehr === 'Medcloud' ? 'var(--primary)' : 'var(--gray-200)'}`,
                   display: 'inline-block',
                   boxShadow: ehr === 'Medcloud' ? 'var(--shadow-glow)' : 'var(--shadow-sm)',
@@ -632,7 +632,7 @@ export default function EHRContent() {
             </div>
           </RevealOnScroll>
           <RevealOnScroll delay={0.15}>
-            <p style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--gray-600)' }}>
+            <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.8, color: 'var(--gray-600)' }}>
               Choosing Cosentus means more than just selecting a service provider; it&apos;s a partnership for growth. Our expertise, combined with your passion for healthcare, creates a synergy that propels your practice to new heights. With Cosentus, you&apos;re not just surviving in the healthcare industry; you&apos;re thriving.
             </p>
           </RevealOnScroll>

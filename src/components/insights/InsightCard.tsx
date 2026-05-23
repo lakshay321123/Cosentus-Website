@@ -105,7 +105,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
         )}
         <h3 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 17, fontWeight: 600,
+          fontSize: 'var(--text-md)', fontWeight: 600,
           lineHeight: 1.35,
           letterSpacing: '-0.01em',
           color: 'var(--gray-900)',
@@ -124,7 +124,7 @@ export default function InsightCard({ item, ctaLabel = 'Read More' }: { item: In
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          fontSize: 13, fontWeight: 600,
+          fontSize: 'var(--text-xs)', fontWeight: 600,
           color: '#00B5D6',
         }}>
           <span>{ctaLabel}</span>

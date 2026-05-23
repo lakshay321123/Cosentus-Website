@@ -116,7 +116,7 @@ export default function AgentSpotlightCard({ agentName, imgAlt, roleLabel }: Pro
         {/* Role, medium weight, lighter than name */}
         <div style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 14,
+          fontSize: 'var(--text-sm)',
           fontWeight: 500,
           color: 'var(--gray-700)',
           marginTop: 6,

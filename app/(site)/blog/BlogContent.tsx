@@ -66,7 +66,7 @@ export default function BlogContent() {
               style={{ marginBottom: 48, maxWidth: 360 }}
             >
               <label htmlFor="blog-tag-select" style={{
-                display: 'block', fontSize: 12, fontWeight: 600,
+                display: 'block', fontSize: 'var(--text-xxs)', fontWeight: 600,
                 color: 'var(--gray-600)', textTransform: 'uppercase',
                 letterSpacing: '0.08em', marginBottom: 8,
                 fontFamily: 'var(--font-body)',
@@ -81,7 +81,7 @@ export default function BlogContent() {
                   style={{
                     width: '100%',
                     padding: '14px 44px 14px 16px',
-                    fontSize: 16,
+                    fontSize: 'var(--text-base)',
                     fontFamily: 'var(--font-body)',
                     color: 'var(--gray-900, #1a1a1a)',
                     background: 'var(--white)',
@@ -166,14 +166,14 @@ export default function BlogContent() {
                     zIndex: 2,
                   }}>
                     <h3 style={{
-                      fontSize: 16, fontWeight: 600, color: 'white',
+                      fontSize: 'var(--text-base)', fontWeight: 600, color: 'white',
                       lineHeight: 1.4, margin: 0,
                       fontFamily: 'var(--font-display)',
                     }}>
                       {blog.title}
                     </h3>
                     <span className="blog-card-cta" style={{
-                      fontSize: 13, color: '#68D1E6', fontWeight: 500,
+                      fontSize: 'var(--text-xs)', color: '#68D1E6', fontWeight: 500,
                       display: 'inline-flex', alignItems: 'center', gap: 6,
                       marginTop: 8, opacity: 0,
                       transform: 'translateY(8px)',
@@ -196,7 +196,7 @@ export default function BlogContent() {
                 className="blog-load-more"
                 style={{
                   padding: '14px 36px',
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   fontWeight: 600,
                   fontFamily: 'var(--font-body)',
                   letterSpacing: '0.04em',
@@ -234,7 +234,7 @@ export default function BlogContent() {
             }
           `}</style>
           {filtered.length === 0 && (
-            <p style={{ textAlign: 'center', color: 'var(--gray-500)', padding: 60, fontSize: 16 }}>
+            <p style={{ textAlign: 'center', color: 'var(--gray-500)', padding: 60, fontSize: 'var(--text-base)' }}>
               No articles found for this category.
             </p>
           )}

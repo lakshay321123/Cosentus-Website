@@ -109,7 +109,7 @@ export default function FAQSection() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          font-size: 15px;
+          font-size: var(--text-base);
           font-weight: 600;
           color: rgba(255, 255, 255, 0.92);
           text-decoration: none;

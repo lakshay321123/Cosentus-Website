@@ -208,7 +208,7 @@ export default function TeamCircleGrid({
         }
         .team-circle-name {
           font-family: var(--font-display);
-          font-size: 18px;
+          font-size: var(--text-lg);
           font-weight: 700;
           color: var(--gray-900);
           letter-spacing: 0.01em;
@@ -216,7 +216,7 @@ export default function TeamCircleGrid({
         }
         .team-circle-title {
           font-family: var(--font-display);
-          font-size: 14px;
+          font-size: var(--text-sm);
           font-weight: 500;
           color: var(--gray-700);
           margin-top: 4px;
@@ -247,7 +247,7 @@ export default function TeamCircleGrid({
             margin-bottom: 12px;
           }
           .team-circle-name {
-            font-size: 14px;
+            font-size: var(--text-sm);
             font-weight: 700;
           }
           .team-circle-title {

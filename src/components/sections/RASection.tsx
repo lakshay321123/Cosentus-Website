@@ -259,7 +259,7 @@ export default function RASection() {
           margin-bottom: 6px;
         }
         .ra-stat-label {
-          font-size: 13px;
+          font-size: var(--text-xs);
           font-weight: 600;
           /* White directly. The home-immersive white-text override
              in globals.css catches via [style*="color: var(--gray-X)"]
@@ -324,7 +324,7 @@ export default function RASection() {
 
         .ra-agent-name {
           font-family: var(--font-display);
-          font-size: 19px;
+          font-size: var(--text-xl);
           font-weight: 700;
           /* White text on the dark immersive page background. The
              home-immersive white-text override in globals.css uses
@@ -337,7 +337,7 @@ export default function RASection() {
         }
         .ra-agent-role {
           font-family: var(--font-display);
-          font-size: 14px;
+          font-size: var(--text-sm);
           font-weight: 500;
           color: rgba(255, 255, 255, 0.75);
           margin-top: 4px;
@@ -388,8 +388,8 @@ export default function RASection() {
             gap: 22px 10px;
           }
           .ra-agent-circle { width: 96px; height: 96px; }
-          .ra-agent-name { font-size: 18px; }
-          .ra-agent-role { font-size: 14px; }
+          .ra-agent-name { font-size: var(--text-lg); }
+          .ra-agent-role { font-size: var(--text-sm); }
         }
         @media (max-width: 420px) {
           .ra-agent-grid {

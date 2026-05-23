@@ -67,7 +67,7 @@ export default function AnesthesiaContent() {
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
+              <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
                 Base units, time-unit accuracy, medical direction modifiers, concurrency rules, and implant pass-throughs are exactly where generic teams get anesthesia billing wrong.
               </p>
             </RevealOnScroll>
@@ -76,7 +76,7 @@ export default function AnesthesiaContent() {
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>THE ACCREDA DIFFERENCE</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xxs)', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>THE ACCREDA DIFFERENCE</div>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 20 }}>
@@ -84,17 +84,17 @@ export default function AnesthesiaContent() {
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
+              <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
                 Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, and every workflow is built for anesthesia and nothing else.
               </p>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.3}>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 20 }}>
+              <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 20 }}>
                 Not just denial recovery, denial prevention. We perform root cause analysis on every denied claim to stop future denials before they happen. Your denial rate improves every quarter.
               </p>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.4}>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
+              <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
                 Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane, which is why they know every payer game specific to your specialty.
               </p>
             </RevealOnScroll>
@@ -143,8 +143,8 @@ export default function AnesthesiaContent() {
             {solutions.map((s, i) => (
               <RevealOnScroll key={i} delay={0.1 + i * 0.06}>
                 <div className="solution-card" style={{ padding: '24px 28px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', height: '100%' }}>
-                  <h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{s.t}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--gray-600)', margin: 0 }}>{s.d}</p>
+                  <h4 style={{ fontSize: 'var(--text-base)', fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{s.t}</h4>
+                  <p style={{ fontSize: 'var(--text-sm)', lineHeight: 1.65, color: 'var(--gray-600)', margin: 0 }}>{s.d}</p>
                 </div>
               </RevealOnScroll>
             ))}
@@ -162,17 +162,17 @@ export default function AnesthesiaContent() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Pre-Service Payment Collection
                 </h2>
-                <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
                   Priya contacts patients before procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service. She handles the volume so your team focuses on clinical care.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
                   </div>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export default function AnesthesiaContent() {
           <RevealOnScroll delay={0.2}>
             <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
               <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>250+</span>
-              <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years exclusively in anesthesia RCM</span>
+              <span style={{ fontSize: 'var(--text-lg)', color: 'var(--gray-600)', fontWeight: 300 }}>years exclusively in anesthesia RCM</span>
             </div>
           </RevealOnScroll>
 

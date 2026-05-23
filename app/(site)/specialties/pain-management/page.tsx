@@ -98,17 +98,17 @@ export default function PainManagementPage() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
                   Prior Authorization Management
                 </h2>
-                <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
+                <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
                   Paige tracks authorizations for injections, SCS trials, ablations, and imaging-guided procedures. Payers scrutinize pain management more than most specialties, Paige makes sure nothing stalls.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>Zero</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedure Stalls</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedure Stalls</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>24/7</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Auth Tracking</div>
+                    <div style={{ fontSize: 'var(--text-xxs)', color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Auth Tracking</div>
                   </div>
                 </div>
               </div>
@@ -131,7 +131,7 @@ export default function PainManagementPage() {
         <div className="container">
         <RevealOnScroll><div className="section-title">Pain Management Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
+            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Interventional coding specialists with deep payer-defense expertise. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>

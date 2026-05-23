@@ -4,7 +4,7 @@ import PageHero from '@/components/sections/PageHero'
 
 export const metadata: Metadata = { title: 'Terms & Conditions | Cosentus' }
 
-const h3Style = { fontSize: 20, fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
+const h3Style = { fontSize: 'var(--text-xl)', fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
 const strongStyle = { color: 'var(--gray-900)' }
 
 export default function TermsPage() {
@@ -13,7 +13,7 @@ export default function TermsPage() {
       <PageHero title="Terms & Conditions" />
       <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
-          <div style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--gray-700)' }}>
+          <div style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--gray-700)' }}>
 
             <p>Welcome to our website. This site is maintained as a service to our customers. By using this site, you agree to comply with and be bound by the following terms and conditions of use. Please review these terms and conditions carefully. If you do not agree to these terms and conditions, you should not use this site.</p>
 
@@ -42,10 +42,10 @@ export default function TermsPage() {
             <p>You agree to indemnify, defend and hold Cosentus, LLC and our partners, employees, and affiliates, harmless from any liability, loss, claim and expense, including reasonable attorney&apos;s fees, related to your violation of this Agreement or use of the Site.</p>
 
             <h3 style={h3Style}>Disclaimer</h3>
-            <p style={{ fontSize: 14 }}>The information on this site is provided on an &ldquo;as is,&rdquo; &ldquo;as available&rdquo; basis. You agree that use of this site is at your sole risk. Cosentus, LLC disclaims all warranties of any kind, including but not limited to any express warranties, statutory warranties, and any implied warranties of merchantability, fitness for a particular purpose, and non-infringement. To the extent your jurisdiction does not allow limitations on warranties, this limitation may not apply to you. Your sole and exclusive remedy relating to your use of the site shall be to discontinue using the site.</p>
+            <p style={{ fontSize: 'var(--text-sm)' }}>The information on this site is provided on an &ldquo;as is,&rdquo; &ldquo;as available&rdquo; basis. You agree that use of this site is at your sole risk. Cosentus, LLC disclaims all warranties of any kind, including but not limited to any express warranties, statutory warranties, and any implied warranties of merchantability, fitness for a particular purpose, and non-infringement. To the extent your jurisdiction does not allow limitations on warranties, this limitation may not apply to you. Your sole and exclusive remedy relating to your use of the site shall be to discontinue using the site.</p>
 
             <h3 style={h3Style}>Limitation of Liability</h3>
-            <p style={{ fontSize: 14 }}>Under no circumstances will Cosentus, LLC be liable or responsible for any direct, indirect, incidental, consequential (including damages from loss of business, lost profits, litigation, or the like), special, exemplary, punitive, or other damages, under any legal theory, arising out of or in any way relating to the site, your site use, or the content, even if advised of the possibility of such damages. Your sole remedy for dissatisfaction with the site and/or content is to cease all of your site use.</p>
+            <p style={{ fontSize: 'var(--text-sm)' }}>Under no circumstances will Cosentus, LLC be liable or responsible for any direct, indirect, incidental, consequential (including damages from loss of business, lost profits, litigation, or the like), special, exemplary, punitive, or other damages, under any legal theory, arising out of or in any way relating to the site, your site use, or the content, even if advised of the possibility of such damages. Your sole remedy for dissatisfaction with the site and/or content is to cease all of your site use.</p>
             <p>You may have additional rights under certain laws (including consumer laws) which do not allow the exclusion of implied warranties, or the exclusion or limitation of certain damages. If these laws apply to you, the exclusions or limitations in this Agreement that directly conflict with such laws may not apply to you.</p>
 
             <h3 style={h3Style}>Use of Information</h3>

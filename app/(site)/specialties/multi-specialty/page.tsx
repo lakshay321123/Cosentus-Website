@@ -101,7 +101,7 @@ export default function MultiSpecialtyPage() {
                   background: 'var(--white)',
                   border: '1px solid var(--gray-200)',
                   borderRadius: 999,
-                  fontSize: 14,
+                  fontSize: 'var(--text-sm)',
                   fontWeight: 500,
                   color: 'var(--gray-700)',
                 }}>
@@ -118,7 +118,7 @@ export default function MultiSpecialtyPage() {
         <div className="container">
         <RevealOnScroll><div className="section-title">Multi-Specialty Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
+            <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
               Specialty-versatile leadership with deep cross-domain expertise. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>

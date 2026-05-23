@@ -100,7 +100,7 @@ function SliderRow({
         marginBottom: 12,
       }}>
         <label style={{
-          fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
+          fontSize: 'var(--text-base)', fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
           letterSpacing: '0.02em', textTransform: 'uppercase',
           fontFamily: 'var(--font-display)',
         }}>
@@ -182,7 +182,7 @@ export default function RCMCalculatorSection() {
                   marginBottom: 12,
                 }}>
                   <label style={{
-                    fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
+                    fontSize: 'var(--text-base)', fontWeight: 500, color: 'rgba(255,255,255,0.7)',   // white-translucent label on frosted-glass card; bright enough to read on dark immersive bg
                     letterSpacing: '0.02em', textTransform: 'uppercase',
                     fontFamily: 'var(--font-display)',
                   }}>
@@ -227,7 +227,7 @@ export default function RCMCalculatorSection() {
               />
 
               <p style={{
-                fontSize: 15, lineHeight: 1.65, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
+                fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
                 marginTop: 24,
               }}>
                 Estimates based on industry averages and Cosentus's published benchmarks (98% NCR, 95% appeal success, &lt;15% AR over 90 days). Buckets approximate independently and may overlap. Actual results depend on specialty, payer mix, and starting baseline.
@@ -237,7 +237,7 @@ export default function RCMCalculatorSection() {
             {/* RIGHT: Result */}
             <div className="rcm-calc-result">
               <div style={{
-                fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.75)',
+                fontSize: 'var(--text-base)', fontWeight: 500, color: 'rgba(255,255,255,0.75)',
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 marginBottom: 12,
               }}>
