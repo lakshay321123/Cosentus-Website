@@ -2688,8 +2688,8 @@ body:has(main.home-immersive) .footer-top {
 
 /* Anesthesia page mobile fixes */
 @media (max-width: 900px) {
-  /* Emily spotlight: stack vertically */
-  .emily-spotlight-grid {
+  /* Specialty spotlight: stack vertically */
+  .specialty-spotlight-grid {
     grid-template-columns: 1fr !important;
     gap: 32px !important;
   }

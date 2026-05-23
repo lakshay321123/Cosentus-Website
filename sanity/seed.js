@@ -68,20 +68,23 @@ async function seed() {
   console.log('✅ Testimonials (5)')
 
   // AI Agents
+  // Aligned with src/data/voice-agents.ts (canonical source).
+  // 9 named personas. Updated May 2026.
   const agents = [
-    { _id: 'agent-harper', name: 'Harper', role: 'Eligibility & Benefits Verification', description: 'Eliminates eligibility denials by verifying coverage before appointments.', category: 'Pre-Service', order: 1 },
-    { _id: 'agent-olivia', name: 'Olivia', role: 'Prior Authorization Follow-Up', description: 'Tracks and closes pending authorizations to prevent authorization-related denials and OR delays.', category: 'Pre-Service', order: 2 },
-    { _id: 'agent-emily', name: 'Emily', role: 'Pre-Service Payment Collection', description: 'Contacts patients 3-7 days prior with verified cost estimates. Pre-service collection rates are 30-40% higher than post-service.', category: 'Pre-Service', order: 3 },
-    { _id: 'agent-sarah', name: 'Sarah', role: 'Medical Scheduling', description: 'Reduces no-shows and scheduling friction with inbound/outbound scheduling and confirmations.', category: 'Pre-Service', order: 4 },
-    { _id: 'agent-chris', name: 'Chris', role: 'Claim Follow-Up', description: 'Proactively contacts payers to resolve pending claims and processing delays.', category: 'Post-Service', order: 5 },
-    { _id: 'agent-michael', name: 'Michael', role: 'Payment Reconciliation', description: 'Investigates missing or underpayments, reconciles expected versus received payments.', category: 'Post-Service', order: 6 },
-    { _id: 'agent-cindy', name: 'Cindy', role: 'Patient Payment & Collections', description: 'Multilingual patient balance collection (50+ languages), offers payment plans, and processes payments in real time.', category: 'Post-Service', highImpact: true, order: 7 },
-    { _id: 'agent-allison', name: 'Allison', role: 'Customer Service & Overflow', description: 'After-hours support and overflow to guarantee no patient call goes unanswered.', category: 'Post-Service', order: 8 },
+    { _id: 'agent-elly',   name: 'Elly',   role: 'Eligibility & Benefits Verification', description: 'Verifies eligibility and benefits before every appointment so coverage issues do not surface at the desk.', category: 'Pre-Service', order: 1 },
+    { _id: 'agent-paige',  name: 'Paige',  role: 'Prior Authorization Follow-Up',       description: 'Tracks prior authorizations and closes them out before they delay procedures or drop into timely-filing territory.', category: 'Pre-Service', order: 2 },
+    { _id: 'agent-priya',  name: 'Priya',  role: 'Pre-Service Payment Collection',      description: 'Reaches patients three to seven days pre-procedure with verified estimates so collection rates stay 30-40% higher than post-service.', category: 'Pre-Service', order: 3 },
+    { _id: 'agent-april',  name: 'April',  role: 'Medical Scheduling',                  description: 'Runs inbound and outbound scheduling, confirmations, and reminders to cut no-shows and fill the calendar.', category: 'Pre-Service', order: 4 },
+    { _id: 'agent-curtis', name: 'Curtis', role: 'Customer Service & Overflow',         description: 'Covers after-hours and overflow so no patient call goes unanswered.', category: 'Post-Service', order: 5 },
+    { _id: 'agent-chris',  name: 'Chris',  role: 'Claim Follow-Up',                     description: 'Specializes in billing workflows and claim follow-up with payers to resolve pending claims and processing delays.', category: 'Post-Service', order: 6 },
+    { _id: 'agent-cindy',  name: 'Cindy',  role: 'Patient Payment & Collections',       description: 'Multilingual patient balance collection (50+ languages), offers payment plans, and processes payments in real time.', category: 'Post-Service', highImpact: true, order: 7 },
+    { _id: 'agent-ariel',  name: 'Ariel',  role: 'AR Follow-Up',                        description: 'Works AR aging, payer follow-up, and underpayment recovery so cash keeps moving.', category: 'Post-Service', order: 8 },
+    { _id: 'agent-connie', name: 'Connie', role: 'Medical Coding',                      description: 'Assists with medical coding accuracy, modifier selection, and clinical documentation improvement.', category: 'Post-Service', order: 9 },
   ]
   for (const a of agents) {
     await client.createOrReplace({ ...a, _type: 'agent' })
   }
-  console.log('✅ AI Agents (8)')
+  console.log('✅ AI Agents (9)')
 
   // Case Studies
   const cases = [
