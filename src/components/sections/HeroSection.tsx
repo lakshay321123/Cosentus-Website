@@ -45,7 +45,7 @@
  *   - All Link wrappers have aria-label matching the SVG content
  */
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 const ASSETS = {
@@ -60,6 +60,13 @@ const ASSETS = {
 } as const
 
 export default function HeroSection() {
+  // Ref to the mobile carousel scroll container. Used by the
+  // auto-scroll effect below to programmatically advance through
+  // Zeus -> Agents -> Net Collection. Same DOM element on desktop,
+  // but the desktop layout has no overflow scroll so scrollTo is a
+  // no-op there — safe to leave the ref attached on both viewports.
+  const cardsRef = useRef<HTMLDivElement | null>(null)
+
   // Choreography trigger: add .hero-ready to the section root once
   // mounted so entrance transitions fire. Two-deep rAF so the initial
   // opacity:0/translateY state actually renders before transition.
@@ -70,6 +77,117 @@ export default function HeroSection() {
       })
     })
     return () => cancelAnimationFrame(f1)
+  }, [])
+
+  /* ============================================================
+     AUTO-SCROLL the mobile hero-cards carousel.
+
+     Behaviour (each is a deliberate UX choice — see commit msg):
+       - Mobile only: skip entirely when viewport > 768px (the
+         desktop layout is a static staircase, not a carousel).
+       - Respect prefers-reduced-motion: users with vestibular
+         conditions get nauseated by auto-motion; we abort autoplay
+         entirely when the OS-level reduced-motion preference is set.
+         WCAG 2.3.3 / accessibility baseline.
+       - Pause when the hero is offscreen: IntersectionObserver
+         pauses the timer when the user has scrolled past the hero,
+         saves battery / CPU and keeps the carousel positioned at
+         a predictable state if the user scrolls back up.
+       - Stop permanently on first user interaction: if the user
+         touches the carousel, we cancel the timer and never
+         restart. Auto-scroll that fights manual swipe is the
+         #1 carousel UX failure mode — once they have shown intent
+         to drive, we hand over control completely.
+       - Stop at the last card (no wrap): Zeus -> Agents -> Net,
+         then idle. A wrap-around jump from Net back to Zeus is
+         disorienting and not helpful — the user has now seen all
+         three; further movement would just be motion for motion's
+         sake.
+
+     Implementation:
+       Tick interval 3500ms. On each tick we Element.scrollTo()
+       to a position offset N * (cardWidth + gap), letting the
+       browser's native smooth-scroll + the existing
+       scroll-snap-type: x mandatory rule produce the animation.
+       No external animation library needed.
+     ============================================================ */
+  useEffect(() => {
+    const el = cardsRef.current
+    if (!el) return
+
+    // Mobile-only — exit on desktop. We use the same breakpoint
+    // (768px) the CSS uses so visual layout and JS behaviour agree.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    if (!isMobile) return
+
+    // Reduced-motion users — abort entirely. Static layout, no
+    // ticker. They can still swipe manually.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    // Capture card list and dimensions. We compute scroll targets
+    // once and reuse them — the layout doesn't change between mounts
+    // because the cards have fixed widths in the mobile CSS.
+    const cards = Array.from(el.querySelectorAll<HTMLElement>('.hero-card'))
+    if (cards.length === 0) return
+
+    // Build absolute scroll-left targets for each card. Native
+    // offsetLeft is relative to the cards container itself (which
+    // is the scroll viewport), so these read directly as scrollLeft
+    // values. Subtracting the parent's scrollLeft origin (always 0
+    // initially) is not needed.
+    const scrollTargets = cards.map(c => c.offsetLeft)
+
+    let currentIndex = 0
+    let userHasInteracted = false
+    let isVisible = true
+
+    const tick = () => {
+      if (userHasInteracted || !isVisible) return
+      currentIndex += 1
+      if (currentIndex >= scrollTargets.length) {
+        // Reached the end — stop ticker. No wrap-around.
+        clearInterval(timer)
+        return
+      }
+      el.scrollTo({
+        left: scrollTargets[currentIndex],
+        behavior: 'smooth',
+      })
+    }
+
+    const timer = window.setInterval(tick, 3500)
+
+    // Visibility — pause when the hero is offscreen.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+      },
+      { threshold: 0.1 },
+    )
+    observer.observe(el)
+
+    // User-interaction kill switch — first touch/pointer/scroll
+    // disables autoplay forever. We listen to a few events to
+    // catch every form of input: pointerdown (touch + mouse +
+    // stylus), wheel (mousewheel + trackpad), keydown (keyboard
+    // a11y). 'scroll' alone isn't reliable because the autoplay
+    // itself emits scroll events.
+    const onUserIntent = () => {
+      userHasInteracted = true
+      clearInterval(timer)
+    }
+    el.addEventListener('pointerdown', onUserIntent, { passive: true })
+    el.addEventListener('wheel', onUserIntent, { passive: true })
+    el.addEventListener('keydown', onUserIntent)
+
+    return () => {
+      clearInterval(timer)
+      observer.disconnect()
+      el.removeEventListener('pointerdown', onUserIntent)
+      el.removeEventListener('wheel', onUserIntent)
+      el.removeEventListener('keydown', onUserIntent)
+    }
   }, [])
 
   return (
@@ -144,8 +262,11 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* RIGHT column: 3-card staircase, bottom-aligned */}
-        <div className="hero-cards">
+        {/* RIGHT column: 3-card staircase on desktop, scroll-snap
+            horizontal carousel on mobile. The ref is consumed by the
+            autoplay useEffect above to advance Zeus -> Agents -> Net
+            every 3.5s on mobile; ignored on desktop. */}
+        <div className="hero-cards" ref={cardsRef}>
           <Link
             href="/cosentus-ai"
             className="hero-card hero-card-zeus"
