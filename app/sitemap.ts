@@ -25,12 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${SITE}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/about-us`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/cosentus-ai`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE}/services/billing-coding`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE}/services/practice-management`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/services/medical-billing`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/services/complete-practice-management`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/services/rcm`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE}/services/ehr-technology`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/services/ehr-software`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/specialties/anesthesia`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/specialties/orthopedics`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/specialties/pain-management`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
@@ -43,10 +43,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/news`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
     { url: `${SITE}/case-studies`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/events`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
-    { url: `${SITE}/careers`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE}/join-our-team`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE}/wecare`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${SITE}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/privacy-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/terms-conditions`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
   const locationRoutes: MetadataRoute.Sitemap = LOCATIONS.map((loc) => ({

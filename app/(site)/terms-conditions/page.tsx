@@ -21,7 +21,7 @@ export default function TermsPage() {
             <p>This Term of Use agreement (the &ldquo;Agreement&rdquo;) specifies the Terms and Conditions for access to and use of https://cosentus.com/ (the &ldquo;Site&rdquo;) and describe the terms and conditions applicable to your access of and use of the Site. This Agreement may be modified at any time by Cosentus, LLC upon posting of the modified Agreement. Any such modifications shall be effective immediately. You can view the most recent version of these terms at any time at https://cosentus.com/. Each use by you shall constitute and be deemed your unconditional acceptance of this Agreement.</p>
 
             <h3 style={h3Style}>Privacy</h3>
-            <p>Your visit to our site is also governed by our <Link href="/privacy" style={{ color: 'var(--primary)' }}>Privacy Policy</Link>. Please review our Privacy Policy.</p>
+            <p>Your visit to our site is also governed by our <Link href="/privacy-policy" style={{ color: 'var(--primary)' }}>Privacy Policy</Link>. Please review our Privacy Policy.</p>
 
             <h3 style={h3Style}>Ownership</h3>
             <p>All content included on this site is and shall continue to be the property of Cosentus, LLC or its content suppliers and is protected under applicable copyright, patent, trademark, and other proprietary rights. Any copying, redistribution, use or publication by you of any such content or any part of the Site is prohibited, except as expressly permitted in this Agreement. Under no circumstances will you acquire any ownership rights or other interest in any content by or through your use of this Site.</p>

@@ -8,12 +8,12 @@ import { usePathname } from 'next/navigation'
 const navItems = [
   {
     label: 'About Us',
-    href: '/about',
+    href: '/about-us',
     children: [
-      { label: 'Our Story', href: '/about' },
-      { label: 'Leadership', href: '/about#leadership' },
+      { label: 'Our Story', href: '/about-us' },
+      { label: 'Leadership', href: '/about-us#leadership' },
       { label: 'WeCare', href: '/wecare' },
-      { label: 'Careers', href: '/careers' },
+      { label: 'Careers', href: '/join-our-team' },
     ],
   },
   {

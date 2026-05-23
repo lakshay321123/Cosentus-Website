@@ -20,7 +20,7 @@ const services = [
     num: '02',
     title: 'EHR & Technology',
     desc: 'EHR agnostic. Works seamlessly with Epic, Athenahealth, eClinicalWorks, and more.',
-    href: '/services/ehr-technology',
+    href: '/services/ehr-software',
     stat: '23',
     statLabel: 'Modules',
     image: '/images/homepage/ehr-tech.jpg',
