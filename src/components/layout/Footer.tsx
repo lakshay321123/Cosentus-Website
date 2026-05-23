@@ -6,11 +6,11 @@ const footerNav = [
   {
     title: 'About Us',
     links: [
-      { label: 'Our Story', href: '/about' },
-      { label: 'Leadership', href: '/about#leadership' },
+      { label: 'Our Story', href: '/about-us' },
+      { label: 'Leadership', href: '/about-us#leadership' },
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
       { label: 'WeCare', href: '/wecare' },
-      { label: 'Careers', href: '/careers' },
+      { label: 'Careers', href: '/join-our-team' },
     ],
   },
   {
@@ -117,8 +117,8 @@ export default function Footer() {
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} Cosentus. All rights reserved.</p>
           <div className="footer-legal">
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Terms & Conditions</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-conditions">Terms & Conditions</Link>
           </div>
         </div>
       </div>
