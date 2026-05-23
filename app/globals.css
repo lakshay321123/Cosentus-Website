@@ -1758,8 +1758,8 @@ body:has(main.home-immersive) .footer-top {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--primary);
-  border: 3px solid var(--white);
+  background: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 2px 8px rgba(0,0,0,0.40);
   cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
@@ -1775,8 +1775,8 @@ body:has(main.home-immersive) .footer-top {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--primary);
-  border: 3px solid var(--white);
+  background: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 2px 8px rgba(0,0,0,0.40);
   cursor: pointer;
   transition: transform 150ms ease, box-shadow 150ms ease;
@@ -1811,54 +1811,12 @@ body:has(main.home-immersive) .footer-top {
   font-size: 32px;
 }
 
-/* CTA — dedicated class, NOT .btn-primary. The home-immersive
-   override at globals.css line ~4555 replaces .btn-primary with a
-   glass-pill recipe (translucent white wash + thin border), which
-   reads as muddy / bluish over the frosted-glass card behind it on
-   the calculator. User direction May 2026 ('remove the blue from
-   here. put it in white text') was to make this a solid, crisp pill.
-
-   This rule is anchored on .rcm-calc-cta and therefore is not
-   touched by any of the home-immersive .btn-primary / glass-pill
-   blocks. Solid brand teal, white text, no arrow (site convention
-   from globals.css line ~960). */
-.rcm-calc-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-start;
-  height: 52px;
-  padding: 0 36px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 8px 22px rgba(0, 181, 214, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transition:
-    background 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.rcm-calc-cta:hover {
-  background: #00C8E8;   /* slightly brighter teal */
-  color: #fff;           /* explicit so home-immersive whitewash
-                            doesn't change it on hover */
-  transform: translateY(-1px);
-  box-shadow:
-    0 12px 28px rgba(0, 181, 214, 0.50),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30);
-}
-.rcm-calc-cta:active {
-  transform: translateY(0) scale(0.98);
-  transition-duration: 100ms;
-}
+/* The .rcm-calc-cta class (solid-teal pill) that used to live here
+   was removed May 2026. User direction: button must match other CTAs
+   on the home page, which all use .btn-primary (glass-pill via the
+   .home-immersive override at ~line 4555). Component now uses
+   className='btn-primary' directly; no calculator-specific button
+   styling needed. */
 
 /* ===== MOBILE: stack the two halves and convert the vertical divider
    to a horizontal one ===== */
@@ -1903,12 +1861,6 @@ body:has(main.home-immersive) .footer-top {
   }
   .rcm-calc-bucket-label {
     font-size: 11px;
-  }
-  /* CTA — slightly more compact on mobile. */
-  .rcm-calc-cta {
-    height: 48px;
-    padding: 0 28px;
-    font-size: 14px;
   }
 }
 

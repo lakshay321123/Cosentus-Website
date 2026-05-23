@@ -107,7 +107,7 @@ function SliderRow({
           {label}
         </label>
         <span className="rcm-calc-liveval" style={{
-          fontWeight: 400, color: 'var(--primary)',
+          fontWeight: 400, color: 'var(--white)',
           fontFamily: 'var(--font-display)', lineHeight: 1,
         }}>
           {value}{suffix}
@@ -192,7 +192,7 @@ export default function RCMCalculatorSection() {
                     Monthly Charges
                   </label>
                   <span className="rcm-calc-liveval" style={{
-                    fontWeight: 400, color: 'var(--primary)',
+                    fontWeight: 400, color: 'var(--white)',
                     fontFamily: 'var(--font-display)', lineHeight: 1,
                   }}>
                     {fmt$(monthly * 1000)}
@@ -275,15 +275,19 @@ export default function RCMCalculatorSection() {
                 </div>
               </div>
 
-              {/* CTA uses a dedicated .rcm-calc-cta class — NOT .btn-primary.
-                  Reason: .home-immersive .btn-primary is replaced with a
-                  glass-pill recipe (translucent white wash, thin border).
-                  That made the button read as muddy / bluish over the
-                  frosted card behind it. User direction May 2026:
-                  'remove the blue from here. put it in white text'.
-                  A solid teal pill with crisp white text reads cleaner.
-                  No arrow per the same site convention. */}
-              <Link href="/contact" className="rcm-calc-cta">
+              {/* CTA uses .btn-primary so it gets the exact same glass-pill
+                  treatment as every other CTA on the home page (Hero,
+                  RA, CTASection). On .home-immersive the .btn-primary
+                  override at globals.css ~line 4555 paints it as a
+                  translucent-white pill with thin white border + white
+                  text — NO teal/blue anywhere. alignSelf inline so
+                  the inline-flex pill anchors to the left of the
+                  result panel instead of stretching. */}
+              <Link
+                href="/contact"
+                className="btn-primary"
+                style={{ alignSelf: 'flex-start' }}
+              >
                 Get Your Free Revenue Analysis
               </Link>
             </div>
