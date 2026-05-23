@@ -143,24 +143,27 @@ export default function FAQsPage() {
 
       <style>{`
         .faqs-page {
-          /* /faqs needs its own dark bg because the (site) layout
-             does NOT provide ImmersiveVideoBackground — that lives
-             on the homepage only. Without this, body's default
-             var(--white) shows through and the white-on-glass
-             text becomes invisible. The radial gradient mimics
-             the home page's dark navy/teal feel without the
-             ~1.9MB video weight.
+          /* /faqs needs its own bg because the (site) layout does NOT
+             provide ImmersiveVideoBackground — that lives on the
+             homepage only. Without this, body's default var(--white)
+             shows through and the white-on-glass text becomes
+             invisible.
 
-             padding-top removed May 2026: the nav-clearance padding
-             now lives inside .faqs-hero so the teal band can extend
-             to the top of the viewport (would otherwise leave a
-             120px dark strip above the band). */
-          background: radial-gradient(
-            ellipse 110% 80% at 50% 15%,
-            #0a2d41 0%,
-            #061c2a 55%,
-            #030f17 100%
-          );
+             May 2026: switched from a dark-navy radial gradient
+             (off-palette: #0a2d41 → #061c2a → #030f17) to a flat
+             #616161 — the medium-dark gray directly from the official
+             Cosentus brand sheet. Per direct user direction. Solid
+             color, not gradient, by design.
+
+             Contrast check: white text (#FFFFFF) on #616161 = 6.19:1
+             which passes WCAG AA body text (4.5:1) and AA large text
+             (3.0:1). Glass-card surfaces (20% white wash) on top of
+             this stay readable.
+
+             padding-top removed earlier: the nav-clearance padding
+             lives inside .faqs-hero so the brand band can extend to
+             the top of the viewport. */
+          background: #616161;
           min-height: 100vh;
           padding-bottom: 96px;
         }

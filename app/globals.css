@@ -18,11 +18,18 @@
   --primary-ghost: #D6EBF2;
 
   /* Band-hero background — used by .page-hero-section--band (Resources
-     sub-pages) and the /faqs hero. Darker than --primary (#00B5D6) so
-     white text on it passes WCAG AA contrast for large text (~4.13:1
-     vs #00B5D6's 2.41:1 which failed the AA 3.0:1 threshold). Visually
-     still reads as the brand teal family, just one shade deeper. */
-  --band-bg: #0088A8;
+     sub-pages: Blog, Client Stories, News, Events, Insights) and the
+     /faqs hero. Set to the official brand primary #00B5D6 per direct
+     user direction (May 2026), matching the Cosentus brand sheet.
+
+     ACCESSIBILITY NOTE: white text on #00B5D6 = 2.45:1 contrast, which
+     FAILS WCAG AA for any text size (large-text threshold is 3.0:1,
+     body is 4.5:1). The previous value #0088A8 passed at 4.13:1 but
+     was off-brand. User accepted the contrast trade-off in favor of
+     brand fidelity. If accessibility is later flagged: either revert
+     to #0088A8, or flip the band text color from white to black
+     (#000000 on #00B5D6 = 8.58:1, passes AAA). */
+  --band-bg: #00B5D6;
 
   --gray-900: #000000;
   --gray-800: #000000;
