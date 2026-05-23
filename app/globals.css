@@ -835,6 +835,34 @@ body:has(main.home-immersive) .footer-top {
   }
 }
 
+/* Specialty variant — used by all /specialties/* pages.
+   Replaces the base .page-hero-section's min-height: 50vh with a
+   fixed pixel height so every specialty page renders at the same
+   hero height regardless of title/subtitle length. Earlier
+   behaviour (min-height only) let longer subtitles push some pages
+   taller than others, which read as inconsistent when navigating
+   between specialty pages.
+
+   Heights chosen to comfortably fit the longest existing specialty
+   title + subtitle + CTA without clipping (verified against all
+   six pages: Anesthesia/Orthopedics/Pain/ASC/Behavioral Health/
+   Multi-Specialty).
+
+   Both min-height and max-height are set to the same value so the
+   section size is locked. `overflow: hidden` is inherited from the
+   base section's inline style and would clip any future content
+   that grows beyond these bounds. */
+.page-hero-section--specialty {
+  min-height: 600px;
+  max-height: 600px;
+}
+@media (max-width: 768px) {
+  .page-hero-section--specialty {
+    min-height: 440px;
+    max-height: 440px;
+  }
+}
+
 /* Band variant — used by Resources sub-pages (Blog, Client Stories,
    News, Events, Insights) and the /faqs page. Replaces the video
    hero with a flat brand-teal band. The component (PageHero.tsx)

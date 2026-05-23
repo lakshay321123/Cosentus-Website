@@ -39,7 +39,7 @@ const orthopedicsFaqs: SpecialtyFAQItem[] = [
 export default function OrthopedicsPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-orthopedics.mp4" specialty
         label="ORTHOPEDICS BY COSENTUS, PURPOSE BUILT"
         title="Orthopedic Billing. Surgeon-Grade Precision."
         subtitle="Joint replacements, arthroscopy, spinal surgery, and implant cases demand accuracy at every billing step. We deliver it."

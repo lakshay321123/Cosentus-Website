@@ -39,7 +39,7 @@ const behavioralHealthFaqs: SpecialtyFAQItem[] = [
 export default function BehavioralHealthPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-behavioral-health.mp4" specialty
         label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
         title="Behavioral Health. Complex Billing. Clear Results."
         subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our team knows every one."

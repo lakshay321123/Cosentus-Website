@@ -45,7 +45,7 @@ const anesthesiaFaqs = [
 export default function AnesthesiaPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-anesthesia.mp4" specialty
         label="ACCREDA BY COSENTUS, PURPOSE BUILT FOR ANESTHESIA"
         title="Purpose Built for Anesthesia."
         subtitle="Accreda by Cosentus. 23+ years of anesthesia-specific RCM, backed by Real + Artificial Intelligence."

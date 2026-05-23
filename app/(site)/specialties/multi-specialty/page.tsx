@@ -31,7 +31,7 @@ const specialtyTicker = [
 export default function MultiSpecialtyPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-multi-specialty.mp4" specialty
         label="MULTI-SPECIALTY BY COSENTUS"
         title={<>One Practice. Multiple Specialties.<br />One RCM Partner Who Handles It All.</>}
         subtitle="Multi-specialty practices face unique complexity, different codes, different payers, different rules across every department. You need an RCM partner that can manage all of them without dropping the ball."

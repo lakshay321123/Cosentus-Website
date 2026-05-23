@@ -39,7 +39,7 @@ const ascFaqs: SpecialtyFAQItem[] = [
 export default function ASCPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
         title="ASC Billing. Built for Speed and Volume."
         subtitle="Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof."
