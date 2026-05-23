@@ -139,8 +139,20 @@ export default function RCMContent() {
           Outcomes' block that rendered keyResults as 5 plain rectangle
           cards. The ResultsSection component is hardcoded with 6 stats
           and the heading 'Results Our Clients See' \u2014 same content the
-          home page shows. */}
-      <ResultsSection />
+          home page shows.
+
+          Wrapped in .rcm-results-on-teal so the section renders on a
+          solid teal panel with white text. Without this wrapper the
+          glass-arrow SVG (white gradient designed for dark bg) is
+          invisible on the RCM page's white surface and the teal stat
+          numbers/teal heading clash with the teal arrows. User direction
+          May 2026 after seeing the preview: 'i cant see the arrows /
+          you can give this section a blue teel background / so that
+          all this is visible and all text can be white'. See globals.css
+          for the override rule set. */}
+      <div className="rcm-results-on-teal">
+        <ResultsSection />
+      </div>
     </>
   )
 }
