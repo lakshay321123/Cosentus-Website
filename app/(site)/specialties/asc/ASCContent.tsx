@@ -244,15 +244,15 @@ export default function ASCContent() {
                   Pre-Service Payment Collection
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
-                  Priya contacts patients before scheduled procedures with verified cost estimates, lifting pre-service collections 30\u201340% vs post-service billing. For ASCs running dozens of cases daily, that\u2019s thousands in accelerated revenue every week.
+                  Priya contacts patients before scheduled procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service billing. For ASCs running dozens of cases daily, that&apos;s thousands in accelerated revenue every week.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30\u201340%</div>
+                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3\u20137 Days</div>
+                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
                   </div>
                 </div>
