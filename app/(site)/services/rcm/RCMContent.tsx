@@ -3,6 +3,7 @@
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
+import ResultsSection from '@/components/sections/ResultsSection'
 
 const rcmSteps = [
   { agent: 'Elly', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" /></svg>, title: 'Eligibility Verification', desc: 'Elly verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.' },
@@ -15,14 +16,6 @@ const rcmSteps = [
   { agent: 'Cindy', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>, title: 'Patient Billing & Collections', desc: 'Cindy handles balances in 50+ languages with real-time payment processing and payment plan options.' },
   { agent: null, icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>, title: 'Credentialing & Contracting', desc: 'Provider credentialing, re-credentialing, and contract analytics to protect reimbursement rates.' },
   { agent: null, icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} width={22} height={22}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>, title: 'Reporting & Analytics', desc: 'Real-time dashboards by provider, payer, procedure, and denial category. Weekly reviews and QBRs included.' },
-]
-
-const keyResults = [
-  { value: '>98%', label: 'Net Collection Rate' },
-  { value: '>99%', label: 'Clean Claim Rate' },
-  { value: '48hr', label: 'Charge Lag' },
-  { value: '<15%', label: 'AR >90 Days' },
-  { value: '30%', label: 'Revenue Growth (12mo)' },
 ]
 
 export default function RCMContent() {
@@ -139,50 +132,15 @@ export default function RCMContent() {
         </div>
       </section>
 
-      {/* Key Results, interactive cards */}
-      <section className="section">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <RevealOnScroll>
-            <div className="section-title">Measurable Outcomes</div>
-          </RevealOnScroll>
-          <div className="results-desktop" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginTop: 40 }}>
-            {keyResults.map((r, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
-                <div
-                  style={{
-                    padding: '32px 16px', background: 'var(--white)', borderRadius: 12,
-                    border: '1px solid var(--gray-200)',
-                    transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-6px)'
-                    e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,181,214,0.15)'
-                    e.currentTarget.style.borderColor = '#00B5D6'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = 'none'
-                    e.currentTarget.style.borderColor = 'var(--gray-200)'
-                  }}
-                >
-                  <div style={{ fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 300, color: '#00B5D6', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.3 }}>{r.label}</div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          <div className="results-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={3000}>
-              {keyResults.map((r, i) => (
-                <div key={i} style={{ padding: '32px 16px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', textAlign: 'center' }}>
-                  <div style={{ fontSize: 36, fontWeight: 300, color: '#00B5D6', lineHeight: 1, marginBottom: 8 }}>{r.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--gray-500)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{r.label}</div>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
+      {/* Results / Outcomes \u2014 dropped in the home page's ResultsSection
+          component (6 arrow-shape stat cards with flip cards) per user
+          direction: 'copy results our clients see with these arrows and
+          design into this section'. Replaces the previous 'Measurable
+          Outcomes' block that rendered keyResults as 5 plain rectangle
+          cards. The ResultsSection component is hardcoded with 6 stats
+          and the heading 'Results Our Clients See' \u2014 same content the
+          home page shows. */}
+      <ResultsSection />
     </>
   )
 }
