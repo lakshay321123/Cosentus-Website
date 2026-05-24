@@ -122,6 +122,60 @@ const ScrollExpandMedia = ({
   // anchor scroll passes the section's top, pulling the page back
   // up — user observes "stuck on the second section".
   const programmaticScrollRef = useRef<boolean>(false);
+  // rAF id for the auto-expand progress animation triggered by the
+  // first forward scroll/touch/key input. Stored on a ref so the
+  // cleanup effect can cancel it on unmount.
+  const autoExpandRafRef = useRef<number | null>(null);
+
+  /**
+   * Drive scrollProgress from its current value to 1.0 over 800ms
+   * with an ease-out cubic curve. Called when the user makes ANY
+   * forward scroll/touch/key input in the section (rather than
+   * incrementing progress by the input's delta). This way the
+   * visual reaches full size on the first scroll input — user
+   * doesn't have to scroll a long distance to see the full
+   * animation.
+   *
+   * Why rAF instead of CSS transition:
+   *   The component has SEVERAL progress-derived values (frame
+   *   width/height, side-text opacity, ratings-strip opacity,
+   *   transform translateX, sidetext translateX). Driving
+   *   scrollProgress smoothly via rAF means all of them animate
+   *   together coherently — no per-property transitions needed
+   *   and no risk of one property leading or trailing another.
+   *
+   * Side effects:
+   *   - Sets expandedRef.current = true immediately so subsequent
+   *     wheel/touch/key handlers bypass and let native scroll
+   *     through (user can scroll past freely while the animation
+   *     completes).
+   *   - The child's isExpanded prop (computed from progress >=
+   *     0.995) flips true near the end of the rAF animation,
+   *     triggering the WorkflowAnimation piece-by-piece reveal.
+   */
+  const startAutoExpand = (): void => {
+    if (expandedRef.current) return;
+    expandedRef.current = true;
+    const fromProgress = progressRef.current;
+    const targetProgress = 1;
+    const duration = 800; // ms
+    const startTime = performance.now();
+    const step = (now: number): void => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // ease-out cubic — fast start, gentle finish
+      const eased = 1 - Math.pow(1 - t, 3);
+      const p = fromProgress + (targetProgress - fromProgress) * eased;
+      progressRef.current = p;
+      setScrollProgress(p);
+      if (t < 1) {
+        autoExpandRafRef.current = requestAnimationFrame(step);
+      } else {
+        autoExpandRafRef.current = null;
+      }
+    };
+    autoExpandRafRef.current = requestAnimationFrame(step);
+  };
 
   // Is the section's top at or above viewport top, AND its bottom
   // still below viewport top? In that state the section is "owning
@@ -146,17 +200,13 @@ const ScrollExpandMedia = ({
       if (e.deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const scrollDelta = e.deltaY * 0.0012;
-      const newProgress = Math.min(
-        Math.max(progressRef.current + scrollDelta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
-      }
+      // Any forward wheel input snaps progress to 1 via the auto-
+      // expand animation (rAF, 800ms ease-out). Previously progress
+      // was incremented per-event — user had to scroll the full
+      // distance to see the visual. User feedback 2026-05-24: "as
+      // soon as a person starts scrolling, the visual should
+      // automatically reach the full size."
+      startAutoExpand();
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -177,17 +227,13 @@ const ScrollExpandMedia = ({
       if (deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
-      const scrollDelta = deltaY * scrollFactor;
-      const newProgress = Math.min(
-        Math.max(progressRef.current + scrollDelta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
+      // Any forward swipe (deltaY > 0 = finger moving up = scroll
+      // down) snaps progress to 1 via auto-expand. Mirror of the
+      // wheel handler's behavior. Backward swipes from progress 0
+      // already exited above; nothing else needed for them since
+      // expandedRef flips true the moment auto-expand starts.
+      if (deltaY > 0) {
+        startAutoExpand();
       }
 
       touchYRef.current = touchY;
@@ -231,31 +277,23 @@ const ScrollExpandMedia = ({
         }
       }
 
-      // Determine direction + step. Step size is tuned so a single
-      // PageDown advances roughly 35% of the animation — three
-      // presses to fully expand. Arrow keys advance less (~15%) for
-      // finer control. Space behaves like PageDown.
-      let delta = 0;
+      // Classify the key as forward (advances toward expansion),
+      // backward (would have retreated), or unrelated. Forward keys
+      // all trigger the auto-expand animation. Backward keys at
+      // progress=0 exit the section upward (unchanged from before).
+      let direction: 'forward' | 'backward' | null = null;
       switch (e.key) {
         case ' ':
         case 'Spacebar': // legacy
         case 'PageDown':
-          delta = 0.35;
-          break;
         case 'ArrowDown':
-          delta = 0.15;
-          break;
         case 'End':
-          delta = 1; // jumps to fully expanded
+          direction = 'forward';
           break;
         case 'PageUp':
-          delta = -0.35;
-          break;
         case 'ArrowUp':
-          delta = -0.15;
-          break;
         case 'Home':
-          delta = -1; // back to start of section
+          direction = 'backward';
           break;
         default:
           return; // not a key we care about
@@ -263,19 +301,19 @@ const ScrollExpandMedia = ({
 
       // Allow scroll-up to exit top of section when already at 0,
       // mirroring the wheel handler's behavior.
-      if (delta < 0 && progressRef.current <= 0) return;
+      if (direction === 'backward' && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const newProgress = Math.min(
-        Math.max(progressRef.current + delta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
+      if (direction === 'forward') {
+        // Any forward key snaps progress to 1 via auto-expand —
+        // matches wheel/touch behavior. Previously keys had per-key
+        // step sizes (PageDown=0.35, ArrowDown=0.15, etc.); user
+        // direction 2026-05-24 was to always reach full size on
+        // first input, so step granularity is no longer needed.
+        startAutoExpand();
       }
+      // Backward keys after auto-expand started: expandedRef is
+      // true, the handler returned at the top. Nothing to do here.
     };
 
     // Pin scroll position to section-top while hijack is active.
@@ -372,6 +410,13 @@ const ScrollExpandMedia = ({
       document.removeEventListener('click', handleAnchorClick, true);
       window.removeEventListener('hashchange', handleHashChange);
       if (resetTimer) clearTimeout(resetTimer);
+      // Cancel the auto-expand rAF if it's still running when the
+      // component unmounts (e.g. user navigated to a different
+      // route mid-animation).
+      if (autoExpandRafRef.current !== null) {
+        cancelAnimationFrame(autoExpandRafRef.current);
+        autoExpandRafRef.current = null;
+      }
     };
     // Empty deps — handlers read state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
