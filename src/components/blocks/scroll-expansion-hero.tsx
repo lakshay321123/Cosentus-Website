@@ -463,18 +463,25 @@ const ScrollExpandMedia = ({
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
   const mediaWidth = isMobile
-    ? 204 + easedProgress * 85   // 204 → 289 (was 240 → 340; -15% per
-                                 //   user direction 2026-05-24
-                                 //   "reduce the entire size of the
-                                 //   window and the animation by 15%
-                                 //   together. That automatically
-                                 //   solves the problem [of the navbar
-                                 //   overlapping the frame's top].")
-    : 595 + easedProgress * 850; // 595 → 1445 (was 700 → 1700; -15%
-                                 //   per same user direction.)
+    ? 265 + easedProgress * 115  // 265 → 380 (was 204 → 289; mobile-
+                                 //   only bump per user direction
+                                 //   2026-05-24 "On the mobile, I
+                                 //   wanted to look a little bigger.
+                                 //   It's looking a little too small
+                                 //   right now. Need to expand the
+                                 //   size overall on the mobile for
+                                 //   this section". The -15% trim
+                                 //   in PR #175 was driven by desktop
+                                 //   navbar overlap; mobile didn't
+                                 //   have that problem and ended up
+                                 //   too small.)
+    : 595 + easedProgress * 850; // 595 → 1445 (unchanged; desktop -15%
+                                 //   trim from PR #175 stays — it's
+                                 //   what fixed the navbar overlap.)
   const mediaHeight = isMobile
-    ? 255 + easedProgress * 187  // 255 → 442 (was 300 → 520; -15%)
-    : 425 + easedProgress * 425; // 425 → 850 (was 500 → 1000; -15%)
+    ? 330 + easedProgress * 250  // 330 → 580 (was 255 → 442; same
+                                 //   mobile-only bump as above.)
+    : 425 + easedProgress * 425; // 425 → 850 (unchanged from PR #175)
 
   // Desktop: media translates from +25vw (right-half center) to 0.
   // Mobile: stays at center.
@@ -655,22 +662,33 @@ const ScrollExpandMedia = ({
            override the placeholder values.
 
            Max-width/height history (May 2026):
-             - Initial:  90vw / 65vh
-             - 1st bump: 95vw / 85vh
-             - 2nd bump: 97vw / 92vh  (per "increase the size of this
-                         window" + "it's touching at the bottom")
-             - 15% trim: 82vw / 78vh  (per "reduce the entire size of
-                         the window and the animation by 15%. That
-                         automatically solves the problem [of navbar
-                         overlap on the locked frame's top]")
-           The 15% trim accompanied the scroll-lock removal in the
-           same commit — smaller frame + smaller animation means the
-           workflow fits comfortably below the fixed navbar without
-           needing a lock to hold position.
+             - Initial:    90vw / 65vh
+             - 1st bump:   95vw / 85vh
+             - 2nd bump:   97vw / 92vh  (per "increase the size of
+                           this window" + "it's touching at the
+                           bottom")
+             - 15% trim:   82vw / 78vh  (per "reduce the entire
+                           size of the window and the animation by
+                           15%. That automatically solves the
+                           problem [of navbar overlap on the locked
+                           frame's top]")  — PR #175
+             - Mobile-only override (post-PR #175):
+                           desktop stays 82vw / 78vh
+                           mobile (<=768px) bumps to 95vw / 82vh
+                           (per "On the mobile, I wanted to look a
+                           little bigger. It's looking a little too
+                           small right now.")
+           The 15% trim accompanied the scroll-lock removal in PR
+           #175 — smaller desktop frame meant the workflow fit
+           comfortably below the fixed navbar without needing a
+           lock to hold position. Mobile didn't have that overlap
+           problem and ended up too small after the same trim;
+           the mobile-only override restores breathing room.
 
            Aspect ratio of the workflow content is ~1.26:1 (viewBox
-           -50 -40 1731 1378 → 1731/1378). Inline growth on desktop
-           is 595px -> 1445px wide, 425px -> 850px tall (also -15%).
+           -50 -40 1731 1378 → 1731/1378). Inline growth:
+             desktop: 595px -> 1445px wide, 425px -> 850px tall
+             mobile:  265px -> 380px wide,  330px -> 580px tall
            On smaller viewports the inline values hit the vw/vh
            caps; on larger displays they scale at the inline max. */
         .scroll-expand-media-frame {
@@ -700,6 +718,24 @@ const ScrollExpandMedia = ({
             0 10px 60px rgba(0, 0, 0, 0.4);
           z-index: 3;
           will-change: transform, width, height;
+        }
+        /* Mobile-specific cap override. The desktop caps (82vw / 78vh)
+           are intentionally conservative because the workflow content
+           is wide (~1.26:1 aspect) and on landscape monitors the frame
+           is already large. On mobile portrait the same caps make the
+           frame feel cramped — 82vw of a 375px-wide iPhone is only
+           307px, well below what the bumped inline values (265 → 380
+           wide, 330 → 580 tall) need. User direction 2026-05-24: "On
+           the mobile, I wanted to look a little bigger. It's looking
+           a little too small right now. Need to expand the size
+           overall on the mobile for this section."
+           Result on a 375x667 iPhone: 95vw = 356, 82vh = 547 → frame
+           fully expands to ~356 x 547 (vs the previous 289 x 442). */
+        @media (max-width: 768px) {
+          .scroll-expand-media-frame {
+            max-width: 95vw;
+            max-height: 82vh;
+          }
         }
         .scroll-expand-media-video {
           width: 100%;
