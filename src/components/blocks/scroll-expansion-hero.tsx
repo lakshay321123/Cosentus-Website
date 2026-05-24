@@ -409,13 +409,25 @@ const ScrollExpandMedia = ({
 
   const mediaWidth = isMobile
     ? 240 + easedProgress * 100  // 240 → 340 (vertical-friendly)
-    : 600 + easedProgress * 600; // 600 → 1200
+    : 700 + easedProgress * 1000; // 700 → 1700 (bumped from 600→1200
+                                  //              May 2026 per user
+                                  //              feedback "screen is
+                                  //              too narrow". Caps at
+                                  //              the 95vw max-width
+                                  //              defined in the
+                                  //              .scroll-expand-media-
+                                  //              frame CSS, so on
+                                  //              smaller viewports
+                                  //              it fits naturally.)
   const mediaHeight = isMobile
     ? 300 + easedProgress * 220 // 300 → 520 (taller-than-wide so a
                                 //              9:16 vertical video
                                 //              swap renders without
                                 //              letterboxing)
-    : 400 + easedProgress * 200; // 400 → 600
+    : 500 + easedProgress * 500; // 500 → 1000 (bumped from 400→600
+                                 //              for the same reason
+                                 //              as mediaWidth. Caps
+                                 //              at 85vh in CSS.)
 
   // Desktop: media translates from +25vw (right-half center) to 0.
   // Mobile: stays at center.
@@ -593,13 +605,20 @@ const ScrollExpandMedia = ({
         }
 
         /* Media frame — centered with translate. inline width/height
-           override the placeholder values. */
+           override the placeholder values.
+
+           Max-width/height bumped from 90vw/65vh -> 95vw/85vh in
+           May 2026 to give the workflow animation more room. Aspect
+           ratio of the workflow content is ~1.29:1, and the inline
+           growth (700px -> 1700px wide, 500px -> 1000px tall) hits
+           the viewport caps on smaller screens but scales properly
+           on larger displays. */
         .scroll-expand-media-frame {
           position: absolute;
           top: 50%;
           left: 50%;
-          max-width: 90vw;
-          max-height: 65vh;
+          max-width: 95vw;
+          max-height: 85vh;
           border-radius: 16px;
           overflow: hidden;
           /* Teal border + glow so the small frame is visible against
