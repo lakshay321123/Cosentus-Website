@@ -58,10 +58,11 @@
  *                          flow order above.
  *
  * TIMING
- *   1300ms fade per piece, 650ms stagger between pieces. Last
- *   piece (Support, delay 7800ms) finishes at ~9100ms total.
- *   Slowed 30% from original 1000ms/500ms per user direction
- *   "slow down by at least 30% more" (2026-05-24).
+ *   Per-piece fadeMs. Heads (1, 2): 2000ms each. Tiles (3-13):
+ *   1500ms each. Last piece "Support" begins at 10000ms and
+ *   finishes at 11500ms — total ~11.5s reveal. The heads have
+ *   their own slower fade per user direction "the heads ... slow
+ *   that down also, because it's too fast" (2026-05-24).
  *   User direction: "load slowly, we are not in a race".
  *
  * RESPONSIVE
@@ -116,27 +117,41 @@ interface WorkflowAnimationProps {
  * w,h come from each piece SVG's mm dimensions converted to
  * composite-coord units (1mm = 10.888 composite-units).
  *
- * delay = ms after isExpanded flips true. 650ms stagger.
+ * delay = ms after isExpanded flips true. Heads at 0 and 1000ms;
+ * Scheduling at 2500ms; then 750ms stagger through Support.
+ * fadeMs = per-piece fade duration (2000 for heads, 1500 for tiles).
  */
 const PIECES = [
-  { id:  1, x:  117, y:    0, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
-  { id:  2, x:    0, y:  189, w: 436, h: 170, delay:  650, label: 'AI head + circuit' },
-  { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 1300, label: 'Scheduling' },
-  { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 1950, label: 'Eligibility' },
-  { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 2600, label: 'Patient intake' },
-  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 3250, label: 'AI Scribe' },
-  { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 3900, label: 'Coding' },
-  { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 4550, label: 'Claims' },
-  { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 5200, label: 'Denial' },
-  { id: 10, x:   98, y:  849, w: 441, h: 418, delay: 5850, label: 'Appeal' },
-  { id: 11, x:  489, y:  914, w: 429, h: 354, delay: 6500, label: 'Follow Up' },
-  { id: 12, x:  869, y:  915, w: 427, h: 353, delay: 7150, label: 'Collections' },
-  { id: 13, x: 1247, y:  915, w: 378, h: 353, delay: 7800, label: 'Support' },
+  { id:  1, x:  117, y:    0, w: 320, h: 206, delay:    0, fadeMs: 2000, label: 'Real People + cyan head' },
+  { id:  2, x:    0, y:  189, w: 436, h: 170, delay: 1000, fadeMs: 2000, label: 'AI head + circuit' },
+  { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 2500, fadeMs: 1500, label: 'Scheduling' },
+  { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 3250, fadeMs: 1500, label: 'Eligibility' },
+  { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 4000, fadeMs: 1500, label: 'Patient intake' },
+  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 4750, fadeMs: 1500, label: 'AI Scribe' },
+  { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 5500, fadeMs: 1500, label: 'Coding' },
+  { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 6250, fadeMs: 1500, label: 'Claims' },
+  { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 7000, fadeMs: 1500, label: 'Denial' },
+  { id: 10, x:   98, y:  849, w: 441, h: 418, delay: 7750, fadeMs: 1500, label: 'Appeal' },
+  { id: 11, x:  489, y:  914, w: 429, h: 354, delay: 8500, fadeMs: 1500, label: 'Follow Up' },
+  { id: 12, x:  869, y:  915, w: 427, h: 353, delay: 9250, fadeMs: 1500, label: 'Collections' },
+  { id: 13, x: 1247, y:  915, w: 378, h: 353, delay:10000, fadeMs: 1500, label: 'Support' },
 ] as const
 
-/** Fade-in duration per piece. Slowed from 1000ms to 1300ms per
- *  user direction "slow down by at least 30% more" (2026-05-24). */
-const PIECE_FADE_MS = 1300
+/**
+ * Fade-in duration is now per-piece via PIECES[i].fadeMs.
+ *
+ *   Heads (pieces 1, 2):  2000ms each — slower so "Real People"
+ *                          and "Artificial Intelligence" feel
+ *                          deliberate and are easy to read before
+ *                          the workflow tiles start arriving.
+ *   Tiles (pieces 3-13):  1500ms each — per user direction
+ *                          "you've done 1300ms, do 1500ms"
+ *                          (2026-05-24).
+ *
+ * Delays produce ~11.5s total. Heads play 0-3000ms, then a small
+ * 500ms overlap into Scheduling at 2500ms, then 750ms stagger for
+ * the remaining tile pieces through Support at 10000-11500ms.
+ */
 
 export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps) {
   // animationStarted latches true the first time isExpanded becomes
@@ -211,7 +226,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
           // value while the animation runs.
           const animation =
             animationStarted && !reduceMotion
-              ? `pieceFadeIn ${PIECE_FADE_MS}ms ease-out ${p.delay}ms backwards`
+              ? `pieceFadeIn ${p.fadeMs}ms ease-out ${p.delay}ms backwards`
               : 'none'
           return (
             <image
