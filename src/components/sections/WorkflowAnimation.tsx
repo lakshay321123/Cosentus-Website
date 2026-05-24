@@ -58,8 +58,10 @@
  *                          flow order above.
  *
  * TIMING
- *   1000ms fade per piece, 500ms stagger between pieces. Last
- *   piece (Support, delay 6000ms) finishes at ~7000ms total.
+ *   1300ms fade per piece, 650ms stagger between pieces. Last
+ *   piece (Support, delay 7800ms) finishes at ~9100ms total.
+ *   Slowed 30% from original 1000ms/500ms per user direction
+ *   "slow down by at least 30% more" (2026-05-24).
  *   User direction: "load slowly, we are not in a race".
  *
  * RESPONSIVE
@@ -114,26 +116,27 @@ interface WorkflowAnimationProps {
  * w,h come from each piece SVG's mm dimensions converted to
  * composite-coord units (1mm = 10.888 composite-units).
  *
- * delay = ms after isExpanded flips true. 500ms stagger.
+ * delay = ms after isExpanded flips true. 650ms stagger.
  */
 const PIECES = [
   { id:  1, x:  117, y:    0, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
-  { id:  2, x:    0, y:  189, w: 436, h: 170, delay:  500, label: 'AI head + circuit' },
-  { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 1000, label: 'Scheduling' },
-  { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 1500, label: 'Eligibility' },
-  { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 2000, label: 'Patient intake' },
-  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 2500, label: 'AI Scribe' },
-  { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 3000, label: 'Coding' },
-  { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 3500, label: 'Claims' },
-  { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 4000, label: 'Denial' },
-  { id: 10, x:   98, y:  849, w: 441, h: 418, delay: 4500, label: 'Appeal' },
-  { id: 11, x:  489, y:  914, w: 429, h: 354, delay: 5000, label: 'Follow Up' },
-  { id: 12, x:  869, y:  915, w: 427, h: 353, delay: 5500, label: 'Collections' },
-  { id: 13, x: 1247, y:  915, w: 378, h: 353, delay: 6000, label: 'Support' },
+  { id:  2, x:    0, y:  189, w: 436, h: 170, delay:  650, label: 'AI head + circuit' },
+  { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 1300, label: 'Scheduling' },
+  { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 1950, label: 'Eligibility' },
+  { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 2600, label: 'Patient intake' },
+  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 3250, label: 'AI Scribe' },
+  { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 3900, label: 'Coding' },
+  { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 4550, label: 'Claims' },
+  { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 5200, label: 'Denial' },
+  { id: 10, x:   98, y:  849, w: 441, h: 418, delay: 5850, label: 'Appeal' },
+  { id: 11, x:  489, y:  914, w: 429, h: 354, delay: 6500, label: 'Follow Up' },
+  { id: 12, x:  869, y:  915, w: 427, h: 353, delay: 7150, label: 'Collections' },
+  { id: 13, x: 1247, y:  915, w: 378, h: 353, delay: 7800, label: 'Support' },
 ] as const
 
-/** Fade-in duration per piece. */
-const PIECE_FADE_MS = 1000
+/** Fade-in duration per piece. Slowed from 1000ms to 1300ms per
+ *  user direction "slow down by at least 30% more" (2026-05-24). */
+const PIECE_FADE_MS = 1300
 
 export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps) {
   // animationStarted latches true the first time isExpanded becomes
