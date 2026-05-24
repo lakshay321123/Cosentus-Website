@@ -94,16 +94,16 @@ const ScrollExpandMedia = ({
   // state so render updates the inline transforms/sizes.
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  // Tracks window.innerWidth in px so mobile sizing math can scale
-  // the frame as a fraction of actual viewport width. Defaults to a
-  // desktop-ish value for SSR; the useEffect below updates it on
-  // mount to the real value, same way isMobile flips. (Needed
-  // because pixel-only inline values fight CSS vw caps — the JS
-  // computes a height assuming JS width, but CSS clamps width down
-  // and the aspect breaks. Tracking viewportWidth lets the JS
-  // compute width AS a vw fraction, then derive height from it,
-  // keeping content aspect intact.)
+  // Mobile sizing math needs the actual viewport dimensions so the
+  // frame can be sized as a fraction of real screen estate (e.g.,
+  // 95vw wide, 85vh tall). Pixel-only inline values fight the CSS
+  // vw/vh caps on small screens; tracking the actual values in
+  // state lets the JS compute the frame size directly in viewport-
+  // fraction units. Defaults are desktop-ish for SSR; the useEffect
+  // below updates them on mount to real window.innerWidth /
+  // innerHeight, same way isMobile flips.
   const [viewportWidth, setViewportWidth] = useState<number>(1024);
+  const [viewportHeight, setViewportHeight] = useState<number>(768);
 
   // Trailing text visibility is DERIVED from progress, not a sticky
   // state. Previously I had useState that flipped true at 0.85 and
@@ -448,6 +448,7 @@ const ScrollExpandMedia = ({
     const checkViewport = () => {
       setIsMobile(window.innerWidth < 768);
       setViewportWidth(window.innerWidth);
+      setViewportHeight(window.innerHeight);
     };
     checkViewport();
     window.addEventListener('resize', checkViewport);
@@ -475,44 +476,38 @@ const ScrollExpandMedia = ({
   // expansion is happening as soon as they start scrolling.
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
-  // Workflow content's intrinsic aspect ratio. The SVG viewBox is
-  // -50 -40 1731 1378, so content aspect = 1731 / 1378 ≈ 1.256.
-  // Used to derive mobile mediaHeight so the frame matches content
-  // proportions exactly (no preserveAspectRatio="meet" empty space
-  // top/bottom inside the frame).
-  const WORKFLOW_ASPECT = 1731 / 1378;
-
   const mediaWidth = isMobile
-    ? viewportWidth * (0.65 + easedProgress * 0.33)
-                                 // 65vw → 98vw of actual viewport.
-                                 //   PR #176 used pixel inline values
-                                 //   (265 → 380) that fought the
-                                 //   95vw CSS cap on small phones —
-                                 //   width clipped down but height
-                                 //   stayed at the inline value,
-                                 //   breaking the aspect and leaving
-                                 //   a lot of empty vertical space
-                                 //   inside the frame.
-                                 //   User direction 2026-05-24 (after
-                                 //   PR #176 deployed): "too small,
-                                 //   this can be full page on mobile."
-                                 //   vw-fraction sizing scales
-                                 //   precisely with the actual phone
-                                 //   width — 95% of iPhone SE 375 =
-                                 //   356, of iPhone Pro Max 430 = 408.
+    ? viewportWidth * (0.70 + easedProgress * 0.25)
+                                 // 70vw → 95vw of actual viewport.
+                                 //   Frame width fills most of the
+                                 //   phone horizontally at full
+                                 //   expansion.
     : 595 + easedProgress * 850; // 595 → 1445 (unchanged; desktop -15%
                                  //   trim from PR #175 stays — it's
                                  //   what fixed the navbar overlap.)
   const mediaHeight = isMobile
-    ? mediaWidth / WORKFLOW_ASPECT
-                                 // Height tracks width via content
-                                 //   aspect — frame hugs workflow,
-                                 //   zero empty space inside. On
-                                 //   iPhone SE at full expansion:
-                                 //   width 98vw=367, height 367/1.26
-                                 //   =292. Section around the frame
-                                 //   stays 100vh so workflow still
-                                 //   dominates the screen.
+    ? viewportHeight * (0.55 + easedProgress * 0.30)
+                                 // 55vh → 85vh of actual viewport.
+                                 //   Frame is intentionally TALL on
+                                 //   mobile — user direction
+                                 //   2026-05-24 (after my aspect-match
+                                 //   fix in commit 299f92d): "It
+                                 //   needs to be taller, basically
+                                 //   mobile optimized" + "Both — make
+                                 //   the whole section dominate the
+                                 //   mobile screen." The workflow
+                                 //   content (1.256 landscape) sits
+                                 //   inside via preserveAspectRatio=
+                                 //   'meet'; there's empty space top
+                                 //   + bottom of the workflow, but
+                                 //   the FRAME itself dominates the
+                                 //   viewport (which is what was
+                                 //   asked for).
+                                 //   On a 375x667 iPhone at full
+                                 //   expansion: 95vw × 85vh = 356 ×
+                                 //   567 (vs PR #176's 356 × 547 and
+                                 //   my aspect-match attempt's 356 ×
+                                 //   283 — this is the biggest).
     : 425 + easedProgress * 425; // 425 → 850 (unchanged from PR #175)
 
   // Desktop: media translates from +25vw (right-half center) to 0.
@@ -710,22 +705,32 @@ const ScrollExpandMedia = ({
                            (per "On the mobile, I wanted to look a
                            little bigger. It's looking a little too
                            small right now.")
+             Tall portrait (current, post-PR #176):
+                           mobile gets vw + vh driven sizing — JS
+                           computes 70vw → 95vw width and 55vh →
+                           85vh height directly from window dims
+                           in state. Frame is intentionally PORTRAIT
+                           and large; workflow content sits inside
+                           with empty top + bottom. User direction
+                           "It needs to be taller, basically mobile
+                           optimized" + "Both — make the whole
+                           section dominate the mobile screen."
+                           CSS safety caps: 98vw / 90vh.
            The 15% trim accompanied the scroll-lock removal in PR
            #175 — smaller desktop frame meant the workflow fit
            comfortably below the fixed navbar without needing a
            lock to hold position. Mobile didn't have that overlap
            problem and ended up too small after the same trim;
-           the mobile-only override restores breathing room.
+           subsequent iterations bumped mobile back up.
 
            Aspect ratio of the workflow content is ~1.26:1 (viewBox
-           -50 -40 1731 1378 → 1731/1378). Inline growth:
+           -50 -40 1731 1378). Inline growth:
              desktop: 595px -> 1445px wide, 425px -> 850px tall
-             mobile:  width derived from viewportWidth (65vw -> 98vw)
-                      height = width / 1.26 (matches content aspect)
-           On smaller viewports the inline values hit the vw/vh
-           caps; on larger displays they scale at the inline max.
-           Mobile sizing bypasses pixel caps — JS uses vw-fraction
-           of actual viewport so the frame hugs content exactly. */
+             mobile:  width = viewportWidth * (0.70 → 0.95)
+                      height = viewportHeight * (0.55 → 0.85)
+                      (both tracked in component state via resize
+                      listener; SSR defaults 1024×768 are replaced
+                      on mount.) */
         .scroll-expand-media-frame {
           position: absolute;
           top: 50%;
@@ -759,26 +764,32 @@ const ScrollExpandMedia = ({
            is wide (~1.26:1 aspect) and on landscape monitors the frame
            is already large.
            On mobile, the JS now drives the frame size directly from
-           viewportWidth + content aspect (see mediaWidth/mediaHeight
-           computation above). The JS uses 98vw at full expansion and
-           derives height from width / aspect, so the frame hugs the
-           workflow exactly — zero empty space inside.
-           These CSS caps act as a safety net only — they should never
-           activate in practice. max-width: 100vw prevents horizontal
-           overflow if JS is ever off. max-height is unset because the
-           JS height is already aspect-correct; capping it would
-           reintroduce the empty-space-inside-frame problem this
-           change is fixing.
-           History: PR #175 was 82vw / 78vh (desktop+mobile shared).
-           PR #176 bumped mobile to 95vw / 82vh but kept pixel inline
-           values, which fought the width cap on small phones and
-           left a lot of empty space inside the frame. User direction
-           2026-05-24 (after #176 deployed): "too small. this can be
-           full page on mobile." */
+           the actual viewport (viewportWidth + viewportHeight in
+           state). The JS produces 70vw → 95vw wide and 55vh → 85vh
+           tall — a deliberately large portrait frame that dominates
+           the phone screen. The workflow content sits inside via
+           preserveAspectRatio='meet' with some empty space top +
+           bottom of the workflow itself; the FRAME does the visual
+           dominating, not the workflow content's own size.
+           These CSS caps act as a safety net only — should not
+           activate in normal operation. 98vw / 90vh keeps the JS
+           comfortably below them.
+           History:
+             PR #175  — 82vw / 78vh (desktop+mobile shared)
+             PR #176  — 95vw / 82vh (mobile-specific); felt small
+             commit 299f92d — aspect-matched landscape frame; made
+                              the frame SHORTER than #176 (user
+                              direction was wrong direction);
+                              reverted in next commit
+             current  — 95vw × 85vh max via JS, ~98vw / 90vh CSS
+                        safety cap, per user direction "It needs
+                        to be taller, basically mobile optimized"
+                        + "Both — make the whole section dominate
+                        the mobile screen." */
         @media (max-width: 768px) {
           .scroll-expand-media-frame {
-            max-width: 100vw;
-            max-height: none;
+            max-width: 98vw;
+            max-height: 90vh;
           }
         }
         .scroll-expand-media-video {
