@@ -1764,7 +1764,21 @@ body:has(main.home-immersive) .footer-top {
    lifts the card subtly off the video without solid color slabs. */
 .rcm-calc-card {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, 1fr) — not bare 1fr — so the column track can shrink
+     below content's min-content size. Without this, when the bignum
+     value in the right column changes width during slider tweens
+     (e.g. $7,150,000 → $13,299,000 has more digits at a larger
+     font-size), the column track expands to accommodate min-content,
+     the left column contracts to compensate, and the whole card
+     reflows 60 times in 500ms — visually it looks like the entire
+     screen is vibrating. bare 1fr is shorthand for minmax(auto, 1fr)
+     where 'auto' respects min-content; minmax(0, 1fr) forces a 0px
+     floor so the track is purely fractional. Fix for user report
+     2026-05-24: 'When toggling the monthly charges or even denial
+     of AR, the whole screen starts vibrating. The numbers also
+     start vibrating very vigorously, and the screen keeps on
+     expanding and collapsing.' */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   max-width: 1080px;
   margin: 0 auto;
   border-radius: var(--radius-lg);
@@ -1800,7 +1814,16 @@ body:has(main.home-immersive) .footer-top {
    headline number above. */
 .rcm-calc-breakdown {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* minmax(0, 1fr) per column, not bare 1fr — same fix as the card
+     grid above. The three bucket values ($X,XXX,XXX) change digit
+     count as sliders move; bare 1fr makes the columns reflow to
+     fit content min-content, which on mobile shifts subsequent
+     content rightward. minmax(0, 1fr) keeps the columns exactly
+     thirds regardless of content width. Fix for user report
+     2026-05-24: 'on the mobile, when this is happening, the numbers
+     on the right and the percent everything keep on shifting
+     towards the right.' */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   padding-top: 32px;
   border-top: 1px solid rgba(255,255,255,0.18);
@@ -1816,6 +1839,16 @@ body:has(main.home-immersive) .footer-top {
   color: var(--white);
   line-height: 1.1;
   margin-bottom: 6px;
+  /* Equal-width digits. Without this the proportional font assigns
+     different widths to each digit ('1' is narrower than '8'), so
+     as useTween cycles values like $5,148,000 → $5,148,123 → ...
+     individual digits visibly shift horizontally — feels like the
+     number is shimmying. tabular-nums locks each digit slot to the
+     same width regardless of which digit is in it; only the leading
+     digit-count change moves anything, and that's already handled
+     by the parent's text-align. Same fix applied to .rcm-calc-bignum
+     and .rcm-calc-liveval below. */
+  font-variant-numeric: tabular-nums;
 }
 .rcm-calc-bucket-label {
   font-size: 13px;
@@ -1897,6 +1930,11 @@ body:has(main.home-immersive) .footer-top {
    hero-scale on wide monitors. */
 .rcm-calc-bignum {
   font-size: clamp(56px, 8vw, 88px);
+  /* Equal-width digits — see .rcm-calc-bucket-value above for the
+     full reasoning. At this font-size (up to 88px) the per-digit
+     width difference is much more visible, so tabular-nums matters
+     more here than on the smaller bucket values. */
+  font-variant-numeric: tabular-nums;
 }
 
 /* The teal numerals next to each slider label (e.g. '$500,000',
@@ -1905,6 +1943,11 @@ body:has(main.home-immersive) .footer-top {
    drag, so they're large but not hero-scale. */
 .rcm-calc-liveval {
   font-size: 32px;
+  /* Equal-width digits — see .rcm-calc-bucket-value for full
+     reasoning. Slider drag updates this value every frame; without
+     tabular-nums each digit width change visibly shifts the rest
+     of the number left or right. */
+  font-variant-numeric: tabular-nums;
 }
 
 /* The .rcm-calc-cta class (solid-teal pill) that used to live here
