@@ -62,22 +62,36 @@ interface WorkflowAnimationProps {
  * Each piece's bounding box in composite viewBox coords (0..1631 x,
  * 0..1268 y). Measured by overlaying a 100px grid on the rendered
  * composite SVG. delay is ms after isExpanded flips true.
+ *
+ * Timing: 1000ms fade per piece, 500ms stagger between pieces. Final
+ * piece begins at delay 6000ms and finishes around 7000ms. Slower
+ * pace per user direction "load slowly, we are not in a race".
  */
 const PIECES = [
   { id: 1,  x:  140, y:    0, w: 240, h: 320, delay:    0 },  // Real People + cyan head
-  { id: 2,  x:  140, y:  150, w: 240, h: 240, delay:  250 },  // AI head + circuit
-  { id: 3,  x:  370, y:   20, w: 290, h: 280, delay:  500 },  // Scheduling
-  { id: 4,  x:  640, y:   20, w: 290, h: 280, delay:  750 },  // Eligibility
-  { id: 5,  x:  880, y:   20, w: 620, h: 600, delay: 1000 },  // Patient intake
-  { id: 6,  x:  880, y:  340, w: 620, h: 600, delay: 1250 },  // AI Scribe
-  { id: 7,  x:  640, y:  350, w: 290, h: 280, delay: 1500 },  // Coding
-  { id: 8,  x:  370, y:  350, w: 290, h: 280, delay: 1750 },  // Claims
-  { id: 9,  x:  140, y:  350, w: 320, h: 600, delay: 2000 },  // Denial
-  { id: 10, x:  140, y:  620, w: 320, h: 600, delay: 2250 },  // Appeal
-  { id: 11, x:  370, y:  700, w: 290, h: 540, delay: 2500 },  // Follow Up
-  { id: 12, x:  640, y:  700, w: 290, h: 540, delay: 2750 },  // Collections
-  { id: 13, x:  880, y:  700, w: 620, h: 560, delay: 3000 },  // Support
+  { id: 2,  x:  140, y:  150, w: 240, h: 240, delay:  500 },  // AI head + circuit
+  { id: 3,  x:  370, y:   20, w: 290, h: 280, delay: 1000 },  // Scheduling
+  { id: 4,  x:  640, y:   20, w: 290, h: 280, delay: 1500 },  // Eligibility
+  { id: 5,  x:  880, y:   20, w: 620, h: 600, delay: 2000 },  // Patient intake
+  { id: 6,  x:  880, y:  340, w: 620, h: 600, delay: 2500 },  // AI Scribe
+  { id: 7,  x:  640, y:  350, w: 290, h: 280, delay: 3000 },  // Coding
+  { id: 8,  x:  370, y:  350, w: 290, h: 280, delay: 3500 },  // Claims
+  { id: 9,  x:  140, y:  350, w: 320, h: 600, delay: 4000 },  // Denial
+  { id: 10, x:  140, y:  620, w: 320, h: 600, delay: 4500 },  // Appeal
+  { id: 11, x:  370, y:  700, w: 290, h: 540, delay: 5000 },  // Follow Up
+  { id: 12, x:  640, y:  700, w: 290, h: 540, delay: 5500 },  // Collections
+  { id: 13, x:  880, y:  700, w: 620, h: 560, delay: 6000 },  // Support
 ] as const
+
+/** Duration of each piece's individual fade-in. Paired with the
+ * stagger above to produce a leisurely sequential reveal. */
+const PIECE_FADE_MS = 1000
+
+/** Duration of the composite's cross-fade-out at animation start.
+ * Set roughly equal to PIECE_FADE_MS so composite finishes fading
+ * before piece-2 begins (delay 500ms), and is gone well before
+ * piece-3 onwards. */
+const COMPOSITE_FADE_MS = 1000
 
 export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps) {
   // animationStarted: latched true on first isExpanded=true so the
@@ -130,6 +144,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
         {PIECES.map((p) => {
           const visible = reduceMotion || animationStarted
           const delayMs = reduceMotion ? 0 : p.delay
+          const durationMs = reduceMotion ? 0 : PIECE_FADE_MS
           return (
             <img
               key={p.id}
@@ -141,7 +156,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
                 height: 'auto',
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(24px)',
-                transition: `opacity 600ms ease-out ${delayMs}ms, transform 600ms ease-out ${delayMs}ms`,
+                transition: `opacity ${durationMs}ms ease-out ${delayMs}ms, transform ${durationMs}ms ease-out ${delayMs}ms`,
               }}
             />
           )
@@ -190,40 +205,34 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
             moment expansion completes so it doesn't overlap with
             the animating pieces.
 
-            Why cross-fade vs. keep visible?
-              The composite SVG and the piece SVGs were authored
-              independently (separate CorelDRAW files). Their text
-              labels sit at slightly different positions inside
-              their respective internal coordinate systems, so
-              showing both at once produces visible double-text on
-              every tile. Fading the composite out before pieces
-              are dominant avoids that doubling entirely.
-
-              The 600ms cross-fade window overlaps with piece-1
-              (delay 0) only. The cyan head in piece-1 sits in the
-              same top-left region as the composite's cyan head, so
-              the overlap-region's "double image" is the same icon
-              in two near-identical spots — visually fine. By the
-              time piece-2 begins (delay 250ms), composite is
-              already at ~58% opacity and dropping fast. */}
+            IMPORTANT: opacity MUST be set in `style`, not as the SVG
+            `opacity` attribute. CSS transitions only fire on CSS
+            property changes — setting opacity as an SVG attribute
+            causes the value to snap (no animation) and, depending
+            on browser, can leave the element stuck at its starting
+            value when paired with `style: transition`. Verified
+            this was the cause of the May 24 "composite still
+            visible behind pieces" bug. */}
         <image
           href="/images/workflow/workflow-composite.svg"
           x={0}
           y={0}
           width={1631}
           height={1268}
-          opacity={animationStarted && !reduceMotion ? 0 : 1}
           style={{
-            transition: 'opacity 600ms ease-out',
+            opacity: animationStarted ? 0 : 1,
+            transition: `opacity ${COMPOSITE_FADE_MS}ms ease-out`,
           }}
         />
 
         {/* Per-piece overlay images. Each piece <image> sits in the
             shared viewBox at its measured (x,y,w,h). Opacity 0 -> 1
-            with staggered delay drives the reveal. */}
+            with staggered delay drives the reveal. Same rule as
+            composite: opacity in style, not attribute. */}
         {PIECES.map((p) => {
           const visible = reduceMotion || animationStarted
           const delayMs = reduceMotion ? 0 : p.delay
+          const durationMs = reduceMotion ? 0 : PIECE_FADE_MS
           return (
             <image
               key={p.id}
@@ -232,9 +241,9 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
               y={p.y}
               width={p.w}
               height={p.h}
-              opacity={visible ? 1 : 0}
               style={{
-                transition: `opacity 600ms ease-out ${delayMs}ms`,
+                opacity: visible ? 1 : 0,
+                transition: `opacity ${durationMs}ms ease-out ${delayMs}ms`,
               }}
             />
           )
