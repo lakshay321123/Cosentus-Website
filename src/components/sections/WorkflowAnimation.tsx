@@ -63,16 +63,13 @@
  *   User direction: "load slowly, we are not in a race".
  *
  * RESPONSIVE
- *   The SVG viewBox is -180 -50 2080 1500 (padded version of the
- *   composite's natural 0 0 1631 1268). The -180 left padding and
- *   -50 top padding give breathing room around the Real People +
- *   AI head pieces (which previously touched the Scheduling tile
- *   per user feedback). The 1500 height vs 1268 native gives
- *   breathing room at the bottom so Collections/Support don't
- *   touch the frame edge. preserveAspectRatio="xMidYMid meet"
- *   handles fit-to-frame scaling. Same content on desktop and
- *   mobile — letters stay readable on smaller widths because the
- *   parent frame caps at 97vw / 92vh.
+ *   The SVG viewBox is -50 -40 1731 1378 — a padded version of the
+ *   composite's natural 0 0 1631 1268. Padding is 50 left/right
+ *   and 40 top / 70 bottom — enough to keep the workflow off the
+ *   frame's rounded edges and the cyan border. preserveAspectRatio
+ *   ="xMidYMid meet" handles fit-to-frame scaling. Same content on
+ *   desktop and mobile — letters stay readable on smaller widths
+ *   because the parent frame caps at 97vw / 92vh.
  *
  * REDUCED MOTION
  *   prefers-reduced-motion: all pieces snap to opacity 1
@@ -90,37 +87,49 @@ interface WorkflowAnimationProps {
 }
 
 /**
- * Each piece's position + natural size in composite coords. x,y for
- * pieces 3-13 derived from label-centroid matching against the
- * composite. Pieces 1 and 2 (Real People, AI head) had their x
- * shifted left of the composite's native positions per user
- * feedback "real people and artificial intelligence shifted towards
- * the left a little so it's not touching it [Scheduling]". The
- * negative-x values are accommodated by the viewBox left padding
- * (-180). Piece 1's y also adjusted from -15 to 20 so the cyan
- * head's top is no longer clipped at the viewBox edge.
+ * Each piece's position + natural size in composite coords. These
+ * are the EXACT positions the designer placed each piece in the
+ * composite SVG, derived via white-label template matching:
+ *
+ *   1. Render each piece at its natural composite-coord size.
+ *   2. Extract the piece's white-label pixel pattern (mask).
+ *   3. Slide that template across the composite's white-pixel
+ *      mask. Find the position with maximum Jaccard overlap.
+ *   4. Refine around the best position to single-pixel precision.
+ *
+ * This produces uniform inter-piece overlap (~49-53px between
+ * adjacent tile pieces) — what makes the workflow look like a
+ * single coherent shape rather than scattered tiles.
+ *
+ * Previous builds used arbitrary eyeballed positions (commits up
+ * to 16d0e30) or label-centroid matching (commit 3363bc8) which
+ * gave non-uniform gaps. User flagged this in screenshot
+ * 2026-05-24 8:51pm: "the distance between scheduling and
+ * eligibility in patient intake ... it is broad here, then it
+ * becomes narrow" / "the designer is absolutely correct ... you
+ * are not able to solve this problem." Template matching at
+ * pixel-pattern level (rather than centroid level) gives the
+ * exact positions the designer specified.
  *
  * w,h come from each piece SVG's mm dimensions converted to
- * composite-coord units (1mm = 10.888 composite-x = 10.888
- * composite-y, since the composite is 149.816mm x 116.45mm =
- * 1631.25 x 1267.95 viewBox units).
+ * composite-coord units (1mm = 10.888 composite-units).
  *
  * delay = ms after isExpanded flips true. 500ms stagger.
  */
 const PIECES = [
-  { id:  1, x:  -50, y:   20, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
-  { id:  2, x: -130, y:  178, w: 437, h: 170, delay:  500, label: 'AI head + circuit' },
-  { id:  3, x:  435, y:    6, w: 447, h: 353, delay: 1000, label: 'Scheduling' },
-  { id:  4, x:  856, y:    6, w: 424, h: 353, delay: 1500, label: 'Eligibility' },
-  { id:  5, x: 1249, y:  -18, w: 393, h: 454, delay: 2000, label: 'Patient intake' },
-  { id:  6, x: 1191, y:  408, w: 439, h: 405, delay: 2500, label: 'AI Scribe' },
-  { id:  7, x:  814, y:  460, w: 428, h: 355, delay: 3000, label: 'Coding' },
-  { id:  8, x:  448, y:  462, w: 415, h: 353, delay: 3500, label: 'Claims' },
-  { id:  9, x:  101, y:  461, w: 401, h: 438, delay: 4000, label: 'Denial' },
+  { id:  1, x:  117, y:    0, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
+  { id:  2, x:    0, y:  189, w: 436, h: 170, delay:  500, label: 'AI head + circuit' },
+  { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 1000, label: 'Scheduling' },
+  { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 1500, label: 'Eligibility' },
+  { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 2000, label: 'Patient intake' },
+  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 2500, label: 'AI Scribe' },
+  { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 3000, label: 'Coding' },
+  { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 3500, label: 'Claims' },
+  { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 4000, label: 'Denial' },
   { id: 10, x:   98, y:  849, w: 441, h: 418, delay: 4500, label: 'Appeal' },
-  { id: 11, x:  475, y:  915, w: 429, h: 354, delay: 5000, label: 'Follow Up' },
-  { id: 12, x:  871, y:  917, w: 427, h: 353, delay: 5500, label: 'Collections' },
-  { id: 13, x: 1260, y:  916, w: 378, h: 353, delay: 6000, label: 'Support' },
+  { id: 11, x:  489, y:  914, w: 429, h: 354, delay: 5000, label: 'Follow Up' },
+  { id: 12, x:  869, y:  915, w: 427, h: 353, delay: 5500, label: 'Collections' },
+  { id: 13, x: 1247, y:  915, w: 378, h: 353, delay: 6000, label: 'Support' },
 ] as const
 
 /** Fade-in duration per piece. */
@@ -170,7 +179,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
       }}
     >
       <svg
-        viewBox="-180 -50 2080 1500"
+        viewBox="-50 -40 1731 1378"
         preserveAspectRatio="xMidYMid meet"
         xmlns="http://www.w3.org/2000/svg"
         style={{
