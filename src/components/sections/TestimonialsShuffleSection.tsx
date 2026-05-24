@@ -235,26 +235,51 @@ export default function TestimonialsShuffleSection({
       </div>
 
       <style>{`
-        /* Stack container — responsive offset so the fan reads centred
-           on desktop and stays inside the viewport on narrower screens. */
+        /* Stack container — responsive offset so the fan reads
+           centred on desktop and stays inside the viewport on
+           narrower screens.
+
+           Card dimensions on mobile changed May 2026 per user
+           feedback "testimonials cards not sensitive to mobile,
+           need to be more mobile sensitive":
+
+             Mobile  (<640px): 280px × 420px,  margin-left: -92px
+             Desktop (>=640px): 350px × 450px,  margin-left: -115px
+
+           The previous mobile pattern used transform: scale(0.88)
+           at <=768px and scale(0.72) at <=480px on this container.
+           That scaled the cards' interior text down with them —
+           the 20px quote effectively became 14.4px on phones and
+           the 14px role became ~10px, well below readability.
+
+           New approach: smaller natural card dimensions on mobile
+           (set via Tailwind h-[420px] w-[280px] on TestimonialCard)
+           with no scale() shrinking, so font sizes stay at their
+           original values (20px quote, 17px author, etc) and the
+           card just fits the viewport at full text legibility.
+
+           Negative margin-left math: cards translate right by
+           xPercent of width (0% front -> 66% back), so the visual
+           center of the fan sits ~33% right of the front card's
+           left edge. To center it, push the stack left by 33% of
+           card width.
+             desktop: 350 * 0.33 = 115.5  ->  -115px
+             mobile:  280 * 0.33 = 92.4   ->  -92px
+
+           Section parent has overflow: hidden so back cards that
+           extend beyond the stack right edge clip cleanly without
+           horizontal page scroll. */
         .tcard-stack {
           position: relative;
-          width: 350px;
-          height: 450px;
-          margin-left: -115px;
+          width: 280px;
+          height: 420px;
+          margin-left: -92px;
         }
-        @media (max-width: 768px) {
+        @media (min-width: 640px) {
           .tcard-stack {
-            margin-left: -80px;
-            transform: scale(0.88);
-            transform-origin: center center;
-          }
-        }
-        @media (max-width: 480px) {
-          .tcard-stack {
-            margin-left: -50px;
-            transform: scale(0.72);
-            transform-origin: center center;
+            width: 350px;
+            height: 450px;
+            margin-left: -115px;
           }
         }
 
