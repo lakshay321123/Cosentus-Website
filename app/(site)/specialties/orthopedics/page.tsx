@@ -41,7 +41,7 @@ export default function OrthopedicsPage() {
     <main>
       <PageHero videoSrc="/videos/specialty-orthopedics.mp4" specialty
         label="ORTHOPEDICS BY COSENTUS, PURPOSE BUILT"
-        title="Orthopedic Billing. Surgeon-Grade Precision."
+        title={<>Orthopedic Billing.<br />Surgeon-Grade Precision.</>}
         subtitle="Joint replacements, arthroscopy, spinal surgery, and implant cases demand accuracy at every billing step. We deliver it."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

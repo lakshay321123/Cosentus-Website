@@ -43,7 +43,7 @@ export default function MultiSpecialtyPage() {
     <main>
       <PageHero videoSrc="/videos/specialty-multi-specialty.mp4" specialty
         label="MULTI-SPECIALTY BY COSENTUS"
-        title="Multi-Specialty. One Team. Every Department."
+        title={<>Multi-Specialty.<br />One Team. Every Department.</>}
         subtitle="Different codes, different payers, different rules across every department. You need a partner that can manage all of them without dropping the ball."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

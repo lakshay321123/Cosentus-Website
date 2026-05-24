@@ -41,7 +41,7 @@ export default function PainManagementPage() {
     <main>
       <PageHero videoSrc="/videos/specialty-pain-management.mp4" specialty
         label="PAIN MANAGEMENT BY COSENTUS, PURPOSE BUILT"
-        title="Pain Management. Every Procedure. Every Dollar."
+        title={<>Pain Management.<br />Every Procedure. Every Dollar.</>}
         subtitle="Injections, SCS, ablations, and medication management. Coded right, authorized ahead of time, and defended when payers push back."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

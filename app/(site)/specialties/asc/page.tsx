@@ -41,7 +41,7 @@ export default function ASCPage() {
     <main>
       <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
-        title="ASC Billing. Built for Speed and Volume."
+        title={<>ASC Billing.<br />Built for Speed and Volume.</>}
         subtitle="Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
