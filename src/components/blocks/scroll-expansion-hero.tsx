@@ -126,15 +126,40 @@ const ScrollExpandMedia = ({
   // first forward scroll/touch/key input. Stored on a ref so the
   // cleanup effect can cancel it on unmount.
   const autoExpandRafRef = useRef<number | null>(null);
+  // Latches true the moment startAutoExpand begins. Distinct from
+  // expandedRef (which only flips true when the FULL animation —
+  // frame growth AND the child's workflow reveal — has completed,
+  // at which point scroll is released). animationStartedRef lets
+  // the wheel/touch/key handlers know "auto-expand already in
+  // progress, do nothing more, just consume the event".
+  const animationStartedRef = useRef<boolean>(false);
+  // Timeout id for the scroll-lock release. Cleared on unmount or
+  // when the user skips via Escape / click on the section
+  // backdrop.
+  const lockReleaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Lock budget = frame growth + workflow reveal animation.
+  //   Frame growth (this component, rAF):      800ms
+  //   Workflow reveal (WorkflowAnimation):    11500ms
+  //     (piece 1 fade 0-2000, piece 2 fade 1000-3000, then
+  //      pieces 3-13 staggered every 750ms with 1500ms fades
+  //      through piece 13 finishing at 10000+1500 = 11500ms)
+  //   Buffer for React render latency:        200ms
+  //   --------------------------------------------------
+  //   Total scroll lock:                      12500ms
+  const SCROLL_LOCK_MS = 12500;
 
   /**
    * Drive scrollProgress from its current value to 1.0 over 800ms
-   * with an ease-out cubic curve. Called when the user makes ANY
-   * forward scroll/touch/key input in the section (rather than
-   * incrementing progress by the input's delta). This way the
-   * visual reaches full size on the first scroll input — user
-   * doesn't have to scroll a long distance to see the full
-   * animation.
+   * with an ease-out cubic curve, then HOLD the scroll lock for
+   * the duration of the child's workflow reveal animation.
+   *
+   * Called when the user makes ANY forward scroll/touch/key input
+   * in the section. Once started, subsequent inputs are consumed
+   * (via preventDefault in the handlers) but do not advance or
+   * restart anything — the frame stays pinned and the animation
+   * plays through. After SCROLL_LOCK_MS, expandedRef flips true
+   * and native scroll is released.
    *
    * Why rAF instead of CSS transition:
    *   The component has SEVERAL progress-derived values (frame
@@ -144,21 +169,25 @@ const ScrollExpandMedia = ({
    *   together coherently — no per-property transitions needed
    *   and no risk of one property leading or trailing another.
    *
-   * Side effects:
-   *   - Sets expandedRef.current = true immediately so subsequent
-   *     wheel/touch/key handlers bypass and let native scroll
-   *     through (user can scroll past freely while the animation
-   *     completes).
-   *   - The child's isExpanded prop (computed from progress >=
-   *     0.995) flips true near the end of the rAF animation,
-   *     triggering the WorkflowAnimation piece-by-piece reveal.
+   * Why hold the lock through the full reveal:
+   *   User direction 2026-05-24: "the frame should remain the
+   *   entire frame ... only once the video is finished should
+   *   the person be able to go down". Previously the lock was
+   *   released as soon as the rAF finished, which let the user
+   *   scroll the frame away mid-animation. Now it stays pinned
+   *   for the full ~12.5s while the workflow plays.
+   *
+   * Skip valve: Escape key or click on the section backdrop calls
+   * releaseLockEarly() to free the scroll immediately. This is the
+   * accessibility escape hatch for keyboard users / power users
+   * who don't want to wait through the full animation.
    */
   const startAutoExpand = (): void => {
-    if (expandedRef.current) return;
-    expandedRef.current = true;
+    if (animationStartedRef.current) return;
+    animationStartedRef.current = true;
     const fromProgress = progressRef.current;
     const targetProgress = 1;
-    const duration = 800; // ms
+    const duration = 800; // ms — frame-growth portion only
     const startTime = performance.now();
     const step = (now: number): void => {
       const elapsed = now - startTime;
@@ -175,6 +204,29 @@ const ScrollExpandMedia = ({
       }
     };
     autoExpandRafRef.current = requestAnimationFrame(step);
+
+    // Hold the scroll lock until the child's reveal animation
+    // completes too.
+    lockReleaseTimeoutRef.current = setTimeout(() => {
+      expandedRef.current = true;
+      lockReleaseTimeoutRef.current = null;
+    }, SCROLL_LOCK_MS);
+  };
+
+  /**
+   * Release the scroll lock immediately, skipping the remainder
+   * of the workflow animation. Triggered by Escape key or click
+   * on the section backdrop. No-op if not started or already
+   * released.
+   */
+  const releaseLockEarly = (): void => {
+    if (!animationStartedRef.current) return;
+    if (expandedRef.current) return;
+    expandedRef.current = true;
+    if (lockReleaseTimeoutRef.current !== null) {
+      clearTimeout(lockReleaseTimeoutRef.current);
+      lockReleaseTimeoutRef.current = null;
+    }
   };
 
   // Is the section's top at or above viewport top, AND its bottom
@@ -200,12 +252,15 @@ const ScrollExpandMedia = ({
       if (e.deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      // Any forward wheel input snaps progress to 1 via the auto-
-      // expand animation (rAF, 800ms ease-out). Previously progress
-      // was incremented per-event — user had to scroll the full
-      // distance to see the visual. User feedback 2026-05-24: "as
-      // soon as a person starts scrolling, the visual should
-      // automatically reach the full size."
+      // First forward wheel triggers the auto-expand + scroll lock.
+      // Subsequent wheels during the lock no-op (startAutoExpand's
+      // internal guard handles re-entry) but are still consumed by
+      // the preventDefault above, so the page stays pinned. The
+      // lock releases after SCROLL_LOCK_MS (12.5s) — by then both
+      // the frame growth and the workflow reveal have completed.
+      // User direction 2026-05-24: "the frame should remain the
+      // entire frame ... only once the video is finished should the
+      // person be able to go down."
       startAutoExpand();
     };
 
@@ -275,6 +330,20 @@ const ScrollExpandMedia = ({
         ) {
           return;
         }
+      }
+
+      // Escape key: accessibility / power-user skip. If the
+      // animation has started but the lock is still holding scroll,
+      // release immediately. Documented behavior — Escape always
+      // means "I want out". On mobile there's no Escape; mobile
+      // users wait through the ~12s reveal (a separate skip UI
+      // would be needed for touch-only users; not added yet).
+      if (e.key === 'Escape') {
+        if (animationStartedRef.current && !expandedRef.current) {
+          e.preventDefault();
+          releaseLockEarly();
+        }
+        return;
       }
 
       // Classify the key as forward (advances toward expansion),
@@ -416,6 +485,14 @@ const ScrollExpandMedia = ({
       if (autoExpandRafRef.current !== null) {
         cancelAnimationFrame(autoExpandRafRef.current);
         autoExpandRafRef.current = null;
+      }
+      // Clear the scroll-lock release timeout. Without this, an
+      // unmount in the middle of the ~12.5s lock window would let
+      // the timeout fire later and try to set expandedRef.current
+      // on a dead ref — harmless but noisy in dev.
+      if (lockReleaseTimeoutRef.current !== null) {
+        clearTimeout(lockReleaseTimeoutRef.current);
+        lockReleaseTimeoutRef.current = null;
       }
     };
     // Empty deps — handlers read state via refs.
