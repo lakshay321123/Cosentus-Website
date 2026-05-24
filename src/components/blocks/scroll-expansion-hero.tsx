@@ -61,10 +61,26 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
-  mediaType?: 'video' | 'image';
-  mediaSrc: string;
+  /**
+   * 'video'  — plays a looping <video>. Existing default path.
+   * 'image'  — renders a single Next.js <Image>.
+   * 'custom' — renders the customMedia ReactNode (or render-prop)
+   *            inside the expanding frame. Used by the homepage
+   *            workflow animation so the SVG composite can be the
+   *            small-state preview AND the expanded animation
+   *            trigger lives inside the same frame.
+   */
+  mediaType?: 'video' | 'image' | 'custom';
+  mediaSrc?: string;
   posterSrc?: string;
   sideText: ReactNode;
+  /**
+   * Only used when mediaType === 'custom'. Either a ReactNode or a
+   * render-prop that receives the live expansion state. The
+   * render-prop form lets the child trigger its own animation when
+   * `isExpanded` flips true (progress hits 1).
+   */
+  customMedia?: ReactNode | ((args: { isExpanded: boolean; progress: number }) => ReactNode);
 }
 
 const ScrollExpandMedia = ({
@@ -72,6 +88,7 @@ const ScrollExpandMedia = ({
   mediaSrc,
   posterSrc,
   sideText,
+  customMedia,
 }: ScrollExpandMediaProps) => {
   // scrollProgress drives all the inline-style math. Needs to be
   // state so render updates the inline transforms/sizes.
@@ -486,7 +503,7 @@ const ScrollExpandMedia = ({
                 display: 'block',
               }}
             >
-              <source src={mediaSrc} type='video/mp4' />
+              {mediaSrc && <source src={mediaSrc} type='video/mp4' />}
             </video>
             {/* Dark overlay, lighter than the 21st.dev original so
                 the small video frame is actually visible against the
@@ -497,19 +514,38 @@ const ScrollExpandMedia = ({
               style={{ opacity: 0.35 - easedProgress * 0.25 }}
             />
           </>
-        ) : (
+        ) : mediaType === 'image' ? (
           <>
-            <Image
-              src={mediaSrc}
-              alt='Media'
-              width={1280}
-              height={720}
-              className='scroll-expand-media-video'
-            />
+            {mediaSrc && (
+              <Image
+                src={mediaSrc}
+                alt='Media'
+                width={1280}
+                height={720}
+                className='scroll-expand-media-video'
+              />
+            )}
             <div
               className='scroll-expand-media-overlay'
               style={{ opacity: 0.4 - easedProgress * 0.3 }}
             />
+          </>
+        ) : (
+          // mediaType === 'custom'
+          // The child component fills the frame. We pass progress and
+          // an isExpanded flag (progress >= 0.995) so the child can
+          // start any one-time animation when the frame finishes
+          // growing. The 0.995 threshold leaves a tiny margin so the
+          // animation fires reliably at the visual end of expansion,
+          // not exactly at 1.0 (which can be a transient state).
+          //
+          // No overlay div for custom mode — the WorkflowAnimation
+          // child paints its own white background so dark overlay
+          // would muddy the SVGs.
+          <>
+            {typeof customMedia === 'function'
+              ? customMedia({ isExpanded: scrollProgress >= 0.995, progress: scrollProgress })
+              : customMedia}
           </>
         )}
       </div>
