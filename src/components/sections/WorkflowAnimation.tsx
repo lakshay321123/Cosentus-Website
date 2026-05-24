@@ -63,10 +63,16 @@
  *   User direction: "load slowly, we are not in a race".
  *
  * RESPONSIVE
- *   The SVG viewBox 0 0 1631 1268 scales to fit the parent via
- *   preserveAspectRatio="xMidYMid meet". Same content on desktop
- *   and mobile — letters stay readable on smaller widths because
- *   the parent frame caps at 95vw/85vh.
+ *   The SVG viewBox is -180 -50 2080 1500 (padded version of the
+ *   composite's natural 0 0 1631 1268). The -180 left padding and
+ *   -50 top padding give breathing room around the Real People +
+ *   AI head pieces (which previously touched the Scheduling tile
+ *   per user feedback). The 1500 height vs 1268 native gives
+ *   breathing room at the bottom so Collections/Support don't
+ *   touch the frame edge. preserveAspectRatio="xMidYMid meet"
+ *   handles fit-to-frame scaling. Same content on desktop and
+ *   mobile — letters stay readable on smaller widths because the
+ *   parent frame caps at 97vw / 92vh.
  *
  * REDUCED MOTION
  *   prefers-reduced-motion: all pieces snap to opacity 1
@@ -84,19 +90,26 @@ interface WorkflowAnimationProps {
 }
 
 /**
- * Each piece's position + natural size in composite coords (0..1631
- * x, 0..1268 y). x,y derived from label-centroid matching against
- * the composite. w,h from the piece SVG's mm dimensions converted
- * to composite-coord units.
+ * Each piece's position + natural size in composite coords. x,y for
+ * pieces 3-13 derived from label-centroid matching against the
+ * composite. Pieces 1 and 2 (Real People, AI head) had their x
+ * shifted left of the composite's native positions per user
+ * feedback "real people and artificial intelligence shifted towards
+ * the left a little so it's not touching it [Scheduling]". The
+ * negative-x values are accommodated by the viewBox left padding
+ * (-180). Piece 1's y also adjusted from -15 to 20 so the cyan
+ * head's top is no longer clipped at the viewBox edge.
  *
- * Pieces with slightly negative y (1, 5) have their top sliver
- * clipped at the viewBox edge — visible content is unaffected.
+ * w,h come from each piece SVG's mm dimensions converted to
+ * composite-coord units (1mm = 10.888 composite-x = 10.888
+ * composite-y, since the composite is 149.816mm x 116.45mm =
+ * 1631.25 x 1267.95 viewBox units).
  *
  * delay = ms after isExpanded flips true. 500ms stagger.
  */
 const PIECES = [
-  { id:  1, x:  126, y:  -15, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
-  { id:  2, x:   19, y:  178, w: 437, h: 170, delay:  500, label: 'AI head + circuit' },
+  { id:  1, x:  -50, y:   20, w: 320, h: 206, delay:    0, label: 'Real People + cyan head' },
+  { id:  2, x: -130, y:  178, w: 437, h: 170, delay:  500, label: 'AI head + circuit' },
   { id:  3, x:  435, y:    6, w: 447, h: 353, delay: 1000, label: 'Scheduling' },
   { id:  4, x:  856, y:    6, w: 424, h: 353, delay: 1500, label: 'Eligibility' },
   { id:  5, x: 1249, y:  -18, w: 393, h: 454, delay: 2000, label: 'Patient intake' },
@@ -157,7 +170,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
       }}
     >
       <svg
-        viewBox="0 0 1631 1268"
+        viewBox="-180 -50 2080 1500"
         preserveAspectRatio="xMidYMid meet"
         xmlns="http://www.w3.org/2000/svg"
         style={{

@@ -607,18 +607,25 @@ const ScrollExpandMedia = ({
         /* Media frame — centered with translate. inline width/height
            override the placeholder values.
 
-           Max-width/height bumped from 90vw/65vh -> 95vw/85vh in
-           May 2026 to give the workflow animation more room. Aspect
-           ratio of the workflow content is ~1.29:1, and the inline
-           growth (700px -> 1700px wide, 500px -> 1000px tall) hits
-           the viewport caps on smaller screens but scales properly
-           on larger displays. */
+           Max-width/height bumped twice in May 2026 to give the
+           workflow animation more room:
+             - Initial:  90vw / 65vh
+             - 1st bump: 95vw / 85vh
+             - 2nd bump: 97vw / 92vh  (per user feedback "increase
+                         the size of this window" + "it's touching
+                         at the bottom also")
+
+           Aspect ratio of the workflow content is ~1.39:1 (viewBox
+           -180 -50 2080 1500 → 2080/1500). The inline growth
+           (700px -> 1700px wide, 500px -> 1000px tall) hits the
+           viewport caps on smaller screens but scales properly on
+           larger displays. */
         .scroll-expand-media-frame {
           position: absolute;
           top: 50%;
           left: 50%;
-          max-width: 95vw;
-          max-height: 85vh;
+          max-width: 97vw;
+          max-height: 92vh;
           border-radius: 16px;
           overflow: hidden;
           /* Teal border + glow so the small frame is visible against
