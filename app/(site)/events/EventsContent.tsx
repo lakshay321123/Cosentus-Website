@@ -96,15 +96,11 @@ export default function EventsContent() {
       .evt-lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer}
       @keyframes evtFadeIn{from{opacity:0}to{opacity:1}}
       @keyframes evtScaleIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
-      .evt-stats{display:flex;justify-content:center;gap:48px;padding:40px 24px;flex-wrap:wrap}
-      .evt-stat-num{font-family:var(--font-display);font-size:clamp(32px,5vw,48px);font-weight:400;color:var(--primary);line-height:1;letter-spacing:-0.02em}
-      .evt-stat-label{font-family:var(--font-display);font-size:12px;color:var(--gray-500);margin-top:8px;text-transform:uppercase;letter-spacing:0.1em;font-weight:400}
       @media(max-width:768px){
         .evt-row{grid-template-columns:1fr;min-height:auto}
         .evt-row.active{min-height:auto}
         .evt-row .evt-img-panel{min-height:240px}
         .evt-row .evt-img-panel.order-first{order:-1}
-        .evt-stats{gap:24px}
       }
     `}</style>
 
@@ -114,17 +110,6 @@ export default function EventsContent() {
         <img src={lightboxSrc} alt="Event photo" onClick={e => e.stopPropagation()} />
       </div>
     )}
-
-    <section style={{ background: 'white' }}>
-      <div className="container">
-        <div className="evt-stats">
-          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.length}</div><div className="evt-stat-label">Events & Counting</div></div>
-          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{(() => { const y = eventsData.map(e => parseInt(e.sortDate.slice(0, 4))); return Math.max(...y) - Math.min(...y) + 1 })()}+</div><div className="evt-stat-label">Years Active</div></div>
-          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">{eventsData.filter(e => e.tag === 'Conference').length}</div><div className="evt-stat-label">Conferences</div></div>
-          <div style={{ textAlign: 'center' }}><div className="evt-stat-num">5</div><div className="evt-stat-label">Countries</div></div>
-        </div>
-      </div>
-    </section>
 
     <section className="section" style={{ paddingTop: 0 }}>
       <div className="evt-timeline">

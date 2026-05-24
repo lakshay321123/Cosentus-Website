@@ -9,7 +9,7 @@ const footerNav = [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
-      { label: 'WeCare', href: '/wecare' },
+      { label: 'Cosentus Cares', href: '/cosentus-cares' },
       { label: 'Careers', href: '/careers' },
     ],
   },

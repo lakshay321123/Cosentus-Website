@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const gallery = getGalleryBySlug(slug)
   if (!gallery) return { title: 'Gallery Not Found | Cosentus' }
   return {
-    title: `${gallery.title} | WeCare | Cosentus`,
-    description: `Photos from ${gallery.title} — part of Cosentus's WeCare community initiatives.`,
+    title: `${gallery.title} | Cosentus Cares | Cosentus`,
+    description: `Photos from ${gallery.title} — part of our Cosentus Cares community initiatives.`,
   }
 }
 
@@ -61,7 +61,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
               marginBottom: 32,
             }}>
               <Link
-                href="/wecare"
+                href="/cosentus-cares"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -77,7 +77,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
-                Back to WeCare
+                Back to Cosentus Cares
               </Link>
 
               <div style={{
@@ -108,7 +108,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
               gap: 16,
             }}>
               {prev ? (
-                <Link href={`/wecare/${prev.slug}`} className="gallery-prevnext-link" style={{
+                <Link href={`/cosentus-cares/${prev.slug}`} className="gallery-prevnext-link" style={{
                   display: 'flex',
                   flexDirection: 'column' as const,
                   padding: '16px 20px',
@@ -123,7 +123,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
                 </Link>
               ) : <span />}
               {next ? (
-                <Link href={`/wecare/${next.slug}`} className="gallery-prevnext-link" style={{
+                <Link href={`/cosentus-cares/${next.slug}`} className="gallery-prevnext-link" style={{
                   display: 'flex',
                   flexDirection: 'column' as const,
                   padding: '16px 20px',
