@@ -55,7 +55,7 @@ const leadership = [
   { name: 'Manisha Bhalla', title: 'Chief People Officer', photo: '/images/1Manisha.jpg', bio: 'The Bhalla\'s are a family of 7. GS, Manisha, 2 two-legged and 3 four-legged children. As the Executive Director of Cosentus, she loves the entire team and looks forward to seeing everyone every day, and we all look forward to her around-the-office morning greetings and warm, balancing presence! (She\'s also GS\'s boss!!) With Cosentus since Day One, she loves giving back to the community, family, and friends without any expectation of a return. In her free time, she loves to read, watch Downton Abbey (her latest obsession!) and take long walks/hikes. Her favorite shows include Bones, Friends, Schitts Creek, and Downton Abbey, of course!' },
   { name: 'Viktor Alvarado', title: 'Chief Financial Officer', photo: '/images/Viktor-Alvarado.jpg', bio: 'Joined Cosentus in October 2024. Over 25 years of experience in Corporate Finance and Controlling, with expertise in structuring the Finance function to enable high growth. Started his journey in different financial roles at Dana Corporation, moving in 2001 to Brenntag, the Global Chemical distribution leader. At Brenntag he held positions of increasing responsibility from Finance Director (CFO) Mexico culminating with Vice President of Controlling (FP&A), Global Material Science. In these positions he was instrumental on executing growth plans that included redesigning country logistic footprints to M&A projects. Viktor holds an Accounting degree and MBA\'s from both Mexico and Spain. He\'s married to his wife of 15 years Gaby and together they have Viktor, who is twelve years old and eight-year-old Valeria. They enjoy traveling to get to know new places and cultures together.' },
   { name: 'Stephen Williamson', title: 'Chief Growth Officer', photo: '/images/Stephen Williamson.jpg', bio: 'Stephen Williamson has spent over 30 years building relationships in healthcare, the kind that actually last. As Chief Growth Officer, he leads with radical candor and full transparency and brings the same directness to the teams he builds and mentors across Sales and Marketing. Ask anyone who\'s worked with him, and they\'ll tell you: Stephen shows up for his partners the same way he shows up in the rest of his life, fully. He\'s a former skydiving business owner, a certified gemologist, a licensed pilot, and a scuba diver. Play a round of golf with him or ask his sons about their hunting trips, and you\'ll quickly realize the running game in his circle is \'what hasn\'t Stephen done?\' At home, he and his wife Karen make the most of every chance to travel. At work, he\'s focused on growing something worth being proud of.' },
-  { name: 'Allen Ranjan', title: 'Chief Revenue Officer', photo: '/images/ALLEN RANJAN.jpg', bio: 'Allen has spent years absorbing any and all information he can in all aspects of revenue cycle management. We have coined him \'The Encyclopedia\'. Allen is not only a whiz at the operation and relational portion of our business, as our Chief Revenue Officer he has also mastered business development and analytics to become the full package. Allen has been with Cosentus since our company was founded, and is truly devoted to what he does and the clients and employees that he serves. With his wife Pragya, Allen has a beautiful little girl named Aaradhya who is seven that likes to peek in on her dad and provide him smiles while he works, and he somehow always has time for a chat, a smile, and a joke.' },
+  { name: 'Allen Ranjan', title: 'Chief Client Officer', photo: '/images/ALLEN RANJAN.jpg', bio: 'Allen has spent years absorbing any and all information he can in all aspects of revenue cycle management. We have coined him \'The Encyclopedia\'. Allen is not only a whiz at the operation and relational portion of our business, as our Chief Client Officer he has also mastered business development and analytics to become the full package. Allen has been with Cosentus since our company was founded, and is truly devoted to what he does and the clients and employees that he serves. With his wife Pragya, Allen has a beautiful little girl named Aaradhya who is seven that likes to peek in on her dad and provide him smiles while he works, and he somehow always has time for a chat, a smile, and a joke.' },
   { name: 'Wayne Wertz', title: 'Sr. Director of HR & Corporate Operations', photo: '/images/Wayne.jpg', bio: 'Wayne lives in sunny, southern Orange County, CA with his wife, three children and numerous four-legged, fur babies. A proud graduate of the Pennsylvania State University (WE ARE!), he has over 25 years in the medical services industry in the areas of HR, operations, and facilities management. His passions include golf, billiards, playing music and traveling.' },
   { name: 'David Langsam', title: 'Board Advisor', photo: '/images/david-langsam.jpg', bio: 'David is an Executive Advisor with Cosentus and a growth-oriented CEO with extensive experience leading PE-backed, tech-enabled healthcare services companies. He has driven strategic direction, executed growth and acquisition strategies, improved financial performance, and worked closely with large enterprise clients. His background includes sourcing and integrating acquisitions, building scalable go-to-market strategies, and leading the development of proprietary technologies that improve automation and workforce productivity. David has also secured debt and equity capital to support expansion and established global operating centers outside the U.S. In addition to his operating leadership, David serves or has served on several professional, nonprofit, and community boards, including EvAl Home Care Solutions (Executive Chairman), MB Global Partners, First Children\'s Services, Water Street Healthcare Partners, and the Glencoe Educational Foundation.' },
   { name: 'Ashwin Pajpal', title: 'Global Brand Director', photo: '/images/Ashwin.jpg', bio: 'Ashwin is the creative voice guiding everything that we do. With an Art and English Honors Degree, Ashwin found his calling in advertising. He graduated from College of Art, New Delhi, India and has since worked for some of the world\'s top network agencies in India, South-Asia and the Middle East and became Youngest Creative Director in India. Over the past two decades he has had the privilege to work with prominent worldwide brands like: Hyundai Motors, Hero Motors, Nestle Asia, Glaxo Smith Klein (Belgium), Osteoporosis Foundation New York, World Health Organization, and many other prestigious companies. When not at work, Ashwin enjoys walking on the beach, and going cycling. He loves new art installations, and enjoying the best coffee in the world in Dubai where he calls home.' },
@@ -320,44 +320,49 @@ export default function AboutContent() {
           stack vertically on narrow viewports. */}
       <section className="section" style={{ paddingBottom: 32 }}>
         <div className="container">
+          {/* Section heading — per Doc 1 (May 24 2026), the 3-card
+              block below should be introduced as "Why Practices
+              Choose Us. And Stay." rendered as a proper section
+              title, not as an intro paragraph. Uses .section-title
+              class for typography consistency with the rest of the
+              site. The old "We're a 360° service solutions
+              provider…" intro line was removed per the doc; the
+              cards do the work of explaining the offering. */}
           <RevealOnScroll>
-            <p className="about-360-intro">
-              We&rsquo;re a 360° service solutions provider that started as a revenue cycle management company. How did we get here?
-            </p>
+            <div className="section-title" style={{ textAlign: 'center' }}>
+              Why Practices Choose Us. And Stay.
+            </div>
           </RevealOnScroll>
-          <div className="about-360-grid">
+          <div className="about-360-grid" style={{ marginTop: 56 }}>
             <RevealOnScroll delay={0.2}>
               <div className="about-360-card about-360-card-grey">
                 <p>
                   Healthcare organizations don&rsquo;t need more reports. They need clarity, accountability, and a
                   partner that knows how to fix it. Cosentus is a revenue cycle management partner built for
-                  healthcare organizations that are tired of reacting to revenue problems after the damage is
-                  already done. We combine specialty-trained experts with AI-native technology to reduce denials,
-                  improve cash flow, and collect more of what you&rsquo;ve earned.
+                  organizations that are tired of reacting to revenue problems after the damage is already done.
                 </p>
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
-                  We manage the full revenue cycle from start to finish, including credentialing, eligibility and
-                  prior authorizations, coding, payment posting, rejection and denial management, root-cause
-                  analysis, appeals, patient billing, AR follow-up, and collections. Unlike traditional RCM vendors
-                  that hand over reports and expect you to become the crime scene investigator, Cosentus gives
-                  healthcare organizations full transparency, actionable insights, clear recommendations, and
-                  hands-on execution.
+                  We combine specialty-trained experts with AI-native technology to reduce denials, improve cash
+                  flow, and collect more of what you&rsquo;ve earned. We manage the full revenue cycle from start to
+                  finish, including credentialing, eligibility, prior authorizations, coding, payment posting,
+                  denial management, appeals, patient billing, AR follow-up, and collections.
                 </p>
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={1.6}>
               <div className="about-360-card about-360-card-primary">
                 <p>
-                  <strong>Real People + AI.</strong> Our AI works alongside human expertise at every step,
-                  understanding every claim, predicting every denial, and learning your payers, while our
-                  specialists handle the judgment calls that technology alone can&rsquo;t make. Built around each
-                  client&rsquo;s specialty, payer mix, workflows, and goals, Cosentus delivers a more intelligent,
-                  transparent, and accountable way to manage revenue. You focus on your patients. We handle the
-                  revenue cycle.
+                  Unlike vendors that hand over reports and expect you to become the crime scene investigator,
+                  Cosentus gives you full transparency, clear recommendations, and hands-on execution.{' '}
+                  <strong>Real People + AI.</strong> Our specialists handle the judgment calls that technology
+                  alone cannot make. They stay in your specialty. They know your payers. And behind them, Zeus
+                  runs 23 modules across every step of your revenue cycle. Built around each client&rsquo;s
+                  specialty, payer mix, workflows, and goals. You focus on your patients. We handle the revenue
+                  cycle.
                 </p>
               </div>
             </RevealOnScroll>

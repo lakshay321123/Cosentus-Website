@@ -13,8 +13,10 @@ export default function AboutPage() {
     <main>
       <PageHero
         label="ABOUT COSENTUS"
-        title="25 Years of Expert-Led Revenue Cycle Management"
-        subtitle="Full-service practice growth partner and global healthcare RCM company, powered by Real + Artificial Intelligence."
+        title={<>Think Growth.<br />We&rsquo;ll Handle the Revenue Cycle.</>}
+        subtitle="Specialty-focused. AI-native. Built to help you collect more of what you've earned."
+        ctaText="Let's Talk"
+        ctaHref="/contact"
       />
       <AboutContent />
       <CTASection />

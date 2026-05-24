@@ -25,9 +25,16 @@ const footerNav = [
     ],
   },
   {
-    title: 'RCM 360',
-    href: '/services/rcm',
-    links: [],
+    // Column 3 — "Services" header with sub-links per Doc 1
+    // (May 24 2026, item: "Header of the 3rd column should be
+    // Services and below that in the same row it should be RCM
+    // 360 and ZeusAi"). Prior layout had this column as a single
+    // RCM 360 link with no sub-items.
+    title: 'Services',
+    links: [
+      { label: 'RCM 360', href: '/services/rcm' },
+      { label: 'ZeusAi', href: '/cosentus-ai' },
+    ],
   },
   {
     title: 'Resources',
@@ -100,11 +107,7 @@ export default function Footer() {
 
           {footerNav.map((col) => (
             <div key={col.title} className="footer-col">
-              {col.href ? (
-                <h5><Link href={col.href}>{col.title}</Link></h5>
-              ) : (
-                <h5>{col.title}</h5>
-              )}
+              <h5>{col.title}</h5>
               {col.links.map((link) => (
                 <Link key={link.href} href={link.href}>
                   {link.label}
