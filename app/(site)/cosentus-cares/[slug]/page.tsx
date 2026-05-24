@@ -45,7 +45,7 @@ export default async function WeCareGalleryPage({ params }: Params) {
   return (
     <main>
       <PageHero
-        label="WECARE GALLERY"
+        label="COSENTUS CARES GALLERY"
         title={gallery.title}
       />
 
