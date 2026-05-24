@@ -58,18 +58,21 @@ export const AGENTS: VoiceAgentData[] = [
   {
     name: 'Elly', shortRole: 'Eligibility', role: 'Eligibility',
     img: 'elly.png',
+    popupImage: 'elly-popup.png',
     agentId: 'agent_f7e96fe43ce9bb611481839af8',  // Harper (closest pre-service)
     greeting: "Hi, I'm Elly, I verify eligibility and benefits before every appointment so coverage issues don't surface at the desk.",
   },
   {
     name: 'Paige', shortRole: 'Authorization', role: 'Authorization',
     img: 'paige.png',
+    popupImage: 'paige-popup.png',
     agentId: 'agent_a8f606995d3160a92be6874661',  // Olivia (closest unused)
     greeting: "Hey, I'm Paige, I track prior authorizations and close them out before they delay procedures or drop into timely-filing territory.",
   },
   {
     name: 'Priya', shortRole: 'Payments', role: 'Payments',
     img: 'priya.png',
+    popupImage: 'priya-popup.png',
     agentId: 'agent_4510e7416ee31ca808b8546ed7',  // Cindy (patient payment, reused)
     greeting: "Hi, I'm Priya, I reach patients three to seven days pre-procedure with verified estimates so collection rates stay 30-40% higher.",
   },
@@ -83,30 +86,35 @@ export const AGENTS: VoiceAgentData[] = [
   {
     name: 'Curtis', shortRole: 'Support', role: 'Support',
     img: 'curtis.png',
+    popupImage: 'curtis-popup.png',
     agentId: 'agent_443ead51c8a35f874d0ca1a8c1',  // Michael (Operations)
     greeting: "Hey, Curtis here, I cover after-hours and overflow so no patient call goes unanswered. What's on your mind?",
   },
   {
     name: 'Chris', shortRole: 'Claims', role: 'Claims',
     img: 'chris.png',
+    popupImage: 'chris-popup.png',
     agentId: 'agent_9571fe9261e3944f33777a1406',  // Chris (EXACT match)
     greeting: "Hey, Chris here, I specialize in billing workflows and claim follow-up. What do you need?",
   },
   {
     name: 'Cindy', shortRole: 'Collections', role: 'Collections',
     img: 'cindy.png',
+    popupImage: 'cindy-popup.png',
     agentId: 'agent_4510e7416ee31ca808b8546ed7',  // Cindy (EXACT match)
     greeting: "Hi, I'm Cindy, I focus on patient balance collections and AR follow-up in 50+ languages. Want to talk strategy?",
   },
   {
     name: 'Ariel', shortRole: 'AR', role: 'AR',
     img: 'ariel.png',
+    popupImage: 'ariel-popup.png',
     agentId: 'agent_1b7fe9e057f84254f4fcca9256',  // Sarah (closest unused)
     greeting: "Hi, I'm Ariel, I work AR aging, payer follow-up, and underpayment recovery so cash keeps moving.",
   },
   {
     name: 'Connie', shortRole: 'Coding', role: 'Coding',
     img: 'connie.png',
+    popupImage: 'connie-popup.png',
     agentId: 'agent_ff8707dccf16f96ecec4c448d3',  // Emily (Coding, EXACT role)
     greeting: "Hi, I'm Connie, I assist with medical coding accuracy, modifier selection, and CDI. How can I help?",
   },
