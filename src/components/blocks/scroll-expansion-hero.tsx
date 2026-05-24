@@ -229,14 +229,28 @@ const ScrollExpandMedia = ({
     }
   };
 
-  // Is the section's top at or above viewport top, AND its bottom
-  // still below viewport top? In that state the section is "owning
-  // the viewport" and the hijack engages.
+  // The site's main nav (Navbar.tsx) is position:fixed at top:0
+  // with padding ~16px and a 38px logo = ~70-80px total height.
+  // When the section locks at rect.top = 0 the fixed nav visually
+  // overlaps the section's upper portion. To leave the nav fully
+  // visible above the locked section, the lock targets rect.top =
+  // NAVBAR_OFFSET (~80px) instead of 0. Both the "owns viewport"
+  // predicate AND the handleScroll snap-back use this offset.
+  // User direction 2026-05-24: "the lock is slightly off because
+  // the header is sitting on top of it. It should be a little
+  // lower."
+  const NAVBAR_OFFSET = 80;
+
+  // Section is "owning the viewport" when its top has reached
+  // NAVBAR_OFFSET (i.e. the top edge is at or above where the
+  // fixed navbar ends) AND the bottom still extends past that
+  // point. In that state the hijack engages and the snap-back
+  // pins the section at rect.top = NAVBAR_OFFSET.
   const isSectionOwningViewport = (): boolean => {
     const el = sectionRef.current;
     if (!el) return false;
     const rect = el.getBoundingClientRect();
-    return rect.top <= 0 && rect.bottom > 0;
+    return rect.top <= NAVBAR_OFFSET && rect.bottom > NAVBAR_OFFSET;
   };
 
   useEffect(() => {
@@ -385,9 +399,10 @@ const ScrollExpandMedia = ({
       // true, the handler returned at the top. Nothing to do here.
     };
 
-    // Pin scroll position to section-top while hijack is active.
-    // Without this, momentum scroll (trackpad inertia) drifts past
-    // preventDefault'd wheel events.
+    // Pin scroll position so the section's TOP sits at viewport
+    // y = NAVBAR_OFFSET (just below the fixed navbar). Without this,
+    // momentum scroll (trackpad inertia) drifts past preventDefault'd
+    // wheel events.
     const handleScroll = (): void => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
@@ -402,8 +417,12 @@ const ScrollExpandMedia = ({
       if (!el) return;
       const sectionTopAbsolute =
         el.getBoundingClientRect().top + window.scrollY;
-      if (Math.abs(window.scrollY - sectionTopAbsolute) > 1) {
-        window.scrollTo(0, sectionTopAbsolute);
+      // Scroll target = section's absolute Y minus NAVBAR_OFFSET so
+      // the section's rect.top settles at NAVBAR_OFFSET (not 0),
+      // leaving the fixed navbar visible above.
+      const snapTargetScrollY = sectionTopAbsolute - NAVBAR_OFFSET;
+      if (Math.abs(window.scrollY - snapTargetScrollY) > 1) {
+        window.scrollTo(0, snapTargetScrollY);
       }
     };
 
