@@ -1,30 +1,37 @@
 'use client'
 
-import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
-import CTASection from '@/components/sections/CTASection'
-import PageHero from '@/components/sections/PageHero'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
-import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
 
-const services = [
-  { title: 'Therapy Session Coding', desc: 'Correct time thresholds and add-on codes for individual, group, and family therapy.', iconPath: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
-  { title: 'Psychiatric & Medication Management', desc: 'Capture both psychiatric and E/M components when clinically appropriate.', iconPath: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z' },
-  { title: 'IOP & PHP Billing', desc: 'Manage payer-specific bundling and per-diem vs per-service differences.', iconPath: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z' },
-  { title: 'Telehealth Billing', desc: 'Correct place-of-service and modifier use across payers.', iconPath: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' },
-  { title: 'Authorization Management', desc: 'Proactive tracking, submission, and follow-up on every authorization.', iconPath: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
-  { title: 'Crisis & Add-On Services', desc: 'Accurate capture of crisis interventions and prolonged services.', iconPath: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
-  { title: 'Patient Payment Collection', desc: 'Cindy handles patient balances empathetically in 50+ languages.', iconPath: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z' },
-  { title: 'Analytics & Reporting', desc: 'Dashboards showing revenue per provider, authorization status, and denial patterns.', iconPath: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
+// "What Sets Us Apart" cards per Specialty Pages doc (v1, May
+// 19 2026), section 5 "Behavioral Health". 3 cards verbatim
+// from doc.
+const advantages = [
+  {
+    // Focused-target — "behavioral health is all we do"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>,
+    t: 'Behavioral Health Is All Our Team Does',
+    d: 'Our team understands the difference between a 90837 and a 90834 and why it matters for your revenue. IOP vs PHP billing rules, telehealth modifiers that change by payer, crisis intervention codes. This is all they do.',
+  },
+  {
+    // Shield-with-checkmark — "prevent denials"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
+    t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
+    d: 'Every denied claim gets a root cause review. Authorization expirations, time-based coding errors, telehealth modifier mismatches. We identify the root cause and correct it so it doesn\u2019t happen again.',
+  },
+  {
+    // Trending-up arrow — "we grow with you"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941" /></svg>,
+    t: 'We Grow With You',
+    d: 'From a single-location therapy practice to a multi-site behavioral health organization. Our model scales. One of our clients grew from $2M to $16M revenue. We managed the billing the whole way.',
+  },
 ]
 
-const testimonials = [
-  { tag: 'Behavioral Health', quote: 'Cosentus has been an invaluable CalAIMS billing partner, proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.', name: 'Aubrie Mastrangelo', role: 'Division Director for Behavioral Health Services, Bill Wilson Center' },
-  { tag: 'Behavioral Health', quote: "Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. They're responsive to feedback and quick to implement RCM processes, automation, and reporting dashboards to streamline billing.", name: 'Sujan Vatturi', role: 'Chief Information Officer, Hope Services Counseling Center' },
-]
-
+// Leadership team per doc — 8 named people with photos already
+// on disk. Same structure as Anesthesia.
 const leaders = [
   { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
   { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '/images/Andrew-Clougherty.jpg' },
@@ -36,63 +43,198 @@ const leaders = [
   { name: 'Steven Sundrud', title: 'Division Manager, IT Division', photo: '/images/Steven-Symed.webp' },
 ]
 
-// Team is rendered via the shared TeamCircleGrid component (the same
-// visual pattern as the homepage voice agents and the About Us leadership
-// grid). No click-through bios on this page yet.
+// Testimonials.
+// Both testimonials carry the same speaker attributions as the
+// doc (Aubrie Mastrangelo + Sujan Vatturi). Quote wording uses
+// the existing live-site phrasing rather than the doc verbatim
+// because the doc has clear AI-paraphrase artifacts:
+//   - doc: "ahead of time solving problems" / "simplifying
+//     processes" -> live: "proactively solving problems" /
+//     "streamlining processes"
+//   - doc: "Cosentus make sures" / "put in place" / "simplify
+//     billing" -> live: "Cosentus ensures" / "implement" /
+//     "streamline billing"
+// The live wording reads as natural English and is more
+// publishable. Easy to flip to doc verbatim if explicitly
+// directed.
+const testimonials = [
+  {
+    tag: 'Behavioral Health',
+    quote: 'Cosentus has been an invaluable CalAIMS billing partner, proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.',
+    name: 'Aubrie Mastrangelo',
+    role: 'Division Director for Behavioral Health Services, Bill Wilson Center',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. They\u2019re responsive to feedback and quick to implement RCM processes, automation, and reporting dashboards to streamline billing.',
+    name: 'Sujan Vatturi',
+    role: 'Chief Information Officer, Hope Services Counseling Center',
+  },
+]
+
+// "RCM Solutions: Complete Behavioral Health Revenue Cycle" — 8
+// cards per Specialty Pages doc (v1, May 19 2026). Content
+// verbatim from doc.
+//
+// Note vs. Anesthesia/Orthopedics: like Pain Management and
+// ASC, the doc omits an "AR Follow-Up & Collections" Chris
+// card on Behavioral Health. Only Cindy appears (Card 7).
+//
+// Card 1 modifier labels are real outpatient mental health CPTs:
+//   90834 = 45-min individual psychotherapy
+//   90837 = 60-min individual psychotherapy
+//   90791 = psychiatric diagnostic evaluation
+//   90832 = 30-min individual psychotherapy
+//   90838 = 60-min individual + E/M add-on
+//   90847 = family psychotherapy with patient
+// (Doc Card 1 specifically calls out "90834 vs 90837" as the
+// distinction that trips up generic billers.)
+//
+// Card 2 uses 'meds' (capsule pills) — fits "Medication
+// Management" directly. Card 4 uses the bespoke 'telehealth'
+// animation (monitor + play triangle + pulsing live dot) —
+// earlier draft used 'badges' (3 floating ticks) which preview
+// feedback said didn't connect to telehealth. Card 6 uses
+// 'badges' (3 check circles) — the doc itself lists exactly
+// three categories on this card ("crisis interventions,
+// prolonged services, and behavioral health add-on codes"),
+// so 3 ticks reads as "all three captured". Earlier draft used
+// 'pulse' which preview feedback flagged as wrong-fit
+// (phone+rings reads as "call", not crisis code capture).
+const solutions: SpecialtySolution[] = [
+  {
+    eyebrow: 'TIME-BASED CODING',
+    title: 'Therapy Session Coding',
+    description: 'Correct time thresholds and add-on codes for individual, group, and family therapy. 90834 vs 90837 handled accurately every time.',
+    anim: 'modifiers',
+    modifierLabels: ['90834', '90837', '90791', '90832', '90838', '90847'],
+  },
+  {
+    eyebrow: 'MEDICATION MANAGEMENT',
+    title: 'Psychiatric & Medication Management',
+    description: 'Capture both psychiatric and E/M components when clinically appropriate. No missed revenue on dual-service visits.',
+    anim: 'meds',
+  },
+  {
+    eyebrow: 'PROGRAM RULES',
+    title: 'IOP & PHP Billing',
+    description: 'Manage payer-specific bundling and per-diem vs per-service differences. Each payer has its own rules. We track all of them.',
+    anim: 'rules',
+  },
+  {
+    eyebrow: 'TELEHEALTH COMPLIANCE',
+    title: 'Telehealth Billing',
+    description: 'Correct place-of-service codes and modifier usage across payers. Rules change often. Our team stays current.',
+    anim: 'telehealth',
+  },
+  {
+    eyebrow: 'AUTHORIZATIONS',
+    title: 'Authorization Management',
+    description: 'Tracking ahead of time, submission, and follow-up on every authorization. Expirations caught before they become write-offs.',
+    anim: 'stamp',
+  },
+  {
+    eyebrow: 'CRISIS INTERVENTION',
+    title: 'Crisis & Add-On Services',
+    description: 'Accurate capture of crisis interventions, prolonged services, and behavioral health add-on codes.',
+    anim: 'badges',
+  },
+  {
+    eyebrow: 'AI AGENT \u2014 CINDY',
+    title: 'Patient Billing & Support',
+    description: 'Cindy handles patient balances empathetically in over 50 languages. Behavioral health patients need clear, sensitive communication.',
+    anim: 'languages',
+    agent: { name: 'Cindy', img: 'cindy.png' },
+  },
+  {
+    eyebrow: 'REAL-TIME INSIGHTS',
+    title: 'Analytics & Reporting',
+    description: 'Dashboards showing revenue per provider, session type, authorization status, and denial patterns.',
+    anim: 'chart',
+  },
+]
 
 export default function BehavioralHealthContent() {
   return (
-    <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
-        label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
-        title="Behavioral Health Demand Is Surging. The Billing Complexity Is Surging With It."
-        subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our behavioral health specialists keep revenue aligned with care delivered."
-        ctaText="Free Behavioral Health Analysis"
-        ctaHref="/contact"
-      />
+    <>
+      {/* The Problem / Solution split panel — same inline shape
+          as the other specialty pages. Content per Specialty
+          Pages doc (v1) section 5 "Behavioral Health". */}
+      <section style={{ overflow: 'hidden' }}>
+        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
+          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
+            <RevealOnScroll direction="left" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
+                Complex Sessions. Constant Revenue Leaks.
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="left" delay={0.2}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Time-based CPTs with strict thresholds trip up generic billers who don\u2019t know the difference between a 90834 and a 90837',
+                  'Telehealth modifiers vary by payer and change frequently. Yesterday\u2019s correct code could be today\u2019s denial',
+                  'IOP/PHP bundling rules create constant underbilling risk when teams don\u2019t know per-diem vs per-service differences',
+                  'Authorization expirations silently kill revenue when tracking gaps occur across ongoing treatment plans',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </RevealOnScroll>
+          </div>
 
-      {/* Problem / Solution Split */}
-      <ProblemSolutionSection
-        problemTitle={<>Complex Sessions.<br />Constant Revenue Leaks.</>}
-        problemBullets={[
-          'Time-based CPTs with strict thresholds trip up generic billers',
-          'Telehealth modifiers vary by payer and change frequently',
-          'IOP/PHP bundling rules create constant underbilling risk',
-          'Authorization expirations silently kill revenue when tracking gaps occur',
-        ]}
-        solutionTitle="Behavioral Health Billing Experts + AI Tracking"
-        solutionBullets={[
-          'Correct time-based coding captured for every session',
-          'Every authorization expiration tracked and acted on',
-          'AI automates eligibility re-checks and auth tracking',
-          'Human experts defend denials with clinical rationale',
-          'Root-cause analysis on every denial to fix the pattern, not just the claim',
-          'Dedicated team covering IOP/PHP, telehealth, and crisis codes all day, with no specialty switching',
-        ]}
-      />
+          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
+            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+            <RevealOnScroll direction="right" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
+                Behavioral Health Billing Experts + AI Tracking
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.2}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Dedicated behavioral health team that handles time-based coding, telehealth modifiers, IOP/PHP rules, and crisis codes because that\u2019s all they do',
+                  'AI automates eligibility re-checks, authorization tracking, and follow-ups',
+                  'Human experts defend denials with clinical evidence and strategies built for each payer',
+                  'Every denial gets a root cause review to fix the pattern, not just the claim',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
 
-      {/* Services */}
-      <section className="section section-alt">
+
+      {/* What Sets Us Apart — 3 cards per Specialty Pages doc. */}
+      <section className="section">
         <div className="container">
-        <RevealOnScroll><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
-            {services.map((s, i) => (
-              <RevealOnScroll key={i}>
+          <RevealOnScroll><div className="section-title">What Sets Us Apart</div></RevealOnScroll>
+
+          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 48 }}>
+            {advantages.map((a, i) => (
+              <RevealOnScroll key={i} direction="scale" delay={0.15 + i * 0.1}>
                 <div className="advantage-card">
-                  <div className="advantage-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
-                  <h4>{s.title}</h4>
-                  <p>{s.desc}</p>
+                  <div className="advantage-icon">{a.icon}</div>
+                  <h4>{a.t}</h4>
+                  <p>{a.d}</p>
                 </div>
               </RevealOnScroll>
             ))}
           </div>
-          <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4500}>
-              {services.map((s, i) => (
+          <div className="advantages-mobile" style={{ marginTop: 32 }}>
+            <MobileCarousel autoScrollInterval={4000}>
+              {advantages.map((a, i) => (
                 <div key={i} className="advantage-card">
-                  <div className="advantage-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
-                  <h4>{s.title}</h4>
-                  <p>{s.desc}</p>
+                  <div className="advantage-icon">{a.icon}</div>
+                  <h4>{a.t}</h4>
+                  <p>{a.d}</p>
                 </div>
               ))}
             </MobileCarousel>
@@ -100,25 +242,46 @@ export default function BehavioralHealthContent() {
         </div>
       </section>
 
-      {/* Leadership */}
+
+      {/* RCM Solutions: Complete Behavioral Health Revenue Cycle.
+          Shared SpecialtyMarquee component. */}
+      <section className="section section-alt">
+        <div className="container">
+          <RevealOnScroll><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
+        </div>
+
+        <SpecialtyMarquee items={solutions} />
+      </section>
+
+
+      {/* Leadership.
+          150+ years combined experience, 8 named people per
+          doc. Same TeamCircleGrid pattern as Anesthesia (the
+          other specialty page with confirmed leadership). */}
       <section className="section" id="leadership">
         <div className="container">
-        <RevealOnScroll><div className="section-title">Behavioral Health Leadership</div></RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
-            <p className="section-desc">150+ years combined in behavioral health RCM</p>
+          <RevealOnScroll>
+            <div className="section-title">Behavioral Health Leadership</div>
           </RevealOnScroll>
-          <TeamCircleGrid people={leaders} />
+
+          <RevealOnScroll delay={0.2}>
+            <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
+              <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>150+</span>
+              <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years combined in behavioral health RCM</span>
+            </div>
+          </RevealOnScroll>
+
+          <TeamCircleGrid people={leaders} baseDelay={0.1} />
         </div>
       </section>
 
-      {/* Client Reviews — uses shared TestimonialsSection so design is identical site-wide */}
+
+      {/* Client Reviews — shared TestimonialsSection */}
       <TestimonialsSection
         testimonials={testimonials}
         label="CLIENT REVIEWS"
         title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
       />
-
-      <CTASection />
-    </main>
+    </>
   )
 }

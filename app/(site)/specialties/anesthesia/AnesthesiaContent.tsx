@@ -5,14 +5,32 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
 
+// "What Sets Us Apart" cards. Content per the Specialty Pages doc
+// (v1, May 19 2026) — section 1 "Anesthesia (Accreda)". Doc spec is
+// exactly 3 cards, replacing the previous 6 generic ones (Real+AI,
+// Boutique Support, Privately Owned, etc.) that didn't speak to the
+// specialty. Icons chosen to thematically reflect each card.
 const advantages = [
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, t: 'Real + Artificial Intelligence', d: 'Human expertise and AI purpose-built for anesthesia revenue cycle management.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, t: 'Anesthesia Expertise', d: 'Built for time units, modifiers, concurrency, and implant capture.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>, t: 'Boutique Support', d: 'White-glove service with named teams and zero handoffs.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>, t: 'Privately Owned', d: 'No PE churn, no shortcuts, just long-term partnership.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>, t: 'Outcome Focused', d: 'Revenue growth and operational control, not vanity metrics.' },
-  { icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>, t: 'Clarity Driven', d: 'AI-powered portal and real-time insights with Clarity Stack\u2122.' },
+  {
+    // Focused-target icon — "anesthesia is all we do"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>,
+    t: 'Anesthesia Is All We Do',
+    d: 'Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They know every payer game, every modifier trap, and every reimbursement nuance specific to your specialty.',
+  },
+  {
+    // Shield-with-checkmark icon — "prevent denials, not just recover"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
+    t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
+    d: 'Every denied claim gets a root cause review. We find out why it happened, fix the process, and make sure that denial category shrinks quarter over quarter.',
+  },
+  {
+    // Clock/experience icon — "23+ years"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+    t: '23+ Years in Anesthesia RCM',
+    d: 'This isn\u2019t a new vertical we added to a menu. Accreda was built for anesthesia from day one. 250+ years of combined team experience across every anesthesia subspecialty.',
+  },
 ]
 
 const leaders = [
@@ -28,82 +46,99 @@ const leaders = [
   { name: 'Thomas Wilson', role: 'Regional Director- Anesthesia Services', photo: '/images/Tom Wilson1.jpg' },
 ]
 
+// Testimonials per Specialty Pages doc (v1, May 19 2026).
 const testimonials = [
   {
     tag: 'Anesthesia',
-    quote: 'What separates Accreda from other anesthesia billing companies is its dedication to collecting every dollar possible for your business. Their year-over-year collection rate of 97% from commercial and non-commercial payors is staggering and has been vital for our group\u2019s survival. I can wholeheartedly recommend Accreda to help with the anesthesia billing for your practice.',
+    quote: 'What separates Accreda from other anesthesia billing companies is its dedication to collecting every dollar possible for its clients, along with providing an excellent team of people who are loyal and helpful.',
     name: 'Dr. John B. Field Jr.',
     role: 'Vice President, Anesthesia Associates',
   },
   {
     tag: 'Anesthesia',
-    quote: 'The Accreda team is always available and proactively communicates with me. They do a great job of ensuring there are hands on each claim that falls short of appropriate payment. The entire process is extremely efficient and effective. I feel they have done an amazing job.',
+    quote: 'Year-over-year collection rate of 97% from commercial payers and 98% overall. I can wholeheartedly recommend Accreda.',
     name: 'Randy Robbins, M.D.',
     role: 'Anesthesia Group Practice Administrator',
   },
 ]
 
-const solutions = [
-  { t: 'Engagement & Experience', d: 'White-glove onboarding and consistent communication.' },
-  { t: 'Reporting & Analytics', d: 'Real-time dashboards, trend analysis, and weekly reviews.' },
-  { t: 'Practice Management & Consulting', d: 'Operational guidance to increase throughput and profit.' },
-  { t: 'Credentialing & Contracting', d: 'Credentialing support and contract analytics to capture appropriate reimbursement.' },
-  { t: 'Data Capture & Reconciliation', d: '100% case capture and reconciliation with OR and facility records.' },
-  { t: 'Coding & CDI', d: 'AAPC-certified coders and clinical documentation improvement.' },
-  { t: 'Scrub & Submit', d: 'Payer-specific edits and claims submission for clean claims.' },
-  { t: 'Denials & Underpayment Recovery', d: 'Rapid appeals supported by clinical rationale and documented strategies.' },
+// "RCM Solutions: Complete Anesthesia Revenue Cycle" — 8 cards
+// per Specialty Pages doc (v1, May 19 2026). Field names match the
+// shared SpecialtyMarquee component contract.
+const solutions: SpecialtySolution[] = [
+  { eyebrow: 'SPECIALTY EXPERTISE', title: 'Anesthesia-Specific Coding', description: 'Base units, time units, modifiers, concurrency. Coded accurately for every case type including cardiac, OB, pain, and regional.', anim: 'modifiers', modifierLabels: ['AA', 'QK', 'QY', 'AD'] },
+  { eyebrow: 'PAYER INTELLIGENCE', title: 'Payer-Specific Billing Rules', description: 'Each payer reimburses anesthesia differently. Our team knows the rules for every major carrier and adapts accordingly.', anim: 'rules' },
+  { eyebrow: 'FRONT OFFICE', title: 'Credentialing & Enrollment', description: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', anim: 'badges' },
+  { eyebrow: 'AUTHORIZATIONS', title: 'Prior Authorization', description: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', anim: 'stamp' },
+  { eyebrow: 'DENIAL PREVENTION', title: 'Denial Management & Appeals', description: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', anim: 'stat', statValue: '95', statUnit: '%' },
+  { eyebrow: 'AI AGENT \u2014 CHRIS', title: 'AR Follow-Up & Collections', description: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', anim: 'pulse', agent: { name: 'Chris', img: 'chris.png' } },
+  { eyebrow: 'AI AGENT \u2014 CINDY', title: 'Patient Billing & Support', description: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', anim: 'languages', agent: { name: 'Cindy', img: 'cindy.png' } },
+  { eyebrow: 'REAL-TIME INSIGHTS', title: 'Analytics & Visibility', description: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', anim: 'chart' },
 ]
 
 export default function AnesthesiaContent() {
   return (
     <>
-      {/* Why Accreda Exists, Split impact section */}
+      {/* The Problem, Split impact section.
+          Headline + 4 bullets per the Specialty Pages doc
+          (v1, May 19 2026). Both panels use justifyContent:
+          flex-start so the two headlines sit at the same vertical
+          position. Bullets at 18px (preview feedback: 15px was too
+          small). */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
-          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--white)', position: 'relative' }}>
+          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginBottom: 20 }}>
-                Generic RCM Teams Miss Details That Cost Thousands Per Case
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
+                Base Units, Time Units, Modifiers. One Wrong Move and Revenue Disappears.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 500 }}>
-                Base units, time-unit accuracy, medical direction modifiers, concurrency rules, and implant pass-throughs are exactly where generic teams get anesthesia billing wrong.
-              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Base units, time-unit accuracy, medical direction modifiers, and concurrency rules trip up generic billing teams every day',
+                  'Payers have their own anesthesia-specific reimbursement rules. What works for one doesn\u2019t work for another',
+                  'Authorization lapses on high-cost cases lead to write-offs that could have been prevented',
+                  'Without anesthesia-trained coders, undercoding and missed charges become the norm',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
             </RevealOnScroll>
           </div>
 
-          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
+          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-            <RevealOnScroll direction="right">
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>THE ACCREDA DIFFERENCE</div>
-            </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.1}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginBottom: 20 }}>
-                Anesthesia-Exclusive. Specialty-Obsessed.
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
+                Anesthesia Experts + AI Working Together
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.9)', maxWidth: 500 }}>
-                Accreda is our anesthesia-exclusive division with the specialty focus your group needs. Every coder, every process, and every workflow is built for anesthesia and nothing else.
-              </p>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.3}>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 20 }}>
-                Not just denial recovery, denial prevention. We perform root cause analysis on every denied claim to stop future denials before they happen. Your denial rate improves every quarter.
-              </p>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.4}>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'rgba(255,255,255,0.85)', maxWidth: 500, marginTop: 16, fontStyle: 'italic' }}>
-                Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They&apos;re not switching to behavioral health after lunch. Your team stays in their lane, which is why they know every payer game specific to your specialty.
-              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Dedicated anesthesia billing team that understands units, modifiers, concurrency, and the rules each payer follows, because that\u2019s all they do',
+                  'AI handles eligibility verification, authorization tracking, and claim follow-up across your full volume',
+                  'Every denied claim gets a root cause review to prevent the same issue from recurring',
+                  'Live dashboards showing collections by provider, case type, payer, and facility',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
             </RevealOnScroll>
           </div>
         </div>
       </section>
 
 
-      {/* The Cosentus Advantage, 6 animated cards */}
+      {/* What Sets Accreda Apart — 3 specialty-specific cards per
+          Specialty Pages doc (v1, May 19 2026). */}
       <section className="section">
         <div className="container">
         <RevealOnScroll><div className="section-title">What Sets Accreda Apart</div></RevealOnScroll>
@@ -134,22 +169,17 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Solutions for Every Step */}
+      {/* RCM Solutions: Complete Anesthesia Revenue Cycle.
+          Marquee + animation logic lives in SpecialtyMarquee
+          component (shared across all 6 specialty pages). */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-title">Solutions for Every Step</div></RevealOnScroll>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 48 }}>
-            {solutions.map((s, i) => (
-              <RevealOnScroll key={i} delay={0.1 + i * 0.06}>
-                <div className="solution-card" style={{ padding: '24px 28px', background: 'var(--white)', borderRadius: 12, border: '1px solid var(--gray-200)', height: '100%' }}>
-                  <h4 style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-900)', marginBottom: 8 }}>{s.t}</h4>
-                  <p style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--gray-600)', margin: 0 }}>{s.d}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+          <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
         </div>
+
+        {/* Marquee lives outside .container so cards can scroll
+            edge-to-edge. The edge fade is on the marquee itself. */}
+        <SpecialtyMarquee items={solutions} />
       </section>
 
 
@@ -205,8 +235,6 @@ export default function AnesthesiaContent() {
             </div>
           </RevealOnScroll>
 
-          {/* Team rendered as circle avatars — same pattern as the homepage
-              voice agents and the About Us leadership grid. */}
           <TeamCircleGrid
             people={leaders.map(l => ({ name: l.name, title: l.role, photo: l.photo }))}
             baseDelay={0.1}
@@ -215,7 +243,7 @@ export default function AnesthesiaContent() {
       </section>
 
 
-      {/* Client Reviews — uses shared TestimonialsSection so design is identical site-wide */}
+      {/* Client Reviews — shared TestimonialsSection */}
       <TestimonialsSection
         testimonials={testimonials}
         label="CLIENT REVIEWS"

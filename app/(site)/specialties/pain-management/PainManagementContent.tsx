@@ -6,139 +6,142 @@ import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
 
-// "What Sets Us Apart" cards. Content per Specialty Pages doc
-// (v1, May 19 2026), section 2 "Orthopedics". Exactly 3 cards
-// per the doc, replacing the previous standalone Alta callout
-// (the 2025 Alta acquisition now lives inside card 3).
+// "What Sets Us Apart" cards per Specialty Pages doc (v1, May
+// 19 2026), section 3 "Pain Management". 3 cards verbatim from
+// doc.
 const advantages = [
   {
-    // Focused-target icon — "ortho is what we do all day"
+    // Focused-target icon — "interventional pain is all we do"
     icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>,
-    t: 'Orthopedics Is What Our Team Does. All Day.',
-    d: 'Modifiers, implant pass-throughs, global periods, workers\u2019 comp. Our ortho team doesn\u2019t switch to behavioral health after lunch. They stay in their lane.',
+    t: 'Interventional Pain Is All Our Team Does',
+    d: 'Our pain management team knows the difference between a 64633 and a 64635 in their sleep. Interventional coding is what they do. All day, every day.',
   },
   {
     // Shield-with-checkmark — "prevent denials"
     icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
     t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
-    d: 'Every denied claim gets a root cause review. Ortho denials are high-dollar, so we don\u2019t just appeal. We fix the pattern so it stops happening.',
+    d: 'Pain management claims face pre-payment reviews, frequency scrutiny, and medical necessity challenges. We perform root cause review and correct documentation patterns to stop future denials.',
   },
   {
-    // Building / practice icon — "real surgical practice experience"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>,
-    t: 'Built on Real Surgical Practice Experience',
-    d: 'In 2025, Cosentus acquired Alta Management Solutions, expanding our orthopedic and surgical billing expertise with a team that has managed ASC and ortho revenue cycles for years.',
+    // Magnifying glass — "we know what payers are looking for"
+    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>,
+    t: 'We Know What Payers Are Looking For',
+    d: 'Every payer has different rules for pain procedures. Our team tracks these rules, updates workflows, and makes sure your documentation matches what each payer requires. Before the claim goes out.',
   },
 ]
 
-// Testimonials per Specialty Pages doc (v1, May 19 2026). T1
-// replaces the previous Ryan King quote with Dr. Jothi
-// Murali-Larson per doc. T2 keeps the Sharma testimonial with
-// the doc-verbatim quote (slightly different wording from the
-// previous version on the page).
+// Testimonials per Specialty Pages doc (v1, May 19 2026).
 const testimonials = [
   {
-    tag: 'Orthopedic',
-    quote: 'Cosentus has been efficient, responsive, and personable in managing my revenue cycle. I have seen my revenue grow tremendously. I highly recommend them.',
-    name: 'Dr. Jothi Murali-Larson',
-    role: 'Orthopedic Surgeon',
+    tag: 'Pain Management',
+    quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!',
+    name: 'Dr. Mikko Murakami, QME',
+    role: 'Pain Medicine & PM&R',
   },
   {
-    tag: 'Orthopedic',
-    quote: 'My collections have significantly increased with their stewardship. They have always been available to answer my questions.',
-    name: 'Dr. Samir and Kavita Sharma',
-    role: 'South Bay Orthopedics, San Jose, CA',
+    tag: 'Pain Management',
+    quote: 'I\u2019ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.',
+    name: 'Justin Lo, MD',
+    role: 'President, Northern California Pain Specialists',
   },
 ]
 
-// "RCM Solutions: Complete Orthopedic Revenue Cycle" — 8 cards
-// per Specialty Pages doc (v1, May 19 2026). Content verbatim
-// from doc. Modifier labels (59, XE, XS, XP, 51, 50) supplied
-// to the shared 'modifiers' anim. References to Chris and Cindy
-// match the AI agents introduced on the homepage.
+// "RCM Solutions: Complete Pain Management Revenue Cycle" — 8
+// cards per Specialty Pages doc (v1, May 19 2026). Content
+// verbatim from doc.
+//
+// Note vs. Anesthesia/Orthopedics: the doc deliberately omits an
+// "AR Follow-Up & Collections" Chris card on Pain Management.
+// Only Cindy appears, on Card 7 "Patient Billing & Support".
+//
+// Card 3 uses the bespoke 'defense' animation (document + shield-
+// check pulse) — earlier draft used 'badges' (3 floating ticks)
+// which preview feedback said didn't connect to documentation
+// defense. Card 5 uses the bespoke 'meds' animation (capsule
+// pills cycling) — earlier draft reused 'pulse' (phone rings)
+// which preview feedback flagged as visually reading as "call",
+// not medication.
+//
+// Modifier labels chosen to match the doc card's emphasis on
+// "modifiers for laterality and imaging guidance":
+//   LT/RT/50 = laterality, 26 = imaging guidance pro component,
+//   59/51 = multi-procedure.
 const solutions: SpecialtySolution[] = [
   {
-    eyebrow: 'SURGICAL EXPERTISE',
-    title: 'Orthopedic-Specific Coding',
-    description: 'Modifiers, laterality, global periods, multi-procedure surgical cases. Coded by specialists who live in orthopedic CPT codes every day.',
+    eyebrow: 'INTERVENTIONAL CODING',
+    title: 'Interventional Procedure Coding',
+    description: 'Epidural, facet, sacroiliac, trigger point, nerve block, RFA, SCS implants and trials. Precise CPT selection with correct modifiers for laterality and imaging guidance.',
     anim: 'modifiers',
-    modifierLabels: ['59', 'XE', 'XS', 'XP', '51', '50'],
+    modifierLabels: ['LT', 'RT', '50', '26', '59', '51'],
   },
   {
-    eyebrow: 'PASS-THROUGH ACCURACY',
-    title: 'Implant & Supply Billing',
-    description: 'Accurate documentation, pass-through billing, and cost reconciliation for implants, hardware, and surgical supplies.',
-    anim: 'badges',
-  },
-  {
-    eyebrow: 'CASE-TYPE EXPERTISE',
-    title: 'Workers\u2019 Comp & Personal Injury',
-    description: 'Different payer rules, different timelines, different documentation. Our team manages WC and PI cases separately with specialty knowledge.',
+    eyebrow: 'DOCUMENTATION DEFENSE',
+    title: 'Medical Necessity & Documentation',
+    description: 'We document what each payer requires before the claim goes out to reduce denials and defend pre-payment reviews.',
     anim: 'rules',
+  },
+  {
+    eyebrow: 'PAYER DEFENSE',
+    title: 'Pre-Payment Review Defense',
+    description: 'When payers trigger reviews, we prepare and defend your documentation with clinical evidence.',
+    anim: 'defense',
   },
   {
     eyebrow: 'AUTHORIZATIONS',
     title: 'Prior Authorization',
-    description: 'Authorizations for scheduled surgeries, MRIs, and procedures tracked and cleared before the date of service.',
+    description: 'Authorizations tracked and cleared for injections, SCS trials, ablations, and imaging-guided procedures. Payers scrutinize pain more than most. We make sure nothing stalls.',
     anim: 'stamp',
+  },
+  {
+    eyebrow: 'MEDICATION OVERSIGHT',
+    title: 'Medication Management & Drug Screening',
+    description: 'Proper coding for medication management visits, drug screening, and related services.',
+    anim: 'meds',
   },
   {
     eyebrow: 'DENIAL PREVENTION',
     title: 'Denial Management & Appeals',
-    description: 'Ortho denials are high-dollar. We appeal with clinical evidence, operative notes, and strategies built for each payer. Root cause analysis on every one.',
+    description: 'Methodical appeals with clinical evidence. Every denial gets a root cause review to fix the pattern, not just the claim.',
     anim: 'stat',
     statValue: '95',
     statUnit: '%',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CHRIS',
-    title: 'AR Follow-Up & Collections',
-    description: 'Chris calls payers for claim status, surgical case follow-ups, and escalations. Your staff stays focused on patients, not phone queues.',
-    anim: 'pulse',
-    agent: { name: 'Chris', img: 'chris.png' },
-  },
-  {
     eyebrow: 'AI AGENT \u2014 CINDY',
     title: 'Patient Billing & Support',
-    description: 'Cindy handles patient balances, co-pay follow-ups, and payment plans in over 50 languages. Clear statements, not confusing bills.',
+    description: 'Cindy handles patient balances and billing questions in over 50 languages. Clear statements for every visit.',
     anim: 'languages',
     agent: { name: 'Cindy', img: 'cindy.png' },
   },
   {
     eyebrow: 'REAL-TIME INSIGHTS',
     title: 'Analytics & Visibility',
-    description: 'See collections by surgeon, procedure type, payer, and denial category. Know where your revenue is going as it happens.',
+    description: 'Dashboards showing collections by procedure, provider, payer, and denial category. See where your revenue is going.',
     anim: 'chart',
   },
 ]
 
-export default function OrthopedicsContent() {
+export default function PainManagementContent() {
   return (
     <>
-      {/* The Problem / Solution split panel.
-          Inline JSX mirroring the Anesthesia page layout so the
-          two specialty pages feel like the same shape — not the
-          older ProblemSolutionSection component, which has a
-          different visual treatment. Both panels use
-          justifyContent: flex-start so the two headlines sit at
-          the same vertical position. Bullets at 18px to match
-          Anesthesia. Content per Specialty Pages doc (v1) section
-          2 "Orthopedics". */}
+      {/* The Problem / Solution split panel — same inline shape
+          as Anesthesia/Orthopedics. Content per Specialty Pages
+          doc (v1) section 3 "Pain Management". */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
-                High-Value Cases. Predictable Revenue Leakage.
+                High-Frequency Procedures. High-Frequency Denials.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Modifier errors on multi-procedure surgical cases cost hundreds of dollars per visit and multiply across volume',
-                  'Implant pass-through billing is complex and frequently underpaid or missed entirely',
-                  'Workers\u2019 comp and personal injury cases carry different billing rules that generic teams get wrong',
-                  'Global period confusion leads to bundled services that should have been billed separately',
+                  'Payers scrutinize injection frequency, imaging guidance, and medical necessity more than almost any other specialty',
+                  'Modifier or laterality errors cost $200\u2013$500 per visit and multiply fast across a high-volume pain practice',
+                  'Pre-payment reviews and opioid-related documentation scrutiny add layers of risk',
+                  'Authorization lapses on SCS trials, implants, and repeat procedures silently kill revenue',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
@@ -153,16 +156,16 @@ export default function OrthopedicsContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Surgical Practice Veterans + AI
+                Interventional Coding Experts + AI Defense
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Orthopedic billing specialists who understand modifiers, global periods, implant pass-throughs, and workers\u2019 comp, because that\u2019s their full-time job',
-                  'AI handles eligibility, authorization tracking, and claim follow-up across your full volume',
-                  'Every denied claim gets a root cause review. Ortho denials are high-dollar, so every appeal matters',
-                  'Live visibility into collections by procedure, provider, payer, and case type',
+                  'Pain management specialists who handle interventional coding and payer defense as their full-time job',
+                  'AI automates eligibility verification, authorization tracking, and follow-ups across your full volume',
+                  'Human experts focus on documentation defense, medical necessity arguments, and appeals',
+                  '95%+ appeal success rate with clinical evidence built by people who understand pain procedures',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
@@ -207,12 +210,11 @@ export default function OrthopedicsContent() {
       </section>
 
 
-      {/* RCM Solutions: Complete Orthopedic Revenue Cycle.
-          Uses the shared SpecialtyMarquee component (same drag-to-
-          scrub carousel as Anesthesia). */}
+      {/* RCM Solutions: Complete Pain Management Revenue Cycle.
+          Shared SpecialtyMarquee component. */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
+          <RevealOnScroll><div className="section-title">Complete Pain Management Revenue Cycle</div></RevealOnScroll>
         </div>
 
         <SpecialtyMarquee items={solutions} />
@@ -220,8 +222,10 @@ export default function OrthopedicsContent() {
 
 
       {/* AI Agent Spotlight, Paige (Prior Authorization).
-          Kept in place — not in the doc but adds value the same
-          way Priya does on the Anesthesia page. */}
+          Kept in place — same supporting role as the Paige
+          spotlight on Orthopedics and the Priya spotlight on
+          Anesthesia. Elaborates on the Prior Authorization card
+          in the marquee above. */}
       <section className="section">
         <div className="container">
           <div className="specialty-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -231,12 +235,12 @@ export default function OrthopedicsContent() {
                   Prior Authorization Management
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
-                  Paige tracks and clears authorizations for scheduled orthopedic procedures, knee replacements, spinal fusions, arthroscopic surgeries. Zero procedural delays. Zero OR schedule disruptions.
+                  Paige tracks authorizations for injections, SCS trials, ablations, and imaging-guided procedures. Payers scrutinize pain management more than most specialties. Paige makes sure nothing stalls.
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>Zero</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedural Delays</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedure Stalls</div>
                   </div>
                   <div>
                     <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>24/7</div>
@@ -260,15 +264,15 @@ export default function OrthopedicsContent() {
 
 
       {/* Leadership.
-          Per Specialty Pages doc, ortho leadership is "TBD — to
-          be confirmed by Stephen/Allen". Keeping the placeholder
-          rather than putting names that haven't been signed off. */}
+          Per Specialty Pages doc, Pain Management leadership is
+          "TBD - to be confirmed". Placeholder until names are
+          signed off. */}
       <section className="section section-alt">
         <div className="container">
-          <RevealOnScroll><div className="section-title">Orthopedic Leadership</div></RevealOnScroll>
+          <RevealOnScroll><div className="section-title">Pain Management Leadership</div></RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
-              Surgical practice veterans with deep orthopedic and ASC expertise, strengthened by the 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
+              Interventional coding specialists with deep payer-defense expertise. Full team profiles publishing soon.
             </p>
           </RevealOnScroll>
         </div>

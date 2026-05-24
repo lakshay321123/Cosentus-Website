@@ -32,9 +32,20 @@ interface PageHeroProps {
    *     design; the page body covers the same ground.
    */
   band?: boolean
+  /**
+   * When true, the hero uses a fixed height instead of min-height: 50vh.
+   * This makes the hero render at the same height across all specialty
+   * pages regardless of content length — earlier behaviour (just
+   * min-height) let longer subtitles push some pages taller than
+   * others, which read as inconsistency when navigating between
+   * Specialties. The fixed height (600px desktop / 440px mobile) is
+   * tall enough to comfortably fit every specialty page's title +
+   * subtitle + CTA at the existing typography sizes.
+   */
+  specialty?: boolean
 }
 
-export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact, band }: PageHeroProps) {
+export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact, band, specialty }: PageHeroProps) {
   // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
@@ -62,6 +73,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
     'page-hero-section',
     compact && 'page-hero-section--compact',
     band && 'page-hero-section--band',
+    specialty && 'page-hero-section--specialty',
   ].filter(Boolean).join(' ')
 
   // Band variant: solid brand teal, no video, no overlay.

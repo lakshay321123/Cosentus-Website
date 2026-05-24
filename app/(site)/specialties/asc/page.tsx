@@ -1,149 +1,53 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
-import RevealOnScroll from '@/components/ui/RevealOnScroll'
-import MobileCarousel from '@/components/ui/MobileCarousel'
-import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
-import TestimonialsSection from '@/components/sections/TestimonialsSection'
-import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
-
-const testimonials = [
-  { tag: 'ASC', quote: 'Cosentus has truly been fantastic in all aspects. The job they have done on the outstanding balances saved our surgery center.', name: 'John Welsh, M.D.', role: 'Surgery Center' },
-]
+import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
+import ASCContent from './ASCContent'
 
 export const metadata: Metadata = {
   title: 'ASC Billing & RCM | Facility + Professional Fee Expertise | Cosentus',
-  description: 'ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring.',
+  description: 'Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof.',
 }
 
-const services = [
-  { title: 'Facility & Professional Fee Billing', desc: 'Coordinated billing streams for accurate reimbursements.', iconPath: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
-  { title: 'Case Costing & Profitability Analysis', desc: 'Track costs and reimbursements by procedure and payer.', iconPath: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z' },
-  { title: 'Implant & Supply Billing', desc: 'Accurate documentation and pass-through processes.', iconPath: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z' },
-  { title: 'Multi-Payer Contract Management', desc: 'Monitor reimbursements vs contract rates and flag underpayments.', iconPath: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' },
-  { title: 'Out-of-Network Negotiation', desc: 'Negotiation for high-value out-of-network cases.', iconPath: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
-  { title: 'Prior Authorization', desc: 'Paige, our AI agent, manages authorizations for scheduled cases, so nothing stalls before the OR.', iconPath: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
-  { title: 'Pre-Service Payment Collection', desc: 'Priya collects patient financial responsibility pre-procedure.', iconPath: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z' },
-  { title: 'Denial Management', desc: 'Appeals with clinical rationale and cost justification.', iconPath: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
+// FAQs per Specialty Pages doc (v1, May 19 2026), section 4
+// "ASCs". 5 questions: Q1+Q2 are generic; Q3-Q5 are ASC-
+// specific (both fee streams, profitability by case type,
+// implant pass-through billing).
+const ascFaqs: SpecialtyFAQItem[] = [
+  {
+    question: 'Is Cosentus HIPAA compliant and SOC 2 certified?',
+    answer: 'Yes. All patient data is encrypted at rest (AES-256) and in transit (TLS 1.2+). Our platform runs inside AWS with no PHI leaving the boundary. Full audit logging, role-based access control, and BAAs in place. SOC 2 is on our post-launch roadmap. The infrastructure is already built for it.',
+  },
+  {
+    question: 'Will I get a dedicated ASC team or a shared billing pool?',
+    answer: 'You get a named director, named coders, and named billing leads assigned to your center. They work ASC billing and only ASC billing. They understand facility fees, professional fees, and how both need to work together.',
+  },
+  {
+    question: 'Do you handle both facility and professional fee billing?',
+    answer: 'Yes. We manage both billing streams under one team. That\u2019s a big deal. Most vendors handle one or the other, which creates gaps and finger-pointing. With us, both streams are coordinated, reconciled, and followed up under one roof.',
+  },
+  {
+    question: 'Can you help us understand profitability by case type?',
+    answer: 'Yes. Our analytics show you cost vs reimbursement by procedure, surgeon, and payer. You\u2019ll know which cases are profitable, which are break-even, and which are costing you money. So you can make informed scheduling and contract decisions.',
+  },
+  {
+    question: 'How do you handle implant billing and pass-through charges?',
+    answer: 'We track implant costs from the OR records, match them to the correct billing codes, make sure pass-through documentation is accurate, and follow up on any underpayments. Implant revenue is too significant to leave to generic billing processes.',
+  },
 ]
 
 export default function ASCPage() {
   return (
     <main>
-      <PageHero videoSrc="/images/specialties-hero.mp4"
+      <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
-        title={<>Your ASC Runs Dozens of Cases a Day.<br />Your Billing Needs to Keep Up.</>}
-        subtitle="ASC billing requires coordinated facility and professional fee handling, implant accuracy, case costing, and contract monitoring. Cosentus ensures every case is profitable."
-        ctaText="Free ASC Revenue Analysis"
+        title={<>ASC Billing.<br />Built for Speed and Volume.</>}
+        subtitle="Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof."
+        ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
       />
-
-      {/* Problem / Solution Split */}
-      <ProblemSolutionSection
-        problemTitle={<>High Case Volume.<br />Hidden Revenue Leakage.</>}
-        problemBullets={[
-          'Missed implant billing silently eroding margins',
-          'Incorrect facility/professional allocation losing reimbursement',
-          'Untracked case costing hiding unprofitable procedures',
-          'Authorization lapses causing denials and delays',
-        ]}
-        solutionTitle="Dedicated ASC Team + AI"
-        solutionBullets={[
-          'Coordinated facility and professional billing streams',
-          'Real-time case cost tracking and underpayment detection',
-          'AI handles authorizations and follow-ups at scale',
-          'Specialists handle payer negotiation and recovery',
-          'Root-cause analysis on every denial, across both facility and professional fee streams',
-          'Dedicated team handling case costing, implants, and multi-payer contracts without specialty switching',
-        ]}
-      />
-
-      <section className="section section-alt">
-        <div className="container">
-          <RevealOnScroll>
-            <div className="section-title">Complete ASC Revenue Cycle</div>
-          </RevealOnScroll>
-          <div className="advantage-grid advantages-desktop" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: 48 }}>
-            {services.map((s, i) => (
-              <RevealOnScroll key={i}>
-                <div className="advantage-card">
-                  <div className="advantage-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
-                  <h4>{s.title}</h4>
-                  <p>{s.desc}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-          {/* Mobile */}
-          <div className="advantages-mobile" style={{ overflow: 'hidden', width: '100%', marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4500}>
-              {services.map((s, i) => (
-                <div key={i} className="advantage-card">
-                  <div className="advantage-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} /></svg></div>
-                  <h4>{s.title}</h4>
-                  <p>{s.desc}</p>
-                </div>
-              ))}
-            </MobileCarousel>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Agent Spotlight, Priya */}
-      <section className="section">
-        <div className="container">
-          <div className="specialty-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-            <RevealOnScroll direction="left">
-              <div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 20 }}>
-                  Pre-Service Payment Collection
-                </h2>
-                <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', marginBottom: 32 }}>
-                  Priya contacts patients before scheduled procedures with verified cost estimates, lifting pre-service collections 30–40% vs post-service billing. For ASCs running dozens of cases daily, that&apos;s thousands in accelerated revenue every week.
-                </p>
-                <div style={{ display: 'flex', gap: 32 }}>
-                  <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
-                    <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
-                  </div>
-                </div>
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll direction="right" delay={0.2}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <AgentSpotlightCard
-                  agentName="Priya"
-                  imgAlt="Priya, Pre-Service Payment Collection"
-                  roleLabel="Pre-Service Cost Estimates"
-                />
-              </div>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership */}
-      <section className="section section-alt">
-        <div className="container">
-        <RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
-          <RevealOnScroll delay={0.2}>
-            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--gray-600)', maxWidth: 720, marginTop: 16 }}>
-              ASC and surgical practice management veterans, strengthened by the May 2025 Alta Management Solutions acquisition. Full team profiles publishing soon.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
-
-      <TestimonialsSection
-        testimonials={testimonials}
-        label="CLIENT REVIEWS"
-        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
-      />
-
+      <ASCContent />
+      <SpecialtyFAQ faqs={ascFaqs} />
       <CTASection />
     </main>
   )
