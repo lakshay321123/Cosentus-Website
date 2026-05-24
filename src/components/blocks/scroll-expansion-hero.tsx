@@ -681,6 +681,17 @@ const ScrollExpandMedia = ({
           max-height: 78vh;
           border-radius: 16px;
           overflow: hidden;
+          /* 35% dark navy overlay. Was fully transparent before (the
+             immersive video bg showed through 100%). User direction
+             2026-05-24: "for the background of this video, basically
+             the animation, the rectangle, can you make it a little
+             more opaque so that this animation stands out? Maybe
+             30% or 40% opaque." 35% sits in the middle of that
+             range. Color is a near-black navy (#05101E) that
+             complements the dark blue immersive video without
+             introducing a hue conflict; tweak the alpha if the
+             contrast needs adjustment. */
+          background: rgba(5, 16, 30, 0.35);
           /* Teal border + glow so the small frame is visible against
              the dark immersive bg. */
           box-shadow:
