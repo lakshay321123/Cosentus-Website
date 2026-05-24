@@ -6,7 +6,7 @@ import WeCareOrganisations from './WeCareOrganisations'
 import { galleries } from './galleries'
 
 export const metadata: Metadata = {
-  title: 'WeCare | Community & Charitable Initiatives | Cosentus',
+  title: 'Cosentus Cares | Community & Charitable Initiatives | Cosentus',
   description: 'Cosentus is committed to community, employee wellbeing, and the practices we serve. Meet our Impact Ambassadors and the incredible work they do.',
 }
 
@@ -135,7 +135,7 @@ export default function WeCarePage() {
   return (
     <main>
       <PageHero
-        label="WECARE"
+        label="COSENTUS CARES"
         title="Come See Our Community Network, And Inspire Change With Us."
         subtitle="At Cosentus, giving back isn't a campaign, it's who we are. Meet our Impact Ambassadors and all the incredible work they do."
       />
@@ -144,7 +144,7 @@ export default function WeCarePage() {
         <div className="container" style={{ maxWidth: 900 }}>
           <RevealOnScroll>
             <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
-              WeCare represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
+              Cosentus Cares represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
               When practices get paid accurately and on time, they can focus fully on patient care,
               and we can focus on making a difference beyond healthcare.
             </p>
@@ -187,7 +187,7 @@ export default function WeCarePage() {
               return (
                 <RevealOnScroll key={event.slug} delay={(i % 4) * 0.08}>
                   <Link
-                    href={`/wecare/${event.slug}`}
+                    href={`/cosentus-cares/${event.slug}`}
                     aria-label={`View ${event.title} gallery`}
                     style={{
                       textDecoration: 'none',
@@ -290,8 +290,8 @@ export default function WeCarePage() {
         <div className="container">
           <div className="cta-box">
             <h2>Want to Partner With Us on a Community Initiative?</h2>
-            <a href="mailto:sales@cosentus.com" className="btn-primary">
-              Contact WeCare
+            <a href="mailto:wecare@cosentus.com" className="btn-primary">
+              Contact Cosentus Cares
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
