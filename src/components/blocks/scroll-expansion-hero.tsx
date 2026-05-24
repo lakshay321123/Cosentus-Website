@@ -126,40 +126,21 @@ const ScrollExpandMedia = ({
   // first forward scroll/touch/key input. Stored on a ref so the
   // cleanup effect can cancel it on unmount.
   const autoExpandRafRef = useRef<number | null>(null);
-  // Latches true the moment startAutoExpand begins. Distinct from
-  // expandedRef (which only flips true when the FULL animation —
-  // frame growth AND the child's workflow reveal — has completed,
-  // at which point scroll is released). animationStartedRef lets
-  // the wheel/touch/key handlers know "auto-expand already in
-  // progress, do nothing more, just consume the event".
-  const animationStartedRef = useRef<boolean>(false);
-  // Timeout id for the scroll-lock release. Cleared on unmount or
-  // when the user skips via Escape / click on the section
-  // backdrop.
-  const lockReleaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Lock budget = frame growth + workflow reveal animation.
-  //   Frame growth (this component, rAF):      800ms
-  //   Workflow reveal (WorkflowAnimation):    11500ms
-  //     (piece 1 fade 0-2000, piece 2 fade 1000-3000, then
-  //      pieces 3-13 staggered every 750ms with 1500ms fades
-  //      through piece 13 finishing at 10000+1500 = 11500ms)
-  //   Buffer for React render latency:        200ms
-  //   --------------------------------------------------
-  //   Total scroll lock:                      12500ms
-  const SCROLL_LOCK_MS = 12500;
 
   /**
    * Drive scrollProgress from its current value to 1.0 over 800ms
-   * with an ease-out cubic curve, then HOLD the scroll lock for
-   * the duration of the child's workflow reveal animation.
+   * with an ease-out cubic curve, triggered by the first forward
+   * scroll/touch/key input the user makes in the section.
    *
-   * Called when the user makes ANY forward scroll/touch/key input
-   * in the section. Once started, subsequent inputs are consumed
-   * (via preventDefault in the handlers) but do not advance or
-   * restart anything — the frame stays pinned and the animation
-   * plays through. After SCROLL_LOCK_MS, expandedRef flips true
-   * and native scroll is released.
+   * NO SCROLL LOCK. expandedRef is flipped true at the start of
+   * the rAF so that subsequent wheel/touch/key events bypass the
+   * handlers and pass through to native scroll. The frame keeps
+   * growing in the background (rAF is independent of scroll) but
+   * the user can scroll past freely. User direction 2026-05-24:
+   * "Don't lock it. There's no point in locking this." The lock
+   * machinery from earlier commits (lockReleaseTimeoutRef,
+   * SCROLL_LOCK_MS, releaseLockEarly, Escape skip, navbar offset)
+   * was removed in 2026-05-24 along with this change.
    *
    * Why rAF instead of CSS transition:
    *   The component has SEVERAL progress-derived values (frame
@@ -169,25 +150,16 @@ const ScrollExpandMedia = ({
    *   together coherently — no per-property transitions needed
    *   and no risk of one property leading or trailing another.
    *
-   * Why hold the lock through the full reveal:
-   *   User direction 2026-05-24: "the frame should remain the
-   *   entire frame ... only once the video is finished should
-   *   the person be able to go down". Previously the lock was
-   *   released as soon as the rAF finished, which let the user
-   *   scroll the frame away mid-animation. Now it stays pinned
-   *   for the full ~12.5s while the workflow plays.
-   *
-   * Skip valve: Escape key or click on the section backdrop calls
-   * releaseLockEarly() to free the scroll immediately. This is the
-   * accessibility escape hatch for keyboard users / power users
-   * who don't want to wait through the full animation.
+   * The child's isExpanded prop (computed from progress >= 0.995)
+   * flips true near the end of the rAF animation, triggering the
+   * WorkflowAnimation piece-by-piece reveal.
    */
   const startAutoExpand = (): void => {
-    if (animationStartedRef.current) return;
-    animationStartedRef.current = true;
+    if (expandedRef.current) return;
+    expandedRef.current = true;
     const fromProgress = progressRef.current;
     const targetProgress = 1;
-    const duration = 800; // ms — frame-growth portion only
+    const duration = 800; // ms
     const startTime = performance.now();
     const step = (now: number): void => {
       const elapsed = now - startTime;
@@ -204,53 +176,19 @@ const ScrollExpandMedia = ({
       }
     };
     autoExpandRafRef.current = requestAnimationFrame(step);
-
-    // Hold the scroll lock until the child's reveal animation
-    // completes too.
-    lockReleaseTimeoutRef.current = setTimeout(() => {
-      expandedRef.current = true;
-      lockReleaseTimeoutRef.current = null;
-    }, SCROLL_LOCK_MS);
   };
 
-  /**
-   * Release the scroll lock immediately, skipping the remainder
-   * of the workflow animation. Triggered by Escape key or click
-   * on the section backdrop. No-op if not started or already
-   * released.
-   */
-  const releaseLockEarly = (): void => {
-    if (!animationStartedRef.current) return;
-    if (expandedRef.current) return;
-    expandedRef.current = true;
-    if (lockReleaseTimeoutRef.current !== null) {
-      clearTimeout(lockReleaseTimeoutRef.current);
-      lockReleaseTimeoutRef.current = null;
-    }
-  };
-
-  // The site's main nav (Navbar.tsx) is position:fixed at top:0
-  // with padding ~16px and a 38px logo = ~70-80px total height.
-  // When the section locks at rect.top = 0 the fixed nav visually
-  // overlaps the section's upper portion. To leave the nav fully
-  // visible above the locked section, the lock targets rect.top =
-  // NAVBAR_OFFSET (~80px) instead of 0. Both the "owns viewport"
-  // predicate AND the handleScroll snap-back use this offset.
-  // User direction 2026-05-24: "the lock is slightly off because
-  // the header is sitting on top of it. It should be a little
-  // lower."
-  const NAVBAR_OFFSET = 80;
-
-  // Section is "owning the viewport" when its top has reached
-  // NAVBAR_OFFSET (i.e. the top edge is at or above where the
-  // fixed navbar ends) AND the bottom still extends past that
-  // point. In that state the hijack engages and the snap-back
-  // pins the section at rect.top = NAVBAR_OFFSET.
+  // Is the section's top at or above viewport top, AND its bottom
+  // still below viewport top? In that state the section is "owning
+  // the viewport" and the hijack engages. Reverted from
+  // NAVBAR_OFFSET-based threshold (2026-05-24) since the lock was
+  // removed in the same commit — the offset was part of the lock-
+  // positioning work and is no longer needed.
   const isSectionOwningViewport = (): boolean => {
     const el = sectionRef.current;
     if (!el) return false;
     const rect = el.getBoundingClientRect();
-    return rect.top <= NAVBAR_OFFSET && rect.bottom > NAVBAR_OFFSET;
+    return rect.top <= 0 && rect.bottom > 0;
   };
 
   useEffect(() => {
@@ -266,15 +204,11 @@ const ScrollExpandMedia = ({
       if (e.deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      // First forward wheel triggers the auto-expand + scroll lock.
-      // Subsequent wheels during the lock no-op (startAutoExpand's
-      // internal guard handles re-entry) but are still consumed by
-      // the preventDefault above, so the page stays pinned. The
-      // lock releases after SCROLL_LOCK_MS (12.5s) — by then both
-      // the frame growth and the workflow reveal have completed.
-      // User direction 2026-05-24: "the frame should remain the
-      // entire frame ... only once the video is finished should the
-      // person be able to go down."
+      // First forward wheel triggers the auto-expand. expandedRef
+      // flips true immediately inside startAutoExpand so subsequent
+      // wheels bypass the handler and pass through to native scroll.
+      // User direction 2026-05-24: "Don't lock it. There's no point
+      // in locking this."
       startAutoExpand();
     };
 
@@ -346,20 +280,6 @@ const ScrollExpandMedia = ({
         }
       }
 
-      // Escape key: accessibility / power-user skip. If the
-      // animation has started but the lock is still holding scroll,
-      // release immediately. Documented behavior — Escape always
-      // means "I want out". On mobile there's no Escape; mobile
-      // users wait through the ~12s reveal (a separate skip UI
-      // would be needed for touch-only users; not added yet).
-      if (e.key === 'Escape') {
-        if (animationStartedRef.current && !expandedRef.current) {
-          e.preventDefault();
-          releaseLockEarly();
-        }
-        return;
-      }
-
       // Classify the key as forward (advances toward expansion),
       // backward (would have retreated), or unrelated. Forward keys
       // all trigger the auto-expand animation. Backward keys at
@@ -399,10 +319,16 @@ const ScrollExpandMedia = ({
       // true, the handler returned at the top. Nothing to do here.
     };
 
-    // Pin scroll position so the section's TOP sits at viewport
-    // y = NAVBAR_OFFSET (just below the fixed navbar). Without this,
-    // momentum scroll (trackpad inertia) drifts past preventDefault'd
-    // wheel events.
+    // Pin scroll position to section-top while hijack is active.
+    // Without this, momentum scroll (trackpad inertia) drifts past
+    // preventDefault'd wheel events.
+    //
+    // With the scroll lock removed (2026-05-24), this snap-back
+    // only fires in the very brief window between the section's
+    // top crossing viewport y=0 and the first user input that
+    // triggers startAutoExpand (which flips expandedRef to true,
+    // bypassing this handler thereafter). That window is one or
+    // two scroll events at most.
     const handleScroll = (): void => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
@@ -417,12 +343,8 @@ const ScrollExpandMedia = ({
       if (!el) return;
       const sectionTopAbsolute =
         el.getBoundingClientRect().top + window.scrollY;
-      // Scroll target = section's absolute Y minus NAVBAR_OFFSET so
-      // the section's rect.top settles at NAVBAR_OFFSET (not 0),
-      // leaving the fixed navbar visible above.
-      const snapTargetScrollY = sectionTopAbsolute - NAVBAR_OFFSET;
-      if (Math.abs(window.scrollY - snapTargetScrollY) > 1) {
-        window.scrollTo(0, snapTargetScrollY);
+      if (Math.abs(window.scrollY - sectionTopAbsolute) > 1) {
+        window.scrollTo(0, sectionTopAbsolute);
       }
     };
 
@@ -505,14 +427,6 @@ const ScrollExpandMedia = ({
         cancelAnimationFrame(autoExpandRafRef.current);
         autoExpandRafRef.current = null;
       }
-      // Clear the scroll-lock release timeout. Without this, an
-      // unmount in the middle of the ~12.5s lock window would let
-      // the timeout fire later and try to set expandedRef.current
-      // on a dead ref — harmless but noisy in dev.
-      if (lockReleaseTimeoutRef.current !== null) {
-        clearTimeout(lockReleaseTimeoutRef.current);
-        lockReleaseTimeoutRef.current = null;
-      }
     };
     // Empty deps — handlers read state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -549,26 +463,18 @@ const ScrollExpandMedia = ({
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
   const mediaWidth = isMobile
-    ? 240 + easedProgress * 100  // 240 → 340 (vertical-friendly)
-    : 700 + easedProgress * 1000; // 700 → 1700 (bumped from 600→1200
-                                  //              May 2026 per user
-                                  //              feedback "screen is
-                                  //              too narrow". Caps at
-                                  //              the 95vw max-width
-                                  //              defined in the
-                                  //              .scroll-expand-media-
-                                  //              frame CSS, so on
-                                  //              smaller viewports
-                                  //              it fits naturally.)
+    ? 204 + easedProgress * 85   // 204 → 289 (was 240 → 340; -15% per
+                                 //   user direction 2026-05-24
+                                 //   "reduce the entire size of the
+                                 //   window and the animation by 15%
+                                 //   together. That automatically
+                                 //   solves the problem [of the navbar
+                                 //   overlapping the frame's top].")
+    : 595 + easedProgress * 850; // 595 → 1445 (was 700 → 1700; -15%
+                                 //   per same user direction.)
   const mediaHeight = isMobile
-    ? 300 + easedProgress * 220 // 300 → 520 (taller-than-wide so a
-                                //              9:16 vertical video
-                                //              swap renders without
-                                //              letterboxing)
-    : 500 + easedProgress * 500; // 500 → 1000 (bumped from 400→600
-                                 //              for the same reason
-                                 //              as mediaWidth. Caps
-                                 //              at 85vh in CSS.)
+    ? 255 + easedProgress * 187  // 255 → 442 (was 300 → 520; -15%)
+    : 425 + easedProgress * 425; // 425 → 850 (was 500 → 1000; -15%)
 
   // Desktop: media translates from +25vw (right-half center) to 0.
   // Mobile: stays at center.
@@ -748,25 +654,31 @@ const ScrollExpandMedia = ({
         /* Media frame — centered with translate. inline width/height
            override the placeholder values.
 
-           Max-width/height bumped twice in May 2026 to give the
-           workflow animation more room:
+           Max-width/height history (May 2026):
              - Initial:  90vw / 65vh
              - 1st bump: 95vw / 85vh
-             - 2nd bump: 97vw / 92vh  (per user feedback "increase
-                         the size of this window" + "it's touching
-                         at the bottom also")
+             - 2nd bump: 97vw / 92vh  (per "increase the size of this
+                         window" + "it's touching at the bottom")
+             - 15% trim: 82vw / 78vh  (per "reduce the entire size of
+                         the window and the animation by 15%. That
+                         automatically solves the problem [of navbar
+                         overlap on the locked frame's top]")
+           The 15% trim accompanied the scroll-lock removal in the
+           same commit — smaller frame + smaller animation means the
+           workflow fits comfortably below the fixed navbar without
+           needing a lock to hold position.
 
-           Aspect ratio of the workflow content is ~1.39:1 (viewBox
-           -180 -50 2080 1500 → 2080/1500). The inline growth
-           (700px -> 1700px wide, 500px -> 1000px tall) hits the
-           viewport caps on smaller screens but scales properly on
-           larger displays. */
+           Aspect ratio of the workflow content is ~1.26:1 (viewBox
+           -50 -40 1731 1378 → 1731/1378). Inline growth on desktop
+           is 595px -> 1445px wide, 425px -> 850px tall (also -15%).
+           On smaller viewports the inline values hit the vw/vh
+           caps; on larger displays they scale at the inline max. */
         .scroll-expand-media-frame {
           position: absolute;
           top: 50%;
           left: 50%;
-          max-width: 97vw;
-          max-height: 92vh;
+          max-width: 82vw;
+          max-height: 78vh;
           border-radius: 16px;
           overflow: hidden;
           /* Teal border + glow so the small frame is visible against
