@@ -61,10 +61,26 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
-  mediaType?: 'video' | 'image';
-  mediaSrc: string;
+  /**
+   * 'video'  — plays a looping <video>. Existing default path.
+   * 'image'  — renders a single Next.js <Image>.
+   * 'custom' — renders the customMedia ReactNode (or render-prop)
+   *            inside the expanding frame. Used by the homepage
+   *            workflow animation so the SVG composite can be the
+   *            small-state preview AND the expanded animation
+   *            trigger lives inside the same frame.
+   */
+  mediaType?: 'video' | 'image' | 'custom';
+  mediaSrc?: string;
   posterSrc?: string;
   sideText: ReactNode;
+  /**
+   * Only used when mediaType === 'custom'. Either a ReactNode or a
+   * render-prop that receives the live expansion state. The
+   * render-prop form lets the child trigger its own animation when
+   * `isExpanded` flips true (progress hits 1).
+   */
+  customMedia?: ReactNode | ((args: { isExpanded: boolean; progress: number }) => ReactNode);
 }
 
 const ScrollExpandMedia = ({
@@ -72,6 +88,7 @@ const ScrollExpandMedia = ({
   mediaSrc,
   posterSrc,
   sideText,
+  customMedia,
 }: ScrollExpandMediaProps) => {
   // scrollProgress drives all the inline-style math. Needs to be
   // state so render updates the inline transforms/sizes.
@@ -105,10 +122,68 @@ const ScrollExpandMedia = ({
   // anchor scroll passes the section's top, pulling the page back
   // up — user observes "stuck on the second section".
   const programmaticScrollRef = useRef<boolean>(false);
+  // rAF id for the auto-expand progress animation triggered by the
+  // first forward scroll/touch/key input. Stored on a ref so the
+  // cleanup effect can cancel it on unmount.
+  const autoExpandRafRef = useRef<number | null>(null);
+
+  /**
+   * Drive scrollProgress from its current value to 1.0 over 800ms
+   * with an ease-out cubic curve, triggered by the first forward
+   * scroll/touch/key input the user makes in the section.
+   *
+   * NO SCROLL LOCK. expandedRef is flipped true at the start of
+   * the rAF so that subsequent wheel/touch/key events bypass the
+   * handlers and pass through to native scroll. The frame keeps
+   * growing in the background (rAF is independent of scroll) but
+   * the user can scroll past freely. User direction 2026-05-24:
+   * "Don't lock it. There's no point in locking this." The lock
+   * machinery from earlier commits (lockReleaseTimeoutRef,
+   * SCROLL_LOCK_MS, releaseLockEarly, Escape skip, navbar offset)
+   * was removed in 2026-05-24 along with this change.
+   *
+   * Why rAF instead of CSS transition:
+   *   The component has SEVERAL progress-derived values (frame
+   *   width/height, side-text opacity, ratings-strip opacity,
+   *   transform translateX, sidetext translateX). Driving
+   *   scrollProgress smoothly via rAF means all of them animate
+   *   together coherently — no per-property transitions needed
+   *   and no risk of one property leading or trailing another.
+   *
+   * The child's isExpanded prop (computed from progress >= 0.995)
+   * flips true near the end of the rAF animation, triggering the
+   * WorkflowAnimation piece-by-piece reveal.
+   */
+  const startAutoExpand = (): void => {
+    if (expandedRef.current) return;
+    expandedRef.current = true;
+    const fromProgress = progressRef.current;
+    const targetProgress = 1;
+    const duration = 800; // ms
+    const startTime = performance.now();
+    const step = (now: number): void => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // ease-out cubic — fast start, gentle finish
+      const eased = 1 - Math.pow(1 - t, 3);
+      const p = fromProgress + (targetProgress - fromProgress) * eased;
+      progressRef.current = p;
+      setScrollProgress(p);
+      if (t < 1) {
+        autoExpandRafRef.current = requestAnimationFrame(step);
+      } else {
+        autoExpandRafRef.current = null;
+      }
+    };
+    autoExpandRafRef.current = requestAnimationFrame(step);
+  };
 
   // Is the section's top at or above viewport top, AND its bottom
   // still below viewport top? In that state the section is "owning
-  // the viewport" and the hijack engages.
+  // the viewport" and the hijack engages. Reverted from
+  // NAVBAR_OFFSET-based threshold (2026-05-24) since the lock was
+  // removed in the same commit — the offset was part of the lock-
+  // positioning work and is no longer needed.
   const isSectionOwningViewport = (): boolean => {
     const el = sectionRef.current;
     if (!el) return false;
@@ -129,17 +204,12 @@ const ScrollExpandMedia = ({
       if (e.deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const scrollDelta = e.deltaY * 0.0012;
-      const newProgress = Math.min(
-        Math.max(progressRef.current + scrollDelta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
-      }
+      // First forward wheel triggers the auto-expand. expandedRef
+      // flips true immediately inside startAutoExpand so subsequent
+      // wheels bypass the handler and pass through to native scroll.
+      // User direction 2026-05-24: "Don't lock it. There's no point
+      // in locking this."
+      startAutoExpand();
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -160,17 +230,13 @@ const ScrollExpandMedia = ({
       if (deltaY < 0 && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
-      const scrollDelta = deltaY * scrollFactor;
-      const newProgress = Math.min(
-        Math.max(progressRef.current + scrollDelta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
+      // Any forward swipe (deltaY > 0 = finger moving up = scroll
+      // down) snaps progress to 1 via auto-expand. Mirror of the
+      // wheel handler's behavior. Backward swipes from progress 0
+      // already exited above; nothing else needed for them since
+      // expandedRef flips true the moment auto-expand starts.
+      if (deltaY > 0) {
+        startAutoExpand();
       }
 
       touchYRef.current = touchY;
@@ -214,31 +280,23 @@ const ScrollExpandMedia = ({
         }
       }
 
-      // Determine direction + step. Step size is tuned so a single
-      // PageDown advances roughly 35% of the animation — three
-      // presses to fully expand. Arrow keys advance less (~15%) for
-      // finer control. Space behaves like PageDown.
-      let delta = 0;
+      // Classify the key as forward (advances toward expansion),
+      // backward (would have retreated), or unrelated. Forward keys
+      // all trigger the auto-expand animation. Backward keys at
+      // progress=0 exit the section upward (unchanged from before).
+      let direction: 'forward' | 'backward' | null = null;
       switch (e.key) {
         case ' ':
         case 'Spacebar': // legacy
         case 'PageDown':
-          delta = 0.35;
-          break;
         case 'ArrowDown':
-          delta = 0.15;
-          break;
         case 'End':
-          delta = 1; // jumps to fully expanded
+          direction = 'forward';
           break;
         case 'PageUp':
-          delta = -0.35;
-          break;
         case 'ArrowUp':
-          delta = -0.15;
-          break;
         case 'Home':
-          delta = -1; // back to start of section
+          direction = 'backward';
           break;
         default:
           return; // not a key we care about
@@ -246,24 +304,31 @@ const ScrollExpandMedia = ({
 
       // Allow scroll-up to exit top of section when already at 0,
       // mirroring the wheel handler's behavior.
-      if (delta < 0 && progressRef.current <= 0) return;
+      if (direction === 'backward' && progressRef.current <= 0) return;
 
       e.preventDefault();
-      const newProgress = Math.min(
-        Math.max(progressRef.current + delta, 0),
-        1
-      );
-      progressRef.current = newProgress;
-      setScrollProgress(newProgress);
-
-      if (newProgress >= 1) {
-        expandedRef.current = true;
+      if (direction === 'forward') {
+        // Any forward key snaps progress to 1 via auto-expand —
+        // matches wheel/touch behavior. Previously keys had per-key
+        // step sizes (PageDown=0.35, ArrowDown=0.15, etc.); user
+        // direction 2026-05-24 was to always reach full size on
+        // first input, so step granularity is no longer needed.
+        startAutoExpand();
       }
+      // Backward keys after auto-expand started: expandedRef is
+      // true, the handler returned at the top. Nothing to do here.
     };
 
     // Pin scroll position to section-top while hijack is active.
     // Without this, momentum scroll (trackpad inertia) drifts past
     // preventDefault'd wheel events.
+    //
+    // With the scroll lock removed (2026-05-24), this snap-back
+    // only fires in the very brief window between the section's
+    // top crossing viewport y=0 and the first user input that
+    // triggers startAutoExpand (which flips expandedRef to true,
+    // bypassing this handler thereafter). That window is one or
+    // two scroll events at most.
     const handleScroll = (): void => {
       if (!isSectionOwningViewport()) return;
       if (expandedRef.current) return;
@@ -355,6 +420,13 @@ const ScrollExpandMedia = ({
       document.removeEventListener('click', handleAnchorClick, true);
       window.removeEventListener('hashchange', handleHashChange);
       if (resetTimer) clearTimeout(resetTimer);
+      // Cancel the auto-expand rAF if it's still running when the
+      // component unmounts (e.g. user navigated to a different
+      // route mid-animation).
+      if (autoExpandRafRef.current !== null) {
+        cancelAnimationFrame(autoExpandRafRef.current);
+        autoExpandRafRef.current = null;
+      }
     };
     // Empty deps — handlers read state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -391,14 +463,18 @@ const ScrollExpandMedia = ({
   const easedProgress = 1 - Math.pow(1 - scrollProgress, 2);
 
   const mediaWidth = isMobile
-    ? 240 + easedProgress * 100  // 240 → 340 (vertical-friendly)
-    : 600 + easedProgress * 600; // 600 → 1200
+    ? 204 + easedProgress * 85   // 204 → 289 (was 240 → 340; -15% per
+                                 //   user direction 2026-05-24
+                                 //   "reduce the entire size of the
+                                 //   window and the animation by 15%
+                                 //   together. That automatically
+                                 //   solves the problem [of the navbar
+                                 //   overlapping the frame's top].")
+    : 595 + easedProgress * 850; // 595 → 1445 (was 700 → 1700; -15%
+                                 //   per same user direction.)
   const mediaHeight = isMobile
-    ? 300 + easedProgress * 220 // 300 → 520 (taller-than-wide so a
-                                //              9:16 vertical video
-                                //              swap renders without
-                                //              letterboxing)
-    : 400 + easedProgress * 200; // 400 → 600
+    ? 255 + easedProgress * 187  // 255 → 442 (was 300 → 520; -15%)
+    : 425 + easedProgress * 425; // 425 → 850 (was 500 → 1000; -15%)
 
   // Desktop: media translates from +25vw (right-half center) to 0.
   // Mobile: stays at center.
@@ -486,7 +562,7 @@ const ScrollExpandMedia = ({
                 display: 'block',
               }}
             >
-              <source src={mediaSrc} type='video/mp4' />
+              {mediaSrc && <source src={mediaSrc} type='video/mp4' />}
             </video>
             {/* Dark overlay, lighter than the 21st.dev original so
                 the small video frame is actually visible against the
@@ -497,19 +573,38 @@ const ScrollExpandMedia = ({
               style={{ opacity: 0.35 - easedProgress * 0.25 }}
             />
           </>
-        ) : (
+        ) : mediaType === 'image' ? (
           <>
-            <Image
-              src={mediaSrc}
-              alt='Media'
-              width={1280}
-              height={720}
-              className='scroll-expand-media-video'
-            />
+            {mediaSrc && (
+              <Image
+                src={mediaSrc}
+                alt='Media'
+                width={1280}
+                height={720}
+                className='scroll-expand-media-video'
+              />
+            )}
             <div
               className='scroll-expand-media-overlay'
               style={{ opacity: 0.4 - easedProgress * 0.3 }}
             />
+          </>
+        ) : (
+          // mediaType === 'custom'
+          // The child component fills the frame. We pass progress and
+          // an isExpanded flag (progress >= 0.995) so the child can
+          // start any one-time animation when the frame finishes
+          // growing. The 0.995 threshold leaves a tiny margin so the
+          // animation fires reliably at the visual end of expansion,
+          // not exactly at 1.0 (which can be a transient state).
+          //
+          // No overlay div for custom mode — the WorkflowAnimation
+          // child paints its own white background so dark overlay
+          // would muddy the SVGs.
+          <>
+            {typeof customMedia === 'function'
+              ? customMedia({ isExpanded: scrollProgress >= 0.995, progress: scrollProgress })
+              : customMedia}
           </>
         )}
       </div>
@@ -557,15 +652,46 @@ const ScrollExpandMedia = ({
         }
 
         /* Media frame — centered with translate. inline width/height
-           override the placeholder values. */
+           override the placeholder values.
+
+           Max-width/height history (May 2026):
+             - Initial:  90vw / 65vh
+             - 1st bump: 95vw / 85vh
+             - 2nd bump: 97vw / 92vh  (per "increase the size of this
+                         window" + "it's touching at the bottom")
+             - 15% trim: 82vw / 78vh  (per "reduce the entire size of
+                         the window and the animation by 15%. That
+                         automatically solves the problem [of navbar
+                         overlap on the locked frame's top]")
+           The 15% trim accompanied the scroll-lock removal in the
+           same commit — smaller frame + smaller animation means the
+           workflow fits comfortably below the fixed navbar without
+           needing a lock to hold position.
+
+           Aspect ratio of the workflow content is ~1.26:1 (viewBox
+           -50 -40 1731 1378 → 1731/1378). Inline growth on desktop
+           is 595px -> 1445px wide, 425px -> 850px tall (also -15%).
+           On smaller viewports the inline values hit the vw/vh
+           caps; on larger displays they scale at the inline max. */
         .scroll-expand-media-frame {
           position: absolute;
           top: 50%;
           left: 50%;
-          max-width: 90vw;
-          max-height: 65vh;
+          max-width: 82vw;
+          max-height: 78vh;
           border-radius: 16px;
           overflow: hidden;
+          /* 35% dark navy overlay. Was fully transparent before (the
+             immersive video bg showed through 100%). User direction
+             2026-05-24: "for the background of this video, basically
+             the animation, the rectangle, can you make it a little
+             more opaque so that this animation stands out? Maybe
+             30% or 40% opaque." 35% sits in the middle of that
+             range. Color is a near-black navy (#05101E) that
+             complements the dark blue immersive video without
+             introducing a hue conflict; tweak the alpha if the
+             contrast needs adjustment. */
+          background: rgba(5, 16, 30, 0.35);
           /* Teal border + glow so the small frame is visible against
              the dark immersive bg. */
           box-shadow:
