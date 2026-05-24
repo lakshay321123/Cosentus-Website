@@ -133,7 +133,7 @@ export default function RCMCalculatorSection() {
        - 10% denial rate is industry standard
        - 25% AR>90 days is common for practices without proactive
          follow-up (Cosentus's benchmark is <15%) */
-  const [monthly, setMonthly] = useState(500)        // in thousands, slider 50-2000
+  const [monthly, setMonthly] = useState(500)        // in thousands, slider 50-20000 ($50K-$20M monthly)
   const [denialRate, setDenialRate] = useState(10)   // percent, slider 0-25
   const [arOver90, setArOver90] = useState(25)       // percent, slider 5-50
 
@@ -195,12 +195,28 @@ export default function RCMCalculatorSection() {
                     {fmt$(monthly * 1000)}
                   </span>
                 </div>
+                {/* Slider range expanded May 2026 per user
+                    direction: max was $2M/month, now $20M/month
+                    to accommodate enterprise / multi-site
+                    practices and large hospital outpatient
+                    groups. Step bumped 25 -> 100 (so $25K ->
+                    $100K increments) because at step=25 with
+                    max=20000 the slider would have 798
+                    positions — the thumb wouldn't track
+                    meaningfully across the full range. At
+                    step=100 the slider has 199 positions
+                    across $50K-$20M which is smooth + still
+                    lets small practices land on a defensible
+                    number. The default value (500 = $500K)
+                    stays the same so a typical mid-size
+                    practice sees the same compelling-but-
+                    believable first-load number. */}
                 <input
                   type="range"
                   className="rcm-calc-slider"
                   min={50}
-                  max={2000}
-                  step={25}
+                  max={20000}
+                  step={100}
                   value={monthly}
                   onChange={e => setMonthly(Number(e.target.value))}
                 />

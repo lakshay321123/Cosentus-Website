@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/case-studies`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/events`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
     { url: `${SITE}/careers`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE}/wecare`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE}/cosentus-cares`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]

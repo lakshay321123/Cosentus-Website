@@ -12,7 +12,7 @@ const navItems = [
     children: [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
-      { label: 'WeCare', href: '/wecare' },
+      { label: 'Cosentus Cares', href: '/cosentus-cares' },
       { label: 'Careers', href: '/careers' },
     ],
   },
@@ -29,8 +29,28 @@ const navItems = [
     ],
   },
   {
-    label: 'RCM 360',
+    // Services dropdown — per user direction May 24 2026.
+    // Replaces the previous standalone 'RCM 360' and 'Zeus Ai'
+    // top-level tabs with a single 'Services' parent that
+    // groups them. Matches the footer column 3 structure
+    // (footer also has 'Services' as a non-clickable header
+    // with RCM 360 + ZeusAi as the sub-links — see
+    // src/components/layout/Footer.tsx).
+    //
+    // The top-level 'Services' parent routes to /services/rcm
+    // (RCM 360 — the primary service). Clicking the parent
+    // navigates there; hovering opens the dropdown for direct
+    // access to either Service. This matches how the other
+    // dropdown parents already behave (About Us -> /about,
+    // Specialties -> /specialties, Resources -> /insights).
+    // The footer 'Services' column uses '#' because the footer
+    // is a static index — different render, different rules.
+    label: 'Services',
     href: '/services/rcm',
+    children: [
+      { label: 'RCM 360', href: '/services/rcm' },
+      { label: 'Zeus Ai', href: '/cosentus-ai' },
+    ],
   },
   {
     label: 'Resources',
@@ -45,15 +65,14 @@ const navItems = [
   {
     // Partnership promoted out of the Resources dropdown to its own
     // top-level tab per user direction May 2026. Placed between
-    // Resources and Zeus Ai so Zeus Ai keeps the featured rightmost
-    // slot, and Partnership sits next to the other supporting-content
-    // tabs rather than competing with the AI product position.
+    // Resources and (formerly) Zeus Ai so Zeus Ai keeps the featured
+    // rightmost slot, and Partnership sits next to the other
+    // supporting-content tabs rather than competing with the AI
+    // product position. Zeus Ai itself has since moved into the
+    // new Services dropdown above (May 24); Partnership stays as
+    // its own top-level tab.
     label: 'Partnership',
     href: '/partnership',
-  },
-  {
-    label: 'Zeus Ai',
-    href: '/cosentus-ai',
   },
 ]
 
