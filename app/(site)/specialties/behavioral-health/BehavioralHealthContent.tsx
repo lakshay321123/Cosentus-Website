@@ -33,7 +33,7 @@ const advantages = [
 // Leadership team per doc — 8 named people with photos already
 // on disk. Same structure as Anesthesia.
 const leaders = [
-  { name: 'JR Thompson', title: 'Sr. VP & Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
+  { name: 'JR Thompson', title: 'Chief Operating Officer', photo: '/images/JR THOMPSON.jpg' },
   { name: 'Andrew Clougherty', title: 'Sr. Director of Client Services', photo: '/images/Andrew-Clougherty.jpg' },
   { name: 'Caty Harding', title: 'Account Manager', photo: '/images/Caty-Harding-2.webp' },
   { name: 'Toni Brown', title: 'Senior Account Manager', photo: '/images/Toni-Brown-1.webp' },
