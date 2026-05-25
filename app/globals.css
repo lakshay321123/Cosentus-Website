@@ -563,8 +563,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    where only the footer fallback degrades to solid teal.
 ===================================================================== */
 .home-immersive .testimonial-card,
-.home-immersive .cta-box,
-.faqs-page .cta-box {
+.home-immersive .cta-box {
+  /* .faqs-page .cta-box removed 2026-05-25. This rule applies a
+     6% white-wash frosted-glass background designed to read over
+     the dark home-immersive video bg; on the white /faqs page bg
+     it rendered as effectively transparent, so the CTA looked
+     like an empty white-bordered card. Removing the .faqs-page
+     selector lets the default .cta-box rule (line ~2308,
+     background: #00B5D6 teal) take over. Per user direction
+     2026-05-25: "the city [CTA] over here is not visible. Make
+     it blue background. Then only it'll be visible, right?" */
   position: relative !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
   background-image: none !important;
@@ -618,9 +626,16 @@ body:has(main.home-immersive) .footer {
    is defined elsewhere and still applies. Just make sure the headline
    and inner content stay white over the frosted surface. */
 .home-immersive .cta-box h2,
-.home-immersive .cta-box *,
-.faqs-page .cta-box h2,
-.faqs-page .cta-box * {
+.home-immersive .cta-box * {
+  /* .faqs-page .cta-box h2 and .faqs-page .cta-box * removed
+     2026-05-25 in the same change as the .faqs-page entry on the
+     frosted background rule above. The blanket '.cta-box *' was
+     making the button text white as well — fine on the home page's
+     frosted background, but a problem on /faqs where it was
+     interacting with the now-white CTA bg. Default .cta-box h2
+     (line ~2324: color: var(--white)) still renders correctly
+     against the now-teal /faqs CTA bg. The .btn-primary inside
+     keeps its own default color, which is what we want. */
   color: rgba(255, 255, 255, 0.95) !important;
 }
 
