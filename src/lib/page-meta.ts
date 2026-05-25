@@ -138,8 +138,46 @@ export function liveSnapshot(): string {
   const hash = (typeof window !== 'undefined' && window.location.hash) || ''
   if (hash) parts.push(`Anchor: ${hash} (user just jumped to this section)`)
 
+  // Auto-enumerate sections on the current page so Grace knows about everything
+  // really there — not just what's hardcoded in pageMeta. This is what makes her
+  // aware of new sections (e.g. workflow animations, hero diagrams) we add to a
+  // page later, without anyone needing to update the static map.
+  const sectionLabels: string[] = []
+  const seen = new Set<string>()
+  for (const sec of Array.from(document.querySelectorAll<HTMLElement>('section'))) {
+    const id = (sec.getAttribute('id') || '').trim()
+    const headingEl = sec.querySelector('h2, .section-title, .section-label')
+    let heading = headingEl?.textContent?.trim().replace(/\s+/g, ' ') || ''
+    if (!id && !heading) continue
+    // Truncate long headings rather than dropping the section — e.g. the
+    // homepage RA section's H2 is over 100 chars but it's the very section
+    // Grace most needs to know about. Drop only if even the truncated label
+    // would be useless.
+    if (heading.length > 70) heading = heading.slice(0, 67) + '…'
+    const label = id && heading
+      ? `${heading} (#${id})`
+      : (heading || `#${id}`)
+    if (seen.has(label)) continue
+    seen.add(label)
+    sectionLabels.push(label)
+    if (sectionLabels.length >= 12) break // cap so the snapshot stays voice-context-sized
+  }
+  if (sectionLabels.length > 0) {
+    parts.push(`Sections on this page: ${sectionLabels.join('; ')}`)
+  }
+
   const hasForm = !!document.querySelector('main form')
   if (hasForm) parts.push('A form is rendered on this page.')
+
+  // Modal/dialog open detection — Grace needs to know when she's just opened a
+  // popup (e.g. clicked a voice agent or leadership card) so she can tell the
+  // user about it and close it when done.
+  const openModal = document.querySelector(
+    '[role="dialog"]:not([hidden]), .call-card, .voice-call-modal, [class*="bio-modal"], [class*="lightbox"]:not([hidden])'
+  )
+  if (openModal) {
+    parts.push('A modal/popup is currently open. To close it, click the Close button (aria-label "Close") or press Escape.')
+  }
 
   return parts.join(' | ')
 }
