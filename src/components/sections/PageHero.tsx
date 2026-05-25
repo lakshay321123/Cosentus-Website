@@ -17,14 +17,16 @@ interface PageHeroProps {
    */
   compact?: boolean
   /**
-   * When true, the hero renders as a flat brand-teal band — no video,
-   * no overlay, ~220px desktop / 160px mobile. Used by the Resources
+   * When true, the hero renders as a flat neutral-grey band — no
+   * video, no overlay. Section min-height ~140px desktop / ~100px
+   * mobile (reduced from 220/160 May 2026). Used by the Resources
    * sub-pages (Blog, Client Stories, News, Events, Insights) where
    * the full video hero felt too heavy for index/list pages.
    *
    * Side effects when band=true:
    *   - <video> + overlay are not rendered (saves the ~1.9MB mp4)
-   *   - background: var(--primary) is applied directly to the section
+   *   - background: var(--band-bg) is applied directly to the
+   *     section (currently #B3B3B3 — see globals.css)
    *   - title shrinks to clamp(28px, 3.5vw, 42px) to fit the band
    *   - subtitle and CTA are NOT rendered even if passed (the band
    *     is too short to fit them cleanly). Pages that previously
@@ -52,7 +54,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
   const isLightSpecialtyVideo = (videoSrc || '').includes('specialties-hero')
 
   const titleStyles: React.CSSProperties = {
-    // Band variant runs at ~220px section height, so the default
+    // Band variant runs at ~140px section height, so the default
     // clamp(36, 5vw, 64) would crowd the vertical space. Drop one
     // size tier. Italic + 700 weight kept so the typography identity
     // (matches the bigger video-hero pages) stays consistent.
@@ -76,7 +78,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
     specialty && 'page-hero-section--specialty',
   ].filter(Boolean).join(' ')
 
-  // Band variant: solid brand teal, no video, no overlay.
+  // Band variant: solid grey (var(--band-bg)), no video, no overlay.
   // Default: positioned/overflow setup for the absolutely-positioned
   // video + overlay layers below.
   const sectionStyle: React.CSSProperties = band
@@ -137,7 +139,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
           {title}
         </RevealText>
 
-        {/* Subtitle and CTA suppressed in band variant — the 220px
+        {/* Subtitle and CTA suppressed in band variant — the ~140px
             band height can't hold them cleanly. Pages that need
             them should not pass band. */}
         {!band && subtitle && (

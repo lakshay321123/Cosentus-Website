@@ -19,17 +19,27 @@
 
   /* Band-hero background — used by .page-hero-section--band (Resources
      sub-pages: Blog, Client Stories, News, Events, Insights) and the
-     /faqs hero. Set to the official brand primary #00B5D6 per direct
-     user direction (May 2026), matching the Cosentus brand sheet.
+     /faqs hero. Changed from brand primary #00B5D6 to a neutral 30%
+     grey (#B3B3B3 = 30% black on white) per user direction (May 2026)
+     to dial the band back visually and de-emphasise the hero strip
+     on list/index pages.
 
-     ACCESSIBILITY NOTE: white text on #00B5D6 = 2.45:1 contrast, which
-     FAILS WCAG AA for any text size (large-text threshold is 3.0:1,
-     body is 4.5:1). The previous value #0088A8 passed at 4.13:1 but
-     was off-brand. User accepted the contrast trade-off in favor of
-     brand fidelity. If accessibility is later flagged: either revert
-     to #0088A8, or flip the band text color from white to black
-     (#000000 on #00B5D6 = 8.58:1, passes AAA). */
-  --band-bg: #00B5D6;
+     Side benefit: previous cyan band collided with the nav-link
+     hover colour (var(--primary) = #00B5D6), which made hovered
+     nav labels render cyan-on-cyan and visually disappear over
+     the band. With grey here, hovered cyan nav labels are visible.
+
+     ACCESSIBILITY KNOWN ISSUES (not addressed in this change):
+       - PageHero <h1> is hardcoded color: white in
+         src/components/sections/PageHero.tsx. White on #B3B3B3 =
+         2.3:1 contrast — fails WCAG AA for any text size.
+       - Nav links over the unscrolled band are white. Same 2.3:1
+         problem until the user scrolls (then nav text flips to
+         black via .nav.scrolled rules).
+     If readability is flagged: flip the band hero <h1> and the
+     non-scrolled nav-link colour from white to black (or a dark
+     grey). Black on #B3B3B3 = 9.0:1, passes AAA. */
+  --band-bg: #B3B3B3;
 
   --gray-900: #000000;
   --gray-800: #000000;
@@ -204,7 +214,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .nav.scrolled .nav-links a { color: #000000; }
-.nav-links a:hover { color: var(--primary); }
+/* Hover keeps the base text colour (white over hero, black when scrolled)
+   instead of flipping to var(--primary). Previously hover turned text cyan,
+   which collided with the cyan band background on Resources sub-pages
+   (Blog, Client Stories, News, Events, Insights, FAQs) and rendered the
+   hovered label invisible. With the band now grey (#B3B3B3, see --band-bg
+   above), the collision would technically be gone, but the user
+   preferred no colour shift at all. Hover feedback now comes from the
+   underline grow-in below (.nav-links a:hover::after). */
 
 .nav-links a::after {
   content: '';
@@ -234,7 +251,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .nav.scrolled .nav-cta { color: #000000; }
-.nav-cta:hover { color: var(--primary); }
+/* See .nav-links a:hover note above — same rationale: keep base text
+   colour on hover (no cyan flip). Contact has no underline animation,
+   so the only hover signal here is the default browser cursor change.
+   If we want explicit feedback later, add an underline or subtle
+   opacity tween here. */
 
 /* Dropdown nav */
 .has-dropdown { position: relative; }
@@ -865,35 +886,40 @@ body:has(main.home-immersive) .footer-top {
 
 /* Band variant — used by Resources sub-pages (Blog, Client Stories,
    News, Events, Insights) and the /faqs page. Replaces the video
-   hero with a flat brand-teal band. The component (PageHero.tsx)
-   handles the background colour + skipping the video; this block
-   handles the geometry.
+   hero with a flat band (now grey — see --band-bg). The component
+   (PageHero.tsx) handles the background colour + skipping the
+   video; this block handles the geometry.
 
-   Heights chosen May 2026 per user direction "medium" tier:
-     desktop 220px / mobile 160px. Stays under the navbar's fade-in
-     threshold but is thick enough to read as a deliberate band
-     rather than a separator.
+   Heights reduced May 2026 per user direction "almost half" —
+   previous values (220 desktop / 160 mobile) read as too heavy
+   on list pages where the band is decorative, not a hero. New
+   values:
+     desktop 140px (was 220) / mobile 100px (was 160).
+   Both are min-heights — if content (padding + title) exceeds
+   them, the section grows. On desktop the typical resolved
+   height is ~148px (85 top + 43 title + 20 bottom).
 
    Padding overrides .hero-content's default 140/40/80. Top padding
-   (~110 desktop / 80 mobile) is just enough to clear the fixed
-   navbar (~80px tall) plus a small breathing gap. Bottom padding
-   keeps the title from sitting on the lower band edge. */
+   (~85 desktop / 65 mobile) is just enough to clear the fixed
+   navbar (~70-80px tall: 16px×2 padding + 38px logo) plus a small
+   breathing gap. Bottom padding keeps the title from sitting on
+   the lower band edge. */
 .page-hero-section--band {
-  min-height: 220px;
+  min-height: 140px;
 }
 .page-hero-section--band .hero-content {
-  padding: 110px 40px 40px;
+  padding: 85px 40px 20px;
 }
 @media (max-width: 768px) {
   .page-hero-section--band {
-    min-height: 160px;
+    min-height: 100px;
   }
   /* !important required because a later @media (max-width: 768px) rule
      at ~line 3338 declares `.hero-content { padding: 100px 16px 48px !important }`
      which would otherwise beat this rule's specificity and break the
      band's intended mobile geometry. CodeRabbit PR #162 finding #2. */
   .page-hero-section--band .hero-content {
-    padding: 80px 24px 24px !important;
+    padding: 65px 24px 16px !important;
   }
 }
 

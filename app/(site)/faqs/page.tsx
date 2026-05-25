@@ -56,8 +56,9 @@ export default function FAQsPage() {
               perWordDelay={0.05}
               style={{
                 fontFamily: 'var(--font-display)',
-                /* Sized for the 220/160px band. Was clamp(36, 5vw, 64)
-                   when the hero sat inside a 100vh dark page. */
+                /* Sized for the 140/100px band (reduced from 220/160
+                   May 2026). Was clamp(36, 5vw, 64) when the hero
+                   sat inside a 100vh dark page. */
                 fontSize: 'clamp(28px, 3.5vw, 42px)',
                 fontWeight: 300,
                 lineHeight: 1.05,
@@ -70,10 +71,12 @@ export default function FAQsPage() {
               <>
                 Frequently asked,{' '}
                 {/* Accent on "directly answered" was #00B5D6 (brand teal)
-                    when the hero bg was dark. Now that the hero IS teal,
-                    teal-on-teal would be invisible — switched to white.
-                    Italic flourish retained so the editorial cadence
-                    still reads. */}
+                    when the hero bg was dark. Stayed white when the band
+                    was teal (teal-on-teal would have been invisible) and
+                    is staying white now that the band is grey (the project
+                    direction May 2026 is no colour-flip on band; matches
+                    the nav-link hover removal in app/globals.css). The
+                    italic flourish is the editorial accent. */}
                 <span style={{ color: 'rgba(255, 255, 255, 0.98)', fontStyle: 'italic' }}>directly answered.</span>
               </>
             </RevealText>
@@ -84,8 +87,8 @@ export default function FAQsPage() {
       <section className="faqs-body">
         <div className="container">
           {/* Lead paragraph — was the hero subtitle in the previous
-              dark-page layout. Moved here so the teal band stays
-              clean at ~220px and the framing copy isn't lost. Sits
+              dark-page layout. Moved here so the grey band stays
+              clean at ~140px and the framing copy isn't lost. Sits
               above the first FAQ group, in the dark area below the
               band. */}
           <RevealOnScroll direction="up" delay={0.05}>
@@ -168,33 +171,39 @@ export default function FAQsPage() {
           padding-bottom: 96px;
         }
 
-        /* Teal band hero — matches the Resources sub-pages
+        /* Grey band hero — matches the Resources sub-pages
            (Blog, Client Stories, News, Events, Insights) which use
-           PageHero band prop. Same height (220 desktop / 160 mobile)
-           and same brand-teal background, hand-rolled here because
-           /faqs uses its own custom hero (not PageHero).
+           PageHero band prop. Same dimensions and same background
+           colour, hand-rolled here because /faqs uses its own
+           custom hero (not PageHero). If the canonical band rules
+           in app/globals.css (.page-hero-section--band) change,
+           keep this in sync — there is no shared geometry source.
 
-           padding-top: 110px clears the ~80px fixed nav with a
-           small breathing gap. align-items: center vertically
-           centres the H1 inside the band. */
+           Dimensions reduced May 2026 to match new band sizing:
+             desktop: 140px min-height (was 220), padding 85/20 (was 110/40)
+             mobile:  100px min-height (was 160), padding 65/16 (was 80/24)
+
+           Top padding (~85 desktop / 65 mobile) clears the fixed nav
+           (~70-80px) with a small breathing gap. align-items: center
+           vertically centres the H1 inside the band. */
         .faqs-hero {
           background: var(--band-bg);
-          min-height: 220px;
+          min-height: 140px;
           display: flex;
           align-items: center;
-          padding-top: 110px;
-          padding-bottom: 40px;
+          padding-top: 85px;
+          padding-bottom: 20px;
         }
         @media (max-width: 768px) {
           .faqs-hero {
-            min-height: 160px;
-            padding-top: 80px;
-            padding-bottom: 24px;
+            min-height: 100px;
+            padding-top: 65px;
+            padding-bottom: 16px;
           }
         }
 
         /* Lead paragraph — moved from the hero (was .faqs-subtitle)
-           to the body so the teal band stays lean. Sits above the
+           to the body so the grey band stays lean. Sits above the
            first FAQ group on the dark page background. */
         .faqs-lead {
           font-size: 18px;
