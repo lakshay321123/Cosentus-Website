@@ -259,9 +259,17 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
 
 interface SpecialtyMarqueeProps {
   items: SpecialtySolution[]
+  /**
+   * Layout mode:
+   *  - 'marquee' (default): horizontal auto-scrolling carousel, drag-enabled, fade edges.
+   *  - 'grid': responsive grid (3 col desktop, 2 col mobile). No stripe, no eyebrow
+   *    label except for AI agent cards. Used by all specialty pages as of the
+   *    "specialty-grid-layout" change (replaces horizontal scroll with vertical scroll).
+   */
+  layout?: 'marquee' | 'grid'
 }
 
-export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
+export default function SpecialtyMarquee({ items, layout = 'marquee' }: SpecialtyMarqueeProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const translateXRef = useRef(0)
   const halfWidthRef = useRef(0)
@@ -271,6 +279,7 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
+    if (layout !== 'marquee') return
     if (!trackRef.current) return
 
     const measureHalfWidth = () => {
@@ -314,7 +323,7 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
       window.removeEventListener('resize', measureHalfWidth)
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
     }
-  }, [])
+  }, [layout])
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId)
@@ -336,6 +345,108 @@ export default function SpecialtyMarquee({ items }: SpecialtyMarqueeProps) {
     if (e.currentTarget.hasPointerCapture(e.pointerId)) {
       e.currentTarget.releasePointerCapture(e.pointerId)
     }
+  }
+
+  // ---------------------------------------------------------------
+  // Grid mode: responsive grid (3 col desktop, 2 col mobile).
+  // No marquee, no stripe, no eyebrow on non-agent cards.
+  // For AI agent cards (Cindy, Chris, Paige, etc.), the eyebrow is
+  // kept (next to the avatar) but rendered in black, not cyan.
+  // ---------------------------------------------------------------
+  if (layout === 'grid') {
+    return (
+      <div className="spec-grid-wrapper" style={{ marginTop: 48 }}>
+        <div className="container">
+          <div className="spec-grid">
+            {items.map((s, i) => (
+              <article key={i} className="spec-card spec-card-grid">
+                {s.agent ? (
+                  <div className="spec-card-eyebrow-row">
+                    <Link
+                      href="/cosentus-ai"
+                      className="spec-card-avatar"
+                      aria-label={`Meet ${s.agent.name}, our AI agent`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/images/${s.agent.img}`}
+                        alt=""
+                        width={80}
+                        height={80}
+                        draggable={false}
+                      />
+                    </Link>
+                    <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                  </div>
+                ) : null}
+                <h3 className="spec-card-title">{s.title}</h3>
+                <p className="spec-card-desc">{s.description}</p>
+                <div className="spec-card-anim">
+                  <CardAnimation s={s} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          /* === Grid layout === */
+          .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+          }
+          /* 2 col below desktop (covers tablet + mobile per spec). */
+          @media (max-width: 900px) {
+            .spec-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+          }
+
+          /* === Card overrides for grid (vs marquee defaults) === */
+          .spec-card-grid {
+            /* In grid mode the column controls the width — drop the
+               fixed clamp width and flex-shrink that the marquee uses. */
+            width: 100%;
+            flex-shrink: initial;
+            height: 420px;
+            background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 36px 30px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          }
+          .spec-card-grid:hover {
+            border-color: #00B5D6;
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px -16px rgba(0, 181, 214, 0.22);
+          }
+
+          /* Eyebrow color override for agent cards in grid mode.
+             Agent cards still show the eyebrow (e.g. "AI AGENT — CINDY")
+             so users know who the avatar is, but the label is rendered
+             in body color rather than brand cyan. */
+          .spec-grid .spec-card-eyebrow-dark {
+            color: var(--gray-900);
+          }
+
+          /* Mobile sizing for cards in grid */
+          @media (max-width: 720px) {
+            .spec-card-grid {
+              height: auto;
+              min-height: 360px;
+              padding: 24px 20px 20px;
+            }
+            .spec-card-grid .spec-card-title { font-size: 18px; }
+          }
+        `}</style>
+      </div>
+    )
   }
 
   return (

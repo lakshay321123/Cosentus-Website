@@ -170,16 +170,16 @@ export default function AnesthesiaContent() {
 
 
       {/* RCM Solutions: Complete Anesthesia Revenue Cycle.
-          Marquee + animation logic lives in SpecialtyMarquee
+          Grid + animation logic lives in SpecialtyMarquee
           component (shared across all 6 specialty pages). */}
-      <section className="section section-alt">
+      <section className="section section-specialty-grid">
         <div className="container">
           <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
         </div>
 
-        {/* Marquee lives outside .container so cards can scroll
-            edge-to-edge. The edge fade is on the marquee itself. */}
-        <SpecialtyMarquee items={solutions} />
+        {/* Grid layout: 3 col desktop, 2 col mobile. Cards wrap their
+            own .container internally so they align with the title. */}
+        <SpecialtyMarquee items={solutions} layout="grid" />
       </section>
 
 
