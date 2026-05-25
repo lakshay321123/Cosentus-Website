@@ -347,115 +347,66 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
     }
   }
 
-  // ---------------------------------------------------------------
-  // Grid mode: responsive grid (3 col desktop, 2 col mobile).
-  // No marquee, no stripe, no eyebrow on non-agent cards.
-  // For AI agent cards (Cindy, Chris, Paige, etc.), the eyebrow is
-  // kept (next to the avatar) but rendered in black, not cyan.
-  // ---------------------------------------------------------------
-  if (layout === 'grid') {
-    return (
-      <div className="spec-grid-wrapper" style={{ marginTop: 48 }}>
-        <div className="container">
-          <div className="spec-grid">
-            {items.map((s, i) => (
-              <article key={i} className="spec-card spec-card-grid">
-                {s.agent ? (
-                  <div className="spec-card-eyebrow-row">
-                    <Link
-                      href="/cosentus-ai"
-                      className="spec-card-avatar"
-                      aria-label={`Meet ${s.agent.name}, our AI agent`}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/images/${s.agent.img}`}
-                        alt=""
-                        width={80}
-                        height={80}
-                        draggable={false}
-                      />
-                    </Link>
-                    <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+  return (
+    <>
+      {layout === 'grid' ? (
+        /* ---------------------------------------------------------------
+           Grid mode: responsive grid (3 col desktop, 2 col mobile).
+           No marquee, no stripe, no eyebrow on non-agent cards.
+           Cards keep their original clamp(280px, 22vw, 330px) width — the
+           grid columns are capped at 330px and centered, so visually each
+           card matches the marquee version exactly. Just laid out in rows
+           instead of scrolling horizontally.
+
+           For AI agent cards (Cindy, Chris, Paige, etc.) the eyebrow is
+           kept (next to the avatar) but rendered in black, not cyan.
+
+           CRITICAL: this branch shares the same <style> block as the
+           marquee branch below — that block defines all the .anim-*
+           classes (modifier pills, stamp track, stat bars, etc.). Moving
+           grid-specific styles into the shared block is required, NOT
+           into a separate <style> tag scoped to this branch. */
+        <div className="spec-grid-wrapper" style={{ marginTop: 48 }}>
+          <div className="container">
+            <div className="spec-grid">
+              {items.map((s, i) => (
+                <article key={i} className="spec-card spec-card-grid">
+                  {s.agent ? (
+                    <div className="spec-card-eyebrow-row">
+                      <Link
+                        href="/cosentus-ai"
+                        className="spec-card-avatar"
+                        aria-label={`Meet ${s.agent.name}, our AI agent`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={`/images/${s.agent.img}`}
+                          alt=""
+                          width={80}
+                          height={80}
+                          draggable={false}
+                        />
+                      </Link>
+                      <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                    </div>
+                  ) : null}
+                  <h3 className="spec-card-title">{s.title}</h3>
+                  <p className="spec-card-desc">{s.description}</p>
+                  <div className="spec-card-anim">
+                    <CardAnimation s={s} />
                   </div>
-                ) : null}
-                <h3 className="spec-card-title">{s.title}</h3>
-                <p className="spec-card-desc">{s.description}</p>
-                <div className="spec-card-anim">
-                  <CardAnimation s={s} />
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
         </div>
-
-        <style>{`
-          /* === Grid layout === */
-          .spec-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-          }
-          /* 2 col below desktop (covers tablet + mobile per spec). */
-          @media (max-width: 900px) {
-            .spec-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-          }
-
-          /* === Card overrides for grid (vs marquee defaults) === */
-          .spec-card-grid {
-            /* In grid mode the column controls the width — drop the
-               fixed clamp width and flex-shrink that the marquee uses. */
-            width: 100%;
-            flex-shrink: initial;
-            height: 420px;
-            background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
-            border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 36px 30px 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-              transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
-              box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
-          }
-          .spec-card-grid:hover {
-            border-color: #00B5D6;
-            transform: translateY(-3px);
-            box-shadow: 0 16px 36px -16px rgba(0, 181, 214, 0.22);
-          }
-
-          /* Eyebrow color override for agent cards in grid mode.
-             Agent cards still show the eyebrow (e.g. "AI AGENT — CINDY")
-             so users know who the avatar is, but the label is rendered
-             in body color rather than brand cyan. */
-          .spec-grid .spec-card-eyebrow-dark {
-            color: var(--gray-900);
-          }
-
-          /* Mobile sizing for cards in grid */
-          @media (max-width: 720px) {
-            .spec-card-grid {
-              height: auto;
-              min-height: 360px;
-              padding: 24px 20px 20px;
-            }
-            .spec-card-grid .spec-card-title { font-size: 18px; }
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-  return (
-    <div
-      className="spec-marquee"
-      onMouseEnter={() => { isHoveringRef.current = true }}
-      onMouseLeave={() => { isHoveringRef.current = false }}
-      style={{ marginTop: 48 }}
-    >
+      ) : (
+        <div
+          className="spec-marquee"
+          onMouseEnter={() => { isHoveringRef.current = true }}
+          onMouseLeave={() => { isHoveringRef.current = false }}
+          style={{ marginTop: 48 }}
+        >
       <div
         ref={trackRef}
         className="spec-marquee-track"
@@ -496,7 +447,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
             </div>
           </article>
         ))}
-      </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         /* === Marquee shell === */
@@ -1101,7 +1054,45 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           }
           .spec-card-title { font-size: 19px; }
         }
+
+        /* =================================================================
+           === GRID LAYOUT (layout="grid") ================================
+           Grid mode renders the same .spec-card markup as marquee mode, so
+           the existing .spec-card / .spec-card-title / .spec-card-desc /
+           .spec-card-anim styles above are reused. These rules add only
+           the grid container + a couple of card behavior overrides.
+
+           Card width is intentionally NOT changed in grid mode — the
+           grid column is capped at 330px (matching the marquee's
+           clamp(280px, 22vw, 330px) ceiling) so each card looks
+           identical to the marquee version, just laid out in rows.
+           ================================================================= */
+        .spec-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 330px));
+          gap: 28px;
+          justify-content: center;
+        }
+        /* 2 col below 900px (covers tablet + mobile per spec). */
+        @media (max-width: 900px) {
+          .spec-grid {
+            grid-template-columns: repeat(2, minmax(0, 330px));
+            gap: 20px;
+          }
+        }
+        /* On narrow phones, let the columns shrink below 280px so they
+           fit two-up. .spec-card has width: clamp(280px, 22vw, 330px) +
+           flex-shrink: 0 — neither matters inside a grid cell, but we
+           neutralize them here for clarity. */
+        .spec-grid .spec-card {
+          width: auto;
+          flex-shrink: initial;
+        }
+        /* Agent eyebrow color in grid mode: black, not brand cyan. */
+        .spec-grid .spec-card-eyebrow-dark {
+          color: var(--gray-900);
+        }
       `}</style>
-    </div>
+    </>
   )
 }
