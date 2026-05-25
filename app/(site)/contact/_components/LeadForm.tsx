@@ -131,6 +131,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
 
   return (
     <form
+      id="contact-form"
       onSubmit={handleSubmit}
       style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 20 }}
     >

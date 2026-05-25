@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { ConversationProvider, useConversation } from '@elevenlabs/react'
+import { pageContext } from '@/lib/page-meta'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
 
@@ -179,42 +180,71 @@ function CindyInner() {
         return `Couldn\'t find anything matching "${params.text}" on this page.`
       },
 
-      fill_form: async (params: { practice_name?: string; contact_name?: string; email?: string; phone?: string; specialty?: string; message?: string }) => {
+      fill_form: async (params: {
+        practice_name?: string; contact_name?: string;
+        // Aliases — ElevenLabs tool schema may declare these under different
+        // identifiers ("name" instead of "contact_name", "company" instead of
+        // "practice_name"). Without these aliases, the schema mismatch silently
+        // drops both name fields and the form submits with blank names.
+        name?: string; full_name?: string;
+        company?: string; practice?: string; practice_full_name?: string;
+        email?: string; phone?: string; specialty?: string; message?: string
+      }) => {
         setActionLabel('Filling form...')
-        const needsNav = window.location.pathname !== '/contact'
-        if (needsNav) router.push('/contact')
+
+        // Normalize aliases into the two distinct fields the form actually uses.
+        // contact_name = the human; practice_name = the clinic. ElevenLabs LLMs
+        // sometimes conflate these, so we resolve in priority order.
+        const practiceName = params.practice_name || params.company || params.practice_full_name || params.practice || ''
+        const contactName  = params.contact_name  || params.full_name || params.name             || ''
+
+        // Stay on whichever /contact/[location] page the user is on so the lead
+        // attributes to that office. /contact alone 308-redirects to Irvine,
+        // which was previously causing all leads to mis-attribute.
+        const onLocationPage = window.location.pathname.startsWith('/contact/')
+        const needsNav = !onLocationPage
+        if (needsNav) router.push('/contact/irvine')
 
         // Wait for page — shorter wait + element polling instead of fixed 1800ms
         const waitMs = needsNav ? 800 : 100
         await new Promise(r => setTimeout(r, waitMs))
 
-        // Poll for form fields (max 1.5s)
-        let formReady = false
+        // Poll for the contact form by its id, not by any random input on
+        // the page. Scoping to #contact-form means we can't ever pick up a
+        // footer newsletter, the chat widget, or any other form that happens
+        // to share field names. If #contact-form isn't on the page within
+        // 1.6s, we abort honestly.
+        let form: HTMLFormElement | null = null
         for (let i = 0; i < 8; i++) {
-          if (document.querySelector('input[name="practiceName"]')) { formReady = true; break }
+          form = document.getElementById('contact-form') as HTMLFormElement | null
+          if (form && form.querySelector('input[name="practiceName"]')) break
+          form = null
           await new Promise(r => setTimeout(r, 200))
         }
 
-        if (!formReady) {
+        if (!form) {
           setActionLabel('')
           // Truthful failure — form didn't load. Give agent a workable path
           // instead of falsely claiming success. Phone matches site-wide CTA.
           return 'I couldn\'t reach the contact form — you can call the team directly at (877) 806-2286 or I can try again.'
         }
 
-        // Scroll to form
-        const formSection = document.getElementById('contact-form')
-        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' })
+        // Scroll to form BEFORE filling so the user watches it populate.
+        // 300ms settle delay gives smooth-scroll a moment before fields change.
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        await new Promise(r => setTimeout(r, 300))
 
-        // Fill fields — all synchronous, no awaits
+        // Fill fields — uses the normalized names resolved at the top of this
+        // function, so ElevenLabs schema aliases (name/company) end up in the
+        // right DOM inputs (contactName/practiceName).
         const fieldMap: Record<string, string> = {
-          practiceName: params.practice_name || '', contactName: params.contact_name || '',
+          practiceName, contactName,
           email: params.email || '', phone: params.phone || '', message: params.message || '',
         }
         let filled = 0
         for (const [name, value] of Object.entries(fieldMap)) {
           if (!value) continue
-          const el = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
+          const el = form.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
           if (el) {
             const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
             const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
@@ -222,7 +252,7 @@ function CindyInner() {
           }
         }
         if (params.specialty) {
-          const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
+          const select = form.querySelector('select[name="specialty"]') as HTMLSelectElement | null
           if (select) {
             const spoken = params.specialty.toLowerCase().trim()
             // Normalize both sides symmetrically (space/hyphen -> underscore) so
@@ -259,7 +289,7 @@ function CindyInner() {
               let customInput: HTMLInputElement | null = null
               for (let i = 0; i < 5 && !customInput; i++) {
                 if (i > 0) await new Promise(r => setTimeout(r, 100))
-                customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+                customInput = form.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
               }
               if (customInput) {
                 const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
@@ -277,16 +307,17 @@ function CindyInner() {
 
         // Step 1 — try to actually click submit, up to 3 retries. Returns true if we
         // clicked a button or called requestSubmit; false if no submit path was ever found.
+        // Scoped to `form` (the resolved #contact-form element) so we never click a
+        // submit button belonging to a different form on the page.
         const attemptSubmit = async (): Promise<boolean> => {
           for (let attempt = 0; attempt < 3; attempt++) {
             if (attempt > 0) await new Promise(r => setTimeout(r, 300))
-            const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+            const submitBtn = form.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
             if (submitBtn) { setActionLabel('Submitting...'); submitBtn.click(); return true }
           }
-          // Last resort: requestSubmit bypasses visual button but still triggers React onSubmit
-          const form = document.querySelector('form') as HTMLFormElement | null
-          if (form) { setActionLabel('Submitting...'); form.requestSubmit(); return true }
-          return false
+          // Last resort: requestSubmit on the resolved form (NOT document.querySelector('form'),
+          // which would pick the first form on the page — could be a different form).
+          setActionLabel('Submitting...'); form.requestSubmit(); return true
         }
 
         // Step 2 — watch for success signal. ContactContent renders a "Thank you!" h3
@@ -306,29 +337,37 @@ function CindyInner() {
         // Give React a beat to process field changes before we click submit.
         await new Promise(r => setTimeout(r, 400))
 
-        // Build a recap of what was filled so Cindy can read it back.
+        // Build a recap of what was filled so Grace can read it back.
+        // Uses the normalized practiceName/contactName so the recap matches
+        // what actually went into the form (in case schema aliases were used).
         const filledSummary: string[] = []
-        if (params.practice_name) filledSummary.push(`practice name as ${params.practice_name}`)
-        if (params.contact_name) filledSummary.push(`contact as ${params.contact_name}`)
+        if (practiceName) filledSummary.push(`practice name as ${practiceName}`)
+        if (contactName)  filledSummary.push(`contact name as ${contactName}`)
         if (params.email) filledSummary.push(`email as ${params.email}`)
         if (params.phone) filledSummary.push(`phone as ${params.phone}`)
         if (params.specialty) filledSummary.push(`specialty as ${params.specialty}`)
         if (params.message) filledSummary.push(`a short message`)
         const recap = filledSummary.length ? filledSummary.join(', ') : `${filled} field${filled === 1 ? '' : 's'}`
 
+        // Three return paths, each a single coherent outcome. The previous
+        // implementation hedged ("I clicked Submit and ALSO please click Submit
+        // yourself"), which Grace parroted back to users and sounded broken.
+        // Pick exactly one truth per call and commit to it.
         const clicked = await attemptSubmit()
         if (!clicked) {
           setTimeout(() => setActionLabel(''), 1500)
-          return `I've filled in ${recap}. Please take a quick look — if it all looks right, click Submit to send it through. If anything needs changing, edit it directly in the form.`
+          return `I've filled in ${recap}, but I couldn't find the Submit button on this page. Everything's ready — could you click Submit at the bottom of the form?`
         }
 
         const confirmed = await watchForSuccess()
         setTimeout(() => setActionLabel(''), 1500)
         if (confirmed) {
-          return `I've filled in ${recap} and clicked Submit. Please glance at the confirmation on screen to make sure it went through — and if anything was off, let me know or reach out to the team directly.`
+          return `Submitted. The team will follow up within one business day.`
         }
-        // Submit clicked but no confirmation within the window. Don't claim success.
-        return `I've filled in ${recap} and clicked Submit. Please check the screen to confirm it went through — if it didn't, you can edit anything and click Submit yourself, otherwise the team will follow up within one business day.`
+        // Clicked Submit but the "Thank you" confirmation didn't show within
+        // 1.5s. State exactly that — don't pretend it succeeded, don't ask the
+        // user to re-submit. Could just be slow network.
+        return `I clicked Submit and the form's processing — can you glance at the screen and tell me if you see a Thank you message?`
       },
 
       scroll_to: (params: { section_id: string }) => {
@@ -440,7 +479,10 @@ function CindyInner() {
       if (!isConnected) return
       if (isSpeaking) { pendingPathRef.current = pathname; return }
       lastSentPath.current = pathname
-      try { conversation.sendContextualUpdate(`User is now on: ${pathname}`) } catch {}
+      // Send pathname + curated summary + live H1/hash/form-present snapshot.
+      // Without the summary, Grace only knows the URL and has to guess content
+      // from her KB, which she does badly.
+      try { conversation.sendContextualUpdate(`User is now on: ${pathname}. ${pageContext(pathname)}`) } catch {}
     }, 1000)
     return () => { if (contextTimerRef.current) clearTimeout(contextTimerRef.current) }
   }, [pathname, isConnected, isSpeaking]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -452,7 +494,7 @@ function CindyInner() {
     if (!pending || pending === lastSentPath.current) return
     pendingPathRef.current = null
     lastSentPath.current = pending
-    try { conversation.sendContextualUpdate(`User is now on: ${pending}`) } catch {}
+    try { conversation.sendContextualUpdate(`User is now on: ${pending}. ${pageContext(pending)}`) } catch {}
   }, [isSpeaking, isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Blink (PR fix: cleanup nested timeout to prevent memory leak).
@@ -481,7 +523,13 @@ function CindyInner() {
       conversation.startSession({
         agentId: AGENT_ID,
         connectionType: 'websocket',
-        dynamicVariables: { current_page: pathname || '/' },
+        // current_page is the URL; current_page_summary is what's on it.
+        // Both are passed to ElevenLabs as dynamic variables and can be
+        // referenced from the system prompt or knowledge base.
+        dynamicVariables: {
+          current_page: pathname || '/',
+          current_page_summary: pageContext(pathname || '/'),
+        },
       })
     } catch (e) {
       console.error('Failed to start conversation:', e)
