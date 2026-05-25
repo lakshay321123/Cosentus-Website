@@ -19,17 +19,27 @@
 
   /* Band-hero background — used by .page-hero-section--band (Resources
      sub-pages: Blog, Client Stories, News, Events, Insights) and the
-     /faqs hero. Set to the official brand primary #00B5D6 per direct
-     user direction (May 2026), matching the Cosentus brand sheet.
+     /faqs hero. Changed from brand primary #00B5D6 to a neutral 30%
+     grey (#B3B3B3 = 30% black on white) per user direction (May 2026)
+     to dial the band back visually and de-emphasise the hero strip
+     on list/index pages.
 
-     ACCESSIBILITY NOTE: white text on #00B5D6 = 2.45:1 contrast, which
-     FAILS WCAG AA for any text size (large-text threshold is 3.0:1,
-     body is 4.5:1). The previous value #0088A8 passed at 4.13:1 but
-     was off-brand. User accepted the contrast trade-off in favor of
-     brand fidelity. If accessibility is later flagged: either revert
-     to #0088A8, or flip the band text color from white to black
-     (#000000 on #00B5D6 = 8.58:1, passes AAA). */
-  --band-bg: #00B5D6;
+     Side benefit: previous cyan band collided with the nav-link
+     hover colour (var(--primary) = #00B5D6), which made hovered
+     nav labels render cyan-on-cyan and visually disappear over
+     the band. With grey here, hovered cyan nav labels are visible.
+
+     ACCESSIBILITY KNOWN ISSUES (not addressed in this change):
+       - PageHero <h1> is hardcoded color: white in
+         src/components/sections/PageHero.tsx. White on #B3B3B3 =
+         2.3:1 contrast — fails WCAG AA for any text size.
+       - Nav links over the unscrolled band are white. Same 2.3:1
+         problem until the user scrolls (then nav text flips to
+         black via .nav.scrolled rules).
+     If readability is flagged: flip the band hero <h1> and the
+     non-scrolled nav-link colour from white to black (or a dark
+     grey). Black on #B3B3B3 = 9.0:1, passes AAA. */
+  --band-bg: #B3B3B3;
 
   --gray-900: #000000;
   --gray-800: #000000;
