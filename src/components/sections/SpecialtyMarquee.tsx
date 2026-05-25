@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 /**
@@ -271,6 +271,7 @@ interface SpecialtyMarqueeProps {
 
 export default function SpecialtyMarquee({ items, layout = 'marquee' }: SpecialtyMarqueeProps) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
   const translateXRef = useRef(0)
   const halfWidthRef = useRef(0)
   const isDraggingRef = useRef(false)
@@ -278,8 +279,29 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
   const dragStartRef = useRef({ pointerX: 0, translateX: 0 })
   const rafRef = useRef<number | null>(null)
 
+  // Mobile detection — when `layout === 'grid'` and viewport is ≤720px,
+  // we render the marquee carousel instead. SSR renders the desktop
+  // grid; on mobile, a brief flash on hydration before switching is
+  // acceptable (matches the pattern used elsewhere for matchMedia-based
+  // responsive switches in this codebase).
+  const [isMounted, setIsMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    if (layout !== 'marquee') return
+    setIsMounted(true)
+    const mq = window.matchMedia('(max-width: 720px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  // Effective layout: when caller asks for 'grid' but we're on mobile,
+  // fall back to 'marquee' so phones keep the swipe/auto-scroll experience.
+  const effectiveLayout: 'marquee' | 'grid' =
+    isMounted && isMobile && layout === 'grid' ? 'marquee' : layout
+
+  useEffect(() => {
+    if (effectiveLayout !== 'marquee') return
     if (!trackRef.current) return
 
     const measureHalfWidth = () => {
@@ -323,7 +345,43 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
       window.removeEventListener('resize', measureHalfWidth)
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
     }
-  }, [layout])
+  }, [effectiveLayout])
+
+  // Scroll-reveal for grid mode. Cards start hidden (opacity 0 + translate
+  // down 24px) and reveal via IntersectionObserver as they enter the
+  // viewport. CSS handles the transition; this effect just toggles the
+  // data-revealed attribute. Stagger comes from inline transitionDelay
+  // per column position so cards in a row appear left-to-right.
+  useEffect(() => {
+    if (effectiveLayout !== 'grid') return
+    const root = gridRef.current
+    if (!root) return
+
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.spec-card-grid'))
+    if (cards.length === 0) return
+
+    // Respect reduced motion: show everything immediately, no transitions.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      cards.forEach((c) => { c.dataset.revealed = 'true' })
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ;(entry.target as HTMLElement).dataset.revealed = 'true'
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+    )
+
+    cards.forEach((c) => observer.observe(c))
+    return () => observer.disconnect()
+  }, [effectiveLayout, items])
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId)
@@ -349,30 +407,43 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
 
   return (
     <>
-      {layout === 'grid' ? (
+      {effectiveLayout === 'grid' ? (
         /* ---------------------------------------------------------------
-           Grid mode: responsive grid (3 col desktop, 2 col mobile).
-           No marquee, no stripe, no eyebrow on non-agent cards.
-           Cards keep their original clamp(280px, 22vw, 330px) width — the
-           grid columns are capped at 330px and centered, so visually each
-           card matches the marquee version exactly. Just laid out in rows
-           instead of scrolling horizontally.
+           Grid mode: responsive grid (3 col on desktop). Mobile (≤720px)
+           falls back to the marquee branch below via `effectiveLayout`.
 
-           For AI agent cards (Cindy, Chris, Paige, etc.) the eyebrow is
-           kept (next to the avatar) but rendered in black, not cyan.
+           Per-card structure:
+             - title
+             - description
+             - either an animation (.spec-card-anim) for non-agent cards
+               OR an agent footer (.spec-card-agent-footer) for AI agent
+               cards. The agent block — avatar + "AI AGENT — NAME" label
+               in black — sits at the BOTTOM of the card, after the
+               description, replacing the animation slot entirely.
+
+           Scroll-reveal: cards start at opacity 0 + translateY(24px) and
+           reveal via IntersectionObserver (handled in the useEffect
+           above). Inline transitionDelay staggers within a row (cards 0,
+           1, 2 → 0/80/160ms) so a row appears left-to-right.
 
            CRITICAL: this branch shares the same <style> block as the
            marquee branch below — that block defines all the .anim-*
-           classes (modifier pills, stamp track, stat bars, etc.). Moving
-           grid-specific styles into the shared block is required, NOT
-           into a separate <style> tag scoped to this branch. */
+           classes (modifier pills, stamp track, etc.). All grid-specific
+           CSS lives in that same shared block, not in a separate <style>
+           tag, so animations work in both layouts. */
         <div className="spec-grid-wrapper" style={{ marginTop: 48 }}>
           <div className="container">
-            <div className="spec-grid">
+            <div className="spec-grid" ref={gridRef}>
               {items.map((s, i) => (
-                <article key={i} className="spec-card spec-card-grid">
+                <article
+                  key={i}
+                  className="spec-card spec-card-grid"
+                  style={{ transitionDelay: `${(i % 3) * 80}ms` }}
+                >
+                  <h3 className="spec-card-title">{s.title}</h3>
+                  <p className="spec-card-desc">{s.description}</p>
                   {s.agent ? (
-                    <div className="spec-card-eyebrow-row">
+                    <div className="spec-card-agent-footer">
                       <Link
                         href="/cosentus-ai"
                         className="spec-card-avatar"
@@ -389,12 +460,11 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                       </Link>
                       <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
                     </div>
-                  ) : null}
-                  <h3 className="spec-card-title">{s.title}</h3>
-                  <p className="spec-card-desc">{s.description}</p>
-                  <div className="spec-card-anim">
-                    <CardAnimation s={s} />
-                  </div>
+                  ) : (
+                    <div className="spec-card-anim">
+                      <CardAnimation s={s} />
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
@@ -417,9 +487,10 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
       >
         {[...items, ...items].map((s, i) => (
           <article key={i} className="spec-card" aria-hidden={i >= items.length}>
-            <div className="spec-card-stripe" />
+            <h3 className="spec-card-title">{s.title}</h3>
+            <p className="spec-card-desc">{s.description}</p>
             {s.agent ? (
-              <div className="spec-card-eyebrow-row">
+              <div className="spec-card-agent-footer">
                 <Link
                   href="/cosentus-ai"
                   className="spec-card-avatar"
@@ -435,16 +506,13 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                     draggable={false}
                   />
                 </Link>
-                <span className="spec-card-eyebrow">{s.eyebrow}</span>
+                <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
               </div>
             ) : (
-              <div className="spec-card-eyebrow">{s.eyebrow}</div>
+              <div className="spec-card-anim">
+                <CardAnimation s={s} />
+              </div>
             )}
-            <h3 className="spec-card-title">{s.title}</h3>
-            <p className="spec-card-desc">{s.description}</p>
-            <div className="spec-card-anim">
-              <CardAnimation s={s} />
-            </div>
           </article>
         ))}
           </div>
@@ -554,16 +622,16 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         }
         .spec-card-title {
           font-family: var(--font-display);
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 400;
           color: var(--gray-900);
           margin: 0;
-          line-height: 1.2;
+          line-height: 1.25;
           letter-spacing: -0.01em;
         }
         .spec-card-desc {
-          font-size: 14px;
-          line-height: 1.6;
+          font-size: 15px;
+          line-height: 1.7;
           color: var(--gray-600);
           margin: 0;
         }
@@ -574,6 +642,16 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        /* Agent footer: avatar + black label, sits at card bottom in
+           place of the animation slot. Same vertical footprint (~110px)
+           so cards with an agent line up with cards that have an anim. */
+        .spec-card-agent-footer {
+          margin-top: auto;
+          min-height: 110px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
         }
 
         /* === Per-card animations === */
@@ -1049,18 +1127,31 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         @media (max-width: 720px) {
           .spec-card {
             width: 78vw;
-            height: 400px;
+            height: 420px;
             padding: 28px 24px 24px;
           }
-          .spec-card-title { font-size: 19px; }
+          .spec-card-title { font-size: 20px; }
+        }
+
+        /* Eyebrow color for agent cards (black instead of brand cyan).
+           Applied via the .spec-card-eyebrow-dark class on both grid
+           and marquee branches — keeps agent labels readable in body
+           color rather than cyan. */
+        .spec-card-eyebrow.spec-card-eyebrow-dark {
+          color: var(--gray-900);
         }
 
         /* =================================================================
-           === GRID LAYOUT (layout="grid") ================================
+           === GRID LAYOUT (layout="grid", desktop only) ===================
            Grid mode renders the same .spec-card markup as marquee mode, so
-           the existing .spec-card / .spec-card-title / .spec-card-desc /
-           .spec-card-anim styles above are reused. These rules add only
-           the grid container + a couple of card behavior overrides.
+           the .spec-card / .spec-card-title / .spec-card-desc /
+           .spec-card-anim / .spec-card-agent-footer styles above are
+           reused. These rules add only the grid container, scroll-reveal
+           transitions, and a couple of card behavior overrides.
+
+           Mobile (≤720px) falls back to the marquee branch via
+           'effectiveLayout' in the component — so this grid CSS only
+           ever applies to ≥721px viewports in practice.
 
            Card width is intentionally NOT changed in grid mode — the
            grid column is capped at 330px (matching the marquee's
@@ -1073,24 +1164,50 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           gap: 28px;
           justify-content: center;
         }
-        /* 2 col below 900px (covers tablet + mobile per spec). */
+        /* Below desktop but still on tablet (721px–900px): drop to 2
+           columns. Mobile (≤720px) doesn't reach this branch because
+           effectiveLayout switches to marquee. */
         @media (max-width: 900px) {
           .spec-grid {
             grid-template-columns: repeat(2, minmax(0, 330px));
             gap: 20px;
           }
         }
-        /* On narrow phones, let the columns shrink below 280px so they
-           fit two-up. .spec-card has width: clamp(280px, 22vw, 330px) +
-           flex-shrink: 0 — neither matters inside a grid cell, but we
-           neutralize them here for clarity. */
+        /* Neutralize the marquee-only width/flex rules on .spec-card
+           inside the grid — the grid column controls the width. */
         .spec-grid .spec-card {
           width: auto;
           flex-shrink: initial;
         }
-        /* Agent eyebrow color in grid mode: black, not brand cyan. */
-        .spec-grid .spec-card-eyebrow-dark {
-          color: var(--gray-900);
+
+        /* Scroll-reveal: cards start hidden, IntersectionObserver in
+           the component sets data-revealed="true" to trigger the
+           transition. Inline 'transitionDelay' on each card staggers
+           cards within a row (0/80/160ms by column index). */
+        .spec-grid .spec-card-grid {
+          opacity: 0;
+          transform: translateY(24px);
+          transition:
+            opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            border-color 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          /* Lock in the will-change hint only during the reveal phase.
+             Once revealed, the hover transform still works because the
+             above transition list also handles transform. */
+          will-change: opacity, transform;
+        }
+        .spec-grid .spec-card-grid[data-revealed="true"] {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .spec-grid .spec-card-grid,
+          .spec-grid .spec-card-grid[data-revealed="true"] {
+            opacity: 1;
+            transform: none;
+            transition: none;
+          }
         }
       `}</style>
     </>
