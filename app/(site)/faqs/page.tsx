@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import FAQCard from '@/components/ui/FAQCard'
 import FAQJsonLd from '@/components/ui/FAQJsonLd'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
-import CTASection from '@/components/sections/CTASection'
 import { faqs } from '@/data/faqs'
 
 /**
@@ -133,26 +133,43 @@ export default function FAQsPage() {
         </div>
       </section>
 
-      {/* CTA — use the canonical CTASection component, same as every
-          specialty page (Anesthesia, Orthopedics, Pain Management,
-          ASC, Behavioral Health, Multi-Specialty). This was previously
-          hand-rolled markup that, despite using the same .cta-section
-          / .cta-box / .btn-primary classes, kept getting tripped up
-          by stale .faqs-page CSS overrides that targeted those
-          classes (CTA box rendering transparent on white, text
-          white-on-white, etc — three escalations to find them all).
-          Using the canonical component eliminates the entire class
-          of bugs: if the specialty CTAs work, this works.
+      {/* CTA — same .cta-section + .cta-box + .btn-primary classes
+          the specialty pages and homepage CTA use. Visual treatment
+          (teal background, frosted-white glass button) is inherited
+          from the canonical CSS in app/globals.css (line ~2308 for
+          .cta-box, line ~2352 for the .cta-box .btn-primary
+          white-tint frosted-glass override).
 
-          Per user direction 2026-05-25 (after the third escalation):
-            "Can you just go to the specialties page and see the CTA?
-             Just copy paste it. Let's not use our brain anymore."
+          Earlier commits in this PR removed the three .faqs-page
+          .cta-box selectors that had been hijacking the default
+          treatment (glass-rule line ~544, force-white-text line
+          ~599, and the inset-shadow rule line ~4747). With those
+          gone, this hand-rolled markup renders visually identical
+          to <CTASection /> on specialty pages — only the text
+          differs.
 
-          Text comes from the canonical component:
-            "Know Exactly Where You're Losing Revenue."
-            "Get Your No-Cost Financial MRI" → /contact
-          which is what all specialty pages already use. */}
-      <CTASection />
+          Text is FAQ-specific per user direction 2026-05-25
+          ("It wasn't about the text. It was about how the button
+          color, the background color, the glass effect, etc.,
+          which you needed to copy, not change the text.") — so
+          we copy the visual recipe (classes) but keep the
+          FAQ-appropriate "Still have a question?" + "Get Your
+          Free Revenue Analysis" copy. */}
+      <section className="cta-section">
+        <div className="container">
+          <RevealOnScroll direction="scale">
+            <div className="cta-box">
+              <RevealText as="h2" perWordDelay={0.06} baseDelay={0.15}>
+                Still have a question?
+              </RevealText>
+              <Link href="/contact" className="btn-primary">
+                Get Your Free Revenue Analysis
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </Link>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
 
       <style>{`
         .faqs-page {
