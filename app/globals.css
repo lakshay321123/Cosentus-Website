@@ -563,8 +563,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    where only the footer fallback degrades to solid teal.
 ===================================================================== */
 .home-immersive .testimonial-card,
-.home-immersive .cta-box,
-.faqs-page .cta-box {
+.home-immersive .cta-box {
+  /* .faqs-page .cta-box removed 2026-05-25. This rule applies a
+     6% white-wash frosted-glass background designed to read over
+     the dark home-immersive video bg; on the white /faqs page bg
+     it rendered as effectively transparent, so the CTA looked
+     like an empty white-bordered card. Removing the .faqs-page
+     selector lets the default .cta-box rule (line ~2308,
+     background: #00B5D6 teal) take over. Per user direction
+     2026-05-25: "the city [CTA] over here is not visible. Make
+     it blue background. Then only it'll be visible, right?" */
   position: relative !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
   background-image: none !important;
@@ -618,9 +626,16 @@ body:has(main.home-immersive) .footer {
    is defined elsewhere and still applies. Just make sure the headline
    and inner content stay white over the frosted surface. */
 .home-immersive .cta-box h2,
-.home-immersive .cta-box *,
-.faqs-page .cta-box h2,
-.faqs-page .cta-box * {
+.home-immersive .cta-box * {
+  /* .faqs-page .cta-box h2 and .faqs-page .cta-box * removed
+     2026-05-25 in the same change as the .faqs-page entry on the
+     frosted background rule above. The blanket '.cta-box *' was
+     making the button text white as well — fine on the home page's
+     frosted background, but a problem on /faqs where it was
+     interacting with the now-white CTA bg. Default .cta-box h2
+     (line ~2324: color: var(--white)) still renders correctly
+     against the now-teal /faqs CTA bg. The .btn-primary inside
+     keeps its own default color, which is what we want. */
   color: rgba(255, 255, 255, 0.95) !important;
 }
 
@@ -4781,9 +4796,17 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .insights-tab,
 .home-immersive .specialty-card-link,
 .home-immersive .faq-card-inner,
-.faqs-page .faq-card-inner,
-.faqs-page .cta-box,
-.faqs-page .btn-primary,
+/* /faqs page entries removed 2026-05-25 — page redesigned to
+   white blog-style. Previously included:
+     .faqs-page .faq-card-inner,
+     .faqs-page .cta-box,
+     .faqs-page .btn-primary,
+   ...so the CTA pill and FAQ cards got the dark-glass inset-
+   shadow treatment. Now those elements use:
+     - faqs-page.tsx scoped CSS for the FAQ list rows
+     - default .btn-primary (solid teal pill) for the CTA
+   Per user direction "the CTA needs to be blue like on other
+   pages." */
 .home-immersive [style*="background: var(--white)"],
 .home-immersive [style*="background:var(--white)"],
 .home-immersive [style*="background: white"],
@@ -4808,9 +4831,10 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover,
 .home-immersive .specialty-card-link:hover,
-.home-immersive .faq-card:hover .faq-card-inner,
-.faqs-page .faq-card:hover .faq-card-inner,
-.faqs-page .btn-primary:hover {
+.home-immersive .faq-card:hover .faq-card-inner {
+  /* .faqs-page .faq-card:hover .faq-card-inner and
+     .faqs-page .btn-primary:hover removed from this hover-state
+     rule alongside the base rule above, same redesign date. */
   border: none !important;
   box-shadow:
     inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.50),
@@ -4853,8 +4877,20 @@ body:has(main.home-immersive) .footer-top {
    before. The SVG is reproduced in CSS, not inlined.
 ------------------------------------------------------------------ */
 .home-immersive .btn-primary,
-.home-immersive .insights-tab,
-.faqs-page .btn-primary {
+.home-immersive .insights-tab {
+  /* .faqs-page .btn-primary entry removed 2026-05-25 (PR #178,
+     CodeRabbit review 4355615975). This rule applied a "glass pill"
+     recipe (20% white wash + backdrop blur + 1.5px white outline +
+     outer shadow) that conflicted with the canonical
+     .cta-box .btn-primary recipe used by every specialty page CTA
+     (10% white wash + 0.40 white border + multi-layer inset shadow
+     stack, line ~2352). The user's direction 2026-05-25 was to
+     match specialty-page CTAs ("how the button color, the
+     background color, the glass effect, etc., which you needed to
+     copy"); leaving the .faqs-page entry here defeated that. With
+     this removed, .faqs-page .cta-box .btn-primary falls back to
+     the .cta-box .btn-primary recipe — same as every specialty
+     page. */
   /* 30% white wash inside the ring — matches the SVG's .fil1
      (fill-opacity 0.30, reduced to 0.20 per user direction
      "change opacity from 30 to 20%" — cards/buttons feel less
@@ -4896,8 +4932,11 @@ body:has(main.home-immersive) .footer-top {
    `border: none !important` on .home-immersive .btn-primary:hover —
    setting only border-color wouldn't bring the line back. */
 .home-immersive .btn-primary:hover,
-.home-immersive .insights-tab:hover,
-.faqs-page .btn-primary:hover {
+.home-immersive .insights-tab:hover {
+  /* .faqs-page .btn-primary:hover entry removed 2026-05-25 alongside
+     the base-state rule above (same review, same reason). The
+     canonical .cta-box .btn-primary:hover (line ~2361) handles the
+     /faqs CTA hover treatment now. */
   background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;

@@ -113,7 +113,18 @@ export default function FAQsPage() {
                     direction="up"
                     delay={0.15 + i * 0.05}
                   >
-                    <FAQCard faq={f} defaultExpanded={gi === 0 && i === 0} />
+                    <FAQCard
+                      faq={f}
+                      defaultExpanded={gi === 0 && i === 0}
+                      // Each FAQ auto-expands as it scrolls into view
+                      // on /faqs. Per user direction 2026-05-25:
+                      // "as we are scrolling down and it is appearing,
+                      // it should auto open as well the FAQs so it
+                      // becomes easier for the user to navigate."
+                      // Homepage FAQ section does NOT pass this prop,
+                      // so its rows stay click-to-expand.
+                      autoExpandOnView={true}
+                    />
                   </RevealOnScroll>
                 ))}
               </div>
@@ -122,12 +133,28 @@ export default function FAQsPage() {
         </div>
       </section>
 
-      {/* CTA — uses the canonical .cta-section + .cta-box + .btn-primary
-          classes from the homepage CTASection so the visual treatment
-          matches identically. The shared glass-pill recipe is applied
-          via app/globals.css selectors extended to also match a
-          .faqs-page ancestor (see the .cta-section / .cta-box /
-          .btn-primary blocks around lines 408, 530, 4196, 4269, etc.). */}
+      {/* CTA — same .cta-section + .cta-box + .btn-primary classes
+          the specialty pages and homepage CTA use. Visual treatment
+          (teal background, frosted-white glass button) is inherited
+          from the canonical CSS in app/globals.css (line ~2308 for
+          .cta-box, line ~2352 for the .cta-box .btn-primary
+          white-tint frosted-glass override).
+
+          Earlier commits in this PR removed the three .faqs-page
+          .cta-box selectors that had been hijacking the default
+          treatment (glass-rule line ~544, force-white-text line
+          ~599, and the inset-shadow rule line ~4747). With those
+          gone, this hand-rolled markup renders visually identical
+          to <CTASection /> on specialty pages — only the text
+          differs.
+
+          Text is FAQ-specific per user direction 2026-05-25
+          ("It wasn't about the text. It was about how the button
+          color, the background color, the glass effect, etc.,
+          which you needed to copy, not change the text.") — so
+          we copy the visual recipe (classes) but keep the
+          FAQ-appropriate "Still have a question?" + "Get Your
+          Free Revenue Analysis" copy. */}
       <section className="cta-section">
         <div className="container">
           <RevealOnScroll direction="scale">
@@ -148,27 +175,25 @@ export default function FAQsPage() {
         .faqs-page {
           /* /faqs needs its own bg because the (site) layout does NOT
              provide ImmersiveVideoBackground — that lives on the
-             homepage only. Without this, body's default var(--white)
-             shows through and the white-on-glass text becomes
-             invisible.
+             homepage only.
 
-             May 2026: switched from a dark-navy radial gradient
-             (off-palette: #0a2d41 → #061c2a → #030f17) to a flat
-             #616161 — the medium-dark gray directly from the official
-             Cosentus brand sheet. Per direct user direction. Solid
-             color, not gradient, by design.
-
-             Contrast check: white text (#FFFFFF) on #616161 = 6.19:1
-             which passes WCAG AA body text (4.5:1) and AA large text
-             (3.0:1). Glass-card surfaces (20% white wash) on top of
-             this stay readable.
-
-             padding-top removed earlier: the nav-clearance padding
-             lives inside .faqs-hero so the brand band can extend to
-             the top of the viewport. */
-          background: #616161;
+             History:
+               - Initial: dark-navy radial gradient
+               - May 2026: switched to flat #616161 (Cosentus brand
+                 medium-dark gray) per user direction
+               - May 2026 (later): switched to white per user
+                 direction "the FAQ Page change the design — Here
+                 I just want FAQs to be designed like we have in
+                 the blogs pages etc. Background can be white".
+                 The cards switch from dark-glass to white-blog
+                 surface in the same change. */
+          background: #FFFFFF;
           min-height: 100vh;
           padding-bottom: 96px;
+          /* Anchor for CSS-scoped overrides below. Without an
+             explicit color reset, child elements would still
+             inherit from any default (none here in practice). */
+          color: var(--gray-900);
         }
 
         /* Grey band hero — matches the Resources sub-pages
@@ -202,13 +227,13 @@ export default function FAQsPage() {
           }
         }
 
-        /* Lead paragraph — moved from the hero (was .faqs-subtitle)
-           to the body so the grey band stays lean. Sits above the
-           first FAQ group on the dark page background. */
+        /* Lead paragraph — now sits on white page bg. Dark gray
+           text gives readable body color. (Previously was white-
+           translucent on the gray bg.) */
         .faqs-lead {
           font-size: 18px;
           line-height: 1.65;
-          color: rgba(255, 255, 255, 0.78);
+          color: #4a4a4a;
           max-width: 680px;
           margin: 0 0 40px 0;
         }
@@ -232,16 +257,18 @@ export default function FAQsPage() {
           font-family: var(--font-display);
           font-weight: 300;
           font-size: clamp(20px, 1.6vw, 26px);
-          color: rgba(255, 255, 255, 0.88);
+          /* Was white-translucent on gray; now near-black on white
+             with very slight softening so it doesn't read as harsh
+             headline. */
+          color: #1a1a1a;
           margin: 0 0 24px 0;
           letter-spacing: -0.01em;
         }
 
         .faqs-group-num {
-          /* Editorial detail: a faint number prefix for each
-             category, like chapter marks. Mirrors the way the
-             services pages use small numeric markers next to
-             step headings. */
+          /* Editorial detail: faint number prefix per category.
+             Brand teal works on both light and dark backgrounds —
+             color stays the same as before. */
           font-variant-numeric: tabular-nums;
           font-size: 0.7em;
           color: rgba(0, 181, 214, 0.85);
@@ -254,17 +281,257 @@ export default function FAQsPage() {
 
         .faqs-group-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 22px;
+          /* Single column on all viewports — matches the blog
+             post FAQ list pattern in BlogPostContent.tsx (which
+             renders FAQs as a stacked column, not a grid).
+             Previous 2-col desktop / 1-col mobile was for the
+             big italic-serif card design that benefited from
+             horizontal spread; the new compact list rows are
+             more readable as a single wide column. */
+          grid-template-columns: 1fr;
+          /* 8px gap matches the blog FAQ marginBottom: 8 between
+             rows. Tight enough to feel like a list, loose enough
+             that the rounded-corner borders aren't touching. */
+          gap: 8px;
           align-items: start;
-        }
-
-        @media (max-width: 900px) {
-          .faqs-group-grid { grid-template-columns: 1fr; gap: 16px; }
+          /* Constrain to a comfortable reading width on wide
+             desktops — the rows would otherwise stretch to the
+             full container width which is too wide for a Q&A
+             read. ~860px lines up with the blog post content
+             column width. */
+          max-width: 860px;
         }
 
         @media (max-width: 640px) {
           .faqs-page { padding-top: 88px; padding-bottom: 64px; }
+        }
+
+        /* =====================================================
+           Neutralize the .reveal / .reveal-scale opacity-0 +
+           blur(4px) initial state on /faqs.
+
+           User report 2026-05-25 (with screenshot): "The CTA in
+           the FAQ section is not visible."
+
+           Root cause: the page uses RevealOnScroll wrappers
+           around the lead paragraph, group headings, each FAQ
+           row, AND the bottom CTA. The global .reveal /
+           .reveal-scale rules (app/globals.css ~line 2472) start
+           those wrappers at opacity:0 with filter:blur(4px),
+           and only flip to opacity:1 when the IntersectionObserver
+           in RevealOnScroll.tsx adds a 'visible' class. The CTA
+           lives at the bottom of a long page; in some scroll
+           conditions the observer doesn't fire reliably or the
+           user reaches the section while it's still in the
+           initial hidden state.
+
+           For a Q&A reference page this hide-then-reveal pattern
+           is more friction than payoff — users want to read the
+           answers, not watch them fade in. Override to force
+           visible immediately.
+
+           Side effect: the staggered reveal animation on /faqs
+           is gone. The teal-band hero H1 still has its
+           RevealText word-stagger because that's a different
+           mechanism (RevealText, not RevealOnScroll). All
+           other pages are unaffected — this is scoped to
+           .faqs-page. */
+        .faqs-page .reveal,
+        .faqs-page .reveal-scale,
+        .faqs-page .reveal-left,
+        .faqs-page .reveal-right,
+        .faqs-page .reveal-flag {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+        }
+
+        /* =====================================================
+           FAQCard re-skin — match the EXACT pattern used by the
+           blog post FAQ component (see BlogPostContent.tsx
+           ~line 470, where blog-post-embedded FAQs render).
+
+           Visual recipe (from blog FAQ):
+             Row container: 1px solid var(--gray-200), border-
+               radius var(--radius-md) (12px), no padding around
+               itself, 8px gap between rows. Open state: border
+               turns brand teal #00B5D6.
+             Question button: padding 18px 24px, background
+               var(--gray-50) closed / var(--primary-ghost) open.
+               Question text is sans-serif bold (--font-body,
+               weight 600, size 16, color gray-900) — NOT the
+               display-serif italic the FAQCard component ships
+               with. Chevron is teal stroke 2.5, 18×18, on the
+               right side, rotates 180deg when open.
+             Answer panel: white background, padding 0 24px 20px,
+               text size 16 line-height 1.75, color gray-600.
+
+           First attempt (commit c5e051e) made big bordered white
+           cards with the original italic display-serif question.
+           User direction 2026-05-25: "The design is not matching.
+           As you can see, I've given you the blog post FAQ
+           design and the FAQ design page." This block REPLACES
+           that first attempt with the actual blog-FAQ recipe.
+
+           !important is required because the global rule at
+           app/globals.css ~line 4747 also targets
+           .faqs-page .faq-card-inner with !important. The
+           styled-jsx in FAQCard.tsx itself has lower specificity
+           (single class) so plain .faqs-page X overrides win
+           against it without !important — but I use !important
+           uniformly here for clarity and resilience against
+           future global-rule changes.
+           ===================================================== */
+
+        /* Row container — replaces the big card with a compact
+           list-row look. No padding here (padding lives on the
+           question button to enable hover-color-changes); the
+           border + radius do the row separation. */
+        .faqs-page .faq-card-inner {
+          background: var(--gray-50) !important;
+          border: 1px solid var(--gray-200) !important;
+          border-radius: var(--radius-md) !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          overflow: hidden;
+          transition: border-color 0.2s ease, background 0.2s ease !important;
+        }
+        /* Open state — border turns teal (matches blog FAQ open
+           state). Background change handled via .faq-card-question
+           override below. */
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-inner {
+          border-color: #00B5D6 !important;
+        }
+
+        /* Override hover lift entirely — the blog FAQ rows don't
+           translate or change shadow on hover, just a subtle
+           border-color shift. Previously the global rule at
+           app/globals.css ~line 4747 also applied a dark-glass
+           hover shadow to .faqs-page .faq-card:hover .faq-card-
+           inner with !important; that entry was removed from the
+           global rule in the same commit as this redesign, so
+           !important here is now defensive only. */
+        .faqs-page .faq-card:hover .faq-card-inner {
+          box-shadow: none !important;
+          border-color: var(--gray-300) !important;
+          transform: none !important;
+        }
+        .faqs-page .faq-card[data-expanded='true']:hover .faq-card-inner {
+          border-color: #00B5D6 !important;
+        }
+
+        /* Question — sans-serif bold, dark on gray-50.
+           Replaces the italic display-serif treatment in
+           FAQCard.tsx's styled-jsx. Padding is on the h3 (not
+           the card) so the bg-color change on open state covers
+           the full row. */
+        .faqs-page .faq-card-question {
+          font-family: var(--font-body) !important;
+          font-style: normal !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 1.5 !important;
+          letter-spacing: normal !important;
+          color: var(--gray-900) !important;
+          /* Right padding 56px reserves space for the chevron
+             button positioned absolute on the right. */
+          padding: 18px 56px 18px 24px !important;
+          margin: 0 !important;
+        }
+        /* Open state — question header gets a primary-ghost tint
+           (very light teal), matches blog FAQ open state. */
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-question {
+          background: var(--primary-ghost) !important;
+        }
+
+        /* Answer panel — white background, generous padding, gray
+           body text. Matches blog FAQ answer panel exactly. */
+        .faqs-page .faq-card-answer-inner {
+          background: #FFFFFF;
+          padding: 0 24px 20px;
+        }
+        .faqs-page .faq-card-answer-text {
+          font-size: 16px !important;
+          line-height: 1.75 !important;
+          color: var(--gray-600) !important;
+          padding-top: 12px;
+          margin: 0 !important;
+        }
+        /* Hide the divider — the blog FAQ pattern uses background
+           color changes (gray-50 → primary-ghost on open, then
+           white for the answer) to separate question and answer
+           visually. No horizontal rule is needed. */
+        .faqs-page .faq-card-divider {
+          display: none !important;
+        }
+
+        /* Chevron — small teal chevron-down on the right of the
+           question row, vertically positioned to align with the
+           first line of the question (top: 24px = padding-top
+           18px + half line-height of 12px ≈ first-line center).
+           For multi-line questions the chevron stays aligned with
+           the first line; this matches how the blog FAQ renders
+           when the question wraps (the flex align-items: center
+           in the blog version vs my absolute positioning here
+           differs slightly for multi-line, but visually close
+           enough for 1-2 line questions which is the typical
+           case.) */
+        .faqs-page .faq-card-disc-arrow {
+          display: none;
+        }
+        .faqs-page .faq-card-disc {
+          position: absolute !important;
+          /* 44x44 hit area for WCAG 2.5.5 (target size min 44px),
+             but the visual chevron stays 18×18 via background-size
+             + background-position: center. The new top/right values
+             (11/9 desktop, 9/5 mobile) are calculated so the visual
+             chevron center is at the SAME coordinates it was when
+             the box was 18×18 at top:24/right:22 (i.e. center 33/31
+             desktop) and 18×18 at top:22/right:18 (center 31/27
+             mobile). Zero visual change, much larger tap area. */
+          top: 11px !important;
+          right: 9px !important;
+          bottom: auto !important;
+          width: 44px !important;
+          height: 44px !important;
+          background-color: transparent !important;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300B5D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 18px 18px;
+          transition: transform 0.3s ease !important;
+        }
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-disc {
+          transform: rotate(180deg) !important;
+        }
+        /* Override the component's hover-translateY effect on the
+           disc — blog FAQ chevrons don't move on hover. Keep the
+           expanded rotation (handled by the data-expanded selector
+           above) even when hovered. */
+        .faqs-page .faq-card:hover .faq-card-disc {
+          transform: rotate(0deg) !important;
+          filter: none !important;
+        }
+        .faqs-page .faq-card[data-expanded='true']:hover .faq-card-disc {
+          transform: rotate(180deg) !important;
+        }
+
+        @media (max-width: 768px) {
+          .faqs-page .faq-card-question {
+            font-size: 15px !important;
+            padding: 16px 48px 16px 18px !important;
+          }
+          .faqs-page .faq-card-disc {
+            /* See desktop block above. Mobile keeps the visual
+               center at (top:31, right:27) — original 18×18 was
+               at top:22/right:18 (center 31/27). New 44×44 needs
+               top:9/right:5 to preserve that center. */
+            top: 9px !important;
+            right: 5px !important;
+          }
+          .faqs-page .faq-card-answer-inner {
+            padding: 0 18px 18px;
+          }
         }
       `}</style>
     </main>
