@@ -209,14 +209,20 @@ function CindyInner() {
         const waitMs = needsNav ? 800 : 100
         await new Promise(r => setTimeout(r, waitMs))
 
-        // Poll for form fields (max 1.5s)
-        let formReady = false
+        // Poll for the contact form by its id, not by any random input on
+        // the page. Scoping to #contact-form means we can't ever pick up a
+        // footer newsletter, the chat widget, or any other form that happens
+        // to share field names. If #contact-form isn't on the page within
+        // 1.6s, we abort honestly.
+        let form: HTMLFormElement | null = null
         for (let i = 0; i < 8; i++) {
-          if (document.querySelector('input[name="practiceName"]')) { formReady = true; break }
+          form = document.getElementById('contact-form') as HTMLFormElement | null
+          if (form && form.querySelector('input[name="practiceName"]')) break
+          form = null
           await new Promise(r => setTimeout(r, 200))
         }
 
-        if (!formReady) {
+        if (!form) {
           setActionLabel('')
           // Truthful failure — form didn't load. Give agent a workable path
           // instead of falsely claiming success. Phone matches site-wide CTA.
@@ -225,11 +231,8 @@ function CindyInner() {
 
         // Scroll to form BEFORE filling so the user watches it populate.
         // 300ms settle delay gives smooth-scroll a moment before fields change.
-        const formSection = document.getElementById('contact-form')
-        if (formSection) {
-          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          await new Promise(r => setTimeout(r, 300))
-        }
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        await new Promise(r => setTimeout(r, 300))
 
         // Fill fields — uses the normalized names resolved at the top of this
         // function, so ElevenLabs schema aliases (name/company) end up in the
@@ -241,7 +244,7 @@ function CindyInner() {
         let filled = 0
         for (const [name, value] of Object.entries(fieldMap)) {
           if (!value) continue
-          const el = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
+          const el = form.querySelector(`input[name="${name}"], textarea[name="${name}"]`) as HTMLInputElement | HTMLTextAreaElement | null
           if (el) {
             const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
             const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
@@ -249,7 +252,7 @@ function CindyInner() {
           }
         }
         if (params.specialty) {
-          const select = document.querySelector('select[name="specialty"]') as HTMLSelectElement | null
+          const select = form.querySelector('select[name="specialty"]') as HTMLSelectElement | null
           if (select) {
             const spoken = params.specialty.toLowerCase().trim()
             // Normalize both sides symmetrically (space/hyphen -> underscore) so
@@ -286,7 +289,7 @@ function CindyInner() {
               let customInput: HTMLInputElement | null = null
               for (let i = 0; i < 5 && !customInput; i++) {
                 if (i > 0) await new Promise(r => setTimeout(r, 100))
-                customInput = document.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
+                customInput = form.querySelector('input[name="customSpecialty"]') as HTMLInputElement | null
               }
               if (customInput) {
                 const inputSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
@@ -304,16 +307,17 @@ function CindyInner() {
 
         // Step 1 — try to actually click submit, up to 3 retries. Returns true if we
         // clicked a button or called requestSubmit; false if no submit path was ever found.
+        // Scoped to `form` (the resolved #contact-form element) so we never click a
+        // submit button belonging to a different form on the page.
         const attemptSubmit = async (): Promise<boolean> => {
           for (let attempt = 0; attempt < 3; attempt++) {
             if (attempt > 0) await new Promise(r => setTimeout(r, 300))
-            const submitBtn = document.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
+            const submitBtn = form.querySelector('button[type="submit"]:not([disabled])') as HTMLButtonElement | null
             if (submitBtn) { setActionLabel('Submitting...'); submitBtn.click(); return true }
           }
-          // Last resort: requestSubmit bypasses visual button but still triggers React onSubmit
-          const form = document.querySelector('form') as HTMLFormElement | null
-          if (form) { setActionLabel('Submitting...'); form.requestSubmit(); return true }
-          return false
+          // Last resort: requestSubmit on the resolved form (NOT document.querySelector('form'),
+          // which would pick the first form on the page — could be a different form).
+          setActionLabel('Submitting...'); form.requestSubmit(); return true
         }
 
         // Step 2 — watch for success signal. ContactContent renders a "Thank you!" h3
