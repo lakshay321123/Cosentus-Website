@@ -481,11 +481,19 @@ export default function FAQsPage() {
         }
         .faqs-page .faq-card-disc {
           position: absolute !important;
-          top: 24px !important;
-          right: 22px !important;
+          /* 44x44 hit area for WCAG 2.5.5 (target size min 44px),
+             but the visual chevron stays 18×18 via background-size
+             + background-position: center. The new top/right values
+             (11/9 desktop, 9/5 mobile) are calculated so the visual
+             chevron center is at the SAME coordinates it was when
+             the box was 18×18 at top:24/right:22 (i.e. center 33/31
+             desktop) and 18×18 at top:22/right:18 (center 31/27
+             mobile). Zero visual change, much larger tap area. */
+          top: 11px !important;
+          right: 9px !important;
           bottom: auto !important;
-          width: 18px !important;
-          height: 18px !important;
+          width: 44px !important;
+          height: 44px !important;
           background-color: transparent !important;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300B5D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
@@ -514,8 +522,12 @@ export default function FAQsPage() {
             padding: 16px 48px 16px 18px !important;
           }
           .faqs-page .faq-card-disc {
-            top: 22px !important;
-            right: 18px !important;
+            /* See desktop block above. Mobile keeps the visual
+               center at (top:31, right:27) — original 18×18 was
+               at top:22/right:18 (center 31/27). New 44×44 needs
+               top:9/right:5 to preserve that center. */
+            top: 9px !important;
+            right: 5px !important;
           }
           .faqs-page .faq-card-answer-inner {
             padding: 0 18px 18px;

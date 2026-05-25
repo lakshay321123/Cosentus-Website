@@ -4877,8 +4877,20 @@ body:has(main.home-immersive) .footer-top {
    before. The SVG is reproduced in CSS, not inlined.
 ------------------------------------------------------------------ */
 .home-immersive .btn-primary,
-.home-immersive .insights-tab,
-.faqs-page .btn-primary {
+.home-immersive .insights-tab {
+  /* .faqs-page .btn-primary entry removed 2026-05-25 (PR #178,
+     CodeRabbit review 4355615975). This rule applied a "glass pill"
+     recipe (20% white wash + backdrop blur + 1.5px white outline +
+     outer shadow) that conflicted with the canonical
+     .cta-box .btn-primary recipe used by every specialty page CTA
+     (10% white wash + 0.40 white border + multi-layer inset shadow
+     stack, line ~2352). The user's direction 2026-05-25 was to
+     match specialty-page CTAs ("how the button color, the
+     background color, the glass effect, etc., which you needed to
+     copy"); leaving the .faqs-page entry here defeated that. With
+     this removed, .faqs-page .cta-box .btn-primary falls back to
+     the .cta-box .btn-primary recipe — same as every specialty
+     page. */
   /* 30% white wash inside the ring — matches the SVG's .fil1
      (fill-opacity 0.30, reduced to 0.20 per user direction
      "change opacity from 30 to 20%" — cards/buttons feel less
@@ -4920,8 +4932,11 @@ body:has(main.home-immersive) .footer-top {
    `border: none !important` on .home-immersive .btn-primary:hover —
    setting only border-color wouldn't bring the line back. */
 .home-immersive .btn-primary:hover,
-.home-immersive .insights-tab:hover,
-.faqs-page .btn-primary:hover {
+.home-immersive .insights-tab:hover {
+  /* .faqs-page .btn-primary:hover entry removed 2026-05-25 alongside
+     the base-state rule above (same review, same reason). The
+     canonical .cta-box .btn-primary:hover (line ~2361) handles the
+     /faqs CTA hover treatment now. */
   background: rgba(255, 255, 255, 0.32) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   color: #fff !important;

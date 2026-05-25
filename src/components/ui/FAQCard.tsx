@@ -95,7 +95,15 @@ export default function FAQCard({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        // Compare the actual ratio to the threshold rather than
+        // checking entry.isIntersecting. observe() fires an initial
+        // callback with the current state regardless of threshold:
+        // if a user lands on /faqs already scrolled to mid-FAQ-row
+        // with a row visible at ratio 0.1, isIntersecting is true
+        // but the 0.4 threshold hasn't been met. The ratio check
+        // enforces the same threshold the observer is configured
+        // with, in BOTH the initial and post-scroll callbacks.
+        if (entry.intersectionRatio >= 0.4) {
           setExpanded(true)
           observer.unobserve(el)
         }
