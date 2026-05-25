@@ -148,27 +148,25 @@ export default function FAQsPage() {
         .faqs-page {
           /* /faqs needs its own bg because the (site) layout does NOT
              provide ImmersiveVideoBackground — that lives on the
-             homepage only. Without this, body's default var(--white)
-             shows through and the white-on-glass text becomes
-             invisible.
+             homepage only.
 
-             May 2026: switched from a dark-navy radial gradient
-             (off-palette: #0a2d41 → #061c2a → #030f17) to a flat
-             #616161 — the medium-dark gray directly from the official
-             Cosentus brand sheet. Per direct user direction. Solid
-             color, not gradient, by design.
-
-             Contrast check: white text (#FFFFFF) on #616161 = 6.19:1
-             which passes WCAG AA body text (4.5:1) and AA large text
-             (3.0:1). Glass-card surfaces (20% white wash) on top of
-             this stay readable.
-
-             padding-top removed earlier: the nav-clearance padding
-             lives inside .faqs-hero so the brand band can extend to
-             the top of the viewport. */
-          background: #616161;
+             History:
+               - Initial: dark-navy radial gradient
+               - May 2026: switched to flat #616161 (Cosentus brand
+                 medium-dark gray) per user direction
+               - May 2026 (later): switched to white per user
+                 direction "the FAQ Page change the design — Here
+                 I just want FAQs to be designed like we have in
+                 the blogs pages etc. Background can be white".
+                 The cards switch from dark-glass to white-blog
+                 surface in the same change. */
+          background: #FFFFFF;
           min-height: 100vh;
           padding-bottom: 96px;
+          /* Anchor for CSS-scoped overrides below. Without an
+             explicit color reset, child elements would still
+             inherit from any default (none here in practice). */
+          color: var(--gray-900);
         }
 
         /* Grey band hero — matches the Resources sub-pages
@@ -202,13 +200,13 @@ export default function FAQsPage() {
           }
         }
 
-        /* Lead paragraph — moved from the hero (was .faqs-subtitle)
-           to the body so the grey band stays lean. Sits above the
-           first FAQ group on the dark page background. */
+        /* Lead paragraph — now sits on white page bg. Dark gray
+           text gives readable body color. (Previously was white-
+           translucent on the gray bg.) */
         .faqs-lead {
           font-size: 18px;
           line-height: 1.65;
-          color: rgba(255, 255, 255, 0.78);
+          color: #4a4a4a;
           max-width: 680px;
           margin: 0 0 40px 0;
         }
@@ -232,16 +230,18 @@ export default function FAQsPage() {
           font-family: var(--font-display);
           font-weight: 300;
           font-size: clamp(20px, 1.6vw, 26px);
-          color: rgba(255, 255, 255, 0.88);
+          /* Was white-translucent on gray; now near-black on white
+             with very slight softening so it doesn't read as harsh
+             headline. */
+          color: #1a1a1a;
           margin: 0 0 24px 0;
           letter-spacing: -0.01em;
         }
 
         .faqs-group-num {
-          /* Editorial detail: a faint number prefix for each
-             category, like chapter marks. Mirrors the way the
-             services pages use small numeric markers next to
-             step headings. */
+          /* Editorial detail: faint number prefix per category.
+             Brand teal works on both light and dark backgrounds —
+             color stays the same as before. */
           font-variant-numeric: tabular-nums;
           font-size: 0.7em;
           color: rgba(0, 181, 214, 0.85);
@@ -265,6 +265,121 @@ export default function FAQsPage() {
 
         @media (max-width: 640px) {
           .faqs-page { padding-top: 88px; padding-bottom: 64px; }
+        }
+
+        /* =====================================================
+           FAQCard re-skin — blog-style white surface.
+
+           The FAQCard component is shared with the homepage
+           FAQ section (which uses .home-immersive scope) and
+           has its own styled-jsx with dark-glass colors. The
+           homepage FAQ section ALSO has a global rule at
+           app/globals.css ~line 4747 that applies the liquid-
+           glass inset-shadow recipe to .faqs-page .faq-card-
+           inner (because /faqs USED to use the same dark-glass
+           treatment).
+
+           Now that /faqs is white, those styles fight us. The
+           overrides below win because:
+             - Selector specificity (0,2,0) matches the global
+               glass rule, but our rules declare later in the
+               cascade and use !important to overpower the
+               global rule's own !important.
+             - The styled-jsx in FAQCard.tsx is class-only
+               (specificity 0,1,0) — beaten by our (0,2,0)
+               selectors without needing !important.
+           ===================================================== */
+
+        /* White card surface — replaces dark-glass treatment.
+           Subtle gray-200 border + soft shadow matches the
+           blog-card visual recipe (see BlogContent.tsx where
+           cards use 'var(--white)' bg + 'var(--gray-200)'
+           border). !important is required to defeat the
+           equal-specificity global glass rule. */
+        .faqs-page .faq-card-inner {
+          background: #FFFFFF !important;
+          border: 1px solid var(--gray-200) !important;
+          border-radius: 16px !important;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+        .faqs-page .faq-card:hover .faq-card-inner {
+          /* Hover lift — slight elevation + slightly tinted
+             shadow. Matches blog-card hover. */
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+          border-color: var(--gray-300) !important;
+        }
+
+        /* Question text — dark on white. The FAQCard component
+           styles this rgba(255,255,255,0.96); we override to
+           near-black for legibility on white. The italic display
+           serif treatment is preserved (styled-jsx still applies
+           font-family/style/weight/size). */
+        .faqs-page .faq-card-question {
+          color: #1a1a1a;
+        }
+
+        /* Answer body text — gray-700-ish for comfortable reading
+           without being harsh-black on the questions above. */
+        .faqs-page .faq-card-answer-text {
+          color: #4a4a4a;
+        }
+
+        /* Divider between question and answer — light gray instead
+           of the dark-page semi-transparent white gradient. */
+        .faqs-page .faq-card-divider {
+          background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.12) 0%,
+            rgba(0, 0, 0, 0) 75%
+          ) !important;
+        }
+
+        /* Expand affordance — the FAQCard ships with a white-
+           filled SVG disc (btn-specialties-arrow.svg) designed
+           for the dark homepage. On a white card the white disc
+           is invisible. Hide the asset and draw a teal chevron-
+           down via background-image SVG data URI instead.
+
+           Rotation logic mirrors the original component: 0deg
+           at rest = chevron points down ("open me"); 180deg
+           when expanded = chevron points up ("close me"). */
+        .faqs-page .faq-card-disc-arrow {
+          display: none;
+        }
+        .faqs-page .faq-card-disc {
+          width: 36px;
+          height: 36px;
+          right: 18px;
+          bottom: 18px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300B5D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 22px 22px;
+          transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-disc {
+          transform: rotate(180deg);
+        }
+        /* Suppress the original hover-nudge (drop 4px + cyan
+           drop-shadow) that the component applies to the
+           white disc; on the chevron variant a simple scale
+           reads cleaner. */
+        .faqs-page .faq-card:hover .faq-card-disc {
+          transform: scale(1.1);
+          filter: none;
+        }
+        .faqs-page .faq-card[data-expanded='true']:hover .faq-card-disc {
+          transform: rotate(180deg) scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+          .faqs-page .faq-card-disc {
+            width: 32px;
+            height: 32px;
+            right: 16px;
+            bottom: 16px;
+            background-size: 18px 18px;
+          }
         }
       `}</style>
     </main>
