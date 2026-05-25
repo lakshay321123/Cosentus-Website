@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useId } from 'react'
+import { useState, useId, useEffect, useRef } from 'react'
 import type { FAQ } from '@/data/faqs'
 
 /**
@@ -47,17 +47,79 @@ import type { FAQ } from '@/data/faqs'
 export default function FAQCard({
   faq,
   defaultExpanded = false,
+  autoExpandOnView = false,
 }: {
   faq: FAQ
   /** If true the card starts expanded. Used on /faqs where the
    *  first card of the first category can act as a worked example. */
   defaultExpanded?: boolean
+  /** If true, the card auto-expands the first time it scrolls
+   *  ~40% into the viewport. Used on the dedicated /faqs page so
+   *  users see answers without clicking each row. Defaults to
+   *  false so the homepage FAQ section behavior is unchanged
+   *  (only the user-clicked card expands there).
+   *
+   *  Behavior:
+   *    - Observer is one-shot: once expanded by intersection it
+   *      unobserves and does not auto-collapse on scroll-out.
+   *    - User can still manually toggle via the disc button. If a
+   *      user manually collapses an auto-expanded card the
+   *      observer has already disconnected, so it stays collapsed.
+   *    - No-op on server / SSR (effect runs client-only). */
+  autoExpandOnView?: boolean
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded)
   const answerId = useId()
+  const articleRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!autoExpandOnView) return
+    // Already expanded (e.g. defaultExpanded=true or the user
+    // already toggled it) — no observer needed.
+    if (expanded) return
+
+    const el = articleRef.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') return
+
+    // Mount-time check: if the card is already on screen when the
+    // effect runs (above-the-fold on /faqs, or back-button nav),
+    // expand immediately rather than waiting for a scroll.
+    const rect = el.getBoundingClientRect()
+    const vh = window.innerHeight || 0
+    const visibleHeight = Math.min(rect.bottom, vh) - Math.max(rect.top, 0)
+    if (visibleHeight > 0 && visibleHeight / rect.height >= 0.4) {
+      setExpanded(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setExpanded(true)
+          observer.unobserve(el)
+        }
+      },
+      {
+        // 40% of the row must be in view before auto-expanding.
+        // Lower thresholds expand too early (user has barely
+        // scrolled to the row); higher thresholds make short
+        // pages feel like nothing is happening because the row
+        // is past the trigger before it's fully on screen.
+        threshold: 0.4,
+      },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+    // expanded intentionally NOT in deps — we only want to set up
+    // the observer once. Once expanded the early-return above
+    // prevents re-running.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoExpandOnView])
 
   return (
     <article
+      ref={articleRef}
       className={`faq-card ${expanded ? 'faq-card-open' : ''}`}
       data-expanded={expanded ? 'true' : 'false'}
       id={`faq-${faq.slug}`}

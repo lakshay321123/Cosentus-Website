@@ -113,7 +113,18 @@ export default function FAQsPage() {
                     direction="up"
                     delay={0.15 + i * 0.05}
                   >
-                    <FAQCard faq={f} defaultExpanded={gi === 0 && i === 0} />
+                    <FAQCard
+                      faq={f}
+                      defaultExpanded={gi === 0 && i === 0}
+                      // Each FAQ auto-expands as it scrolls into view
+                      // on /faqs. Per user direction 2026-05-25:
+                      // "as we are scrolling down and it is appearing,
+                      // it should auto open as well the FAQs so it
+                      // becomes easier for the user to navigate."
+                      // Homepage FAQ section does NOT pass this prop,
+                      // so its rows stay click-to-expand.
+                      autoExpandOnView={true}
+                    />
                   </RevealOnScroll>
                 ))}
               </div>
@@ -277,6 +288,46 @@ export default function FAQsPage() {
 
         @media (max-width: 640px) {
           .faqs-page { padding-top: 88px; padding-bottom: 64px; }
+        }
+
+        /* =====================================================
+           Neutralize the .reveal / .reveal-scale opacity-0 +
+           blur(4px) initial state on /faqs.
+
+           User report 2026-05-25 (with screenshot): "The CTA in
+           the FAQ section is not visible."
+
+           Root cause: the page uses RevealOnScroll wrappers
+           around the lead paragraph, group headings, each FAQ
+           row, AND the bottom CTA. The global .reveal /
+           .reveal-scale rules (app/globals.css ~line 2472) start
+           those wrappers at opacity:0 with filter:blur(4px),
+           and only flip to opacity:1 when the IntersectionObserver
+           in RevealOnScroll.tsx adds a 'visible' class. The CTA
+           lives at the bottom of a long page; in some scroll
+           conditions the observer doesn't fire reliably or the
+           user reaches the section while it's still in the
+           initial hidden state.
+
+           For a Q&A reference page this hide-then-reveal pattern
+           is more friction than payoff — users want to read the
+           answers, not watch them fade in. Override to force
+           visible immediately.
+
+           Side effect: the staggered reveal animation on /faqs
+           is gone. The teal-band hero H1 still has its
+           RevealText word-stagger because that's a different
+           mechanism (RevealText, not RevealOnScroll). All
+           other pages are unaffected — this is scoped to
+           .faqs-page. */
+        .faqs-page .reveal,
+        .faqs-page .reveal-scale,
+        .faqs-page .reveal-left,
+        .faqs-page .reveal-right,
+        .faqs-page .reveal-flag {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
         }
 
         /* =====================================================
