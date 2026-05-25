@@ -254,13 +254,25 @@ export default function FAQsPage() {
 
         .faqs-group-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 22px;
+          /* Single column on all viewports — matches the blog
+             post FAQ list pattern in BlogPostContent.tsx (which
+             renders FAQs as a stacked column, not a grid).
+             Previous 2-col desktop / 1-col mobile was for the
+             big italic-serif card design that benefited from
+             horizontal spread; the new compact list rows are
+             more readable as a single wide column. */
+          grid-template-columns: 1fr;
+          /* 8px gap matches the blog FAQ marginBottom: 8 between
+             rows. Tight enough to feel like a list, loose enough
+             that the rounded-corner borders aren't touching. */
+          gap: 8px;
           align-items: start;
-        }
-
-        @media (max-width: 900px) {
-          .faqs-group-grid { grid-template-columns: 1fr; gap: 16px; }
+          /* Constrain to a comfortable reading width on wide
+             desktops — the rows would otherwise stretch to the
+             full container width which is too wide for a Q&A
+             read. ~860px lines up with the blog post content
+             column width. */
+          max-width: 860px;
         }
 
         @media (max-width: 640px) {
@@ -268,117 +280,178 @@ export default function FAQsPage() {
         }
 
         /* =====================================================
-           FAQCard re-skin — blog-style white surface.
+           FAQCard re-skin — match the EXACT pattern used by the
+           blog post FAQ component (see BlogPostContent.tsx
+           ~line 470, where blog-post-embedded FAQs render).
 
-           The FAQCard component is shared with the homepage
-           FAQ section (which uses .home-immersive scope) and
-           has its own styled-jsx with dark-glass colors. The
-           homepage FAQ section ALSO has a global rule at
-           app/globals.css ~line 4747 that applies the liquid-
-           glass inset-shadow recipe to .faqs-page .faq-card-
-           inner (because /faqs USED to use the same dark-glass
-           treatment).
+           Visual recipe (from blog FAQ):
+             Row container: 1px solid var(--gray-200), border-
+               radius var(--radius-md) (12px), no padding around
+               itself, 8px gap between rows. Open state: border
+               turns brand teal #00B5D6.
+             Question button: padding 18px 24px, background
+               var(--gray-50) closed / var(--primary-ghost) open.
+               Question text is sans-serif bold (--font-body,
+               weight 600, size 16, color gray-900) — NOT the
+               display-serif italic the FAQCard component ships
+               with. Chevron is teal stroke 2.5, 18×18, on the
+               right side, rotates 180deg when open.
+             Answer panel: white background, padding 0 24px 20px,
+               text size 16 line-height 1.75, color gray-600.
 
-           Now that /faqs is white, those styles fight us. The
-           overrides below win because:
-             - Selector specificity (0,2,0) matches the global
-               glass rule, but our rules declare later in the
-               cascade and use !important to overpower the
-               global rule's own !important.
-             - The styled-jsx in FAQCard.tsx is class-only
-               (specificity 0,1,0) — beaten by our (0,2,0)
-               selectors without needing !important.
+           First attempt (commit c5e051e) made big bordered white
+           cards with the original italic display-serif question.
+           User direction 2026-05-25: "The design is not matching.
+           As you can see, I've given you the blog post FAQ
+           design and the FAQ design page." This block REPLACES
+           that first attempt with the actual blog-FAQ recipe.
+
+           !important is required because the global rule at
+           app/globals.css ~line 4747 also targets
+           .faqs-page .faq-card-inner with !important. The
+           styled-jsx in FAQCard.tsx itself has lower specificity
+           (single class) so plain .faqs-page X overrides win
+           against it without !important — but I use !important
+           uniformly here for clarity and resilience against
+           future global-rule changes.
            ===================================================== */
 
-        /* White card surface — replaces dark-glass treatment.
-           Subtle gray-200 border + soft shadow matches the
-           blog-card visual recipe (see BlogContent.tsx where
-           cards use 'var(--white)' bg + 'var(--gray-200)'
-           border). !important is required to defeat the
-           equal-specificity global glass rule. */
+        /* Row container — replaces the big card with a compact
+           list-row look. No padding here (padding lives on the
+           question button to enable hover-color-changes); the
+           border + radius do the row separation. */
         .faqs-page .faq-card-inner {
-          background: #FFFFFF !important;
+          background: var(--gray-50) !important;
           border: 1px solid var(--gray-200) !important;
-          border-radius: 16px !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+          border-radius: var(--radius-md) !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          overflow: hidden;
+          transition: border-color 0.2s ease, background 0.2s ease !important;
         }
+        /* Open state — border turns teal (matches blog FAQ open
+           state). Background change handled via .faq-card-question
+           override below. */
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-inner {
+          border-color: #00B5D6 !important;
+        }
+
+        /* Override hover lift entirely — the blog FAQ rows don't
+           translate or change shadow on hover, just a subtle
+           border-color shift. Previously the global rule at
+           app/globals.css ~line 4747 also applied a dark-glass
+           hover shadow to .faqs-page .faq-card:hover .faq-card-
+           inner with !important; that entry was removed from the
+           global rule in the same commit as this redesign, so
+           !important here is now defensive only. */
         .faqs-page .faq-card:hover .faq-card-inner {
-          /* Hover lift — slight elevation + slightly tinted
-             shadow. Matches blog-card hover. */
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+          box-shadow: none !important;
           border-color: var(--gray-300) !important;
+          transform: none !important;
+        }
+        .faqs-page .faq-card[data-expanded='true']:hover .faq-card-inner {
+          border-color: #00B5D6 !important;
         }
 
-        /* Question text — dark on white. The FAQCard component
-           styles this rgba(255,255,255,0.96); we override to
-           near-black for legibility on white. The italic display
-           serif treatment is preserved (styled-jsx still applies
-           font-family/style/weight/size). */
+        /* Question — sans-serif bold, dark on gray-50.
+           Replaces the italic display-serif treatment in
+           FAQCard.tsx's styled-jsx. Padding is on the h3 (not
+           the card) so the bg-color change on open state covers
+           the full row. */
         .faqs-page .faq-card-question {
-          color: #1a1a1a;
+          font-family: var(--font-body) !important;
+          font-style: normal !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 1.5 !important;
+          letter-spacing: normal !important;
+          color: var(--gray-900) !important;
+          /* Right padding 56px reserves space for the chevron
+             button positioned absolute on the right. */
+          padding: 18px 56px 18px 24px !important;
+          margin: 0 !important;
+        }
+        /* Open state — question header gets a primary-ghost tint
+           (very light teal), matches blog FAQ open state. */
+        .faqs-page .faq-card[data-expanded='true'] .faq-card-question {
+          background: var(--primary-ghost) !important;
         }
 
-        /* Answer body text — gray-700-ish for comfortable reading
-           without being harsh-black on the questions above. */
+        /* Answer panel — white background, generous padding, gray
+           body text. Matches blog FAQ answer panel exactly. */
+        .faqs-page .faq-card-answer-inner {
+          background: #FFFFFF;
+          padding: 0 24px 20px;
+        }
         .faqs-page .faq-card-answer-text {
-          color: #4a4a4a;
+          font-size: 16px !important;
+          line-height: 1.75 !important;
+          color: var(--gray-600) !important;
+          padding-top: 12px;
+          margin: 0 !important;
         }
-
-        /* Divider between question and answer — light gray instead
-           of the dark-page semi-transparent white gradient. */
+        /* Hide the divider — the blog FAQ pattern uses background
+           color changes (gray-50 → primary-ghost on open, then
+           white for the answer) to separate question and answer
+           visually. No horizontal rule is needed. */
         .faqs-page .faq-card-divider {
-          background: linear-gradient(
-            to right,
-            rgba(0, 0, 0, 0.12) 0%,
-            rgba(0, 0, 0, 0) 75%
-          ) !important;
+          display: none !important;
         }
 
-        /* Expand affordance — the FAQCard ships with a white-
-           filled SVG disc (btn-specialties-arrow.svg) designed
-           for the dark homepage. On a white card the white disc
-           is invisible. Hide the asset and draw a teal chevron-
-           down via background-image SVG data URI instead.
-
-           Rotation logic mirrors the original component: 0deg
-           at rest = chevron points down ("open me"); 180deg
-           when expanded = chevron points up ("close me"). */
+        /* Chevron — small teal chevron-down on the right of the
+           question row, vertically positioned to align with the
+           first line of the question (top: 24px = padding-top
+           18px + half line-height of 12px ≈ first-line center).
+           For multi-line questions the chevron stays aligned with
+           the first line; this matches how the blog FAQ renders
+           when the question wraps (the flex align-items: center
+           in the blog version vs my absolute positioning here
+           differs slightly for multi-line, but visually close
+           enough for 1-2 line questions which is the typical
+           case.) */
         .faqs-page .faq-card-disc-arrow {
           display: none;
         }
         .faqs-page .faq-card-disc {
-          width: 36px;
-          height: 36px;
-          right: 18px;
-          bottom: 18px;
+          position: absolute !important;
+          top: 24px !important;
+          right: 22px !important;
+          bottom: auto !important;
+          width: 18px !important;
+          height: 18px !important;
+          background-color: transparent !important;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300B5D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
           background-position: center;
-          background-size: 22px 22px;
-          transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+          background-size: 18px 18px;
+          transition: transform 0.3s ease !important;
         }
         .faqs-page .faq-card[data-expanded='true'] .faq-card-disc {
-          transform: rotate(180deg);
+          transform: rotate(180deg) !important;
         }
-        /* Suppress the original hover-nudge (drop 4px + cyan
-           drop-shadow) that the component applies to the
-           white disc; on the chevron variant a simple scale
-           reads cleaner. */
+        /* Override the component's hover-translateY effect on the
+           disc — blog FAQ chevrons don't move on hover. Keep the
+           expanded rotation (handled by the data-expanded selector
+           above) even when hovered. */
         .faqs-page .faq-card:hover .faq-card-disc {
-          transform: scale(1.1);
-          filter: none;
+          transform: rotate(0deg) !important;
+          filter: none !important;
         }
         .faqs-page .faq-card[data-expanded='true']:hover .faq-card-disc {
-          transform: rotate(180deg) scale(1.1);
+          transform: rotate(180deg) !important;
         }
 
         @media (max-width: 768px) {
+          .faqs-page .faq-card-question {
+            font-size: 15px !important;
+            padding: 16px 48px 16px 18px !important;
+          }
           .faqs-page .faq-card-disc {
-            width: 32px;
-            height: 32px;
-            right: 16px;
-            bottom: 16px;
-            background-size: 18px 18px;
+            top: 22px !important;
+            right: 18px !important;
+          }
+          .faqs-page .faq-card-answer-inner {
+            padding: 0 18px 18px;
           }
         }
       `}</style>

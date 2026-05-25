@@ -4781,9 +4781,17 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .insights-tab,
 .home-immersive .specialty-card-link,
 .home-immersive .faq-card-inner,
-.faqs-page .faq-card-inner,
-.faqs-page .cta-box,
-.faqs-page .btn-primary,
+/* /faqs page entries removed 2026-05-25 — page redesigned to
+   white blog-style. Previously included:
+     .faqs-page .faq-card-inner,
+     .faqs-page .cta-box,
+     .faqs-page .btn-primary,
+   ...so the CTA pill and FAQ cards got the dark-glass inset-
+   shadow treatment. Now those elements use:
+     - faqs-page.tsx scoped CSS for the FAQ list rows
+     - default .btn-primary (solid teal pill) for the CTA
+   Per user direction "the CTA needs to be blue like on other
+   pages." */
 .home-immersive [style*="background: var(--white)"],
 .home-immersive [style*="background:var(--white)"],
 .home-immersive [style*="background: white"],
@@ -4808,9 +4816,10 @@ body:has(main.home-immersive) .footer-top {
 .home-immersive .btn-primary:hover,
 .home-immersive .insights-tab:hover,
 .home-immersive .specialty-card-link:hover,
-.home-immersive .faq-card:hover .faq-card-inner,
-.faqs-page .faq-card:hover .faq-card-inner,
-.faqs-page .btn-primary:hover {
+.home-immersive .faq-card:hover .faq-card-inner {
+  /* .faqs-page .faq-card:hover .faq-card-inner and
+     .faqs-page .btn-primary:hover removed from this hover-state
+     rule alongside the base rule above, same redesign date. */
   border: none !important;
   box-shadow:
     inset 1.5px 2px 0px -2px rgba(255, 255, 255, 0.50),
