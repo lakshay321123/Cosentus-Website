@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import FAQCard from '@/components/ui/FAQCard'
 import FAQJsonLd from '@/components/ui/FAQJsonLd'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
+import CTASection from '@/components/sections/CTASection'
 import { faqs } from '@/data/faqs'
 
 /**
@@ -133,27 +133,26 @@ export default function FAQsPage() {
         </div>
       </section>
 
-      {/* CTA — uses the canonical .cta-section + .cta-box + .btn-primary
-          classes from the homepage CTASection so the visual treatment
-          matches identically. The shared glass-pill recipe is applied
-          via app/globals.css selectors extended to also match a
-          .faqs-page ancestor (see the .cta-section / .cta-box /
-          .btn-primary blocks around lines 408, 530, 4196, 4269, etc.). */}
-      <section className="cta-section">
-        <div className="container">
-          <RevealOnScroll direction="scale">
-            <div className="cta-box">
-              <RevealText as="h2" perWordDelay={0.06} baseDelay={0.15}>
-                Still have a question?
-              </RevealText>
-              <Link href="/contact" className="btn-primary">
-                Get Your Free Revenue Analysis
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </Link>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+      {/* CTA — use the canonical CTASection component, same as every
+          specialty page (Anesthesia, Orthopedics, Pain Management,
+          ASC, Behavioral Health, Multi-Specialty). This was previously
+          hand-rolled markup that, despite using the same .cta-section
+          / .cta-box / .btn-primary classes, kept getting tripped up
+          by stale .faqs-page CSS overrides that targeted those
+          classes (CTA box rendering transparent on white, text
+          white-on-white, etc — three escalations to find them all).
+          Using the canonical component eliminates the entire class
+          of bugs: if the specialty CTAs work, this works.
+
+          Per user direction 2026-05-25 (after the third escalation):
+            "Can you just go to the specialties page and see the CTA?
+             Just copy paste it. Let's not use our brain anymore."
+
+          Text comes from the canonical component:
+            "Know Exactly Where You're Losing Revenue."
+            "Get Your No-Cost Financial MRI" → /contact
+          which is what all specialty pages already use. */}
+      <CTASection />
 
       <style>{`
         .faqs-page {
