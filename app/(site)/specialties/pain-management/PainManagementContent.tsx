@@ -211,13 +211,13 @@ export default function PainManagementContent() {
 
 
       {/* RCM Solutions: Complete Pain Management Revenue Cycle.
-          Shared SpecialtyMarquee component. */}
-      <section className="section section-alt">
+          Shared SpecialtyMarquee component (grid mode). */}
+      <section className="section section-specialty-grid">
         <div className="container">
           <RevealOnScroll><div className="section-title">Complete Pain Management Revenue Cycle</div></RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={solutions} />
+        <SpecialtyMarquee items={solutions} layout="grid" />
       </section>
 
 

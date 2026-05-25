@@ -205,20 +205,19 @@ export default function RCMContent() {
       </section>
 
 
-      {/* The 10-Step RCM Timeline — replaced the previous 2-column
-          icon grid with the shared SpecialtyMarquee carousel (drag-
-          to-scrub, auto-scrolling). Each step renders as a card
-          with its own animation; agents (Elly / Paige / Priya /
-          Connie / Ariel / Chris / Cindy) appear via the card's
-          agent badge. Section title unchanged. */}
-      <section className="section section-alt">
+      {/* The 10-Step RCM Timeline — uses the shared SpecialtyMarquee
+          component in grid mode (3 col desktop, 2 col mobile). Each
+          step renders as a card with its own animation; agents (Elly /
+          Paige / Priya / Connie / Ariel / Chris / Cindy) appear via
+          the card's agent badge. Section title unchanged. */}
+      <section className="section section-specialty-grid">
         <div className="container">
           <RevealOnScroll>
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
           </RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={rcmSteps} />
+        <SpecialtyMarquee items={rcmSteps} layout="grid" />
       </section>
 
 

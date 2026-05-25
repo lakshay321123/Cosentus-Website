@@ -1223,6 +1223,10 @@ body:has(main.home-immersive) .footer-top {
 /* ===== R+A INTELLIGENCE SECTION ===== */
 .section { padding: 100px 0; }
 .section-alt { background: var(--gray-50); }
+/* Custom background for the Complete <Specialty> Revenue Cycle section
+   on each /specialties/* page and /services/rcm. ~10% darker than the
+   default .section-alt (#FAFAFA) per the specialty-grid-layout brief. */
+.section-specialty-grid { background: #E6E6E6; }
 
 .section-label {
   font-family: var(--font-display);

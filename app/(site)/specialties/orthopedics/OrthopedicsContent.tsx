@@ -208,14 +208,13 @@ export default function OrthopedicsContent() {
 
 
       {/* RCM Solutions: Complete Orthopedic Revenue Cycle.
-          Uses the shared SpecialtyMarquee component (same drag-to-
-          scrub carousel as Anesthesia). */}
-      <section className="section section-alt">
+          Uses the shared SpecialtyMarquee component in grid mode. */}
+      <section className="section section-specialty-grid">
         <div className="container">
           <RevealOnScroll><div className="section-title">Complete Orthopedic Revenue Cycle</div></RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={solutions} />
+        <SpecialtyMarquee items={solutions} layout="grid" />
       </section>
 
 
