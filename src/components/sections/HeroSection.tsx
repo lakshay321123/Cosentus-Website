@@ -626,10 +626,33 @@ export default function HeroSection() {
            keeps the 'from' keyframe value applied during animation-delay
            (before the animation starts) and the 'to' value held after
            the animation completes — so the card sits at translateX(80)
-           through its delay window and at translateX(0) afterward. */
+           through its delay window and at translateX(0) afterward.
+
+           Opacity is included in BOTH keyframes (not just transform).
+           Reason: on mobile <MobileCarousel> re-renders the cards as
+           NEW DOM nodes after hydration (when isMobile flips true and
+           the cards get wrapped in slide divs). For a freshly-mounted
+           element, CSS transitions don't fire — there's no previous
+           state to transition FROM. So the cards' computed opacity
+           comes from the cascade: '.hero-ready .hero-card { opacity:
+           1 }' wins, opacity is 1 immediately, no transition runs.
+           Meanwhile the transform is held by the animation's fill-
+           mode: both at translateX(80px) during the delay. Result:
+           the card was visible (opacity:1) at the +80px offset for
+           the entire 2800ms delay window — clipped against the
+           carousel's overflow:hidden, looking "stuck in the corner".
+           Then at t=2800ms the keyframe fired and slid the card
+           visibly LEFT to its slot. Adding opacity to the keyframe
+           makes the fill-mode hold both transform AND opacity at the
+           'from' values during the delay, so the card stays invisible
+           until t=2800ms whether it was mounted at t=0 (SSR) or at
+           t=~200ms (after MobileCarousel re-render). User report
+           2026-05-26: "Zeus AI box gets stuck to the corner, and
+           then it goes to the left every time. Whenever I refresh,
+           it's the same thing." */
         @keyframes hero-card-enter {
-          from { transform: translateX(80px); }
-          to   { transform: translateX(0); }
+          from { transform: translateX(80px); opacity: 0; }
+          to   { transform: translateX(0);    opacity: 1; }
         }
 
         /* Reveal state — added by useEffect after mount via a
