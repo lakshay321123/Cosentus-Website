@@ -207,17 +207,14 @@ export default function HeroSection() {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          /* Headline anchored at ~38% from top of viewport.
-             padding-top sets the starting Y; the column stretches
-             to the bottom of the grid cell via the grid's
-             align-items: stretch (set on .hero-layout-grid). */
+          /* Headline anchored at ~38% from top of viewport. */
           padding-top: 38vh;
-          /* Padding-bottom must equal the card bottom inset (14vh)
-             so the button row, when pushed to the bottom of the
-             left column via margin-top:auto, ends up at the SAME
-             baseline as the card bottoms. */
-          padding-bottom: 14vh;
-          gap: 14px;
+          /* Single uniform vertical rhythm between the three stacked
+             elements (headline -> subline -> button row). This 28px
+             gap is the ONLY source of vertical spacing in the stack;
+             .hero-sub margin and the button row's old margin-top:auto
+             were removed so the gaps read identical. */
+          gap: 28px;
         }
 
         /* Headline — real text now (was an SVG image sized by width).
@@ -251,7 +248,7 @@ export default function HeroSection() {
            from .hero-sub here. */
         .hero-sub {
           display: block;
-          margin: 18px 0 0;
+          margin: 0;
           max-width: 560px;
           font-family: var(--font-body);
           font-size: clamp(17px, 2vw, 20px);
@@ -262,15 +259,14 @@ export default function HeroSection() {
         }
 
         /* ===== Button row =====
-           margin-top: auto pushes this row to the bottom of the
-           .hero-left flex column, so the row's BOTTOM sits at the
-           column's padding-bottom (14vh from viewport bottom),
-           matching the card bottoms. */
+           Sits in normal flow directly after the subline; the 28px
+           .hero-left gap provides the spacing above it (uniform with
+           the headline->subline gap). gap:14px here is the HORIZONTAL
+           space between the two buttons. */
         .hero-action-row {
           display: flex;
           align-items: center;
           gap: 14px;
-          margin-top: auto;
         }
 
         /* Our Specialties: pill + arrow disc.
