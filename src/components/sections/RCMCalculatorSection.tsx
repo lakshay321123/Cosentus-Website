@@ -167,21 +167,9 @@ export default function RCMCalculatorSection() {
               interactive, so the 'Move the sliders. See what's recoverable.'
               instruction was redundant. Headline gets full marginBottom
               (56) since there's no subline to bridge to the card. */}
-          <div className="section-title" style={{ textAlign: 'center', marginBottom: 16 }}>
-            How Much Revenue Are You Losing?
+          <div className="section-title" style={{ textAlign: 'center', marginBottom: 56 }}>
+            See how much your practice could recover.
           </div>
-          {/* Change 4 intro subline (above the calculator). */}
-          <p style={{
-            textAlign: 'center',
-            maxWidth: 640,
-            margin: '0 auto 56px',
-            fontSize: 'clamp(16px, 1.6vw, 19px)',
-            lineHeight: 1.6,
-            color: 'rgba(255,255,255,0.78)',
-            fontFamily: 'var(--font-body)',
-          }}>
-            See how much revenue your practice could recover.
-          </p>
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.2}>
@@ -264,13 +252,6 @@ export default function RCMCalculatorSection() {
                 Not sure what your denial rate or days in AR are? You&rsquo;re not
                 alone. Most healthcare executives don&rsquo;t have consistent access
                 to these numbers. And that&rsquo;s exactly the problem. Let us show you.
-              </p>
-
-              <p style={{
-                fontSize: 15, lineHeight: 1.65, color: 'rgba(255,255,255,0.5)',   // dim white-translucent for the disclaimer copy on frosted-glass
-                marginTop: 20,
-              }}>
-                Estimates based on industry averages and Cosentus's published benchmarks (98% NCR, 95% appeal success, &lt;15% AR over 90 days). Buckets approximate independently and may overlap. Actual results depend on specialty, payer mix, and starting baseline.
               </p>
             </div>
 
