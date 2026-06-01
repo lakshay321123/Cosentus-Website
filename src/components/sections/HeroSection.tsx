@@ -39,8 +39,8 @@
  *   1040ms  Net Collection card
  *
  * a11y:
- *   - Visually-hidden <h1> for SEO + screen readers (visible headline
- *     is two SVG images, not selectable text)
+ *   - Headline is a real <h1> of selectable text (was two SVG image
+ *     outlines pre-Jun 2026); it is the page's semantic main heading.
  *   - prefers-reduced-motion: all entrance animations skipped
  *   - All Link wrappers have aria-label matching the SVG content
  */
@@ -50,8 +50,6 @@ import Link from 'next/link'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
 const ASSETS = {
-  headline1: '/images/hero/headline-1.svg',
-  headline2: '/images/hero/headline-2.svg',
   btnSpecialties: '/images/hero/btn-specialties.svg',
   btnSpecialtiesArrow: '/images/hero/btn-specialties-arrow.svg',
   btnContact: '/images/hero/btn-contact.svg',
@@ -95,29 +93,27 @@ export default function HeroSection() {
         <div className="hero-overlay" />
       </div>
 
-      {/* Visually-hidden <h1> for SEO + screen readers. The visible
-          headline is two SVG images, which screen readers see as alt
-          text only. Without this <h1> the page has no semantic main
-          heading. */}
-      <h1 className="visually-hidden">
-        Purpose Built For Your Specialty. Real People + Ai. RCM Redefined.
-      </h1>
-
       <div className="hero-layout-grid">
-        {/* LEFT column: headlines + button row */}
+        {/* LEFT column: headline + subline + button row.
+            Headline + subline are real, selectable HTML text (was two
+            CorelDRAW SVG outlines pre-Jun 2026). The <h1> is now the
+            visible semantic heading, so the separate visually-hidden
+            <h1> was removed to avoid two <h1> elements on the page.
+            Typography matches the shared PageHero / .hero-sub pattern
+            used on every inner page (e.g. /services/rcm): headline
+            italic 700, subline regular 400 at a smaller size + lower
+            opacity. Same Reddit Sans throughout — the size/weight/
+            opacity contrast is what reads as a distinct treatment. */}
         <div className="hero-left">
-          <img
-            src={ASSETS.headline1}
-            alt="Purpose Built For Your Specialty"
-            className="hero-headline hero-headline-1"
-            loading="eager"
-          />
-          <img
-            src={ASSETS.headline2}
-            alt="Real People + Ai. RCM Redefined"
-            className="hero-headline hero-headline-2"
-            loading="eager"
-          />
+          <h1 className="hero-headline hero-headline-1">
+            Specialty-focused RCM. Built to collect every dollar.
+          </h1>
+          <p className="hero-sub hero-headline-2">
+            End-to-end revenue cycle management with named teams trained
+            in your specialty. We find where revenue is leaking, fix
+            what&rsquo;s broken, and deliver full transparency into every
+            claim.
+          </p>
 
           <div className="hero-action-row">
             {/* Our Specialties = pill + arrow disc composed.
@@ -290,18 +286,42 @@ export default function HeroSection() {
           gap: 14px;
         }
 
-        /* Headlines: fluid-sized so they scale with viewport.
-           Spec proportions ~36% vw wide. Both share the same width
-           since they're both ~4.5:1 aspect SVGs. */
+        /* Headline — real text now (was an SVG image sized by width).
+           Typography mirrors the shared PageHero title used on every
+           inner page (/services/rcm etc.): italic 700, tight letter-
+           spacing, near-1 line-height, white. Fluid size via clamp so
+           it scales with the viewport and reads as the dominant hero
+           element. Max-width keeps the two-sentence headline from
+           running into the right-hand card column. */
         .hero-headline {
           display: block;
-          width: clamp(320px, 36vw, 620px);
-          height: auto;
+          margin: 0;
+          max-width: 12ch;
+          font-family: var(--font-display);
+          font-size: clamp(40px, 5vw, 64px);
+          font-weight: 700;
+          font-style: italic;
+          letter-spacing: -0.03em;
+          line-height: 1.02;
+          color: #ffffff;
         }
-        /* Tighten the gap between the two headlines per spec
-           (they read as one continuous block). */
-        .hero-headline-2 {
-          margin-top: -10px;
+        /* Subline — smaller, lighter, NOT italic. Matches the global
+           .hero-sub used by PageHero (clamp(17px,2vw,20px) / 400 /
+           rgba white 0.7 / line-height 1.6). Declared locally so the
+           hero doesn't depend on cascade order from globals.css. The
+           .hero-headline-2 class is retained ONLY as the choreography
+           hook (its 1000ms entrance delay); all visual styling comes
+           from .hero-sub here. */
+        .hero-sub {
+          display: block;
+          margin: 18px 0 0;
+          max-width: 560px;
+          font-family: var(--font-body);
+          font-size: clamp(17px, 2vw, 20px);
+          font-weight: 400;
+          font-style: normal;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.7);
         }
 
         /* ===== Button row =====
@@ -723,8 +743,12 @@ export default function HeroSection() {
             gap: 10px;
           }
           .hero-headline {
-            width: 88%;
-            max-width: 360px;
+            max-width: 100%;
+            font-size: clamp(30px, 8vw, 40px);
+          }
+          .hero-sub {
+            max-width: 100%;
+            font-size: 15px;
           }
           .hero-action-row {
             margin-top: 14px;
