@@ -22,21 +22,23 @@ export default function Home() {
       <ImmersiveVideoBackground />
 
       {/* Page narrative flow:
-            1. HeroSection — "Purpose Built / For Your Specialty /
-               Real People + AI. / RCM Redefined." (4-line typing
-               tagline; never meant to be removed).
-            2. ScrollHeroSection — DNA helix video + "Combining
+            1. HeroSection — "Specialty-focused RCM. Built to collect
+               every dollar." headline + subline + 2 CTAs (Change 1).
+               The three hero cards were removed (Change 2).
+            2. ResultsSection (intro) — six glass up-arrow stats with a
+               centered intro paragraph below them. Moved here directly
+               after the hero (Change 3) so the numbers — what really
+               sells — sit high on the page. The `intro` prop renders
+               the homepage-only paragraph beneath the arrows.
+            3. ScrollHeroSection — DNA helix video + "Combining
                expert teams..." paragraph. This is a normal in-page
                section (scroll-hijack removed from the underlying
                component per user direction).
-            3. RASection — 9 AI voice agents + stats
-            4. SpecialtiesSection — 6-card grid
-            5. ResultsSection — numbers with up arrows
+            4. RASection — 9 AI voice agents + stats
+            5. SpecialtiesSection — 6-card grid
             6. RCMCalculatorSection — live "what could you recover"
-               calculator. Sits after Results so the narrative flows
-               "here's what we deliver" → "now see what those numbers
-               mean for YOUR practice". 3 inputs, 3-bucket breakdown,
-               existing site-wide CTA to /contact.
+               calculator. 3 inputs, 3-bucket breakdown, existing
+               site-wide CTA to /contact.
             7. InsightsTabsSection — Resources tabs
             8. PartnersSection — Our Network
             9. TestimonialsShuffleSection — What Our Clients Say
@@ -47,10 +49,10 @@ export default function Home() {
                intentionally NOT in the global nav.
            11. CTASection */}
       <HeroSection />
+      <ResultsSection intro />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
-      <ResultsSection />
       <RCMCalculatorSection />
       <InsightsTabsSection />
       <PartnersSection />
