@@ -211,7 +211,7 @@ export default function ResultsSection({ intro = false }: { intro?: boolean }) {
               color: 'rgba(255, 255, 255, 0.78)',
             }}>
               You probably know your revenue cycle has room to improve. But do you
-              know exactly where &mdash; or how much you&rsquo;re leaving behind?
+              know exactly where? Or how much you&rsquo;re leaving behind?
               These aren&rsquo;t aspirational targets. These are the results we
               deliver for practices like yours, measured and reported in real time.
             </p>
