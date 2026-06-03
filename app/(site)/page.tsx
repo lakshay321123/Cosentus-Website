@@ -30,15 +30,18 @@ export default function Home() {
                after the hero (Change 3) so the numbers — what really
                sells — sit high on the page. The `intro` prop renders
                the homepage-only paragraph beneath the arrows.
-            3. ScrollHeroSection — DNA helix video + "Combining
+            3. RCMCalculatorSection — live "what could you recover"
+               calculator. 3 inputs, 3-bucket breakdown, existing
+               site-wide CTA to /contact. Moved directly below the
+               Results stats so the interactive "what am I leaving on
+               the table" moment sits high on the page, right after the
+               numbers that motivate it.
+            4. ScrollHeroSection — DNA helix video + "Combining
                expert teams..." paragraph. This is a normal in-page
                section (scroll-hijack removed from the underlying
                component per user direction).
-            4. RASection — 9 AI voice agents + stats
-            5. SpecialtiesSection — 6-card grid
-            6. RCMCalculatorSection — live "what could you recover"
-               calculator. 3 inputs, 3-bucket breakdown, existing
-               site-wide CTA to /contact.
+            5. RASection — 9 AI voice agents + stats
+            6. SpecialtiesSection — 6-card grid
             7. InsightsTabsSection — Resources tabs
             8. PartnersSection — Our Network
             9. TestimonialsShuffleSection — What Our Clients Say
@@ -50,10 +53,10 @@ export default function Home() {
            11. CTASection */}
       <HeroSection />
       <ResultsSection intro />
+      <RCMCalculatorSection />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
-      <RCMCalculatorSection />
       <InsightsTabsSection />
       <PartnersSection />
       <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
