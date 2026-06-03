@@ -21,11 +21,15 @@ const navItems = [
     href: '/specialties',
     children: [
       { label: 'Anesthesia', href: '/specialties/anesthesia' },
-      { label: 'Orthopedics', href: '/specialties/orthopedics' },
-      { label: 'Pain Management', href: '/specialties/pain-management' },
-      { label: 'ASCs', href: '/specialties/asc' },
+      // Orthopedics / Pain Management / Multi-Specialty were removed
+      // from the dropdown UI per user direction. Kept here (commented,
+      // NOT deleted) so they can be restored by un-commenting — their
+      // /specialties/* pages and routes are unchanged.
+      // { label: 'Orthopedics', href: '/specialties/orthopedics' },
+      // { label: 'Pain Management', href: '/specialties/pain-management' },
+      { label: 'Ambulatory Services', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
-      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
+      // { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
