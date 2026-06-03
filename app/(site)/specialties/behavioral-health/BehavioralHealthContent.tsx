@@ -60,15 +60,51 @@ const leaders = [
 const testimonials = [
   {
     tag: 'Behavioral Health',
-    quote: 'Cosentus has been an invaluable CalAIMS billing partner, proactively solving problems, collaborating with our county, streamlining processes, and offering insights that keep us informed and prepared.',
-    name: 'Aubrie Mastrangelo',
-    role: 'Division Director for Behavioral Health Services, Bill Wilson Center',
+    quote: 'Cosentus has brought our behavioral health claims up to date, ensured consistent county invoicing, and provided invaluable expertise with a professional, responsive team that truly understands our needs.',
+    name: 'Lawrence Harlan',
+    role: 'Associate Director of Finance - AACI',
   },
   {
     tag: 'Behavioral Health',
-    quote: 'Cosentus ensures accurate, timely billing, reducing our Days in AR and improving cash flow. They\u2019re responsive to feedback and quick to implement RCM processes, automation, and reporting dashboards to streamline billing.',
-    name: 'Sujan Vatturi',
-    role: 'Chief Information Officer, Hope Services Counseling Center',
+    quote: 'Partnering with Cosentus has streamlined our claims operations, simplified billing submissions, and provided detailed reports. Their team is consistently responsive, helpful, and quick to address our needs.',
+    name: 'Jasmin Correa',
+    role: 'Director of Data Management - Community HealthWorks',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'I\u2019ve never been as satisfied with a medical biller as I am with Cosentus. They\u2019re prompt, efficient, transparent, responsive, and reasonably priced. I confidently recommend them to my colleagues!',
+    name: 'Larry Feliciano',
+    role: 'MD DABFM FAAP CMD HMDC',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Our experience with Cosentus has been that they are very responsive to the needs of their clients, provide custom reporting to navigate challenges, and make strategic decisions in a true partnership.',
+    name: 'Anna Fernandez',
+    role: 'Executive Director, Behavioral Health - Hope Services Counseling Center',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Cosentus has been a game-changer for my practice. Their team is incredibly responsive, proactive, and thorough. I trust them completely with my billing and highly recommend their services.',
+    name: 'Dr Ogochukwu Nwosu',
+    role: 'CEO - K2 Healthcare',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Cosentus has always been in our corner, offering knowledge, support, and training to handle billing situations. They understand our business and provide the best solutions for our Revenue Cycle department.',
+    name: 'Pastor Jason McMullan',
+    role: 'Executive Director - PneumaCare Health & Wellness',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Our partnership with Cosentus helps us manage medical billing and revenue, allowing us to focus on patient care and practice growth. We have worked with them for years and consistently appreciate their excellent service.',
+    name: 'Sherry Do',
+    role: 'Director of Patient Care Services - ProActive Clinic',
+  },
+  {
+    tag: 'Behavioral Health',
+    quote: 'Cosentus has been assisting my skilled nursing clinic with the RCM services needed to help us thrive. They allow us to focus on patient care. We appreciate their support, communication, and partnership.',
+    name: 'Dr Gurpreet Dhugga',
+    role: 'CEO - SNF Specialists',
   },
 ]
 
