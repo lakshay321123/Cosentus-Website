@@ -248,6 +248,27 @@ export default function BehavioralHealthContent() {
       </section>
 
 
+      {/* RCM Solutions: Complete Behavioral Health Revenue Cycle.
+          Shared SpecialtyMarquee component (grid mode). */}
+      <section className="section section-specialty-grid">
+        <div className="container">
+          <RevealOnScroll><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
+        </div>
+
+        <SpecialtyMarquee items={solutions} layout="grid" />
+      </section>
+
+
+      {/* Client Reviews — shared TestimonialsSection.
+          Order (Jun 2026, user direction): directly after the Complete
+          Revenue Cycle grid, before What Sets Us Apart and Leadership. */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
+
+
       {/* What Sets Us Apart — 3 cards per Specialty Pages doc. */}
       <section className="section">
         <div className="container">
@@ -279,17 +300,6 @@ export default function BehavioralHealthContent() {
       </section>
 
 
-      {/* RCM Solutions: Complete Behavioral Health Revenue Cycle.
-          Shared SpecialtyMarquee component (grid mode). */}
-      <section className="section section-specialty-grid">
-        <div className="container">
-          <RevealOnScroll><div className="section-title">Complete Behavioral Health Revenue Cycle</div></RevealOnScroll>
-        </div>
-
-        <SpecialtyMarquee items={solutions} layout="grid" />
-      </section>
-
-
       {/* Leadership.
           150+ years combined experience, 8 named people per
           doc. Same TeamCircleGrid pattern as Anesthesia (the
@@ -310,14 +320,6 @@ export default function BehavioralHealthContent() {
           <TeamCircleGrid people={leaders} baseDelay={0.1} />
         </div>
       </section>
-
-
-      {/* Client Reviews — shared TestimonialsSection */}
-      <TestimonialsSection
-        testimonials={testimonials}
-        label="CLIENT REVIEWS"
-        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
-      />
     </>
   )
 }
