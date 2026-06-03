@@ -131,23 +131,28 @@ export default function ASCContent() {
   return (
     <>
       {/* The Problem / Solution split panel — same inline shape
-          as Anesthesia/Orthopedics/Pain. Content per Specialty
-          Pages doc (v1) section 4 "ASCs". */}
+          as Anesthesia/Orthopedics/Pain. Re-themed for the combined
+          Ambulatory Services page (orthopedics + pain + ASC) per user
+          direction (Jun 2026), with explicit "Problem" / "Solution"
+          eyebrow labels above each headline. */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
+              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#00B5D6', marginBottom: 14 }}>
+                Problem
+              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
-                High Case Volume. Hidden Revenue Leakage.
+                High-Value Procedures. High-Volume Complexity. Revenue Slipping Through the Cracks.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Missed implant billing, incorrect facility/professional fee allocation, and untracked case costing leak revenue silently',
-                  'Multi-payer contracts with different rates and rules create reimbursement gaps that go unnoticed',
-                  'Authorization lapses on scheduled procedures disrupt OR schedules and cash flow',
-                  'High case volume means even small errors per case compound into significant losses',
+                  'Orthopedic cases carry high-dollar implant charges, modifier-heavy surgical billing, and global period rules that generic teams consistently misapply',
+                  'Pain management faces relentless payer scrutiny on injection frequency, medical necessity, and pre-payment reviews — small coding errors at high volume add up fast',
+                  'ASCs juggle dual billing streams (facility + professional), case costing, and multi-payer contracts where underpayments go unnoticed for months',
+                  'When these specialties share a generic billing team, the nuances of each get lost — and so does revenue',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
@@ -161,17 +166,20 @@ export default function ASCContent() {
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
+              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', marginBottom: 14 }}>
+                Solution
+              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Dedicated ASC Team + AI
+                Dedicated Ambulatory Teams + AI. Every Specialty Gets the Expertise It Demands.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Our ASC team coordinates facility and professional billing streams. They understand case costing, implant pass-throughs, and multi-payer contracts',
-                  'AI tracks authorizations, verifies eligibility, and follows up on claims across your full volume',
-                  'Every denial gets a root cause review across both fee streams to stop recurring issues',
-                  'Live dashboards showing profitability by case type, surgeon, payer, and facility',
+                  'Specialty-trained billing teams for orthopedics, pain management, and ASCs — each staffed with coders who work their specialty full time and understand the payer rules that apply to it',
+                  'AI handles the high-volume, high-frequency work: eligibility verification, authorization tracking, claim follow-up, and patient outreach across all three specialties simultaneously',
+                  'Every denied claim across any specialty gets a root cause review — our team doesn\u2019t just appeal, they fix the pattern so the same denial stops recurring',
+                  'One unified dashboard gives you visibility into collections, denials, AR aging, and profitability across all your ambulatory operations',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />

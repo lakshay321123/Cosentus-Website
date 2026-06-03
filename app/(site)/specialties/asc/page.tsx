@@ -41,8 +41,8 @@ export default function ASCPage() {
     <main>
       <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
-        title={<>ASC Billing.<br />Built for Speed and Volume.</>}
-        subtitle="Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof."
+        title={<>Ambulatory Services.<br />Three Specialties. One Expert Team.</>}
+        subtitle="Orthopedics, pain management, and ASC billing — each with its own coding rules, payer behaviors, and denial patterns. We manage all three under one roof with specialty-trained teams and full transparency."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
       />
