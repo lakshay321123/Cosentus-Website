@@ -162,15 +162,11 @@ export default function ASCContent() {
       {/* The Problem / Solution split panel — same inline shape
           as Anesthesia/Orthopedics/Pain. Re-themed for the combined
           Ambulatory Services page (orthopedics + pain + ASC) per user
-          direction (Jun 2026), with explicit "Problem" / "Solution"
-          eyebrow labels above each headline. */}
+          direction (Jun 2026). */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
-              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#00B5D6', marginBottom: 14 }}>
-                Problem
-              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
                 High-Value Procedures. High-Volume Complexity. Revenue Slipping Through the Cracks.
               </h2>
@@ -195,9 +191,6 @@ export default function ASCContent() {
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
-              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', marginBottom: 14 }}>
-                Solution
-              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
                 Dedicated Ambulatory Teams + AI. Every Specialty Gets the Expertise It Demands.
               </h2>
