@@ -19,10 +19,11 @@ import { homepageFaqs } from '@/data/faqs'
  *   would risk a "structured data must match visible content"
  *   warning in Search Console. Two scoped blocks is the safer split.
  *
- * Placement: between TestimonialsShuffleSection and CTASection on
- * the homepage. That's the spot where the user said the FAQs should
- * go and it works narratively — the testimonials build trust, the
- * FAQs clear final objections, the CTA closes.
+ * Placement: between PartnersSection and CTASection on the homepage.
+ * (The TestimonialsShuffleSection was moved up to directly below the
+ * RCM calculator per user direction, so it no longer immediately
+ * precedes the FAQs.) The FAQs clear final objections before the
+ * closing CTA.
  */
 export default function FAQSection() {
   return (

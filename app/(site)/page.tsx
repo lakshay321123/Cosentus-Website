@@ -36,17 +36,19 @@ export default function Home() {
                Results stats so the interactive "what am I leaving on
                the table" moment sits high on the page, right after the
                numbers that motivate it.
-            4. ScrollHeroSection — DNA helix video + "Combining
+            4. TestimonialsShuffleSection — What Our Clients Say
+               (home-only fan-stack glass-card variant; other pages
+               still use the shared TestimonialsSection carousel).
+               Moved directly below the calculator so client proof
+               immediately follows the "what could you recover" moment.
+            5. ScrollHeroSection — DNA helix video + "Combining
                expert teams..." paragraph. This is a normal in-page
                section (scroll-hijack removed from the underlying
                component per user direction).
-            5. RASection — 9 AI voice agents + stats
-            6. SpecialtiesSection — 6-card grid
-            7. InsightsTabsSection — Resources tabs
-            8. PartnersSection — Our Network
-            9. TestimonialsShuffleSection — What Our Clients Say
-               (home-only fan-stack glass-card variant; other pages
-               still use the shared TestimonialsSection carousel)
+            6. RASection — 9 AI voice agents + stats
+            7. SpecialtiesSection — 6-card grid
+            8. InsightsTabsSection — Resources tabs
+            9. PartnersSection — Our Network
            10. FAQSection — 3 priority FAQs with arrow-disc
                expander. Full /faqs index page exists but is
                intentionally NOT in the global nav.
@@ -54,12 +56,12 @@ export default function Home() {
       <HeroSection />
       <ResultsSection intro />
       <RCMCalculatorSection />
+      <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
       <InsightsTabsSection />
       <PartnersSection />
-      <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       <FAQSection />
       <CTASection />
     </main>
