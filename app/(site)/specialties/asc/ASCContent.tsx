@@ -324,6 +324,9 @@ export default function ASCContent() {
           confirmed", with Brandon as Director Orthopedic & ASC
           Services. Keeping placeholder until names are signed off
           (same approach as Orthopedics + Pain Management). */}
+      {/* ASC Leadership section temporarily hidden per user direction
+          (Jun 2026). Kept in code (commented, NOT deleted) for an easy
+          restore — un-comment the block below to bring it back:
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
@@ -334,6 +337,7 @@ export default function ASCContent() {
           </RevealOnScroll>
         </div>
       </section>
+      */}
     </>
   )
 }
