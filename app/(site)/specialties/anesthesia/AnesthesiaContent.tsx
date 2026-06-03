@@ -137,6 +137,28 @@ export default function AnesthesiaContent() {
       </section>
 
 
+      {/* RCM Solutions: Complete Anesthesia Revenue Cycle.
+          Grid + animation logic lives in SpecialtyMarquee
+          component (shared across all 6 specialty pages). */}
+      <section className="section section-specialty-grid">
+        <div className="container">
+          <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
+        </div>
+
+        {/* Grid layout: 3 col desktop, 2 col mobile. Cards wrap their
+            own .container internally so they align with the title. */}
+        <SpecialtyMarquee items={solutions} layout="grid" />
+      </section>
+
+
+      {/* Client Reviews — shared TestimonialsSection */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
+
+
       {/* What Sets Accreda Apart — 3 specialty-specific cards per
           Specialty Pages doc (v1, May 19 2026). */}
       <section className="section">
@@ -166,20 +188,6 @@ export default function AnesthesiaContent() {
             </MobileCarousel>
           </div>
         </div>
-      </section>
-
-
-      {/* RCM Solutions: Complete Anesthesia Revenue Cycle.
-          Grid + animation logic lives in SpecialtyMarquee
-          component (shared across all 6 specialty pages). */}
-      <section className="section section-specialty-grid">
-        <div className="container">
-          <RevealOnScroll><div className="section-title">Complete Anesthesia Revenue Cycle</div></RevealOnScroll>
-        </div>
-
-        {/* Grid layout: 3 col desktop, 2 col mobile. Cards wrap their
-            own .container internally so they align with the title. */}
-        <SpecialtyMarquee items={solutions} layout="grid" />
       </section>
 
 
@@ -241,14 +249,6 @@ export default function AnesthesiaContent() {
           />
         </div>
       </section>
-
-
-      {/* Client Reviews — shared TestimonialsSection */}
-      <TestimonialsSection
-        testimonials={testimonials}
-        label="CLIENT REVIEWS"
-        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
-      />
     </>
   )
 }
