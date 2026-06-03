@@ -73,7 +73,8 @@ export default function HeroSection() {
             opacity contrast is what reads as a distinct treatment. */}
         <div className="hero-left">
           <h1 className="hero-headline hero-headline-1">
-            Specialty-focused RCM. Built to collect every dollar.
+            Specialty-focused RCM.<br />
+            <span className="hero-headline-line2">Built to collect every dollar.</span>
           </h1>
           <p className="hero-sub hero-headline-2">
             End-to-end revenue cycle management with named teams trained
@@ -227,10 +228,14 @@ export default function HeroSection() {
         .hero-headline {
           display: block;
           margin: 0;
-          /* Wider now that the right-hand card column is gone (Change
-             2). ~16ch keeps the two-sentence headline to a strong
-             2–3 line stack without running the full container width. */
-          max-width: 16ch;
+          /* Right-hand card column is gone (Change 2), so the headline
+             no longer needs a width cap to stay clear of it. The
+             explicit <br/> after the first sentence sets the line
+             break; the second sentence is held on ONE line by
+             .hero-headline-line2 { white-space: nowrap } below. No
+             max-width on desktop so that nowrap line isn't forced to
+             overflow a too-narrow box. */
+          max-width: none;
           font-family: var(--font-display);
           font-size: clamp(40px, 5vw, 64px);
           font-weight: 700;
@@ -238,6 +243,14 @@ export default function HeroSection() {
           letter-spacing: -0.03em;
           line-height: 1.02;
           color: #ffffff;
+        }
+        /* Second sentence ("Built to collect every dollar.") is kept on
+           ONE line on desktop per user direction. nowrap is scoped here
+           (not on the whole headline) and is reset to normal wrapping
+           in the mobile media query so it can never overflow a phone-
+           width viewport. */
+        .hero-headline-line2 {
+          white-space: nowrap;
         }
         /* Subline — smaller, lighter, NOT italic. Matches the global
            .hero-sub used by PageHero (clamp(17px,2vw,20px) / 400 /
@@ -496,6 +509,12 @@ export default function HeroSection() {
           .hero-headline {
             max-width: 100%;
             font-size: clamp(30px, 8vw, 40px);
+          }
+          /* On phones, let the second sentence wrap normally so the
+             desktop nowrap can't push the headline past the viewport
+             edge. The <br/> still starts it on its own line. */
+          .hero-headline-line2 {
+            white-space: normal;
           }
           .hero-sub {
             max-width: 100%;
