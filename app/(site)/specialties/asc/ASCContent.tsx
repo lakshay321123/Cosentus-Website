@@ -222,6 +222,16 @@ export default function ASCContent() {
       </section>
 
 
+      {/* Client Reviews — moved directly below the Problem/Solution
+          section per user direction (Jun 2026). Shared
+          TestimonialsSection; 5 cards (ASC + 2 Pain + 2 Ortho). */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
+
+
       {/* What Sets Us Apart — 3 cards per Specialty Pages doc. */}
       <section className="section">
         <div className="container">
@@ -324,14 +334,6 @@ export default function ASCContent() {
           </RevealOnScroll>
         </div>
       </section>
-
-
-      {/* Client Reviews — shared TestimonialsSection */}
-      <TestimonialsSection
-        testimonials={testimonials}
-        label="CLIENT REVIEWS"
-        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
-      />
     </>
   )
 }
