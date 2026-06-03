@@ -35,14 +35,43 @@ const advantages = [
 // (anonymized). The broader Cosentus website messaging doc
 // (Mar 2026 v5) attributes the same quote to "John Welsh,
 // M.D.". The named attribution is more specific and is
-// already on the live site, so keeping it here. T2 is TBD per
-// doc ("Second testimonial to be added").
+// already on the live site, so keeping it here.
+//
+// Per user direction (Jun 2026) this page represents the combined
+// Ambulatory Services specialty (orthopedics + pain + ASC), so two
+// testimonials each are copied verbatim from the Orthopedics and
+// Pain Management pages alongside the ASC one (5 total). Tags are
+// left as their source specialty on purpose.
 const testimonials = [
   {
     tag: 'ASC',
     quote: 'Cosentus has truly been fantastic in all aspects. The job they have done on the outstanding balances saved our surgery center.',
     name: 'John Welsh, M.D.',
     role: 'Surgery Center',
+  },
+  {
+    tag: 'Pain Management',
+    quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!',
+    name: 'Dr. Mikko Murakami, QME',
+    role: 'Pain Medicine & PM&R',
+  },
+  {
+    tag: 'Pain Management',
+    quote: 'I\u2019ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.',
+    name: 'Justin Lo, MD',
+    role: 'President, Northern California Pain Specialists',
+  },
+  {
+    tag: 'Orthopedic',
+    quote: 'Cosentus has been efficient, responsive, and personable in managing my revenue cycle. I have seen my revenue grow tremendously. I highly recommend them.',
+    name: 'Dr. Jothi Murali-Larson',
+    role: 'Orthopedic Surgeon',
+  },
+  {
+    tag: 'Orthopedic',
+    quote: 'My collections have significantly increased with their stewardship. They have always been available to answer my questions.',
+    name: 'Dr. Samir and Kavita Sharma',
+    role: 'South Bay Orthopedics, San Jose, CA',
   },
 ]
 
