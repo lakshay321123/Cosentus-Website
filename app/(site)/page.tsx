@@ -22,39 +22,46 @@ export default function Home() {
       <ImmersiveVideoBackground />
 
       {/* Page narrative flow:
-            1. HeroSection — "Purpose Built / For Your Specialty /
-               Real People + AI. / RCM Redefined." (4-line typing
-               tagline; never meant to be removed).
-            2. ScrollHeroSection — DNA helix video + "Combining
+            1. HeroSection — "Specialty-focused RCM. Built to collect
+               every dollar." headline + subline + 2 CTAs (Change 1).
+               The three hero cards were removed (Change 2).
+            2. ResultsSection (intro) — six glass up-arrow stats with a
+               centered intro paragraph below them. Moved here directly
+               after the hero (Change 3) so the numbers — what really
+               sells — sit high on the page. The `intro` prop renders
+               the homepage-only paragraph beneath the arrows.
+            3. RCMCalculatorSection — live "what could you recover"
+               calculator. 3 inputs, 3-bucket breakdown, existing
+               site-wide CTA to /contact. Moved directly below the
+               Results stats so the interactive "what am I leaving on
+               the table" moment sits high on the page, right after the
+               numbers that motivate it.
+            4. TestimonialsShuffleSection — What Our Clients Say
+               (home-only fan-stack glass-card variant; other pages
+               still use the shared TestimonialsSection carousel).
+               Moved directly below the calculator so client proof
+               immediately follows the "what could you recover" moment.
+            5. ScrollHeroSection — DNA helix video + "Combining
                expert teams..." paragraph. This is a normal in-page
                section (scroll-hijack removed from the underlying
                component per user direction).
-            3. RASection — 9 AI voice agents + stats
-            4. SpecialtiesSection — 6-card grid
-            5. ResultsSection — numbers with up arrows
-            6. RCMCalculatorSection — live "what could you recover"
-               calculator. Sits after Results so the narrative flows
-               "here's what we deliver" → "now see what those numbers
-               mean for YOUR practice". 3 inputs, 3-bucket breakdown,
-               existing site-wide CTA to /contact.
-            7. InsightsTabsSection — Resources tabs
-            8. PartnersSection — Our Network
-            9. TestimonialsShuffleSection — What Our Clients Say
-               (home-only fan-stack glass-card variant; other pages
-               still use the shared TestimonialsSection carousel)
+            6. RASection — 9 AI voice agents + stats
+            7. SpecialtiesSection — 6-card grid
+            8. InsightsTabsSection — Resources tabs
+            9. PartnersSection — Our Network
            10. FAQSection — 3 priority FAQs with arrow-disc
                expander. Full /faqs index page exists but is
                intentionally NOT in the global nav.
            11. CTASection */}
       <HeroSection />
+      <ResultsSection intro />
+      <RCMCalculatorSection />
+      <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       <ScrollHeroSection />
       <RASection />
       <SpecialtiesSection />
-      <ResultsSection />
-      <RCMCalculatorSection />
       <InsightsTabsSection />
       <PartnersSection />
-      <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       <FAQSection />
       <CTASection />
     </main>

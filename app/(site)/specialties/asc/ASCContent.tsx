@@ -35,14 +35,43 @@ const advantages = [
 // (anonymized). The broader Cosentus website messaging doc
 // (Mar 2026 v5) attributes the same quote to "John Welsh,
 // M.D.". The named attribution is more specific and is
-// already on the live site, so keeping it here. T2 is TBD per
-// doc ("Second testimonial to be added").
+// already on the live site, so keeping it here.
+//
+// Per user direction (Jun 2026) this page represents the combined
+// Ambulatory Services specialty (orthopedics + pain + ASC), so two
+// testimonials each are copied verbatim from the Orthopedics and
+// Pain Management pages alongside the ASC one (5 total). Tags are
+// left as their source specialty on purpose.
 const testimonials = [
   {
     tag: 'ASC',
     quote: 'Cosentus has truly been fantastic in all aspects. The job they have done on the outstanding balances saved our surgery center.',
     name: 'John Welsh, M.D.',
     role: 'Surgery Center',
+  },
+  {
+    tag: 'Pain Management',
+    quote: 'I have been working with Cosentus for several years. I appreciate the personal touch they add to their service. Thank you very much!',
+    name: 'Dr. Mikko Murakami, QME',
+    role: 'Pain Medicine & PM&R',
+  },
+  {
+    tag: 'Pain Management',
+    quote: 'I\u2019ve been in practice for nearly 20 years and Cosentus has provided nothing but positive experiences. Highly recommend without reservations.',
+    name: 'Justin Lo, MD',
+    role: 'President, Northern California Pain Specialists',
+  },
+  {
+    tag: 'Orthopedic',
+    quote: 'Cosentus has been efficient, responsive, and personable in managing my revenue cycle. I have seen my revenue grow tremendously. I highly recommend them.',
+    name: 'Dr. Jothi Murali-Larson',
+    role: 'Orthopedic Surgeon',
+  },
+  {
+    tag: 'Orthopedic',
+    quote: 'My collections have significantly increased with their stewardship. They have always been available to answer my questions.',
+    name: 'Dr. Samir and Kavita Sharma',
+    role: 'South Bay Orthopedics, San Jose, CA',
   },
 ]
 
@@ -131,23 +160,28 @@ export default function ASCContent() {
   return (
     <>
       {/* The Problem / Solution split panel — same inline shape
-          as Anesthesia/Orthopedics/Pain. Content per Specialty
-          Pages doc (v1) section 4 "ASCs". */}
+          as Anesthesia/Orthopedics/Pain. Re-themed for the combined
+          Ambulatory Services page (orthopedics + pain + ASC) per user
+          direction (Jun 2026), with explicit "Problem" / "Solution"
+          eyebrow labels above each headline. */}
       <section style={{ overflow: 'hidden' }}>
         <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
           <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
             <RevealOnScroll direction="left" delay={0.1}>
+              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#00B5D6', marginBottom: 14 }}>
+                Problem
+              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
-                High Case Volume. Hidden Revenue Leakage.
+                High-Value Procedures. High-Volume Complexity. Revenue Slipping Through the Cracks.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="left" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Missed implant billing, incorrect facility/professional fee allocation, and untracked case costing leak revenue silently',
-                  'Multi-payer contracts with different rates and rules create reimbursement gaps that go unnoticed',
-                  'Authorization lapses on scheduled procedures disrupt OR schedules and cash flow',
-                  'High case volume means even small errors per case compound into significant losses',
+                  'Orthopedic cases carry high-dollar implant charges, modifier-heavy surgical billing, and global period rules that generic teams consistently misapply',
+                  'Pain management faces relentless payer scrutiny on injection frequency, medical necessity, and pre-payment reviews — small coding errors at high volume add up fast',
+                  'ASCs juggle dual billing streams (facility + professional), case costing, and multi-payer contracts where underpayments go unnoticed for months',
+                  'When these specialties share a generic billing team, the nuances of each get lost — and so does revenue',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
@@ -161,17 +195,20 @@ export default function ASCContent() {
           <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
+              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', marginBottom: 14 }}>
+                Solution
+              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Dedicated ASC Team + AI
+                Dedicated Ambulatory Teams + AI. Every Specialty Gets the Expertise It Demands.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Our ASC team coordinates facility and professional billing streams. They understand case costing, implant pass-throughs, and multi-payer contracts',
-                  'AI tracks authorizations, verifies eligibility, and follows up on claims across your full volume',
-                  'Every denial gets a root cause review across both fee streams to stop recurring issues',
-                  'Live dashboards showing profitability by case type, surgeon, payer, and facility',
+                  'Specialty-trained billing teams for orthopedics, pain management, and ASCs — each staffed with coders who work their specialty full time and understand the payer rules that apply to it',
+                  'AI handles the high-volume, high-frequency work: eligibility verification, authorization tracking, claim follow-up, and patient outreach across all three specialties simultaneously',
+                  'Every denied claim across any specialty gets a root cause review — our team doesn\u2019t just appeal, they fix the pattern so the same denial stops recurring',
+                  'One unified dashboard gives you visibility into collections, denials, AR aging, and profitability across all your ambulatory operations',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
@@ -183,6 +220,16 @@ export default function ASCContent() {
           </div>
         </div>
       </section>
+
+
+      {/* Client Reviews — moved directly below the Problem/Solution
+          section per user direction (Jun 2026). Shared
+          TestimonialsSection; 5 cards (ASC + 2 Pain + 2 Ortho). */}
+      <TestimonialsSection
+        testimonials={testimonials}
+        label="CLIENT REVIEWS"
+        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
+      />
 
 
       {/* What Sets Us Apart — 3 cards per Specialty Pages doc. */}
@@ -277,6 +324,9 @@ export default function ASCContent() {
           confirmed", with Brandon as Director Orthopedic & ASC
           Services. Keeping placeholder until names are signed off
           (same approach as Orthopedics + Pain Management). */}
+      {/* ASC Leadership section temporarily hidden per user direction
+          (Jun 2026). Kept in code (commented, NOT deleted) for an easy
+          restore — un-comment the block below to bring it back:
       <section className="section section-alt">
         <div className="container">
           <RevealOnScroll><div className="section-title">ASC Leadership</div></RevealOnScroll>
@@ -287,14 +337,7 @@ export default function ASCContent() {
           </RevealOnScroll>
         </div>
       </section>
-
-
-      {/* Client Reviews — shared TestimonialsSection */}
-      <TestimonialsSection
-        testimonials={testimonials}
-        label="CLIENT REVIEWS"
-        title={<>What Our <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>Clients</span> Say.</>}
-      />
+      */}
     </>
   )
 }

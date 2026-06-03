@@ -3,8 +3,12 @@
 /**
  * SpecialtiesSection
  *
- * Dedicated home-page section showcasing the six specialty practices
- * Cosentus serves, each linking to its own specialty page. Replaces
+ * Dedicated home-page section showcasing three specialty practices
+ * (Anesthesia, Ambulatory Services, Behavioral Health), each linking
+ * to its own specialty page. Orthopedics, Pain Management, and
+ * Multi-Specialty were removed from THIS section's cards per user
+ * direction; their /specialties/* pages and the nav/footer entries
+ * are unchanged. Replaces
  * (and richens) the small glass pills that used to live in the hero.
  *
  * Why a dedicated section instead of pills in the hero:
@@ -38,29 +42,14 @@ const specialties: Specialty[] = [
     blurb: 'Time-unit precision, modifier accuracy, and concurrency rules — built by anesthesia veterans.',
   },
   {
-    label: 'Orthopedics',
-    href: '/specialties/orthopedics',
-    blurb: 'Surgical coding, global periods, implant pass-throughs, and workers\u2019 comp handled end-to-end.',
-  },
-  {
-    label: 'Pain Management',
-    href: '/specialties/pain-management',
-    blurb: 'Interventional injections, RFA, SCS, medical-necessity documentation defense.',
-  },
-  {
-    label: 'ASCs',
+    label: 'Ambulatory Services',
     href: '/specialties/asc',
-    blurb: 'Coordinated facility + professional billing, case costing, contract underpayment recovery.',
+    blurb: 'Surgical coding, implant billing, global periods, and facility-professional reimbursement — one team across ortho, pain, and ASCs.',
   },
   {
     label: 'Behavioral Health',
     href: '/specialties/behavioral-health',
     blurb: 'Time-based therapy CPTs, IOP/PHP bundling, telehealth modifiers, authorization tracking.',
-  },
-  {
-    label: 'Multi-Specialty',
-    href: '/specialties/multi-specialty',
-    blurb: 'Mixed-specialty groups, multi-site operations, and primary care \u2014 one accountable RCM partner.',
   },
 ]
 
@@ -69,18 +58,17 @@ export default function SpecialtiesSection() {
      Per user direction "i want to show 3 specialties at a time. Show
      three and then scroll for the next three. Auto scroll."
 
-     6 cards split into 2 pages of 3 stacked vertically:
-       Page 1: Anesthesia, Orthopedics, Pain Management
-       Page 2: ASCs, Behavioral Health, Multi-Specialty
+     The home card set is now 3 specialties (Anesthesia, Ambulatory
+     Services, Behavioral Health). 3 cards / PAGE_SIZE 3 = a single
+     carousel page, so there is effectively nothing to auto-scroll
+     between on mobile today. The paging loop is kept generic so that
+     restoring cards later re-enables multi-page scrolling with no
+     code change.
+
      Each page becomes one slide of the carousel. MobileCarousel
      handles auto-scroll, dots, touch swipe, IntersectionObserver
      enter, reduced-motion respect — the same proven component
-     already used by Results / Services / Advantages on this page.
-
-     The PAGE_SIZE = 3 is a deliberate choice; 6 specialties / 3
-     per page gives exactly 2 slides, which reads as a binary
-     "first half / second half" pagination. A different total
-     would need different grouping. */
+     already used by Results / Services / Advantages on this page. */
   const PAGE_SIZE = 3
   const pages: Specialty[][] = []
   for (let i = 0; i < specialties.length; i += PAGE_SIZE) {
@@ -145,14 +133,13 @@ export default function SpecialtiesSection() {
         </div>
 
         {/* Mobile (<=600px): MobileCarousel with each slide containing
-            3 cards stacked vertically. Auto-scrolls between Page 1
-            (Anesthesia / Orthopedics / Pain Management) and Page 2
-            (ASCs / Behavioral Health / Multi-Specialty). MobileCarousel
-            renders <>{children}</> on desktop, but we hide this whole
-            block via CSS on desktop anyway so the desktop grid above
-            is the only visible layout there. autoScrollInterval 5000ms
-            (vs MobileCarousel default 4000) — gives the user enough
-            time to read 3 cards per page before advancing. */}
+            up to 3 cards stacked vertically. With the current 3-card
+            set this is a single page (no inter-page auto-scroll).
+            MobileCarousel renders <>{children}</> on desktop, but we
+            hide this whole block via CSS on desktop anyway so the
+            desktop grid above is the only visible layout there.
+            autoScrollInterval 5000ms (vs MobileCarousel default 4000)
+            — used when there is more than one page. */}
         <div className="specialties-mobile">
           <MobileCarousel autoScrollInterval={5000}>
             {pages.map((page, pageIdx) => (

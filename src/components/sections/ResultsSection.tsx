@@ -162,7 +162,15 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
   )
 }
 
-export default function ResultsSection() {
+/**
+ * ResultsSection — "Results Our Clients See" + six glass-arrow stats.
+ *
+ * `intro` (optional): when true, renders a centered intro paragraph
+ * BELOW the six arrows (above the small methodology footnote). Used on
+ * the homepage only (Change 3). Other pages that reuse this section
+ * (e.g. /services/rcm) omit the prop and render without it.
+ */
+export default function ResultsSection({ intro = false }: { intro?: boolean }) {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
@@ -187,6 +195,28 @@ export default function ResultsSection() {
             ))}
           </MobileCarousel>
         </div>
+
+        {/* Homepage-only intro paragraph (Change 3). Sits below the
+            arrows, centered. Light color (not the footnote's
+            var(--gray-500), which resolves to pure black and would be
+            invisible on the immersive video background). */}
+        {intro && (
+          <RevealOnScroll delay={1.6}>
+            <p style={{
+              textAlign: 'center',
+              maxWidth: 760,
+              margin: '40px auto 0',
+              fontSize: 'clamp(16px, 1.6vw, 19px)',
+              lineHeight: 1.65,
+              color: 'rgba(255, 255, 255, 0.78)',
+            }}>
+              You probably know your revenue cycle has room to improve. But do you
+              know exactly where? Or how much you&rsquo;re leaving behind?
+              These aren&rsquo;t aspirational targets. These are the results we
+              deliver for practices like yours, measured and reported in real time.
+            </p>
+          </RevealOnScroll>
+        )}
 
         <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
