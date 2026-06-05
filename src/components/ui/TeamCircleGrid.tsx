@@ -187,10 +187,24 @@ export default function TeamCircleGrid({
           larger circles and tight column gap to feel dense and tappable. */}
       <style jsx>{`
         .team-circle-grid {
-          display: grid;
-          grid-template-columns: repeat(var(--tcg-cols, 5), 1fr);
+          /* Desktop/tablet (>768px): flex-wrap so a partial last row
+             CENTERS under the rows above (per user direction, Jun 2026)
+             instead of left-aligning. Column count is still driven by
+             --tcg-cols, applied as the child flex-basis below. Mobile
+             (<=768px) reverts to a fixed 3-column GRID (see media query
+             — display:grid is restored there), so mobile is unchanged. */
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
           gap: 40px 20px;
           margin-top: 36px;
+        }
+        .team-circle-grid > :global(*) {
+          /* Each card spans one of --tcg-cols columns; column-gap is 20px
+             so (cols-1) gaps are subtracted, plus 2px rounding safety.
+             Ignored in the mobile grid mode (flex props don't apply to
+             grid items). */
+          flex: 0 0 calc((100% - (var(--tcg-cols, 5) - 1) * 20px - 2px) / var(--tcg-cols, 5));
         }
         .team-circle {
           width: var(--tcg-size, 180px);
@@ -237,6 +251,7 @@ export default function TeamCircleGrid({
              column gap so the row reads as a dense row of three. The user
              explicitly asked for "bigger circles and closer" on mobile. */
           .team-circle-grid {
+            display: grid;
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 26px 4px;
           }
