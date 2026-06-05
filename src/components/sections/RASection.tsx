@@ -278,10 +278,16 @@ export default function RASection() {
            corresponding agent columns. */
         .ra-agent-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          /* Desktop (>1100px): 5 across — the 9 agents render as 5 in
+             the first row and 4 in the second, per user direction
+             (Jun 2026). Tablets and phones keep 3 columns via the
+             media queries below (the <=1100px block resets this to
+             repeat(3, 1fr)/640px), so the mobile formation is
+             unchanged. */
+          grid-template-columns: repeat(5, 1fr);
           justify-items: center;
           gap: 36px 16px;
-          max-width: 640px;
+          max-width: 1080px;
           margin: 0 auto;
           width: 100%;
         }
@@ -367,7 +373,10 @@ export default function RASection() {
         /* Tablet: shrink circles + grid gap so 3 cols still fit. */
         @media (max-width: 1100px) {
           .ra-agent-circle { width: 110px; height: 110px; }
-          .ra-agent-grid { gap: 28px 36px; }
+          /* Below 1100px revert to the original 3-column / 640px
+             layout — the 5-across formation is a >1100px desktop-only
+             treatment, and this keeps tablet/phone unchanged. */
+          .ra-agent-grid { gap: 28px 36px; grid-template-columns: repeat(3, 1fr); max-width: 640px; }
         }
         /* Phones: tighter gap, smaller circles, keep 3 columns to
            match the standalone voice.html reference.
