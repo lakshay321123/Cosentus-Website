@@ -1,6 +1,6 @@
 import HeroSection from '@/components/sections/HeroSection'
 import ImmersiveVideoBackground from '@/components/sections/ImmersiveVideoBackground'
-import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
+// import ScrollHeroSection from '@/components/sections/ScrollHeroSection' // hidden per user (Jun 2026); un-comment with the usage below to restore the workflow animation
 import RASection from '@/components/sections/RASection'
 import SpecialtiesSection from '@/components/sections/SpecialtiesSection'
 import ResultsSection from '@/components/sections/ResultsSection'
@@ -57,7 +57,10 @@ export default function Home() {
       <ResultsSection intro />
       <RCMCalculatorSection />
       <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
-      <ScrollHeroSection />
+      {/* ScrollHeroSection (Real + AI workflow animation) hidden per
+          user direction (Jun 2026). Un-comment this AND its import at
+          the top of the file to restore the animated workflow section. */}
+      {/* <ScrollHeroSection /> */}
       <RASection />
       <SpecialtiesSection />
       <InsightsTabsSection />
