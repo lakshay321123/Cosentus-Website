@@ -277,14 +277,16 @@ export default function RASection() {
            the "9 / 15 / 23" stats sit directly above their
            corresponding agent columns. */
         .ra-agent-grid {
-          display: grid;
-          /* Desktop (>1100px): 5 across — the 9 agents render as 5 in
-             the first row and 4 in the second, per user direction
-             (Jun 2026). Tablets and phones keep 3 columns via the
-             media queries below (the <=1100px block resets this to
-             repeat(3, 1fr)/640px), so the mobile formation is
+          /* Desktop (>1100px): 5 across, centered — the 9 agents render
+             as 5 in the first row and 4 CENTERED in the second, per user
+             direction (Jun 2026). Flexbox (not grid) so the partial
+             second row centers under the first. Tablets/phones revert to
+             a 3-column GRID via the media queries below (the <=1100px
+             block restores display:grid), so the mobile formation is
              unchanged. */
-          grid-template-columns: repeat(5, 1fr);
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
           justify-items: center;
           gap: 36px 16px;
           max-width: 1080px;
@@ -294,6 +296,10 @@ export default function RASection() {
 
         /* Individual agent button (the clickable cell). */
         .ra-agent {
+          /* Desktop flex item: 5 per row (see .ra-agent-grid); column-gap
+             is 16px so 4 gaps = 64px, -2px is rounding safety. Ignored in
+             the grid (tablet/phone) modes. */
+          flex: 0 0 calc((100% - 66px) / 5);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -376,7 +382,7 @@ export default function RASection() {
           /* Below 1100px revert to the original 3-column / 640px
              layout — the 5-across formation is a >1100px desktop-only
              treatment, and this keeps tablet/phone unchanged. */
-          .ra-agent-grid { gap: 28px 36px; grid-template-columns: repeat(3, 1fr); max-width: 640px; }
+          .ra-agent-grid { display: grid; gap: 28px 36px; grid-template-columns: repeat(3, 1fr); max-width: 640px; }
         }
         /* Phones: tighter gap, smaller circles, keep 3 columns to
            match the standalone voice.html reference.
