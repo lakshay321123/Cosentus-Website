@@ -42,7 +42,7 @@ export default function BehavioralHealthPage() {
       <PageHero videoSrc="/videos/specialty-behavioral-health.mp4" specialty
         label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
         title={<>Behavioral Health.<br />Complex Billing. Clear Results.</>}
-        subtitle="Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our team knows every one."
+        subtitle="Symed by Cosentus — psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our team knows every one."
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
       />
