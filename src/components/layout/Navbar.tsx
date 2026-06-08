@@ -75,7 +75,7 @@ const navItems = [
     // product position. Zeus Ai itself has since moved into the
     // new Services dropdown above (May 24); Partnership stays as
     // its own top-level tab.
-    label: 'Partnership',
+    label: 'Partnerships',
     href: '/partnerships',
   },
 ]
