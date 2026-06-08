@@ -74,7 +74,7 @@ type TabKey = 'cases' | 'blog' | 'news' | 'events'
 
 const tabs: { key: TabKey; label: string; items: InsightCardData[]; ctaLabel: string; viewAllHref: string; viewAllLabel: string }[] = [
   { key: 'cases',  label: 'Client Success', items: caseStudyItems, ctaLabel: 'Read Client Success Story', viewAllHref: '/case-studies', viewAllLabel: 'View All Client Success Stories' },
-  { key: 'blog',   label: 'Blog',           items: blogItems,      ctaLabel: 'Read Article',              viewAllHref: '/blog',          viewAllLabel: 'View All Blog Posts' },
+  { key: 'blog',   label: 'Blogs',           items: blogItems,      ctaLabel: 'Read Article',              viewAllHref: '/blog',          viewAllLabel: 'View All Blog Posts' },
   { key: 'news',   label: 'News',           items: newsItems,      ctaLabel: 'Read More',                 viewAllHref: '/news',          viewAllLabel: 'View All News' },
   { key: 'events', label: 'Events',         items: eventItems,     ctaLabel: 'View Event',                viewAllHref: '/events',        viewAllLabel: 'View All Events' },
 ]
