@@ -76,7 +76,7 @@ const navItems = [
     // new Services dropdown above (May 24); Partnership stays as
     // its own top-level tab.
     label: 'Partnership',
-    href: '/partnership',
+    href: '/partnerships',
   },
 ]
 

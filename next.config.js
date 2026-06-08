@@ -38,6 +38,13 @@ const nextConfig = {
         destination: '/cosentus-cares/:slug*',
         permanent: true,
       },
+      // Partnership -> Partnerships URL rename (Jun 2026). 308 permanent
+      // so the old /partnership keeps working and SEO equity transfers.
+      {
+        source: '/partnership',
+        destination: '/partnerships',
+        permanent: true,
+      },
     ]
   },
 }
