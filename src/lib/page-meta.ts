@@ -35,7 +35,7 @@ export function pageMeta(pathname: string): string {
     '/services/rcm':
       'RCM 360 page. Hero reads: "End-to-End Revenue Cycle Management. Every Step. Every Dollar." Walks through the full revenue cycle: eligibility → coding → submission → posting → denials → patient collections. One accountable team. AI handles volume; human specialists handle judgment.',
 
-    '/partnership':
+    '/partnerships':
       'Partnership page. For practices considering structural partnership — capital, M&A, deeper growth. Hero asks: "Is Your Journey to Growth Facing These Challenges?" Four pillars: 25 Years in RCM (19 acquisitions integrated), Upfront Capital Investments, Comprehensive Solutions (offshore teams, tech, support), Transformative Offshoring & Tech. Different audience from regular RCM clients.',
 
     '/cosentus-cares':

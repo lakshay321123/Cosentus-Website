@@ -218,11 +218,15 @@ export default function ResultsSection({ intro = false }: { intro?: boolean }) {
           </RevealOnScroll>
         )}
 
+        {/* "Verified client results..." footnote hidden per user
+            direction (Jun 2026). Kept in code for restore — un-comment
+            the block below to bring it back.
         <RevealOnScroll delay={2}>
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--gray-500)', marginTop: 24 }}>
             Verified client results. Linked to client success stories with full methodology.
           </p>
         </RevealOnScroll>
+        */}
       </div>
     </section>
   )

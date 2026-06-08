@@ -37,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/specialties/asc`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/specialties/behavioral-health`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/specialties/multi-specialty`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE}/partnership`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE}/partnerships`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/insights`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE}/news`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
