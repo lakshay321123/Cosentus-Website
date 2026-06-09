@@ -125,24 +125,6 @@ const rcmSteps: SpecialtySolution[] = [
 export default function RCMContent() {
   return (
     <>
-      {/* The Challenge */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 800 }}>
-          <div>
-            <RevealOnScroll delay={0.1}>
-              <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 24, fontFamily: 'var(--font-display)' }}>
-                Disconnected Revenue Cycles Leak Revenue
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.2}>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)' }}>
-                Most practices manage their revenue cycle in disconnected pieces. Every handoff is a gap. Every gap is lost revenue. End-to-End RCM eliminates those gaps with one accountable team, every step, every dollar.
-              </p>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
       {/* Problem / Solution split panel — inline implementation
           matching the pattern used by every /specialties/* page
           (BH/Pain/ASC/Ortho/Anesthesia/Multi). Bullets bumped
@@ -218,6 +200,26 @@ export default function RCMContent() {
         </div>
 
         <SpecialtyMarquee items={rcmSteps} layout="grid" />
+      </section>
+
+
+      {/* The Challenge — relocated to sit below the "10 Steps. One Team.
+          Every Dollar." section per user (Jun 2026). */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 800 }}>
+          <div>
+            <RevealOnScroll delay={0.1}>
+              <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', lineHeight: 1.3, marginBottom: 24, fontFamily: 'var(--font-display)' }}>
+                Disconnected Revenue Cycles Leak Revenue
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.2}>
+              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)' }}>
+                Most practices manage their revenue cycle in disconnected pieces. Every handoff is a gap. Every gap is lost revenue. End-to-End RCM eliminates those gaps with one accountable team, every step, every dollar.
+              </p>
+            </RevealOnScroll>
+          </div>
+        </div>
       </section>
 
 
