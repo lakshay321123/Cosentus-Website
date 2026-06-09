@@ -6,6 +6,12 @@ interface PageHeroProps {
   label?: string
   title: React.ReactNode
   subtitle?: string
+  /** Optional max-width for the subtitle <p>. Defaults to 680px (the
+      readability cap shared across pages). Pass a wider value or 'none'
+      when a specific page needs its subtitle to stay on one line.
+      Mobile is unaffected — a `max-width: 100% !important` rule in the
+      .hero-sub media query overrides this inline value below 768px. */
+  subtitleMaxWidth?: number | string
   ctaText?: string
   ctaHref?: string
   videoSrc?: string
@@ -47,7 +53,7 @@ interface PageHeroProps {
   specialty?: boolean
 }
 
-export default function PageHero({ label, title, subtitle, ctaText, ctaHref, videoSrc, compact, band, specialty }: PageHeroProps) {
+export default function PageHero({ label, title, subtitle, subtitleMaxWidth, ctaText, ctaHref, videoSrc, compact, band, specialty }: PageHeroProps) {
   // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
@@ -144,7 +150,7 @@ export default function PageHero({ label, title, subtitle, ctaText, ctaHref, vid
             them should not pass band. */}
         {!band && subtitle && (
           <RevealOnScroll delay={0.35}>
-            <p className="hero-sub" style={{ maxWidth: 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
+            <p className="hero-sub" style={{ maxWidth: subtitleMaxWidth ?? 680, color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>
           </RevealOnScroll>
         )}
 
