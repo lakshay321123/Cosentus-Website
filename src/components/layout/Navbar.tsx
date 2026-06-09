@@ -60,7 +60,7 @@ const navItems = [
     label: 'Resources',
     href: '/insights',
     children: [
-      { label: 'Blog', href: '/blog' },
+      { label: 'Blogs', href: '/blog' },
       { label: 'Client Stories', href: '/case-studies' },
       { label: 'News', href: '/news' },
       { label: 'Events', href: '/events' },
