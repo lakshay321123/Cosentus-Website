@@ -1740,6 +1740,12 @@ body:has(main.home-immersive) .footer-top {
    correct fix for a video-less page. */
 .rcm-results-on-teal .results-section {
   background: var(--primary);
+  /* Extend the teal panel further below the arrows per user (Jun 2026).
+     Base .results-section is `padding: 60px 0 0` (bottom 0 — the arrows
+     sit on the bottom edge); this adds teal space beneath them without
+     moving the arrows. Scoped to .rcm-results-on-teal so the homepage
+     ResultsSection (no teal wrapper) is unaffected. */
+  padding-bottom: clamp(60px, 8vw, 120px);
 }
 .rcm-results-on-teal .results-section .results-header h2,
 .rcm-results-on-teal .results-section .results-header h2 .accent {
