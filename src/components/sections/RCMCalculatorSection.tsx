@@ -248,7 +248,12 @@ export default function RCMCalculatorSection() {
                   missing") at the user's explicit request, overriding the
                   earlier em-dash-to-period convention applied here. */}
               <p style={{
-                fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
+                /* 12px (down from 16) so each of the four <br />-separated
+                   lines fits on ONE line inside the ~444px left column
+                   (540px col − 2×48px padding). Longest line ("Most
+                   healthcare executives…numbers." ≈ 73 chars) needs ≤ ~6px
+                   per char; 12px leaves a safe margin. Per user (Jun 2026). */
+                fontSize: 12, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
                 marginTop: 28,
               }}>
                 Not sure what your denial rate or days in AR are? You&rsquo;re not alone.<br />
