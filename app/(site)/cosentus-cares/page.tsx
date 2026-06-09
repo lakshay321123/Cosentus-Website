@@ -140,18 +140,6 @@ export default function WeCarePage() {
         subtitle="At Cosentus, giving back isn't a campaign, it's who we are. Meet our Impact Ambassadors and all the incredible work they do."
       />
 
-      <section className="section">
-        <div className="container" style={{ maxWidth: 900 }}>
-          <RevealOnScroll>
-            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
-              Cosentus Cares represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
-              When practices get paid accurately and on time, they can focus fully on patient care,
-              and we can focus on making a difference beyond healthcare.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
-
       {/* Event gallery — Recent Events. 4-col on desktop, responsive down to
           1-col on small phones. Cards currently non-interactive. */}
       <section className="section section-alt">
@@ -283,6 +271,20 @@ export default function WeCarePage() {
           </RevealOnScroll>
 
           <WeCareOrganisations organisations={organisations} />
+        </div>
+      </section>
+
+      {/* Cosentus Cares intro — relocated to sit beneath the
+          "Organizations That We Support" section per user (Jun 2026). */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: 900 }}>
+          <RevealOnScroll>
+            <p className="section-desc" style={{ maxWidth: '100%', fontSize: 18, lineHeight: 1.8, textAlign: 'center', margin: '0 auto' }}>
+              Cosentus Cares represents Cosentus&apos;s commitment to community, employee wellbeing, and the practices we serve.
+              When practices get paid accurately and on time, they can focus fully on patient care,
+              and we can focus on making a difference beyond healthcare.
+            </p>
+          </RevealOnScroll>
         </div>
       </section>
 
