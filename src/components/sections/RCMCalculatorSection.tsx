@@ -242,16 +242,18 @@ export default function RCMCalculatorSection() {
                 onChange={setArOver90}
               />
 
-              {/* Change 4 empathetic copy below the inputs. Em-dash in
-                  the source doc ("numbers — and that's exactly the
-                  problem") replaced with a period per standing rule. */}
+              {/* Empathetic copy below the inputs. The first three
+                  sentences flow as a normal 16px paragraph (restored to the
+                  pre-PR style per user, Jun 2026). The closing line is kept
+                  on its own line at a smaller 12px and uses an em-dash at
+                  the user's explicit request ("going [em-dash] and what's
+                  missing"). */}
               <p style={{
                 fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
                 marginTop: 28,
               }}>
-                Not sure what your denial rate or days in AR are? You&rsquo;re not
-                alone. Most healthcare executives don&rsquo;t have consistent access
-                to these numbers. And that&rsquo;s exactly the problem. Let us show you.
+                Not sure what your denial rate or days in AR are? You&rsquo;re not alone. Most healthcare executives don&rsquo;t have consistent access to these numbers. And that&rsquo;s exactly the problem.<br />
+                <span style={{ fontSize: 12 }}>Let us show you where your revenue is going &mdash; and what&rsquo;s missing.</span>
               </p>
             </div>
 
@@ -306,7 +308,7 @@ export default function RCMCalculatorSection() {
                 className="btn-primary"
                 style={{ alignSelf: 'flex-start' }}
               >
-                Get Your Free Financial MRI
+                Get Your No-Cost Financial MRI
               </Link>
               {/* Change 4 CTA supporting line. Source doc joined these
                   with an em-dash ("Financial MRI — A complete...");

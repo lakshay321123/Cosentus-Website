@@ -33,7 +33,7 @@ export default function RCMPage() {
         label="END-TO-END RCM"
         title="End-to-End Revenue Cycle Management. Every Step. Every Dollar."
         subtitle="We manage your entire revenue cycle, patient registration to final payment, with specialty-trained teams and Real + Artificial Intelligence eliminating revenue leakage at every stage."
-        ctaText="Get Your Financial MRI"
+        ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
       />
       <RCMContent />

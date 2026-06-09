@@ -453,7 +453,7 @@ export default function PartnershipContent() {
               About Cosentus
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 24, maxWidth: 880, lineHeight: 1.2 }}>
-              Independently owned. Powered by AI. Proven at scale.
+              Independently owned. Powered by AI.<br />Proven at scale.
             </h2>
             <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
               With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
@@ -542,7 +542,7 @@ export default function PartnershipContent() {
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 8 }}>Get Started</div>
                 <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 20 }}>Partner with Cosentus</h2>
                 <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--gray-600)' }}>
-                  At Cosentus, we understand the unique challenges faced by medical billing companies. Our tailored solutions and innovative approach ensure that our partners can overcome these hurdles and achieve sustainable growth.
+                  At Cosentus, we understand the unique challenges faced by medical billing companies. Our tailored solutions and innovative approach ensure that our partners can overcome these hurdles<br />and achieve sustainable growth.
                 </p>
               </div>
             </RevealOnScroll>

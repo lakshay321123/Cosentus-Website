@@ -80,7 +80,7 @@ export default function RASection() {
               stats + agent grid below. */}
           <RevealOnScroll direction="up" delay={0.14}>
             <p className="ra-cta">
-              Click on any agent to start a conversation.
+              Click on any agent to start a conversation
             </p>
           </RevealOnScroll>
 

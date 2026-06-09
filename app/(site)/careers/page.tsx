@@ -102,6 +102,20 @@ export default function CareersPage() {
               Sounds pretty fun, huh? We&rsquo;d love for you to join us on our journey.
             </p>
           </RevealOnScroll>
+          {/* "Join Now" mailto CTA per user (Jun 2026): opens the visitor's
+              default mail client to hr@cosentus.com with a pre-filled
+              subject. Wrapper div carries the top margin so spacing holds
+              regardless of the button's display type. */}
+          <RevealOnScroll delay={0.35}>
+            <div style={{ marginTop: 28 }}>
+              <a
+                href="mailto:hr@cosentus.com?subject=Interested%20in%20Joining%20Cosentus"
+                className="btn-primary"
+              >
+                Join Now
+              </a>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 

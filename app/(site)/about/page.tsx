@@ -15,6 +15,7 @@ export default function AboutPage() {
         label="ABOUT COSENTUS"
         title={<>Think Growth.<br />We&rsquo;ll Handle the Revenue Cycle.</>}
         subtitle="Specialty-focused. AI-native. Built to help you collect more of what you've earned."
+        subtitleMaxWidth="none"
         ctaText="Let's Talk"
         ctaHref="/contact"
       />
