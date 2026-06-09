@@ -242,16 +242,19 @@ export default function RCMCalculatorSection() {
                 onChange={setArOver90}
               />
 
-              {/* Change 4 empathetic copy below the inputs. Em-dash in
-                  the source doc ("numbers — and that's exactly the
-                  problem") replaced with a period per standing rule. */}
+              {/* Empathetic copy below the inputs, split into four explicit
+                  lines via <br /> per user direction (Jun 2026). Line 4
+                  intentionally uses an em-dash ("going — and what's
+                  missing") at the user's explicit request, overriding the
+                  earlier em-dash-to-period convention applied here. */}
               <p style={{
                 fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
                 marginTop: 28,
               }}>
-                Not sure what your denial rate or days in AR are? You&rsquo;re not
-                alone. Most healthcare executives don&rsquo;t have consistent access
-                to these numbers. And that&rsquo;s exactly the problem. Let us show you.
+                Not sure what your denial rate or days in AR are? You&rsquo;re not alone.<br />
+                Most healthcare executives don&rsquo;t have consistent access to these numbers.<br />
+                And that&rsquo;s exactly the problem.<br />
+                Let us show you where your revenue is going &mdash; and what&rsquo;s missing.
               </p>
             </div>
 
