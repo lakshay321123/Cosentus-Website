@@ -243,17 +243,16 @@ export default function RCMCalculatorSection() {
               />
 
               {/* Empathetic copy below the inputs. The first three
-                  sentences flow as a normal 16px paragraph (restored to the
-                  pre-PR style per user, Jun 2026). The closing line is kept
-                  on its own line at a smaller 12px and uses an em-dash at
-                  the user's explicit request ("going [em-dash] and what's
-                  missing"). */}
+                  sentences flow as a normal 16px paragraph; the closing
+                  line sits on its own line (via <br />) at the SAME 16px
+                  size and uses a plain hyphen ("going - and what's
+                  missing"). Per user direction (Jun 2026). */}
               <p style={{
                 fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
                 marginTop: 28,
               }}>
                 Not sure what your denial rate or days in AR are? You&rsquo;re not alone. Most healthcare executives don&rsquo;t have consistent access to these numbers. And that&rsquo;s exactly the problem.<br />
-                <span style={{ fontSize: 12 }}>Let us show you where your revenue is going &mdash; and what&rsquo;s missing.</span>
+                Let us show you where your revenue is going - and what&rsquo;s missing.
               </p>
             </div>
 
