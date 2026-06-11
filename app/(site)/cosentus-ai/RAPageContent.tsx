@@ -202,18 +202,21 @@ export default function RAPageContent() {
               </p>
             </RevealOnScroll>
 
-            {/* Single responsive grid (replaces previous desktop-grid + mobile-carousel
-                split). Mirrors the homepage RA section: 3 columns at all widths,
-                circles shrink and gap tightens at <=700 / <=420 breakpoints. */}
+            {/* Mirrors the homepage RA section layout: on desktop (>1100px)
+                5 agents across with the remaining 4 centered below (flex);
+                reverts to a 3-column grid at <=1100px, with circles shrinking
+                and gaps tightening at <=700 / <=420 breakpoints. */}
             <div className="ra-tech-agents-grid" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '48px 32px',
-              maxWidth: 760,
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '36px 16px',
+              maxWidth: 1080,
               margin: '0 auto',
+              width: '100%',
             }}>
               {AGENTS.map((agent, i) => (
-                <RevealOnScroll key={agent.name} delay={i * 0.06}>
+                <RevealOnScroll key={agent.name} delay={i * 0.06} className="ra-tech-agent">
                   <div
                     role="button"
                     tabIndex={0}
@@ -230,6 +233,7 @@ export default function RAPageContent() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       textAlign: 'center',
+                      width: '100%',
                       cursor: 'pointer',
                       transition: 'transform 0.3s ease',
                       outline: 'none',
@@ -285,7 +289,24 @@ export default function RAPageContent() {
           {/* Mobile responsive sizing — mirrors the homepage RA section breakpoints
               so the Zeus agents grid feels identical at all viewport widths. */}
           <style>{`
+            /* Desktop (>1100px): 5 agents across with the remaining 4
+               centered below, matching the homepage RA section. The flex
+               container is set inline on .ra-tech-agents-grid; each agent's
+               RevealOnScroll wrapper carries .ra-tech-agent for the basis
+               (66px = 4 column gaps of 16px + 2px rounding safety). */
+            .ra-tech-agent { flex: 0 0 calc((100% - 66px) / 5); }
+
+            /* Tablet (<=1100px): revert to the homepage 3-column grid.
+               !important overrides the inline flex base on the container;
+               agents drop their flex basis so the grid columns size them. */
             @media (max-width: 1100px) {
+              .ra-tech-agents-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 28px 36px !important;
+                max-width: 640px !important;
+              }
+              .ra-tech-agent { flex: none !important; }
               .ra-tech-agents-grid .ra-tech-agent-circle {
                 width: 110px !important;
                 height: 110px !important;
@@ -293,27 +314,19 @@ export default function RAPageContent() {
             }
             @media (max-width: 700px) {
               .ra-tech-agents-grid {
-                gap: 18px 10px !important;
-                max-width: 100% !important;
+                gap: 22px 10px !important;
               }
               .ra-tech-agents-grid .ra-tech-agent-circle {
                 width: 96px !important;
                 height: 96px !important;
               }
-              /* Role font bumped May 2026 per user feedback "agent
-                 name and designation too small to read on mobile":
-                 13px -> 14px. The name above is set inline at 18px
-                 and has no mobile media override, so it stays 18px
-                 on mobile — already in the readable range. The two
-                 grids (here + the homepage RASection) now both
-                 render 18px name / 14px role on mobile. */
               .ra-tech-agents-grid .ra-tech-agent-role {
                 font-size: 14px !important;
               }
             }
             @media (max-width: 420px) {
               .ra-tech-agents-grid {
-                gap: 16px 8px !important;
+                gap: 18px 8px !important;
               }
               .ra-tech-agents-grid .ra-tech-agent-circle {
                 width: 88px !important;
