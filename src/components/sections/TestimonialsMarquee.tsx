@@ -42,12 +42,20 @@ function MarqueeCard({ t }: { t: ShuffleTestimonial }) {
     <div
       className="tmarquee-card"
       style={{
-        // GLASS-SQUARE RECIPE — identical to TestimonialCard.tsx.
-        background: 'rgba(255, 255, 255, 0.40)',
+        // GLASS-SQUARE RECIPE, adjusted for the marquee context:
+        // - White wash raised 0.40 -> 0.75. The fan cards sat over the
+        //   brightest part of the video, so 40% white read milky there;
+        //   the marquee spans darker video regions where 40% white
+        //   computes to flat gray. 0.75 reproduces the old perceived
+        //   whiteness over the darker backdrop.
+        // - Cyan glow shadow REMOVED. On the fan it was one localized
+        //   glow; across a full-width row the adjacent cards' 60px-blur
+        //   glows merged into a continuous lighter band that read as a
+        //   background layer behind the section.
+        background: 'rgba(255, 255, 255, 0.75)',
         border: '1.5px solid rgba(255, 255, 255, 0.50)',
         backdropFilter: 'blur(20px) saturate(160%)',
         WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-        boxShadow: '0 20px 60px rgba(0, 181, 214, 0.25)',
         overflow: 'hidden',
       }}
     >
