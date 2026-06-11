@@ -374,12 +374,14 @@ export default function HeroSection() {
              roughly on the pill's right edge, extending the disc
              slightly past — matches spec. */
           position: absolute;
-          right: -1%;
+          /* Tuck the disc just inside the pill's right edge (a positive
+             right value = inset rather than bulging past) and size it a
+             touch smaller than the pill height so it reads as a fitted
+             icon rather than a full-height white ball. Per user (Jun 2026). */
+          right: 1.2%;
           top: 50%;
           transform: translateY(-50%);
-          /* Same height as the pill so they read as a composed
-             button. */
-          height: 100%;
+          height: 82%;
           width: auto;
           /* Smooth the hover nudge (arrow shifts +4px right when
              the parent Specialties button is hovered). Without this
