@@ -172,13 +172,12 @@ export default function TestimonialsShuffleSection({
             onTouchStart={() => setPaused(true)}
             onTouchEnd={() => setPaused(false)}
             onTouchCancel={() => setPaused(false)}
-            style={{
-              marginTop: 64,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 32,
-            }}
+            // NOTE: no inline `display` here. Visibility AND the flex
+            // layout live in the .tcard-mobile-wrap CSS rule below —
+            // an inline display:flex would override the desktop
+            // `display: none` media query (that exact bug shipped in
+            // the first cut of this layout).
+            style={{ marginTop: 64 }}
           >
             {/* Card stage = stack + the two desktop side-arrows.
                   The fan extends ~66% to the right of the front card's
@@ -284,7 +283,12 @@ export default function TestimonialsShuffleSection({
            Done in CSS (not JS) to avoid SSR/hydration mismatch — both
            render server-side and CSS decides visibility per viewport. */
         .tcard-desktop-wrap { display: none; }
-        .tcard-mobile-wrap { display: flex; }
+        .tcard-mobile-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 32px;
+        }
         @media (min-width: 1024px) {
           .tcard-desktop-wrap { display: block; }
           .tcard-mobile-wrap { display: none; }

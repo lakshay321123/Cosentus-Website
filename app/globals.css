@@ -4195,9 +4195,12 @@ body:has(main.home-immersive) .footer-top {
 .tmarquee-viewport {
   overflow: hidden;
   width: 100%;
-  /* Soft fade at both edges so cards enter/leave gracefully. */
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  /* NO mask-image edge fade here. A mask on this ancestor makes it the
+     backdrop root, so each card's backdrop-filter samples a snapshot of
+     just this strip instead of the page behind it — which rendered as a
+     visible lighter rectangle around the row and washed-out cards.
+     Cards simply clip at the viewport edges instead. Background stays
+     fully transparent. */
   padding: 24px 0;
 }
 .tmarquee-track {
