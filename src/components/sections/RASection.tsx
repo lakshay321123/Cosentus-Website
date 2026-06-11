@@ -42,50 +42,17 @@ export default function RASection() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Single-column stacked layout:
-              1. Visible H2 heading (centered)
-              2. 9/15/23 stats row (centered, full-width strip)
-              3. 3x3 agent grid (centered on the page)
-              4. Explore Zeus button (centered under the grid)
-            Agent grid is the centerpiece of the section. */}
         <div className="ra-stack">
 
-          {/* SECTION HEADER — left-aligned, max-width matches the
-              640px agent grid below per user direction so the H2
-              column aligns with the 3-agent column visually.
+          {/* Single-column stacked layout (reordered Jun 2026 per user):
+                1. 9 / 15 / 23 stats row (centered, full-width strip)
+                2. Visible H2 heading (centered)
+                3. 3x3 agent grid (the centerpiece)
+                4. "Click on any agent to start a conversation"
+                5. Explore Zeus button (centered under the CTA line) */}
 
-              Per user direction the title and supporting copy were
-              swapped — the longer "Combining expert teams..."
-              sentence is now the H2. No teal accent on the new H2
-              because the long-form sentence has no natural
-              punchline word to highlight.
-
-              The short call-to-action "Click on any agent to start
-              a conversation" used to live here as a subheading
-              under the H2; it moved to a centered position just
-              above the 9/15/23 stats row (see below). */}
-          <header className="ra-header">
-            <RevealOnScroll direction="up" delay={0.1}>
-              <h2 className="ra-heading">
-                Combining expert teams and Ai-powered technology to optimize your revenue cycle and drive smarter growth.
-              </h2>
-            </RevealOnScroll>
-          </header>
-
-          {/* CTA above the stats row, centered. Moved here per user
-              direction ("click to start a conver... should be on
-              top of 9 modules etc. centre aligned"). Smaller +
-              softer than the H2 — reads as the activating
-              instruction immediately preceding the interactive
-              stats + agent grid below. */}
-          <RevealOnScroll direction="up" delay={0.14}>
-            <p className="ra-cta">
-              Click on any agent to start a conversation
-            </p>
-          </RevealOnScroll>
-
-          {/* 9 / 15 / 23 STATS — three-column strip, centered. */}
-          <RevealOnScroll direction="up" delay={0.18}>
+          {/* 9 / 15 / 23 STATS - three-column strip, centered. Now first. */}
+          <RevealOnScroll direction="up" delay={0.1}>
             <div className="ra-stats-row">
               {[
                 { num: '9', label: 'Voice Agents' },
@@ -100,12 +67,23 @@ export default function RASection() {
             </div>
           </RevealOnScroll>
 
-          {/* 3x3 AGENT GRID — centered.
+          {/* SECTION HEADER - the long-form "Combining expert teams..."
+              sentence is the H2. Sits below the stats row per user
+              direction (Jun 2026). */}
+          <header className="ra-header">
+            <RevealOnScroll direction="up" delay={0.16}>
+              <h2 className="ra-heading">
+                Combining expert teams and Ai-powered technology to optimize your revenue cycle and drive smarter growth.
+              </h2>
+            </RevealOnScroll>
+          </header>
+
+          {/* 3x3 AGENT GRID - centered.
               Each agent is a clickable button that opens VoiceCallModal.
               Circle diameter is 132px on desktop (10% larger than the
               prior 120px) per user direction. Mobile sizes (96px / 88px)
               are unchanged because mobile rows are already tight. */}
-          <RevealOnScroll direction="up" delay={0.28}>
+          <RevealOnScroll direction="up" delay={0.24}>
             <div className="ra-agent-grid">
               {agents.map((agent, i) => (
                 <div
@@ -139,7 +117,15 @@ export default function RASection() {
             </div>
           </RevealOnScroll>
 
-          {/* EXPLORE ZEUS — centered under the agent grid. */}
+          {/* CTA line - "Click on any agent to start a conversation".
+              Moved below the agent grid per user direction (Jun 2026). */}
+          <RevealOnScroll direction="up" delay={0.34}>
+            <p className="ra-cta">
+              Click on any agent to start a conversation
+            </p>
+          </RevealOnScroll>
+
+          {/* EXPLORE ZEUS - centered under the CTA line. */}
           <RevealOnScroll direction="up" delay={0.4}>
             <div className="ra-cta">
               <Link href="/cosentus-ai" className="btn-primary">
