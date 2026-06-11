@@ -251,7 +251,7 @@ export default function RASection() {
         }
         .ra-stat-num {
           font-family: var(--font-display);
-          font-size: clamp(36px, 4.5vw, 56px);
+          font-size: clamp(44px, 5.5vw, 68px);
           font-weight: 700;
           color: #00B5D6;
           line-height: 1;
