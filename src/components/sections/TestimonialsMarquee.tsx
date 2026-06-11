@@ -56,6 +56,11 @@ function MarqueeCard({ t }: { t: ShuffleTestimonial }) {
         border: '1.5px solid rgba(255, 255, 255, 0.50)',
         backdropFilter: 'blur(20px) saturate(160%)',
         WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+        // Cyan glow — same values as the mobile fan card
+        // (TestimonialCard.tsx). Removed in a previous pass while
+        // chasing a band artifact; the band was actually the gray
+        // 0.40-wash cards, and the glow is part of the wanted look.
+        boxShadow: '0 20px 60px rgba(0, 181, 214, 0.25)',
         overflow: 'hidden',
       }}
     >
