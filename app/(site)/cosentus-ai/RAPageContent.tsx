@@ -7,6 +7,7 @@ import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
+import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
@@ -186,6 +187,11 @@ export default function RAPageContent() {
           }
         `}</style>
       </section>
+
+      {/* Real + AI workflow animation (scroll-expand). Shown here per user
+          request (Jun 2026); it is the same animation currently commented
+          out on the home page. Sits directly above the Voice AI section. */}
+      <ScrollHeroSection />
 
       {/* The 9 AI Voice Agents */}
       <section className="section">
