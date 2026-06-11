@@ -88,13 +88,15 @@ export default function Navbar() {
   const [flagDismissed, setFlagDismissed] = useState(false)
   const pathname = usePathname()
 
-  // The /blog hero is a light grey band (PageHero `band`), over which the
-  // default transparent/white-text header is washed out (looks greyish).
-  // On that page, render the solid header (white bg, dark text, colored
-  // logo) from the top — as if already scrolled. Scoped to /blog per user
-  // (Jun 2026); the other band pages (news, events, case-studies, faqs)
-  // are intentionally left unchanged for now.
-  const onLightBandPage = pathname === '/blog'
+  // The Resources pages (Blogs, Client Stories, News, Events) use a light
+  // grey band hero (PageHero `band`), over which the default transparent/
+  // white-text header is washed out (looks greyish). On those pages render
+  // the solid header (white bg, dark text, colored logo) from the top — as
+  // if already scrolled. Per user (Jun 2026). Exact-match only, so detail
+  // pages like /blog/[slug] (which have their own hero) are unaffected.
+  // FAQs also uses a band hero but isn't a Resources page, so it's left as-is.
+  const lightBandRoutes = ['/blog', '/case-studies', '/news', '/events']
+  const onLightBandPage = lightBandRoutes.includes(pathname)
   const solid = scrolled || onLightBandPage
 
   // Swipe-to-close state
