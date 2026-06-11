@@ -118,6 +118,12 @@ export default function TestimonialsShuffleSection({
     setOffset(o => (N > 0 ? (o + 1) % N : 0))
   }, [N])
 
+  // Step the stack back one (bring the PREVIOUS testimonial to front).
+  // Used by the desktop-only prev arrow. Mirrors handleAdvance.
+  const handleBack = useCallback(() => {
+    setOffset(o => (N > 0 ? (o - 1 + N) % N : 0))
+  }, [N])
+
   // Auto-advance every 5s unless paused. Skipped when there's only one
   // testimonial — no point rotating a stack of one.
   useEffect(() => {
@@ -196,39 +202,62 @@ export default function TestimonialsShuffleSection({
               ))}
             </div>
 
-            {/* Controls — dots only.
-                  Arrow buttons were removed per design direction; the
-                  remaining interactions are drag-left on the front card
-                  (which calls handleAdvance) and clicking a dot to bring
-                  that testimonial directly to front. */}
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              {testimonials.map((_, i) => {
-                const active = i === frontIdx
-                return (
-                  <button
-                    key={i}
-                    // Bring testimonials[i] to front. With the offset
-                    // model this is just `setOffset(i)`: a testimonial
-                    // at array index i has stackIndex (i - offset + N) % N,
-                    // and we want that to be 0, so offset = i.
-                    // framer-motion animates each card from its current
-                    // computed position to its new computed position.
-                    onClick={() => setOffset(i)}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    aria-current={active ? 'true' : undefined}
-                    style={{
-                      width: active ? 28 : 8,
-                      height: 8,
-                      borderRadius: 4,
-                      background: active ? '#00B5D6' : 'var(--gray-300)',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: 0,
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  />
-                )
-              })}
+            {/* Controls.
+                  Dots work on every viewport (tap a dot to jump that
+                  testimonial to front). The prev/next arrow buttons are a
+                  DESKTOP-ONLY affordance — hidden at 768px and below via
+                  the .tcard-nav-btn rule below — so on mobile the existing
+                  card pattern (tap/drag the front card + dots) is unchanged. */}
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'center' }}>
+              <button
+                type="button"
+                className="tcard-nav-btn"
+                onClick={handleBack}
+                aria-label="Previous testimonial"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                {testimonials.map((_, i) => {
+                  const active = i === frontIdx
+                  return (
+                    <button
+                      key={i}
+                      // Bring testimonials[i] to front. With the offset
+                      // model this is just setOffset(i): a testimonial at
+                      // array index i has stackIndex (i - offset + N) % N,
+                      // and we want that to be 0, so offset = i.
+                      onClick={() => setOffset(i)}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      aria-current={active ? 'true' : undefined}
+                      style={{
+                        width: active ? 28 : 8,
+                        height: 8,
+                        borderRadius: 4,
+                        background: active ? '#00B5D6' : 'var(--gray-300)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                    />
+                  )
+                })}
+              </div>
+
+              <button
+                type="button"
+                className="tcard-nav-btn"
+                onClick={handleAdvance}
+                aria-label="Next testimonial"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
             </div>
           </div>
         </RevealOnScroll>
@@ -255,6 +284,38 @@ export default function TestimonialsShuffleSection({
             margin-left: -50px;
             transform: scale(0.72);
             transform-origin: center center;
+          }
+        }
+
+        /* Manual prev/next arrow buttons — DESKTOP ONLY.
+           Teal outline reads on both the dark home-immersive background
+           and a light section background; fills teal on hover. Hidden at
+           768px and below so phones keep the tap/drag + dots pattern. */
+        .tcard-nav-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          flex: 0 0 auto;
+          border-radius: 50%;
+          border: 1.5px solid #00B5D6;
+          background: transparent;
+          color: #00B5D6;
+          cursor: pointer;
+          padding: 0;
+          transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+        }
+        .tcard-nav-btn:hover {
+          background: #00B5D6;
+          color: #ffffff;
+        }
+        .tcard-nav-btn:active {
+          transform: scale(0.92);
+        }
+        @media (max-width: 768px) {
+          .tcard-nav-btn {
+            display: none;
           }
         }
 
