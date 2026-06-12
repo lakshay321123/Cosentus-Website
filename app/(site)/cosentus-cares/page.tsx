@@ -134,11 +134,10 @@ const organisations: Array<{
 export default function WeCarePage() {
   return (
     <main>
-      <PageHero
-        label="COSENTUS CARES"
-        title="Come See Our Community Network, And Inspire Change With Us."
-        subtitle="At Cosentus, giving back isn't a campaign, it's who we are. Meet our Impact Ambassadors and all the incredible work they do."
-      />
+      {/* Band hero — same single-strip header as the Resources pages
+          and /about, per user (Jun 2026). Replaced the video hero
+          (label + long title + subtitle). */}
+      <PageHero title="Cosentus Cares" band />
 
       {/* Event gallery — Recent Events. 4-col on desktop, responsive down to
           1-col on small phones. Cards currently non-interactive. */}
