@@ -65,7 +65,14 @@ export default function RAPageContent() {
 
       {/* WHY ZEUS — 23 Modules / 15 AI Features / 45+ Specialties.
           New section per Zeus design prototype. Sits between PageHero (parent)
-          and the existing voice agents grid. */}
+          and the existing voice agents grid.
+
+          DISABLED per user (Jun 2026): the "Not bolted on." paragraph
+          moved to the page hero subtitle, and the whole section (heading
+          + paragraph + the 23/15/45+ zeus-why stats grid) was removed
+          from the page. Kept behind a render guard for easy restore -
+          change false to true to bring it back. */}
+      {false && (
       <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
           <RevealOnScroll>
@@ -187,6 +194,7 @@ export default function RAPageContent() {
           }
         `}</style>
       </section>
+      )}
 
       {/* Real + AI workflow animation (scroll-expand). Shown here per user
           request (Jun 2026); it is the same animation currently commented
