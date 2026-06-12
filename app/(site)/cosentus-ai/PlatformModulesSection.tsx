@@ -158,7 +158,7 @@ export default function PlatformModulesSection() {
   }, [selectedNum, autoPaused])
 
   return (
-    <section className="section section-alt" style={{ overflow: 'hidden' }}>
+    <section className="section section-alt" style={{ overflow: 'hidden', overflowAnchor: 'none' }}>
       <div className="container">
         <RevealOnScroll delay={0.1}>
           <h2 style={{
@@ -292,7 +292,14 @@ export default function PlatformModulesSection() {
               overflow: 'hidden',
               boxShadow: '0 24px 60px rgba(0,181,214,0.3)',
               animation: 'mod-fadein 0.4s ease-out',
-              minHeight: 560,
+              // FIXED height (not min-height): demo and generic modules
+              // have different content heights, so a variable card height
+              // made the section reflow on every 5s auto-advance - the
+              // browser's scroll anchoring then shifted the whole page
+              // (reported as "the complete page moves"). 640px matches
+              // the left list's max-height, fits the tallest (5-row)
+              // demo at desktop widths, and keeps section height constant.
+              height: 640,
             }}>
               {/* Scan-line texture */}
               <div aria-hidden="true" style={{
