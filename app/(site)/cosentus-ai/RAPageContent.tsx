@@ -123,13 +123,14 @@ export default function RAPageContent() {
                 }} className="zeus-why-cell">
                   <div className="zeus-why-num" style={{
                     fontFamily: 'var(--font-display)',
-                    // Matches the homepage RA section stat size (.ra-stat-num)
-                    // per user (Jun 2026); was clamp(56px, 7vw, 88px).
+                    // Matches the homepage RA section stat (.ra-stat-num)
+                    // per user (Jun 2026): same clamp, weight 700,
+                    // -0.02em. Was clamp(56px, 7vw, 88px) / 300 / -0.03em.
                     fontSize: 'clamp(44px, 5.5vw, 68px)',
-                    fontWeight: 300,
+                    fontWeight: 700,
                     lineHeight: 1,
                     color: '#00B5D6',
-                    letterSpacing: '-0.03em',
+                    letterSpacing: '-0.02em',
                     marginBottom: 12,
                   }}>
                     {stat.num}
