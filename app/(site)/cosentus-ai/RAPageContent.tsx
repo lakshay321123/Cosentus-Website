@@ -123,13 +123,14 @@ export default function RAPageContent() {
                 }} className="zeus-why-cell">
                   <div className="zeus-why-num" style={{
                     fontFamily: 'var(--font-display)',
-                    // Matches the homepage RA section stat size (.ra-stat-num)
-                    // per user (Jun 2026); was clamp(56px, 7vw, 88px).
+                    // Matches the homepage RA section stat (.ra-stat-num)
+                    // per user (Jun 2026): same clamp, weight 700,
+                    // -0.02em. Was clamp(56px, 7vw, 88px) / 300 / -0.03em.
                     fontSize: 'clamp(44px, 5.5vw, 68px)',
-                    fontWeight: 300,
+                    fontWeight: 700,
                     lineHeight: 1,
                     color: '#00B5D6',
-                    letterSpacing: '-0.03em',
+                    letterSpacing: '-0.02em',
                     marginBottom: 12,
                   }}>
                     {stat.num}
@@ -798,17 +799,22 @@ export default function RAPageContent() {
                     }}>{kpi.tag}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, lineHeight: 1 }}>
-                    {kpi.pre && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)' }}>{kpi.pre}</span>}
+                    {/* Big number matches homepage .ra-stat-num per user
+                        (Jun 2026): clamp(44-68), 700, #00B5D6, -0.02em.
+                        Was clamp(48-72) / 300 / gray-900. pre/unit/plus
+                        keep their smaller relative sizes but follow the
+                        cyan + weight so the numeral reads as one unit. */}
+                    {kpi.pre && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#00B5D6' }}>{kpi.pre}</span>}
                     <span style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(48px, 6vw, 72px)',
-                      fontWeight: 300,
-                      color: 'var(--gray-900)',
-                      letterSpacing: '-0.03em',
+                      fontSize: 'clamp(44px, 5.5vw, 68px)',
+                      fontWeight: 700,
+                      color: '#00B5D6',
+                      letterSpacing: '-0.02em',
                       lineHeight: 1,
                     }}>{kpi.big}</span>
-                    <span style={{ fontSize: 'clamp(20px, 2.2vw, 26px)', fontWeight: 400, color: 'var(--gray-700)' }}>{kpi.unit}</span>
-                    {kpi.plus && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: '#00B5D6' }}>{kpi.plus}</span>}
+                    <span style={{ fontSize: 'clamp(20px, 2.2vw, 26px)', fontWeight: 600, color: '#00B5D6' }}>{kpi.unit}</span>
+                    {kpi.plus && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#00B5D6' }}>{kpi.plus}</span>}
                   </div>
                   <div style={{
                     paddingTop: 12,

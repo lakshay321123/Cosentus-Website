@@ -239,11 +239,11 @@ export default function PainManagementContent() {
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>Zero</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>Zero</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Procedure Stalls</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>24/7</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>24/7</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Auth Tracking</div>
                   </div>
                 </div>

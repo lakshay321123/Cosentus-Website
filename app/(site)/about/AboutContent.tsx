@@ -440,10 +440,13 @@ export default function AboutContent() {
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
-                  {/* Stat size matches the homepage RA section (.ra-stat-num)
-                      per user (Jun 2026); was clamp(32px, 4vw, 48px). */}
-                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
+                  {/* Stat style matches the homepage RA section (.ra-stat-num)
+                      per user (Jun 2026): same clamp, weight 700, -0.02em.
+                      Label matches .ra-stat-label format (13/600 uppercase)
+                      but keeps gray-500 - this is a light section, the home
+                      label's white would be invisible here. */}
+                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-500)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}

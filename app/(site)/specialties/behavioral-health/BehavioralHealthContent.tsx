@@ -312,7 +312,10 @@ export default function BehavioralHealthContent() {
 
           <RevealOnScroll delay={0.2}>
             <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
-              <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>150+</span>
+              {/* Matches homepage .ra-stat-num per user (Jun 2026):
+                  clamp(44-68), 700, -0.02em, font-display. Was
+                  clamp(48-72) / 200 / no display font. */}
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, color: 'var(--primary)', lineHeight: 1, letterSpacing: '-0.02em' }}>150+</span>
               <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years combined in behavioral health RCM</span>
             </div>
           </RevealOnScroll>
