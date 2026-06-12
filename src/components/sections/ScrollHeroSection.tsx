@@ -45,7 +45,14 @@ import { useEffect, useRef, useState } from 'react'
 import ScrollExpandMedia from '@/components/blocks/scroll-expansion-hero'
 import WorkflowAnimation from '@/components/sections/WorkflowAnimation'
 
-export default function ScrollHeroSection({ startExpanded = false }: { startExpanded?: boolean }) {
+interface ScrollHeroSectionProps {
+  /** Render the frame fully expanded from first paint (no zoom) and
+      gate the 13-piece reveal on the section entering the viewport.
+      Used by /cosentus-ai. See ScrollExpandMedia.startExpanded. */
+  startExpanded?: boolean
+}
+
+export default function ScrollHeroSection({ startExpanded = false }: ScrollHeroSectionProps) {
   // In startExpanded mode the reveal is gated on the section entering
   // the viewport. Fires once, then disconnects — the reveal is a
   // one-time sequence and must not restart on re-entry.
