@@ -81,6 +81,16 @@ interface ScrollExpandMediaProps {
    * `isExpanded` flips true (progress hits 1).
    */
   customMedia?: ReactNode | ((args: { isExpanded: boolean; progress: number }) => ReactNode);
+  /**
+   * When true, the frame renders fully expanded from first paint —
+   * no small-state preview, no scroll-hijack, no zoom animation.
+   * Progress starts at 1 and expandedRef starts true, so every
+   * scroll handler passes straight through to native scrolling.
+   * Used by /cosentus-ai per user (Jun 2026): "full screen on load
+   * only, not zoom video". Home (if it re-enables this section)
+   * keeps the original zoom mechanic by not passing this.
+   */
+  startExpanded?: boolean;
 }
 
 const ScrollExpandMedia = ({
@@ -89,10 +99,13 @@ const ScrollExpandMedia = ({
   posterSrc,
   sideText,
   customMedia,
+  startExpanded = false,
 }: ScrollExpandMediaProps) => {
   // scrollProgress drives all the inline-style math. Needs to be
   // state so render updates the inline transforms/sizes.
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  // startExpanded initializes everything at the fully-expanded end
+  // state so no zoom ever plays (see prop doc above).
+  const [scrollProgress, setScrollProgress] = useState<number>(startExpanded ? 1 : 0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   // Trailing text visibility is DERIVED from progress, not a sticky
@@ -107,8 +120,8 @@ const ScrollExpandMedia = ({
   const sectionRef = useRef<HTMLDivElement | null>(null);
   // Refs for state read inside handlers (avoids stale closures
   // without re-binding listeners on every render).
-  const progressRef = useRef<number>(0);
-  const expandedRef = useRef<boolean>(false);
+  const progressRef = useRef<number>(startExpanded ? 1 : 0);
+  const expandedRef = useRef<boolean>(startExpanded);
   const touchYRef = useRef<number>(0);
   // Tracks whether a programmatic (anchor-click / hashchange) scroll
   // is in progress. The scroll-lock guards below (handleWheel,
@@ -681,17 +694,14 @@ const ScrollExpandMedia = ({
           max-height: 78vh;
           border-radius: 16px;
           overflow: hidden;
-          /* 35% dark navy overlay. Was fully transparent before (the
-             immersive video bg showed through 100%). User direction
-             2026-05-24: "for the background of this video, basically
-             the animation, the rectangle, can you make it a little
-             more opaque so that this animation stands out? Maybe
-             30% or 40% opaque." 35% sits in the middle of that
-             range. Color is a near-black navy (#05101E) that
-             complements the dark blue immersive video without
-             introducing a hue conflict; tweak the alpha if the
-             contrast needs adjustment. */
-          background: rgba(5, 16, 30, 0.35);
+          /* Dark navy frame. Was rgba(5,16,30,0.35) — designed against
+             the home page's dark immersive video where 35% read fine.
+             The only live usage is now /cosentus-ai whose page bg is
+             LIGHT, so 35% rendered as washed-out grey and the white
+             workflow labels were barely visible. Raised to 0.9 per
+             user (Jun 2026): "background needs to be darker for it
+             to be visible". */
+          background: rgba(5, 16, 30, 0.9);
           /* Teal border + glow so the small frame is visible against
              the dark immersive bg. */
           box-shadow:

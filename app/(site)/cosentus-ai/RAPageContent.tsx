@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
-import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
@@ -23,9 +22,9 @@ const steps = [
  *
  * Photos: Allen, Ajay, Steven, and Lakshay have headshots; we re-use
  * Allen + Ajay's from /about and Steven's from Behavioral Health.
- * Alex and Casey have no photos yet — for them the TeamCircleGrid
- * component falls back to teal initials in an empty circle until
- * headshots are supplied.
+ * Alex has no photo yet — TeamCircleGrid falls back to teal initials
+ * in an empty circle until a headshot is supplied.
+ * Casey Kaczmarowski removed per user (Jun 2026).
  *
  * No `bio` field is provided yet, so the cards render non-interactive
  * (TeamCircleGrid only adds the click+modal affordance when both
@@ -36,7 +35,6 @@ const zeusTeam = [
   { name: 'Ajay Kumar',            title: 'AI Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
   { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
   { name: 'Lakshay Mehra',         title: 'AI Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
-  { name: 'Casey Kaczmarowski',    title: 'Platform & Infrastructure Lead' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
   { name: 'Shaleen Chordia',       title: 'AI Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
 ]
@@ -45,15 +43,22 @@ export default function RAPageContent() {
   const [activeAgent, setActiveAgent] = useState<VoiceAgent | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
+  // Explicit pause via the pause/play button between the step arrows.
+  // Separate from stepPaused (the hover-pause): if the button shared
+  // stepPaused, every mouse-leave of the section would silently
+  // un-pause what the user explicitly paused.
+  const [stepUserPaused, setStepUserPaused] = useState(false)
 
-  // Auto-advance steps every 5 seconds, loop back to 1
+  // Auto-advance steps every 3 seconds (was 5s, per user Jun 2026),
+  // loop back to 1. Paused while hovering OR while explicitly paused
+  // via the button.
   useEffect(() => {
-    if (stepPaused) return
+    if (stepPaused || stepUserPaused) return
     const timer = setInterval(() => {
       setActiveStep(prev => (prev >= steps.length - 1 ? 0 : prev + 1))
-    }, 5000)
+    }, 3000)
     return () => clearInterval(timer)
-  }, [stepPaused, activeStep])
+  }, [stepPaused, stepUserPaused, activeStep])
 
   return (
     <>
@@ -203,7 +208,8 @@ export default function RAPageContent() {
       {/* Real + AI workflow animation (scroll-expand). Shown here per user
           request (Jun 2026); it is the same animation currently commented
           out on the home page. Sits directly above the Voice AI section. */}
-      <ScrollHeroSection />
+      {/* startExpanded: full-screen on load, no zoom, per user (Jun 2026) */}
+      <ScrollHeroSection startExpanded />
 
       {/* The 9 AI Voice Agents */}
       <section className="section">
@@ -460,6 +466,27 @@ export default function RAPageContent() {
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
                   </button>
+                  {/* Pause/play toggle between the arrows, per user
+                      (Jun 2026). Controls stepUserPaused only — the
+                      hover-pause stays independent. */}
+                  <button
+                    onClick={() => setStepUserPaused(p => !p)}
+                    aria-label={stepUserPaused ? 'Resume auto-advance' : 'Pause auto-advance'}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--gray-200)',
+                      background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    {stepUserPaused ? (
+                      /* Play triangle — shown while paused */
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gray-600)" stroke="none"><path d="M8 5v14l11-7z"/></svg>
+                    ) : (
+                      /* Pause bars — shown while auto-advancing */
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gray-600)" stroke="none"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                    )}
+                  </button>
                   <button
                     onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
                     disabled={activeStep === steps.length - 1}
@@ -480,7 +507,9 @@ export default function RAPageContent() {
         </div>
       </section>
 
-      <PlatformModulesSection />
+      {/* PlatformModulesSection (23 Modules. One Intelligent Core.)
+          removed per user (Jun 2026). Component kept in the repo for
+          potential reuse. */}
 
       {/* MULTI-EHR INTEGRATION — Zeus sits above every EHR.
           New section per Zeus design prototype. Adapted to light theme as
