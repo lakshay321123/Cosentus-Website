@@ -1850,6 +1850,17 @@ body:has(main.home-immersive) .footer-top {
   border-right: 1px solid rgba(255, 255, 255, 0.10);
 }
 
+/* Closing line of the empathetic copy ("Let us show you where your
+   revenue is going - and what's missing."). One line on desktop:
+   at the paragraph's 16px the 65-char sentence needs ~506px but the
+   column is ~444px (540px track - 2x48px padding), so the last word
+   wrapped. 13.5px brings it to ~427px so the whole sentence fits on
+   a single line. Mobile override below restores normal wrapping. */
+.rcm-calc-closing {
+  white-space: nowrap;
+  font-size: 13.5px;
+}
+
 /* RIGHT: result panel. Same transparent frost. Padding matches the
    inputs panel so the two halves balance. Flex column so the big $
    sits top, breakdown middle, CTA bottom-left. */
@@ -2026,6 +2037,13 @@ body:has(main.home-immersive) .footer-top {
   .rcm-calc-inputs,
   .rcm-calc-result {
     padding: 32px 22px;
+  }
+
+  /* Closing line: a 65-char sentence cannot fit a phone column on
+     one line at readable size, so restore normal wrapping there. */
+  .rcm-calc-closing {
+    white-space: normal;
+    font-size: inherit;
   }
 
   /* Big number shrinks on narrow viewports so '$1,255,500' doesn't

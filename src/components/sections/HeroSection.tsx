@@ -341,15 +341,14 @@ export default function HeroSection() {
           filter: brightness(1.15);
           box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
         }
-        /* Arrow disc nudges further right on hover — same pattern
-           as .btn-glass:hover svg { transform: translateX(3px); }
-           in globals.css. Composes with the disc's existing
-           vertical centering transform (translateY(-50%)). Scoped
-           under .hero-ready for the same specificity reason as the
-           main hover rule above. */
+        /* Arrow hover nudge DISABLED per user (Jun 2026): the disc
+           previously shifted +4px right on hover of the Specialties
+           button. Rule kept for easy restore: */
+        /*
         .hero-ready .hero-action-specialties:hover .hero-action-arrow {
           transform: translateY(-50%) translateX(4px);
         }
+        */
         .hero-action-pill {
           display: block;
           /* Spec pill height ~ 5.5vh-ish on the layout. Using clamp
