@@ -95,7 +95,8 @@ export default function Navbar() {
   // if already scrolled. Per user (Jun 2026). Exact-match only, so detail
   // pages like /blog/[slug] (which have their own hero) are unaffected.
   // FAQs also uses a band hero but isn't a Resources page, so it's left as-is.
-  const lightBandRoutes = ['/blog', '/case-studies', '/news', '/events', '/insights']
+  // /about switched to the band hero too (Jun 2026), so it joins the list.
+  const lightBandRoutes = ['/blog', '/case-studies', '/news', '/events', '/insights', '/about']
   const onLightBandPage = lightBandRoutes.includes(pathname)
   const solid = scrolled || onLightBandPage
 
