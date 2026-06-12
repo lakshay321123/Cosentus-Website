@@ -74,21 +74,23 @@ export default function PartnershipContent() {
 
 
         .stat-number {
-          /* Matches the homepage RA section stat size (.ra-stat-num)
-             per user (Jun 2026); was clamp(56px, 8vw, 96px). */
+          /* Matches the homepage RA section stat (.ra-stat-num) per
+             user (Jun 2026): same clamp, weight 700, line-height 1,
+             -0.02em. Was weight 200 / lh 0.9 / -0.04em. */
           font-size: clamp(44px, 5.5vw, 68px);
-          font-weight: 200;
+          font-weight: 700;
           color: var(--primary);
-          line-height: 0.9;
-          letter-spacing: -0.04em;
+          line-height: 1;
+          letter-spacing: -0.02em;
           font-family: var(--font-display);
         }
 
         .stat-suffix {
           /* Scaled down proportionally with .stat-number (was
-             clamp(20px, 3vw, 32px)) so the + / yr keeps its ratio. */
+             clamp(20px, 3vw, 32px)) so the + / yr keeps its ratio.
+             Weight follows .stat-number (200 next to 700 reads odd). */
           font-size: clamp(15px, 2.2vw, 23px);
-          font-weight: 200;
+          font-weight: 700;
           color: var(--primary);
           opacity: 0.6;
         }
@@ -99,7 +101,7 @@ export default function PartnershipContent() {
           text-transform: uppercase;
           letter-spacing: 0.1em;
           margin-top: 12px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         

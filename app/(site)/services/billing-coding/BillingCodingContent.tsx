@@ -364,8 +364,12 @@ export default function BillingCodingContent() {
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)'; e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)'; e.currentTarget.style.borderLeftColor = 'white' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderLeftColor = 'rgba(255,255,255,0.3)' }}
                 >
-                  <div style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, fontFamily: 'var(--font-display)', marginBottom: 4, animation: 'fadeSlideUp 0.6s ease forwards', animationDelay: `${0.3 + i * 0.2}s`, opacity: 0 }}>{item.stat}</div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
+                  {/* Number matches homepage .ra-stat-num per user (Jun
+                      2026): clamp(44-68), 700, #00B5D6, -0.02em. Was
+                      clamp(36-48) in inherited white. Label matched to
+                      .ra-stat-label (13/600). */}
+                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, fontFamily: 'var(--font-display)', color: '#00B5D6', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 4, animation: 'fadeSlideUp 0.6s ease forwards', animationDelay: `${0.3 + i * 0.2}s`, opacity: 0 }}>{item.stat}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
