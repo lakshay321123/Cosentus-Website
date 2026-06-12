@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
 
@@ -136,8 +136,29 @@ export default function PlatformModulesSection() {
   const selected = modules.find(m => m.num === selectedNum)!
   const demo = liveDemos[selectedNum]
 
+  // Up = previous module, Down = next module (cycles through all 23).
+  const currentIndex = modules.findIndex(m => m.num === selectedNum)
+  const goPrev = () => setSelectedNum(modules[(currentIndex - 1 + modules.length) % modules.length].num)
+  const goNext = () => setSelectedNum(modules[(currentIndex + 1) % modules.length].num)
+
+  // Auto-advance the live-demo card every 5s. Pauses while the user
+  // hovers the card (autoPaused), and the timer resets on any change
+  // (selectedNum dependency) so a manual click/arrow isn't cut short
+  // by an imminent tick. Functional update avoids a stale closure.
+  const [autoPaused, setAutoPaused] = useState(false)
+  useEffect(() => {
+    if (autoPaused) return
+    const t = setInterval(() => {
+      setSelectedNum(prev => {
+        const i = modules.findIndex(m => m.num === prev)
+        return modules[(i + 1) % modules.length].num
+      })
+    }, 5000)
+    return () => clearInterval(t)
+  }, [selectedNum, autoPaused])
+
   return (
-    <section className="section section-alt" style={{ overflow: 'hidden' }}>
+    <section className="section section-alt" style={{ overflow: 'hidden', overflowAnchor: 'none' }}>
       <div className="container">
         <RevealOnScroll delay={0.1}>
           <h2 style={{
@@ -259,7 +280,11 @@ export default function PlatformModulesSection() {
 
           {/* RIGHT: Live demo panel */}
           <RevealOnScroll direction="right" delay={0.4}>
-            <div key={selectedNum} style={{
+            <div
+              key={selectedNum}
+              onMouseEnter={() => setAutoPaused(true)}
+              onMouseLeave={() => setAutoPaused(false)}
+              style={{
               background: 'linear-gradient(140deg, #00B5D6 0%, #36C2DE 60%, #68D1E6 100%)',
               borderRadius: 'var(--radius-md)',
               padding: 0,
@@ -267,7 +292,14 @@ export default function PlatformModulesSection() {
               overflow: 'hidden',
               boxShadow: '0 24px 60px rgba(0,181,214,0.3)',
               animation: 'mod-fadein 0.4s ease-out',
-              minHeight: 560,
+              // FIXED height (not min-height): demo and generic modules
+              // have different content heights, so a variable card height
+              // made the section reflow on every 5s auto-advance - the
+              // browser's scroll anchoring then shifted the whole page
+              // (reported as "the complete page moves"). 640px matches
+              // the left list's max-height, fits the tallest (5-row)
+              // demo at desktop widths, and keeps section height constant.
+              height: 640,
             }}>
               {/* Scan-line texture */}
               <div aria-hidden="true" style={{
@@ -397,6 +429,7 @@ export default function PlatformModulesSection() {
                     <div style={{
                       marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.3)',
                       fontSize: 12, color: 'white', opacity: 0.85, lineHeight: 1.5,
+                      paddingRight: 60,
                     }}>
                       {demo.footer}
                     </div>
@@ -437,11 +470,28 @@ export default function PlatformModulesSection() {
                     <div style={{
                       marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.3)',
                       fontSize: 12, color: 'white', opacity: 0.85,
+                      paddingRight: 60,
                     }}>
                       Click an AI module on the left to see a live demo
                     </div>
                   </>
                 )}
+              </div>
+
+              {/* Up/Down navigation, bottom-right of the live card.
+                  Up = previous module, Down = next. Auto-advance (5s)
+                  pauses while this card is hovered. */}
+              <div className="mod-cardnav">
+                <button type="button" className="mod-cardnav-btn" onClick={goPrev} aria-label="Previous module">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                </button>
+                <button type="button" className="mod-cardnav-btn" onClick={goNext} aria-label="Next module">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
               </div>
             </div>
           </RevealOnScroll>
@@ -549,6 +599,42 @@ export default function PlatformModulesSection() {
       </div>
 
       <style>{`
+        /* Up/Down nav buttons on the live-demo card (desktop only;
+           the card lives inside .modules-desktop-wrap which is hidden
+           on mobile). White translucent on the teal card; fill white
+           with teal icon on hover. */
+        .mod-cardnav {
+          position: absolute;
+          right: 16px;
+          bottom: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          z-index: 5;
+        }
+        .mod-cardnav-btn {
+          width: 38px;
+          height: 38px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255, 255, 255, 0.7);
+          background: rgba(255, 255, 255, 0.18);
+          color: #ffffff;
+          cursor: pointer;
+          padding: 0;
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .mod-cardnav-btn:hover {
+          background: #ffffff;
+          color: #00B5D6;
+        }
+        .mod-cardnav-btn:active {
+          transform: scale(0.92);
+        }
         @keyframes mod-pulse {
           0%, 100% { transform: scale(1); opacity: 1; }
           50% { transform: scale(1.4); opacity: 0.6; }

@@ -440,7 +440,9 @@ export default function AboutContent() {
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
-                  <div style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
+                  {/* Stat size matches the homepage RA section (.ra-stat-num)
+                      per user (Jun 2026); was clamp(32px, 4vw, 48px). */}
+                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
                   <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>

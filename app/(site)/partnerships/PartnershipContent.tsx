@@ -74,7 +74,9 @@ export default function PartnershipContent() {
 
 
         .stat-number {
-          font-size: clamp(56px, 8vw, 96px);
+          /* Matches the homepage RA section stat size (.ra-stat-num)
+             per user (Jun 2026); was clamp(56px, 8vw, 96px). */
+          font-size: clamp(44px, 5.5vw, 68px);
           font-weight: 200;
           color: var(--primary);
           line-height: 0.9;
@@ -83,7 +85,9 @@ export default function PartnershipContent() {
         }
 
         .stat-suffix {
-          font-size: clamp(20px, 3vw, 32px);
+          /* Scaled down proportionally with .stat-number (was
+             clamp(20px, 3vw, 32px)) so the + / yr keeps its ratio. */
+          font-size: clamp(15px, 2.2vw, 23px);
           font-weight: 200;
           color: var(--primary);
           opacity: 0.6;

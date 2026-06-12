@@ -14,7 +14,7 @@ export default function CosentusAIPage() {
       <PageHero
         label="Zeus"
         title={<>RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span></>}
-        subtitle="23 modules. 15 AI features. 45+ specialties. Run by AI, accountable to specialty-trained teams."
+        subtitle="Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can’t do that because their AI was added later."
         ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />

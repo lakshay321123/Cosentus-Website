@@ -65,9 +65,17 @@ export default function RAPageContent() {
 
       {/* WHY ZEUS — 23 Modules / 15 AI Features / 45+ Specialties.
           New section per Zeus design prototype. Sits between PageHero (parent)
-          and the existing voice agents grid. */}
+          and the existing voice agents grid.
+
+          The "Not bolted on." heading + paragraph were removed per user
+          (Jun 2026) since that copy moved to the page hero subtitle; the
+          three stats below (23 / 15 / 45+) stay. Heading + paragraph are
+          commented out (not deleted) just below for easy restore. */}
       <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
+          {/* Heading + paragraph removed per user (Jun 2026) - copy moved
+              to the page hero subtitle. Kept commented for easy restore. */}
+          {/*
           <RevealOnScroll>
             <h2 style={{
               fontFamily: 'var(--font-display)',
@@ -93,6 +101,7 @@ export default function RAPageContent() {
               Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
             </p>
           </RevealOnScroll>
+          */}
 
           <div style={{
             display: 'grid',
@@ -114,7 +123,9 @@ export default function RAPageContent() {
                 }} className="zeus-why-cell">
                   <div className="zeus-why-num" style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(56px, 7vw, 88px)',
+                    // Matches the homepage RA section stat size (.ra-stat-num)
+                    // per user (Jun 2026); was clamp(56px, 7vw, 88px).
+                    fontSize: 'clamp(44px, 5.5vw, 68px)',
                     fontWeight: 300,
                     lineHeight: 1,
                     color: '#00B5D6',

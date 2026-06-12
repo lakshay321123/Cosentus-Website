@@ -244,15 +244,17 @@ export default function RCMCalculatorSection() {
 
               {/* Empathetic copy below the inputs. The first three
                   sentences flow as a normal 16px paragraph; the closing
-                  line sits on its own line (via <br />) at the SAME 16px
-                  size and uses a plain hyphen ("going - and what's
-                  missing"). Per user direction (Jun 2026). */}
+                  line sits on its own line (via <br />) wrapped in
+                  .rcm-calc-closing, which keeps it on ONE line on desktop
+                  (nowrap + slightly smaller size so all 65 chars fit the
+                  444px column) and lets it wrap normally on mobile.
+                  Plain hyphen per user direction (Jun 2026). */}
               <p style={{
                 fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.78)',
                 marginTop: 28,
               }}>
                 Not sure what your denial rate or days in AR are? You&rsquo;re not alone. Most healthcare executives don&rsquo;t have consistent access to these numbers. And that&rsquo;s exactly the problem.<br />
-                Let us show you where your revenue is going - and what&rsquo;s missing.
+                <span className="rcm-calc-closing">Let us show you where your revenue is going - and what&rsquo;s missing.</span>
               </p>
             </div>
 
