@@ -33,11 +33,12 @@
 import ScrollExpandMedia from '@/components/blocks/scroll-expansion-hero'
 import WorkflowAnimation from '@/components/sections/WorkflowAnimation'
 
-export default function ScrollHeroSection() {
+export default function ScrollHeroSection({ startExpanded = false }: { startExpanded?: boolean }) {
   return (
     <ScrollExpandMedia
       mediaType="custom"
       sideText={null}
+      startExpanded={startExpanded}
       customMedia={({ isExpanded }) => (
         <WorkflowAnimation isExpanded={isExpanded} />
       )}
