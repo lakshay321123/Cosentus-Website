@@ -67,14 +67,15 @@ export default function RAPageContent() {
           New section per Zeus design prototype. Sits between PageHero (parent)
           and the existing voice agents grid.
 
-          DISABLED per user (Jun 2026): the "Not bolted on." paragraph
-          moved to the page hero subtitle, and the whole section (heading
-          + paragraph + the 23/15/45+ zeus-why stats grid) was removed
-          from the page. Kept behind a render guard for easy restore -
-          change false to true to bring it back. */}
-      {false && (
+          The "Not bolted on." heading + paragraph were removed per user
+          (Jun 2026) since that copy moved to the page hero subtitle; the
+          three stats below (23 / 15 / 45+) stay. Heading + paragraph are
+          commented out (not deleted) just below for easy restore. */}
       <section className="section section-alt" style={{ overflow: 'hidden' }}>
         <div className="container">
+          {/* Heading + paragraph removed per user (Jun 2026) - copy moved
+              to the page hero subtitle. Kept commented for easy restore. */}
+          {/*
           <RevealOnScroll>
             <h2 style={{
               fontFamily: 'var(--font-display)',
@@ -100,6 +101,7 @@ export default function RAPageContent() {
               Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
             </p>
           </RevealOnScroll>
+          */}
 
           <div style={{
             display: 'grid',
@@ -194,7 +196,6 @@ export default function RAPageContent() {
           }
         `}</style>
       </section>
-      )}
 
       {/* Real + AI workflow animation (scroll-expand). Shown here per user
           request (Jun 2026); it is the same animation currently commented
