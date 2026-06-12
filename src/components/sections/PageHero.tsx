@@ -5,7 +5,7 @@ import RevealText from '@/components/ui/RevealText'
 interface PageHeroProps {
   label?: string
   title: React.ReactNode
-  subtitle?: string
+  subtitle?: React.ReactNode
   /** Optional max-width for the subtitle <p>. Defaults to 680px (the
       readability cap shared across pages). Pass a wider value or 'none'
       when a specific page needs its subtitle to stay on one line.

@@ -88,6 +88,17 @@ export default function Navbar() {
   const [flagDismissed, setFlagDismissed] = useState(false)
   const pathname = usePathname()
 
+  // The Resources pages (Blogs, Client Stories, News, Events) use a light
+  // grey band hero (PageHero `band`), over which the default transparent/
+  // white-text header is washed out (looks greyish). On those pages render
+  // the solid header (white bg, dark text, colored logo) from the top — as
+  // if already scrolled. Per user (Jun 2026). Exact-match only, so detail
+  // pages like /blog/[slug] (which have their own hero) are unaffected.
+  // FAQs also uses a band hero but isn't a Resources page, so it's left as-is.
+  const lightBandRoutes = ['/blog', '/case-studies', '/news', '/events']
+  const onLightBandPage = lightBandRoutes.includes(pathname)
+  const solid = scrolled || onLightBandPage
+
   // Swipe-to-close state
   const touchStartX = useRef(0)
   const touchStartY = useRef(0)
@@ -174,7 +185,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
+      <nav className={`nav${solid ? ' scrolled' : ''}`}>
         <div className="nav-inner">
           {/* Hamburger, mobile only */}
           <button
@@ -193,15 +204,15 @@ export default function Navbar() {
               width={200}
               height={38}
               style={{
-                height: scrolled ? 32 : 38,
+                height: solid ? 32 : 38,
                 width: 'auto',
-                filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+                filter: solid ? 'none' : 'brightness(0) invert(1)',
                 transition: 'all 0.3s ease',
               }}
               priority
             />
             {/* GPTW flag drops down from the cosentus logo on mount; rolls back up on scroll past 60px or after 7s (whichever first). Once dismissed, stays up for the session. */}
-            <span className={`nav-gptw-flag${mounted && !scrolled && !flagDismissed ? ' visible' : ''}`} aria-hidden="true">
+            <span className={`nav-gptw-flag${mounted && !solid && !flagDismissed ? ' visible' : ''}`} aria-hidden="true">
               <Image
                 src="/gptw-flag.png"
                 alt=""

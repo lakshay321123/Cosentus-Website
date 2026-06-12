@@ -42,7 +42,11 @@ export default function ASCPage() {
       <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
         title={<>Ambulatory Services.<br />Three Specialties. One Expert Team.</>}
-        subtitle="Orthopedics, pain management, and ASC billing — each with its own coding rules, payer behaviors, and denial patterns. We manage all three under one roof with specialty-trained teams and full transparency."
+        subtitle={
+          <>
+            <span style={{ fontSize: '1.2em' }}>Orthopedics</span>, <span style={{ fontSize: '1.2em' }}>pain management</span>, and <span style={{ fontSize: '1.2em' }}>ASC billing</span> each with its own coding rules, payer behaviors, and denial patterns. We manage all three under one roof with specialty-trained teams and full transparency.
+          </>
+        }
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"
       />

@@ -118,6 +118,12 @@ export default function TestimonialsShuffleSection({
     setOffset(o => (N > 0 ? (o + 1) % N : 0))
   }, [N])
 
+  // Step the stack back one (bring the PREVIOUS testimonial to front).
+  // Used by the desktop-only prev arrow. Mirrors handleAdvance.
+  const handleBack = useCallback(() => {
+    setOffset(o => (N > 0 ? (o - 1 + N) % N : 0))
+  }, [N])
+
   // Auto-advance every 5s unless paused. Skipped when there's only one
   // testimonial — no point rotating a stack of one.
   useEffect(() => {
@@ -169,38 +175,63 @@ export default function TestimonialsShuffleSection({
               gap: 32,
             }}
           >
-            {/* Card stack container.
+            {/* Card stage = stack + the two desktop side-arrows.
                   The fan extends ~66% to the right of the front card's
                   position (back card sits at x: 66%), so the visual mass
                   is roughly 1.66 * 350 = 581px wide. To centre, we shift
-                  the 350px-wide container left by ~115px (half of the
-                  extra 231px width). On narrower viewports we shift
-                  less; on phones we scale the whole stack down so it
-                  fits without horizontal clipping. */}
-            <div className="tcard-stack" aria-roledescription="testimonial fan stack">
-              {testimonials.map((t, i) => (
-                <TestimonialCard
-                  key={`${t.name}-${i}`}
-                  tag={t.tag}
-                  testimonial={t.quote}
-                  author={t.name}
-                  role={t.role}
-                  // stackIndex: 0 means front. Modular arithmetic on the
-                  // offset means clicking the dot for testimonial[N-1]
-                  // brings it directly to front, with intermediate cards
-                  // animating into their new fan positions.
-                  stackIndex={(i - offset + N) % N}
-                  totalCards={N}
-                  onShuffleAdvance={handleAdvance}
-                />
-              ))}
+                  the 350px-wide stack left by ~115px (half of the extra
+                  231px width). The .tcard-stage gives the prev/next arrow
+                  buttons a positioning context so they can sit just
+                  outside the centred visual mass, vertically centred on
+                  the cards. On narrower viewports we shift less; on phones
+                  we scale the stack down (and the arrows are hidden). */}
+            <div className="tcard-stage">
+              <button
+                type="button"
+                className="tcard-nav-btn tcard-nav-prev"
+                onClick={handleBack}
+                aria-label="Previous testimonial"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <div className="tcard-stack" aria-roledescription="testimonial fan stack">
+                {testimonials.map((t, i) => (
+                  <TestimonialCard
+                    key={`${t.name}-${i}`}
+                    tag={t.tag}
+                    testimonial={t.quote}
+                    author={t.name}
+                    role={t.role}
+                    // stackIndex: 0 means front. Modular arithmetic on the
+                    // offset means clicking the dot for testimonial[N-1]
+                    // brings it directly to front, with intermediate cards
+                    // animating into their new fan positions.
+                    stackIndex={(i - offset + N) % N}
+                    totalCards={N}
+                    onShuffleAdvance={handleAdvance}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                className="tcard-nav-btn tcard-nav-next"
+                onClick={handleAdvance}
+                aria-label="Next testimonial"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
             </div>
 
-            {/* Controls — dots only.
-                  Arrow buttons were removed per design direction; the
-                  remaining interactions are drag-left on the front card
-                  (which calls handleAdvance) and clicking a dot to bring
-                  that testimonial directly to front. */}
+            {/* Controls — dots. Tap a dot to jump that testimonial to
+                  front. Prev/next navigation now lives in the side arrows
+                  flanking the card stage (desktop only); drag/tap the
+                  front card still advances on touch. */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {testimonials.map((_, i) => {
                 const active = i === frontIdx
@@ -208,11 +239,9 @@ export default function TestimonialsShuffleSection({
                   <button
                     key={i}
                     // Bring testimonials[i] to front. With the offset
-                    // model this is just `setOffset(i)`: a testimonial
-                    // at array index i has stackIndex (i - offset + N) % N,
+                    // model this is just setOffset(i): a testimonial at
+                    // array index i has stackIndex (i - offset + N) % N,
                     // and we want that to be 0, so offset = i.
-                    // framer-motion animates each card from its current
-                    // computed position to its new computed position.
                     onClick={() => setOffset(i)}
                     aria-label={`Go to testimonial ${i + 1}`}
                     aria-current={active ? 'true' : undefined}
@@ -255,6 +284,69 @@ export default function TestimonialsShuffleSection({
             margin-left: -50px;
             transform: scale(0.72);
             transform-origin: center center;
+          }
+        }
+
+        /* Stage = positioning context for the side arrows. Same box as
+           the stack (350x450). The stack keeps its own margin-left:-115px
+           to centre the fan's visual mass inside this stage, so the mass
+           stays centred exactly as before; the stage just gives the
+           absolutely-positioned arrows something to anchor to. */
+        .tcard-stage {
+          position: relative;
+          width: 350px;
+          height: 450px;
+        }
+
+        /* Manual prev/next arrow buttons — DESKTOP ONLY.
+           Teal outline reads on both the dark home-immersive background
+           and a light section background; fills teal on hover. Hidden at
+           768px and below so phones keep the tap/drag + dots pattern. */
+        .tcard-nav-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          flex: 0 0 auto;
+          border-radius: 50%;
+          border: 1.5px solid #00B5D6;
+          background: transparent;
+          color: #00B5D6;
+          cursor: pointer;
+          padding: 0;
+          transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+        }
+        .tcard-nav-btn:hover {
+          background: #00B5D6;
+          color: #ffffff;
+        }
+        .tcard-nav-btn:active {
+          transform: scale(0.92);
+        }
+        /* Place the arrows just outside the centred visual mass and
+           vertically centred on the cards. The mass spans stage-x -115
+           (front-card left) to 466 (back-card right), centred on the
+           stage centre (175). We park each 44px button ~360px from the
+           stage centre (~24px clear of the rotated card corners). Position
+           is done with left:50% + margins, NOT transform, so the :active
+           scale above doesn't override the placement. */
+        .tcard-nav-prev,
+        .tcard-nav-next {
+          position: absolute;
+          top: 50%;
+          margin-top: -22px;   /* half of 44px height -> vertical centre */
+          left: 50%;
+        }
+        .tcard-nav-prev {
+          margin-left: -382px; /* stage centre 175 - 360 - 22 (half btn) */
+        }
+        .tcard-nav-next {
+          margin-left: 338px;  /* stage centre 175 + 360 - 22 (half btn) */
+        }
+        @media (max-width: 768px) {
+          .tcard-nav-btn {
+            display: none;
           }
         }
 
