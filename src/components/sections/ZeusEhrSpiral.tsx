@@ -183,6 +183,23 @@ class AnimationController {
     ctx.restore()
   }
 
+  /**
+   * On-screen angle (rad, canvas y-down, atan2 convention) and radius
+   * (px, spiral coords) of the trail HEAD — the leading point of the
+   * rotating sweep. Same math as render(): spiralPath(t1) plus the
+   * canvas rotation. Used to reveal each EHR label exactly when the
+   * sweep passes its position.
+   */
+  public headScreen(): { ang: number; r: number } {
+    const t1 = this.constrain(this.map(this.time, 0, this.changeEventTime + 0.25, 0, 1), 0, 1)
+    const t2 = this.constrain(this.map(this.time, this.changeEventTime, 1, 0, 1), 0, 1)
+    const rot = -Math.PI * this.ease(t2, 2.7)
+    const pos = this.spiralPath(t1)
+    const x = pos.x * Math.cos(rot) - pos.y * Math.sin(rot)
+    const y = pos.x * Math.sin(rot) + pos.y * Math.cos(rot)
+    return { ang: Math.atan2(y, x), r: Math.sqrt(pos.x * pos.x + pos.y * pos.y) }
+  }
+
   private drawTrail(t1: number) {
     for (let i = 0; i < this.trailLength; i++) {
       const f = this.map(i, 0, this.trailLength, 1.1, 0.1)
@@ -298,6 +315,37 @@ const EHRS: Array<{ name: string; proto: string; left: string; top: string; font
   { name: 'Meditech', proto: 'FHIR', left: '20.3%', top: '34%',   fontSize: 20 },
 ]
 
+// Screen angle of each label, measured from the container center with
+// the same convention as the canvas (atan2, y-down). Derived from the
+// left/top offsets above relative to (50%, 50%). The array order IS the
+// clockwise sweep order, which is also the user's requested reveal
+// order: Epic -> Oracle -> athena -> eCW -> NextGen -> Meditech.
+const LABEL_ANGLES = [
+  Math.atan2(-34, 0),       // Epic (top)        -90°
+  Math.atan2(-16, 29.7),    // Oracle            ~-28°
+  Math.atan2(18.5, 34.4),   // athena            ~+28°
+  Math.atan2(35.5, 0),      // eCW (bottom)      +90°
+  Math.atan2(18.5, -34.4),  // NextGen           ~+152°
+  Math.atan2(-16, -29.7),   // Meditech          ~-152°
+]
+
+// Minimum extra sweep between reveals before the next label can arm.
+// Tuned so all six labels fit inside ONE growth phase of the spiral
+// (the sweep makes ~6 turns total and only ~4.5 of them happen with
+// the swirl out near the label ring): 0.55 turn min gap + the forced
+// alignment to each label's angle gives ~0.7-1 turn between reveals.
+// At 1.5π (¾ turn) the last two labels missed the growth phase and
+// stalled ~11s waiting for the next 15s loop — measured, rejected.
+const MIN_GAP = 1.1 * Math.PI
+
+// Sweep radius (spiral coords) the swirl must reach before the first
+// reveal — the circle has to actually be out near the label ring.
+const START_RADIUS = 40
+
+// Next cumulative-angle value ≥ base at which the sweep crosses target.
+const nextCrossing = (target: number, base: number) =>
+  target + 2 * Math.PI * Math.ceil((base - target) / (2 * Math.PI))
+
 const LOOP_MS = 15000 // same 15s cycle as the source's gsap timeline
 
 export default function ZeusEhrSpiral() {
@@ -327,7 +375,15 @@ export default function ZeusEhrSpiral() {
     setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   }, [])
 
-  // Canvas: size from the container, drive time with rAF.
+  // EHR labels reveal sequentially, driven by the sweep itself — see
+  // tick() below. revealedCount is monotonic; labels never un-reveal.
+  const [revealedCount, setRevealedCount] = useState(0)
+  const revealedRef = useRef(0)
+
+  // Canvas: size from the container, drive time with rAF. The same
+  // loop tracks the sweep head's unwrapped angle and reveals each EHR
+  // label exactly when the rotating front crosses that label's angle
+  // (in clockwise order, with at least ¾ turn between reveals).
   useEffect(() => {
     if (!inView) return
     const canvas = canvasRef.current
@@ -347,17 +403,61 @@ export default function ZeusEhrSpiral() {
     const controller = new AnimationController(ctx, cssSize)
 
     if (reduceMotion) {
-      // Single static frame at a mid state (spiral fully drawn).
+      // Single static frame at a mid state (spiral fully drawn),
+      // everything visible immediately.
       controller.time = 0.3
       controller.render()
+      revealedRef.current = EHRS.length
+      setRevealedCount(EHRS.length)
       return
     }
+
+    // Sweep-angle tracking state (local to this animation run).
+    let lastAng: number | null = null
+    let lastTime: number | null = null
+    let cum = 0 // unwrapped cumulative sweep angle (clockwise positive)
+    let pending: number | null = null // cum value at which the next label reveals
 
     let raf = 0
     const start = performance.now()
     const tick = (now: number) => {
       controller.time = ((now - start) % LOOP_MS) / LOOP_MS
       controller.render()
+
+      // --- sweep-synced label reveal ---
+      const { ang, r } = controller.headScreen()
+      if (lastTime !== null && controller.time < lastTime) {
+        // Loop restarted: the head snapped back to center. Re-anchor
+        // the angle without accumulating the jump; cum keeps its
+        // value so pending reveals carry into the next pass.
+        lastAng = null
+      }
+      lastTime = controller.time
+      if (lastAng !== null) {
+        let d = ang - lastAng
+        if (d > Math.PI) d -= 2 * Math.PI
+        if (d < -Math.PI) d += 2 * Math.PI
+        cum += d
+      }
+      lastAng = ang
+
+      if (revealedRef.current < EHRS.length) {
+        if (pending === null) {
+          if (revealedRef.current === 0) {
+            // First label: wait until the swirl is actually out near
+            // the label ring, then arm on its next crossing of Epic.
+            if (r > START_RADIUS) pending = nextCrossing(LABEL_ANGLES[0], cum)
+          } else {
+            pending = nextCrossing(LABEL_ANGLES[revealedRef.current], cum + MIN_GAP)
+          }
+        }
+        if (pending !== null && cum >= pending) {
+          revealedRef.current += 1
+          setRevealedCount(revealedRef.current)
+          pending = null
+        }
+      }
+
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
@@ -379,8 +479,6 @@ export default function ZeusEhrSpiral() {
     const timer = setTimeout(() => setLogoVisible(true), 2000) // demo's 2s
     return () => clearTimeout(timer)
   }, [inView, reduceMotion])
-
-  const labelDelay = (i: number) => (reduceMotion ? 0 : 2.4 + i * 0.45)
 
   return (
     <div
@@ -407,7 +505,7 @@ export default function ZeusEhrSpiral() {
           position: 'absolute',
           left: '50%',
           top: '50%',
-          width: '36%',
+          width: '26%', // smaller per user (Jun 2026); was 36%
           transform: `translate(-50%, -50%) translateY(${logoVisible ? 0 : 16}px)`,
           opacity: logoVisible ? 1 : 0,
           transition: reduceMotion ? 'none' : 'opacity 1.5s ease-out, transform 1.5s ease-out',
@@ -428,8 +526,9 @@ export default function ZeusEhrSpiral() {
         />
       </div>
 
-      {/* EHR labels — appear while the swirl happens. White names (black
-          canvas behind) + teal protocol, same content as the old SVG. */}
+      {/* EHR labels — revealed by the sweep: each appears the moment the
+          rotating star front crosses its angle (clockwise order, ≥¾ turn
+          apart), driven from the rAF loop via revealedCount. */}
       {EHRS.map((e, i) => (
         <div
           key={e.name}
@@ -439,8 +538,8 @@ export default function ZeusEhrSpiral() {
             top: e.top,
             transform: 'translate(-50%, -50%)',
             textAlign: 'center',
-            opacity: 0,
-            animation: inView ? `zeusSpiralFade 1s ease-out ${labelDelay(i)}s forwards` : 'none',
+            opacity: revealedCount > i ? 1 : 0,
+            transition: reduceMotion ? 'none' : 'opacity 0.9s ease-out',
             pointerEvents: 'none',
           }}
         >
