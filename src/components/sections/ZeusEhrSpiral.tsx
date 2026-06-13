@@ -59,6 +59,30 @@ class AnimationController {
   constructor(ctx: CanvasRenderingContext2D, size: number) {
     this.ctx = ctx
     this.size = size
+    // EXACTLY as the supplied source: setupRandomGenerator() creates
+    // the 5000 stars with a seeded RNG, then createStars() runs AGAIN
+    // with the normal RNG — 10,000 stars total. An earlier pass
+    // "fixed" this to a single 5000 batch; user rejected that (the
+    // doubled density is part of the intended look). Do not change.
+    this.setupRandomGenerator()
+    this.createStars()
+  }
+
+  private setupRandomGenerator() {
+    const originalRandom = Math.random
+    const customRandom = () => {
+      let seed = 1234
+      return () => {
+        seed = (seed * 9301 + 49297) % 233280
+        return seed / 233280
+      }
+    }
+    Math.random = customRandom()
+    this.createStars()
+    Math.random = originalRandom
+  }
+
+  private createStars() {
     for (let i = 0; i < this.numberOfStars; i++) {
       this.stars.push(new Star(this.cameraZ, this.cameraTravelDistance))
     }
@@ -119,9 +143,14 @@ class AnimationController {
       const x = (this.viewZoom * position.x) / dotDepthFromCamera
       const y = (this.viewZoom * position.y) / dotDepthFromCamera
       const sw = (400 * sizeFactor) / dotDepthFromCamera
+      // EXACTLY as the supplied source: lineWidth is set but the dot is
+      // a FILLED arc of fixed radius 0.5 — every star renders as a tiny
+      // uniform point. An earlier pass changed the radius to
+      // Math.max(sw / 2, 0.5) (bigger, size-varied dots); user rejected
+      // that. Do not change.
       this.ctx.lineWidth = sw
       this.ctx.beginPath()
-      this.ctx.arc(x, y, Math.max(sw / 2, 0.5), 0, Math.PI * 2)
+      this.ctx.arc(x, y, 0.5, 0, Math.PI * 2)
       this.ctx.fill()
     }
   }
@@ -335,11 +364,23 @@ export default function ZeusEhrSpiral() {
     return () => cancelAnimationFrame(raf)
   }, [inView, reduceMotion])
 
-  // Reveal timings (s, after the section enters view): logo where the
-  // source demo's "Enter" button sat, then the EHR labels staggered
-  // while the swirl is forming.
-  const logoDelay = reduceMotion ? 0 : 2.0
-  const labelDelay = (i: number) => (reduceMotion ? 0 : 2.4 + i * 0.35)
+  // Logo appearance mirrors the source demo's "Enter" button exactly:
+  // a 2s timer flips visibility, the wrapper transitions opacity +
+  // translate-y over 1.5s, and the element itself pulses continuously
+  // (the demo's animate-pulse). Labels then come one by one while the
+  // stars are circling.
+  const [logoVisible, setLogoVisible] = useState(false)
+  useEffect(() => {
+    if (!inView) return
+    if (reduceMotion) {
+      setLogoVisible(true)
+      return
+    }
+    const timer = setTimeout(() => setLogoVisible(true), 2000) // demo's 2s
+    return () => clearTimeout(timer)
+  }, [inView, reduceMotion])
+
+  const labelDelay = (i: number) => (reduceMotion ? 0 : 2.4 + i * 0.45)
 
   return (
     <div
@@ -356,24 +397,36 @@ export default function ZeusEhrSpiral() {
     >
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, display: 'block' }} />
 
-      {/* Zeus logo — center, where the source demo had its Enter button. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/images/zeus/zeus-logo-v.png"
-        alt="Zeus"
+      {/* Zeus logo — center, where the source demo had its Enter
+          button, appearing the same way: fade + slight rise, then a
+          continuous gentle pulse. Wrapper = entrance transition,
+          inner img = infinite pulse (mirrors the demo's structure:
+          fading container div + animate-pulse button). */}
+      <div
         style={{
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
           width: '36%',
-          height: 'auto',
-          opacity: 0,
-          animation: inView ? `zeusSpiralFade 1.4s ease-out ${logoDelay}s forwards` : 'none',
-          filter: 'drop-shadow(0 0 24px rgba(0,181,214,0.45))',
+          transform: `translate(-50%, -50%) translateY(${logoVisible ? 0 : 16}px)`,
+          opacity: logoVisible ? 1 : 0,
+          transition: reduceMotion ? 'none' : 'opacity 1.5s ease-out, transform 1.5s ease-out',
           pointerEvents: 'none',
         }}
-      />
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/zeus/zeus-logo-v.png"
+          alt="Zeus"
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            filter: 'drop-shadow(0 0 24px rgba(0,181,214,0.45))',
+            animation: logoVisible && !reduceMotion ? 'zeusLogoPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
+          }}
+        />
+      </div>
 
       {/* EHR labels — appear while the swirl happens. White names (black
           canvas behind) + teal protocol, same content as the old SVG. */}
@@ -412,6 +465,12 @@ export default function ZeusEhrSpiral() {
         @keyframes zeusSpiralFade {
           from { opacity: 0; }
           to { opacity: 1; }
+        }
+        /* Same curve + opacity range as Tailwind's animate-pulse,
+           which the source demo used on its Enter button. */
+        @keyframes zeusLogoPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
         }
       `}</style>
     </div>
