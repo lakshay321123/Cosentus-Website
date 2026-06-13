@@ -470,7 +470,11 @@ export default function ZeusEhrSpiral() {
             width: '100%',
             height: 'auto',
             display: 'block',
-            filter: 'drop-shadow(0 0 22px rgba(255,255,255,0.30))', // was teal; 'remove everything blue'
+            // No white logo asset exists; the source PNG is teal on
+            // transparent. brightness(0) invert(1) maps every opaque
+            // pixel to pure white, transparency preserved. Then the
+            // white glow. Per user (Jun 2026): "zeus logo also white".
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 22px rgba(255,255,255,0.30))',
             animation: logoVisible && !reduceMotion ? 'zeusLogoPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
           }}
         />
