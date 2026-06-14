@@ -894,21 +894,24 @@ body:has(main.home-immersive) .footer-top {
 }
 @media (max-width: 768px) {
   .page-hero-section--specialty {
-    min-height: 440px;
-    /* No max-height on mobile. The fixed 440px cap clipped the CTA on
-       the tallest page: ASC's 3-line title + subtitle + CTA totals
-       ~540-610px (taller on narrower phones where the subtitle wraps to
-       more lines), so the "Get Your No-Cost Financial MRI" button spilled
-       below the 440px hero and was cut off at the section's bottom edge
-       (measured +48px overflow at 360px, +11px at 390px). Using only
-       min-height lets the hero grow to contain its content while still
-       being at least 440px on shorter pages (e.g. anesthesia's 2-line
-       title). Title start stays consistent via the flex-start + 100px
-       padding-top below. */
+    /* Fixed 600px on mobile — SAME on every specialty page so the hero
+       video renders at an identical size across all of them (the videos
+       fill the hero via object-fit:cover, so equal hero height = equal
+       video size). 600px matches the desktop height and is tall enough
+       to contain the tallest page (ASC: 3-line title + 5-line subtitle +
+       CTA reaches ~512px from top at 320px width) without clipping the
+       "Get Your No-Cost Financial MRI" button.
+
+       History: a 440px cap previously kept sizes uniform but clipped
+       ASC's CTA; switching to min-height-only (no cap) fixed the clip
+       but let each page size to its own content, making the videos
+       different sizes. Fixed 600px gives BOTH uniform video size AND no
+       clipping. */
+    min-height: 600px;
+    max-height: 600px;
     /* Top-anchor the content on mobile instead of vertical centering.
        The section is display:flex; align-items:center (set inline in
-       PageHero). With centering, a TALL title (e.g. ASC's 3-line
-       "Ambulatory Services. / Three Specialties. / One Expert Team.")
+       PageHero). With centering, a TALL title (e.g. ASC's 3-line title)
        centers within the hero and its top edge rises ABOVE the ~70px
        nav, overlapping the logo. Anchoring to flex-start lets the
        .hero-content padding-top (100px, clears the 70px nav) position
