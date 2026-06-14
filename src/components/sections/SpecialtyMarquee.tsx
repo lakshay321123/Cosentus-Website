@@ -4,6 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 /**
+ * Maps an agent's circular-headshot filename to its full "popup"
+ * scene image (figure + icon), e.g. 'cindy.png' -> 'cindy-popup.png'.
+ * Every agent referenced in the specialty/RCM card data has a
+ * matching *-popup.png in /public/images (verified). Falls back to
+ * the original filename if it already ends in -popup.png.
+ */
+function popupImg(img: string): string {
+  if (img.endsWith('-popup.png')) return img
+  return img.replace(/\.png$/, '-popup.png')
+}
+
+/**
  * SpecialtyMarquee
  *
  * Horizontal auto-scrolling card carousel used in the "Complete
@@ -443,22 +455,21 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                   <h3 className="spec-card-title">{s.title}</h3>
                   <p className="spec-card-desc">{s.description}</p>
                   {s.agent ? (
-                    <div className="spec-card-agent-footer">
+                    <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                       <Link
                         href="/cosentus-ai"
-                        className="spec-card-avatar"
-                        aria-label={`Meet ${s.agent.name}, our Ai agent`}
+                        className="spec-card-agent-popup-link"
+                        aria-label={`Meet ${s.agent.name}, our AI agent`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={`/images/${s.agent.img}`}
+                          className="spec-card-agent-popup-img"
+                          src={`/images/${popupImg(s.agent.img)}`}
                           alt=""
-                          width={80}
-                          height={80}
                           draggable={false}
                         />
                       </Link>
-                      <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                      <span className="spec-card-eyebrow">{s.eyebrow}</span>
                     </div>
                   ) : (
                     <div className="spec-card-anim">
@@ -490,23 +501,22 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
             <h3 className="spec-card-title">{s.title}</h3>
             <p className="spec-card-desc">{s.description}</p>
             {s.agent ? (
-              <div className="spec-card-agent-footer">
+              <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                 <Link
                   href="/cosentus-ai"
-                  className="spec-card-avatar"
-                  aria-label={`Meet ${s.agent.name}, our Ai agent`}
+                  className="spec-card-agent-popup-link"
+                  aria-label={`Meet ${s.agent.name}, our AI agent`}
                   onPointerDown={(e) => e.stopPropagation()}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/images/${s.agent.img}`}
+                    className="spec-card-agent-popup-img"
+                    src={`/images/${popupImg(s.agent.img)}`}
                     alt=""
-                    width={80}
-                    height={80}
                     draggable={false}
                   />
                 </Link>
-                <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                <span className="spec-card-eyebrow">{s.eyebrow}</span>
               </div>
             ) : (
               <div className="spec-card-anim">
@@ -549,7 +559,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           flex-shrink: 0;
           width: clamp(280px, 22vw, 330px);
           height: 420px;
-          background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
+          background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 40%, #36C2DE 78%, #00B5D6 100%);
           border: 1px solid var(--gray-200);
           border-radius: 16px;
           padding: 36px 30px 28px;
@@ -653,6 +663,86 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           align-items: center;
           gap: 16px;
         }
+        /* Popup-image agent footer: full figure-plus-icon scene image
+           (e.g. cindy-popup.png) replacing the old circular avatar.
+           The image's white icon now reads against the card's blue
+           bottom. Eyebrow label switches to white for the same reason. */
+        .spec-card-agent-footer-popup {
+          margin-top: auto;
+          min-height: 150px;
+          flex-direction: column;
+          justify-content: flex-end;
+          gap: 6px;
+        }
+        .spec-card-agent-popup-link {
+          display: block;
+          width: 100%;
+          text-align: center;
+          transition: transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .spec-card-agent-popup-link:hover { transform: scale(1.03); }
+        .spec-card-agent-popup-link:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
+          border-radius: 8px;
+        }
+        .spec-card-agent-popup-img {
+          width: 100%;
+          max-width: 230px;
+          height: auto;
+          display: block;
+          margin: 0 auto;
+          -webkit-user-drag: none;
+          user-select: none;
+        }
+        .spec-card-agent-footer-popup .spec-card-eyebrow {
+          color: #FFFFFF;
+          text-align: center;
+        }
+
+        /* === Blue-bottom legibility: recolor animations to white ===
+           Cards now have a blue lower half. The per-card animations
+           below were authored in brand cyan (#00B5D6) on white. On the
+           blue background that cyan disappears, so within the animation
+           slot we remap cyan strokes/fills to white. Elements that were
+           already white (e.g. ticks inside badges) get a translucent
+           dark backing via the wrapper so they don't vanish. This is a
+           single mechanical override, not a per-animation redesign. */
+        .spec-card-anim svg [stroke="#00B5D6"],
+        .spec-card-anim svg [stroke="white"],
+        .spec-card-anim svg [stroke="#FFFFFF"] { stroke: #FFFFFF !important; }
+        .spec-card-anim svg [fill="#00B5D6"],
+        .spec-card-anim svg [fill="#FFFFFF"],
+        .spec-card-anim svg [fill="white"] { fill: #FFFFFF !important; }
+        .spec-card-anim svg rect[fill^="rgba(0,181,214"],
+        .spec-card-anim svg [fill^="rgba(0,181,214"] { fill: rgba(255,255,255,0.18) !important; }
+
+        /* CSS-class-colored animation elements (chart bars, modifier
+           pills, language bubbles, stat number, stamp, pulse rings,
+           defense doc, meds capsules) are not reachable by the SVG
+           attribute selectors above. Blanket-remap their cyan and
+           dark-text colors to white/translucent-white so they read on
+           the blue card bottom. NOTE: this is a mechanical pass; a few
+           animations that relied on dark-text-on-light-fill may need
+           individual tuning after preview review. */
+        .spec-card-anim .anim-mod-pill,
+        .spec-card-anim .anim-stat-number,
+        .spec-card-anim .anim-stat-pct,
+        .spec-card-anim .anim-stamp-label,
+        .spec-card-anim .anim-lang-bubble { color: #FFFFFF !important; }
+        .spec-card-anim .anim-chart-bar,
+        .spec-card-anim .anim-stat-bar,
+        .spec-card-anim .anim-stamp-fill,
+        .spec-card-anim .anim-stamp-dot,
+        .spec-card-anim .anim-pulse-core,
+        .spec-card-anim .anim-rule-cell { background: rgba(255,255,255,0.92) !important; }
+        .spec-card-anim .anim-mod-pill,
+        .spec-card-anim .anim-lang-bubble,
+        .spec-card-anim .anim-stamp-track { border-color: rgba(255,255,255,0.7) !important; }
+        .spec-card-anim .anim-lang-bubble,
+        .spec-card-anim .anim-mod-pill { background: rgba(255,255,255,0.15) !important; }
+        .spec-card-anim .anim-pulse-ring { border-color: rgba(255,255,255,0.6) !important; }
+        .spec-card-anim .anim-pulse-core svg { stroke: #00B5D6 !important; }
 
         /* === Per-card animations === */
 
