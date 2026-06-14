@@ -17,11 +17,8 @@ const footerNav = [
     title: 'Specialties',
     links: [
       { label: 'Anesthesia', href: '/specialties/anesthesia' },
-      { label: 'Orthopedics', href: '/specialties/orthopedics' },
-      { label: 'Pain Management', href: '/specialties/pain-management' },
-      { label: 'ASCs', href: '/specialties/asc' },
+      { label: 'Ambulatory Services', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
-      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
