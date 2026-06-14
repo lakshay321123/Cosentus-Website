@@ -4030,6 +4030,24 @@ body:has(main.home-immersive) .footer-top {
   }
 }
 
+/* Zeus AI page only: match the anesthesia specialty page's larger
+   heading + bullet sizing for the Problem/Solution split. Scoped to
+   .ps-zeus-sizing (passed from RAPageContent) so the shared
+   ProblemSolutionSection defaults — used by 8 other pages incl.
+   /about — are untouched. Targets mirror AnesthesiaContent inline
+   styles: heading clamp(26,3vw,36), bullets 18px (no mobile shrink). */
+.ps-zeus-sizing .section-title {
+  font-size: clamp(26px, 3vw, 36px);
+}
+.ps-zeus-sizing .ps-bullet-text {
+  font-size: 18px;
+}
+@media (max-width: 768px) {
+  .ps-zeus-sizing .ps-bullet-text {
+    font-size: 18px;
+  }
+}
+
 /* Solution-side eyebrow + title overrides (.section-label color, white title) */
 .ps-solution-eyebrow {
   color: rgba(255, 255, 255, 0.85) !important;

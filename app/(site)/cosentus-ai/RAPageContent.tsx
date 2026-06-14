@@ -365,6 +365,7 @@ export default function RAPageContent() {
 
       {/* Problem + Solution, Animated Split Section */}
       <ProblemSolutionSection
+        className="ps-zeus-sizing"
         problemTitle="Why Specialty Practices Deserve Better"
         problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
         problemBullets={[
