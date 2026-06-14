@@ -693,13 +693,14 @@ function CindyInner() {
       {/* Mobile only: small Grace FAB. Visible whenever Grace is summonable
           (initial 5s timer fired OR user previously dismissed) and we're not
           mid-conversation. Tap auto-starts the conversation; the slim strip
-          below takes over once startConversation() begins. Position matches
-          the original cindy-avatar @480px override exactly (right: 16,
-          bottom: 80) — no safe-area-inset offset, which had been pushing
-          this FAB up on devices with a home indicator and shifting the
-          stacked alignment with the chat FAB below it. */}
+          below takes over once startConversation() begins. Position is
+          right: 28, bottom: 110 — same vertical column as the existing chat
+          FAB (right: 28, bottom: 28, height: 60), with a clean 22px gap
+          above it. The previous right:16/bottom:80 placement put this FAB
+          in a different column AND vertically overlapped the chat FAB by
+          8px (chat FAB top edge sits at 88px from bottom). */}
       {isMobile && (dismissed || showPopup) && !isStarting && !isConnected && (
-        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
@@ -764,7 +765,7 @@ function CindyInner() {
       {isMobile && (isStarting || isConnected) && (
         <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
           position: 'fixed',
-          left: 12, right: 12, bottom: 80,
+          left: 12, right: 12, bottom: 110,
           zIndex: 9998,
           height: 76,
           borderRadius: 999,
