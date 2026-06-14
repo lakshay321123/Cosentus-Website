@@ -62,9 +62,9 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           <img src={cs.image} alt={cs.tag} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#00B5D6', marginBottom: 8 }}>{cs.tag}</div>
-            <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1 }}>{cs.stat}</div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{cs.statLabel}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'white', marginBottom: 10 }}>{cs.tag}</div>
+            <div style={{ fontSize: 64, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.02em' }}>{cs.stat}</div>
+            <div style={{ fontSize: 15, fontWeight: 500, color: 'rgba(255,255,255,0.92)', marginTop: 6 }}>{cs.statLabel}</div>
           </div>
         </div>
 
@@ -77,12 +77,12 @@ function FlipCardBody({ cs }: { cs: CaseStudy }) {
           padding: 32,
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
         }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>{cs.tag}</div>
-          <div style={{ fontSize: 48, fontWeight: 300, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 20 }}>{cs.stat}</div>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 24 }}>{cs.title}</p>
+          <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'white', marginBottom: 16 }}>{cs.tag}</div>
+          <div style={{ fontSize: 64, fontWeight: 700, color: 'white', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 20, letterSpacing: '-0.02em' }}>{cs.stat}</div>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 24 }}>{cs.title}</p>
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, fontWeight: 600, color: 'white',
+            fontSize: 14, fontWeight: 700, color: 'white',
             letterSpacing: '0.05em', textTransform: 'uppercase' as const,
           }}>
             Read Client Success Story
@@ -151,18 +151,19 @@ function MobileCardBody({ cs }: { cs: CaseStudy }) {
         }} />
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 18px' }}>
           <div style={{
-            fontSize: 12, fontWeight: 700, letterSpacing: '0.1em',
-            textTransform: 'uppercase' as const, color: '#68D1E6',
-            marginBottom: 6,
+            fontSize: 14, fontWeight: 700, letterSpacing: '0.1em',
+            textTransform: 'uppercase' as const, color: 'white',
+            marginBottom: 8,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
           }}>{cs.tag}</div>
           <div style={{
-            fontSize: 56, fontWeight: 300, color: 'white',
+            fontSize: 56, fontWeight: 700, color: 'white',
             fontFamily: 'var(--font-display)', lineHeight: 1,
+            letterSpacing: '-0.02em',
             textShadow: '0 2px 8px rgba(0,0,0,0.6)',
           }}>{cs.stat}</div>
           <div style={{
-            fontSize: 14, color: 'rgba(255,255,255,0.95)', marginTop: 4,
+            fontSize: 15, fontWeight: 500, color: 'rgba(255,255,255,0.95)', marginTop: 6,
             textShadow: '0 1px 4px rgba(0,0,0,0.7)',
           }}>{cs.statLabel}</div>
         </div>
