@@ -433,7 +433,11 @@ export default function AboutContent() {
       {/* Company by Numbers */}
       <section style={{ borderBottom: '1px solid var(--gray-200)', padding: '32px 0 48px' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+          {/* DESKTOP / tablet: static 4-column grid (unchanged). On phones
+              the four big numbers overflow the row and the 4th stat gets
+              clipped, so below 768px this grid is hidden and the marquee
+              track below is shown instead. */}
+          <div className="about-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
                 <div style={{
@@ -451,7 +455,56 @@ export default function AboutContent() {
               </RevealOnScroll>
             ))}
           </div>
+
+          {/* MOBILE: continuous left->right marquee. The four stats overflow
+              a phone row, so instead of clipping, the row scrolls forever.
+              Pattern matches PartnersSection / TestimonialsMarquee: a flex
+              track of width:max-content holding the stat set TWICE; the
+              aboutStatsScroll keyframe translates -50% -> 0 so the content
+              drifts rightward, looping seamlessly because the second copy
+              is identical. Hidden on desktop (>=768px). RevealOnScroll is
+              intentionally NOT used here (its transform would fight the
+              marquee transform). */}
+          <div className="about-stats-marquee-viewport" aria-hidden="true">
+            <div className="about-stats-marquee">
+              {[...companyStats, ...companyStats].map((stat, i) => (
+                <div key={i} className="about-stat-cell" style={{ textAlign: 'center', padding: '8px 28px', flex: '0 0 auto' }}>
+                  <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-500)', letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
+        <style>{`
+          /* Marquee hidden on desktop; grid hidden on mobile. */
+          .about-stats-marquee-viewport { display: none; }
+          @media (max-width: 767px) {
+            .about-stats-grid { display: none !important; }
+            .about-stats-marquee-viewport {
+              display: block;
+              overflow: hidden;
+              width: 100%;
+            }
+            .about-stats-marquee {
+              display: flex;
+              width: max-content;
+              align-items: center;
+              /* -50% -> 0 drifts the track to the RIGHT (content enters
+                 from the left edge), matching "left to right". 28s linear
+                 loop; the duplicated set makes the wrap seamless. */
+              animation: aboutStatsScroll 28s linear infinite;
+            }
+          }
+          @keyframes aboutStatsScroll {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .about-stats-marquee { animation: none; }
+          }
+        `}</style>
       </section>
 
       {/* Our Process — 6-step engagement journey from prospect to

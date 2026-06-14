@@ -896,6 +896,18 @@ body:has(main.home-immersive) .footer-top {
   .page-hero-section--specialty {
     min-height: 440px;
     max-height: 440px;
+    /* Top-anchor the content on mobile instead of vertical centering.
+       The section is display:flex; align-items:center (set inline in
+       PageHero). With centering, a TALL title (e.g. ASC's 3-line
+       "Ambulatory Services. / Three Specialties. / One Expert Team.")
+       centers within the fixed 440px hero and its top edge rises ABOVE
+       the ~70px nav, overlapping the logo (measured: ASC title top at
+       34px, nav bottom 70px -> 36px overlap; pain 3-line was -7px too).
+       Anchoring to flex-start lets the .hero-content padding-top (100px,
+       clears the 70px nav) position the title below the nav, so every
+       specialty page starts its title at the same place regardless of
+       how many lines the title wraps to. */
+    align-items: flex-start !important;
   }
 }
 
