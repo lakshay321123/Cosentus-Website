@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import BillingCodingContent from './BillingCodingContent'
 
 export const metadata: Metadata = {
-  title: 'Medical Billing & Coding Services | Expert-Led, AI-Powered | Cosentus',
+  title: 'Medical Billing & Coding Services | Expert-Led, Ai-Powered | Cosentus',
   description: 'Medical billing and coding for physician practices, specialty groups, and surgery centers across 20+ specialties. Powered by Real + Artificial Intelligence.',
 }
 

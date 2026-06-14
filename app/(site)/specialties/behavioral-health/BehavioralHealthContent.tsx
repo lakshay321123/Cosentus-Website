@@ -176,7 +176,7 @@ const solutions: SpecialtySolution[] = [
     anim: 'badges',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Support',
     description: 'Cindy handles patient balances empathetically in over 50 languages. Behavioral health patients need clear, sensitive communication.',
     anim: 'languages',
@@ -225,14 +225,14 @@ export default function BehavioralHealthContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Behavioral Health Billing Experts + AI Tracking
+                Behavioral Health Billing Experts + Ai Tracking
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Dedicated behavioral health team that handles time-based coding, telehealth modifiers, IOP/PHP rules, and crisis codes because that\u2019s all they do',
-                  'AI automates eligibility re-checks, authorization tracking, and follow-ups',
+                  'Ai automates eligibility re-checks, authorization tracking, and follow-ups',
                   'Human experts defend denials with clinical evidence and strategies built for each payer',
                   'Every denial gets a root cause review to fix the pattern, not just the claim',
                 ].map((bullet, i) => (

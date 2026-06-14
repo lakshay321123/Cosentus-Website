@@ -35,9 +35,9 @@ export const faqs: FAQ[] = [
   {
     slug: 'what-is-real-artificial-intelligence',
     category: 'Positioning',
-    question: 'How is Real + Artificial Intelligence different from regular AI billing tools?',
+    question: 'How is Real + Artificial Intelligence different from regular Ai billing tools?',
     answer:
-      'Real + Artificial Intelligence pairs 25 years of specialty RCM expertise with nine AI voice agents purpose-built for healthcare revenue cycle. The AI handles volume — eligibility verification, prior-auth follow-ups, claim status checks, patient collections — while named human teams own coding judgement, denials strategy, and payer negotiation. Most AI billing tools try to replace humans and miss specialty nuance; most legacy RCM firms add headcount and miss scale. R+A does both, which is why most clients see up to 30% revenue growth within 12 months.',
+      'Real + Artificial Intelligence pairs 25 years of specialty RCM expertise with nine Ai voice agents purpose-built for healthcare revenue cycle. The Ai handles volume — eligibility verification, prior-auth follow-ups, claim status checks, patient collections — while named human teams own coding judgement, denials strategy, and payer negotiation. Most Ai billing tools try to replace humans and miss specialty nuance; most legacy RCM firms add headcount and miss scale. R+A does both, which is why most clients see up to 30% revenue growth within 12 months.',
     homepage: true,
   },
   {
@@ -53,7 +53,7 @@ export const faqs: FAQ[] = [
     category: 'Results',
     question: 'How quickly will I see results?',
     answer:
-      'Most clients see measurable improvement within 3–6 months and up to 30% revenue growth within 12 months. Clean-claim rate and denial-recovery improvements typically show in the first 60 days because those workflows are where our AI agents and specialty-trained coders make the largest immediate impact. The exact pace depends on your payer mix, the state of your existing AR, and how clean your charge capture is at intake. Every account gets a named client success manager who reports against these benchmarks weekly.',
+      'Most clients see measurable improvement within 3–6 months and up to 30% revenue growth within 12 months. Clean-claim rate and denial-recovery improvements typically show in the first 60 days because those workflows are where our Ai agents and specialty-trained coders make the largest immediate impact. The exact pace depends on your payer mix, the state of your existing AR, and how clean your charge capture is at intake. Every account gets a named client success manager who reports against these benchmarks weekly.',
     homepage: true,
   },
   {
@@ -103,7 +103,7 @@ export const faqs: FAQ[] = [
     category: 'Differentiation',
     question: 'How is Cosentus different from a typical RCM company?',
     answer:
-      'Three things. One: we are privately and independently owned — no private equity pressure to chase quarterly margin at the expense of your collections. Two: teams are organised by specialty, so the people working your account know every payer nuance and clinical detail of your case mix. Three: the Real + Artificial Intelligence model means AI scales the high-volume work while a named human team retains accountability for judgement calls — coding, denials, payer negotiation. You get the same lead every week, not a rotating queue.',
+      'Three things. One: we are privately and independently owned — no private equity pressure to chase quarterly margin at the expense of your collections. Two: teams are organised by specialty, so the people working your account know every payer nuance and clinical detail of your case mix. Three: the Real + Artificial Intelligence model means Ai scales the high-volume work while a named human team retains accountability for judgement calls — coding, denials, payer negotiation. You get the same lead every week, not a rotating queue.',
   },
 ]
 

@@ -88,7 +88,7 @@ export const eventsData: CosentusEvent[] = [
     date: 'January 23–25, 2026',
     sortDate: '2026-01-23',
     location: 'Paris Hotel, Las Vegas, NV',
-    description: 'Accreda participated in ASA® ADVANCE 2026, held January 23–25, 2026 at the Paris Hotel in Las Vegas, NV. The event brought together anesthesia physician leaders, practice executives, and industry experts to explore advancements in anesthesia care, operations, and revenue cycle performance. During the conference, Cosentus.ai was presented, showcasing how AI-driven intelligence is enhancing visibility, decision-making, and performance across anesthesia revenue cycle management.',
+    description: 'Accreda participated in ASA® ADVANCE 2026, held January 23–25, 2026 at the Paris Hotel in Las Vegas, NV. The event brought together anesthesia physician leaders, practice executives, and industry experts to explore advancements in anesthesia care, operations, and revenue cycle performance. During the conference, Cosentus.ai was presented, showcasing how Ai-driven intelligence is enhancing visibility, decision-making, and performance across anesthesia revenue cycle management.',
     tag: 'Conference',
     photos: [
       '/images/events/asa-advance-2026/Image.webp',
@@ -297,7 +297,7 @@ export const eventsData: CosentusEvent[] = [
     date: 'October 6–8, 2025',
     sortDate: '2025-10-06',
     location: 'Sheraton, Niagara Falls, NY',
-    description: 'Cosentus participated in the HBMA Fall RCM Conference 2025 at Sheraton Niagara Falls, engaging with industry leaders and peers to explore the future of revenue cycle management, operational excellence, and AI in healthcare. The event fostered valuable insights, connections, and conversations shaping the next wave of innovation in healthcare billing and RCM.',
+    description: 'Cosentus participated in the HBMA Fall RCM Conference 2025 at Sheraton Niagara Falls, engaging with industry leaders and peers to explore the future of revenue cycle management, operational excellence, and Ai in healthcare. The event fostered valuable insights, connections, and conversations shaping the next wave of innovation in healthcare billing and RCM.',
     tag: 'Conference',
     learnMoreUrl: 'https://www.hbma.org/meeting_calendar/details.php?event=2824',
     photos: [

@@ -128,7 +128,7 @@ function splitInlineHeadings(text: string): { type: 'text' | 'heading'; content:
     if (before) segments.push({ type: 'text', content: before })
 
     // Convert to Title Case — preserve known acronyms
-    const acronyms = new Set(['IT','AI','AR','RCM','EHR','EMR','CMS','CPT','ICD','ASC','API','HIPAA','ACO','VBS','FHIR','OB','GYN','DME','ERA','EOB','RPM','RTM','IoT','HCPCS','NCCI','MUE','PFS','MPFS','PAYGO','MIPS','DSO','FPA','CARC','RARC'])
+    const acronyms = new Set(['IT','Ai','AR','RCM','EHR','EMR','CMS','CPT','ICD','ASC','API','HIPAA','ACO','VBS','FHIR','OB','GYN','DME','ERA','EOB','RPM','RTM','IoT','HCPCS','NCCI','MUE','PFS','MPFS','PAYGO','MIPS','DSO','FPA','CARC','RARC'])
     const titleCase = hp.text.replace(/[?:.]$/, '').split(/[\s/]+/).map((w, i) => {
       const cleaned = w.replace(/[?:.]/g, '')
       // Preserve known acronyms

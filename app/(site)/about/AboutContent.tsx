@@ -347,7 +347,7 @@ export default function AboutContent() {
             <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
-                  We combine specialty-trained experts with AI-native technology to reduce denials, improve cash
+                  We combine specialty-trained experts with Ai-native technology to reduce denials, improve cash
                   flow, and collect more of what you&rsquo;ve earned. We manage the full revenue cycle from start to
                   finish, including credentialing, eligibility, prior authorizations, coding, payment posting,
                   denial management, appeals, patient billing, AR follow-up, and collections.
@@ -359,7 +359,7 @@ export default function AboutContent() {
                 <p>
                   Unlike vendors that hand over reports and expect you to become the crime scene investigator,
                   Cosentus gives you full transparency, clear recommendations, and hands-on execution.{' '}
-                  <strong>Real People + AI.</strong> Our specialists handle the judgment calls that technology
+                  <strong>Real People + Ai.</strong> Our specialists handle the judgment calls that technology
                   alone cannot make. They stay in your specialty. They know your payers. And behind them, Zeus
                   runs 23 modules across every step of your revenue cycle. Built around each client&rsquo;s
                   specialty, payer mix, workflows, and goals. You focus on your patients. We handle the revenue

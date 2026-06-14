@@ -68,10 +68,10 @@ export const LOCATIONS: Location[] = [
     lat: 33.6519,
     lng: -117.7426,
     copy:
-      "Our Irvine headquarters anchors Cosentus's nationwide RCM operation. From Orange County we coordinate executive leadership, AI engineering, and client success teams serving physician practices, specialty groups, and surgery centers across the United States.",
-    metaTitle: 'Cosentus Headquarters — Irvine, CA | Healthcare RCM & AI',
+      "Our Irvine headquarters anchors Cosentus's nationwide RCM operation. From Orange County we coordinate executive leadership, Ai engineering, and client success teams serving physician practices, specialty groups, and surgery centers across the United States.",
+    metaTitle: 'Cosentus Headquarters — Irvine, CA | Healthcare RCM & Ai',
     metaDescription:
-      "Cosentus's Orange County headquarters: 300 Spectrum Center Dr, Irvine, CA. Specialty-trained billing teams and Real + AI for healthcare practices nationwide.",
+      "Cosentus's Orange County headquarters: 300 Spectrum Center Dr, Irvine, CA. Specialty-trained billing teams and Real + Ai for healthcare practices nationwide.",
   },
   {
     slug: 'napa',
@@ -93,7 +93,7 @@ export const LOCATIONS: Location[] = [
       'Our Napa office serves healthcare practices across Northern California, the San Francisco Bay Area, and the Sacramento Valley. The team specializes in anesthesia, ambulatory surgery centers, and multi-specialty groups operating in the region.',
     metaTitle: 'Healthcare RCM in Napa, CA | Cosentus Northern California',
     metaDescription:
-      'Cosentus Napa office: 550 Gateway Dr #100, Napa, CA. Specialty billing and AI-powered RCM for Northern California healthcare practices, ASCs, and surgical groups.',
+      'Cosentus Napa office: 550 Gateway Dr #100, Napa, CA. Specialty billing and Ai-powered RCM for Northern California healthcare practices, ASCs, and surgical groups.',
   },
   {
     slug: 'dallas',
@@ -115,7 +115,7 @@ export const LOCATIONS: Location[] = [
       'Our Dallas office supports healthcare practices throughout Texas and the broader South Central region. The team brings deep expertise in orthopedics, pain management, and surgical specialties, with strong experience navigating Texas Medicaid and major regional payers.',
     metaTitle: 'Healthcare RCM in Dallas, TX | Cosentus Texas Office',
     metaDescription:
-      'Cosentus Dallas office: 14850 Quorum Dr, Suite 400, Dallas, TX. Specialty-trained billing and Real + AI for Texas healthcare practices, surgery centers, and pain clinics.',
+      'Cosentus Dallas office: 14850 Quorum Dr, Suite 400, Dallas, TX. Specialty-trained billing and Real + Ai for Texas healthcare practices, surgery centers, and pain clinics.',
   },
   {
     slug: 'salt-lake-city',
@@ -137,7 +137,7 @@ export const LOCATIONS: Location[] = [
       "Our Salt Lake City office serves practices across Utah and the broader Mountain West. From Salt Lake we support the region's surgery centers, anesthesia groups, and behavioral health providers with specialty-trained coders, dedicated denial-management teams, and full revenue cycle services.",
     metaTitle: 'Healthcare RCM in Salt Lake City, UT | Cosentus Mountain West',
     metaDescription:
-      "Cosentus Salt Lake City office serving Utah and the Mountain West. Specialty billing, denial management, and AI-powered RCM for healthcare practices across the region.",
+      "Cosentus Salt Lake City office serving Utah and the Mountain West. Specialty billing, denial management, and Ai-powered RCM for healthcare practices across the region.",
   },
   {
     slug: 'olathe',
@@ -159,7 +159,7 @@ export const LOCATIONS: Location[] = [
       'Our Olathe office serves the Kansas City metro and the broader Midwest. The team supports independent practices, surgery centers, and specialty groups across Kansas, Missouri, and surrounding states with specialty-focused billing and root-cause denial management.',
     metaTitle: 'Healthcare RCM in Olathe, KS | Cosentus Kansas City Metro',
     metaDescription:
-      'Cosentus Olathe office: 100 E Park St #2, Olathe, KS. Specialty-trained billing and Real + AI for Kansas City and Midwest healthcare practices and surgery centers.',
+      'Cosentus Olathe office: 100 E Park St #2, Olathe, KS. Specialty-trained billing and Real + Ai for Kansas City and Midwest healthcare practices and surgery centers.',
   },
 ]
 

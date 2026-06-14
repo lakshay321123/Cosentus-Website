@@ -447,7 +447,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                       <Link
                         href="/cosentus-ai"
                         className="spec-card-avatar"
-                        aria-label={`Meet ${s.agent.name}, our AI agent`}
+                        aria-label={`Meet ${s.agent.name}, our Ai agent`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -494,7 +494,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                 <Link
                   href="/cosentus-ai"
                   className="spec-card-avatar"
-                  aria-label={`Meet ${s.agent.name}, our AI agent`}
+                  aria-label={`Meet ${s.agent.name}, our Ai agent`}
                   onPointerDown={(e) => e.stopPropagation()}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
