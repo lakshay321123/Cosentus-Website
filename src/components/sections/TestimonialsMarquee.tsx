@@ -42,21 +42,22 @@ function MarqueeCard({ t }: { t: ShuffleTestimonial }) {
     <div
       className="tmarquee-card"
       style={{
-        // GLASS-SQUARE RECIPE. Border, backdrop blur, and cyan glow match
-        // TestimonialCard.tsx (mobile fan) exactly. The WASH is higher here
-        // (0.75 vs mobile's 0.40) ON PURPOSE: the mobile fan's front card
-        // sits on top of 2+ more glass cards, so its 0.40 layers composite
-        // to a near-opaque (~0.75) surface. The desktop marquee is a SINGLE
-        // layer over the video, so at 0.40 it reads dark and see-through.
-        // 0.75 on one layer reproduces the stacked mobile look.
-        background: 'rgba(255, 255, 255, 0.75)',
+        // FLAT OPAQUE FILL — matches the mobile fan card's *rendered*
+        // surface, not its raw CSS. Why not copy mobile's recipe directly:
+        // mobile's translucent 0.40 wash only looks flat because its front
+        // card stacks on 2+ glass cards, so its backdrop-filter samples
+        // uniform glass. The desktop marquee cards are separated single
+        // layers, so a translucent wash + backdrop-filter samples the
+        // streaky hero VIDEO behind them and paints a top-light/bottom-dark
+        // gradient on the card (the "overlay" that wasn't an overlay).
+        // Fix: use the solid colour mobile actually composites to
+        // (sampled from the live render: ~rgb(232,243,247)) and DROP the
+        // backdrop-filter so there is nothing variable to sample. Result
+        // is a flat, even surface identical to mobile, regardless of
+        // spacing or what video sits behind it.
+        background: 'rgb(232, 243, 247)',
         border: '1.5px solid rgba(255, 255, 255, 0.50)',
-        backdropFilter: 'blur(20px) saturate(160%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-        // Cyan glow — same values as the mobile fan card
-        // (TestimonialCard.tsx). Removed in a previous pass while
-        // chasing a band artifact; the band was actually the gray
-        // 0.40-wash cards, and the glow is part of the wanted look.
+        // Cyan glow — same values as the mobile fan card (TestimonialCard.tsx).
         boxShadow: '0 20px 60px rgba(0, 181, 214, 0.25)',
         overflow: 'hidden',
       }}
