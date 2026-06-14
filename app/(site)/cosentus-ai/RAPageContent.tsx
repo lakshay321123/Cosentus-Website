@@ -13,7 +13,7 @@ import { AGENTS } from '@/data/voice-agents'
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's, Processes, Procedures, and Protocols, and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
-  { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
+  { num: '3', title: 'AI agents handle volume', desc: 'Nine AI agents work the repetitive load around the clock: eligibility, prior auth follow-ups, scheduling, patient collections, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
@@ -375,9 +375,9 @@ export default function RAPageContent() {
         solutionTitle="Real People + AI"
         solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
-          'Specialty-trained teams for every payer nuance',
-          '8 AI agents automating volume workflows',
-          'Up to 30% revenue growth within 12 months',
+          'Specialty coders and denial experts who know your payers',
+          'Nine AI agents working every claim, around the clock',
+          'Up to 30% more revenue in your first year',
         ]}
       />
 
