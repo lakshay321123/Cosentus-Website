@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { ConversationProvider, useConversation } from '@elevenlabs/react'
+import SiriWave from 'siriwave'
 import { pageContext } from '@/lib/page-meta'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
@@ -43,6 +44,13 @@ function CindyInner() {
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
   }, [])
+
+  // SiriWave (kopiro/siriwave npm) replaces the previous hand-rolled SVG
+  // for the mobile conversation strip. siriWaveContainerRef points at the
+  // <div> inside the strip; siriWaveRef holds the live SiriWave instance
+  // so the audio-reactive RAF loop below can call setAmplitude on it.
+  const siriWaveContainerRef = useRef<HTMLDivElement | null>(null)
+  const siriWaveRef = useRef<SiriWave | null>(null)
 
   // Persisted dismissal — respects user's choice across refreshes + 24h across sessions.
   // Key stores epoch ms of expiry. If now < expiry, stay dismissed.
@@ -532,6 +540,81 @@ function CindyInner() {
     }
   }, [dismissed, showPopup])
 
+  // Create the SiriWave instance once the strip is mounted, dispose on
+  // unmount. Only runs on mobile (the only place the canvas container
+  // exists). Uses the ios9 style (modern multi-curve Siri look) which
+  // ships with a built-in red/green/blue palette and supports the
+  // setAmplitude / setSpeed interpolated controls used below.
+  useEffect(() => {
+    if (!isMobile) return
+    if (!(isStarting || isConnected)) return
+    const el = siriWaveContainerRef.current
+    if (!el) return
+    const inst = new SiriWave({
+      container: el,
+      style: 'ios9',
+      cover: true,        // canvas fills the container
+      speed: 0.18,
+      amplitude: 0.6,     // baseline; the RAF loop below modulates it
+      autostart: true,
+      ranges: {
+        // Slight palette nudge towards the brighter Apple system colours
+        // so the screen-blended overlap reads on a dark glass background.
+        speed: [0.5, 1.2],
+        amplitude: [0.3, 1.4],
+      },
+    })
+    siriWaveRef.current = inst
+    return () => {
+      try { inst.dispose() } catch { /* dispose can throw if container already gone */ }
+      siriWaveRef.current = null
+    }
+  }, [isMobile, isStarting, isConnected])
+
+  // Audio-reactive amplitude. Polls ElevenLabs' getInputVolume() and
+  // getOutputVolume() on every animation frame and feeds the louder
+  // of the two into SiriWave.setAmplitude. Output volume drives the
+  // wave when Grace is speaking; input drives it when the user is
+  // talking. When neither is producing audio the wave eases back to a
+  // small idle baseline rather than dying flat.
+  useEffect(() => {
+    if (!isConnected || !isMobile) return
+    let rafId = 0
+    const loop = () => {
+      const wave = siriWaveRef.current
+      if (wave) {
+        // The volume getters are typed loosely on the SDK; use a soft
+        // cast + try/catch so a SDK version without them just degrades
+        // to the baseline animation.
+        let v = 0
+        try {
+          const c = conversation as unknown as { getInputVolume?: () => number; getOutputVolume?: () => number }
+          const inp = c.getInputVolume?.() ?? 0
+          const out = c.getOutputVolume?.() ?? 0
+          v = Math.max(inp, out)
+        } catch { /* fall through to baseline */ }
+        // 0-1 input → 0.25-1.6 amplitude. Lower bound keeps the wave
+        // visible during silence; upper bound lets a loud speaker punch.
+        wave.setAmplitude(0.25 + v * 1.35)
+      }
+      rafId = requestAnimationFrame(loop)
+    }
+    rafId = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(rafId)
+  }, [isConnected, isMobile, conversation])
+
+  // Cross-component coordination: if the user opens the text chat
+  // (ChatWidget dispatches 'grace-chat-opened' on its FAB click) while
+  // the voice conversation is live, end the voice session automatically.
+  // Per user instruction Jun 2026: "if [the user clicks] chat, the Grace
+  // voice should switch off automatically".
+  useEffect(() => {
+    if (!isConnected && !isStarting) return
+    const handler = () => { try { conversation.endSession() } catch {} }
+    window.addEventListener('grace-chat-opened', handler)
+    return () => window.removeEventListener('grace-chat-opened', handler)
+  }, [isConnected, isStarting, conversation])
+
   const [startError, setStartError] = useState<string | null>(null)
 
   const startConversation = useCallback(async () => {
@@ -610,9 +693,13 @@ function CindyInner() {
       {/* Mobile only: small Grace FAB. Visible whenever Grace is summonable
           (initial 5s timer fired OR user previously dismissed) and we're not
           mid-conversation. Tap auto-starts the conversation; the slim strip
-          below takes over once startConversation() begins. */}
+          below takes over once startConversation() begins. Position matches
+          the original cindy-avatar @480px override exactly (right: 16,
+          bottom: 80) — no safe-area-inset offset, which had been pushing
+          this FAB up on devices with a home indicator and shifting the
+          stacked alignment with the chat FAB below it. */}
       {isMobile && (dismissed || showPopup) && !isStarting && !isConnected && (
-        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', right: 16, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
@@ -667,23 +754,18 @@ function CindyInner() {
         </div>
       )}
 
-      {/* Mobile only: floating glass pill with Siri-style flowing waveform.
-          Renders while the conversation is starting up (after
-          handleMobileFABTap fires) and while it's connected.
-          Dark-glass pill floats above the bottom edge with safe-area
-          clearance. Inside: five overlapping animated SVG waves (Apple
-          system colours, screen-blended) and a close X. No avatar, no
-          state label — the wave is the indicator (matches the Siri
-          reference image the user provided). */}
+      {/* Mobile only: full-width glass pill with audio-reactive SiriWave canvas.
+          Position matches the original cindy-panel @480px alignment so it
+          sits exactly where the old welcome card used to be (left/right 12px,
+          bottom 80px). Renders while the conversation is starting up and
+          while it's connected. Layout: [X close on left] [wave fills rest].
+          The wave amplitude is driven from ElevenLabs' getInputVolume /
+          getOutputVolume so it reacts to the actual speaking voice. */}
       {isMobile && (isStarting || isConnected) && (
         <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
           position: 'fixed',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          bottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+          left: 12, right: 12, bottom: 80,
           zIndex: 9998,
-          width: 'calc(100% - 24px)',
-          maxWidth: 380,
           height: 76,
           borderRadius: 999,
           background: 'rgba(18, 20, 32, 0.55)',
@@ -692,65 +774,39 @@ function CindyInner() {
           border: '1px solid rgba(255, 255, 255, 0.12)',
           boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
           animation: 'cindyStripSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          overflow: 'hidden',
         }}>
-          {/* Waveform — left 75% of the pill, full height, vertically centred.
-              The path is a single hand-tuned lens-shaped wave (small
-              amplitude at edges, large in the middle). Five copies stack
-              with different stroke colours, different scaleY animation
-              tempos, and screen blending — the overlap produces the
-              rainbow shimmer effect from the reference image. */}
-          <div style={{
-            position: 'absolute',
-            left: 24, right: 60, top: 0, bottom: 0,
-            display: 'flex', alignItems: 'center',
-            pointerEvents: 'none',
-          }}>
-            <svg viewBox="0 0 200 50" preserveAspectRatio="none" aria-hidden="true" style={{ width: '100%', height: 50, overflow: 'visible' }}>
-              <g style={{ mixBlendMode: 'screen' as const }}>
-                {[
-                  { color: '#FF375F', dur: 1.6 },  // pink
-                  { color: '#BF5AF2', dur: 1.9 },  // purple
-                  { color: '#0A84FF', dur: 2.3 },  // blue
-                  { color: '#30D158', dur: 1.75 }, // green
-                  { color: '#FF9F0A', dur: 2.1 },  // orange
-                ].map((w, i) => (
-                  <path
-                    key={i}
-                    d="M 0 25 Q 10 23 20 25 Q 30 27 40 25 Q 50 17 60 25 Q 70 33 80 25 Q 90 10 100 25 Q 110 40 120 25 Q 130 17 140 25 Q 150 33 160 25 Q 170 27 180 25 Q 190 23 200 25"
-                    stroke={w.color}
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    fill="none"
-                    style={{
-                      animation: `siriWave${i + 1} ${w.dur}s ease-in-out infinite`,
-                      animationDelay: `${-i * 0.22}s`,
-                      transformBox: 'fill-box' as const,
-                      transformOrigin: '50% 50%' as const,
-                      filter: 'blur(0.4px)',
-                    }}
-                  />
-                ))}
-              </g>
-            </svg>
-          </div>
-
-          {/* Close X — restyled for the dark glass. Larger hit target
-              than the visual circle for mobile tap accuracy. */}
+          {/* Close X on the LEFT (per user preference Jun 2026). Ends the
+              conversation only; the FAB will reappear so Grace can be
+              re-summoned without a 24h cooldown. */}
           <button onClick={endConversation} aria-label="End conversation" style={{
-            position: 'absolute', top: '50%', right: 12,
+            position: 'absolute', top: '50%', left: 12,
             transform: 'translateY(-50%)',
-            width: 36, height: 36, borderRadius: '50%',
+            width: 40, height: 40, borderRadius: '50%',
             background: 'rgba(255,255,255,0.14)',
             color: 'rgba(255,255,255,0.9)',
             border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 16, padding: 0,
-            transition: 'background 200ms ease',
+            fontSize: 18, padding: 0, lineHeight: 1,
+            zIndex: 2,
           }}>✕</button>
 
-          {/* Error banner — sits as a separate pill above the bubble if
-              startConversation caught a mic-permission or no-device error.
-              Kept its own background so the dark glass can stay clean. */}
+          {/* SiriWave canvas container — fills the area to the right of
+              the X. The canvas is created in useEffect below
+              (siriwave.js ios9 style), and its amplitude is driven by
+              the ElevenLabs audio-volume polling loop. */}
+          <div
+            ref={siriWaveContainerRef}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: 60, right: 16, top: 0, bottom: 0,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Error banner — sits as its own pill ABOVE the strip if
+              startConversation caught a mic-permission or no-device error. */}
           {startError && (
             <div role="alert" style={{
               position: 'absolute', left: 0, right: 0, bottom: 'calc(100% + 8px)',
@@ -770,20 +826,12 @@ function CindyInner() {
 
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateX(-50%) translateY(120%); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
         @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
-        /* Siri-style waveform — five paths share these phase-shifted breathing
-           rhythms. scaleY only (no horizontal drift) keeps the wave centred
-           inside the pill; overlapping screen-blended colours do the rest. */
-        @keyframes siriWave1 { 0%,100% { transform: scaleY(0.45); } 50% { transform: scaleY(1.0); } }
-        @keyframes siriWave2 { 0%,100% { transform: scaleY(0.7); }  50% { transform: scaleY(0.35); } }
-        @keyframes siriWave3 { 0%,100% { transform: scaleY(0.3); }  50% { transform: scaleY(1.1); } }
-        @keyframes siriWave4 { 0%,100% { transform: scaleY(0.85); } 50% { transform: scaleY(0.4); } }
-        @keyframes siriWave5 { 0%,100% { transform: scaleY(0.5); }  50% { transform: scaleY(0.95); } }
         @media (max-width: 480px) {
           .cindy-panel { right: 12px !important; left: 12px !important; bottom: 80px !important; width: auto !important; }
           .cindy-avatar { right: 16px !important; bottom: 80px !important; }

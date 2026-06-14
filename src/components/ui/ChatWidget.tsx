@@ -84,7 +84,14 @@ export default function ChatWidget() {
       {/* Floating bubble — closed state */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            // Notify CindyVoiceAgent so an active Grace voice session is
+            // ended automatically when the text chat opens. Plain window
+            // event so the two components stay decoupled (no shared
+            // context dependency). Per user instruction Jun 2026.
+            try { window.dispatchEvent(new Event('grace-chat-opened')) } catch {}
+            setIsOpen(true)
+          }}
           aria-label="Open chat with Grace"
           className="grace-fab"
         >
