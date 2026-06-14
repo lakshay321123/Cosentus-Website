@@ -5045,6 +5045,32 @@ body:has(main.home-immersive) .footer-top {
 }
 
 /* ------------------------------------------------------------------
+   MOBILE: keep all four Resources tabs (Client Success / Blogs / News /
+   Events) on ONE row. At the default 14px / ~16px-padding sizing the
+   four pills total ~372px wide, which wraps to two rows on any phone
+   narrower than ~410px (3 + 1). Shrinking horizontal padding and font
+   on phones brings the row under ~290px so it fits from 320px up.
+   The tab text is whiteSpace:nowrap (inline) so each pill stays on one
+   line; only the row needs to fit. !important defeats the inline
+   padding/fontSize set in InsightsTabsSection.tsx. ------------------- */
+@media (max-width: 480px) {
+  .home-immersive .insights-tabs {
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+  }
+  .home-immersive .insights-tab {
+    padding: 0 10px !important;
+    font-size: 12.5px !important;
+    letter-spacing: 0 !important;
+    /* Allow the pills to shrink evenly if the longest label
+       ("Client Success") still can't fit; flex-basis:auto + shrink
+       lets flex distribute the row width. */
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
    GLASS-SQUARE recipe for .insight-card-body (the panel under the
    image on Resources/Insights cards on the home page).
 
