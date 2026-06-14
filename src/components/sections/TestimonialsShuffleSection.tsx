@@ -294,6 +294,38 @@ export default function TestimonialsShuffleSection({
           .tcard-mobile-wrap { display: none; }
         }
 
+        /* MOBILE testimonial cards: match the home page's frosted-glass
+           boxes (the .home-immersive .cta-box recipe) instead of the
+           opaque off-white surface, and make all text white for contrast
+           over the dark video background. The card surface + text colors
+           are set inline in TestimonialCard.tsx, so these need !important
+           to win. Desktop (>=1024px) uses the marquee and is unaffected
+           (this wrapper is hidden there). */
+        .tcard-mobile-wrap .tcard {
+          background: rgba(255, 255, 255, 0.06) !important;
+          border: 1px solid rgba(255, 255, 255, 0.14) !important;
+          -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+          backdrop-filter: blur(20px) saturate(160%) !important;
+          box-shadow:
+            inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+            inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.55),
+            inset -2px -2px 0px -2px rgba(255, 255, 255, 0.45),
+            inset -3px -8px 1px -6px rgba(255, 255, 255, 0.35),
+            inset 0px 3px 4px -2px rgba(0, 0, 0, 0.24),
+            0px 1px 5px 0px rgba(0, 0, 0, 0.10),
+            0px 8px 22px 0px rgba(0, 0, 0, 0.20) !important;
+        }
+        /* All text inside the mobile cards -> white. The quote keeps a
+           slightly softer white via opacity below; name/tag are full
+           white; role is a translucent white. */
+        .tcard-mobile-wrap .tcard,
+        .tcard-mobile-wrap .tcard * {
+          color: #fff !important;
+        }
+        .tcard-mobile-wrap .tcard blockquote {
+          color: rgba(255, 255, 255, 0.92) !important;
+        }
+
         /* Stack container — responsive offset so the fan reads centred
            on desktop and stays inside the viewport on narrower screens. */
         .tcard-stack {
