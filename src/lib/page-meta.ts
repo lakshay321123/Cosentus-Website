@@ -24,16 +24,16 @@ export function pageMeta(pathname: string): string {
 
   const exact: Record<string, string> = {
     '/':
-      'Homepage. Hero reads: "Purpose Built For Your Specialty. Real People + Ai. RCM Redefined." Three clickable hero cards: Zeus Ai (links to /cosentus-ai), 24/7 AI Agents (scrolls to R+A section), >98% Net Collection. Below the hero: 9 voice agent cards (each clickable to start a real voice call), results stats, 6 specialties, RCM calculator, partner logos, testimonials, FAQs.',
+      'Homepage. Hero reads: "Purpose Built For Your Specialty. Real People + Ai. RCM Redefined." Three clickable hero cards: Zeus Ai (links to /cosentus-ai), 24/7 Ai Agents (scrolls to R+A section), >98% Net Collection. Below the hero: 9 voice agent cards (each clickable to start a real voice call), results stats, 6 specialties, RCM calculator, partner logos, testimonials, FAQs.',
 
     '/about':
       'About Us. Stats row: 25+ Years RCM Expertise, Real People + Ai, 99% Customer Retention, Up to 30% Revenue Growth. Six-stage process (Exploration → Discovery → Commitment → Stabilization → Standardization → Optimization). Nine-person leadership grid — every card is clickable to open a full bio popup. Offices list at the bottom.',
 
     '/cosentus-ai':
-      'Zeus AI page. Hero reads: "RCM that thinks." Stats: 23 modules, 15 AI features, 45+ specialties, 18+ EHRs, 4 native protocols (HL7 v2, FHIR R4, X12, REST API), under 5 minutes to first sync. Clickable 5-step process. Multi-EHR diagram with Zeus center surrounded by 6 EHRs (Epic, Oracle, Athena, eCW, NextGen, Meditech). Nine voice agent cards.',
+      'Zeus Ai page. Hero reads: "RCM that thinks." Stats: 23 modules, 15 Ai features, 45+ specialties, 18+ EHRs, 4 native protocols (HL7 v2, FHIR R4, X12, REST API), under 5 minutes to first sync. Clickable 5-step process. Multi-EHR diagram with Zeus center surrounded by 6 EHRs (Epic, Oracle, Athena, eCW, NextGen, Meditech). Nine voice agent cards.',
 
     '/services/rcm':
-      'RCM 360 page. Hero reads: "End-to-End Revenue Cycle Management. Every Step. Every Dollar." Walks through the full revenue cycle: eligibility → coding → submission → posting → denials → patient collections. One accountable team. AI handles volume; human specialists handle judgment.',
+      'RCM 360 page. Hero reads: "End-to-End Revenue Cycle Management. Every Step. Every Dollar." Walks through the full revenue cycle: eligibility → coding → submission → posting → denials → patient collections. One accountable team. Ai handles volume; human specialists handle judgment.',
 
     '/partnerships':
       'Partnership page. For practices considering structural partnership — capital, M&A, deeper growth. Hero asks: "Is Your Journey to Growth Facing These Challenges?" Four pillars: 25 Years in RCM (19 acquisitions integrated), Upfront Capital Investments, Comprehensive Solutions (offshore teams, tech, support), Transformative Offshoring & Tech. Different audience from regular RCM clients.',
@@ -48,7 +48,7 @@ export function pageMeta(pathname: string): string {
       'Client Stories page. Each case study card opens a PDF viewer inline. Stories cover anesthesia, behavioral health, orthopedics, DME, urgent care, ASC, CalAIM, pain management.',
 
     '/blog':
-      'Blog hub. 55 articles on RCM topics — billing, coding, AI, compliance, specialty workflows, payer relationships.',
+      'Blog hub. 55 articles on RCM topics — billing, coding, Ai, compliance, specialty workflows, payer relationships.',
 
     '/news':
       'News and press page.',

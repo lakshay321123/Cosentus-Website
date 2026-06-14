@@ -459,10 +459,10 @@ export default function PartnershipContent() {
               About Cosentus
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 24, maxWidth: 880, lineHeight: 1.2 }}>
-              Independently owned. Powered by AI.<br />Proven at scale.
+              Independently owned. Powered by Ai.<br />Proven at scale.
             </h2>
             <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
-              With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
+              With Ai software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
             </p>
           </RevealOnScroll>
         </div>

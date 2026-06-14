@@ -19,7 +19,7 @@ export default function PlatformSection() {
           </RevealOnScroll>
           <RevealOnScroll direction="right" delay={0.15}>
             <p style={{ fontSize: 17, color: 'var(--gray-500)', lineHeight: 1.7, fontWeight: 300 }}>
-              MedCloud. AI-native from day one. Not retrofitted onto legacy systems.
+              MedCloud. Ai-native from day one. Not retrofitted onto legacy systems.
               Your practice runs on it, or we plug into yours.
             </p>
           </RevealOnScroll>
@@ -29,8 +29,8 @@ export default function PlatformSection() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4 }} className="platform-nums-grid">
           {[
             { n: '23', l: 'Modules' },
-            { n: '15', l: 'AI Features' },
-            { n: '9', l: 'Voice AI Agents' },
+            { n: '15', l: 'Ai Features' },
+            { n: '9', l: 'Voice Ai Agents' },
           ].map((item, i) => (
             <RevealOnScroll key={i} direction="scale" delay={0.2 + i * 0.1}>
               <div style={{

@@ -91,14 +91,14 @@ const solutions: SpecialtySolution[] = [
     statUnit: '%',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CHRIS',
+    eyebrow: 'Ai AGENT \u2014 CHRIS',
     title: 'AR Follow-Up & Collections',
     description: 'Chris calls payers for claim status, surgical case follow-ups, and escalations. Your staff stays focused on patients, not phone queues.',
     anim: 'pulse',
     agent: { name: 'Chris', img: 'chris.png' },
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Support',
     description: 'Cindy handles patient balances, co-pay follow-ups, and payment plans in over 50 languages. Clear statements, not confusing bills.',
     anim: 'languages',
@@ -153,14 +153,14 @@ export default function OrthopedicsContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Surgical Practice Veterans + AI
+                Surgical Practice Veterans + Ai
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Orthopedic billing specialists who understand modifiers, global periods, implant pass-throughs, and workers\u2019 comp, because that\u2019s their full-time job',
-                  'AI handles eligibility, authorization tracking, and claim follow-up across your full volume',
+                  'Ai handles eligibility, authorization tracking, and claim follow-up across your full volume',
                   'Every denied claim gets a root cause review. Ortho denials are high-dollar, so every appeal matters',
                   'Live visibility into collections by procedure, provider, payer, and case type',
                 ].map((bullet, i) => (

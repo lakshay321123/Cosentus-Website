@@ -5,7 +5,7 @@ import EventsContent from './EventsContent'
 
 export const metadata: Metadata = {
   title: 'Events | Cosentus, Healthcare RCM Conferences, Summits & Sponsorships',
-  description: "There's always something happening at Cosentus. We attend and host events across healthcare RCM, medical billing, and AI, from industry conferences to community sponsorships.",
+  description: "There's always something happening at Cosentus. We attend and host events across healthcare RCM, medical billing, and Ai, from industry conferences to community sponsorships.",
 }
 
 export default function EventsPage() {

@@ -129,7 +129,7 @@ export default function RASection() {
           <RevealOnScroll direction="up" delay={0.4}>
             <div className="ra-cta">
               <Link href="/cosentus-ai" className="btn-primary">
-                Explore Zeus AI
+                Explore Zeus Ai
               </Link>
             </div>
           </RevealOnScroll>

@@ -107,7 +107,7 @@ const solutions: SpecialtySolution[] = [
     statUnit: '%',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Support',
     description: 'Cindy handles patient balances and billing questions in over 50 languages. Clear statements for every visit.',
     anim: 'languages',
@@ -156,14 +156,14 @@ export default function PainManagementContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Interventional Coding Experts + AI Defense
+                Interventional Coding Experts + Ai Defense
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Pain management specialists who handle interventional coding and payer defense as their full-time job',
-                  'AI automates eligibility verification, authorization tracking, and follow-ups across your full volume',
+                  'Ai automates eligibility verification, authorization tracking, and follow-ups across your full volume',
                   'Human experts focus on documentation defense, medical necessity arguments, and appeals',
                   '95%+ appeal success rate with clinical evidence built by people who understand pain procedures',
                 ].map((bullet, i) => (

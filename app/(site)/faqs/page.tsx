@@ -20,7 +20,7 @@ import { faqs } from '@/data/faqs'
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions | Cosentus',
   description:
-    'How Cosentus pairs 25 years of specialty RCM expertise with AI voice agents. Pricing, security, onboarding, denial handling, and what to expect when switching from your current billing provider.',
+    'How Cosentus pairs 25 years of specialty RCM expertise with Ai voice agents. Pricing, security, onboarding, denial handling, and what to expect when switching from your current billing provider.',
   alternates: { canonical: '/faqs' },
   openGraph: {
     title: 'Frequently Asked Questions | Cosentus',

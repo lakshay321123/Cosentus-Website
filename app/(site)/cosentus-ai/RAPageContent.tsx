@@ -13,7 +13,7 @@ import { AGENTS } from '@/data/voice-agents'
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's, Processes, Procedures, and Protocols, and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
-  { num: '3', title: 'AI agents handle volume', desc: 'Nine AI agents work the repetitive load around the clock: eligibility, prior auth follow-ups, scheduling, patient collections, claim follow-up, AR tracking, and coding support.' },
+  { num: '3', title: 'Ai agents handle volume', desc: 'Nine Ai agents work the repetitive load around the clock: eligibility, prior auth follow-ups, scheduling, patient collections, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
@@ -32,12 +32,12 @@ const steps = [
  * `onPersonClick` is wired and the people have bios).
  */
 const zeusTeam = [
-  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI',  photo: '/images/ALLEN RANJAN.jpg' },
-  { name: 'Ajay Kumar',            title: 'AI Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
-  { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
-  { name: 'Lakshay Mehra',         title: 'AI Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
+  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus Ai',  photo: '/images/ALLEN RANJAN.jpg' },
+  { name: 'Ajay Kumar',            title: 'Ai Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
+  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research' },
+  { name: 'Lakshay Mehra',         title: 'Ai Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
-  { name: 'Shaleen Chordia',       title: 'AI Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
+  { name: 'Shaleen Chordia',       title: 'Ai Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
 ]
 
 export default function RAPageContent() {
@@ -118,7 +118,7 @@ export default function RAPageContent() {
           }} className="zeus-why-grid">
             {[
               { num: '23', label: 'Modules', desc: 'End-to-end RCM + EHR.' },
-              { num: '15', label: 'AI Features', desc: 'Every step, intelligent.' },
+              { num: '15', label: 'Ai Features', desc: 'Every step, intelligent.' },
               { num: '45+', label: 'Specialties', desc: 'Few-shot specialty configs.' },
             ].map((stat, i) => (
               <RevealOnScroll key={stat.label} delay={0.3 + i * 0.12}>
@@ -220,7 +220,7 @@ export default function RAPageContent() {
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                Voice AI: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
+                Voice Ai: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
@@ -367,17 +367,17 @@ export default function RAPageContent() {
       <ProblemSolutionSection
         className="ps-zeus-sizing"
         problemTitle="Why Specialty Practices Deserve Better"
-        problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
+        problemBody="Traditional RCM adds headcount. Ai startups remove it. Neither understands the nuances of specialty revenue cycles."
         problemBullets={[
           'Generic billing teams miss specialty nuances',
-          'AI-only solutions lack clinical judgment',
+          'Ai-only solutions lack clinical judgment',
           'Revenue leaks at every handoff',
         ]}
-        solutionTitle="Real People + AI"
-        solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
+        solutionTitle="Real People + Ai"
+        solutionBody="Named human teams for judgment. Ai agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
           'Specialty coders and denial experts who know your payers',
-          'Nine AI agents working every claim, around the clock',
+          'Nine Ai agents working every claim, around the clock',
           'Up to 30% more revenue in your first year',
         ]}
       />
@@ -387,7 +387,7 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">How Real People + AI Works — in 5 Steps</div>
+            <div className="section-title">How Real People + Ai Works — in 5 Steps</div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.25}>
