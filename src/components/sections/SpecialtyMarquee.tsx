@@ -161,11 +161,38 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         </div>
       )
     case 'chart':
+      // Upward line/area trend chart (replaces the earlier vertical
+      // bars, which read as an audio equalizer). Area fill under a
+      // rising polyline with data-point dots and a baseline axis. The
+      // line draws in via stroke-dashoffset so it reads as "data
+      // populating". Colors are brand cyan; the blue-card white
+      // override remaps them to white where this renders on blue.
       return (
         <div className="anim anim-chart" aria-hidden="true">
-          {[36, 52, 28, 64, 44, 72, 58].map((h, i) => (
-            <span key={i} className={`anim-chart-bar anim-chart-bar-${i}`} style={{ height: `${h}%` }} />
-          ))}
+          <svg viewBox="0 0 100 56" width="120" height="68" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            {/* Area fill under the trend line */}
+            <path
+              className="anim-chart-area"
+              d="M4 44 L20 38 L36 40 L52 28 L68 30 L84 16 L96 10 L96 52 L4 52 Z"
+              fill="#00B5D6"
+              fillOpacity="0.18"
+            />
+            {/* Trend line */}
+            <path
+              className="anim-chart-line"
+              d="M4 44 L20 38 L36 40 L52 28 L68 30 L84 16 L96 10"
+              stroke="#00B5D6"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Data-point dots */}
+            {[[4,44],[20,38],[36,40],[52,28],[68,30],[84,16],[96,10]].map(([x,y],i)=>(
+              <circle key={i} className={`anim-chart-dot anim-chart-dot-${i}`} cx={x} cy={y} r="2.4" fill="#00B5D6" />
+            ))}
+            {/* Baseline axis */}
+            <line x1="4" y1="52" x2="96" y2="52" stroke="#00B5D6" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
         </div>
       )
     case 'defense':
@@ -725,7 +752,6 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .spec-card-anim .anim-stat-pct,
         .spec-card-anim .anim-stamp-label,
         .spec-card-anim .anim-lang-bubble { color: #FFFFFF !important; }
-        .spec-card-anim .anim-chart-bar,
         .spec-card-anim .anim-stat-bar,
         .spec-card-anim .anim-stamp-fill,
         .spec-card-anim .anim-stamp-dot,
@@ -748,7 +774,6 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            tick (the fill:none path) in blue so it reads against the now-
            white shield. */
         .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
-        .spec-card-anim .anim-chart::after { background: rgba(255,255,255,0.7) !important; }
         /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
            both invisible on the blue card (looks frozen). Repoint cells
            to a white-pulse wave so the sweep reads on blue. */
@@ -1057,46 +1082,50 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           15%, 60%      { opacity: 1; transform: translateY(0); }
         }
 
-        /* Chart: animated bar chart.
-           width: 100% is required — bars use flex: 1 so they need
-           an explicit parent width to distribute across. */
+        /* Chart: upward line/area trend chart. The line draws in via
+           stroke-dashoffset and the dots fade in left-to-right, so it
+           reads as analytics data populating rather than an equalizer. */
         .anim-chart {
           display: flex;
-          align-items: flex-end;
-          gap: 6px;
+          align-items: center;
+          justify-content: center;
           width: 100%;
           height: 80%;
-          padding: 0 12px 8px;
-          position: relative;
         }
-        .anim-chart::after {
-          content: '';
-          position: absolute;
-          left: 12px;
-          right: 12px;
-          bottom: 8px;
-          height: 2px;
-          border-radius: 1px;
-          background: rgba(0, 181, 214, 0.4);
+        .anim-chart-line {
+          stroke-dasharray: 140;
+          stroke-dashoffset: 140;
+          animation: spec-chart-draw 4.5s ease-in-out infinite;
         }
-        .anim-chart-bar {
-          flex: 1;
-          background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.35) 100%);
-          border-radius: 3px 3px 0 0;
-          transform-origin: bottom;
-          animation: spec-chart-grow 4.5s ease-in-out infinite;
+        .anim-chart-area {
+          opacity: 0;
+          animation: spec-chart-area 4.5s ease-in-out infinite;
         }
-        .anim-chart-bar-0 { animation-delay: 0s;    }
-        .anim-chart-bar-1 { animation-delay: 0.12s; }
-        .anim-chart-bar-2 { animation-delay: 0.24s; }
-        .anim-chart-bar-3 { animation-delay: 0.36s; }
-        .anim-chart-bar-4 { animation-delay: 0.48s; }
-        .anim-chart-bar-5 { animation-delay: 0.60s; }
-        .anim-chart-bar-6 { animation-delay: 0.72s; }
-        @keyframes spec-chart-grow {
-          0%       { transform: scaleY(0); opacity: 0.4; }
-          30%, 90% { transform: scaleY(1); opacity: 1; }
-          100%     { transform: scaleY(0); opacity: 0.4; }
+        .anim-chart-dot {
+          opacity: 0;
+          animation: spec-chart-dot 4.5s ease-in-out infinite;
+        }
+        .anim-chart-dot-0 { animation-delay: 0.30s; }
+        .anim-chart-dot-1 { animation-delay: 0.70s; }
+        .anim-chart-dot-2 { animation-delay: 1.10s; }
+        .anim-chart-dot-3 { animation-delay: 1.50s; }
+        .anim-chart-dot-4 { animation-delay: 1.90s; }
+        .anim-chart-dot-5 { animation-delay: 2.30s; }
+        .anim-chart-dot-6 { animation-delay: 2.70s; }
+        @keyframes spec-chart-draw {
+          0%       { stroke-dashoffset: 140; }
+          55%, 90% { stroke-dashoffset: 0; }
+          100%     { stroke-dashoffset: 140; }
+        }
+        @keyframes spec-chart-area {
+          0%, 20%  { opacity: 0; }
+          60%, 90% { opacity: 1; }
+          100%     { opacity: 0; }
+        }
+        @keyframes spec-chart-dot {
+          0%, 10%  { opacity: 0; }
+          25%, 90% { opacity: 1; }
+          100%     { opacity: 0; }
         }
 
         /* Defense: clinical document with a shield-check badge
@@ -1225,7 +1254,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           .anim-stat-bar,
           .anim-pulse-ring,
           .anim-lang-bubble,
-          .anim-chart-bar,
+          .anim-chart-line,
+          .anim-chart-area,
+          .anim-chart-dot,
           .anim-defense-shield,
           .anim-med-cap,
           .anim-telehealth-dot,
@@ -1247,6 +1278,10 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           .anim-eligibility-check {
             opacity: 1;
           }
+          /* Show the trend chart fully drawn at rest. */
+          .anim-chart-line { stroke-dashoffset: 0; }
+          .anim-chart-area,
+          .anim-chart-dot { opacity: 1; }
         }
 
         /* Mobile */
