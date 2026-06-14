@@ -748,6 +748,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            tick (the fill:none path) in blue so it reads against the now-
            white shield. */
         .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
+        .spec-card-anim .anim-chart::after { background: rgba(255,255,255,0.7) !important; }
         /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
            both invisible on the blue card (looks frozen). Repoint cells
            to a white-pulse wave so the sweep reads on blue. */
@@ -1065,25 +1066,37 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           gap: 6px;
           width: 100%;
           height: 80%;
-          padding: 0 12px;
+          padding: 0 12px 8px;
+          position: relative;
+        }
+        .anim-chart::after {
+          content: '';
+          position: absolute;
+          left: 12px;
+          right: 12px;
+          bottom: 8px;
+          height: 2px;
+          border-radius: 1px;
+          background: rgba(0, 181, 214, 0.4);
         }
         .anim-chart-bar {
           flex: 1;
           background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.35) 100%);
           border-radius: 3px 3px 0 0;
           transform-origin: bottom;
-          animation: spec-chart-grow 3s ease-in-out infinite;
+          animation: spec-chart-grow 4.5s ease-in-out infinite;
         }
         .anim-chart-bar-0 { animation-delay: 0s;    }
-        .anim-chart-bar-1 { animation-delay: 0.1s;  }
-        .anim-chart-bar-2 { animation-delay: 0.2s;  }
-        .anim-chart-bar-3 { animation-delay: 0.3s;  }
-        .anim-chart-bar-4 { animation-delay: 0.4s;  }
-        .anim-chart-bar-5 { animation-delay: 0.5s;  }
-        .anim-chart-bar-6 { animation-delay: 0.6s;  }
+        .anim-chart-bar-1 { animation-delay: 0.12s; }
+        .anim-chart-bar-2 { animation-delay: 0.24s; }
+        .anim-chart-bar-3 { animation-delay: 0.36s; }
+        .anim-chart-bar-4 { animation-delay: 0.48s; }
+        .anim-chart-bar-5 { animation-delay: 0.60s; }
+        .anim-chart-bar-6 { animation-delay: 0.72s; }
         @keyframes spec-chart-grow {
-          0%, 100% { transform: scaleY(1); }
-          50%      { transform: scaleY(0.4); }
+          0%       { transform: scaleY(0); opacity: 0.4; }
+          30%, 90% { transform: scaleY(1); opacity: 1; }
+          100%     { transform: scaleY(0); opacity: 0.4; }
         }
 
         /* Defense: clinical document with a shield-check badge
