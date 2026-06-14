@@ -37,7 +37,7 @@ const coreValues = [
   {
     title: 'Be Grateful',
     desc:
-      'Gratitude is a verb, not a noun. We show our gratitude and appreciation every day \u2014 to our clients and to each other. We are loyal, supportive, and collaborative. We are one team with one journey.',
+      'Gratitude is a verb, not a noun. We show our gratitude and appreciation every day, to our clients and to each other. We are loyal, supportive, and collaborative. We are one team with one journey.',
     icon: '/images/careers/be-grateful.png',
   },
 ]
@@ -70,7 +70,7 @@ export default function CareersPage() {
               }}
             >
               Collaboration, coordination, and cooperation are at the core of the Cosentus DNA. We build on each
-              other&rsquo;s ideas to innovate and inspire. We revolutionize business &mdash; but a revolution requires
+              other&rsquo;s ideas to innovate and inspire. We revolutionize business, but a revolution requires
               people. All sorts of people, with all sorts of talents and skills. People are at the center of everything
               we do, and our people are wildly talented, fun, and experts in their field. They are the ready
               responders, the problem-solvers, the dreamers and doers.
@@ -148,7 +148,7 @@ export default function CareersPage() {
                 lineHeight: 1.7,
               }}
             >
-              Our Core Values speak directly to who we are and what we&rsquo;re about &mdash; with them, we build
+              Our Core Values speak directly to who we are and what we&rsquo;re about, and with them, we build
               universal trust and promise a future of exponential growth.
             </p>
           </RevealOnScroll>

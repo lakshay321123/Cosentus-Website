@@ -39,12 +39,12 @@ const specialties: Specialty[] = [
   {
     label: 'Anesthesia',
     href: '/specialties/anesthesia',
-    blurb: 'Time-unit precision, modifier accuracy, and concurrency rules — built by anesthesia veterans.',
+    blurb: 'Time-unit precision, modifier accuracy, and concurrency rules, built by anesthesia veterans.',
   },
   {
     label: 'Ambulatory Services',
     href: '/specialties/asc',
-    blurb: 'Surgical coding, implant billing, global periods, and facility-professional reimbursement — one team across ortho, pain, and ASCs.',
+    blurb: 'Surgical coding, implant billing, global periods, and facility-professional reimbursement, with one team across ortho, pain, and ASCs.',
   },
   {
     label: 'Behavioral Health',

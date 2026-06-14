@@ -148,7 +148,7 @@ export default function MultiSpecialtyContent() {
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Different coding rules across departments create denial risk when billers switch between specialties',
-                  'Staff juggling multiple specialties lose accuracy and speed \u2014 errors that compound across volume',
+                  'Staff juggling multiple specialties lose accuracy and speed, errors that compound across volume',
                   'No single vendor seems to understand all of your service lines, so you end up managing multiple relationships',
                   'Reporting is fragmented. No unified view of how each specialty, provider, and payer is actually performing',
                 ].map((bullet, i) => (
@@ -173,7 +173,7 @@ export default function MultiSpecialtyContent() {
                 {[
                   'Multi-specialty trained team that understands coding and payer rules across all your service lines',
                   'AI handles eligibility, authorization, and follow-ups across every department at the same time',
-                  'Unified reporting dashboard \u2014 see performance by specialty, provider, and payer in one place',
+                  'Unified reporting dashboard: see performance by specialty, provider, and payer in one place',
                   'Root cause reviews across all specialties to prevent systemic denial patterns, not just one-off issues',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>

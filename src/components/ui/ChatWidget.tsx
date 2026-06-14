@@ -12,11 +12,11 @@ const CHAT_SUGGESTIONS = [
   'How much revenue is my practice missing today?',
   "What's causing delays, denials, or write-offs in my revenue cycle?",
   'How can Cosentus improve collections without adding staff or risk?',
-  'My A/R is through the roof — what are the most common causes?',
-  'Why are my denials increasing — and what should I look at first?',
-  "I think we're getting underpaid by payers — how do I know?",
+  'My A/R is through the roof. What are the most common causes?',
+  'Why are my denials increasing, and what should I look at first?',
+  "I think we're getting underpaid by payers. How do I know?",
   'How can we improve patient payments without upsetting patients?',
-  "Our clean claim rate is dropping — what's causing it, and how do we fix it fast?",
+  "Our clean claim rate is dropping. What's causing it, and how do we fix it fast?",
 ]
 
 export default function ChatWidget() {
@@ -130,7 +130,7 @@ export default function ChatWidget() {
             {showWelcome && (
               <div className="grace-welcome">
                 <div className="grace-welcome-text">
-                  Hi, I&apos;m Grace. Ask me anything about your revenue cycle — or pick a question to get started.
+                  Hi, I&apos;m Grace. Ask me anything about your revenue cycle, or pick a question to get started.
                 </div>
                 <div className="grace-suggest-grid">
                   {CHAT_SUGGESTIONS.map((s, i) => (

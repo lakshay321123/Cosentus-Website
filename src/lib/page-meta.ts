@@ -27,7 +27,7 @@ export function pageMeta(pathname: string): string {
       'Homepage. Hero reads: "Purpose Built For Your Specialty. Real People + Ai. RCM Redefined." Three clickable hero cards: Zeus Ai (links to /cosentus-ai), 24/7 AI Agents (scrolls to R+A section), >98% Net Collection. Below the hero: 9 voice agent cards (each clickable to start a real voice call), results stats, 6 specialties, RCM calculator, partner logos, testimonials, FAQs.',
 
     '/about':
-      'About Us. Stats row: 25+ Years RCM Expertise, Real People + Ai, 99% Customer Retention, Up to 30% Revenue Growth. Six-stage process (Exploration → Discovery → Commitment → Stabilization → Standardization → Optimization). Nine-person leadership grid — every card is clickable to open a full bio popup. Offices list at the bottom.',
+      'About Us. Stats row: 25+ Years RCM Expertise, Real People + Ai, 99% Customer Retention, Up to 30% Revenue Growth. Six-stage process (Exploration → Discovery → Commitment → Stabilization → Standardization → Optimization). Nine-person leadership grid, every card clickable to open a full bio popup. Offices list at the bottom.',
 
     '/cosentus-ai':
       'Zeus AI page. Hero reads: "RCM that thinks." Stats: 23 modules, 15 AI features, 45+ specialties, 18+ EHRs, 4 native protocols (HL7 v2, FHIR R4, X12, REST API), under 5 minutes to first sync. Clickable 5-step process. Multi-EHR diagram with Zeus center surrounded by 6 EHRs (Epic, Oracle, Athena, eCW, NextGen, Meditech). Nine voice agent cards.',
@@ -36,7 +36,7 @@ export function pageMeta(pathname: string): string {
       'RCM 360 page. Hero reads: "End-to-End Revenue Cycle Management. Every Step. Every Dollar." Walks through the full revenue cycle: eligibility → coding → submission → posting → denials → patient collections. One accountable team. AI handles volume; human specialists handle judgment.',
 
     '/partnerships':
-      'Partnership page. For practices considering structural partnership — capital, M&A, deeper growth. Hero asks: "Is Your Journey to Growth Facing These Challenges?" Four pillars: 25 Years in RCM (19 acquisitions integrated), Upfront Capital Investments, Comprehensive Solutions (offshore teams, tech, support), Transformative Offshoring & Tech. Different audience from regular RCM clients.',
+      'Partnership page. For practices considering structural partnership: capital, M&A, deeper growth. Hero asks: "Is Your Journey to Growth Facing These Challenges?" Four pillars: 25 Years in RCM (19 acquisitions integrated), Upfront Capital Investments, Comprehensive Solutions (offshore teams, tech, support), Transformative Offshoring & Tech. Different audience from regular RCM clients.',
 
     '/cosentus-cares':
       'Cosentus Cares page. Cosentus\'s commitment to community, employee wellbeing, and practices served. Gallery sub-pages at /cosentus-cares/[slug]. Community inquiries go to wecare@cosentus.com (NOT sales@).',
@@ -48,7 +48,7 @@ export function pageMeta(pathname: string): string {
       'Client Stories page. Each case study card opens a PDF viewer inline. Stories cover anesthesia, behavioral health, orthopedics, DME, urgent care, ASC, CalAIM, pain management.',
 
     '/blog':
-      'Blog hub. 55 articles on RCM topics — billing, coding, AI, compliance, specialty workflows, payer relationships.',
+      'Blog hub. 55 articles on RCM topics: billing, coding, AI, compliance, specialty workflows, payer relationships.',
 
     '/news':
       'News and press page.',
@@ -57,7 +57,7 @@ export function pageMeta(pathname: string): string {
       'Events page. Upcoming events include AANA 2026 (August), ASCA+SAMBA 2026 (May), Advanced Institute for Anesthesia 2026 (April), COA 2026 (April), ASA ADVANCE 2026 (January), Cosentus Growth Summit 2026, HBMA Fall 2025.',
 
     '/insights':
-      'Insights hub — aggregator of Client Stories, Blog, News, and Events in one place.',
+      'Insights hub: aggregator of Client Stories, Blog, News, and Events in one place.',
 
     '/faqs':
       'FAQs page. Categories: Coverage, Differentiation, Integration, Onboarding, Operations, Positioning, Pricing, Results, Risk, Security.',
@@ -69,7 +69,7 @@ export function pageMeta(pathname: string): string {
       'Specialties hub. Six specialty pages: Anesthesia (Accreda), Orthopedics, Pain Management, ASCs, Behavioral Health, Multi-Specialty.',
 
     '/specialties/anesthesia':
-      'Anesthesia specialty page — branded as Accreda by Cosentus. Hero: "Purpose Built for Anesthesia." 23+ years anesthesia-specific RCM, 250+ years combined team experience. Covers anesthesia coding (base units, time units, modifiers AA/QK/QY/AD, concurrency), payer-specific rules, credentialing (DEA, OIG, CAQH), prior auth, 95%+ appeal success. Chris and Cindy voice agents featured.',
+      'Anesthesia specialty page, branded as Accreda by Cosentus. Hero: "Purpose Built for Anesthesia." 23+ years anesthesia-specific RCM, 250+ years combined team experience. Covers anesthesia coding (base units, time units, modifiers AA/QK/QY/AD, concurrency), payer-specific rules, credentialing (DEA, OIG, CAQH), prior auth, 95%+ appeal success. Chris and Cindy voice agents featured.',
 
     '/specialties/orthopedics':
       'Orthopedics specialty page. Hero: "Orthopedic Billing. Surgeon-Grade Precision." Covers surgical coding, implant pass-through, global-period rules, workers comp, case-type expertise, authorizations, denial prevention. Chris and Cindy voice agents featured.',
@@ -111,7 +111,7 @@ export function pageMeta(pathname: string): string {
   if (path.startsWith('/form/'))           return 'Generic dynamic form page.'
   if (path.startsWith('/survey/'))         return 'Generic survey page.'
 
-  return `Page at ${path}. No specific description available — call read_page tool if you need to know what's on it.`
+  return `Page at ${path}. No specific description available. Call read_page tool if you need to know what's on it.`
 }
 
 /**

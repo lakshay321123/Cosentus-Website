@@ -173,7 +173,7 @@ export default function RCMContent() {
                   'Real-time eligibility verification before every appointment',
                   'Authorization tracking with deadline alerts',
                   'AAPC-certified coders with AI-assisted accuracy checks',
-                  'Active AR follow-up \u2014 under 15% AR over 90 days',
+                  'Active AR follow-up, under 15% AR over 90 days',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
