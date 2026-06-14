@@ -11,6 +11,7 @@ const footerNav = [
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
       { label: 'Cosentus Cares', href: '/cosentus-cares' },
       { label: 'Careers', href: '/careers' },
+      { label: 'FAQs', href: '/faqs' },
     ],
   },
   {
