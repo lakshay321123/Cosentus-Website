@@ -509,11 +509,19 @@ export default function HeroSection() {
           }
           .hero-headline {
             max-width: 100%;
-            font-size: clamp(30px, 8vw, 40px);
+            /* Adaptive mobile size. NOTE: the EFFECTIVE size on the home
+               page comes from globals.css ".hero h1 { font-size:
+               clamp(24px,8.5vw,40px) !important }" (the !important wins
+               over this rule). This value is kept as a matching fallback
+               for any context where that global rule doesn't apply. The
+               old flat 36px made "Specialty-focused RCM." overflow/wrap
+               and orphan "RCM." on phones; 8.5vw scales it so it stays
+               readable from ~320px up. */
+            font-size: clamp(24px, 8.5vw, 40px);
           }
-          /* On phones, let the second sentence wrap normally so the
-             desktop nowrap can't push the headline past the viewport
-             edge. The <br/> still starts it on its own line. */
+          /* Let both headline sentences wrap naturally on phones. A
+             nowrap attempt pushed the first sentence under the GPTW badge
+             and clipped it; the adaptive size above keeps it readable. */
           .hero-headline-line2 {
             white-space: normal;
           }
@@ -531,7 +539,13 @@ export default function HeroSection() {
             height: 44px;
           }
           .hero-action-arrow {
-            height: 100%;
+            /* Match the desktop disc proportion (82% of pill height)
+               instead of 100%. At full pill height on the 44px mobile
+               pill the disc became a full-height ball positioned at
+               right:1.2%, which overlapped the pill's baked-in
+               "Our Specialties" text. 82% keeps it a fitted icon tucked
+               at the right end, clear of the label. */
+            height: 82%;
           }
         }
       `}</style>
