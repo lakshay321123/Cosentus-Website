@@ -485,7 +485,7 @@ export default function EHRContent() {
           <RevealOnScroll>
             <div>
               <div className="section-title">
-                Medcloud — EHR &amp; Practice Management Built for Physicians
+                Medcloud: EHR &amp; Practice Management Built for Physicians
               </div>
               <p className="section-desc">
                 Enter Medcloud, our innovative EHR and Practice Management Software. Designed with your needs in mind, Medcloud integrates seamlessly into your practice, offering a user-friendly interface and cutting-edge features. It&apos;s not just software; it&apos;s a tool that empowers your practice to operate at its peak efficiency.

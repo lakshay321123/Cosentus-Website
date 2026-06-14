@@ -175,9 +175,9 @@ export default function ASCContent() {
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Orthopedic cases carry high-dollar implant charges, modifier-heavy surgical billing, and global period rules that generic teams consistently misapply',
-                  'Pain management faces relentless payer scrutiny on injection frequency, medical necessity, and pre-payment reviews — small coding errors at high volume add up fast',
+                  'Pain management faces relentless payer scrutiny on injection frequency, medical necessity, and pre-payment reviews, small coding errors at high volume add up fast',
                   'ASCs juggle dual billing streams (facility + professional), case costing, and multi-payer contracts where underpayments go unnoticed for months',
-                  'When these specialties share a generic billing team, the nuances of each get lost — and so does revenue',
+                  'When these specialties share a generic billing team, the nuances of each get lost, and so does revenue',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
@@ -198,9 +198,9 @@ export default function ASCContent() {
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
-                  'Specialty-trained billing teams for orthopedics, pain management, and ASCs — each staffed with coders who work their specialty full time and understand the payer rules that apply to it',
+                  'Specialty-trained billing teams for orthopedics, pain management, and ASCs, each staffed with coders who work their specialty full time and understand the payer rules that apply to it',
                   'AI handles the high-volume, high-frequency work: eligibility verification, authorization tracking, claim follow-up, and patient outreach across all three specialties simultaneously',
-                  'Every denied claim across any specialty gets a root cause review — our team doesn\u2019t just appeal, they fix the pattern so the same denial stops recurring',
+                  'Every denied claim across any specialty gets a root cause review, and our team doesn\u2019t just appeal, they fix the pattern so the same denial stops recurring',
                   'One unified dashboard gives you visibility into collections, denials, AR aging, and profitability across all your ambulatory operations',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>

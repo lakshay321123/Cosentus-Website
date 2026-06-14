@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!gallery) return { title: 'Gallery Not Found | Cosentus' }
   return {
     title: `${gallery.title} | Cosentus Cares | Cosentus`,
-    description: `Photos from ${gallery.title} — part of our Cosentus Cares community initiatives.`,
+    description: `Photos from ${gallery.title}, part of our Cosentus Cares community initiatives.`,
   }
 }
 

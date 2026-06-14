@@ -104,7 +104,7 @@ export default function RAPageContent() {
               maxWidth: 640,
               marginBottom: 56,
             }}>
-              Cosentus was built around AI from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
+              Cosentus was built around AI from day one. That means every module shares context with every other module. Eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can&rsquo;t do that because their AI was added later.
             </p>
           </RevealOnScroll>
           */}
@@ -386,7 +386,7 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">How Real People + AI Works — in 5 Steps</div>
+            <div className="section-title">How Real People + AI Works in 5 Steps</div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.25}>
