@@ -762,9 +762,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .spec-card-anim .anim-stamp-track { border-color: rgba(255,255,255,0.7) !important; }
         .spec-card-anim .anim-badge {
           border-color: #FFFFFF !important;
-          background: rgba(255,255,255,0.15) !important;
+          background: #FFFFFF !important;
         }
-        .spec-card-anim .anim-badge svg { stroke: #FFFFFF !important; }
+        .spec-card-anim .anim-badge svg { stroke: #00B5D6 !important; }
         .spec-card-anim .anim-lang-bubble,
         .spec-card-anim .anim-mod-pill { background: rgba(255,255,255,0.15) !important; }
         .spec-card-anim .anim-pulse-ring { border-color: rgba(255,255,255,0.6) !important; }
@@ -778,8 +778,8 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            and a white-pulse keyframe (the original cycled blue->blue,
            invisible on the blue card). */
         .spec-card-anim .anim-mod-pill {
-          font-size: 28px !important;
-          padding: 14px 28px !important;
+          font-size: 18px !important;
+          padding: 9px 16px !important;
           color: #00B5D6 !important;
           background: #FFFFFF !important;
           border-color: #FFFFFF !important;
@@ -815,6 +815,12 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .spec-card-anim .anim-eligibility svg line { stroke: #00B5D6 !important; }
         .spec-card-anim .anim-eligibility-check circle { fill: #00B5D6 !important; }
         .spec-card-anim .anim-eligibility-check path { stroke: #FFFFFF !important; }
+        /* Meds capsules use fill="currentColor" driven by the cap's
+           color, which cycles faint-blue -> blue (invisible on blue).
+           Force white so the capsules read as filled. */
+        .spec-card-anim .anim-med-cap { color: #FFFFFF !important; animation-name: none !important; }
+        .spec-card-anim .anim-med-cap svg line,
+        .spec-card-anim .anim-med-cap svg rect { stroke: #00B5D6 !important; }
         /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
            both invisible on the blue card (looks frozen). Repoint cells
            to a white-pulse wave so the sweep reads on blue. */
@@ -1002,21 +1008,21 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         /* Stat: big number + bars */
         .anim-stat {
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           justify-content: center;
           gap: 18px;
           width: 100%;
         }
         .anim-stat-number {
           font-family: var(--font-display);
-          font-size: 56px;
+          font-size: 104px;
           font-weight: 300;
           color: var(--gray-900);
-          line-height: 1;
+          line-height: 0.85;
           letter-spacing: -0.03em;
         }
         .anim-stat-pct {
-          font-size: 28px;
+          font-size: 52px;
           color: #00B5D6;
           margin-left: 2px;
         }
@@ -1024,7 +1030,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           display: flex;
           align-items: flex-end;
           gap: 6px;
-          height: 90px;
+          height: 104px;
         }
         .anim-stat-bar {
           width: 12px;
