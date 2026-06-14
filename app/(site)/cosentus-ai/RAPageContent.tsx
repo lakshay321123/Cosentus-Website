@@ -7,12 +7,13 @@ import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallMod
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
+import ZeusEhrSpiral from '@/components/sections/ZeusEhrSpiral'
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's, Processes, Procedures, and Protocols, and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
-  { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
+  { num: '3', title: 'AI agents handle volume', desc: 'Nine AI agents work the repetitive load around the clock: eligibility, prior auth follow-ups, scheduling, patient collections, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
@@ -364,6 +365,7 @@ export default function RAPageContent() {
 
       {/* Problem + Solution, Animated Split Section */}
       <ProblemSolutionSection
+        className="ps-zeus-sizing"
         problemTitle="Why Specialty Practices Deserve Better"
         problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
         problemBullets={[
@@ -374,9 +376,9 @@ export default function RAPageContent() {
         solutionTitle="Real People + AI"
         solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
-          'Specialty-trained teams for every payer nuance',
-          '8 AI agents automating volume workflows',
-          'Up to 30% revenue growth within 12 months',
+          'Specialty coders and denial experts who know your payers',
+          'Nine AI agents working every claim, around the clock',
+          'Up to 30% more revenue in your first year',
         ]}
       />
 
@@ -637,107 +639,15 @@ export default function RAPageContent() {
               </RevealOnScroll>
             </div>
 
-            {/* Right — Zeus orbit + lightning */}
+            {/* Right — spiral vortex + Zeus logo + EHR labels.
+                Replaced the orbit + lightning SVG per user (Jun 2026):
+                the supplied spiral animation plays (gated on viewport
+                entry), the Zeus logo fades in at center (where the
+                source demo had its Enter button) and the six EHR names
+                fade in around it while the swirl forms. */}
             <RevealOnScroll direction="right" delay={0.2}>
-              <div style={{
-                position: 'relative',
-                aspectRatio: '1',
-                maxWidth: 560,
-                margin: '0 auto',
-              }} className="zeus-ehr-orbit">
-                <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-                  <defs>
-                    <radialGradient id="zeusEhrGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#00B5D6" stopOpacity="0.30" />
-                      <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
-                    </radialGradient>
-                    <filter id="zeusBoltGlow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="3" result="b" />
-                      <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-                    </filter>
-                    <filter id="zeusBoltBlur" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="6" />
-                    </filter>
-                  </defs>
-
-                  {/* Ambient glow behind Zeus core */}
-                  <circle cx="320" cy="320" r="140" fill="url(#zeusEhrGlow)" />
-
-                  {/* EHR labels — 6 positions around orbit */}
-                  <g fontFamily="var(--font-display), Reddit Sans, system-ui" fontWeight="700" textAnchor="middle">
-                    <g><text x="320" y="102" fill="var(--gray-900)" fontSize="22">Epic</text><text x="320" y="122" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
-                    <g><text x="510" y="212" fill="var(--gray-900)" fontSize="20">Oracle</text><text x="510" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="540" y="432" fill="var(--gray-900)" fontSize="20">athena</text><text x="540" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">REST</text></g>
-                    <g><text x="320" y="540" fill="var(--gray-900)" fontSize="20">eCW</text><text x="320" y="560" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="100" y="432" fill="var(--gray-900)" fontSize="20">NextGen</text><text x="100" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="130" y="212" fill="var(--gray-900)" fontSize="20">Meditech</text><text x="130" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
-                  </g>
-
-                  {/* Lightning bolts — 6 staggered, teal core for light theme.
-                      Each bolt = halo (wide blur) + glow (medium) + bright core.
-                      Originating from Zeus center (320,320) to each EHR label. */}
-                  <g fill="none" strokeLinecap="round" strokeLinejoin="miter">
-                    {/* To Epic (top) */}
-                    <g>
-                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To Oracle (top-right) */}
-                    <g>
-                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To athena (bottom-right) */}
-                    <g>
-                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To eCW (bottom) */}
-                    <g>
-                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To NextGen (bottom-left) */}
-                    <g>
-                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To Meditech (top-left) */}
-                    <g>
-                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                  </g>
-
-                  {/* Zeus brand logo lockup — vertical (ZEUS wordmark + bolt).
-                      Asset: /public/images/zeus/zeus-logo-v.png — transparent PNG,
-                      teal logo, programmatically stripped from zeus_logo_V_blue.png. */}
-                  <image href="/images/zeus/zeus-logo-v.png" x="220" y="286" width="200" height="68" />
-                </svg>
+              <div className="zeus-ehr-orbit">
+                <ZeusEhrSpiral />
               </div>
             </RevealOnScroll>
           </div>

@@ -36,6 +36,9 @@ interface ProblemSolutionSectionProps {
   solutionTitle: React.ReactNode
   solutionBody?: string
   solutionBullets: string[]
+  /** Optional extra class on the root <section>, for per-page scoped
+      style overrides without touching this shared component's defaults. */
+  className?: string
 }
 
 export default function ProblemSolutionSection({
@@ -45,9 +48,10 @@ export default function ProblemSolutionSection({
   solutionTitle,
   solutionBody,
   solutionBullets,
+  className,
 }: ProblemSolutionSectionProps) {
   return (
-    <section style={{ overflow: 'hidden' }}>
+    <section className={className} style={{ overflow: 'hidden' }}>
       <div
         className="problem-solution-grid"
         style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 480 }}
