@@ -25,6 +25,25 @@ function CindyInner() {
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
+  // Mobile-only state.
+  //   isMobile     — viewport ≤480px. Drives the slim Siri-style strip
+  //                  + small FAB pattern instead of the desktop welcome card.
+  //   isStarting   — true between calling startConversation() and the
+  //                  WebSocket finishing its handshake (onConnect / onError
+  //                  / onDisconnect). The strip renders during this gap so
+  //                  the tap has immediate feedback even on a slow connect.
+  const [isMobile, setIsMobile] = useState(false)
+  const [isStarting, setIsStarting] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(max-width: 480px)')
+    setIsMobile(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   // Persisted dismissal — respects user's choice across refreshes + 24h across sessions.
   // Key stores epoch ms of expiry. If now < expiry, stay dismissed.
   const DISMISS_KEY = 'cindy-dismissed-until'
@@ -52,10 +71,12 @@ function CindyInner() {
   const conversation = useConversation({
     onConnect: ({ conversationId }: { conversationId: string }) => {
       setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now()
+      setIsStarting(false) // mobile strip: clear the 'connecting' state once the WS handshake lands
       try { window.sessionStorage.setItem('cindy-conversation-id', conversationId) } catch {}
     },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      setIsStarting(false) // mobile strip: cover the edge case where we disconnect before fully connecting
       try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
       // Drop any pathname update that was queued while speaking — it refers
       // to the old session's context and would mislead a new session.
@@ -72,7 +93,7 @@ function CindyInner() {
       }
       conversationIdRef.current = null
     },
-    onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
+    onError: (error: string) => { console.error('Cindy error:', error); setActionLabel(''); setIsStarting(false) },
     onMessage: () => {},
     clientTools: {
       navigate: async (params: { path: string; section?: string }) => {
@@ -515,6 +536,7 @@ function CindyInner() {
 
   const startConversation = useCallback(async () => {
     setStartError(null)
+    setIsStarting(true) // mobile strip: show the strip immediately so the tap on the FAB has visible feedback
     // Drop any stale queued pathname from a prior session.
     pendingPathRef.current = null
     try {
@@ -532,6 +554,7 @@ function CindyInner() {
         },
       })
     } catch (e) {
+      setIsStarting(false) // bail out of the 'connecting' UI on mic-permission / device errors
       console.error('Failed to start conversation:', e)
       // Map common errors to user-facing messages
       const name = (e as { name?: string })?.name || ''
@@ -560,16 +583,42 @@ function CindyInner() {
 
   const stateLabel = actionLabel || (!isConnected ? 'Grace — Ai Guide' : isSpeaking ? 'Speaking...' : 'Listening...')
 
+  // Mobile FAB tap = auto-start the conversation (per user feedback Jun 2026).
+  // If we're in the dismissed state, un-dismiss first so the FAB doesn't keep
+  // hiding itself between conversations.
+  const handleMobileFABTap = useCallback(() => {
+    if (dismissed) {
+      setDismissed(false)
+      setShowPopup(true)
+      try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
+    }
+    startConversation()
+  }, [dismissed, startConversation])
+
   return (
     <>
-      {dismissed && (
+      {/* Desktop only: existing dismissed-state restore FAB. Tap brings the
+          welcome card back so the user can read the intro again before
+          starting. Mobile uses handleMobileFABTap below instead. */}
+      {!isMobile && dismissed && (
         <button onClick={restoreCindy} aria-label="Talk to Grace" className="cindy-avatar" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
-      {showPopup && !dismissed && (
+      {/* Mobile only: small Grace FAB. Visible whenever Grace is summonable
+          (initial 5s timer fired OR user previously dismissed) and we're not
+          mid-conversation. Tap auto-starts the conversation; the slim strip
+          below takes over once startConversation() begins. */}
+      {isMobile && (dismissed || showPopup) && !isStarting && !isConnected && (
+        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', right: 16, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </button>
+      )}
+
+      {showPopup && !dismissed && !isMobile && (
         <div className="cindy-panel" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} aria-label="Close Grace" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(255,255,255,0.20)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 14, transition: 'background 200ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.35)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.20)' }}>✕</button>
 
@@ -618,8 +667,81 @@ function CindyInner() {
         </div>
       )}
 
+      {/* Mobile only: slim Siri-style strip. Renders while the conversation is
+          starting up (after handleMobileFABTap fires) and while it's
+          connected. Glass overlay fixed to the bottom edge so it doesn't
+          cover page content. Layout: avatar - waveform/label - close X.
+          The X only ends the conversation; the FAB above will reappear so
+          the user can re-summon Grace without a 24h cooldown. */}
+      {isMobile && (isStarting || isConnected) && (
+        <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
+          position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 9998,
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+          background: 'rgba(255,255,255,0.92)',
+          backdropFilter: 'blur(20px) saturate(1.6)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.6)',
+          borderTop: '1px solid rgba(0,181,214,0.3)',
+          boxShadow: '0 -8px 24px rgba(0,0,0,0.08)',
+          animation: 'cindyStripSlideUp 0.35s cubic-bezier(0.16,1,0.3,1)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 56px 12px 16px', minHeight: 64 }}>
+            {/* Avatar — small (no header gradient on the slim strip). Pulsing
+                glow while listening, gentle bob while speaking, breathing
+                otherwise. Same animation tokens as the desktop panel. */}
+            <div style={{
+              width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+              border: '2px solid #00B5D6', overflow: 'hidden', position: 'relative',
+              boxShadow: isListening ? '0 0 0 3px rgba(0,181,214,0.25)' : 'none',
+              animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite',
+            }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: blinking ? 'scaleY(0.97)' : 'scaleY(1)', transition: 'transform 0.1s ease' }} />
+            </div>
+
+            {/* Waveform (when listening) + state label. flex:1 so the label
+                ellipses gracefully when actionLabel gets long. */}
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+              {isListening && (
+                <div style={{ display: 'flex', gap: 3, flexShrink: 0 }} aria-hidden="true">
+                  {[0,1,2,3,4].map(i => (
+                    <div key={i} style={{ width: 3, height: 12, background: '#00B5D6', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />
+                  ))}
+                </div>
+              )}
+              <span style={{
+                fontSize: 15, fontWeight: 500, color: '#00B5D6',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1,
+              }}>
+                {actionLabel || (isStarting && !isConnected ? 'Connecting…' : isSpeaking ? 'Speaking…' : isListening ? 'Listening…' : 'Grace')}
+              </span>
+            </div>
+          </div>
+
+          {/* Close X — absolute so layout above doesn't have to reserve room.
+              Larger hit target than the visual circle for mobile tap accuracy. */}
+          <button onClick={endConversation} aria-label="End conversation" style={{
+            position: 'absolute', top: 16, right: 12,
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'rgba(0,0,0,0.06)', color: '#444',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 16, padding: 0,
+          }}>✕</button>
+
+          {/* Error banner — sits below the strip row so it doesn't shove the
+              avatar/waveform around. Only present when startConversation
+              caught a mic-permission or no-device error. */}
+          {startError && (
+            <div role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', borderTop: '1px solid #F5C5C5', padding: '8px 16px' }}>
+              {startError}
+            </div>
+          )}
+        </div>
+      )}
+
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
         @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
         @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
