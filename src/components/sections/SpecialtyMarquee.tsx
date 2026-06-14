@@ -748,6 +748,24 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            tick (the fill:none path) in blue so it reads against the now-
            white shield. */
         .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
+        /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
+           both invisible on the blue card (looks frozen). Repoint cells
+           to a white-pulse wave so the sweep reads on blue. */
+        .spec-card-anim .anim-rule-cell {
+          animation-name: spec-rule-wave-white !important;
+        }
+        @keyframes spec-rule-wave-white {
+          0%, 60%, 100% {
+            background: rgba(255,255,255,0.35);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1);
+          }
+          25%, 35% {
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            transform: scale(1.12);
+          }
+        }
 
         /* === Per-card animations === */
 
