@@ -3522,7 +3522,14 @@ body:has(main.home-immersive) .footer-top {
 
   /* ----- Typography scale-down ----- */
   .hero h1 {
-    font-size: 36px !important;
+    /* Adaptive instead of a flat 36px. The old 36px !important made
+       "Specialty-focused RCM." (~375px wide at 36px) overflow / wrap
+       and orphan "RCM." on phones narrower than ~412px. 8.5vw scales
+       the headline with viewport width so the first sentence stays on
+       one line from ~320px up, while a 24px floor / 40px ceiling guard
+       the extremes. Kept !important to override the component's own
+       .hero-headline rule cascade. */
+    font-size: clamp(24px, 8.5vw, 40px) !important;
     letter-spacing: -0.02em;
   }
   .hero-sub {
