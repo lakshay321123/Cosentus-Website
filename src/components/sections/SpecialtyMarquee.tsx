@@ -743,6 +743,11 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .spec-card-anim .anim-mod-pill { background: rgba(255,255,255,0.15) !important; }
         .spec-card-anim .anim-pulse-ring { border-color: rgba(255,255,255,0.6) !important; }
         .spec-card-anim .anim-pulse-core svg { stroke: #00B5D6 !important; }
+        /* Defense shield: blanket rule whitens the shield body AND its
+           white tick, making the tick vanish into the shield. Re-cut the
+           tick (the fill:none path) in blue so it reads against the now-
+           white shield. */
+        .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
 
         /* === Per-card animations === */
 
