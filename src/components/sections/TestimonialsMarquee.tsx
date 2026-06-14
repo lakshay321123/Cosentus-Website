@@ -42,13 +42,14 @@ function MarqueeCard({ t }: { t: ShuffleTestimonial }) {
     <div
       className="tmarquee-card"
       style={{
-        // GLASS-SQUARE RECIPE — matches TestimonialCard.tsx (mobile fan)
-        // exactly. The 0.75 white wash tried earlier read as a flat,
-        // plain panel on desktop (lost the glass character), so the wash
-        // is back to 0.40 to match the mobile cards the design signed off
-        // on. Background, border, backdrop blur, and cyan glow are now
-        // identical to the mobile card.
-        background: 'rgba(255, 255, 255, 0.40)',
+        // GLASS-SQUARE RECIPE. Border, backdrop blur, and cyan glow match
+        // TestimonialCard.tsx (mobile fan) exactly. The WASH is higher here
+        // (0.75 vs mobile's 0.40) ON PURPOSE: the mobile fan's front card
+        // sits on top of 2+ more glass cards, so its 0.40 layers composite
+        // to a near-opaque (~0.75) surface. The desktop marquee is a SINGLE
+        // layer over the video, so at 0.40 it reads dark and see-through.
+        // 0.75 on one layer reproduces the stacked mobile look.
+        background: 'rgba(255, 255, 255, 0.75)',
         border: '1.5px solid rgba(255, 255, 255, 0.50)',
         backdropFilter: 'blur(20px) saturate(160%)',
         WebkitBackdropFilter: 'blur(20px) saturate(160%)',
