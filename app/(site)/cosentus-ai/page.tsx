@@ -13,8 +13,8 @@ export default function CosentusAIPage() {
     <main>
       <PageHero
         label="Zeus"
-        title={<>RCM that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>thinks.</span></>}
-        subtitle="Cosentus was built around Ai from day one. That means every module shares context with every other module — eligibility errors inform coding rules, denial patterns retrain claim scrubbing, payer behavior updates A/R follow-up. Most platforms can’t do that because their Ai was added later."
+        title={<>The ultimate RCM engine is <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>here.</span></>}
+        subtitle="Built around Ai from day one, Cosentus RCM 360 connects eligibility, coding, claims, denials, A/R, and payments. So every signal improves the next action."
         ctaText="Get Your Financial MRI"
         ctaHref="/contact"
       />
