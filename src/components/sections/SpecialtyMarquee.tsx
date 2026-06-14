@@ -818,9 +818,21 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         /* Meds capsules use fill="currentColor" driven by the cap's
            color, which cycles faint-blue -> blue (invisible on blue).
            Force white so the capsules read as filled. */
-        .spec-card-anim .anim-med-cap { color: #FFFFFF !important; animation-name: none !important; }
+        .spec-card-anim .anim-med-cap { color: #FFFFFF !important; animation-name: spec-med-cycle-white !important; }
         .spec-card-anim .anim-med-cap svg line,
         .spec-card-anim .anim-med-cap svg rect { stroke: #00B5D6 !important; }
+        @keyframes spec-med-cycle-white {
+          0%, 50%, 100% {
+            color: rgba(255,255,255,0.7);
+            transform: scale(1);
+            filter: none;
+          }
+          12.5% {
+            color: #FFFFFF;
+            transform: scale(1.18);
+            filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+          }
+        }
         /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
            both invisible on the blue card (looks frozen). Repoint cells
            to a white-pulse wave so the sweep reads on blue. */
