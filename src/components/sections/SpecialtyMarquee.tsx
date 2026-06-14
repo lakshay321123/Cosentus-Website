@@ -109,7 +109,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         <div className="anim anim-badges" aria-hidden="true">
           {[0, 1, 2].map(i => (
             <span key={i} className={`anim-badge anim-badge-${i}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 13l4 4L19 7" />
               </svg>
             </span>
@@ -146,7 +146,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
           <span className="anim-pulse-ring anim-pulse-ring-1" />
           <span className="anim-pulse-ring anim-pulse-ring-2" />
           <span className="anim-pulse-core">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72a2 2 0 011.72 2z" />
             </svg>
           </span>
@@ -169,7 +169,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // override remaps them to white where this renders on blue.
       return (
         <div className="anim anim-chart" aria-hidden="true">
-          <svg viewBox="0 0 100 56" width="120" height="68" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <svg viewBox="0 0 100 56" width="240" height="136" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
             {/* Area fill under the trend line */}
             <path
               className="anim-chart-area"
@@ -202,14 +202,14 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // for the Pre-Payment Review Defense card.
       return (
         <div className="anim anim-defense" aria-hidden="true">
-          <svg className="anim-defense-doc" viewBox="0 0 44 56" width="44" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="anim-defense-doc" viewBox="0 0 44 56" width="88" height="112" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="2" width="40" height="52" rx="3" fill="#FFFFFF" stroke="#00B5D6" strokeOpacity="0.45" strokeWidth="1.5" />
             <rect x="8" y="12" width="28" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="20" width="22" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="28" width="26" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="36" width="20" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
           </svg>
-          <svg className="anim-defense-shield" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="anim-defense-shield" viewBox="0 0 36 36" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 2 L32 7 L32 17 C32 25 26 32 18 34 C10 32 4 25 4 17 L4 7 Z" fill="#00B5D6" stroke="#FFFFFF" strokeWidth="2" />
             <path d="M11 18 L16 23 L25 13" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
@@ -225,7 +225,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         <div className="anim anim-meds" aria-hidden="true">
           {[0, 1, 2].map(i => (
             <span key={i} className={`anim-med-cap anim-med-cap-${i}`}>
-              <svg viewBox="0 0 44 16" width="44" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 44 16" width="88" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="1" y="1" width="42" height="14" rx="7" fill="currentColor" stroke="#00B5D6" strokeWidth="1.5" />
                 <line x1="22" y1="1" x2="22" y2="15" stroke="#00B5D6" strokeWidth="1.5" />
               </svg>
@@ -240,7 +240,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // which read as a YouTube play button rather than telehealth.
       return (
         <div className="anim anim-telehealth" aria-hidden="true">
-          <svg viewBox="0 0 60 52" width="60" height="52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 60 52" width="120" height="104" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* Screen */}
             <rect x="2" y="2" width="56" height="38" rx="4" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
             {/* Person on the screen: head + shoulders */}
@@ -267,7 +267,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // animation to avoid cross-browser SVG transform issues.
       return (
         <div className="anim anim-eligibility" aria-hidden="true">
-          <svg viewBox="0 0 80 50" width="80" height="50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 80 50" width="160" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* Insurance card body */}
             <rect x="2" y="2" width="76" height="46" rx="5" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
             {/* Cardholder detail lines (abstracted name / ID /
@@ -669,7 +669,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         }
         .spec-card-anim {
           margin-top: auto;
-          height: 110px;
+          height: 160px;
           position: relative;
           display: flex;
           align-items: center;
@@ -774,6 +774,47 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            tick (the fill:none path) in blue so it reads against the now-
            white shield. */
         .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
+        /* Modifier pills: solid white fill, white text, doubled size,
+           and a white-pulse keyframe (the original cycled blue->blue,
+           invisible on the blue card). */
+        .spec-card-anim .anim-mod-pill {
+          font-size: 28px !important;
+          padding: 14px 28px !important;
+          color: #00B5D6 !important;
+          background: #FFFFFF !important;
+          border-color: #FFFFFF !important;
+          animation-name: spec-mod-cycle-white !important;
+        }
+        @keyframes spec-mod-cycle-white {
+          0%, 50%, 100% {
+            color: #00B5D6;
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(255,255,255,0.85);
+            transform: scale(1);
+          }
+          12.5% {
+            color: #00B5D6;
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            transform: scale(1.12);
+          }
+        }
+        /* Telehealth + eligibility: fill the screen/card body solid
+           white and re-cut the inner detail (person, ID lines) in blue
+           so the filled icon still reads on the blue card. */
+        .spec-card-anim .anim-telehealth svg > rect:first-of-type,
+        .spec-card-anim .anim-eligibility svg > rect:first-of-type {
+          fill: #FFFFFF !important;
+          stroke: #FFFFFF !important;
+        }
+        .spec-card-anim .anim-telehealth svg circle,
+        .spec-card-anim .anim-telehealth svg path,
+        .spec-card-anim .anim-telehealth svg rect:not(:first-of-type) {
+          fill: #00B5D6 !important;
+        }
+        .spec-card-anim .anim-eligibility svg line { stroke: #00B5D6 !important; }
+        .spec-card-anim .anim-eligibility-check circle { fill: #00B5D6 !important; }
+        .spec-card-anim .anim-eligibility-check path { stroke: #FFFFFF !important; }
         /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
            both invisible on the blue card (looks frozen). Repoint cells
            to a white-pulse wave so the sweep reads on blue. */
@@ -844,9 +885,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         }
         .anim-rules-grid {
           display: grid;
-          grid-template-columns: repeat(4, 16px);
-          grid-template-rows: repeat(3, 16px);
-          gap: 6px;
+          grid-template-columns: repeat(4, 32px);
+          grid-template-rows: repeat(3, 32px);
+          gap: 10px;
         }
         .anim-rule-cell {
           border-radius: 3px;
@@ -886,8 +927,8 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           align-items: center;
         }
         .anim-badge {
-          width: 48px;
-          height: 48px;
+          width: 72px;
+          height: 72px;
           border-radius: 50%;
           background: rgba(0, 181, 214, 0.08);
           border: 1.5px solid #00B5D6;
@@ -982,11 +1023,11 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .anim-stat-bars {
           display: flex;
           align-items: flex-end;
-          gap: 4px;
-          height: 60px;
+          gap: 6px;
+          height: 90px;
         }
         .anim-stat-bar {
-          width: 6px;
+          width: 12px;
           background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.4) 100%);
           border-radius: 2px;
           transform-origin: bottom;
@@ -1134,8 +1175,8 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            Used for Pre-Payment Review Defense (Pain Management). */
         .anim-defense {
           position: relative;
-          width: 80px;
-          height: 80px;
+          width: 150px;
+          height: 150px;
           display: flex;
           align-items: center;
           justify-content: center;
