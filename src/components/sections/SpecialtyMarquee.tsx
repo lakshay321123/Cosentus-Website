@@ -207,27 +207,22 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         </div>
       )
     case 'telehealth':
-      // Monitor outline with a play triangle inside (read as
-      // "video call active") plus a pulsing live indicator dot
-      // in the top-right corner. Used on Behavioral Health for
-      // the Telehealth Billing card. Earlier draft used 'badges'
-      // (3 floating ticks) which preview feedback said didn't
-      // connect to telehealth at all.
+      // Video-consult glyph: a screen showing a head-and-shoulders
+      // figure (the patient/provider on the call) with a pulsing
+      // "live" dot. Replaces the earlier monitor + play-triangle,
+      // which read as a YouTube play button rather than telehealth.
       return (
         <div className="anim anim-telehealth" aria-hidden="true">
           <svg viewBox="0 0 60 52" width="60" height="52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Monitor screen — pale-teal fill so the play
-                triangle inside reads against a screen, not just
-                empty space. */}
+            {/* Screen */}
             <rect x="2" y="2" width="56" height="38" rx="4" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
-            {/* Monitor stand */}
+            {/* Person on the screen: head + shoulders */}
+            <circle cx="30" cy="16" r="6" fill="#00B5D6" />
+            <path d="M18 33 C18 26 24 23 30 23 C36 23 42 26 42 33 Z" fill="#00B5D6" />
+            {/* Stand */}
             <rect x="26" y="40" width="8" height="6" fill="#00B5D6" fillOpacity="0.4" />
             <rect x="18" y="46" width="24" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.4" />
-            {/* Play triangle centered on the screen */}
-            <path d="M24 13 L24 29 L39 21 Z" fill="#00B5D6" />
-            {/* Pulsing live indicator dot in the top-right
-                corner of the screen. Opacity-only animation so
-                cross-browser SVG-transform issues don't apply. */}
+            {/* Pulsing live indicator dot, top-right of the screen */}
             <circle cx="50" cy="9" r="3" fill="#00B5D6" className="anim-telehealth-dot" />
           </svg>
         </div>
@@ -739,6 +734,11 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         .spec-card-anim .anim-mod-pill,
         .spec-card-anim .anim-lang-bubble,
         .spec-card-anim .anim-stamp-track { border-color: rgba(255,255,255,0.7) !important; }
+        .spec-card-anim .anim-badge {
+          border-color: #FFFFFF !important;
+          background: rgba(255,255,255,0.15) !important;
+        }
+        .spec-card-anim .anim-badge svg { stroke: #FFFFFF !important; }
         .spec-card-anim .anim-lang-bubble,
         .spec-card-anim .anim-mod-pill { background: rgba(255,255,255,0.15) !important; }
         .spec-card-anim .anim-pulse-ring { border-color: rgba(255,255,255,0.6) !important; }
