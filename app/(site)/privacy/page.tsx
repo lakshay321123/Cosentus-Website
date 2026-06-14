@@ -40,7 +40,7 @@ export default function PrivacyPage() {
             <p>This personal information is required to provide our products and services to you. If you do not provide personal information we ask for, it may delay or prevent us from providing our products and services to you.</p>
 
             <h3 style={h3Style}>3. How Your Personal Information is Collected</h3>
-            <p>We collect most of this personal information directly from you\u2014in person, by telephone, text or email, or via our website. However, we may also collect information:</p>
+            <p>We collect most of this personal information directly from you, in person, by telephone, text or email, or via our website. However, we may also collect information:</p>
             <p>Directly from our clients, prospects or employees. For example, from documents that our clients provide to us related to the services for which they engage us.</p>
             <p>Indirectly from our clients, prospects or their employees. For example, through information we collect from our clients in the course of providing services to them.</p>
             <p>Directly and indirectly from activity on our website (https://cosentus.com/) or other portals. For example, from submissions through our website or website usage details collected automatically.</p>
@@ -84,9 +84,9 @@ export default function PrivacyPage() {
             <h3 style={h3Style}>11. Your Rights Under the GDPR</h3>
             <p><strong style={strongStyle}>Right to Access:</strong> The right to be provided with a copy of your personal information (the right of access).</p>
             <p><strong style={strongStyle}>Right to Rectification:</strong> The right to require us to correct any mistakes in your personal information.</p>
-            <p><strong style={strongStyle}>Right to be Forgotten:</strong> The right to require us to delete your personal information\u2014in certain situations.</p>
-            <p><strong style={strongStyle}>Right to Restriction of Processing:</strong> The right to require us to restrict processing of your personal information\u2014in certain circumstances, e.g. if you contest the accuracy of the data.</p>
-            <p><strong style={strongStyle}>Right to Data Portability:</strong> The right to receive the personal information you provided to us, in a structured, commonly used and machine-readable format and/or transmit that data to a third party\u2014in certain situations.</p>
+            <p><strong style={strongStyle}>Right to be Forgotten:</strong> The right to require us to delete your personal information, in certain situations.</p>
+            <p><strong style={strongStyle}>Right to Restriction of Processing:</strong> The right to require us to restrict processing of your personal information, in certain circumstances, e.g. if you contest the accuracy of the data.</p>
+            <p><strong style={strongStyle}>Right to Data Portability:</strong> The right to receive the personal information you provided to us, in a structured, commonly used and machine-readable format and/or transmit that data to a third party, in certain situations.</p>
             <p><strong style={strongStyle}>Right to Object:</strong> The right to object: at any time to your personal information being processed for direct marketing (including profiling); in certain other situations to our continued processing of your personal information, e.g. processing carried out for the purpose of our legitimate interests.</p>
             <p><strong style={strongStyle}>Right Not to be Subject to Automated Individual Decision-Making:</strong> The right not to be subject to a decision based solely on automated processing (including profiling) that produces legal effects concerning you or similarly significantly affects you.</p>
             <p>For further information on each of those rights, including the circumstances in which they apply, see the guidance from the UK Information Commissioner&apos;s Office (ICO) on individual rights under the General Data Protection Regulation.</p>
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
             <p>We hope that we can resolve any query or concern you raise about our use of your information. The General Data Protection Regulation also gives you right to lodge a complaint with a supervisory authority, in the European Union (or European Economic Area) state where you work, normally live, or where any alleged infringement of data protection laws occurred.</p>
 
             <h3 style={h3Style}>16. Changes to This Privacy Notice</h3>
-            <p>This privacy notice was published on January 21, 2022 and last updated on January 21, 2022. We may change this privacy notice from time to time\u2014when we do, we will inform you via our website or other means of contact such as email.</p>
+            <p>This privacy notice was published on January 21, 2022 and last updated on January 21, 2022. We may change this privacy notice from time to time. When we do, we will inform you via our website or other means of contact such as email.</p>
 
             <h3 style={h3Style}>17. How to Contact Us</h3>
             <p>Please contact us by post, email or telephone if you have any questions about this privacy policy or the information we hold about you.</p>
