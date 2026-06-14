@@ -44,7 +44,7 @@ export default function ASCPage() {
         title={<>Ambulatory Services.<br />Three Specialties. One Expert Team.</>}
         subtitle={
           <>
-            <span style={{ fontSize: '1.2em' }}>Orthopedics</span>, <span style={{ fontSize: '1.2em' }}>pain management</span>, and <span style={{ fontSize: '1.2em' }}>ASC billing</span> each with its own coding rules, payer behaviors, and denial patterns. We manage all three under one roof with specialty-trained teams and full transparency.
+            <span style={{ fontSize: '1.2em' }}>Orthopedics</span>, <span style={{ fontSize: '1.2em' }}>pain management</span>, and <span style={{ fontSize: '1.2em' }}>ASC billing</span> each carry distinct coding rules and denial patterns. We manage all three under one roof, with full transparency.
           </>
         }
         ctaText="Get Your No-Cost Financial MRI"

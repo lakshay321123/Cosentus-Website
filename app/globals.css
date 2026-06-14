@@ -894,21 +894,15 @@ body:has(main.home-immersive) .footer-top {
 }
 @media (max-width: 768px) {
   .page-hero-section--specialty {
-    /* Fixed 600px on mobile — SAME on every specialty page so the hero
-       video renders at an identical size across all of them (the videos
-       fill the hero via object-fit:cover, so equal hero height = equal
-       video size). 600px matches the desktop height and is tall enough
-       to contain the tallest page (ASC: 3-line title + 5-line subtitle +
-       CTA reaches ~512px from top at 320px width) without clipping the
-       "Get Your No-Cost Financial MRI" button.
-
-       History: a 440px cap previously kept sizes uniform but clipped
-       ASC's CTA; switching to min-height-only (no cap) fixed the clip
-       but let each page size to its own content, making the videos
-       different sizes. Fixed 600px gives BOTH uniform video size AND no
-       clipping. */
-    min-height: 600px;
-    max-height: 600px;
+    /* Fixed 550px on mobile — SAME on every specialty page so the hero
+       video renders at an identical size across all of them. 550px fits
+       the tallest page: ASC's content (3-line title + 5-line subtitle +
+       CTA) runs to 512px from the hero top at the narrowest phone
+       (320px), so 550px clears the CTA with ~38px below it. Shorter
+       pages show some empty space below the CTA (the cost of a uniform
+       height), but less than the earlier 600px. */
+    min-height: 550px;
+    max-height: 550px;
     /* Top-anchor the content on mobile instead of vertical centering.
        The section is display:flex; align-items:center (set inline in
        PageHero). With centering, a TALL title (e.g. ASC's 3-line title)
