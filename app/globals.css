@@ -4184,6 +4184,51 @@ body:has(main.home-immersive) .footer-top {
   .partners-marquee { animation: none; }
 }
 
+/* ===== HOME TESTIMONIALS MARQUEE (desktop only) ===== */
+/* Continuous left-scroll of the glass testimonial cards. The track holds
+   the testimonial set twice; translating -50% loops seamlessly. Pauses on
+   hover. Card surface/typography match TestimonialCard.tsx exactly. */
+@keyframes testimonialMarquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.tmarquee-viewport {
+  overflow: hidden;
+  width: 100%;
+  /* NO mask-image edge fade here. A mask on this ancestor makes it the
+     backdrop root, so each card's backdrop-filter samples a snapshot of
+     just this strip instead of the page behind it — which rendered as a
+     visible lighter rectangle around the row and washed-out cards.
+     Cards simply clip at the viewport edges instead. Background stays
+     fully transparent. */
+  padding: 24px 0;
+}
+.tmarquee-track {
+  display: flex;
+  width: max-content;
+  gap: 24px;
+  /* ~3 cards visible at a time, scrolling left. Slow, readable pace. */
+  animation: testimonialMarquee 60s linear infinite;
+}
+.tmarquee-viewport:hover .tmarquee-track {
+  animation-play-state: paused;
+}
+.tmarquee-card {
+  width: 400px;
+  min-height: 340px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 16px;
+  padding: 32px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tmarquee-track { animation: none; }
+}
+
 /* ===== SERVICES ROW LAYOUT ===== */
 @media (max-width: 768px) {
   .service-row {

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, type ReactNode } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
 import TestimonialCard from '@/components/ui/TestimonialCard'
+import TestimonialsMarquee from '@/components/sections/TestimonialsMarquee'
 
 /**
  * TestimonialsShuffleSection — home-page-only fan-stack variant of the
@@ -155,8 +156,12 @@ export default function TestimonialsShuffleSection({
           {title}
         </RevealText>
 
+        {/* MOBILE (< 1024px): the original fan-stack, untouched. Hidden on
+            desktop via .tcard-mobile-wrap below. The desktop marquee is
+            rendered separately, outside .container, further down. */}
         <RevealOnScroll delay={0.45}>
           <div
+            className="tcard-mobile-wrap"
             // Pause auto-advance on mouse hover (desktop) or touch
             // (mobile). Without the touch handlers, the 5s rotation
             // could shift a card out from under a user mid-read on
@@ -167,13 +172,12 @@ export default function TestimonialsShuffleSection({
             onTouchStart={() => setPaused(true)}
             onTouchEnd={() => setPaused(false)}
             onTouchCancel={() => setPaused(false)}
-            style={{
-              marginTop: 64,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 32,
-            }}
+            // NOTE: no inline `display` here. Visibility AND the flex
+            // layout live in the .tcard-mobile-wrap CSS rule below —
+            // an inline display:flex would override the desktop
+            // `display: none` media query (that exact bug shipped in
+            // the first cut of this layout).
+            style={{ marginTop: 64 }}
           >
             {/* Card stage = stack + the two desktop side-arrows.
                   The fan extends ~66% to the right of the front card's
@@ -261,9 +265,35 @@ export default function TestimonialsShuffleSection({
             </div>
           </div>
         </RevealOnScroll>
+
+        {/* DESKTOP (>= 1024px): left-scrolling marquee of the same glass
+            cards. Hidden on mobile via .tcard-desktop-wrap. Rendered with
+            the same testimonials array so content stays in sync with the
+            mobile fan-stack. */}
+        <RevealOnScroll delay={0.45}>
+          <div className="tcard-desktop-wrap" style={{ marginTop: 64 }}>
+            <TestimonialsMarquee testimonials={testimonials} />
+          </div>
+        </RevealOnScroll>
       </div>
 
       <style>{`
+        /* Desktop/mobile swap. Mobile-first: fan-stack shows, marquee
+           hidden. At >=1024px the marquee shows and the fan-stack hides.
+           Done in CSS (not JS) to avoid SSR/hydration mismatch — both
+           render server-side and CSS decides visibility per viewport. */
+        .tcard-desktop-wrap { display: none; }
+        .tcard-mobile-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 32px;
+        }
+        @media (min-width: 1024px) {
+          .tcard-desktop-wrap { display: block; }
+          .tcard-mobile-wrap { display: none; }
+        }
+
         /* Stack container — responsive offset so the fan reads centred
            on desktop and stays inside the viewport on narrower screens. */
         .tcard-stack {
