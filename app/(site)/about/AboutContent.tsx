@@ -425,7 +425,11 @@ export default function AboutContent() {
               padding: 32px 24px;
               justify-content: flex-start;
             }
-            .about-360-card p { font-size: 16px; }
+            /* 18px to match the specialty pages' body copy (e.g. the
+               problem/solution panel bullets on /specialties/* are 18px /
+               line-height 1.6). The old 16px was noticeably smaller than
+               the rest of the site's body text on mobile. */
+            .about-360-card p { font-size: 18px; }
           }
         `}</style>
       </section>
