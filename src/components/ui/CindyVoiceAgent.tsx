@@ -667,72 +667,101 @@ function CindyInner() {
         </div>
       )}
 
-      {/* Mobile only: slim Siri-style strip. Renders while the conversation is
-          starting up (after handleMobileFABTap fires) and while it's
-          connected. Glass overlay fixed to the bottom edge so it doesn't
-          cover page content. Layout: avatar - waveform/label - close X.
-          The X only ends the conversation; the FAB above will reappear so
-          the user can re-summon Grace without a 24h cooldown. */}
+      {/* Mobile only: floating glass pill with Siri-style flowing waveform.
+          Renders while the conversation is starting up (after
+          handleMobileFABTap fires) and while it's connected.
+          Dark-glass pill floats above the bottom edge with safe-area
+          clearance. Inside: five overlapping animated SVG waves (Apple
+          system colours, screen-blended) and a close X. No avatar, no
+          state label — the wave is the indicator (matches the Siri
+          reference image the user provided). */}
       {isMobile && (isStarting || isConnected) && (
         <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
-          position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 9998,
-          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-          background: 'rgba(255,255,255,0.92)',
-          backdropFilter: 'blur(20px) saturate(1.6)',
-          WebkitBackdropFilter: 'blur(20px) saturate(1.6)',
-          borderTop: '1px solid rgba(0,181,214,0.3)',
-          boxShadow: '0 -8px 24px rgba(0,0,0,0.08)',
-          animation: 'cindyStripSlideUp 0.35s cubic-bezier(0.16,1,0.3,1)',
+          position: 'fixed',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+          zIndex: 9998,
+          width: 'calc(100% - 24px)',
+          maxWidth: 380,
+          height: 76,
+          borderRadius: 999,
+          background: 'rgba(18, 20, 32, 0.55)',
+          backdropFilter: 'blur(30px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
+          animation: 'cindyStripSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 56px 12px 16px', minHeight: 64 }}>
-            {/* Avatar — small (no header gradient on the slim strip). Pulsing
-                glow while listening, gentle bob while speaking, breathing
-                otherwise. Same animation tokens as the desktop panel. */}
-            <div style={{
-              width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
-              border: '2px solid #00B5D6', overflow: 'hidden', position: 'relative',
-              boxShadow: isListening ? '0 0 0 3px rgba(0,181,214,0.25)' : 'none',
-              animation: isSpeaking ? 'cindyBob 0.4s ease-in-out infinite' : isListening ? 'cindyGlow 1.5s ease-in-out infinite' : 'cindyBreathe 3s ease-in-out infinite',
-            }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: blinking ? 'scaleY(0.97)' : 'scaleY(1)', transition: 'transform 0.1s ease' }} />
-            </div>
-
-            {/* Waveform (when listening) + state label. flex:1 so the label
-                ellipses gracefully when actionLabel gets long. */}
-            <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-              {isListening && (
-                <div style={{ display: 'flex', gap: 3, flexShrink: 0 }} aria-hidden="true">
-                  {[0,1,2,3,4].map(i => (
-                    <div key={i} style={{ width: 3, height: 12, background: '#00B5D6', borderRadius: 2, animation: 'cindyWave 0.8s ease-in-out infinite', animationDelay: `${i*0.1}s` }} />
-                  ))}
-                </div>
-              )}
-              <span style={{
-                fontSize: 15, fontWeight: 500, color: '#00B5D6',
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1,
-              }}>
-                {actionLabel || (isStarting && !isConnected ? 'Connecting…' : isSpeaking ? 'Speaking…' : isListening ? 'Listening…' : 'Grace')}
-              </span>
-            </div>
+          {/* Waveform — left 75% of the pill, full height, vertically centred.
+              The path is a single hand-tuned lens-shaped wave (small
+              amplitude at edges, large in the middle). Five copies stack
+              with different stroke colours, different scaleY animation
+              tempos, and screen blending — the overlap produces the
+              rainbow shimmer effect from the reference image. */}
+          <div style={{
+            position: 'absolute',
+            left: 24, right: 60, top: 0, bottom: 0,
+            display: 'flex', alignItems: 'center',
+            pointerEvents: 'none',
+          }}>
+            <svg viewBox="0 0 200 50" preserveAspectRatio="none" aria-hidden="true" style={{ width: '100%', height: 50, overflow: 'visible' }}>
+              <g style={{ mixBlendMode: 'screen' as const }}>
+                {[
+                  { color: '#FF375F', dur: 1.6 },  // pink
+                  { color: '#BF5AF2', dur: 1.9 },  // purple
+                  { color: '#0A84FF', dur: 2.3 },  // blue
+                  { color: '#30D158', dur: 1.75 }, // green
+                  { color: '#FF9F0A', dur: 2.1 },  // orange
+                ].map((w, i) => (
+                  <path
+                    key={i}
+                    d="M 0 25 Q 10 23 20 25 Q 30 27 40 25 Q 50 17 60 25 Q 70 33 80 25 Q 90 10 100 25 Q 110 40 120 25 Q 130 17 140 25 Q 150 33 160 25 Q 170 27 180 25 Q 190 23 200 25"
+                    stroke={w.color}
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    fill="none"
+                    style={{
+                      animation: `siriWave${i + 1} ${w.dur}s ease-in-out infinite`,
+                      animationDelay: `${-i * 0.22}s`,
+                      transformBox: 'fill-box' as const,
+                      transformOrigin: '50% 50%' as const,
+                      filter: 'blur(0.4px)',
+                    }}
+                  />
+                ))}
+              </g>
+            </svg>
           </div>
 
-          {/* Close X — absolute so layout above doesn't have to reserve room.
-              Larger hit target than the visual circle for mobile tap accuracy. */}
+          {/* Close X — restyled for the dark glass. Larger hit target
+              than the visual circle for mobile tap accuracy. */}
           <button onClick={endConversation} aria-label="End conversation" style={{
-            position: 'absolute', top: 16, right: 12,
+            position: 'absolute', top: '50%', right: 12,
+            transform: 'translateY(-50%)',
             width: 36, height: 36, borderRadius: '50%',
-            background: 'rgba(0,0,0,0.06)', color: '#444',
+            background: 'rgba(255,255,255,0.14)',
+            color: 'rgba(255,255,255,0.9)',
             border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 16, padding: 0,
+            transition: 'background 200ms ease',
           }}>✕</button>
 
-          {/* Error banner — sits below the strip row so it doesn't shove the
-              avatar/waveform around. Only present when startConversation
-              caught a mic-permission or no-device error. */}
+          {/* Error banner — sits as a separate pill above the bubble if
+              startConversation caught a mic-permission or no-device error.
+              Kept its own background so the dark glass can stay clean. */}
           {startError && (
-            <div role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', borderTop: '1px solid #F5C5C5', padding: '8px 16px' }}>
+            <div role="alert" style={{
+              position: 'absolute', left: 0, right: 0, bottom: 'calc(100% + 8px)',
+              fontSize: 12, lineHeight: 1.5, color: '#fff',
+              background: 'rgba(139,0,0,0.88)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              borderRadius: 14,
+              padding: '8px 14px',
+              textAlign: 'center',
+            }}>
               {startError}
             </div>
           )}
@@ -741,12 +770,20 @@ function CindyInner() {
 
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateX(-50%) translateY(120%); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
         @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
+        /* Siri-style waveform — five paths share these phase-shifted breathing
+           rhythms. scaleY only (no horizontal drift) keeps the wave centred
+           inside the pill; overlapping screen-blended colours do the rest. */
+        @keyframes siriWave1 { 0%,100% { transform: scaleY(0.45); } 50% { transform: scaleY(1.0); } }
+        @keyframes siriWave2 { 0%,100% { transform: scaleY(0.7); }  50% { transform: scaleY(0.35); } }
+        @keyframes siriWave3 { 0%,100% { transform: scaleY(0.3); }  50% { transform: scaleY(1.1); } }
+        @keyframes siriWave4 { 0%,100% { transform: scaleY(0.85); } 50% { transform: scaleY(0.4); } }
+        @keyframes siriWave5 { 0%,100% { transform: scaleY(0.5); }  50% { transform: scaleY(0.95); } }
         @media (max-width: 480px) {
           .cindy-panel { right: 12px !important; left: 12px !important; bottom: 80px !important; width: auto !important; }
           .cindy-avatar { right: 16px !important; bottom: 80px !important; }
