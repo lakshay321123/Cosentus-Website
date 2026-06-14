@@ -894,15 +894,11 @@ body:has(main.home-immersive) .footer-top {
 }
 @media (max-width: 768px) {
   .page-hero-section--specialty {
-    /* Fixed 550px on mobile — SAME on every specialty page so the hero
-       video renders at an identical size across all of them. 550px fits
-       the tallest page: ASC's content (3-line title + 5-line subtitle +
-       CTA) runs to 512px from the hero top at the narrowest phone
-       (320px), so 550px clears the CTA with ~38px below it. Shorter
-       pages show some empty space below the CTA (the cost of a uniform
-       height), but less than the earlier 600px. */
-    min-height: 550px;
-    max-height: 550px;
+    /* 440px on mobile — the original height, restored. Keeps the hero
+       video at its original display size. ASC's subtitle was shortened
+       so its content fits better at this height. */
+    min-height: 440px;
+    max-height: 440px;
     /* Top-anchor the content on mobile instead of vertical centering.
        The section is display:flex; align-items:center (set inline in
        PageHero). With centering, a TALL title (e.g. ASC's 3-line title)
