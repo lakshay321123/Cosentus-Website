@@ -77,9 +77,16 @@ class AnimationController {
         return seed / 233280
       }
     }
-    Math.random = customRandom()
-    this.createStars()
-    Math.random = originalRandom
+    // try/finally so a throw inside createStars() can never leave the
+    // global Math.random replaced (per CodeRabbit review). Behavior is
+    // identical to the source on the happy path — same seeded batch,
+    // same restore — this only guarantees restoration on error.
+    try {
+      Math.random = customRandom()
+      this.createStars()
+    } finally {
+      Math.random = originalRandom
+    }
   }
 
   private createStars() {
