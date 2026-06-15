@@ -579,6 +579,18 @@ function CindyInner() {
         { color: '255, 55, 95' },                       // systemPink dark #FF375F
         { color: '48, 209, 88' },                       // systemGreen dark #30D158
       ],
+      // Tighten the per-sub-curve amplitude range. Default is [0.3, 1]
+      // (siriwave.esm.js line 132 + DEFAULT_AMPLITUDE_RANGES line 103),
+      // which gives an average per-sub-curve amplitude of ~0.65 -- that
+      // caps the per-curve yRelativePos at ~0.65 of its theoretical
+      // max even when our global setAmplitude is at 1. Multiplied
+      // through with the ios9 AMPLITUDE_FACTOR constant of 0.8, the
+      // wave never gets close to the canvas ceiling. [0.8, 1] pushes
+      // the per-sub-curve average to ~0.9 while keeping a little
+      // organic variation between curves so they don't look identical.
+      ranges: {
+        amplitude: [0.8, 1.0],
+      },
     })
     siriWaveRef.current = inst
     return () => {
@@ -629,8 +641,8 @@ function CindyInner() {
         // iOS Siri pace; values past either clip visually because
         // the library has no internal clamp.
         const v = smoothed < 0.03 ? 0 : smoothed
-        wave.setAmplitude(Math.min(1, Math.sqrt(v) * 2))
-        wave.setSpeed(Math.min(0.18, Math.sqrt(v) * 0.3))
+        wave.setAmplitude(Math.min(1, Math.sqrt(v) * 3))
+        wave.setSpeed(Math.min(0.18, Math.sqrt(v) * 0.4))
       }
       rafId = requestAnimationFrame(loop)
     }
