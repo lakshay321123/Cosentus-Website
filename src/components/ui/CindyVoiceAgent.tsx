@@ -546,7 +546,6 @@ function CindyInner() {
   // ships with a built-in red/green/blue palette and supports the
   // setAmplitude / setSpeed interpolated controls used below.
   useEffect(() => {
-    if (!isMobile) return
     if (!(isStarting || isConnected)) return
     const el = siriWaveContainerRef.current
     if (!el) return
@@ -597,7 +596,7 @@ function CindyInner() {
       try { inst.dispose() } catch { /* dispose can throw if container already gone */ }
       siriWaveRef.current = null
     }
-  }, [isMobile, isStarting, isConnected])
+  }, [isStarting, isConnected])
 
   // Audio-reactive speed + amplitude. Polls ElevenLabs' getInputVolume
   // and getOutputVolume on every animation frame and feeds the louder
@@ -607,7 +606,7 @@ function CindyInner() {
   // fast attack (rising) and slow release (falling) smooths the motion
   // so the wave glides on speech onset rather than snapping per-frame.
   useEffect(() => {
-    if (!isConnected || !isMobile) return
+    if (!isConnected) return
     let rafId = 0
     let smoothed = 0
     const loop = () => {
@@ -648,7 +647,7 @@ function CindyInner() {
     }
     rafId = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafId)
-  }, [isConnected, isMobile, conversation])
+  }, [isConnected, conversation])
 
   // Cross-component coordination: if the user opens the text chat
   // (ChatWidget dispatches 'grace-chat-opened' on its FAB click) while
@@ -772,7 +771,7 @@ function CindyInner() {
         </button>
       )}
 
-      {showPopup && !dismissed && !isMobile && (
+      {showPopup && !dismissed && !isMobile && !isStarting && !isConnected && (
         <div className="cindy-panel" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} aria-label="Close Grace" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(255,255,255,0.20)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 14, transition: 'background 200ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.35)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.20)' }}>✕</button>
 
@@ -828,10 +827,17 @@ function CindyInner() {
           while it's connected. Layout: [X close on left] [wave fills rest].
           The wave amplitude is driven from ElevenLabs' getInputVolume /
           getOutputVolume so it reacts to the actual speaking voice. */}
-      {isMobile && (isStarting || isConnected) && (
-        <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
+      {(isStarting || isConnected) && (
+        <div className="cindy-strip" role="dialog" aria-label="Grace voice conversation" style={{
           position: 'fixed',
-          left: 12, right: 12, bottom: 60,
+          // Mobile: full-width pill anchored to the bottom edge with 12px
+          // gutters. Desktop: fixed 480px width, centered horizontally via
+          // left:50% + translateX(-50%), sitting close to the bottom edge
+          // (32px) for an iOS-island feel.
+          ...(isMobile
+            ? { left: 12, right: 12, bottom: 60 }
+            : { left: '50%', transform: 'translateX(-50%)', width: 480, bottom: 32 }
+          ),
           zIndex: 9998,
           height: 100,
           borderRadius: 999,
@@ -840,7 +846,13 @@ function CindyInner() {
           WebkitBackdropFilter: 'blur(30px) saturate(180%)',
           border: '1px solid rgba(255, 255, 255, 0.12)',
           boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
-          animation: 'cindyStripSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          // Desktop keyframe composes translateX(-50%) into both keyframe
+          // states so the centering transform survives the animation —
+          // otherwise the animation's transform: translateY(...) replaces
+          // it mid-animation and the strip would slide in off-center.
+          animation: isMobile
+            ? 'cindyStripSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
+            : 'cindyStripSlideUpDesktop 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
           overflow: 'hidden',
         }}>
           {/* Close X on the LEFT (per user preference Jun 2026). Ends the
@@ -872,6 +884,30 @@ function CindyInner() {
             }}
           />
 
+          {/* Connecting indicator — shown only during the handshake
+              window (isStarting && !isConnected, ~1-3s on mobile due
+              to the getUserMedia + WebSocket cost). Once isConnected
+              flips true the wave (whose RAF loop is gated on
+              isConnected) takes over as the visual indicator and this
+              label unmounts. Without this label the strip is a blank
+              dark pill during the wait, which felt to the user like
+              Grace was unresponsive even though the connection was
+              progressing normally. Per user instruction Jun 2026. */}
+          {isStarting && !isConnected && (
+            <div aria-live="polite" style={{
+              position: 'absolute',
+              left: 60, right: 16, top: 0, bottom: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: 14, fontWeight: 500,
+              letterSpacing: '0.01em',
+              pointerEvents: 'none',
+              animation: 'cindyConnectingPulse 1.4s ease-in-out infinite',
+            }}>
+              Connecting with Grace...
+            </div>
+          )}
+
           {/* Error banner — sits as its own pill ABOVE the strip if
               startConversation caught a mic-permission or no-device error. */}
           {startError && (
@@ -894,11 +930,13 @@ function CindyInner() {
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cindyStripSlideUpDesktop { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
         @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
+        @keyframes cindyConnectingPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @media (max-width: 480px) {
           .cindy-panel { right: 12px !important; left: 12px !important; bottom: 80px !important; width: auto !important; }
           .cindy-avatar { right: 16px !important; bottom: 80px !important; }
