@@ -569,16 +569,19 @@ function CindyInner() {
       // background. The library's defaults are muted (dark navy, dark
       // maroon) and read poorly against rgba(18,20,32,0.55). Library
       // expects "r, g, b" triplet strings (no rgb() wrapper, alpha is
-      // added internally).
-      // Three colored sub-curves only — no supportLine. The supportLine
-      // entry that used to live here drew an unconditional thin baseline
-      // via siriwave's drawSupportLine() regardless of phase/amplitude,
-      // which crossed through the 'Connecting with Grace...' label during
-      // the handshake and made it hard to read (user feedback Jun 2026).
-      // Without it the canvas is fully transparent when speed/amp are 0
-      // (connecting phase + silent moments between turns) and only the
-      // audio-driven colored wave shows up.
+      // added internally). The supportLine entry stays first to keep
+      // the persistent thin baseline visible during the active
+      // conversation (drawSupportLine runs unconditionally regardless
+      // of phase/amplitude, so this is the line that shows during
+      // silent moments between turns). The line is suppressed only
+      // during the handshake phase (isStarting && !isConnected) by
+      // setting the canvas container's opacity to 0 — see the
+      // siriWaveContainerRef div below. This was the corrective
+      // change after a prior commit removed the supportLine outright,
+      // which was over-scope; user wanted the line hidden during the
+      // 'Connecting with Grace...' label only, not permanently.
       curveDefinition: [
+        { color: '255, 255, 255', supportLine: true }, // white baseline
         { color: '10, 132, 255' },                      // systemBlue dark #0A84FF
         { color: '255, 55, 95' },                       // systemPink dark #FF375F
         { color: '48, 209, 88' },                       // systemGreen dark #30D158
@@ -886,6 +889,15 @@ function CindyInner() {
               position: 'absolute',
               left: 60, right: 60, top: 0, bottom: 0,
               pointerEvents: 'none',
+              // Hide the entire canvas during the handshake. The siriwave
+              // supportLine draws an unconditional baseline regardless of
+              // phase/amplitude, so without this gate the line would cross
+              // through the 'Connecting with Grace...' label and make it
+              // hard to read. Once isConnected fires, opacity goes to 1 and
+              // the baseline (plus any audio-driven colored wave) is visible.
+              // Smooth 200ms fade in so the line doesn't pop on connection.
+              opacity: isStarting && !isConnected ? 0 : 1,
+              transition: 'opacity 200ms ease',
             }}
           />
 
