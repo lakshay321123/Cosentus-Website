@@ -347,7 +347,7 @@ export default function AboutContent() {
             <RevealOnScroll delay={0.9}>
               <div className="about-360-card about-360-card-light">
                 <p>
-                  We combine specialty-trained experts with AI-native technology to reduce denials, improve cash
+                  We combine specialty-trained experts with Ai-native technology to reduce denials, improve cash
                   flow, and collect more of what you&rsquo;ve earned. We manage the full revenue cycle from start to
                   finish, including credentialing, eligibility, prior authorizations, coding, payment posting,
                   denial management, appeals, patient billing, AR follow-up, and collections.
@@ -359,7 +359,7 @@ export default function AboutContent() {
                 <p>
                   Unlike vendors that hand over reports and expect you to become the crime scene investigator,
                   Cosentus gives you full transparency, clear recommendations, and hands-on execution.{' '}
-                  <strong>Real People + AI.</strong> Our specialists handle the judgment calls that technology
+                  <strong>Real People + Ai.</strong> Our specialists handle the judgment calls that technology
                   alone cannot make. They stay in your specialty. They know your payers. And behind them, Zeus
                   runs 23 modules across every step of your revenue cycle. Built around each client&rsquo;s
                   specialty, payer mix, workflows, and goals. You focus on your patients. We handle the revenue
@@ -425,7 +425,11 @@ export default function AboutContent() {
               padding: 32px 24px;
               justify-content: flex-start;
             }
-            .about-360-card p { font-size: 16px; }
+            /* 18px to match the specialty pages' body copy (e.g. the
+               problem/solution panel bullets on /specialties/* are 18px /
+               line-height 1.6). The old 16px was noticeably smaller than
+               the rest of the site's body text on mobile. */
+            .about-360-card p { font-size: 18px; }
           }
         `}</style>
       </section>
@@ -433,22 +437,78 @@ export default function AboutContent() {
       {/* Company by Numbers */}
       <section style={{ borderBottom: '1px solid var(--gray-200)', padding: '32px 0 48px' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+          {/* DESKTOP / tablet: static 4-column grid (unchanged). On phones
+              the four big numbers overflow the row and the 4th stat gets
+              clipped, so below 768px this grid is hidden and the marquee
+              track below is shown instead. */}
+          <div className="about-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
             {companyStats.map((stat, i) => (
               <RevealOnScroll key={i} delay={i * 0.12}>
                 <div style={{
                   textAlign: 'center', padding: '24px 16px',
                   borderRight: i < companyStats.length - 1 ? '1px solid var(--gray-200)' : 'none',
                 }}>
-                  {/* Stat size matches the homepage RA section (.ra-stat-num)
-                      per user (Jun 2026); was clamp(32px, 4vw, 48px). */}
-                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 300, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-500)', letterSpacing: '0.02em' }}>{stat.label}</div>
+                  {/* Stat style matches the homepage RA section (.ra-stat-num)
+                      per user (Jun 2026): same clamp, weight 700, -0.02em.
+                      Label matches .ra-stat-label format (13/600 uppercase)
+                      but keeps gray-500 - this is a light section, the home
+                      label's white would be invisible here. */}
+                  <div style={{ fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-500)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
           </div>
+
+          {/* MOBILE: continuous left->right marquee. The four stats overflow
+              a phone row, so instead of clipping, the row scrolls forever.
+              Pattern matches PartnersSection / TestimonialsMarquee: a flex
+              track of width:max-content holding the stat set TWICE; the
+              aboutStatsScroll keyframe translates -50% -> 0 so the content
+              drifts rightward, looping seamlessly because the second copy
+              is identical. Hidden on desktop (>=768px). RevealOnScroll is
+              intentionally NOT used here (its transform would fight the
+              marquee transform). */}
+          <div className="about-stats-marquee-viewport" aria-hidden="true">
+            <div className="about-stats-marquee">
+              {[...companyStats, ...companyStats].map((stat, i) => (
+                <div key={i} className="about-stat-cell" style={{ textAlign: 'center', padding: '8px 28px', flex: '0 0 auto' }}>
+                  <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>{stat.value}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-500)', letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
+        <style>{`
+          /* Marquee hidden on desktop; grid hidden on mobile. */
+          .about-stats-marquee-viewport { display: none; }
+          @media (max-width: 767px) {
+            .about-stats-grid { display: none !important; }
+            .about-stats-marquee-viewport {
+              display: block;
+              overflow: hidden;
+              width: 100%;
+            }
+            .about-stats-marquee {
+              display: flex;
+              width: max-content;
+              align-items: center;
+              /* -50% -> 0 drifts the track to the RIGHT (content enters
+                 from the left edge), matching "left to right". 28s linear
+                 loop; the duplicated set makes the wrap seamless. */
+              animation: aboutStatsScroll 28s linear infinite;
+            }
+          }
+          @keyframes aboutStatsScroll {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .about-stats-marquee { animation: none; }
+          }
+        `}</style>
       </section>
 
       {/* Our Process — 6-step engagement journey from prospect to

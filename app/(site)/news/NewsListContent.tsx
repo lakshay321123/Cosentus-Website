@@ -9,7 +9,7 @@ export default function NewsListContent() {
     <section className="section">
       <div className="container">
         <RevealOnScroll>
-          <div className="section-title">Healthcare RCM, AI & Medical Billing Updates</div>
+          <div className="section-title">Healthcare RCM, Ai & Medical Billing Updates</div>
         </RevealOnScroll>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginTop: 48 }}>

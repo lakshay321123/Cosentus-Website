@@ -11,14 +11,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
-      <PageHero
-        label="ABOUT COSENTUS"
-        title={<>Think Growth.<br />We&rsquo;ll Handle the Revenue Cycle.</>}
-        subtitle="Specialty-focused. AI-native. Built to help you collect more of what you've earned."
-        subtitleMaxWidth="none"
-        ctaText="Let's Talk"
-        ctaHref="/contact"
-      />
+      {/* Band hero — same single-strip header as the Resources pages
+          (Blogs etc.), per user (Jun 2026). Replaced the full video
+          hero (Think Growth title + subtitle + CTA); the band variant
+          renders no video, subtitle, or CTA by design. */}
+      <PageHero title="About Us" band />
       <AboutContent />
       <CTASection />
     </main>

@@ -235,7 +235,7 @@ function Interactive360Wheel() {
     ctx.font = 'bold 9px "Reddit Sans", sans-serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
-    ctx.fillText('AI', aix, aiy - 5)
+    ctx.fillText('Ai', aix, aiy - 5)
     ctx.font = '7px "Reddit Sans", sans-serif'
     ctx.fillText('Powered', aix, aiy + 6)
   }, [dimensions])
@@ -606,7 +606,7 @@ export default function EHRContent() {
           </RevealOnScroll>
           <RevealOnScroll delay={0.2}>
             <p className="section-desc">
-              Revenue-first design, documentation prompts capture every billable element, supporting accurate coding and maximum reimbursement regardless of which EHR you use. AI-integrated real-time data exchange with Cosentus billing and AI agents enables contextual, accurate patient and payer interactions.
+              Revenue-first design, documentation prompts capture every billable element, supporting accurate coding and maximum reimbursement regardless of which EHR you use. Ai-integrated real-time data exchange with Cosentus billing and Ai agents enables contextual, accurate patient and payer interactions.
             </p>
           </RevealOnScroll>
           <div className="advantage-grid" style={{ marginTop: 48 }}>

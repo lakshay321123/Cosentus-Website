@@ -4,6 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 /**
+ * Maps an agent's circular-headshot filename to its full "popup"
+ * scene image (figure + icon), e.g. 'cindy.png' -> 'cindy-popup.png'.
+ * Every agent referenced in the specialty/RCM card data has a
+ * matching *-popup.png in /public/images (verified). Falls back to
+ * the original filename if it already ends in -popup.png.
+ */
+function popupImg(img: string): string {
+  if (img.endsWith('-popup.png')) return img
+  return img.replace(/\.png$/, '-popup.png')
+}
+
+/**
  * SpecialtyMarquee
  *
  * Horizontal auto-scrolling card carousel used in the "Complete
@@ -97,7 +109,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         <div className="anim anim-badges" aria-hidden="true">
           {[0, 1, 2].map(i => (
             <span key={i} className={`anim-badge anim-badge-${i}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 13l4 4L19 7" />
               </svg>
             </span>
@@ -134,7 +146,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
           <span className="anim-pulse-ring anim-pulse-ring-1" />
           <span className="anim-pulse-ring anim-pulse-ring-2" />
           <span className="anim-pulse-core">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00B5D6" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72a2 2 0 011.72 2z" />
             </svg>
           </span>
@@ -149,11 +161,38 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         </div>
       )
     case 'chart':
+      // Upward line/area trend chart (replaces the earlier vertical
+      // bars, which read as an audio equalizer). Area fill under a
+      // rising polyline with data-point dots and a baseline axis. The
+      // line draws in via stroke-dashoffset so it reads as "data
+      // populating". Colors are brand cyan; the blue-card white
+      // override remaps them to white where this renders on blue.
       return (
         <div className="anim anim-chart" aria-hidden="true">
-          {[36, 52, 28, 64, 44, 72, 58].map((h, i) => (
-            <span key={i} className={`anim-chart-bar anim-chart-bar-${i}`} style={{ height: `${h}%` }} />
-          ))}
+          <svg viewBox="0 0 100 56" width="240" height="136" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            {/* Area fill under the trend line */}
+            <path
+              className="anim-chart-area"
+              d="M4 44 L20 38 L36 40 L52 28 L68 30 L84 16 L96 10 L96 52 L4 52 Z"
+              fill="#00B5D6"
+              fillOpacity="0.18"
+            />
+            {/* Trend line */}
+            <path
+              className="anim-chart-line"
+              d="M4 44 L20 38 L36 40 L52 28 L68 30 L84 16 L96 10"
+              stroke="#00B5D6"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Data-point dots */}
+            {[[4,44],[20,38],[36,40],[52,28],[68,30],[84,16],[96,10]].map(([x,y],i)=>(
+              <circle key={i} className={`anim-chart-dot anim-chart-dot-${i}`} cx={x} cy={y} r="2.4" fill="#00B5D6" />
+            ))}
+            {/* Baseline axis */}
+            <line x1="4" y1="52" x2="96" y2="52" stroke="#00B5D6" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
         </div>
       )
     case 'defense':
@@ -163,14 +202,14 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // for the Pre-Payment Review Defense card.
       return (
         <div className="anim anim-defense" aria-hidden="true">
-          <svg className="anim-defense-doc" viewBox="0 0 44 56" width="44" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="anim-defense-doc" viewBox="0 0 44 56" width="88" height="112" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="2" width="40" height="52" rx="3" fill="#FFFFFF" stroke="#00B5D6" strokeOpacity="0.45" strokeWidth="1.5" />
             <rect x="8" y="12" width="28" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="20" width="22" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="28" width="26" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
             <rect x="8" y="36" width="20" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.35" />
           </svg>
-          <svg className="anim-defense-shield" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="anim-defense-shield" viewBox="0 0 36 36" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 2 L32 7 L32 17 C32 25 26 32 18 34 C10 32 4 25 4 17 L4 7 Z" fill="#00B5D6" stroke="#FFFFFF" strokeWidth="2" />
             <path d="M11 18 L16 23 L25 13" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
@@ -186,7 +225,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         <div className="anim anim-meds" aria-hidden="true">
           {[0, 1, 2].map(i => (
             <span key={i} className={`anim-med-cap anim-med-cap-${i}`}>
-              <svg viewBox="0 0 44 16" width="44" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 44 16" width="88" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="1" y="1" width="42" height="14" rx="7" fill="currentColor" stroke="#00B5D6" strokeWidth="1.5" />
                 <line x1="22" y1="1" x2="22" y2="15" stroke="#00B5D6" strokeWidth="1.5" />
               </svg>
@@ -195,27 +234,22 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
         </div>
       )
     case 'telehealth':
-      // Monitor outline with a play triangle inside (read as
-      // "video call active") plus a pulsing live indicator dot
-      // in the top-right corner. Used on Behavioral Health for
-      // the Telehealth Billing card. Earlier draft used 'badges'
-      // (3 floating ticks) which preview feedback said didn't
-      // connect to telehealth at all.
+      // Video-consult glyph: a screen showing a head-and-shoulders
+      // figure (the patient/provider on the call) with a pulsing
+      // "live" dot. Replaces the earlier monitor + play-triangle,
+      // which read as a YouTube play button rather than telehealth.
       return (
         <div className="anim anim-telehealth" aria-hidden="true">
-          <svg viewBox="0 0 60 52" width="60" height="52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Monitor screen — pale-teal fill so the play
-                triangle inside reads against a screen, not just
-                empty space. */}
+          <svg viewBox="0 0 60 52" width="120" height="104" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Screen */}
             <rect x="2" y="2" width="56" height="38" rx="4" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
-            {/* Monitor stand */}
+            {/* Person on the screen: head + shoulders */}
+            <circle cx="30" cy="16" r="6" fill="#00B5D6" />
+            <path d="M18 33 C18 26 24 23 30 23 C36 23 42 26 42 33 Z" fill="#00B5D6" />
+            {/* Stand */}
             <rect x="26" y="40" width="8" height="6" fill="#00B5D6" fillOpacity="0.4" />
             <rect x="18" y="46" width="24" height="2.5" rx="1.25" fill="#00B5D6" fillOpacity="0.4" />
-            {/* Play triangle centered on the screen */}
-            <path d="M24 13 L24 29 L39 21 Z" fill="#00B5D6" />
-            {/* Pulsing live indicator dot in the top-right
-                corner of the screen. Opacity-only animation so
-                cross-browser SVG-transform issues don't apply. */}
+            {/* Pulsing live indicator dot, top-right of the screen */}
             <circle cx="50" cy="9" r="3" fill="#00B5D6" className="anim-telehealth-dot" />
           </svg>
         </div>
@@ -233,7 +267,7 @@ function CardAnimation({ s }: { s: SpecialtySolution }) {
       // animation to avoid cross-browser SVG transform issues.
       return (
         <div className="anim anim-eligibility" aria-hidden="true">
-          <svg viewBox="0 0 80 50" width="80" height="50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 80 50" width="160" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* Insurance card body */}
             <rect x="2" y="2" width="76" height="46" rx="5" fill="rgba(0,181,214,0.06)" stroke="#00B5D6" strokeWidth="1.5" />
             {/* Cardholder detail lines (abstracted name / ID /
@@ -443,22 +477,21 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
                   <h3 className="spec-card-title">{s.title}</h3>
                   <p className="spec-card-desc">{s.description}</p>
                   {s.agent ? (
-                    <div className="spec-card-agent-footer">
+                    <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                       <Link
                         href="/cosentus-ai"
-                        className="spec-card-avatar"
+                        className="spec-card-agent-popup-link"
                         aria-label={`Meet ${s.agent.name}, our AI agent`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={`/images/${s.agent.img}`}
+                          className="spec-card-agent-popup-img"
+                          src={`/images/${popupImg(s.agent.img)}`}
                           alt=""
-                          width={80}
-                          height={80}
                           draggable={false}
                         />
                       </Link>
-                      <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                      <span className="spec-card-eyebrow">{s.eyebrow}</span>
                     </div>
                   ) : (
                     <div className="spec-card-anim">
@@ -490,23 +523,22 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
             <h3 className="spec-card-title">{s.title}</h3>
             <p className="spec-card-desc">{s.description}</p>
             {s.agent ? (
-              <div className="spec-card-agent-footer">
+              <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                 <Link
                   href="/cosentus-ai"
-                  className="spec-card-avatar"
+                  className="spec-card-agent-popup-link"
                   aria-label={`Meet ${s.agent.name}, our AI agent`}
                   onPointerDown={(e) => e.stopPropagation()}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/images/${s.agent.img}`}
+                    className="spec-card-agent-popup-img"
+                    src={`/images/${popupImg(s.agent.img)}`}
                     alt=""
-                    width={80}
-                    height={80}
                     draggable={false}
                   />
                 </Link>
-                <span className="spec-card-eyebrow spec-card-eyebrow-dark">{s.eyebrow}</span>
+                <span className="spec-card-eyebrow">{s.eyebrow}</span>
               </div>
             ) : (
               <div className="spec-card-anim">
@@ -549,7 +581,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           flex-shrink: 0;
           width: clamp(280px, 22vw, 330px);
           height: 420px;
-          background: linear-gradient(165deg, #FFFFFF 0%, #F4FBFD 100%);
+          background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 40%, #36C2DE 78%, #00B5D6 100%);
           border: 1px solid var(--gray-200);
           border-radius: 16px;
           padding: 36px 30px 28px;
@@ -637,7 +669,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         }
         .spec-card-anim {
           margin-top: auto;
-          height: 110px;
+          height: 160px;
           position: relative;
           display: flex;
           align-items: center;
@@ -652,6 +684,172 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           display: flex;
           align-items: center;
           gap: 16px;
+        }
+        /* Popup-image agent footer: full figure-plus-icon scene image
+           (e.g. cindy-popup.png) replacing the old circular avatar.
+           The image's white icon now reads against the card's blue
+           bottom. Eyebrow label switches to white for the same reason. */
+        .spec-card-agent-footer-popup {
+          margin-top: auto;
+          min-height: 150px;
+          flex-direction: column;
+          justify-content: flex-end;
+          gap: 6px;
+        }
+        .spec-card-agent-popup-link {
+          display: block;
+          width: 100%;
+          text-align: center;
+          transition: transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .spec-card-agent-popup-link:hover { transform: scale(1.03); }
+        .spec-card-agent-popup-link:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
+          border-radius: 8px;
+        }
+        .spec-card-agent-popup-img {
+          width: 100%;
+          max-width: 230px;
+          height: auto;
+          display: block;
+          margin: 0 auto;
+          -webkit-user-drag: none;
+          user-select: none;
+        }
+        .spec-card-agent-footer-popup .spec-card-eyebrow {
+          color: #FFFFFF;
+          text-align: center;
+        }
+
+        /* === Blue-bottom legibility: recolor animations to white ===
+           Cards now have a blue lower half. The per-card animations
+           below were authored in brand cyan (#00B5D6) on white. On the
+           blue background that cyan disappears, so within the animation
+           slot we remap cyan strokes/fills to white. Elements that were
+           already white (e.g. ticks inside badges) get a translucent
+           dark backing via the wrapper so they don't vanish. This is a
+           single mechanical override, not a per-animation redesign. */
+        .spec-card-anim svg [stroke="#00B5D6"],
+        .spec-card-anim svg [stroke="white"],
+        .spec-card-anim svg [stroke="#FFFFFF"] { stroke: #FFFFFF !important; }
+        .spec-card-anim svg [fill="#00B5D6"],
+        .spec-card-anim svg [fill="#FFFFFF"],
+        .spec-card-anim svg [fill="white"] { fill: #FFFFFF !important; }
+        .spec-card-anim svg rect[fill^="rgba(0,181,214"],
+        .spec-card-anim svg [fill^="rgba(0,181,214"] { fill: rgba(255,255,255,0.18) !important; }
+
+        /* CSS-class-colored animation elements (chart bars, modifier
+           pills, language bubbles, stat number, stamp, pulse rings,
+           defense doc, meds capsules) are not reachable by the SVG
+           attribute selectors above. Blanket-remap their cyan and
+           dark-text colors to white/translucent-white so they read on
+           the blue card bottom. NOTE: this is a mechanical pass; a few
+           animations that relied on dark-text-on-light-fill may need
+           individual tuning after preview review. */
+        .spec-card-anim .anim-mod-pill,
+        .spec-card-anim .anim-stat-number,
+        .spec-card-anim .anim-stat-pct,
+        .spec-card-anim .anim-stamp-label,
+        .spec-card-anim .anim-lang-bubble { color: #FFFFFF !important; }
+        .spec-card-anim .anim-stat-bar,
+        .spec-card-anim .anim-stamp-fill,
+        .spec-card-anim .anim-stamp-dot,
+        .spec-card-anim .anim-pulse-core,
+        .spec-card-anim .anim-rule-cell { background: rgba(255,255,255,0.92) !important; }
+        .spec-card-anim .anim-mod-pill,
+        .spec-card-anim .anim-lang-bubble,
+        .spec-card-anim .anim-stamp-track { border-color: rgba(255,255,255,0.7) !important; }
+        .spec-card-anim .anim-badge {
+          border-color: #FFFFFF !important;
+          background: #FFFFFF !important;
+        }
+        .spec-card-anim .anim-badge svg { stroke: #00B5D6 !important; }
+        .spec-card-anim .anim-lang-bubble,
+        .spec-card-anim .anim-mod-pill { background: rgba(255,255,255,0.15) !important; }
+        .spec-card-anim .anim-pulse-ring { border-color: rgba(255,255,255,0.6) !important; }
+        .spec-card-anim .anim-pulse-core svg { stroke: #00B5D6 !important; }
+        /* Defense shield: blanket rule whitens the shield body AND its
+           white tick, making the tick vanish into the shield. Re-cut the
+           tick (the fill:none path) in blue so it reads against the now-
+           white shield. */
+        .spec-card-anim .anim-defense-shield path[fill="none"] { stroke: #00B5D6 !important; }
+        /* Modifier pills: solid white fill, white text, doubled size,
+           and a white-pulse keyframe (the original cycled blue->blue,
+           invisible on the blue card). */
+        .spec-card-anim .anim-mod-pill {
+          font-size: 18px !important;
+          padding: 9px 16px !important;
+          color: #00B5D6 !important;
+          background: #FFFFFF !important;
+          border-color: #FFFFFF !important;
+          animation-name: spec-mod-cycle-white !important;
+        }
+        @keyframes spec-mod-cycle-white {
+          0%, 50%, 100% {
+            color: #00B5D6;
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(255,255,255,0.85);
+            transform: scale(1);
+          }
+          12.5% {
+            color: #00B5D6;
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            transform: scale(1.12);
+          }
+        }
+        /* Telehealth + eligibility: fill the screen/card body solid
+           white and re-cut the inner detail (person, ID lines) in blue
+           so the filled icon still reads on the blue card. */
+        .spec-card-anim .anim-telehealth svg > rect:first-of-type,
+        .spec-card-anim .anim-eligibility svg > rect:first-of-type {
+          fill: #FFFFFF !important;
+          stroke: #FFFFFF !important;
+        }
+        .spec-card-anim .anim-telehealth svg circle,
+        .spec-card-anim .anim-telehealth svg path,
+        .spec-card-anim .anim-telehealth svg rect:not(:first-of-type) {
+          fill: #00B5D6 !important;
+        }
+        .spec-card-anim .anim-eligibility svg line { stroke: #00B5D6 !important; }
+        .spec-card-anim .anim-eligibility-check circle { fill: #00B5D6 !important; }
+        .spec-card-anim .anim-eligibility-check path { stroke: #FFFFFF !important; }
+        /* Meds capsules use fill="currentColor" driven by the cap's
+           color, which cycles faint-blue -> blue (invisible on blue).
+           Force white so the capsules read as filled. */
+        .spec-card-anim .anim-med-cap { color: #FFFFFF !important; animation-name: spec-med-cycle-white !important; }
+        .spec-card-anim .anim-med-cap svg line,
+        .spec-card-anim .anim-med-cap svg rect { stroke: #00B5D6 !important; }
+        @keyframes spec-med-cycle-white {
+          0%, 50%, 100% {
+            color: rgba(255,255,255,0.7);
+            transform: scale(1);
+            filter: none;
+          }
+          12.5% {
+            color: #FFFFFF;
+            transform: scale(1.18);
+            filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+          }
+        }
+        /* The rule-cell wave keyframe animates faint-blue -> solid-blue,
+           both invisible on the blue card (looks frozen). Repoint cells
+           to a white-pulse wave so the sweep reads on blue. */
+        .spec-card-anim .anim-rule-cell {
+          animation-name: spec-rule-wave-white !important;
+        }
+        @keyframes spec-rule-wave-white {
+          0%, 60%, 100% {
+            background: rgba(255,255,255,0.35);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1);
+          }
+          25%, 35% {
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            transform: scale(1.12);
+          }
         }
 
         /* === Per-card animations === */
@@ -705,9 +903,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         }
         .anim-rules-grid {
           display: grid;
-          grid-template-columns: repeat(4, 16px);
-          grid-template-rows: repeat(3, 16px);
-          gap: 6px;
+          grid-template-columns: repeat(4, 32px);
+          grid-template-rows: repeat(3, 32px);
+          gap: 10px;
         }
         .anim-rule-cell {
           border-radius: 3px;
@@ -747,8 +945,8 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           align-items: center;
         }
         .anim-badge {
-          width: 48px;
-          height: 48px;
+          width: 72px;
+          height: 72px;
           border-radius: 50%;
           background: rgba(0, 181, 214, 0.08);
           border: 1.5px solid #00B5D6;
@@ -822,32 +1020,32 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
         /* Stat: big number + bars */
         .anim-stat {
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           justify-content: center;
           gap: 18px;
           width: 100%;
         }
         .anim-stat-number {
           font-family: var(--font-display);
-          font-size: 56px;
+          font-size: 104px;
           font-weight: 300;
           color: var(--gray-900);
-          line-height: 1;
+          line-height: 0.85;
           letter-spacing: -0.03em;
         }
         .anim-stat-pct {
-          font-size: 28px;
+          font-size: 52px;
           color: #00B5D6;
           margin-left: 2px;
         }
         .anim-stat-bars {
           display: flex;
           align-items: flex-end;
-          gap: 4px;
-          height: 60px;
+          gap: 6px;
+          height: 104px;
         }
         .anim-stat-bar {
-          width: 6px;
+          width: 12px;
           background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.4) 100%);
           border-radius: 2px;
           transform-origin: bottom;
@@ -943,34 +1141,50 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           15%, 60%      { opacity: 1; transform: translateY(0); }
         }
 
-        /* Chart: animated bar chart.
-           width: 100% is required — bars use flex: 1 so they need
-           an explicit parent width to distribute across. */
+        /* Chart: upward line/area trend chart. The line draws in via
+           stroke-dashoffset and the dots fade in left-to-right, so it
+           reads as analytics data populating rather than an equalizer. */
         .anim-chart {
           display: flex;
-          align-items: flex-end;
-          gap: 6px;
+          align-items: center;
+          justify-content: center;
           width: 100%;
           height: 80%;
-          padding: 0 12px;
         }
-        .anim-chart-bar {
-          flex: 1;
-          background: linear-gradient(180deg, #00B5D6 0%, rgba(0, 181, 214, 0.35) 100%);
-          border-radius: 3px 3px 0 0;
-          transform-origin: bottom;
-          animation: spec-chart-grow 3s ease-in-out infinite;
+        .anim-chart-line {
+          stroke-dasharray: 140;
+          stroke-dashoffset: 140;
+          animation: spec-chart-draw 4.5s ease-in-out infinite;
         }
-        .anim-chart-bar-0 { animation-delay: 0s;    }
-        .anim-chart-bar-1 { animation-delay: 0.1s;  }
-        .anim-chart-bar-2 { animation-delay: 0.2s;  }
-        .anim-chart-bar-3 { animation-delay: 0.3s;  }
-        .anim-chart-bar-4 { animation-delay: 0.4s;  }
-        .anim-chart-bar-5 { animation-delay: 0.5s;  }
-        .anim-chart-bar-6 { animation-delay: 0.6s;  }
-        @keyframes spec-chart-grow {
-          0%, 100% { transform: scaleY(1); }
-          50%      { transform: scaleY(0.4); }
+        .anim-chart-area {
+          opacity: 0;
+          animation: spec-chart-area 4.5s ease-in-out infinite;
+        }
+        .anim-chart-dot {
+          opacity: 0;
+          animation: spec-chart-dot 4.5s ease-in-out infinite;
+        }
+        .anim-chart-dot-0 { animation-delay: 0.30s; }
+        .anim-chart-dot-1 { animation-delay: 0.70s; }
+        .anim-chart-dot-2 { animation-delay: 1.10s; }
+        .anim-chart-dot-3 { animation-delay: 1.50s; }
+        .anim-chart-dot-4 { animation-delay: 1.90s; }
+        .anim-chart-dot-5 { animation-delay: 2.30s; }
+        .anim-chart-dot-6 { animation-delay: 2.70s; }
+        @keyframes spec-chart-draw {
+          0%       { stroke-dashoffset: 140; }
+          55%, 90% { stroke-dashoffset: 0; }
+          100%     { stroke-dashoffset: 140; }
+        }
+        @keyframes spec-chart-area {
+          0%, 20%  { opacity: 0; }
+          60%, 90% { opacity: 1; }
+          100%     { opacity: 0; }
+        }
+        @keyframes spec-chart-dot {
+          0%, 10%  { opacity: 0; }
+          25%, 90% { opacity: 1; }
+          100%     { opacity: 0; }
         }
 
         /* Defense: clinical document with a shield-check badge
@@ -979,8 +1193,8 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
            Used for Pre-Payment Review Defense (Pain Management). */
         .anim-defense {
           position: relative;
-          width: 80px;
-          height: 80px;
+          width: 150px;
+          height: 150px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1099,7 +1313,9 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           .anim-stat-bar,
           .anim-pulse-ring,
           .anim-lang-bubble,
-          .anim-chart-bar,
+          .anim-chart-line,
+          .anim-chart-area,
+          .anim-chart-dot,
           .anim-defense-shield,
           .anim-med-cap,
           .anim-telehealth-dot,
@@ -1121,6 +1337,10 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
           .anim-eligibility-check {
             opacity: 1;
           }
+          /* Show the trend chart fully drawn at rest. */
+          .anim-chart-line { stroke-dashoffset: 0; }
+          .anim-chart-area,
+          .anim-chart-dot { opacity: 1; }
         }
 
         /* Mobile */

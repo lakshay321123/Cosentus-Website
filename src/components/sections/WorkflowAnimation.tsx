@@ -123,11 +123,11 @@ interface WorkflowAnimationProps {
  */
 const PIECES = [
   { id:  1, x:  117, y:    0, w: 320, h: 206, delay:    0, fadeMs: 2000, label: 'Real People + cyan head' },
-  { id:  2, x:    0, y:  189, w: 436, h: 170, delay: 1000, fadeMs: 2000, label: 'AI head + circuit' },
+  { id:  2, x:    0, y:  189, w: 436, h: 170, delay: 1000, fadeMs: 2000, label: 'Ai head + circuit' },
   { id:  3, x:  471, y:    7, w: 447, h: 353, delay: 2500, fadeMs: 1500, label: 'Scheduling' },
   { id:  4, x:  869, y:    7, w: 424, h: 353, delay: 3250, fadeMs: 1500, label: 'Eligibility' },
   { id:  5, x: 1238, y:    7, w: 393, h: 454, delay: 4000, fadeMs: 1500, label: 'Patient intake' },
-  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 4750, fadeMs: 1500, label: 'AI Scribe' },
+  { id:  6, x: 1192, y:  408, w: 439, h: 405, delay: 4750, fadeMs: 1500, label: 'Ai Scribe' },
   { id:  7, x:  813, y:  459, w: 428, h: 355, delay: 5500, fadeMs: 1500, label: 'Coding' },
   { id:  8, x:  447, y:  461, w: 415, h: 353, delay: 6250, fadeMs: 1500, label: 'Claims' },
   { id:  9, x:   99, y:  461, w: 401, h: 438, delay: 7000, fadeMs: 1500, label: 'Denial' },
@@ -205,7 +205,7 @@ export default function WorkflowAnimation({ isExpanded }: WorkflowAnimationProps
           height: '100%',
           display: 'block',
         }}
-        aria-label="Real + AI revenue cycle workflow"
+        aria-label="Real + Ai revenue cycle workflow"
       >
         {PIECES.map((p) => {
           // Opacity is set via CSS style (not SVG attribute) so the

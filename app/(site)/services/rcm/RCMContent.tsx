@@ -76,7 +76,7 @@ const rcmSteps: SpecialtySolution[] = [
   {
     eyebrow: 'CHARGE CAPTURE',
     title: 'Coding & Capture',
-    description: 'AAPC-certified coders ensure accurate CPT selection, modifier application, and clinical documentation alignment. Connie assists with code suggestions and accuracy checks.',
+    description: 'AAPC-certified coders ensure accurate CPT and modifier selection. Connie assists with code suggestions and accuracy checks.',
     anim: 'modifiers',
     modifierLabels: ['59', 'XE', 'XS', '51', 'LT', '25'],
     agent: { name: 'Connie', img: 'connie.png' },
@@ -90,7 +90,7 @@ const rcmSteps: SpecialtySolution[] = [
   {
     eyebrow: 'PAYMENT POSTING',
     title: 'Payment Posting & Reconciliation',
-    description: 'Ariel tracks aging claims and identifies payment delays. Underpayments and reconciliation discrepancies escalate to specialists for resolution.',
+    description: 'Ariel tracks aging claims and flags payment delays. Underpayments escalate to specialists for resolution.',
     anim: 'badges',
     agent: { name: 'Ariel', img: 'ariel.png' },
   },
@@ -172,7 +172,7 @@ export default function RCMContent() {
                 {[
                   'Real-time eligibility verification before every appointment',
                   'Authorization tracking with deadline alerts',
-                  'AAPC-certified coders with AI-assisted accuracy checks',
+                  'AAPC-certified coders with Ai-assisted accuracy checks',
                   'Active AR follow-up \u2014 under 15% AR over 90 days',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>

@@ -142,7 +142,7 @@ const solutions: SpecialtySolution[] = [
     anim: 'defense',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Pre-Service Collections',
     description: 'Patients get cost estimates before procedures. Cindy handles balances and payment plans in over 50 languages.',
     anim: 'languages',
@@ -192,14 +192,14 @@ export default function ASCContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Dedicated Ambulatory Teams + AI. Every Specialty Gets the Expertise It Demands.
+                Dedicated Ambulatory Teams + Ai. Every Specialty Gets the Expertise It Demands.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Specialty-trained billing teams for orthopedics, pain management, and ASCs — each staffed with coders who work their specialty full time and understand the payer rules that apply to it',
-                  'AI handles the high-volume, high-frequency work: eligibility verification, authorization tracking, claim follow-up, and patient outreach across all three specialties simultaneously',
+                  'Ai handles the high-volume, high-frequency work: eligibility verification, authorization tracking, claim follow-up, and patient outreach across all three specialties simultaneously',
                   'Every denied claim across any specialty gets a root cause review — our team doesn\u2019t just appeal, they fix the pattern so the same denial stops recurring',
                   'One unified dashboard gives you visibility into collections, denials, AR aging, and profitability across all your ambulatory operations',
                 ].map((bullet, i) => (
@@ -288,11 +288,11 @@ export default function ASCContent() {
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>30–40%</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>3–7 Days</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
                   </div>
                 </div>

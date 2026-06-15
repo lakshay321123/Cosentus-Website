@@ -45,9 +45,9 @@ const coreValues = [
 export default function CareersPage() {
   return (
     <main>
-      {/* HERO — video background (hero-banner.mp4) restored. Title only:
-          no subtitle, no CTA (no contact form to land on yet). */}
-      <PageHero title="Join Our Team" />
+      {/* Band hero — same single-strip header as the Resources pages
+          and /about, per user (Jun 2026). Replaced the video hero. */}
+      <PageHero title="Join Our Team" band />
 
       {/* INSPIRE — uses the default 1280px container (same as homepage's
           StatementSection) so the heading aligns flush left with the rest

@@ -11,17 +11,15 @@ const footerNav = [
       { label: 'Cosentus.ai', href: '/cosentus-ai' },
       { label: 'Cosentus Cares', href: '/cosentus-cares' },
       { label: 'Careers', href: '/careers' },
+      { label: 'FAQs', href: '/faqs' },
     ],
   },
   {
     title: 'Specialties',
     links: [
       { label: 'Anesthesia', href: '/specialties/anesthesia' },
-      { label: 'Orthopedics', href: '/specialties/orthopedics' },
-      { label: 'Pain Management', href: '/specialties/pain-management' },
-      { label: 'ASCs', href: '/specialties/asc' },
+      { label: 'Ambulatory Services', href: '/specialties/asc' },
       { label: 'Behavioral Health', href: '/specialties/behavioral-health' },
-      { label: 'Multi-Specialty', href: '/specialties/multi-specialty' },
     ],
   },
   {
@@ -54,16 +52,10 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <RevealOnScroll direction="flag">
-              <Image
-                src="/gptw-flag.png"
-                alt="Great Place to Work Certified, April 2026 – April 2027, USA"
-                width={258}
-                height={473}
-                className="footer-gptw-img"
-                style={{ display: 'block', width: 100, height: 'auto' }}
-              />
-            </RevealOnScroll>
+            {/* Order: Cosentus brand block first, GPTW flag to its right
+                (swapped Jun 2026 per design direction — previously the
+                flag came first). .footer-brand is a plain flex row on
+                both desktop and mobile, so DOM order = visual order. */}
             <div className="footer-brand-text">
               <Image
                 src="/images/cosentus-logo.png"
@@ -80,6 +72,16 @@ export default function Footer() {
                 <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
               </p>
             </div>
+            <RevealOnScroll direction="flag">
+              <Image
+                src="/gptw-flag.png"
+                alt="Great Place to Work Certified, April 2026 – April 2027, USA"
+                width={258}
+                height={473}
+                className="footer-gptw-img"
+                style={{ display: 'block', width: 100, height: 'auto' }}
+              />
+            </RevealOnScroll>
           </div>
 
           {/* Accolades strip sits directly under the brand row so the whole

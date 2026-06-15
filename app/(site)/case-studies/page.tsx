@@ -104,7 +104,7 @@ export default function CaseStudiesPage() {
                 {[
                   'Find the gaps that are leaking revenue today',
                   'Fix the root causes so the same leaks don\u2019t come back',
-                  'Collect more of what you\u2019ve already earned, with specialty-trained experts and AI-native technology',
+                  'Collect more of what you\u2019ve already earned, with specialty-trained experts and Ai-native technology',
                 ].map((bullet, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
                     <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />

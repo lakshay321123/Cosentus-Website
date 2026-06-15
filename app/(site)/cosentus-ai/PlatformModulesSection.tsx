@@ -22,7 +22,7 @@ const modules: Module[] = [
   { num: '05', name: 'Pre-Service Payments',      category: 'FRONT OFFICE', agent: 'Priya',  desc: 'Cost estimates and pre-procedure payment collection 3-7 days before service.' },
 
   // CLINICAL
-  { num: '06', name: 'AI Scribe',                 category: 'CLINICAL',                      desc: 'Ambient documentation that captures clinical encounters into structured notes.' },
+  { num: '06', name: 'Ai Scribe',                 category: 'CLINICAL',                      desc: 'Ambient documentation that captures clinical encounters into structured notes.' },
   { num: '07', name: 'Medical Coding',            category: 'CLINICAL', agent: 'Connie',     desc: 'CPT and ICD-10 suggestions with modifier validation and accuracy checks.' },
   { num: '08', name: 'Charge Capture',            category: 'CLINICAL',                      desc: 'Encounter-to-charge conversion with reconciliation against OR and facility records.' },
   { num: '09', name: 'Documentation Review',      category: 'CLINICAL', agent: 'Connie',     desc: 'Clinical documentation improvement and pre-bill review for compliance.' },
@@ -89,7 +89,7 @@ const liveDemos: Record<string, { headline: string; metric: string; metricLabel:
       { label: 'Modifier 25', value: 'Significant & separate', status: 'ok' },
       { label: 'Documentation', value: 'Add total time spent', status: 'flag' },
     ],
-    footer: 'AAPC-certified coders verify every AI suggestion',
+    footer: 'AAPC-certified coders verify every Ai suggestion',
   },
   '13': {
     headline: 'Aging buckets · 30-day view',
@@ -266,7 +266,7 @@ export default function PlatformModulesSection() {
                               background: isActive ? 'white' : '#D6EBF2',
                               padding: '3px 7px', borderRadius: 3,
                             }}>
-                              AI
+                              Ai
                             </span>
                           )}
                         </button>
@@ -472,7 +472,7 @@ export default function PlatformModulesSection() {
                       fontSize: 12, color: 'white', opacity: 0.85,
                       paddingRight: 60,
                     }}>
-                      Click an AI module on the left to see a live demo
+                      Click an Ai module on the left to see a live demo
                     </div>
                   </>
                 )}
@@ -539,7 +539,7 @@ export default function PlatformModulesSection() {
                       padding: '4px 8px',
                       borderRadius: 4,
                     }}>
-                      AI · {m.agent.toUpperCase()}
+                      Ai · {m.agent.toUpperCase()}
                     </span>
                   )}
                 </div>

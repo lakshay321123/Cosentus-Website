@@ -71,8 +71,8 @@ const solutions: SpecialtySolution[] = [
   { eyebrow: 'FRONT OFFICE', title: 'Credentialing & Enrollment', description: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', anim: 'badges' },
   { eyebrow: 'AUTHORIZATIONS', title: 'Prior Authorization', description: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', anim: 'stamp' },
   { eyebrow: 'DENIAL PREVENTION', title: 'Denial Management & Appeals', description: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', anim: 'stat', statValue: '95', statUnit: '%' },
-  { eyebrow: 'AI AGENT \u2014 CHRIS', title: 'AR Follow-Up & Collections', description: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', anim: 'pulse', agent: { name: 'Chris', img: 'chris.png' } },
-  { eyebrow: 'AI AGENT \u2014 CINDY', title: 'Patient Billing & Support', description: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', anim: 'languages', agent: { name: 'Cindy', img: 'cindy.png' } },
+  { eyebrow: 'Ai AGENT \u2014 CHRIS', title: 'AR Follow-Up & Collections', description: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', anim: 'pulse', agent: { name: 'Chris', img: 'chris.png' } },
+  { eyebrow: 'Ai AGENT \u2014 CINDY', title: 'Patient Billing & Support', description: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', anim: 'languages', agent: { name: 'Cindy', img: 'cindy.png' } },
   { eyebrow: 'REAL-TIME INSIGHTS', title: 'Analytics & Visibility', description: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', anim: 'chart' },
 ]
 
@@ -114,14 +114,14 @@ export default function AnesthesiaContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Anesthesia Experts + AI Working Together
+                Anesthesia Experts + Ai Working Together
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Dedicated anesthesia billing team that understands units, modifiers, concurrency, and the rules each payer follows, because that\u2019s all they do',
-                  'AI handles eligibility verification, authorization tracking, and claim follow-up across your full volume',
+                  'Ai handles eligibility verification, authorization tracking, and claim follow-up across your full volume',
                   'Every denied claim gets a root cause review to prevent the same issue from recurring',
                   'Live dashboards showing collections by provider, case type, payer, and facility',
                 ].map((bullet, i) => (
@@ -205,11 +205,11 @@ export default function AnesthesiaContent() {
                 </p>
                 <div style={{ display: 'flex', gap: 32 }}>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>30–40%</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>30–40%</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Higher Collection Rate</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: 32, fontWeight: 300, color: 'var(--primary)' }}>3–7 Days</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.02em' }}>3–7 Days</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 }}>Before Procedure</div>
                   </div>
                 </div>
@@ -238,7 +238,11 @@ export default function AnesthesiaContent() {
 
           <RevealOnScroll delay={0.2}>
             <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
-              <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>250+</span>
+              {/* Matches homepage .ra-stat-num per user (Jun 2026):
+                  clamp(44-68), 700, -0.02em, font-display. Was
+                  clamp(48-72) / 200 / no display font. Same fix as the
+                  150+ stat on behavioral-health. */}
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, color: 'var(--primary)', lineHeight: 1, letterSpacing: '-0.02em' }}>250+</span>
               <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years exclusively in anesthesia RCM</span>
             </div>
           </RevealOnScroll>

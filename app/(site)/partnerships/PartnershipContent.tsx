@@ -74,21 +74,23 @@ export default function PartnershipContent() {
 
 
         .stat-number {
-          /* Matches the homepage RA section stat size (.ra-stat-num)
-             per user (Jun 2026); was clamp(56px, 8vw, 96px). */
+          /* Matches the homepage RA section stat (.ra-stat-num) per
+             user (Jun 2026): same clamp, weight 700, line-height 1,
+             -0.02em. Was weight 200 / lh 0.9 / -0.04em. */
           font-size: clamp(44px, 5.5vw, 68px);
-          font-weight: 200;
+          font-weight: 700;
           color: var(--primary);
-          line-height: 0.9;
-          letter-spacing: -0.04em;
+          line-height: 1;
+          letter-spacing: -0.02em;
           font-family: var(--font-display);
         }
 
         .stat-suffix {
           /* Scaled down proportionally with .stat-number (was
-             clamp(20px, 3vw, 32px)) so the + / yr keeps its ratio. */
+             clamp(20px, 3vw, 32px)) so the + / yr keeps its ratio.
+             Weight follows .stat-number (200 next to 700 reads odd). */
           font-size: clamp(15px, 2.2vw, 23px);
-          font-weight: 200;
+          font-weight: 700;
           color: var(--primary);
           opacity: 0.6;
         }
@@ -99,7 +101,7 @@ export default function PartnershipContent() {
           text-transform: uppercase;
           letter-spacing: 0.1em;
           margin-top: 12px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         
@@ -457,10 +459,10 @@ export default function PartnershipContent() {
               About Cosentus
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 300, color: 'var(--gray-900)', marginBottom: 24, maxWidth: 880, lineHeight: 1.2 }}>
-              Independently owned. Powered by AI.<br />Proven at scale.
+              Independently owned. Powered by Ai.<br />Proven at scale.
             </h2>
             <p style={{ fontSize: 18, lineHeight: 1.9, color: 'var(--gray-600)', maxWidth: 880 }}>
-              With AI software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
+              With Ai software and outsourcing capabilities, we are one of the largest non-private equity-backed RCM companies in America. Our integrated services approach has fostered several long-term partnerships. As an organization, we have consistently ranked as one of the Fastest Growing Companies in the US by Inc. 5000, and have been certified by Great Place to Work for three consecutive years.
             </p>
           </RevealOnScroll>
         </div>

@@ -176,7 +176,7 @@ const solutions: SpecialtySolution[] = [
     anim: 'badges',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Support',
     description: 'Cindy handles patient balances empathetically in over 50 languages. Behavioral health patients need clear, sensitive communication.',
     anim: 'languages',
@@ -225,14 +225,14 @@ export default function BehavioralHealthContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                Behavioral Health Billing Experts + AI Tracking
+                Behavioral Health Billing Experts + Ai Tracking
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Dedicated behavioral health team that handles time-based coding, telehealth modifiers, IOP/PHP rules, and crisis codes because that\u2019s all they do',
-                  'AI automates eligibility re-checks, authorization tracking, and follow-ups',
+                  'Ai automates eligibility re-checks, authorization tracking, and follow-ups',
                   'Human experts defend denials with clinical evidence and strategies built for each payer',
                   'Every denial gets a root cause review to fix the pattern, not just the claim',
                 ].map((bullet, i) => (
@@ -312,7 +312,10 @@ export default function BehavioralHealthContent() {
 
           <RevealOnScroll delay={0.2}>
             <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 12, marginTop: 16, marginBottom: 48 }}>
-              <span style={{ fontSize: 'clamp(48px, 6vw, 72px)', fontWeight: 200, color: 'var(--primary)', lineHeight: 1 }}>150+</span>
+              {/* Matches homepage .ra-stat-num per user (Jun 2026):
+                  clamp(44-68), 700, -0.02em, font-display. Was
+                  clamp(48-72) / 200 / no display font. */}
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px, 5.5vw, 68px)', fontWeight: 700, color: 'var(--primary)', lineHeight: 1, letterSpacing: '-0.02em' }}>150+</span>
               <span style={{ fontSize: 18, color: 'var(--gray-600)', fontWeight: 300 }}>years combined in behavioral health RCM</span>
             </div>
           </RevealOnScroll>

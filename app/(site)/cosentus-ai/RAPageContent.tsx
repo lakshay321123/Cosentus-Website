@@ -3,17 +3,17 @@
 import { useState, useEffect } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import MobileCarousel from '@/components/ui/MobileCarousel'
-import PlatformModulesSection from './PlatformModulesSection'
 import VoiceCallModal, { type VoiceAgent } from '@/components/voice/VoiceCallModal'
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
 import ScrollHeroSection from '@/components/sections/ScrollHeroSection'
+import ZeusEhrSpiral from '@/components/sections/ZeusEhrSpiral'
 import { AGENTS } from '@/data/voice-agents'
 
 const steps = [
   { num: '1', title: 'We learn your practice', desc: "Deep-dive into specialty workflows, payer mix, and denial patterns. We focus on your three P's, Processes, Procedures, and Protocols, and customize our approach to your specific challenges. No templates." },
   { num: '2', title: 'Named teams take over', desc: 'AAPC-certified coders, denials experts, and a client success manager run your account daily.' },
-  { num: '3', title: 'AI agents handle volume', desc: 'Nine agents automate eligibility, prior auth follow-ups, scheduling, patient collection, claim follow-up, AR tracking, and coding support.' },
+  { num: '3', title: 'Ai agents handle volume', desc: 'Nine Ai agents work the repetitive load around the clock: eligibility, prior auth follow-ups, scheduling, patient collections, claim follow-up, AR tracking, and coding support.' },
   { num: '4', title: 'Humans handle judgment', desc: 'Complex coding, clinical validation, denial appeals and underpayment recovery remain with experienced specialists.' },
   { num: '5', title: 'You see everything', desc: "Real-time dashboards, weekly check-ins, monthly ops meetings, and quarterly business reviews ensure full transparency. We don't wait for problems to escalate, when we identify an issue, we perform root cause analysis and act immediately, before it impacts revenue or cash flow." },
 ]
@@ -23,37 +23,43 @@ const steps = [
  *
  * Photos: Allen, Ajay, Steven, and Lakshay have headshots; we re-use
  * Allen + Ajay's from /about and Steven's from Behavioral Health.
- * Alex and Casey have no photos yet — for them the TeamCircleGrid
- * component falls back to teal initials in an empty circle until
- * headshots are supplied.
+ * Alex has no photo yet — TeamCircleGrid falls back to teal initials
+ * in an empty circle until a headshot is supplied.
+ * Casey Kaczmarowski removed per user (Jun 2026).
  *
  * No `bio` field is provided yet, so the cards render non-interactive
  * (TeamCircleGrid only adds the click+modal affordance when both
  * `onPersonClick` is wired and the people have bios).
  */
 const zeusTeam = [
-  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus AI',  photo: '/images/ALLEN RANJAN.jpg' },
-  { name: 'Ajay Kumar',            title: 'AI Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
-  { name: 'Alexander Kashkarian',  title: 'AI Voice & Research' },
-  { name: 'Lakshay Mehra',         title: 'AI Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
-  { name: 'Casey Kaczmarowski',    title: 'Platform & Infrastructure Lead' },
+  { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus Ai',  photo: '/images/ALLEN RANJAN.jpg' },
+  { name: 'Ajay Kumar',            title: 'Ai Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
+  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research' },
+  { name: 'Lakshay Mehra',         title: 'Ai Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
-  { name: 'Shaleen Chordia',       title: 'AI Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
+  { name: 'Shaleen Chordia',       title: 'Ai Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
 ]
 
 export default function RAPageContent() {
   const [activeAgent, setActiveAgent] = useState<VoiceAgent | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
+  // Explicit pause via the pause/play button between the step arrows.
+  // Separate from stepPaused (the hover-pause): if the button shared
+  // stepPaused, every mouse-leave of the section would silently
+  // un-pause what the user explicitly paused.
+  const [stepUserPaused, setStepUserPaused] = useState(false)
 
-  // Auto-advance steps every 5 seconds, loop back to 1
+  // Auto-advance steps every 3 seconds (was 5s, per user Jun 2026),
+  // loop back to 1. Paused while hovering OR while explicitly paused
+  // via the button.
   useEffect(() => {
-    if (stepPaused) return
+    if (stepPaused || stepUserPaused) return
     const timer = setInterval(() => {
       setActiveStep(prev => (prev >= steps.length - 1 ? 0 : prev + 1))
-    }, 5000)
+    }, 3000)
     return () => clearInterval(timer)
-  }, [stepPaused, activeStep])
+  }, [stepPaused, stepUserPaused, activeStep])
 
   return (
     <>
@@ -112,7 +118,7 @@ export default function RAPageContent() {
           }} className="zeus-why-grid">
             {[
               { num: '23', label: 'Modules', desc: 'End-to-end RCM + EHR.' },
-              { num: '15', label: 'AI Features', desc: 'Every step, intelligent.' },
+              { num: '15', label: 'Ai Features', desc: 'Every step, intelligent.' },
               { num: '45+', label: 'Specialties', desc: 'Few-shot specialty configs.' },
             ].map((stat, i) => (
               <RevealOnScroll key={stat.label} delay={0.3 + i * 0.12}>
@@ -123,13 +129,14 @@ export default function RAPageContent() {
                 }} className="zeus-why-cell">
                   <div className="zeus-why-num" style={{
                     fontFamily: 'var(--font-display)',
-                    // Matches the homepage RA section stat size (.ra-stat-num)
-                    // per user (Jun 2026); was clamp(56px, 7vw, 88px).
+                    // Matches the homepage RA section stat (.ra-stat-num)
+                    // per user (Jun 2026): same clamp, weight 700,
+                    // -0.02em. Was clamp(56px, 7vw, 88px) / 300 / -0.03em.
                     fontSize: 'clamp(44px, 5.5vw, 68px)',
-                    fontWeight: 300,
+                    fontWeight: 700,
                     lineHeight: 1,
                     color: '#00B5D6',
-                    letterSpacing: '-0.03em',
+                    letterSpacing: '-0.02em',
                     marginBottom: 12,
                   }}>
                     {stat.num}
@@ -202,7 +209,8 @@ export default function RAPageContent() {
       {/* Real + AI workflow animation (scroll-expand). Shown here per user
           request (Jun 2026); it is the same animation currently commented
           out on the home page. Sits directly above the Voice AI section. */}
-      <ScrollHeroSection />
+      {/* startExpanded: full-screen on load, no zoom, per user (Jun 2026) */}
+      <ScrollHeroSection startExpanded />
 
       {/* The 9 AI Voice Agents */}
       <section className="section">
@@ -212,7 +220,7 @@ export default function RAPageContent() {
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                Voice AI: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
+                Voice Ai: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
@@ -357,19 +365,20 @@ export default function RAPageContent() {
 
       {/* Problem + Solution, Animated Split Section */}
       <ProblemSolutionSection
+        className="ps-zeus-sizing"
         problemTitle="Why Specialty Practices Deserve Better"
-        problemBody="Traditional RCM adds headcount. AI startups remove it. Neither understands the nuances of specialty revenue cycles."
+        problemBody="Traditional RCM adds headcount. Ai startups remove it. Neither understands the nuances of specialty revenue cycles."
         problemBullets={[
           'Generic billing teams miss specialty nuances',
-          'AI-only solutions lack clinical judgment',
+          'Ai-only solutions lack clinical judgment',
           'Revenue leaks at every handoff',
         ]}
-        solutionTitle="Real People + AI"
-        solutionBody="Named human teams for judgment. AI agents for volume. 25 years of specialty expertise no one can replicate."
+        solutionTitle="Real People + Ai"
+        solutionBody="Named human teams for judgment. Ai agents for volume. 25 years of specialty expertise no one can replicate."
         solutionBullets={[
-          'Specialty-trained teams for every payer nuance',
-          '8 AI agents automating volume workflows',
-          'Up to 30% revenue growth within 12 months',
+          'Specialty coders and denial experts who know your payers',
+          'Nine Ai agents working every claim, around the clock',
+          'Up to 30% more revenue in your first year',
         ]}
       />
 
@@ -378,7 +387,7 @@ export default function RAPageContent() {
       <section className="section section-alt" style={{ overflow: 'hidden' }} onMouseEnter={() => setStepPaused(true)} onMouseLeave={() => setStepPaused(false)}>
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">How Real People + AI Works — in 5 Steps</div>
+            <div className="section-title">How Real People + Ai Works — in 5 Steps</div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.25}>
@@ -459,6 +468,27 @@ export default function RAPageContent() {
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
                   </button>
+                  {/* Pause/play toggle between the arrows, per user
+                      (Jun 2026). Controls stepUserPaused only — the
+                      hover-pause stays independent. */}
+                  <button
+                    onClick={() => setStepUserPaused(p => !p)}
+                    aria-label={stepUserPaused ? 'Resume auto-advance' : 'Pause auto-advance'}
+                    style={{
+                      width: 36, height: 36, borderRadius: '50%', border: '1px solid var(--gray-200)',
+                      background: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    {stepUserPaused ? (
+                      /* Play triangle — shown while paused */
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gray-600)" stroke="none"><path d="M8 5v14l11-7z"/></svg>
+                    ) : (
+                      /* Pause bars — shown while auto-advancing */
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--gray-600)" stroke="none"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                    )}
+                  </button>
                   <button
                     onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
                     disabled={activeStep === steps.length - 1}
@@ -479,7 +509,9 @@ export default function RAPageContent() {
         </div>
       </section>
 
-      <PlatformModulesSection />
+      {/* PlatformModulesSection (23 Modules. One Intelligent Core.)
+          removed per user (Jun 2026). Component kept in the repo for
+          potential reuse. */}
 
       {/* MULTI-EHR INTEGRATION — Zeus sits above every EHR.
           New section per Zeus design prototype. Adapted to light theme as
@@ -607,107 +639,15 @@ export default function RAPageContent() {
               </RevealOnScroll>
             </div>
 
-            {/* Right — Zeus orbit + lightning */}
+            {/* Right — spiral vortex + Zeus logo + EHR labels.
+                Replaced the orbit + lightning SVG per user (Jun 2026):
+                the supplied spiral animation plays (gated on viewport
+                entry), the Zeus logo fades in at center (where the
+                source demo had its Enter button) and the six EHR names
+                fade in around it while the swirl forms. */}
             <RevealOnScroll direction="right" delay={0.2}>
-              <div style={{
-                position: 'relative',
-                aspectRatio: '1',
-                maxWidth: 560,
-                margin: '0 auto',
-              }} className="zeus-ehr-orbit">
-                <svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-                  <defs>
-                    <radialGradient id="zeusEhrGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#00B5D6" stopOpacity="0.30" />
-                      <stop offset="100%" stopColor="#00B5D6" stopOpacity="0" />
-                    </radialGradient>
-                    <filter id="zeusBoltGlow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="3" result="b" />
-                      <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-                    </filter>
-                    <filter id="zeusBoltBlur" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="6" />
-                    </filter>
-                  </defs>
-
-                  {/* Ambient glow behind Zeus core */}
-                  <circle cx="320" cy="320" r="140" fill="url(#zeusEhrGlow)" />
-
-                  {/* EHR labels — 6 positions around orbit */}
-                  <g fontFamily="var(--font-display), Reddit Sans, system-ui" fontWeight="700" textAnchor="middle">
-                    <g><text x="320" y="102" fill="var(--gray-900)" fontSize="22">Epic</text><text x="320" y="122" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
-                    <g><text x="510" y="212" fill="var(--gray-900)" fontSize="20">Oracle</text><text x="510" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="540" y="432" fill="var(--gray-900)" fontSize="20">athena</text><text x="540" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">REST</text></g>
-                    <g><text x="320" y="540" fill="var(--gray-900)" fontSize="20">eCW</text><text x="320" y="560" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="100" y="432" fill="var(--gray-900)" fontSize="20">NextGen</text><text x="100" y="452" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">HL7</text></g>
-                    <g><text x="130" y="212" fill="var(--gray-900)" fontSize="20">Meditech</text><text x="130" y="232" fill="#00B5D6" fontFamily="monospace" fontSize="11" fontWeight="600">FHIR</text></g>
-                  </g>
-
-                  {/* Lightning bolts — 6 staggered, teal core for light theme.
-                      Each bolt = halo (wide blur) + glow (medium) + bright core.
-                      Originating from Zeus center (320,320) to each EHR label. */}
-                  <g fill="none" strokeLinecap="round" strokeLinejoin="miter">
-                    {/* To Epic (top) */}
-                    <g>
-                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 302 296 L 325 273 L 301 249 L 332 226 L 301 202 L 313 179 L 318 155 L 342 132 L 320 108" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To Oracle (top-right) */}
-                    <g>
-                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 338 309 L 343 282 L 358 266 L 378 259 L 408 263 L 405 226 L 447 245 L 441 203 L 510 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="0.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To athena (bottom-right) */}
-                    <g>
-                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 352 315 L 356 352 L 391 342 L 396 378 L 424 379 L 436 404 L 462 407 L 487 413 L 540 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To eCW (bottom) */}
-                    <g>
-                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 321 347 L 334 373 L 340 400 L 336 427 L 299 453 L 327 480 L 303 507 L 328 533 L 320 540" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="1.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To NextGen (bottom-left) */}
-                    <g>
-                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 290 317 L 275 339 L 271 376 L 238 368 L 217 380 L 212 415 L 183 415 L 161 425 L 100 432" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                    {/* To Meditech (top-left) */}
-                    <g>
-                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#A1DEED" strokeWidth="14" opacity="0" filter="url(#zeusBoltBlur)">
-                        <animate attributeName="opacity" values="0;0.85;0.3;0.7;0.15;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
-                      </path>
-                      <path d="M 320 320 L 296 305 L 282 281 L 261 263 L 240 256 L 215 260 L 202 230 L 178 246 L 165 220 L 130 215" stroke="#00B5D6" strokeWidth="3" opacity="0" filter="url(#zeusBoltGlow)">
-                        <animate attributeName="opacity" values="0;1;0.4;0.85;0.2;0;0" keyTimes="0;0.01;0.04;0.06;0.08;0.12;1" dur="3s" begin="2.5s" repeatCount="indefinite" />
-                      </path>
-                    </g>
-                  </g>
-
-                  {/* Zeus brand logo lockup — vertical (ZEUS wordmark + bolt).
-                      Asset: /public/images/zeus/zeus-logo-v.png — transparent PNG,
-                      teal logo, programmatically stripped from zeus_logo_V_blue.png. */}
-                  <image href="/images/zeus/zeus-logo-v.png" x="220" y="286" width="200" height="68" />
-                </svg>
+              <div className="zeus-ehr-orbit">
+                <ZeusEhrSpiral />
               </div>
             </RevealOnScroll>
           </div>
@@ -798,17 +738,22 @@ export default function RAPageContent() {
                     }}>{kpi.tag}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, lineHeight: 1 }}>
-                    {kpi.pre && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)' }}>{kpi.pre}</span>}
+                    {/* Big number matches homepage .ra-stat-num per user
+                        (Jun 2026): clamp(44-68), 700, #00B5D6, -0.02em.
+                        Was clamp(48-72) / 300 / gray-900. pre/unit/plus
+                        keep their smaller relative sizes but follow the
+                        cyan + weight so the numeral reads as one unit. */}
+                    {kpi.pre && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#00B5D6' }}>{kpi.pre}</span>}
                     <span style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(48px, 6vw, 72px)',
-                      fontWeight: 300,
-                      color: 'var(--gray-900)',
-                      letterSpacing: '-0.03em',
+                      fontSize: 'clamp(44px, 5.5vw, 68px)',
+                      fontWeight: 700,
+                      color: '#00B5D6',
+                      letterSpacing: '-0.02em',
                       lineHeight: 1,
                     }}>{kpi.big}</span>
-                    <span style={{ fontSize: 'clamp(20px, 2.2vw, 26px)', fontWeight: 400, color: 'var(--gray-700)' }}>{kpi.unit}</span>
-                    {kpi.plus && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: '#00B5D6' }}>{kpi.plus}</span>}
+                    <span style={{ fontSize: 'clamp(20px, 2.2vw, 26px)', fontWeight: 600, color: '#00B5D6' }}>{kpi.unit}</span>
+                    {kpi.plus && <span style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#00B5D6' }}>{kpi.plus}</span>}
                   </div>
                   <div style={{
                     paddingTop: 12,

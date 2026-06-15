@@ -109,14 +109,14 @@ const solutions: SpecialtySolution[] = [
     anim: 'defense',
   },
   {
-    eyebrow: 'AI AGENT \u2014 CINDY',
+    eyebrow: 'Ai AGENT \u2014 CINDY',
     title: 'Patient Billing & Collections',
     description: 'Cindy handles patient balances across all departments in over 50 languages. One patient experience, regardless of which specialty they visited.',
     anim: 'languages',
     agent: { name: 'Cindy', img: 'cindy.png' },
   },
   {
-    eyebrow: 'AI AGENT \u2014 CHRIS',
+    eyebrow: 'Ai AGENT \u2014 CHRIS',
     title: 'AR Follow-Up',
     description: 'Chris calls payers for claim status across all your service lines. No department-by-department follow-up headaches.',
     anim: 'pulse',
@@ -165,14 +165,14 @@ export default function MultiSpecialtyContent() {
             <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
             <RevealOnScroll direction="right" delay={0.1}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
-                One Team Built for Breadth. AI Built for Scale.
+                One Team Built for Breadth. Ai Built for Scale.
               </h2>
             </RevealOnScroll>
             <RevealOnScroll direction="right" delay={0.2}>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
                 {[
                   'Multi-specialty trained team that understands coding and payer rules across all your service lines',
-                  'AI handles eligibility, authorization, and follow-ups across every department at the same time',
+                  'Ai handles eligibility, authorization, and follow-ups across every department at the same time',
                   'Unified reporting dashboard \u2014 see performance by specialty, provider, and payer in one place',
                   'Root cause reviews across all specialties to prevent systemic denial patterns, not just one-off issues',
                 ].map((bullet, i) => (
