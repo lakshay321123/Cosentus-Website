@@ -553,16 +553,16 @@ function CindyInner() {
     const inst = new SiriWave({
       container: el,
       style: 'ios9',
-      cover: true,        // canvas fills the container
-      speed: 0.18,
-      amplitude: 0.6,     // baseline; the RAF loop below modulates it
+      cover: true,
+      // Start frozen + flat. The RAF loop below drives both speed and
+      // amplitude from live audio level, so the wave is still at idle
+      // and only moves when someone (Grace or the user) is talking.
+      // Previous init (speed:0.18, amplitude:0.6) ran the wave like a
+      // treadmill regardless of audio — the "rocket just keeps on
+      // moving" the user flagged.
+      speed: 0,
+      amplitude: 0,
       autostart: true,
-      ranges: {
-        // Slight palette nudge towards the brighter Apple system colours
-        // so the screen-blended overlap reads on a dark glass background.
-        speed: [0.5, 1.2],
-        amplitude: [0.3, 1.4],
-      },
     })
     siriWaveRef.current = inst
     return () => {
@@ -571,31 +571,41 @@ function CindyInner() {
     }
   }, [isMobile, isStarting, isConnected])
 
-  // Audio-reactive amplitude. Polls ElevenLabs' getInputVolume() and
-  // getOutputVolume() on every animation frame and feeds the louder
-  // of the two into SiriWave.setAmplitude. Output volume drives the
-  // wave when Grace is speaking; input drives it when the user is
-  // talking. When neither is producing audio the wave eases back to a
-  // small idle baseline rather than dying flat.
+  // Audio-reactive speed + amplitude. Polls ElevenLabs' getInputVolume
+  // and getOutputVolume on every animation frame and feeds the louder
+  // of the two into both setSpeed and setAmplitude. Below a noise-floor
+  // threshold the wave is forced to 0 on both axes (truly still); above
+  // it the wave scales proportionally to volume. A simple lerp with
+  // fast attack (rising) and slow release (falling) smooths the motion
+  // so the wave glides on speech onset rather than snapping per-frame.
   useEffect(() => {
     if (!isConnected || !isMobile) return
     let rafId = 0
+    let smoothed = 0
     const loop = () => {
       const wave = siriWaveRef.current
       if (wave) {
-        // The volume getters are typed loosely on the SDK; use a soft
-        // cast + try/catch so a SDK version without them just degrades
-        // to the baseline animation.
-        let v = 0
+        let raw = 0
         try {
           const c = conversation as unknown as { getInputVolume?: () => number; getOutputVolume?: () => number }
           const inp = c.getInputVolume?.() ?? 0
           const out = c.getOutputVolume?.() ?? 0
-          v = Math.max(inp, out)
-        } catch { /* fall through to baseline */ }
-        // 0-1 input → 0.25-1.6 amplitude. Lower bound keeps the wave
-        // visible during silence; upper bound lets a loud speaker punch.
-        wave.setAmplitude(0.25 + v * 1.35)
+          raw = Math.max(inp, out)
+        } catch { /* SDK without these getters: wave stays flat. */ }
+        // Fast attack, slow release. 0.35 on the way up means the wave
+        // reaches ~95% of a sustained level in ~7 frames (~120ms);
+        // 0.08 on the way down means it eases back over ~30 frames
+        // (~500ms) so a brief pause between words doesn't kill it.
+        const lerp = raw > smoothed ? 0.35 : 0.08
+        smoothed = smoothed + (raw - smoothed) * lerp
+        // Noise floor: anything below 0.03 = silence. Below the floor
+        // both axes go to 0 so the wave is completely still. Above,
+        // map 0.03..1 -> 0..1.2 amplitude, 0..0.15 speed. The 1.2 cap
+        // keeps a loud speaker visible without distorting; the 0.15
+        // speed cap is roughly the iOS Siri pace.
+        const v = smoothed < 0.03 ? 0 : smoothed
+        wave.setAmplitude(v * 1.2)
+        wave.setSpeed(v * 0.15)
       }
       rafId = requestAnimationFrame(loop)
     }
