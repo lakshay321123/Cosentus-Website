@@ -489,7 +489,7 @@ function CindyInner() {
     },
   })
 
-  const { status, isSpeaking } = conversation
+  const { status, isSpeaking, isMuted, setMuted } = conversation
   const isConnected = status === 'connected'
   const isListening = isConnected && !isSpeaking
 
@@ -879,7 +879,7 @@ function CindyInner() {
             aria-hidden="true"
             style={{
               position: 'absolute',
-              left: 60, right: 16, top: 0, bottom: 0,
+              left: 60, right: 60, top: 0, bottom: 0,
               pointerEvents: 'none',
             }}
           />
@@ -896,7 +896,7 @@ function CindyInner() {
           {isStarting && !isConnected && (
             <div aria-live="polite" style={{
               position: 'absolute',
-              left: 60, right: 16, top: 0, bottom: 0,
+              left: 60, right: 60, top: 0, bottom: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: 'rgba(255, 255, 255, 0.85)',
               fontSize: 14, fontWeight: 500,
@@ -906,6 +906,55 @@ function CindyInner() {
             }}>
               Connecting with Grace...
             </div>
+          )}
+
+          {/* Mute toggle on the RIGHT — mirrors the X close on the left.
+              Only renders when isConnected (no audio to mute during the
+              ~3s handshake, and the connecting label needs the room).
+              Calls setMuted() from useConversation which internally
+              proxies to conversation.setMicMuted() per the ElevenLabs
+              SDK (ConversationInput.d.ts:13). When muted the icon
+              switches to mic-with-slash and the background turns red-
+              tinted so the state is unmistakable. Per user instruction
+              Jun 2026: background noise during Grace's responses causes
+              issues, need a way to silence the mic mid-conversation. */}
+          {isConnected && (
+            <button
+              onClick={() => setMuted(!isMuted)}
+              aria-label={isMuted ? 'Unmute microphone' : 'Mute microphone'}
+              aria-pressed={isMuted}
+              style={{
+                position: 'absolute', top: '50%', right: 12,
+                transform: 'translateY(-50%)',
+                width: 40, height: 40, borderRadius: '50%',
+                background: isMuted ? 'rgba(255, 69, 58, 0.32)' : 'rgba(255,255,255,0.14)',
+                color: isMuted ? '#FF453A' : 'rgba(255,255,255,0.9)',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: 0, lineHeight: 1,
+                transition: 'background 180ms ease, color 180ms ease',
+                zIndex: 2,
+              }}
+            >
+              {isMuted ? (
+                /* Mic with diagonal slash. Hand-tuned 20x20 viewBox. */
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="2" y1="2" x2="22" y2="22" />
+                  <path d="M9 9v3a3 3 0 005.12 2.12" />
+                  <path d="M15 9.34V5a3 3 0 00-5.94-.6" />
+                  <path d="M17 16.95A7 7 0 015 12v-2" />
+                  <path d="M19 10v2a7 7 0 01-.11 1.23" />
+                  <line x1="12" y1="19" x2="12" y2="22" />
+                </svg>
+              ) : (
+                /* Standard microphone icon. */
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="9" y="3" width="6" height="11" rx="3" />
+                  <path d="M5 11v1a7 7 0 0014 0v-1" />
+                  <line x1="12" y1="19" x2="12" y2="22" />
+                </svg>
+              )}
+            </button>
           )}
 
           {/* Error banner — sits as its own pill ABOVE the strip if
