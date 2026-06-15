@@ -174,6 +174,22 @@ export default function AnesthesiaLocationContent({
         </div>
       </section>
 
+      {/* Stats — same treatment as the About / homepage RA numbers */}
+      <section className="section">
+        <div className="container">
+          <div className="anes-loc-stats">
+            {ANESTHESIA_STATS.map((stat, i) => (
+              <RevealOnScroll key={i} delay={i * 0.12}>
+                <div className="anes-loc-stat">
+                  <div className="anes-loc-stat-num">{stat.value}</div>
+                  <div className="anes-loc-stat-label">{stat.label}</div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Local Introduction — eyebrow + lead paragraph */}
       <section className="section">
         <div className="container">
@@ -294,21 +310,6 @@ export default function AnesthesiaLocationContent({
         </div>
       </section>
 
-      {/* Stats — same treatment as the About / homepage RA numbers */}
-      <section className="section">
-        <div className="container">
-          <div className="anes-loc-stats">
-            {ANESTHESIA_STATS.map((stat, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
-                <div className="anes-loc-stat">
-                  <div className="anes-loc-stat-num">{stat.value}</div>
-                  <div className="anes-loc-stat-label">{stat.label}</div>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* FAQ — shared accordion component */}
       <SpecialtyFAQ faqs={faqs} />
