@@ -614,14 +614,19 @@ function CindyInner() {
         // (~500ms) so a brief pause between words doesn't kill it.
         const lerp = raw > smoothed ? 0.35 : 0.08
         smoothed = smoothed + (raw - smoothed) * lerp
-        // Noise floor: anything below 0.03 = silence. Below the floor
-        // both axes go to 0 so the wave is completely still. Above,
-        // map 0.03..1 -> 0..1.2 amplitude, 0..0.15 speed. The 1.2 cap
-        // keeps a loud speaker visible without distorting; the 0.15
-        // speed cap is roughly the iOS Siri pace.
+        // Noise floor: below 0.03 = silence, force both axes to 0
+        // (wave completely still). Above the floor, map smoothed
+        // volume to amplitude and speed with multipliers tuned so
+        // typical conversational speech (v ~ 0.2 - 0.3) drives the
+        // wave to near-full amplitude. Previous v * 1.2 scaling left
+        // typical speech at amp 0.24-0.36, which on a short canvas
+        // produced a wave you could barely see. Math.min clamps at
+        // the library's natural ceilings — amplitude 1 = full canvas
+        // height utilisation, anything above clips visually because
+        // the library does not bound the curve y-position itself.
         const v = smoothed < 0.03 ? 0 : smoothed
-        wave.setAmplitude(v * 1.2)
-        wave.setSpeed(v * 0.15)
+        wave.setAmplitude(Math.min(1, v * 3))
+        wave.setSpeed(Math.min(0.18, v * 0.35))
       }
       rafId = requestAnimationFrame(loop)
     }
@@ -793,7 +798,7 @@ function CindyInner() {
           position: 'fixed',
           left: 12, right: 12, bottom: 110,
           zIndex: 9998,
-          height: 76,
+          height: 100,
           borderRadius: 999,
           background: 'rgba(18, 20, 32, 0.55)',
           backdropFilter: 'blur(30px) saturate(180%)',
