@@ -34,12 +34,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: loc.metaTitle,
     description: loc.metaDescription,
     alternates: {
-      canonical: `/rcm/${loc.slug}`,
+      canonical: `/services/rcm/${loc.slug}`,
     },
     openGraph: {
       title: loc.metaTitle,
       description: loc.metaDescription,
-      url: `/rcm/${loc.slug}`,
+      url: `/services/rcm/${loc.slug}`,
       type: 'website',
     },
   }

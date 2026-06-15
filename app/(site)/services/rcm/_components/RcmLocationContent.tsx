@@ -16,7 +16,7 @@ import {
 /**
  * RcmLocationContent
  *
- * Body for the RCM local-SEO pages at /rcm/[city]. Orphan pages (no nav /
+ * Body for the RCM local-SEO pages at /services/rcm/[city]. Orphan pages (no nav /
  * links anywhere), reachable via search / direct URL, listed in the
  * sitemap. Follows the RCM Location Pages doc's own section order:
  *

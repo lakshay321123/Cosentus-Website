@@ -7,7 +7,7 @@
  * crawlers can find them.
  *
  * Used by:
- *   - /rcm/[city] (per-city page)
+ *   - /services/rcm/[city] (per-city page)
  *   - app/sitemap.ts (derives each city URL)
  *
  * Content is verbatim from the RCM Location Pages doc. Shared blocks (the
@@ -17,7 +17,7 @@
  */
 
 export interface RcmLocation {
-  /** URL slug — must match the route segment in /rcm/[city] */
+  /** URL slug — must match the route segment in /services/rcm/[city] */
   slug: string
   /** Display name used in the H1, "City, CA" (e.g. "Irvine, CA") */
   name: string
