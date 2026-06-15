@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { LOCATIONS } from './(site)/contact/_data/locations'
 import { ANESTHESIA_LOCATIONS } from './(site)/specialties/anesthesia/_data/locations'
+import { RCM_LOCATIONS } from './(site)/rcm/_data/locations'
 
 /**
  * XML sitemap surfaced at /sitemap.xml.
@@ -69,5 +70,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   )
 
-  return [...staticRoutes, ...locationRoutes, ...anesthesiaLocationRoutes]
+  // RCM local-SEO landing pages at /rcm/<city>. Same orphan pattern as
+  // the anesthesia city pages — no internal links, discoverable via the
+  // sitemap. Derived from the data file so adding a city auto-adds its URL.
+  const rcmLocationRoutes: MetadataRoute.Sitemap = RCM_LOCATIONS.map((loc) => ({
+    url: `${SITE}/rcm/${loc.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
+  return [
+    ...staticRoutes,
+    ...locationRoutes,
+    ...anesthesiaLocationRoutes,
+    ...rcmLocationRoutes,
+  ]
 }
