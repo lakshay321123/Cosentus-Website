@@ -98,33 +98,6 @@ export default function RcmLocationContent({
         </div>
       </section>
 
-      {/* Local Introduction — eyebrow + lead paragraph */}
-      <section className="section">
-        <div className="container">
-          <div style={{ maxWidth: 880 }}>
-            <RevealOnScroll>
-              <div className="section-label">Local Expertise</div>
-            </RevealOnScroll>
-            {location.intro.map((para, i) => (
-              <RevealOnScroll key={i} delay={0.05 + i * 0.08}>
-                <p
-                  style={{
-                    fontFamily: i === 0 ? 'var(--font-display)' : 'var(--font-body)',
-                    fontSize: i === 0 ? 'clamp(20px, 2.2vw, 24px)' : 18,
-                    fontWeight: i === 0 ? 300 : 400,
-                    lineHeight: i === 0 ? 1.5 : 1.75,
-                    color: 'var(--gray-700)',
-                    margin: i === 0 ? '0 0 24px' : 0,
-                  }}
-                >
-                  {para}
-                </p>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Where Practices Lose Revenue / How We Plug The Leaks — same split
           panel as the /services/rcm page. Global ps-* / problem-solution-grid
           styles handle the layout and the responsive stack on mobile. */}
@@ -179,6 +152,49 @@ export default function RcmLocationContent({
         </div>
       </section>
 
+      {/* Stats — same treatment as the About / homepage RA numbers */}
+      <section className="section section-alt">
+        <div className="container">
+          <div className="rcm-loc-stats">
+            {RCM_STATS.map((stat, i) => (
+              <RevealOnScroll key={i} delay={i * 0.12}>
+                <div className="rcm-loc-stat">
+                  <div className="rcm-loc-stat-num">{stat.value}</div>
+                  <div className="rcm-loc-stat-label">{stat.label}</div>
+                </div>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Local Introduction — eyebrow + lead paragraph */}
+      <section className="section">
+        <div className="container">
+          <div style={{ maxWidth: 880 }}>
+            <RevealOnScroll>
+              <div className="section-label">Local Expertise</div>
+            </RevealOnScroll>
+            {location.intro.map((para, i) => (
+              <RevealOnScroll key={i} delay={0.05 + i * 0.08}>
+                <p
+                  style={{
+                    fontFamily: i === 0 ? 'var(--font-display)' : 'var(--font-body)',
+                    fontSize: i === 0 ? 'clamp(20px, 2.2vw, 24px)' : 18,
+                    fontWeight: i === 0 ? 300 : 400,
+                    lineHeight: i === 0 ? 1.5 : 1.75,
+                    color: 'var(--gray-700)',
+                    margin: i === 0 ? '0 0 24px' : 0,
+                  }}
+                >
+                  {para}
+                </p>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 10 Steps. One Team. Every Dollar. — shared SpecialtyMarquee grid,
           same RCM_STEPS as the /services/rcm page. */}
       <section className="section section-specialty-grid">
@@ -224,22 +240,6 @@ export default function RcmLocationContent({
                   <div className="advantage-icon">{WHY_ICONS[i]}</div>
                   <h4>{block.title}</h4>
                   <p>{block.body}</p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats — same treatment as the About / homepage RA numbers */}
-      <section className="section section-alt">
-        <div className="container">
-          <div className="rcm-loc-stats">
-            {RCM_STATS.map((stat, i) => (
-              <RevealOnScroll key={i} delay={i * 0.12}>
-                <div className="rcm-loc-stat">
-                  <div className="rcm-loc-stat-num">{stat.value}</div>
-                  <div className="rcm-loc-stat-label">{stat.label}</div>
                 </div>
               </RevealOnScroll>
             ))}
