@@ -137,7 +137,7 @@ export default function TestimonialsShuffleSection({
   const frontIdx = offset
 
   return (
-    <section className="section section-alt" style={{ overflow: 'hidden' }}>
+    <section className="section section-alt testimonials-section-bg" style={{ overflow: 'hidden' }}>
       <div className="container">
         <RevealText
           as="h2"

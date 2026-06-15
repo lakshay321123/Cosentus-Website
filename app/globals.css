@@ -438,6 +438,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: transparent;
 }
 
+/* Testimonials section sits over a brighter, particle-heavy stretch of
+   the page-wide video bg, so the glass cards (identical recipe to the
+   "Built for your specialty" cards) read washed-out and their whitish
+   edge doesn't pop the way the specialty cards' do over their darker
+   backdrop. A subtle dark wash behind this section darkens the area so
+   the cards match the specialty cards' contrast. Scoped to this section
+   only (unique class) so other .section-alt users are unaffected. */
+.home-immersive .testimonials-section-bg {
+  position: relative;
+  background: rgba(2, 18, 28, 0.35);
+}
+
 /* CTASection — was light grey background. The teal .cta-box inside
    it stays solid teal (we WANT the CTA to pop against the video). */
 .home-immersive .cta-section,
@@ -4243,6 +4255,28 @@ body:has(main.home-immersive) .footer-top {
   gap: 20px;
   border-radius: 16px;
   padding: 32px;
+  /* Frosted-glass surface matching the home page's "Built for your
+     specialty" cards (.specialty-card-inner recipe): 20% white wash +
+     backdrop blur + 1.5px/50% white border + simple outer shadow, with
+     white text. This gives the muted dark-teal container look over the
+     video bg (the earlier 6% cta-box wash read too bright/clear). The
+     card surface + text colors are set inline in TestimonialsMarquee.tsx,
+     so these need !important to win. The marquee renders only on desktop
+     (>=1024px via .tcard-desktop-wrap); mobile fan-stack is unaffected. */
+  background: rgba(255, 255, 255, 0.20) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20) !important;
+}
+/* All text inside the desktop marquee cards -> white for contrast over
+   the dark video background. */
+.tmarquee-card,
+.tmarquee-card * {
+  color: #fff !important;
+}
+.tmarquee-card blockquote {
+  color: rgba(255, 255, 255, 0.92) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .tmarquee-track { animation: none; }
