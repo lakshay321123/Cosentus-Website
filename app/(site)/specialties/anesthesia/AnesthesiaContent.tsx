@@ -138,7 +138,7 @@ export default function AnesthesiaContent() {
 
         {/* Grid layout: 3 col desktop, 2 col mobile. Cards wrap their
             own .container internally so they align with the title. */}
-        <SpecialtyMarquee items={ANESTHESIA_SOLUTIONS} layout="grid" />
+        <SpecialtyMarquee items={ANESTHESIA_SOLUTIONS} layout="grid" mobileCarousel />
       </section>
 
 
@@ -168,7 +168,7 @@ export default function AnesthesiaContent() {
             ))}
           </div>
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
+            <MobileCarousel autoScrollInterval={4000} showArrows>
               {advantages.map((a, i) => (
                 <div key={i} className="advantage-card">
                   <div className="advantage-icon">{a.icon}</div>
