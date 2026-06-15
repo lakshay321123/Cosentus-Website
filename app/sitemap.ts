@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { LOCATIONS } from './(site)/contact/_data/locations'
+import { ANESTHESIA_LOCATIONS } from './(site)/specialties/anesthesia/_data/locations'
 
 /**
  * XML sitemap surfaced at /sitemap.xml.
@@ -56,5 +57,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }))
 
-  return [...staticRoutes, ...locationRoutes]
+  // Anesthesia local-SEO landing pages. Orphan pages with no internal
+  // links anywhere on the site, so the sitemap is how crawlers discover
+  // them. Derived from the data file so adding a city auto-adds its URL.
+  const anesthesiaLocationRoutes: MetadataRoute.Sitemap = ANESTHESIA_LOCATIONS.map(
+    (loc) => ({
+      url: `${SITE}/specialties/anesthesia/${loc.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }),
+  )
+
+  return [...staticRoutes, ...locationRoutes, ...anesthesiaLocationRoutes]
 }
