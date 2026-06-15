@@ -662,6 +662,25 @@ function CindyInner() {
     return () => window.removeEventListener('grace-chat-opened', handler)
   }, [isConnected, isStarting, conversation])
 
+  // Reverse coordination: tell ChatWidget when the voice session starts
+  // and ends so it can hide its FAB while Grace is active and bring it
+  // back when the conversation ends. Per user instruction Jun 2026 — on
+  // mobile, having the chat FAB and the active voice strip on screen at
+  // the same time looks crowded. Cleanup fires the 'ended' event so the
+  // FAB returns even if this component unmounts mid-conversation (e.g.
+  // navigation away with an active session).
+  const voiceActive = isStarting || isConnected
+  useEffect(() => {
+    try {
+      window.dispatchEvent(new Event(voiceActive ? 'grace-voice-started' : 'grace-voice-ended'))
+    } catch {}
+    return () => {
+      if (voiceActive) {
+        try { window.dispatchEvent(new Event('grace-voice-ended')) } catch {}
+      }
+    }
+  }, [voiceActive])
+
   const [startError, setStartError] = useState<string | null>(null)
 
   const startConversation = useCallback(async () => {
@@ -812,7 +831,7 @@ function CindyInner() {
       {isMobile && (isStarting || isConnected) && (
         <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
           position: 'fixed',
-          left: 12, right: 12, bottom: 110,
+          left: 12, right: 12, bottom: 60,
           zIndex: 9998,
           height: 100,
           borderRadius: 999,

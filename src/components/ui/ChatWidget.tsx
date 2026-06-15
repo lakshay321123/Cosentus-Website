@@ -24,6 +24,25 @@ export default function ChatWidget() {
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  // Voice-active gate. CindyVoiceAgent dispatches 'grace-voice-started' /
+  // 'grace-voice-ended' window events on the isStarting||isConnected
+  // transitions. When voice is active we hide this chat FAB so the
+  // Grace voice strip can occupy the screen edge cleanly — per user
+  // instruction Jun 2026, having both the chat circle and the active
+  // voice strip on screen at once "looks weird". Decoupled via window
+  // events (no shared context dependency) — same pattern as the
+  // existing grace-chat-opened event that goes the other direction.
+  const [voiceActive, setVoiceActive] = useState(false)
+  useEffect(() => {
+    const onStart = () => setVoiceActive(true)
+    const onEnd = () => setVoiceActive(false)
+    window.addEventListener('grace-voice-started', onStart)
+    window.addEventListener('grace-voice-ended', onEnd)
+    return () => {
+      window.removeEventListener('grace-voice-started', onStart)
+      window.removeEventListener('grace-voice-ended', onEnd)
+    }
+  }, [])
 
   // Auto-scroll to bottom on every chunk arrival. We key on cumulative char
   // count across all messages so each SSE chunk that grows the last message's
@@ -82,7 +101,7 @@ export default function ChatWidget() {
   return (
     <>
       {/* Floating bubble — closed state */}
-      {!isOpen && (
+      {!isOpen && !voiceActive && (
         <button
           onClick={() => {
             // Notify CindyVoiceAgent so an active Grace voice session is
