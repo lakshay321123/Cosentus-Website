@@ -81,7 +81,7 @@ export default function RCMContent() {
           </RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={RCM_STEPS} layout="grid" />
+        <SpecialtyMarquee items={RCM_STEPS} layout="grid" mobileCarousel />
       </section>
 
       {/* The Challenge — relocated to sit below the "10 Steps. One Team.
@@ -108,7 +108,7 @@ export default function RCMContent() {
           flip cards). Wrapped in .rcm-results-on-teal so the
           section renders on a solid teal panel with white text. */}
       <div className="rcm-results-on-teal">
-        <ResultsSection />
+        <ResultsSection showArrows />
       </div>
     </>
   )

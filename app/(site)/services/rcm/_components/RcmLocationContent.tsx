@@ -203,7 +203,7 @@ export default function RcmLocationContent({
             <div className="section-title">10 Steps. One Team. Every Dollar.</div>
           </RevealOnScroll>
         </div>
-        <SpecialtyMarquee items={RCM_STEPS} layout="grid" />
+        <SpecialtyMarquee items={RCM_STEPS} layout="grid" mobileCarousel />
       </section>
 
       {/* What We Manage — 9-item icon-check card grid */}

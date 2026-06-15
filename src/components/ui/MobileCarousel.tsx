@@ -168,13 +168,13 @@ export default function MobileCarousel({
     width: 44,
     height: 44,
     borderRadius: '50%',
-    border: `1px solid ${darkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,181,214,0.35)'}`,
+    border: `1px solid ${darkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'}`,
     background: darkMode ? 'rgba(255,255,255,0.1)' : '#FFFFFF',
-    color: darkMode ? '#FFFFFF' : '#00B5D6',
+    color: darkMode ? '#FFFFFF' : '#000000',
     cursor: 'pointer',
     padding: 0,
     flexShrink: 0,
-    boxShadow: darkMode ? 'none' : '0 2px 8px -2px rgba(0,181,214,0.25)',
+    boxShadow: darkMode ? 'none' : '0 2px 8px -2px rgba(0,0,0,0.18)',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   }
 
@@ -251,7 +251,7 @@ export default function MobileCarousel({
                     borderRadius: 4,
                     border: 'none',
                     background: current === i
-                      ? (darkMode ? '#FFFFFF' : '#00B5D6')
+                      ? (darkMode ? '#FFFFFF' : '#000000')
                       : (darkMode ? 'rgba(255,255,255,0.3)' : '#CCCCCC'),
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
