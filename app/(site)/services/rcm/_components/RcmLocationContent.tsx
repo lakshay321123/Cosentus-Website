@@ -82,6 +82,22 @@ export default function RcmLocationContent({
 
   return (
     <>
+      {/* About Cosentus — left-aligned */}
+      <section className="section">
+        <div className="container">
+          <div style={{ maxWidth: 880 }}>
+            <RevealOnScroll>
+              <div className="section-title">About Cosentus</div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <p style={{ margin: '24px 0 0', fontSize: 18, lineHeight: 1.75, color: 'var(--gray-700)' }}>
+                {location.about}
+              </p>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
       {/* Local Introduction — eyebrow + lead paragraph */}
       <section className="section">
         <div className="container">
@@ -251,22 +267,6 @@ export default function RcmLocationContent({
 
       {/* What Our Partners Say — shared testimonials (site-wide set) */}
       <TestimonialsSection />
-
-      {/* About Cosentus — left-aligned */}
-      <section className="section section-alt">
-        <div className="container">
-          <div style={{ maxWidth: 880 }}>
-            <RevealOnScroll>
-              <div className="section-title">About Cosentus</div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.1}>
-              <p style={{ margin: '24px 0 0', fontSize: 18, lineHeight: 1.75, color: 'var(--gray-700)' }}>
-                {location.about}
-              </p>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ — shared accordion component */}
       <SpecialtyFAQ faqs={faqs} />
