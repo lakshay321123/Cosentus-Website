@@ -872,6 +872,30 @@ function CindyInner() {
             }}
           />
 
+          {/* Connecting indicator — shown only during the handshake
+              window (isStarting && !isConnected, ~1-3s on mobile due
+              to the getUserMedia + WebSocket cost). Once isConnected
+              flips true the wave (whose RAF loop is gated on
+              isConnected) takes over as the visual indicator and this
+              label unmounts. Without this label the strip is a blank
+              dark pill during the wait, which felt to the user like
+              Grace was unresponsive even though the connection was
+              progressing normally. Per user instruction Jun 2026. */}
+          {isStarting && !isConnected && (
+            <div aria-live="polite" style={{
+              position: 'absolute',
+              left: 60, right: 16, top: 0, bottom: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: 14, fontWeight: 500,
+              letterSpacing: '0.01em',
+              pointerEvents: 'none',
+              animation: 'cindyConnectingPulse 1.4s ease-in-out infinite',
+            }}>
+              Connecting with Grace...
+            </div>
+          )}
+
           {/* Error banner — sits as its own pill ABOVE the strip if
               startConversation caught a mic-permission or no-device error. */}
           {startError && (
@@ -899,6 +923,7 @@ function CindyInner() {
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes cindyGlow { 0%,100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.4); } }
         @keyframes cindyWave { 0%,100% { height: 8px; } 50% { height: 20px; } }
+        @keyframes cindyConnectingPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @media (max-width: 480px) {
           .cindy-panel { right: 12px !important; left: 12px !important; bottom: 80px !important; width: auto !important; }
           .cindy-avatar { right: 16px !important; bottom: 80px !important; }
