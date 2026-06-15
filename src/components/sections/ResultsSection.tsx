@@ -54,7 +54,7 @@ const stats = [
   { target: 99, suffix: '%', prefix: '>', label: 'Clean\nClaim Rate', sublabel: '',
     flip: '$3M in charges?\nWe recover $300K\nevery year.' },
   { target: 98.5, suffix: '%', prefix: '', label: 'Coding\nAccuracy', sublabel: '', decimals: 1,
-    flip: 'Coding errors cost\nthousands monthly.\nWe catch 98.5%\nof them.' },
+    flip: 'Coding errors\ncost thousands\nmonthly.\nWe catch 98.5%\nof them.' },
   { target: 10, suffix: '%', prefix: '< ', label: 'AR\n> 120 Days', sublabel: '',
     flip: 'Aging claims rot.\nWe keep cash\nmoving \u2014 fast.' },
   { target: 80, suffix: '%+', prefix: '', label: 'Patient\nCollection', sublabel: '',
