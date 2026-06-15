@@ -802,6 +802,59 @@ ${transcript}
 - Keep the interruption acknowledgment to ONE short phrase. Don't dwell on it. Then continue naturally.`
   }, [])
 
+  // Build the first-message override that gets passed to ElevenLabs on
+  // reconnect (via overrides.agent.firstMessage). This replaces the
+  // hardcoded dashboard 'First message' field (the full "Hi, I'm Grace,
+  // Cosentus's RCM AI Representative..." intro) for the duration of the
+  // reconnect session, so the user hears a contextual resumption phrase
+  // instead of the cold-start greeting.
+  //
+  // Per user feedback Jun 2026: when Grace reconnected she was replaying
+  // the entire intro greeting, which was disorienting mid-conversation.
+  // The fix is two-layered: (a) the {{prior_context}} system-prompt
+  // injection (buildPriorContext above) gives the LLM the conversation
+  // history, but the LLM doesn't speak until AFTER the firstMessage TTS
+  // playback; (b) this firstMessage override replaces the cold-start
+  // intro with a topic-aware "sorry we got cut off" line.
+  //
+  // Topic detection: scan the last several transcript turns for keyword
+  // matches against known specialties + key page topics. Most specific
+  // matches first. Falls back to a generic phrase if no topic matches.
+  // Keep the list aligned with what's actually in the COSE dashboard
+  // prompt — adding topics here that Grace doesn't know about would
+  // sound off.
+  const buildResumptionMessage = useCallback(() => {
+    const recentText = transcriptRef.current
+      .slice(-8)
+      .map(t => t.text.toLowerCase())
+      .join(' ')
+
+    const TOPIC_KEYWORDS: Array<{ keywords: string[]; phrase: string }> = [
+      { keywords: ['anesthesia', 'accreda'], phrase: 'anesthesia' },
+      { keywords: ['orthopedic', 'orthopaedic', 'ortho '], phrase: 'orthopedics' },
+      { keywords: ['pain management', 'pain mgmt', 'epidural', 'injection'], phrase: 'pain management' },
+      { keywords: ['behavioral health', 'mental health', 'psychiatry', 'simed'], phrase: 'behavioral health' },
+      { keywords: ['surgery center', 'ambulatory', 'asc'], phrase: 'ambulatory surgery centers' },
+      { keywords: ['urgent care'], phrase: 'urgent care' },
+      { keywords: ['multi-specialty', 'multispecialty'], phrase: 'multi-specialty' },
+      { keywords: ['zeus', 'cosentus ai', 'cosentus dot ai'], phrase: 'Zeus AI' },
+      { keywords: ['contact', 'office', 'irvine', 'napa', 'dallas', 'olathe', 'salt lake'], phrase: 'getting in touch with the team' },
+      { keywords: ['career', 'hiring', 'apply', 'job opening'], phrase: 'careers' },
+      { keywords: ['leadership', 'about cosentus', 'gs bhalla', 'bhalla', 'jr thompson'], phrase: 'the team' },
+      { keywords: ['denial', 'denials'], phrase: 'denials' },
+      { keywords: ['coding', 'cpt code', 'icd'], phrase: 'coding' },
+      { keywords: ['accounts receivable', 'collection'], phrase: 'collections' },
+      { keywords: ['eligibility', 'prior auth', 'authorization'], phrase: 'eligibility and prior auth' },
+    ]
+
+    for (const { keywords, phrase } of TOPIC_KEYWORDS) {
+      if (keywords.some(kw => recentText.includes(kw))) {
+        return `Sorry, looks like we just got cut off. We were talking about ${phrase} — want me to keep going?`
+      }
+    }
+    return 'Sorry, looks like we just got cut off. Want me to pick up from where we left off?'
+  }, [])
+
   const startConversation = useCallback(async (opts?: { isReconnect?: boolean }) => {
     setStartError(null)
     setIsStarting(true) // mobile strip: show the strip immediately so the tap on the FAB has visible feedback
@@ -829,6 +882,25 @@ ${transcript}
           current_page_summary: pageContext(pathname || '/'),
           prior_context: opts?.isReconnect ? buildPriorContext() : '',
         },
+        // On reconnect, override the dashboard's hardcoded First message
+        // ("Hi, I'm Grace — Cosentus's RCM AI Representative...") with a
+        // topic-aware resumption phrase ("Sorry, looks like we just got
+        // cut off. We were talking about anesthesia — want me to keep
+        // going?"). Without this, ElevenLabs plays the cold-start intro
+        // on every new session including reconnects, which is jarring
+        // mid-conversation. Per user feedback Jun 2026.
+        //
+        // REQUIRES: 'First message override' must be enabled in the
+        // ElevenLabs agent's Security tab. If it's disabled, this field
+        // is silently ignored by ElevenLabs and the dashboard intro
+        // plays as before — graceful degradation, not a hard failure.
+        ...(opts?.isReconnect && {
+          overrides: {
+            agent: {
+              firstMessage: buildResumptionMessage(),
+            },
+          },
+        }),
       })
     } catch (e) {
       setIsStarting(false) // bail out of the 'connecting' UI on mic-permission / device errors
@@ -844,7 +916,7 @@ ${transcript}
         setStartError('Couldn\'t start the conversation. Please try again.')
       }
     }
-  }, [conversation, pathname, buildPriorContext])
+  }, [conversation, pathname, buildPriorContext, buildResumptionMessage])
 
   // Sync startConversationRef so the onDisconnect callback (defined
   // earlier inside useConversation) can call the latest startConversation
