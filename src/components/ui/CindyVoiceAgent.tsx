@@ -891,9 +891,14 @@ ${transcript}
         // mid-conversation. Per user feedback Jun 2026.
         //
         // REQUIRES: 'First message override' must be enabled in the
-        // ElevenLabs agent's Security tab. If it's disabled, this field
-        // is silently ignored by ElevenLabs and the dashboard intro
-        // plays as before — graceful degradation, not a hard failure.
+        // ElevenLabs agent's Security tab BEFORE deploying this code.
+        // Per ElevenLabs docs (verified against
+        // elevenlabs.io/docs/eleven-agents/customization/personalization/overrides):
+        // "An error will be thrown if an override is provided for a
+        // field that does not have overrides enabled." If the toggle is
+        // disabled, this reconnect will fail at startSession and the
+        // user will see the generic 'Couldn't start the conversation'
+        // error from the catch block below. Make sure the toggle is on.
         ...(opts?.isReconnect && {
           overrides: {
             agent: {
