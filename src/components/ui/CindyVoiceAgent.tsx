@@ -772,7 +772,7 @@ function CindyInner() {
           above it. The previous right:16/bottom:80 placement put this FAB
           in a different column AND vertically overlapped the chat FAB by
           8px (chat FAB top edge sits at 88px from bottom). */}
-      {isMobile && (dismissed || showPopup) && !isStarting && !isConnected && (
+      {isMobile && dismissed && !isStarting && !isConnected && (
         <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -835,8 +835,18 @@ function CindyInner() {
           while it's connected. Layout: [X close on left] [wave fills rest].
           The wave amplitude is driven from ElevenLabs' getInputVolume /
           getOutputVolume so it reacts to the actual speaking voice. */}
-      {(isStarting || isConnected) && (
-        <div className="cindy-strip" role="dialog" aria-label="Grace voice conversation" style={{
+      {((isMobile && !dismissed) || isStarting || isConnected) && (
+        <div
+          className="cindy-strip"
+          role={!isStarting && !isConnected ? 'button' : 'dialog'}
+          aria-label={!isStarting && !isConnected ? 'Tap to talk to Grace' : 'Grace voice conversation'}
+          tabIndex={!isStarting && !isConnected ? 0 : -1}
+          onClick={!isStarting && !isConnected ? () => startConversation() : undefined}
+          onKeyDown={!isStarting && !isConnected
+            ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startConversation() } }
+            : undefined
+          }
+          style={{
           position: 'fixed',
           // Mobile: full-width pill anchored to the bottom edge with 12px
           // gutters. Desktop: fixed 480px width, centered horizontally via
@@ -854,6 +864,10 @@ function CindyInner() {
           WebkitBackdropFilter: 'blur(30px) saturate(180%)',
           border: '1px solid rgba(255, 255, 255, 0.12)',
           boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
+          // Cursor is pointer in idle state because the whole pill is the
+          // tap target; default cursor in active states so the X and mute
+          // buttons stand out as the real controls.
+          cursor: !isStarting && !isConnected ? 'pointer' : 'default',
           // Desktop keyframe composes translateX(-50%) into both keyframe
           // states so the centering transform survives the animation —
           // otherwise the animation's transform: translateY(...) replaces
@@ -863,10 +877,24 @@ function CindyInner() {
             : 'cindyStripSlideUpDesktop 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
           overflow: 'hidden',
         }}>
-          {/* Close X on the LEFT (per user preference Jun 2026). Ends the
-              conversation only; the FAB will reappear so Grace can be
-              re-summoned without a 24h cooldown. */}
-          <button onClick={endConversation} aria-label="End conversation" style={{
+          {/* Close X on the LEFT. State-aware handler:
+              - Idle (!isStarting && !isConnected): dismissCindy — sets the
+                24h cooldown and unmounts the pill so the small round FAB
+                takes over as the re-summon target.
+              - Active (isStarting || isConnected): endConversation — ends
+                the Retell session; the pill returns to its idle state
+                automatically because dismissed is still false.
+              stopPropagation so a tap on the X does NOT bubble to the
+              outer strip's onClick (which would otherwise re-start the
+              conversation in the idle case). */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              if (isStarting || isConnected) endConversation()
+              else dismissCindy()
+            }}
+            aria-label={isStarting || isConnected ? 'End conversation' : 'Dismiss Grace'}
+            style={{
             position: 'absolute', top: '50%', left: 12,
             transform: 'translateY(-50%)',
             width: 40, height: 40, borderRadius: '50%',
@@ -900,6 +928,53 @@ function CindyInner() {
               transition: 'opacity 200ms ease',
             }}
           />
+
+          {/* Idle-state content — mobile-only, shown when the pill is
+              visible but no call is starting or connected. Desktop has
+              the cindy-panel welcome card for the same purpose so this
+              block is gated on isMobile. The text in the center prompts
+              the tap-to-talk action; the Grace face on the right mirrors
+              the X position on the left but at 60x60 (vs X's 40x40) per
+              user instruction Jun 2026 ('bigger circle of Grace on the
+              right'). Both text and face have pointerEvents: none so
+              taps fall through to the parent strip's onClick handler
+              (which calls startConversation) — that way the entire pill
+              is one tap target except the X. */}
+          {isMobile && !isStarting && !isConnected && (
+            <>
+              <div style={{
+                position: 'absolute',
+                left: 60, right: 80, top: 0, bottom: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'rgba(255, 255, 255, 0.95)',
+                fontSize: 16, fontWeight: 600,
+                letterSpacing: '0.01em',
+                pointerEvents: 'none',
+                textAlign: 'center',
+              }}>
+                Tap to talk to Grace
+              </div>
+              <div style={{
+                position: 'absolute',
+                top: '50%', right: 12,
+                transform: 'translateY(-50%)',
+                width: 60, height: 60,
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '2px solid rgba(255, 255, 255, 0.35)',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+                pointerEvents: 'none',
+                zIndex: 2,
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/grace-avatar.png"
+                  alt="Grace"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+            </>
+          )}
 
           {/* Connecting indicator — shown only during the handshake
               window (isStarting && !isConnected, ~1-3s on mobile due
