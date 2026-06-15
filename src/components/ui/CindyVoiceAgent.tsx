@@ -614,19 +614,23 @@ function CindyInner() {
         // (~500ms) so a brief pause between words doesn't kill it.
         const lerp = raw > smoothed ? 0.35 : 0.08
         smoothed = smoothed + (raw - smoothed) * lerp
-        // Noise floor: below 0.03 = silence, force both axes to 0
-        // (wave completely still). Above the floor, map smoothed
-        // volume to amplitude and speed with multipliers tuned so
-        // typical conversational speech (v ~ 0.2 - 0.3) drives the
-        // wave to near-full amplitude. Previous v * 1.2 scaling left
-        // typical speech at amp 0.24-0.36, which on a short canvas
-        // produced a wave you could barely see. Math.min clamps at
-        // the library's natural ceilings — amplitude 1 = full canvas
-        // height utilisation, anything above clips visually because
-        // the library does not bound the curve y-position itself.
+        // Noise floor: below 0.03 = silence, force both axes to 0.
+        // Above the floor, use a sqrt curve. Verified against
+        // ElevenLabs' VoiceConversation.calculateVolume (line 139):
+        // it averages the entire frequency spectrum, so typical
+        // speech sits at v ~ 0.05-0.15 (most spectrum bins are silent
+        // and drag the average down). A linear v * 3 multiplier left
+        // amplitude at 0.15-0.45 for normal conversation -> a tiny
+        // wave on screen. Sqrt expands the low-volume range where
+        // speech actually lives (sqrt(0.1) * 2 = 0.63 vs 0.1 * 3 =
+        // 0.3) and tracks perceived loudness, which is roughly
+        // logarithmic. Math.min clamps at the library's natural
+        // ceilings — amplitude 1 = full canvas height, speed 0.18 ~
+        // iOS Siri pace; values past either clip visually because
+        // the library has no internal clamp.
         const v = smoothed < 0.03 ? 0 : smoothed
-        wave.setAmplitude(Math.min(1, v * 3))
-        wave.setSpeed(Math.min(0.18, v * 0.35))
+        wave.setAmplitude(Math.min(1, Math.sqrt(v) * 2))
+        wave.setSpeed(Math.min(0.18, Math.sqrt(v) * 0.3))
       }
       rafId = requestAnimationFrame(loop)
     }
