@@ -22,7 +22,7 @@ import {
  *
  *   Local Intro (eyebrow + lead) -> Complete Anesthesia Revenue Cycle
  *   (the shared SpecialtyMarquee grid, identical to the main page) ->
- *   Why Local Knowledge (iconned advantage cards) -> Stats band ->
+ *   Why Local Knowledge (iconned advantage cards) -> Stats ->
  *   About Cosentus -> FAQ accordion -> footer CTA.
  *
  * The hero (PageHero) is composed in page.tsx, same as the main
@@ -31,7 +31,7 @@ import {
  * come from _data/locations because they're identical everywhere.
  *
  * Note: in this theme every --gray-* token is pure black, so visual
- * hierarchy is built from size, weight, icons, and panels — not color.
+ * hierarchy is built from size, weight, icons, and dividers — not color.
  */
 
 // Icons for the three "Why Local Knowledge Matters" cards, matching the
@@ -133,42 +133,43 @@ export default function AnesthesiaLocationContent({
         </div>
       </section>
 
-      {/* Stats band — teal-ghost panel with dividers */}
+      {/* Stats — same treatment as the About / homepage RA numbers:
+          4-column grid, subtle gray dividers, big primary numbers. */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll direction="scale">
-            <div className="anes-loc-stats">
-              {ANESTHESIA_STATS.map((stat, i) => (
-                <div className="anes-loc-stat" key={i}>
+          <div className="anes-loc-stats">
+            {ANESTHESIA_STATS.map((stat, i) => (
+              <RevealOnScroll key={i} delay={i * 0.12}>
+                <div className="anes-loc-stat">
                   <div className="anes-loc-stat-num">{stat.value}</div>
                   <div className="anes-loc-stat-label">{stat.label}</div>
                 </div>
-              ))}
-            </div>
-          </RevealOnScroll>
+              </RevealOnScroll>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* About Cosentus */}
+      {/* About Cosentus — left-aligned, matching the Local Intro block */}
       <section className="section">
         <div className="container">
-          <RevealOnScroll>
-            <div className="section-title" style={{ textAlign: 'center' }}>About Cosentus</div>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1}>
-            <p
-              style={{
-                maxWidth: 820,
-                margin: '32px auto 0',
-                fontSize: 18,
-                lineHeight: 1.75,
-                color: 'var(--gray-700)',
-                textAlign: 'center',
-              }}
-            >
-              {location.about}
-            </p>
-          </RevealOnScroll>
+          <div style={{ maxWidth: 880 }}>
+            <RevealOnScroll>
+              <div className="section-title">About Cosentus</div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <p
+                style={{
+                  margin: '24px 0 0',
+                  fontSize: 18,
+                  lineHeight: 1.75,
+                  color: 'var(--gray-700)',
+                }}
+              >
+                {location.about}
+              </p>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 
@@ -205,54 +206,37 @@ export default function AnesthesiaLocationContent({
         .anes-loc-stats {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          align-items: center;
-          background: var(--primary-ghost);
-          border-radius: 18px;
-          padding: clamp(34px, 4vw, 52px) clamp(20px, 3vw, 40px);
-          max-width: 1000px;
-          margin: 0 auto;
+          gap: 0;
         }
         .anes-loc-stat {
-          position: relative;
           text-align: center;
-          padding: 0 16px;
+          padding: 24px 16px;
         }
-        .anes-loc-stat:not(:last-child)::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 1px;
-          height: 58px;
-          background: rgba(0, 181, 214, 0.3);
+        .anes-loc-stat:not(:last-child) {
+          border-right: 1px solid var(--gray-200);
         }
         .anes-loc-stat-num {
           font-family: var(--font-display);
-          font-weight: 300;
-          font-size: clamp(40px, 5vw, 64px);
+          font-weight: 700;
+          font-size: clamp(44px, 5.5vw, 68px);
           line-height: 1;
           letter-spacing: -0.02em;
           color: var(--primary);
+          margin-bottom: 8px;
         }
         .anes-loc-stat-label {
-          margin-top: 12px;
           font-size: 13px;
-          font-weight: 500;
+          font-weight: 600;
+          letter-spacing: 0.04em;
           text-transform: uppercase;
-          letter-spacing: 0.06em;
-          color: var(--gray-600);
+          color: var(--gray-500);
         }
         @media (max-width: 900px) {
           .anes-loc-why-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-          .anes-loc-stats {
-            grid-template-columns: repeat(2, 1fr);
-            row-gap: 36px;
-            padding: 40px 24px;
-          }
-          .anes-loc-stat:nth-child(2)::after { display: none; }
+          .anes-loc-stats { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
+          .anes-loc-stat:not(:last-child) { border-right: none; }
         }
       `}</style>
     </>
