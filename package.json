@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@elevenlabs/react": "^1.0.3",
+    "@elevenlabs/react": "^1.6.7",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.57.0",
     "@splinetool/react-spline": "^4.1.0",
