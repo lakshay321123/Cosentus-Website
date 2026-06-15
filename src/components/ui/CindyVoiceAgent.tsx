@@ -734,7 +734,7 @@ function CindyInner() {
     try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
   }
 
-  const stateLabel = actionLabel || (!isConnected ? 'Grace — Ai Guide' : isSpeaking ? 'Speaking...' : 'Listening...')
+  const stateLabel = actionLabel || (!isConnected ? 'Grace — Ai RCM Representative' : isSpeaking ? 'Speaking...' : 'Listening...')
 
   // Mobile FAB tap = auto-start the conversation (per user feedback Jun 2026).
   // If we're in the dismissed state, un-dismiss first so the FAB doesn't keep
@@ -795,7 +795,7 @@ function CindyInner() {
             {!isConnected ? (
               <>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: '#333', margin: '0 0 16px' }}>
-                  Hi! I&apos;m <strong style={{ color: '#00B5D6' }}>Grace</strong>, your Ai voice guide. I can navigate, fill forms, and answer any questions. Ready?
+                  Hi, I&apos;m <strong style={{ color: '#00B5D6' }}>Grace</strong> — Cosentus&apos;s RCM Ai Representative. I can navigate, fill forms and answer any questions. Ready?
                 </p>
                 {startError && (
                   <p role="alert" style={{ fontSize: 12, lineHeight: 1.5, color: '#8B0000', background: '#FFF4F4', border: '1px solid #F5C5C5', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px' }}>
