@@ -3,9 +3,12 @@
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import SpecialtyFAQ from '@/components/sections/SpecialtyFAQ'
+import SpecialtyMarquee from '@/components/sections/SpecialtyMarquee'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import {
   type RcmLocation,
   RCM_WHAT_WE_MANAGE,
+  RCM_STEPS,
   RCM_STATS,
   RCM_SPECIALTY_NAMES,
   RCM_ORGANIZED_BY_SPECIALTY,
@@ -106,6 +109,71 @@ export default function RcmLocationContent({
         </div>
       </section>
 
+      {/* Where Practices Lose Revenue / How We Plug The Leaks — same split
+          panel as the /services/rcm page. Global ps-* / problem-solution-grid
+          styles handle the layout and the responsive stack on mobile. */}
+      <section style={{ overflow: 'hidden' }}>
+        <div className="problem-solution-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 400 }}>
+          <div className="ps-panel ps-problem" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: 'var(--white)', position: 'relative' }}>
+            <RevealOnScroll direction="left" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--gray-900)', marginTop: 0, marginBottom: 28 }}>
+                Where Practices Lose Revenue.
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="left" delay={0.2}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Eligibility errors caught after the visit, not before',
+                  'Manual prior authorizations missing payer deadlines',
+                  'Coding gaps and missed modifiers leaving money on the table',
+                  'AR creeping past 90 days with no active recovery',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'var(--gray-700)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: '#00B5D6', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </RevealOnScroll>
+          </div>
+
+          <div className="ps-panel ps-solution" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(40px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', background: '#00B5D6', position: 'relative', overflow: 'hidden' }}>
+            <div className="ps-shimmer" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+            <RevealOnScroll direction="right" delay={0.1}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 300, lineHeight: 1.15, letterSpacing: '-0.02em', color: 'white', marginTop: 0, marginBottom: 28 }}>
+                How We Plug The Leaks.
+              </h2>
+            </RevealOnScroll>
+            <RevealOnScroll direction="right" delay={0.2}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 520 }}>
+                {[
+                  'Real-time eligibility verification before every appointment',
+                  'Authorization tracking with deadline alerts',
+                  'AAPC-certified coders with Ai-assisted accuracy checks',
+                  'Active AR follow-up \u2014 under 15% AR over 90 days',
+                ].map((bullet, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.95)', marginBottom: 18 }}>
+                    <span aria-hidden="true" style={{ flexShrink: 0, width: 7, height: 7, borderRadius: '50%', background: 'white', marginTop: 10 }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* 10 Steps. One Team. Every Dollar. — shared SpecialtyMarquee grid,
+          same RCM_STEPS as the /services/rcm page. */}
+      <section className="section section-specialty-grid">
+        <div className="container">
+          <RevealOnScroll>
+            <div className="section-title">10 Steps. One Team. Every Dollar.</div>
+          </RevealOnScroll>
+        </div>
+        <SpecialtyMarquee items={RCM_STEPS} layout="grid" />
+      </section>
+
       {/* What We Manage — 9-item icon-check card grid */}
       <section className="section section-alt">
         <div className="container">
@@ -180,6 +248,9 @@ export default function RcmLocationContent({
           </div>
         </div>
       </section>
+
+      {/* What Our Partners Say — shared testimonials (site-wide set) */}
+      <TestimonialsSection />
 
       {/* About Cosentus — left-aligned */}
       <section className="section section-alt">

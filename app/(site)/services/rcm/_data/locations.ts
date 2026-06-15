@@ -16,6 +16,8 @@
  * every page in the doc, so they live here once.
  */
 
+import type { SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
+
 export interface RcmLocation {
   /** URL slug — must match the route segment in /services/rcm/[city] */
   slug: string
@@ -62,6 +64,86 @@ export const RCM_STATS: { value: string; label: string }[] = [
   { value: '48hrs', label: 'Charge Lag' },
   { value: '>99%', label: 'Clean Claim Rate' },
   { value: '<15%', label: 'AR Over 90 Days' },
+]
+
+/**
+ * The 10-step RCM timeline, rendered through the shared SpecialtyMarquee
+ * (grid mode) on both the /services/rcm service page and the city pages.
+ * Single source of truth so the two stay in sync. Each card maps to one
+ * AnimKind in the SpecialtyMarquee anim library; agent badges (Elly /
+ * Paige / Priya / Connie / Ariel / Chris / Cindy) render from `agent`.
+ */
+export const RCM_STEPS: SpecialtySolution[] = [
+  {
+    eyebrow: 'INSURANCE VERIFICATION',
+    title: 'Eligibility Verification',
+    description: 'Elly verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.',
+    anim: 'eligibility',
+    agent: { name: 'Elly', img: 'elly.png' },
+  },
+  {
+    eyebrow: 'AUTHORIZATIONS',
+    title: 'Prior Authorization',
+    description: 'Paige tracks every open authorization, preventing procedural delays and timely filing lapses.',
+    anim: 'stamp',
+    agent: { name: 'Paige', img: 'paige.png' },
+  },
+  {
+    eyebrow: 'PRE-SERVICE',
+    title: 'Pre-Service Collection',
+    description: 'Priya contacts patients 3\u20137 days before service with verified cost estimates. 30\u201340% higher collection rates.',
+    anim: 'stat',
+    statValue: '40',
+    statUnit: '%',
+    agent: { name: 'Priya', img: 'priya.png' },
+  },
+  {
+    eyebrow: 'CHARGE CAPTURE',
+    title: 'Coding & Capture',
+    description: 'AAPC-certified coders ensure accurate CPT and modifier selection. Connie assists with code suggestions and accuracy checks.',
+    anim: 'modifiers',
+    modifierLabels: ['59', 'XE', 'XS', '51', 'LT', '25'],
+    agent: { name: 'Connie', img: 'connie.png' },
+  },
+  {
+    eyebrow: 'CLAIM SCRUBBING',
+    title: 'Claim Scrubbing & Submission',
+    description: 'Payer-specific edits applied before every submission. Clean claims. Fast payments.',
+    anim: 'rules',
+  },
+  {
+    eyebrow: 'PAYMENT POSTING',
+    title: 'Payment Posting & Reconciliation',
+    description: 'Ariel tracks aging claims and flags payment delays. Underpayments escalate to specialists for resolution.',
+    anim: 'badges',
+    agent: { name: 'Ariel', img: 'ariel.png' },
+  },
+  {
+    eyebrow: 'AR & DENIALS',
+    title: 'AR Follow-Up & Denials',
+    description: 'Chris contacts payers proactively. Human denial experts appeal with clinical rationale. 95%+ success.',
+    anim: 'pulse',
+    agent: { name: 'Chris', img: 'chris.png' },
+  },
+  {
+    eyebrow: 'PATIENT COLLECTIONS',
+    title: 'Patient Billing & Collections',
+    description: 'Cindy handles balances in 50+ languages with real-time payment processing and payment plan options.',
+    anim: 'languages',
+    agent: { name: 'Cindy', img: 'cindy.png' },
+  },
+  {
+    eyebrow: 'CREDENTIALING',
+    title: 'Credentialing & Contracting',
+    description: 'Provider credentialing, re-credentialing, and contract analytics to protect reimbursement rates.',
+    anim: 'defense',
+  },
+  {
+    eyebrow: 'REPORTING',
+    title: 'Reporting & Analytics',
+    description: 'Real-time dashboards by provider, payer, procedure, and denial category. Weekly reviews and QBRs included.',
+    anim: 'chart',
+  },
 ]
 
 /**
