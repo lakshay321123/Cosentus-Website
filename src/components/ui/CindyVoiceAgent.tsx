@@ -57,11 +57,22 @@ function CindyInner() {
   const DISMISS_KEY = 'cindy-dismissed-until'
   const DISMISS_TTL_MS = 24 * 60 * 60 * 1000 // 24h
 
-  // Delay Grace popup by 5 seconds — but skip entirely if recently dismissed.
+  // Mobile: idle pill should show on every page load (user instruction
+  // Jun 2026). Skip the cooldown logic entirely so any localStorage
+  // value from a prior dismiss is ignored.
+  // Desktop: respect the 24h cooldown so the welcome card doesn't pester
+  // returning users — preserves the original cindy-panel behavior.
+  // Detecting mobile via matchMedia directly here (not the isMobile state)
+  // because state effects run in declaration order and we want this
+  // decision made on the very first effect run, regardless of which other
+  // effect happens to update state first.
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    const isMobileViewport = window.matchMedia('(max-width: 480px)').matches
+    if (isMobileViewport) return // mobile: skip cooldown, idle pill always shows
     let dismissedUntil = 0
     try {
-      const raw = typeof window !== 'undefined' ? window.localStorage.getItem(DISMISS_KEY) : null
+      const raw = window.localStorage.getItem(DISMISS_KEY)
       if (raw) dismissedUntil = parseInt(raw, 10) || 0
     } catch { /* localStorage blocked — fall through to default behavior */ }
     if (dismissedUntil > Date.now()) { setDismissed(true); return }
@@ -738,7 +749,14 @@ function CindyInner() {
     // so the X always cleanly stops Grace regardless of state.
     if (isConnected || isStarting) conversation.endSession()
     setDismissed(true); setShowPopup(false)
-    try { window.localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_TTL_MS)) } catch {}
+    // Only persist the cooldown on desktop. Mobile users see the idle
+    // pill on every page load regardless of prior dismiss (user
+    // instruction Jun 2026). The dismissed=true state above still hides
+    // the pill within the current session and shows the small Grace FAB
+    // until the user taps it.
+    if (!isMobile) {
+      try { window.localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_TTL_MS)) } catch {}
+    }
   }
 
   const restoreCindy = () => {
