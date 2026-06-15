@@ -563,6 +563,22 @@ function CindyInner() {
       speed: 0,
       amplitude: 0,
       autostart: true,
+      // Override the library's default curveDefinition with Apple iOS
+      // dark-mode system colours (verified against the iOS HIG, Jun
+      // 2025 update). These match the colours visible in the reference
+      // Siri waveform image and are correct for our dark-glass strip
+      // background. The library's defaults are muted (dark navy, dark
+      // maroon) and read poorly against rgba(18,20,32,0.55). Library
+      // expects "r, g, b" triplet strings (no rgb() wrapper, alpha is
+      // added internally). The supportLine entry stays first to keep
+      // the persistent thin baseline visible at idle — drawSupportLine
+      // runs unconditionally regardless of phase/amplitude.
+      curveDefinition: [
+        { color: '255, 255, 255', supportLine: true }, // white baseline
+        { color: '10, 132, 255' },                      // systemBlue dark #0A84FF
+        { color: '255, 55, 95' },                       // systemPink dark #FF375F
+        { color: '48, 209, 88' },                       // systemGreen dark #30D158
+      ],
     })
     siriWaveRef.current = inst
     return () => {
