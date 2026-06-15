@@ -170,7 +170,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
  * the homepage only (Change 3). Other pages that reuse this section
  * (e.g. /services/rcm) omit the prop and render without it.
  */
-export default function ResultsSection({ intro = false }: { intro?: boolean }) {
+export default function ResultsSection({ intro = false, showArrows = false, darkMode = false }: { intro?: boolean; showArrows?: boolean; darkMode?: boolean }) {
   return (
     <section className="results-section" id="results" style={{ overflow: 'hidden' }}>
       <div className="container-wide">
@@ -189,7 +189,7 @@ export default function ResultsSection({ intro = false }: { intro?: boolean }) {
 
         {/* Mobile: carousel */}
         <div className="results-mobile" style={{ overflow: "hidden", width: "100%" }}>
-          <MobileCarousel autoScrollInterval={3500}>
+          <MobileCarousel autoScrollInterval={3500} showArrows={showArrows} darkMode={darkMode}>
             {stats.map((stat, i) => (
               <StatCard key={i} stat={stat} />
             ))}

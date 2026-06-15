@@ -6,6 +6,7 @@ interface MobileCarouselProps {
   children: ReactNode[]
   autoScrollInterval?: number // ms, default 4000
   showDots?: boolean
+  showArrows?: boolean // circular prev/next buttons flanking the dots
   className?: string
   darkMode?: boolean // white dots for dark backgrounds
 }
@@ -14,6 +15,7 @@ export default function MobileCarousel({
   children,
   autoScrollInterval = 4000,
   showDots = true,
+  showArrows = false,
   className = '',
   darkMode = false,
 }: MobileCarouselProps) {
@@ -147,6 +149,35 @@ export default function MobileCarousel({
     setTimeout(startAuto, 5000)
   }
 
+  // Arrow navigation (only rendered when showArrows). Mirrors the dot/swipe
+  // behavior: pause auto-rotation on interaction, resume after 5s.
+  const goPrev = () => {
+    stopAuto()
+    setCurrent(prev => (prev - 1 + total) % total)
+    setTimeout(startAuto, 5000)
+  }
+  const goNext = () => {
+    stopAuto()
+    setCurrent(prev => (prev + 1) % total)
+    setTimeout(startAuto, 5000)
+  }
+  const arrowStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
+    borderRadius: '50%',
+    border: `1px solid ${darkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'}`,
+    background: darkMode ? 'rgba(255,255,255,0.1)' : '#FFFFFF',
+    color: darkMode ? '#FFFFFF' : '#000000',
+    cursor: 'pointer',
+    padding: 0,
+    flexShrink: 0,
+    boxShadow: darkMode ? 'none' : '0 2px 8px -2px rgba(0,0,0,0.18)',
+    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  }
+
   // On desktop, render children normally (no carousel)
   if (!isMobile) {
     return <>{children}</>
@@ -191,31 +222,52 @@ export default function MobileCarousel({
         ))}
       </div>
 
-      {showDots && total > 1 && (
-        <div className="mobile-carousel-dots">
-          {Array.from({ length: total }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setCurrent(i)
-                stopAuto()
-                setTimeout(startAuto, 5000)
-              }}
-              aria-label={`Go to slide ${i + 1}`}
-              style={{
-                width: current === i ? 24 : 8,
-                height: 8,
-                borderRadius: 4,
-                border: 'none',
-                background: current === i
-                  ? (darkMode ? '#FFFFFF' : '#00B5D6')
-                  : (darkMode ? 'rgba(255,255,255,0.3)' : '#CCCCCC'),
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                padding: 0,
-              }}
-            />
-          ))}
+      {(showDots || showArrows) && total > 1 && (
+        <div
+          className="mobile-carousel-controls"
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: showArrows ? 16 : 6, marginTop: 20 }}
+        >
+          {showArrows && (
+            <button type="button" onClick={goPrev} aria-label="Previous slide" style={arrowStyle}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+          )}
+          {showDots && (
+            <div className="mobile-carousel-dots" style={{ marginTop: 0 }}>
+              {Array.from({ length: total }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setCurrent(i)
+                    stopAuto()
+                    setTimeout(startAuto, 5000)
+                  }}
+                  aria-label={`Go to slide ${i + 1}`}
+                  style={{
+                    width: current === i ? 24 : 8,
+                    height: 8,
+                    borderRadius: 4,
+                    border: 'none',
+                    background: current === i
+                      ? (darkMode ? '#FFFFFF' : '#000000')
+                      : (darkMode ? 'rgba(255,255,255,0.3)' : '#CCCCCC'),
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          {showArrows && (
+            <button type="button" onClick={goNext} aria-label="Next slide" style={arrowStyle}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          )}
         </div>
       )}
     </div>

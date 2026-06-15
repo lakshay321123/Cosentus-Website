@@ -697,7 +697,7 @@ export default function RAPageContent() {
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 20,
           }} className="zeus-kpi-grid">
-            <MobileCarousel autoScrollInterval={4500}>
+            <MobileCarousel autoScrollInterval={4500} showArrows>
             {[
               { label: 'Clean claim rate', tag: '▲ 4pts', tagDir: 'up', pre: '', big: '98', unit: '%', plus: '+', industry: '90–95%', zeus: 'Zeus 98%+' },
               { label: 'Coding accuracy', tag: '▲ 10pts', tagDir: 'up', pre: '', big: '99', unit: '%', plus: '', industry: '85–90%', zeus: 'Zeus 99%' },

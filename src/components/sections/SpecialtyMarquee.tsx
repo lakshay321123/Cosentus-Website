@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import MobileCarousel from '@/components/ui/MobileCarousel'
 
 /**
  * Maps an agent's circular-headshot filename to its full "popup"
@@ -301,9 +302,16 @@ interface SpecialtyMarqueeProps {
    *    "specialty-grid-layout" change (replaces horizontal scroll with vertical scroll).
    */
   layout?: 'marquee' | 'grid'
+  /**
+   * When true AND layout='grid' AND viewport ≤720px, render the cards as a
+   * paged carousel (one card per slide with prev/next buttons + dots) instead
+   * of the continuous auto-scrolling marquee. Desktop is unaffected (grid).
+   * Opt-in, so other usages keep the marquee-on-mobile behavior.
+   */
+  mobileCarousel?: boolean
 }
 
-export default function SpecialtyMarquee({ items, layout = 'marquee' }: SpecialtyMarqueeProps) {
+export default function SpecialtyMarquee({ items, layout = 'marquee', mobileCarousel = false }: SpecialtyMarqueeProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const translateXRef = useRef(0)
@@ -329,10 +337,24 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  // Effective layout: when caller asks for 'grid' but we're on mobile,
-  // fall back to 'marquee' so phones keep the swipe/auto-scroll experience.
+  // When the caller opts in via `mobileCarousel`, mobile grids render as a
+  // paged carousel (handled in the render branch below) instead of the
+  // continuous marquee.
+  const useMobileCarousel =
+    isMounted && isMobile && layout === 'grid' && mobileCarousel
+
+  // Effective layout: when caller asks for 'grid' but we're on mobile (and
+  // hasn't opted into the paged carousel), fall back to 'marquee' so phones
+  // keep the swipe/auto-scroll experience. When the paged carousel is in use
+  // we keep 'grid' here so the marquee rAF loop never starts — the carousel
+  // branch renders instead, and the grid scroll-reveal effect no-ops because
+  // gridRef isn't attached in that branch.
   const effectiveLayout: 'marquee' | 'grid' =
-    isMounted && isMobile && layout === 'grid' ? 'marquee' : layout
+    useMobileCarousel
+      ? 'grid'
+      : isMounted && isMobile && layout === 'grid'
+        ? 'marquee'
+        : layout
 
   useEffect(() => {
     if (effectiveLayout !== 'marquee') return
@@ -441,7 +463,49 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
 
   return (
     <>
-      {effectiveLayout === 'grid' ? (
+      {useMobileCarousel ? (
+        /* ---------------------------------------------------------------
+           Paged mobile carousel (mobileCarousel opt-in, ≤720px). Reuses
+           the shared MobileCarousel so the prev/next buttons + dots match
+           the "What Sets Apart" sections. One card per slide, static (no
+           auto-scroll marquee). Desktop never reaches here (useMobileCarousel
+           requires isMobile). Cards reuse the same .spec-card markup; the
+           .spec-card-carousel modifier makes each fill its slide. */
+        <div className="spec-grid-wrapper" style={{ marginTop: 48 }}>
+          <div className="container">
+            <MobileCarousel showArrows showDots>
+              {items.map((s, i) => (
+                <article key={i} className="spec-card spec-card-carousel">
+                  <h3 className="spec-card-title">{s.title}</h3>
+                  <p className="spec-card-desc">{s.description}</p>
+                  {s.agent ? (
+                    <div className="spec-card-agent-footer spec-card-agent-footer-popup">
+                      <Link
+                        href="/cosentus-ai"
+                        className="spec-card-agent-popup-link"
+                        aria-label={`Meet ${s.agent.name}, our AI agent`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          className="spec-card-agent-popup-img"
+                          src={`/images/${popupImg(s.agent.img)}`}
+                          alt=""
+                          draggable={false}
+                        />
+                      </Link>
+                      <span className="spec-card-eyebrow">{s.eyebrow}</span>
+                    </div>
+                  ) : (
+                    <div className="spec-card-anim">
+                      <CardAnimation s={s} />
+                    </div>
+                  )}
+                </article>
+              ))}
+            </MobileCarousel>
+          </div>
+        </div>
+      ) : effectiveLayout === 'grid' ? (
         /* ---------------------------------------------------------------
            Grid mode: responsive grid (3 col on desktop). Mobile (≤720px)
            falls back to the marquee branch below via `effectiveLayout`.
@@ -1428,6 +1492,13 @@ export default function SpecialtyMarquee({ items, layout = 'marquee' }: Specialt
             transform: none;
             transition: none;
           }
+        }
+
+        /* Paged mobile carousel (mobileCarousel opt-in): each card fills its
+           MobileCarousel slide instead of the marquee's fixed 78vw width. */
+        .spec-card.spec-card-carousel {
+          width: 100% !important;
+          flex-shrink: initial;
         }
       `}</style>
     </>

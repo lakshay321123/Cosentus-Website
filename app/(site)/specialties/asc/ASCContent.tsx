@@ -242,7 +242,7 @@ export default function ASCContent() {
             ))}
           </div>
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
+            <MobileCarousel autoScrollInterval={4000} showArrows>
               {advantages.map((a, i) => (
                 <div key={i} className="advantage-card">
                   <div className="advantage-icon">{a.icon}</div>
@@ -263,7 +263,7 @@ export default function ASCContent() {
           <RevealOnScroll><div className="section-title">Complete ASC Revenue Cycle</div></RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={solutions} layout="grid" />
+        <SpecialtyMarquee items={solutions} layout="grid" mobileCarousel />
       </section>
 
 

@@ -2,125 +2,8 @@
 
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import ResultsSection from '@/components/sections/ResultsSection'
-import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
-
-// 10 RCM steps rendered through the shared SpecialtyMarquee
-// component (the same drag-to-scrub carousel used on every
-// specialty page). Each card maps to one AnimKind from the
-// SpecialtyMarquee anim library — all 10 unique on this page,
-// drawing from 10 of the 12 available kinds.
-//
-// Animation map (rationale per card):
-//   1  Eligibility Verification (Elly)   -> 'eligibility'
-//        Insurance card + verification check. Direct visual
-//        match for "verifies insurance and benefits."
-//   2  Prior Authorization (Paige)       -> 'stamp'
-//        Progress bar + APPROVED label. Consistent with how
-//        Prior Auth is rendered on every specialty page.
-//   3  Pre-Service Collection (Priya)    -> 'stat'
-//        Big number + rising bars. statValue="40" / statUnit="%"
-//        carries the "30-40% higher pre-service collection"
-//        figure from the card description.
-//   4  Charge Capture & Coding (Connie)  -> 'modifiers'
-//        CPT modifier code pills cycling. Direct match for the
-//        coding theme. Labels are real modifiers commonly used
-//        in surgical/procedural coding.
-//   5  Claim Scrubbing & Submission      -> 'rules'
-//        4x3 grid wave = payer-specific edits being applied
-//        across many rule cells.
-//   6  Payment Posting & Reconciliation  -> 'badges'
-//        3 check circles = received / matched / reconciled.
-//        Rhythm of a payment moving through posting.
-//   7  AR Follow-Up & Denials (Chris)    -> 'pulse'
-//        Phone + 3 pulse rings. Chris's signature card across
-//        the site.
-//   8  Patient Billing (Cindy)           -> 'languages'
-//        Three multilingual chat bubbles. Cindy's signature
-//        card across the site.
-//   9  Credentialing & Contracting       -> 'defense'
-//        Document + shield-check pulse. Credentialing is
-//        document-driven payer verification — the doc reads
-//        as the credential packet, the shield-check as payer
-//        approval.
-//  10  Reporting & Analytics             -> 'chart'
-//        Bar chart with staggered scale. The canonical
-//        analytics card on every specialty page.
-//
-// The two AnimKinds not used here ('meds' and 'telehealth') are
-// domain-specific to Behavioral Health / Pain Management and
-// don't have a natural home in a cross-specialty RCM flow.
-const rcmSteps: SpecialtySolution[] = [
-  {
-    eyebrow: 'INSURANCE VERIFICATION',
-    title: 'Eligibility Verification',
-    description: 'Elly verifies insurance and benefits before every appointment, eliminating eligibility denials at the source.',
-    anim: 'eligibility',
-    agent: { name: 'Elly', img: 'elly.png' },
-  },
-  {
-    eyebrow: 'AUTHORIZATIONS',
-    title: 'Prior Authorization',
-    description: 'Paige tracks every open authorization, preventing procedural delays and timely filing lapses.',
-    anim: 'stamp',
-    agent: { name: 'Paige', img: 'paige.png' },
-  },
-  {
-    eyebrow: 'PRE-SERVICE',
-    title: 'Pre-Service Collection',
-    description: 'Priya contacts patients 3\u20137 days before service with verified cost estimates. 30\u201340% higher collection rates.',
-    anim: 'stat',
-    statValue: '40',
-    statUnit: '%',
-    agent: { name: 'Priya', img: 'priya.png' },
-  },
-  {
-    eyebrow: 'CHARGE CAPTURE',
-    title: 'Coding & Capture',
-    description: 'AAPC-certified coders ensure accurate CPT and modifier selection. Connie assists with code suggestions and accuracy checks.',
-    anim: 'modifiers',
-    modifierLabels: ['59', 'XE', 'XS', '51', 'LT', '25'],
-    agent: { name: 'Connie', img: 'connie.png' },
-  },
-  {
-    eyebrow: 'CLAIM SCRUBBING',
-    title: 'Claim Scrubbing & Submission',
-    description: 'Payer-specific edits applied before every submission. Clean claims. Fast payments.',
-    anim: 'rules',
-  },
-  {
-    eyebrow: 'PAYMENT POSTING',
-    title: 'Payment Posting & Reconciliation',
-    description: 'Ariel tracks aging claims and flags payment delays. Underpayments escalate to specialists for resolution.',
-    anim: 'badges',
-    agent: { name: 'Ariel', img: 'ariel.png' },
-  },
-  {
-    eyebrow: 'AR & DENIALS',
-    title: 'AR Follow-Up & Denials',
-    description: 'Chris contacts payers proactively. Human denial experts appeal with clinical rationale. 95%+ success.',
-    anim: 'pulse',
-    agent: { name: 'Chris', img: 'chris.png' },
-  },
-  {
-    eyebrow: 'PATIENT COLLECTIONS',
-    title: 'Patient Billing & Collections',
-    description: 'Cindy handles balances in 50+ languages with real-time payment processing and payment plan options.',
-    anim: 'languages',
-    agent: { name: 'Cindy', img: 'cindy.png' },
-  },
-  {
-    eyebrow: 'CREDENTIALING',
-    title: 'Credentialing & Contracting',
-    description: 'Provider credentialing, re-credentialing, and contract analytics to protect reimbursement rates.',
-    anim: 'defense',
-  },
-  {
-    eyebrow: 'REPORTING',
-    title: 'Reporting & Analytics',
-    description: 'Real-time dashboards by provider, payer, procedure, and denial category. Weekly reviews and QBRs included.',
-    anim: 'chart',
-  },
-]
+import SpecialtyMarquee from '@/components/sections/SpecialtyMarquee'
+import { RCM_STEPS } from './_data/locations'
 
 export default function RCMContent() {
   return (
@@ -186,7 +69,6 @@ export default function RCMContent() {
         </div>
       </section>
 
-
       {/* The 10-Step RCM Timeline — uses the shared SpecialtyMarquee
           component in grid mode (3 col desktop, 2 col mobile). Each
           step renders as a card with its own animation; agents (Elly /
@@ -199,9 +81,8 @@ export default function RCMContent() {
           </RevealOnScroll>
         </div>
 
-        <SpecialtyMarquee items={rcmSteps} layout="grid" />
+        <SpecialtyMarquee items={RCM_STEPS} layout="grid" mobileCarousel />
       </section>
-
 
       {/* The Challenge — relocated to sit below the "10 Steps. One Team.
           Every Dollar." section per user (Jun 2026). */}
@@ -222,13 +103,12 @@ export default function RCMContent() {
         </div>
       </section>
 
-
       {/* Results / Outcomes — dropped in the home page's
           ResultsSection component (6 arrow-shape stat cards with
           flip cards). Wrapped in .rcm-results-on-teal so the
           section renders on a solid teal panel with white text. */}
       <div className="rcm-results-on-teal">
-        <ResultsSection />
+        <ResultsSection showArrows />
       </div>
     </>
   )

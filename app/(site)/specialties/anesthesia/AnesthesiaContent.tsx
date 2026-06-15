@@ -5,7 +5,8 @@ import MobileCarousel from '@/components/ui/MobileCarousel'
 import AgentSpotlightCard from '@/components/voice/AgentSpotlightCard'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import TeamCircleGrid from '@/components/ui/TeamCircleGrid'
-import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
+import SpecialtyMarquee from '@/components/sections/SpecialtyMarquee'
+import { ANESTHESIA_SOLUTIONS } from './_data/locations'
 
 // "What Sets Us Apart" cards. Content per the Specialty Pages doc
 // (v1, May 19 2026) — section 1 "Anesthesia (Accreda)". Doc spec is
@@ -62,19 +63,9 @@ const testimonials = [
   },
 ]
 
-// "RCM Solutions: Complete Anesthesia Revenue Cycle" — 8 cards
-// per Specialty Pages doc (v1, May 19 2026). Field names match the
-// shared SpecialtyMarquee component contract.
-const solutions: SpecialtySolution[] = [
-  { eyebrow: 'SPECIALTY EXPERTISE', title: 'Anesthesia-Specific Coding', description: 'Base units, time units, modifiers, concurrency. Coded accurately for every case type including cardiac, OB, pain, and regional.', anim: 'modifiers', modifierLabels: ['AA', 'QK', 'QY', 'AD'] },
-  { eyebrow: 'PAYER INTELLIGENCE', title: 'Payer-Specific Billing Rules', description: 'Each payer reimburses anesthesia differently. Our team knows the rules for every major carrier and adapts accordingly.', anim: 'rules' },
-  { eyebrow: 'FRONT OFFICE', title: 'Credentialing & Enrollment', description: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', anim: 'badges' },
-  { eyebrow: 'AUTHORIZATIONS', title: 'Prior Authorization', description: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', anim: 'stamp' },
-  { eyebrow: 'DENIAL PREVENTION', title: 'Denial Management & Appeals', description: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', anim: 'stat', statValue: '95', statUnit: '%' },
-  { eyebrow: 'Ai AGENT \u2014 CHRIS', title: 'AR Follow-Up & Collections', description: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', anim: 'pulse', agent: { name: 'Chris', img: 'chris.png' } },
-  { eyebrow: 'Ai AGENT \u2014 CINDY', title: 'Patient Billing & Support', description: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', anim: 'languages', agent: { name: 'Cindy', img: 'cindy.png' } },
-  { eyebrow: 'REAL-TIME INSIGHTS', title: 'Analytics & Visibility', description: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', anim: 'chart' },
-]
+// The "Complete Anesthesia Revenue Cycle" cards (ANESTHESIA_SOLUTIONS)
+// live in ./_data/locations.ts so this page and the per-city anesthesia
+// pages render the same section from one source.
 
 export default function AnesthesiaContent() {
   return (
@@ -147,7 +138,7 @@ export default function AnesthesiaContent() {
 
         {/* Grid layout: 3 col desktop, 2 col mobile. Cards wrap their
             own .container internally so they align with the title. */}
-        <SpecialtyMarquee items={solutions} layout="grid" />
+        <SpecialtyMarquee items={ANESTHESIA_SOLUTIONS} layout="grid" mobileCarousel />
       </section>
 
 
@@ -177,7 +168,7 @@ export default function AnesthesiaContent() {
             ))}
           </div>
           <div className="advantages-mobile" style={{ marginTop: 32 }}>
-            <MobileCarousel autoScrollInterval={4000}>
+            <MobileCarousel autoScrollInterval={4000} showArrows>
               {advantages.map((a, i) => (
                 <div key={i} className="advantage-card">
                   <div className="advantage-icon">{a.icon}</div>
