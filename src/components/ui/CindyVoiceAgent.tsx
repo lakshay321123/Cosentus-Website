@@ -669,24 +669,31 @@ function CindyInner() {
     return () => window.removeEventListener('grace-chat-opened', handler)
   }, [isConnected, isStarting, conversation])
 
-  // Reverse coordination: tell ChatWidget when the voice session starts
-  // and ends so it can hide its FAB while Grace is active and bring it
-  // back when the conversation ends. Per user instruction Jun 2026 — on
-  // mobile, having the chat FAB and the active voice strip on screen at
-  // the same time looks crowded. Cleanup fires the 'ended' event so the
-  // FAB returns even if this component unmounts mid-conversation (e.g.
-  // navigation away with an active session).
-  const voiceActive = isStarting || isConnected
+  // Strip-visible gate. We dispatch 'grace-voice-started' /
+  // 'grace-voice-ended' window events whenever the Grace strip
+  // becomes visible / hidden — ChatWidget listens and hides its chat
+  // FAB during these windows so the two UIs don't overlap at the
+  // bottom-right column on mobile. The strip is visible in three
+  // situations: the new mobile idle pill (isMobile && !dismissed),
+  // during the ElevenLabs handshake (isStarting), and during the
+  // active conversation (isConnected). The event names retain
+  // 'voice-started'/'voice-ended' for backward compatibility with
+  // ChatWidget which already listens for them — renaming would
+  // require touching ChatWidget which is in the protected-files
+  // list. Cleanup fires the 'ended' event so the chat FAB returns
+  // even if this component unmounts mid-conversation or mid-idle
+  // (e.g. navigation away with the strip on screen).
+  const stripVisible = (isMobile && !dismissed) || isStarting || isConnected
   useEffect(() => {
     try {
-      window.dispatchEvent(new Event(voiceActive ? 'grace-voice-started' : 'grace-voice-ended'))
+      window.dispatchEvent(new Event(stripVisible ? 'grace-voice-started' : 'grace-voice-ended'))
     } catch {}
     return () => {
-      if (voiceActive) {
+      if (stripVisible) {
         try { window.dispatchEvent(new Event('grace-voice-ended')) } catch {}
       }
     }
-  }, [voiceActive])
+  }, [stripVisible])
 
   const [startError, setStartError] = useState<string | null>(null)
 
@@ -727,7 +734,9 @@ function CindyInner() {
   const endConversation = useCallback(() => { conversation.endSession() }, [conversation])
 
   const dismissCindy = () => {
-    if (isConnected) conversation.endSession()
+    // End the session if any is in progress (active call OR mid-handshake)
+    // so the X always cleanly stops Grace regardless of state.
+    if (isConnected || isStarting) conversation.endSession()
     setDismissed(true); setShowPopup(false)
     try { window.localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_TTL_MS)) } catch {}
   }
@@ -877,23 +886,23 @@ function CindyInner() {
             : 'cindyStripSlideUpDesktop 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
           overflow: 'hidden',
         }}>
-          {/* Close X on the LEFT. State-aware handler:
-              - Idle (!isStarting && !isConnected): dismissCindy — sets the
-                24h cooldown and unmounts the pill so the small round FAB
-                takes over as the re-summon target.
-              - Active (isStarting || isConnected): endConversation — ends
-                the Retell session; the pill returns to its idle state
-                automatically because dismissed is still false.
-              stopPropagation so a tap on the X does NOT bubble to the
-              outer strip's onClick (which would otherwise re-start the
+          {/* Close X on the LEFT. ALWAYS dismisses to the small round
+              FAB on the right in a single tap, regardless of state:
+              - Idle: dismissCindy unmounts the pill, small FAB appears.
+              - Active: dismissCindy ends the in-progress session first,
+                then unmounts the pill, small FAB appears.
+              Per user feedback Jun 2026 — previous two-step behavior
+              (X during call -> back to idle, second X -> dismiss) was
+              confusing. One tap, one outcome.
+              stopPropagation so the X tap does NOT bubble to the outer
+              strip's onClick (which would otherwise re-start the
               conversation in the idle case). */}
           <button
             onClick={(e) => {
               e.stopPropagation()
-              if (isStarting || isConnected) endConversation()
-              else dismissCindy()
+              dismissCindy()
             }}
-            aria-label={isStarting || isConnected ? 'End conversation' : 'Dismiss Grace'}
+            aria-label="Dismiss Grace"
             style={{
             position: 'absolute', top: '50%', left: 12,
             transform: 'translateY(-50%)',
