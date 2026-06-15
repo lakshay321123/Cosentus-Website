@@ -190,7 +190,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 1;
 }
 @media (max-width: 768px) {
-  .nav-gptw-flag { width: 60px; }
+  .nav-gptw-flag { width: 60px; display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .nav-gptw-flag { transition: none; }
