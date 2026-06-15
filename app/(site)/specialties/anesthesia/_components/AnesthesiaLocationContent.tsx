@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import SpecialtyFAQ from '@/components/sections/SpecialtyFAQ'
+import SpecialtyMarquee from '@/components/sections/SpecialtyMarquee'
 import {
   type AnesthesiaLocation,
-  ANESTHESIA_WHAT_WE_MANAGE,
+  ANESTHESIA_SOLUTIONS,
   ANESTHESIA_STATS,
   ANESTHESIA_DEDICATED_BLOCK,
   ANESTHESIA_FAQ_EHR,
@@ -19,25 +20,19 @@ import {
  * /specialties/anesthesia/[city]. Design references AnesthesiaContent.tsx
  * (the main anesthesia page) so these pages don't read as a wall of text:
  *
- *   Local Intro (eyebrow + lead) -> What We Manage (iconned card grid) ->
+ *   Local Intro (eyebrow + lead) -> Complete Anesthesia Revenue Cycle
+ *   (the shared SpecialtyMarquee grid, identical to the main page) ->
  *   Why Local Knowledge (iconned advantage cards) -> Stats band ->
  *   About Cosentus -> FAQ accordion -> footer CTA.
  *
  * The hero (PageHero) is composed in page.tsx, same as the main
- * anesthesia page. Shared blocks (services list, stats, the
+ * anesthesia page. Shared blocks (the RCM solutions, stats, the
  * "Dedicated to Anesthesia" card, and the EHR + Financial MRI FAQs)
- * come from _data/locations because they're identical on every page.
+ * come from _data/locations because they're identical everywhere.
  *
  * Note: in this theme every --gray-* token is pure black, so visual
  * hierarchy is built from size, weight, icons, and panels — not color.
  */
-
-// Check icon for the "What We Manage" cards.
-const CheckIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-  </svg>
-)
 
 // Icons for the three "Why Local Knowledge Matters" cards, matching the
 // .advantage-icon treatment on the main anesthesia page.
@@ -107,29 +102,19 @@ export default function AnesthesiaLocationContent({
         </div>
       </section>
 
-      {/* What We Manage — iconned card grid */}
-      <section className="section section-alt">
+      {/* Complete Anesthesia Revenue Cycle — the same SpecialtyMarquee grid
+          the main anesthesia page uses, from the shared data source. */}
+      <section className="section section-specialty-grid">
         <div className="container">
           <RevealOnScroll>
-            <div className="section-title">
-              What We Manage for Anesthesia Practices in {location.shortName}
-            </div>
+            <div className="section-title">Complete Anesthesia Revenue Cycle</div>
           </RevealOnScroll>
-          <div className="anes-loc-manage-grid">
-            {ANESTHESIA_WHAT_WE_MANAGE.map((item, i) => (
-              <RevealOnScroll key={i} direction="scale" delay={0.08 + i * 0.05}>
-                <div className="anes-loc-mcard">
-                  <span className="anes-loc-mchip" aria-hidden="true">{CheckIcon}</span>
-                  <span className="anes-loc-mtext">{item}</span>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
         </div>
+        <SpecialtyMarquee items={ANESTHESIA_SOLUTIONS} layout="grid" />
       </section>
 
       {/* Why Local Knowledge Matters — iconned advantage cards */}
-      <section className="section">
+      <section className="section section-alt">
         <div className="container">
           <RevealOnScroll>
             <div className="section-title">Why Local Knowledge Matters</div>
@@ -149,7 +134,7 @@ export default function AnesthesiaLocationContent({
       </section>
 
       {/* Stats band — teal-ghost panel with dividers */}
-      <section className="section section-alt">
+      <section className="section">
         <div className="container">
           <RevealOnScroll direction="scale">
             <div className="anes-loc-stats">
@@ -211,47 +196,6 @@ export default function AnesthesiaLocationContent({
       {/* Page-scoped styles. Kept local to avoid bloating globals.css
           for orphan SEO pages. */}
       <style>{`
-        .anes-loc-manage-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
-          max-width: 980px;
-          margin: 44px auto 0;
-        }
-        .anes-loc-mcard {
-          display: flex;
-          align-items: flex-start;
-          gap: 16px;
-          background: var(--white);
-          border: 1px solid rgba(0, 0, 0, 0.08);
-          border-radius: 14px;
-          padding: 22px 24px;
-          height: 100%;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-        }
-        .anes-loc-mcard:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
-        }
-        .anes-loc-mchip {
-          flex-shrink: 0;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--primary-ghost);
-          color: var(--primary);
-          border-radius: 10px;
-        }
-        .anes-loc-mchip svg { width: 21px; height: 21px; }
-        .anes-loc-mtext {
-          font-size: 16.5px;
-          line-height: 1.55;
-          font-weight: 450;
-          color: var(--gray-700);
-          padding-top: 8px;
-        }
         .anes-loc-why-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -303,7 +247,6 @@ export default function AnesthesiaLocationContent({
           .anes-loc-why-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-          .anes-loc-manage-grid { grid-template-columns: 1fr; gap: 16px; }
           .anes-loc-stats {
             grid-template-columns: repeat(2, 1fr);
             row-gap: 36px;

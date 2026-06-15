@@ -20,6 +20,8 @@
  *     are identical on every page in the doc, so they live here once.
  */
 
+import type { SpecialtySolution } from '@/components/sections/SpecialtyMarquee'
+
 export interface AnesthesiaLocation {
   /** URL slug — must match the route segment in /specialties/anesthesia/[city] */
   slug: string
@@ -47,16 +49,22 @@ export interface AnesthesiaLocation {
   faq2: { question: string; answer: string }
 }
 
-/** The 8 services list — identical on every city page in the doc. */
-export const ANESTHESIA_WHAT_WE_MANAGE: string[] = [
-  'Anesthesia-specific coding: base units, time units, modifiers, concurrency',
-  'Eligibility verification and prior authorization tracking',
-  'Claim scrubbing and same-day submission to 1,400+ payers',
-  'Denial management with root cause review',
-  'Appeals with clinical evidence and payer escalation',
-  'AR follow-up and aging management',
-  'Patient billing, cost estimates, and payment plans in 50+ languages',
-  'Live analytics by provider, case type, payer, and facility',
+/**
+ * "Complete Anesthesia Revenue Cycle" cards — the 8-card SpecialtyMarquee
+ * grid. Single source of truth shared by the main anesthesia page
+ * (AnesthesiaContent.tsx) and every location page, so the section renders
+ * identically on all of them and never drifts. Content per the Specialty
+ * Pages doc; field names match the SpecialtyMarquee component contract.
+ */
+export const ANESTHESIA_SOLUTIONS: SpecialtySolution[] = [
+  { eyebrow: 'SPECIALTY EXPERTISE', title: 'Anesthesia-Specific Coding', description: 'Base units, time units, modifiers, concurrency. Coded accurately for every case type including cardiac, OB, pain, and regional.', anim: 'modifiers', modifierLabels: ['AA', 'QK', 'QY', 'AD'] },
+  { eyebrow: 'PAYER INTELLIGENCE', title: 'Payer-Specific Billing Rules', description: 'Each payer reimburses anesthesia differently. Our team knows the rules for every major carrier and adapts accordingly.', anim: 'rules' },
+  { eyebrow: 'FRONT OFFICE', title: 'Credentialing & Enrollment', description: 'Provider credentialing managed across all payers and facilities. DEA, OIG, and CAQH kept current.', anim: 'badges' },
+  { eyebrow: 'AUTHORIZATIONS', title: 'Prior Authorization', description: 'Authorizations tracked and cleared before scheduled procedures. No OR delays. No revenue surprises.', anim: 'stamp' },
+  { eyebrow: 'DENIAL PREVENTION', title: 'Denial Management & Appeals', description: 'Every denial gets a root cause review. Clinical rationale built by anesthesia experts. 95%+ appeal success rate.', anim: 'stat', statValue: '95', statUnit: '%' },
+  { eyebrow: 'Ai AGENT \u2014 CHRIS', title: 'AR Follow-Up & Collections', description: 'Chris calls payers thousands of times per week for claim status, escalations, and resolution. Your team focuses on patients.', anim: 'pulse', agent: { name: 'Chris', img: 'chris.png' } },
+  { eyebrow: 'Ai AGENT \u2014 CINDY', title: 'Patient Billing & Support', description: 'Cindy handles patient balances, pre-procedure cost estimates, and billing questions in over 50 languages.', anim: 'languages', agent: { name: 'Cindy', img: 'cindy.png' } },
+  { eyebrow: 'REAL-TIME INSIGHTS', title: 'Analytics & Visibility', description: 'Live dashboards by provider, case type, facility, payer, and denial category. No waiting for month-end reports.', anim: 'chart' },
 ]
 
 /** Stats strip — identical on every city page in the doc. */
