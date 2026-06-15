@@ -2071,10 +2071,12 @@ body:has(main.home-immersive) .footer-top {
   .rcm-calc-liveval {
     font-size: 24px;
   }
-  /* Bucket values + labels — step down so the 3-column row doesn't
-     crowd at narrow widths. */
+  /* Bucket values + labels — on mobile the three values ($X,XXX,XXX) are
+     too wide to share one row at narrow widths (they overlapped). Stack
+     them one per line instead. */
   .rcm-calc-breakdown {
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
   .rcm-calc-bucket-value {
     font-size: 20px;
@@ -3812,6 +3814,7 @@ body:has(main.home-immersive) .footer-top {
   .footer-col h5 {
     font-size: 14px;
     margin-bottom: 10px;
+    white-space: nowrap;
   }
   .footer-col a {
     font-size: 14px;

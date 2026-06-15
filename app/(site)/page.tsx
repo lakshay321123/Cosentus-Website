@@ -54,7 +54,7 @@ export default function Home() {
                intentionally NOT in the global nav.
            11. CTASection */}
       <HeroSection />
-      <ResultsSection intro />
+      <ResultsSection intro darkMode showArrows />
       <RCMCalculatorSection />
       <TestimonialsShuffleSection title={<>What Our <span style={{ color: '#00B5D6' }}>Clients</span> Say</>} />
       {/* ScrollHeroSection (Real + AI workflow animation) hidden per

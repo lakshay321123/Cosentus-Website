@@ -236,32 +236,46 @@ export default function TestimonialsShuffleSection({
                   front. Prev/next navigation now lives in the side arrows
                   flanking the card stage (desktop only); drag/tap the
                   front card still advances on touch. */}
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              {testimonials.map((_, i) => {
-                const active = i === frontIdx
-                return (
-                  <button
-                    key={i}
-                    // Bring testimonials[i] to front. With the offset
-                    // model this is just setOffset(i): a testimonial at
-                    // array index i has stackIndex (i - offset + N) % N,
-                    // and we want that to be 0, so offset = i.
-                    onClick={() => setOffset(i)}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    aria-current={active ? 'true' : undefined}
-                    style={{
-                      width: active ? 28 : 8,
-                      height: 8,
-                      borderRadius: 4,
-                      background: active ? '#00B5D6' : 'var(--gray-300)',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: 0,
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  />
-                )
-              })}
+            <div className="tcard-dots-row" style={{ display: 'flex', gap: 14, alignItems: 'center', justifyContent: 'center' }}>
+              <button
+                type="button"
+                className="tcard-nav-btn tcard-nav-inline"
+                onClick={handleBack}
+                aria-label="Previous testimonial"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                {testimonials.map((_, i) => {
+                  const active = i === frontIdx
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setOffset(i)}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      aria-current={active ? 'true' : undefined}
+                      style={{
+                        width: active ? 28 : 8,
+                        height: 8,
+                        borderRadius: 4,
+                        background: active ? '#00B5D6' : 'var(--gray-300)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                    />
+                  )
+                })}
+              </div>
+              <button
+                type="button"
+                className="tcard-nav-btn tcard-nav-inline"
+                onClick={handleAdvance}
+                aria-label="Next testimonial"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
             </div>
           </div>
         </RevealOnScroll>
@@ -378,6 +392,17 @@ export default function TestimonialsShuffleSection({
           .tcard-nav-btn {
             display: none;
           }
+        }
+
+        /* Inline prev/next buttons live in the dots row and show ONLY on
+           phones (<=768px), where the absolute side-arrows are hidden.
+           They reuse .tcard-nav-btn styling (teal outline, reads on the
+           dark home background) but sit statically in the row. Source
+           order matters: these come after the rules above so they win at
+           equal specificity. */
+        .tcard-nav-inline { display: none; position: static; margin: 0; }
+        @media (max-width: 768px) {
+          .tcard-nav-inline { display: inline-flex; }
         }
 
         /* GLASS-SQUARE recipe — 100% faithful to glass_square.svg.

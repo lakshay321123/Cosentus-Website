@@ -8,7 +8,6 @@ const footerNav = [
     links: [
       { label: 'Our Story', href: '/about' },
       { label: 'Leadership', href: '/about#leadership' },
-      { label: 'Cosentus.ai', href: '/cosentus-ai' },
       { label: 'Cosentus Cares', href: '/cosentus-cares' },
       { label: 'Careers', href: '/careers' },
       { label: 'FAQs', href: '/faqs' },
@@ -64,9 +63,6 @@ export default function Footer() {
                 height={32}
                 style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
               />
-              <p>
-                Real People + Ai, RCM Redefined.
-              </p>
               <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
                 (877) 806-2286 &nbsp;|&nbsp;{' '}
                 <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
