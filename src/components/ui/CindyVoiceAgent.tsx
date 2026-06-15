@@ -569,11 +569,16 @@ function CindyInner() {
       // background. The library's defaults are muted (dark navy, dark
       // maroon) and read poorly against rgba(18,20,32,0.55). Library
       // expects "r, g, b" triplet strings (no rgb() wrapper, alpha is
-      // added internally). The supportLine entry stays first to keep
-      // the persistent thin baseline visible at idle — drawSupportLine
-      // runs unconditionally regardless of phase/amplitude.
+      // added internally).
+      // Three colored sub-curves only — no supportLine. The supportLine
+      // entry that used to live here drew an unconditional thin baseline
+      // via siriwave's drawSupportLine() regardless of phase/amplitude,
+      // which crossed through the 'Connecting with Grace...' label during
+      // the handshake and made it hard to read (user feedback Jun 2026).
+      // Without it the canvas is fully transparent when speed/amp are 0
+      // (connecting phase + silent moments between turns) and only the
+      // audio-driven colored wave shows up.
       curveDefinition: [
-        { color: '255, 255, 255', supportLine: true }, // white baseline
         { color: '10, 132, 255' },                      // systemBlue dark #0A84FF
         { color: '255, 55, 95' },                       // systemPink dark #FF375F
         { color: '48, 209, 88' },                       // systemGreen dark #30D158
@@ -898,8 +903,8 @@ function CindyInner() {
               position: 'absolute',
               left: 60, right: 60, top: 0, bottom: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'rgba(255, 255, 255, 0.85)',
-              fontSize: 14, fontWeight: 500,
+              color: 'rgba(255, 255, 255, 0.95)',
+              fontSize: 16, fontWeight: 600,
               letterSpacing: '0.01em',
               pointerEvents: 'none',
               animation: 'cindyConnectingPulse 1.4s ease-in-out infinite',
