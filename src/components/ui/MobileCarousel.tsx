@@ -20,6 +20,16 @@ export default function MobileCarousel({
   darkMode = false,
 }: MobileCarouselProps) {
   const [current, setCurrent] = useState(0)
+  // isMounted gates the responsive render branch so server and client
+  // first-render produce identical markup (both render the desktop
+  // passthrough). Without this guard, the `if (!isMobile)` branch below
+  // can diverge between server and client during hydration, triggering
+  // React hydration errors (#418/#423/#425). Those errors force React to
+  // discard the server tree and re-render the whole root client-side,
+  // which remounts sibling components — including the CindyVoiceAgent
+  // voice session, killing an in-progress call ('client disconnected
+  // unexpectedly'). Matches the isMounted pattern in SpecialtyMarquee.tsx.
+  const [isMounted, setIsMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   // hasEntered flips to true the first time the carousel enters the viewport on
   // mobile. Used to gate two things:
@@ -37,6 +47,7 @@ export default function MobileCarousel({
 
   // Detect mobile
   useEffect(() => {
+    setIsMounted(true)
     const check = () => setIsMobile(window.innerWidth <= 768)
     check()
     window.addEventListener('resize', check, { passive: true })
@@ -178,8 +189,11 @@ export default function MobileCarousel({
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   }
 
-  // On desktop, render children normally (no carousel)
-  if (!isMobile) {
+  // On desktop, render children normally (no carousel). Also render the
+  // plain passthrough until mounted, so the hydration render matches the
+  // server output exactly (both produce this branch) — see isMounted note
+  // at the top of the component.
+  if (!isMounted || !isMobile) {
     return <>{children}</>
   }
 
