@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { ConversationProvider, useConversation } from '@elevenlabs/react'
+import SiriWave from 'siriwave'
 import { pageContext } from '@/lib/page-meta'
 
 const AGENT_ID = 'agent_4401knqw7z4ees28j1wgmdwq7t6r'
@@ -24,6 +25,32 @@ function waitForElement(id: string, maxAttempts = 10): Promise<HTMLElement | nul
 function CindyInner() {
   const [showPopup, setShowPopup] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+
+  // Mobile-only state.
+  //   isMobile     — viewport ≤480px. Drives the slim Siri-style strip
+  //                  + small FAB pattern instead of the desktop welcome card.
+  //   isStarting   — true between calling startConversation() and the
+  //                  WebSocket finishing its handshake (onConnect / onError
+  //                  / onDisconnect). The strip renders during this gap so
+  //                  the tap has immediate feedback even on a slow connect.
+  const [isMobile, setIsMobile] = useState(false)
+  const [isStarting, setIsStarting] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(max-width: 480px)')
+    setIsMobile(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  // SiriWave (kopiro/siriwave npm) replaces the previous hand-rolled SVG
+  // for the mobile conversation strip. siriWaveContainerRef points at the
+  // <div> inside the strip; siriWaveRef holds the live SiriWave instance
+  // so the audio-reactive RAF loop below can call setAmplitude on it.
+  const siriWaveContainerRef = useRef<HTMLDivElement | null>(null)
+  const siriWaveRef = useRef<SiriWave | null>(null)
 
   // Persisted dismissal — respects user's choice across refreshes + 24h across sessions.
   // Key stores epoch ms of expiry. If now < expiry, stay dismissed.
@@ -52,10 +79,12 @@ function CindyInner() {
   const conversation = useConversation({
     onConnect: ({ conversationId }: { conversationId: string }) => {
       setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now()
+      setIsStarting(false) // mobile strip: clear the 'connecting' state once the WS handshake lands
       try { window.sessionStorage.setItem('cindy-conversation-id', conversationId) } catch {}
     },
     onDisconnect: () => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
+      setIsStarting(false) // mobile strip: cover the edge case where we disconnect before fully connecting
       try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
       // Drop any pathname update that was queued while speaking — it refers
       // to the old session's context and would mislead a new session.
@@ -72,7 +101,7 @@ function CindyInner() {
       }
       conversationIdRef.current = null
     },
-    onError: (error: string) => { console.error('Cindy error:', error); setActionLabel('') },
+    onError: (error: string) => { console.error('Cindy error:', error); setActionLabel(''); setIsStarting(false) },
     onMessage: () => {},
     clientTools: {
       navigate: async (params: { path: string; section?: string }) => {
@@ -511,10 +540,152 @@ function CindyInner() {
     }
   }, [dismissed, showPopup])
 
+  // Create the SiriWave instance once the strip is mounted, dispose on
+  // unmount. Only runs on mobile (the only place the canvas container
+  // exists). Uses the ios9 style (modern multi-curve Siri look) which
+  // ships with a built-in red/green/blue palette and supports the
+  // setAmplitude / setSpeed interpolated controls used below.
+  useEffect(() => {
+    if (!isMobile) return
+    if (!(isStarting || isConnected)) return
+    const el = siriWaveContainerRef.current
+    if (!el) return
+    const inst = new SiriWave({
+      container: el,
+      style: 'ios9',
+      cover: true,
+      // Start frozen + flat. The RAF loop below drives both speed and
+      // amplitude from live audio level, so the wave is still at idle
+      // and only moves when someone (Grace or the user) is talking.
+      // Previous init (speed:0.18, amplitude:0.6) ran the wave like a
+      // treadmill regardless of audio — the "rocket just keeps on
+      // moving" the user flagged.
+      speed: 0,
+      amplitude: 0,
+      autostart: true,
+      // Override the library's default curveDefinition with Apple iOS
+      // dark-mode system colours (verified against the iOS HIG, Jun
+      // 2025 update). These match the colours visible in the reference
+      // Siri waveform image and are correct for our dark-glass strip
+      // background. The library's defaults are muted (dark navy, dark
+      // maroon) and read poorly against rgba(18,20,32,0.55). Library
+      // expects "r, g, b" triplet strings (no rgb() wrapper, alpha is
+      // added internally). The supportLine entry stays first to keep
+      // the persistent thin baseline visible at idle — drawSupportLine
+      // runs unconditionally regardless of phase/amplitude.
+      curveDefinition: [
+        { color: '255, 255, 255', supportLine: true }, // white baseline
+        { color: '10, 132, 255' },                      // systemBlue dark #0A84FF
+        { color: '255, 55, 95' },                       // systemPink dark #FF375F
+        { color: '48, 209, 88' },                       // systemGreen dark #30D158
+      ],
+      // Tighten the per-sub-curve amplitude range. Default is [0.3, 1]
+      // (siriwave.esm.js line 132 + DEFAULT_AMPLITUDE_RANGES line 103),
+      // which gives an average per-sub-curve amplitude of ~0.65 -- that
+      // caps the per-curve yRelativePos at ~0.65 of its theoretical
+      // max even when our global setAmplitude is at 1. Multiplied
+      // through with the ios9 AMPLITUDE_FACTOR constant of 0.8, the
+      // wave never gets close to the canvas ceiling. [0.8, 1] pushes
+      // the per-sub-curve average to ~0.9 while keeping a little
+      // organic variation between curves so they don't look identical.
+      ranges: {
+        amplitude: [0.8, 1.0],
+      },
+    })
+    siriWaveRef.current = inst
+    return () => {
+      try { inst.dispose() } catch { /* dispose can throw if container already gone */ }
+      siriWaveRef.current = null
+    }
+  }, [isMobile, isStarting, isConnected])
+
+  // Audio-reactive speed + amplitude. Polls ElevenLabs' getInputVolume
+  // and getOutputVolume on every animation frame and feeds the louder
+  // of the two into both setSpeed and setAmplitude. Below a noise-floor
+  // threshold the wave is forced to 0 on both axes (truly still); above
+  // it the wave scales proportionally to volume. A simple lerp with
+  // fast attack (rising) and slow release (falling) smooths the motion
+  // so the wave glides on speech onset rather than snapping per-frame.
+  useEffect(() => {
+    if (!isConnected || !isMobile) return
+    let rafId = 0
+    let smoothed = 0
+    const loop = () => {
+      const wave = siriWaveRef.current
+      if (wave) {
+        let raw = 0
+        try {
+          const c = conversation as unknown as { getInputVolume?: () => number; getOutputVolume?: () => number }
+          const inp = c.getInputVolume?.() ?? 0
+          const out = c.getOutputVolume?.() ?? 0
+          raw = Math.max(inp, out)
+        } catch { /* SDK without these getters: wave stays flat. */ }
+        // Fast attack, slow release. 0.35 on the way up means the wave
+        // reaches ~95% of a sustained level in ~7 frames (~120ms);
+        // 0.08 on the way down means it eases back over ~30 frames
+        // (~500ms) so a brief pause between words doesn't kill it.
+        const lerp = raw > smoothed ? 0.35 : 0.08
+        smoothed = smoothed + (raw - smoothed) * lerp
+        // Noise floor: below 0.03 = silence, force both axes to 0.
+        // Above the floor, use a sqrt curve. Verified against
+        // ElevenLabs' VoiceConversation.calculateVolume (line 139):
+        // it averages the entire frequency spectrum, so typical
+        // speech sits at v ~ 0.05-0.15 (most spectrum bins are silent
+        // and drag the average down). A linear v * 3 multiplier left
+        // amplitude at 0.15-0.45 for normal conversation -> a tiny
+        // wave on screen. Sqrt expands the low-volume range where
+        // speech actually lives (sqrt(0.1) * 2 = 0.63 vs 0.1 * 3 =
+        // 0.3) and tracks perceived loudness, which is roughly
+        // logarithmic. Math.min clamps at the library's natural
+        // ceilings — amplitude 1 = full canvas height, speed 0.18 ~
+        // iOS Siri pace; values past either clip visually because
+        // the library has no internal clamp.
+        const v = smoothed < 0.03 ? 0 : smoothed
+        wave.setAmplitude(Math.min(1, Math.sqrt(v) * 3))
+        wave.setSpeed(Math.min(0.18, Math.sqrt(v) * 0.4))
+      }
+      rafId = requestAnimationFrame(loop)
+    }
+    rafId = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(rafId)
+  }, [isConnected, isMobile, conversation])
+
+  // Cross-component coordination: if the user opens the text chat
+  // (ChatWidget dispatches 'grace-chat-opened' on its FAB click) while
+  // the voice conversation is live, end the voice session automatically.
+  // Per user instruction Jun 2026: "if [the user clicks] chat, the Grace
+  // voice should switch off automatically".
+  useEffect(() => {
+    if (!isConnected && !isStarting) return
+    const handler = () => { try { conversation.endSession() } catch {} }
+    window.addEventListener('grace-chat-opened', handler)
+    return () => window.removeEventListener('grace-chat-opened', handler)
+  }, [isConnected, isStarting, conversation])
+
+  // Reverse coordination: tell ChatWidget when the voice session starts
+  // and ends so it can hide its FAB while Grace is active and bring it
+  // back when the conversation ends. Per user instruction Jun 2026 — on
+  // mobile, having the chat FAB and the active voice strip on screen at
+  // the same time looks crowded. Cleanup fires the 'ended' event so the
+  // FAB returns even if this component unmounts mid-conversation (e.g.
+  // navigation away with an active session).
+  const voiceActive = isStarting || isConnected
+  useEffect(() => {
+    try {
+      window.dispatchEvent(new Event(voiceActive ? 'grace-voice-started' : 'grace-voice-ended'))
+    } catch {}
+    return () => {
+      if (voiceActive) {
+        try { window.dispatchEvent(new Event('grace-voice-ended')) } catch {}
+      }
+    }
+  }, [voiceActive])
+
   const [startError, setStartError] = useState<string | null>(null)
 
   const startConversation = useCallback(async () => {
     setStartError(null)
+    setIsStarting(true) // mobile strip: show the strip immediately so the tap on the FAB has visible feedback
     // Drop any stale queued pathname from a prior session.
     pendingPathRef.current = null
     try {
@@ -532,6 +703,7 @@ function CindyInner() {
         },
       })
     } catch (e) {
+      setIsStarting(false) // bail out of the 'connecting' UI on mic-permission / device errors
       console.error('Failed to start conversation:', e)
       // Map common errors to user-facing messages
       const name = (e as { name?: string })?.name || ''
@@ -560,16 +732,47 @@ function CindyInner() {
 
   const stateLabel = actionLabel || (!isConnected ? 'Grace — Ai Guide' : isSpeaking ? 'Speaking...' : 'Listening...')
 
+  // Mobile FAB tap = auto-start the conversation (per user feedback Jun 2026).
+  // If we're in the dismissed state, un-dismiss first so the FAB doesn't keep
+  // hiding itself between conversations.
+  const handleMobileFABTap = useCallback(() => {
+    if (dismissed) {
+      setDismissed(false)
+      setShowPopup(true)
+      try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
+    }
+    startConversation()
+  }, [dismissed, startConversation])
+
   return (
     <>
-      {dismissed && (
+      {/* Desktop only: existing dismissed-state restore FAB. Tap brings the
+          welcome card back so the user can read the intro again before
+          starting. Mobile uses handleMobileFABTap below instead. */}
+      {!isMobile && dismissed && (
         <button onClick={restoreCindy} aria-label="Talk to Grace" className="cindy-avatar" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       )}
 
-      {showPopup && !dismissed && (
+      {/* Mobile only: small Grace FAB. Visible whenever Grace is summonable
+          (initial 5s timer fired OR user previously dismissed) and we're not
+          mid-conversation. Tap auto-starts the conversation; the slim strip
+          below takes over once startConversation() begins. Position is
+          right: 28, bottom: 110 — same vertical column as the existing chat
+          FAB (right: 28, bottom: 28, height: 60), with a clean 22px gap
+          above it. The previous right:16/bottom:80 placement put this FAB
+          in a different column AND vertically overlapped the chat FAB by
+          8px (chat FAB top edge sits at 88px from bottom). */}
+      {isMobile && (dismissed || showPopup) && !isStarting && !isConnected && (
+        <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </button>
+      )}
+
+      {showPopup && !dismissed && !isMobile && (
         <div className="cindy-panel" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 320, borderRadius: 20, overflow: 'hidden', background: 'white', border: '2px solid #00B5D6', boxShadow: '0 20px 60px rgba(0,181,214,0.25)', animation: 'cindySlideUp 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
           <button onClick={dismissCindy} aria-label="Close Grace" style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, background: 'rgba(255,255,255,0.20)', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 14, transition: 'background 200ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.35)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.20)' }}>✕</button>
 
@@ -618,8 +821,79 @@ function CindyInner() {
         </div>
       )}
 
+      {/* Mobile only: full-width glass pill with audio-reactive SiriWave canvas.
+          Position matches the original cindy-panel @480px alignment so it
+          sits exactly where the old welcome card used to be (left/right 12px,
+          bottom 80px). Renders while the conversation is starting up and
+          while it's connected. Layout: [X close on left] [wave fills rest].
+          The wave amplitude is driven from ElevenLabs' getInputVolume /
+          getOutputVolume so it reacts to the actual speaking voice. */}
+      {isMobile && (isStarting || isConnected) && (
+        <div className="cindy-mobile-strip" role="dialog" aria-label="Grace voice conversation" style={{
+          position: 'fixed',
+          left: 12, right: 12, bottom: 60,
+          zIndex: 9998,
+          height: 100,
+          borderRadius: 999,
+          background: 'rgba(18, 20, 32, 0.55)',
+          backdropFilter: 'blur(30px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
+          animation: 'cindyStripSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          overflow: 'hidden',
+        }}>
+          {/* Close X on the LEFT (per user preference Jun 2026). Ends the
+              conversation only; the FAB will reappear so Grace can be
+              re-summoned without a 24h cooldown. */}
+          <button onClick={endConversation} aria-label="End conversation" style={{
+            position: 'absolute', top: '50%', left: 12,
+            transform: 'translateY(-50%)',
+            width: 40, height: 40, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.14)',
+            color: 'rgba(255,255,255,0.9)',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 18, padding: 0, lineHeight: 1,
+            zIndex: 2,
+          }}>✕</button>
+
+          {/* SiriWave canvas container — fills the area to the right of
+              the X. The canvas is created in useEffect below
+              (siriwave.js ios9 style), and its amplitude is driven by
+              the ElevenLabs audio-volume polling loop. */}
+          <div
+            ref={siriWaveContainerRef}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: 60, right: 16, top: 0, bottom: 0,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Error banner — sits as its own pill ABOVE the strip if
+              startConversation caught a mic-permission or no-device error. */}
+          {startError && (
+            <div role="alert" style={{
+              position: 'absolute', left: 0, right: 0, bottom: 'calc(100% + 8px)',
+              fontSize: 12, lineHeight: 1.5, color: '#fff',
+              background: 'rgba(139,0,0,0.88)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              borderRadius: 14,
+              padding: '8px 14px',
+              textAlign: 'center',
+            }}>
+              {startError}
+            </div>
+          )}
+        </div>
+      )}
+
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes cindyStripSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes cindyPulse { 0%,100% { box-shadow: 0 4px 20px rgba(0,181,214,0.3); } 50% { box-shadow: 0 4px 20px rgba(0,181,214,0.6), 0 0 0 6px rgba(0,181,214,0.15); } }
         @keyframes cindyBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         @keyframes cindyBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
