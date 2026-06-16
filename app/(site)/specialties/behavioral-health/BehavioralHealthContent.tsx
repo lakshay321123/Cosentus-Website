@@ -12,19 +12,19 @@ import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/
 const advantages = [
   {
     // Focused-target — "behavioral health is all we do"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>,
+    icon: <img src="/icons/specialty/behavioral-1.svg" alt="" aria-hidden="true" />,
     t: 'Behavioral Health Is All Our Team Does',
     d: 'Our team understands the difference between a 90837 and a 90834 and why it matters for your revenue. IOP vs PHP billing rules, telehealth modifiers that change by payer, crisis intervention codes. This is all they do.',
   },
   {
     // Shield-with-checkmark — "prevent denials"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
+    icon: <img src="/icons/specialty/behavioral-2.svg" alt="" aria-hidden="true" />,
     t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
     d: 'Every denied claim gets a root cause review. Authorization expirations, time-based coding errors, telehealth modifier mismatches. We identify the root cause and correct it so it doesn\u2019t happen again.',
   },
   {
     // Trending-up arrow — "we grow with you"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941" /></svg>,
+    icon: <img src="/icons/specialty/behavioral-3.svg" alt="" aria-hidden="true" />,
     t: 'We Grow With You',
     d: 'From a single-location therapy practice to a multi-site behavioral health organization. Our model scales. One of our clients grew from $2M to $16M revenue. We managed the billing the whole way.',
   },

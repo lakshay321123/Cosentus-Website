@@ -15,20 +15,20 @@ import { ANESTHESIA_SOLUTIONS } from './_data/locations'
 // specialty. Icons chosen to thematically reflect each card.
 const advantages = [
   {
-    // Focused-target icon — "anesthesia is all we do"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>,
+    // Anesthesia tools icon — "anesthesia is all we do"
+    icon: <img src="/icons/specialty/anesthesia-1.svg" alt="" aria-hidden="true" />,
     t: 'Anesthesia Is All We Do',
     d: 'Our anesthesia team wakes up doing anesthesia and goes to bed doing anesthesia. They know every payer game, every modifier trap, and every reimbursement nuance specific to your specialty.',
   },
   {
-    // Shield-with-checkmark icon — "prevent denials, not just recover"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
+    // Prevention icon — "prevent denials, not just recover"
+    icon: <img src="/icons/specialty/anesthesia-2.svg" alt="" aria-hidden="true" />,
     t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
     d: 'Every denied claim gets a root cause review. We find out why it happened, fix the process, and make sure that denial category shrinks quarter over quarter.',
   },
   {
-    // Clock/experience icon — "23+ years"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+    // 23 years laurel icon — "23+ years"
+    icon: <img src="/icons/specialty/anesthesia-3.svg" alt="" aria-hidden="true" />,
     t: '23+ Years in Anesthesia RCM',
     d: 'This isn\u2019t a new vertical we added to a menu. Accreda was built for anesthesia from day one. 250+ years of combined team experience across every anesthesia subspecialty.',
   },
