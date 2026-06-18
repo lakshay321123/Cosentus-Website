@@ -43,14 +43,33 @@ function calculateTemperature(score: number): string {
   return 'cold'
 }
 
+const HUBSPOT_TIMEOUT_MS = 2000
+
+// fetch with a hard timeout so a slow HubSpot response can never delay or
+// fail the /api/crm/leads request. Aborts after HUBSPOT_TIMEOUT_MS.
+async function fetchWithTimeout(input: string, init: RequestInit): Promise<Response> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), HUBSPOT_TIMEOUT_MS)
+  try {
+    return await fetch(input, { ...init, signal: controller.signal })
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
 /**
- * Mirror a lead into HubSpot as a Contact. Non-blocking and best-effort:
- * any failure is logged and swallowed so it never affects the Supabase
- * write or the API response. Supabase remains the system of record.
+ * Mirror a lead into HubSpot as a Contact. Best-effort and bounded:
+ * any failure (including timeout) is logged and swallowed so it never
+ * affects the Supabase write or the API response. Supabase remains the
+ * system of record.
  *
- * Uses HubSpot's email-based upsert (idObjectProperty=email) so repeat
+ * Uses HubSpot's email-based upsert (idProperty=email) so repeat
  * submissions update the existing contact instead of creating duplicates.
  * No-ops cleanly when HUBSPOT_TOKEN is not configured.
+ *
+ * Logging is PII-safe: only status codes and error messages are logged,
+ * never response bodies or raw error objects (which can contain
+ * user-submitted email/phone/notes).
  */
 async function syncToHubSpot(lead: {
   first_name?: string
@@ -82,7 +101,7 @@ async function syncToHubSpot(lead: {
   if (extraParts.length) properties.message = extraParts.join(' | ')
 
   try {
-    const res = await fetch(
+    const res = await fetchWithTimeout(
       `https://api.hubapi.com/crm/v3/objects/contacts/${encodeURIComponent(lead.email)}?idProperty=email`,
       {
         method: 'PATCH',
@@ -96,7 +115,7 @@ async function syncToHubSpot(lead: {
 
     // 404 means the contact does not exist yet — create it.
     if (res.status === 404) {
-      const createRes = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
+      const createRes = await fetchWithTimeout('https://api.hubapi.com/crm/v3/objects/contacts', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,16 +124,18 @@ async function syncToHubSpot(lead: {
         body: JSON.stringify({ properties }),
       })
       if (!createRes.ok) {
-        console.error('[HubSpot] contact create failed:', createRes.status, await createRes.text())
+        console.error('[HubSpot] contact create failed', { status: createRes.status })
       }
       return
     }
 
     if (!res.ok) {
-      console.error('[HubSpot] contact upsert failed:', res.status, await res.text())
+      console.error('[HubSpot] contact upsert failed', { status: res.status })
     }
   } catch (err) {
-    console.error('[HubSpot] sync error:', err)
+    console.error('[HubSpot] sync error', {
+      message: err instanceof Error ? err.message : 'unknown',
+    })
   }
 }
 
