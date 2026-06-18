@@ -251,7 +251,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Los Angeles",
     "metaTitle": "Behavioral Health Billing Services in Los Angeles, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Los Angeles, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Los Angeles and across LA County. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Los Angeles and across LA County.",
     "intro": [
       "Los Angeles is the largest behavioral health market in California, with hundreds of psychiatry practices, therapy groups, and intensive outpatient programs operating across LA County. Cedars-Sinai, UCLA Health, and numerous community mental health organizations serve a population with enormous and growing demand for behavioral health services. The payer environment is complex, with significant Medi-Cal volumes, diverse commercial carriers, Medicare, and EAP programs all operating with different session limits and authorization rules.",
       "Cosentus, through our SiMed division, delivers full-cycle behavioral health billing and revenue cycle management built for the scale and payer complexity of the Los Angeles market. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth across every payer type active in LA County. From session limit tracking to denial appeals, every step is managed by behavioral health billing specialists."
@@ -274,7 +274,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "San Diego",
     "metaTitle": "Behavioral Health Billing Services in San Diego, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in San Diego, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Diego and across San Diego County. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Diego and across San Diego County.",
     "intro": [
       "San Diego's behavioral health market is shaped by both civilian and military demand. Scripps Health, Sharp HealthCare, and UC San Diego Health anchor the civilian market, while the region's large military population creates significant TRICARE volume for behavioral health services. Psychiatry, therapy, IOP/PHP, and telehealth all see strong utilization, and the payer mix requires billing teams that can manage TRICARE alongside commercial, Medicare, Medi-Cal, and EAP programs.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management tailored to the San Diego market. Our team manages TRICARE behavioral health billing alongside commercial, Medicare, Medi-Cal, and EAP claims. Every session is coded by behavioral health specialists who understand session limits, authorization rules, and documentation requirements for each payer in the region."
@@ -297,7 +297,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Orange County",
     "metaTitle": "Behavioral Health Billing Services in Orange County, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Orange County, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices across Orange County. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices across Orange County.",
     "intro": [
       "Orange County's dense healthcare network supports a growing behavioral health market, with practices spanning Irvine, Anaheim, Santa Ana, Huntington Beach, and surrounding cities. Providence, MemorialCare, Hoag, and Kaiser operate major facilities in the region alongside a growing number of private psychiatry, therapy, and IOP practices. The variety of commercial carriers, Medicare, Medi-Cal managed care, and EAP programs creates a billing environment that demands session-level tracking and payer-specific authorization knowledge.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management for practices across Orange County. As our headquarters market, we know the local payer landscape intimately. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with the session limit tracking and authorization management behavioral health billing requires."
@@ -320,7 +320,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Sacramento",
     "metaTitle": "Behavioral Health Billing Services in Sacramento, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Sacramento, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Sacramento and across Greater Sacramento. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Sacramento and across Greater Sacramento.",
     "intro": [
       "Sacramento serves as a major behavioral health market for the Greater Sacramento region, with UC Davis Health, Sutter Health, Dignity Health, and Kaiser anchoring services alongside numerous private practices and community mental health organizations. The region's high Medi-Cal enrollment shapes the behavioral health payer landscape, creating a billing environment where Medi-Cal managed care rules often determine session limits, authorization requirements, and reimbursement rates.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management built for the Sacramento market. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with the Medi-Cal expertise this region demands. Session limits are tracked, authorizations are managed, and every claim is coded by behavioral health specialists."
@@ -343,7 +343,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "San Francisco",
     "metaTitle": "Behavioral Health Billing Services in San Francisco, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in San Francisco, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Francisco and across the Bay Area. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Francisco and across the Bay Area.",
     "intro": [
       "San Francisco has strong and growing demand for behavioral health services, driven by a population that prioritizes mental health access. UCSF Health, Dignity Health, Kaiser, and Sutter Health anchor the market alongside numerous private practices and community organizations. High operating costs in the city mean behavioral health practices need every session billed correctly and every authorization managed tightly. The Bay Area's sophisticated payer environment demands billing precision that general RCM companies cannot deliver for behavioral health.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management designed for the financial realities of the San Francisco market. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with the payer-specific accuracy needed to maximize collections in a high-cost market. Every session is tracked, every authorization is managed, and every claim is coded by behavioral health specialists."
@@ -366,7 +366,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "San Jose",
     "metaTitle": "Behavioral Health Billing Services in San Jose, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in San Jose, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Jose and across Silicon Valley. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in San Jose and across Silicon Valley.",
     "intro": [
       "San Jose and Silicon Valley have seen growing demand for behavioral health services, with Stanford Health Care, El Camino Health, and Good Samaritan Hospital supporting a market that also includes numerous private practices and telehealth providers. The region's high operating costs and diverse demographics create a billing environment where behavioral health practices need precision across a wide range of employer-sponsored plans, Medicare, Medi-Cal, and EAP programs. Session limit tracking and authorization management are critical to keeping revenue flowing.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management for practices in San Jose and across Silicon Valley. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with payer-specific accuracy. Every session is tracked, every authorization is managed, and every claim is coded by behavioral health specialists who know the Silicon Valley payer landscape."
@@ -389,7 +389,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Long Beach",
     "metaTitle": "Behavioral Health Billing Services in Long Beach, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Long Beach, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Long Beach and across the LA South Bay. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Long Beach and across the LA South Bay.",
     "intro": [
       "Long Beach sits between Los Angeles and Orange County, with MemorialCare, St. Mary Medical Center, and the VA Long Beach Healthcare System serving the region's healthcare needs. The behavioral health market in Long Beach reflects the area's diverse population, with significant Medi-Cal enrollment and VA-connected patients seeking mental health services alongside commercially insured individuals. This payer mix requires behavioral health billing teams that can navigate Medi-Cal managed care, VA, and commercial session limits and authorization rules simultaneously.",
       "Cosentus, through our SiMed division, delivers full-cycle behavioral health billing and revenue cycle management tailored to the Long Beach market. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth across Medi-Cal, VA, commercial, and Medicare. Session limits are tracked, authorizations are managed, and every claim is coded by behavioral health specialists."
@@ -412,7 +412,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Bakersfield",
     "metaTitle": "Behavioral Health Billing Services in Bakersfield, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Bakersfield, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Bakersfield and across Kern County. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Bakersfield and across Kern County.",
     "intro": [
       "Bakersfield is the behavioral health hub for Kern County and the southern Central Valley, with Mercy Hospital, Adventist Health Bakersfield, and Kern Medical serving alongside community mental health organizations. The region's high Medi-Cal enrollment means behavioral health payer mix is heavily weighted toward government-sponsored plans, creating billing complexity around session limits, authorization management, and Medi-Cal managed care documentation requirements.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management for practices in Bakersfield and Kern County. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with the Medi-Cal expertise this market demands. Every session is tracked, every authorization is managed, and every claim is coded by behavioral health specialists."
@@ -435,7 +435,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Oakland",
     "metaTitle": "Behavioral Health Billing Services in Oakland, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Oakland, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Oakland and across the East Bay. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Oakland and across the East Bay.",
     "intro": [
       "Oakland anchors the East Bay's behavioral health market, with Kaiser Oakland Medical Center, Alta Bates Summit Medical Center (Sutter Health), and community mental health organizations serving a diverse patient population. The region's demographic diversity creates a payer mix with significant Medi-Cal enrollment alongside commercial, Medicare, and EAP coverage. Behavioral health practices in Oakland need billing teams that can manage session limits, authorizations, and documentation across all of these payer types with equal precision.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management for practices in Oakland and the East Bay. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth across every payer type active in this market. Session limits are tracked, authorizations are managed, and every claim is coded by behavioral health specialists."
@@ -458,7 +458,7 @@ export const BEHAVIORAL_HEALTH_LOCATIONS: BehavioralHealthLocation[] = [
     "shortName": "Fresno",
     "metaTitle": "Behavioral Health Billing Services in Fresno, CA | Cosentus",
     "metaDescription": "Behavioral health billing and revenue cycle management in Fresno, CA. Dedicated behavioral health team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.",
-    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Fresno and across the Central Valley. Real People + AI.",
+    "heroSubtitle": "Dedicated behavioral health billing expertise for practices in Fresno and across the Central Valley.",
     "intro": [
       "Fresno is the largest city in California's Central Valley and serves as the primary behavioral health hub for the region. Community Medical Centers, Saint Agnes Medical Center, and Kaiser Fresno support behavioral health practices alongside community organizations serving a population with high Medi-Cal enrollment. The payer mix in Fresno is heavily weighted toward Medi-Cal managed care, making expertise with government-sponsored behavioral health billing essential for practices in this market.",
       "Cosentus, through our SiMed division, provides full-cycle behavioral health billing and revenue cycle management for practices in Fresno and across the Central Valley. Our team handles coding for psychiatry, therapy, IOP/PHP, medication management, and telehealth with the Medi-Cal expertise this market demands. Session limits are tracked, authorizations are managed, and every claim is coded by behavioral health specialists who know the Central Valley payer landscape."

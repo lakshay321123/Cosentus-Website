@@ -58,7 +58,7 @@ export default async function AnesthesiaLocationPage({ params }: Props) {
         videoSrc="/videos/specialty-anesthesia.mp4"
         specialty
         label="ACCREDA BY COSENTUS"
-        title={`Anesthesia Billing Services in ${loc.name}`}
+        title={<>Anesthesia Billing Services in <br />{loc.name}</>}
         subtitle={loc.heroSubtitle}
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

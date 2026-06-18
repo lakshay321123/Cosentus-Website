@@ -58,7 +58,7 @@ export default async function BehavioralHealthLocationPage({ params }: Props) {
         videoSrc="/videos/specialty-behavioral-health.mp4"
         specialty
         label="SIMED BY COSENTUS"
-        title={`Behavioral Health Billing Services in ${loc.name}`}
+        title={<>Behavioral Health Billing Services in <br />{loc.name}</>}
         subtitle={loc.heroSubtitle}
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

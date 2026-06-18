@@ -53,7 +53,7 @@ export default async function RcmLocationPage({ params }: Props) {
     <main>
       <PageHero
         label="END-TO-END RCM"
-        title={`Revenue Cycle Management in ${loc.name}`}
+        title={<>Revenue Cycle Management in <br />{loc.name}</>}
         subtitle={loc.heroSubtitle}
         ctaText="Get Your No-Cost Financial MRI"
         ctaHref="/contact"

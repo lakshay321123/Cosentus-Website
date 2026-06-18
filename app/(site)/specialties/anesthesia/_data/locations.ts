@@ -105,7 +105,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Irvine, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Irvine and across Orange County. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Irvine and across Orange County.',
     intro: [
       'Irvine sits at the center of one of the densest healthcare markets in California. With major health systems like Providence St. Joseph, MemorialCare, Hoag, and Kaiser all operating within Orange County, anesthesia providers face a competitive landscape defined by complex payer mixes and high surgical volumes. The concentration of ambulatory surgery centers and specialty practices in the Irvine corridor makes accurate anesthesia billing not just important but essential to staying financially healthy.',
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management built specifically for anesthesia groups in Irvine and across Orange County. Our Irvine headquarters means we are not just familiar with the local payer environment, we operate in it every day. From base unit and time unit accuracy to payer-specific modifier rules, the Accreda team handles every claim with the precision anesthesia billing demands.',
@@ -135,7 +135,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Los Angeles, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Los Angeles and across LA County. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Los Angeles and across LA County.',
     intro: [
       'Los Angeles is the largest healthcare market in California, with hundreds of hospitals, surgical centers, and specialty practices operating across LA County. Major systems like Cedars-Sinai, UCLA Health, and Keck Medicine of USC anchor a market that generates enormous surgical and procedural volume. For anesthesia groups, this means high case counts but also high complexity: diverse payer mixes, significant Medi-Cal volumes, and wide variation in contract terms across facilities.',
       'Cosentus, through our Accreda division, delivers full-cycle anesthesia billing and revenue cycle management purpose-built for the LA market. Our team handles the coding, claims, denials, and collections that come with operating in a market this large and this varied. Every claim is coded by anesthesia specialists who understand base units, time units, concurrency rules, and the payer-specific requirements that drive clean submissions and faster payment.',
@@ -165,7 +165,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in San Diego, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in San Diego and across San Diego County. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in San Diego and across San Diego County.',
     intro: [
       "San Diego is a major healthcare market anchored by Scripps Health, Sharp HealthCare, and UC San Diego Health. The region's large military population creates significant TRICARE volume, adding a layer of complexity to anesthesia billing that most billing companies overlook. Combined with a growing number of ambulatory surgery centers and an active population that drives high surgical demand, San Diego anesthesia groups need billing teams that understand the specific payer dynamics of this market.",
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management tailored to San Diego practices. Our team handles TRICARE billing alongside commercial, Medicare, and Medi-Cal claims with equal precision. Every case is coded by anesthesia specialists who understand the base unit, time unit, and modifier requirements specific to each payer in the San Diego market.',
@@ -195,7 +195,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Orange County, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices across Orange County. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices across Orange County.',
     intro: [
       'Orange County is home to one of the densest healthcare networks in California, spanning cities from Irvine to Anaheim, Santa Ana to Huntington Beach. Providence, MemorialCare, Hoag, and Kaiser all operate major facilities in the region, and the concentration of ambulatory surgery centers creates substantial surgical volume for anesthesia providers. The diversity of facilities and payer contracts across Orange County means anesthesia billing here requires deep local knowledge and specialty-specific precision.',
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management to practices across Orange County. Our headquarters are in this market, so we are not learning Orange County payer dynamics from a distance. We live them. The Accreda team codes every case with anesthesia-specific accuracy, submits claims to 1,400+ payers, and manages denials and appeals with the detail this specialty demands.',
@@ -225,7 +225,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Sacramento, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Sacramento and across Greater Sacramento. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Sacramento and across Greater Sacramento.',
     intro: [
       'Sacramento serves as both the state capital and a major regional healthcare hub, with UC Davis Health, Sutter Health, Dignity Health, and Kaiser anchoring the market. The Greater Sacramento area bridges urban and rural populations, which creates a payer mix with significant Medi-Cal volume alongside commercial and Medicare plans. Anesthesia groups operating in this market face the challenge of billing accurately across a wide range of payer types while keeping up with high case volumes at multiple facilities.',
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management built for the Sacramento market. Our team understands the Medi-Cal managed care plans that dominate this region, along with the commercial and Medicare payers that round out the mix. Every case is coded by anesthesia specialists who handle base units, time units, modifiers, and concurrency rules with the accuracy this specialty requires.',
@@ -255,7 +255,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in San Francisco, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in San Francisco and across the Bay Area. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in San Francisco and across the Bay Area.',
     intro: [
       "San Francisco is a premium healthcare market anchored by UCSF Health, Dignity Health, Kaiser, and Sutter Health. High operating costs define the city, which means anesthesia groups need every dollar they have earned to actually reach their accounts. The Bay Area's competitive landscape and sophisticated payer environment demand billing precision that general RCM companies simply cannot deliver for anesthesia.",
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management designed for San Francisco practices. Our team understands the high-value commercial contracts, Medicare, and Medi-Cal plans that shape this market. Every case is coded by anesthesia specialists who manage base units, time units, modifiers, and concurrency with the accuracy needed to maximize collections in a high-cost market.',
@@ -285,7 +285,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in San Jose, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in San Jose and across Silicon Valley. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in San Jose and across Silicon Valley.',
     intro: [
       "San Jose sits at the heart of Silicon Valley, a region defined by high costs and a diverse population that drives complex healthcare utilization patterns. Stanford Health Care, El Camino Health, and Good Samaritan Hospital anchor the local market, with a growing number of ambulatory surgery centers serving the region's surgical demand. For anesthesia groups, the combination of high-value commercial contracts and diverse demographics requires billing that is both precise and adaptable.",
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management built for the Silicon Valley market. Our team handles the commercial, Medicare, and Medi-Cal payer mix that defines San Jose, coding every case with the anesthesia-specific accuracy needed to maximize collections in one of the most expensive markets in the state.',
@@ -315,7 +315,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Long Beach, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Long Beach and across the LA South Bay. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Long Beach and across the LA South Bay.',
     intro: [
       "Long Beach sits between Los Angeles and Orange County, creating a unique healthcare market shaped by MemorialCare, St. Mary Medical Center, and the VA Long Beach Healthcare System. The region's payer mix is heavily influenced by workers compensation claims, VA billing, and significant Medi-Cal enrollment. For anesthesia groups, this means billing complexity that goes well beyond standard commercial and Medicare claims.",
       'Cosentus, through our Accreda division, delivers full-cycle anesthesia billing and revenue cycle management tailored to the Long Beach market. Our team manages the workers comp, VA, Medi-Cal, and commercial claims that define this region, coding every case with anesthesia-specific precision. Whether your group covers cases at MemorialCare facilities, the VA, or local ASCs, the Accreda team handles the full revenue cycle.',
@@ -345,7 +345,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Bakersfield, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Bakersfield and across Kern County. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Bakersfield and across Kern County.',
     intro: [
       "Bakersfield is the healthcare hub for Kern County and the southern Central Valley, with Mercy Hospital, Adventist Health Bakersfield, and Kern Medical serving the region. The area's payer mix is shaped by high Medi-Cal enrollment and a significant volume of agricultural workers compensation cases. For anesthesia groups, this combination creates billing complexity that requires specialty knowledge and payer-specific precision.",
       "Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management for practices in Bakersfield and Kern County. Our team handles the Medi-Cal, workers comp, commercial, and Medicare claims that make up this market's unique payer mix. Every case is coded by anesthesia specialists who understand the base unit, time unit, and modifier requirements that drive accurate reimbursement.",
@@ -375,7 +375,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Oakland, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Oakland and across the East Bay. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Oakland and across the East Bay.',
     intro: [
       "Oakland anchors the East Bay healthcare market, with Kaiser Oakland Medical Center, Alta Bates Summit Medical Center (Sutter Health), and UCSF Benioff Children's Hospital Oakland serving a diverse patient population. The region's demographics create a payer mix with significant Medi-Cal enrollment alongside commercial, Medicare, and managed care plans. Anesthesia groups in Oakland face the dual challenge of billing accuracy across multiple payer types and collecting fully in a market with a high volume of government-sponsored coverage.",
       'Cosentus, through our Accreda division, delivers full-cycle anesthesia billing and revenue cycle management built for the Oakland and East Bay market. Our team manages the Medi-Cal, commercial, Medicare, and managed care claims that define this region, with every case coded by anesthesia specialists who handle base units, time units, and modifiers with precision.',
@@ -405,7 +405,7 @@ export const ANESTHESIA_LOCATIONS: AnesthesiaLocation[] = [
     metaDescription:
       'Anesthesia billing and revenue cycle management in Fresno, CA. Dedicated anesthesia team, 25+ years of expertise, and AI-native technology. Get your no-cost Financial MRI.',
     heroSubtitle:
-      'Dedicated anesthesia billing expertise for practices in Fresno and across the Central Valley. Real People + AI.',
+      'Dedicated anesthesia billing expertise for practices in Fresno and across the Central Valley.',
     intro: [
       "Fresno is the largest city in California's Central Valley and a critical healthcare hub for the region. Community Medical Centers, Saint Agnes Medical Center, and Kaiser Fresno serve a population with high Medi-Cal enrollment and significant agricultural workers compensation volume. Anesthesia groups in Fresno face a payer mix that demands careful attention to government-sponsored plan rules and workers comp billing requirements alongside commercial and Medicare claims.",
       'Cosentus, through our Accreda division, provides full-cycle anesthesia billing and revenue cycle management for practices in Fresno and the Central Valley. Our team understands the Medi-Cal managed care plans and workers compensation dynamics that shape this market. Every case is coded by anesthesia specialists who handle base units, time units, modifiers, and concurrency rules with the accuracy needed to collect fully across every payer type.',
