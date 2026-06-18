@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
@@ -50,6 +51,51 @@ export default function PartnershipContent() {
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const [pform, setPform] = useState({
+    firstName: '',
+    lastName: '',
+    company: '',
+    email: '',
+    message: '',
+  })
+  const [pSubmitting, setPSubmitting] = useState(false)
+  const [pSubmitted, setPSubmitted] = useState(false)
+  const [pError, setPError] = useState(false)
+
+  const handlePartnershipChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPform({ ...pform, [e.target.name]: e.target.value })
+  }
+
+  const handlePartnershipSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setPSubmitting(true)
+    setPError(false)
+    try {
+      const notes = ['Partnership inquiry', pform.message].filter(Boolean).join(' | ')
+      const res = await fetch('/api/crm/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          first_name: pform.firstName || 'Unknown',
+          last_name: pform.lastName || 'Unknown',
+          email: pform.email,
+          practice_name: pform.company,
+          // 'partnership' is not a valid leads.source enum value; use 'other'
+          // and label the inquiry in notes.
+          source: 'other',
+          notes,
+        }),
+      })
+      if (!res.ok) throw new Error(`Partnership submit failed: ${res.status}`)
+      setPSubmitted(true)
+    } catch {
+      setPError(true)
+    }
+    setPSubmitting(false)
   }
 
   return (
@@ -553,19 +599,53 @@ export default function PartnershipContent() {
               </div>
             </RevealOnScroll>
             <RevealOnScroll delay={0.15}>
-              <form className="partnership-form" onSubmit={(e) => e.preventDefault()}>
-                <input type="text" placeholder="First Name *" aria-label="First Name" required />
-                <input type="text" placeholder="Last Name *" aria-label="Last Name" required />
-                <input type="text" placeholder="Company *" aria-label="Company" required />
-                <input type="email" placeholder="Email *" aria-label="Email" required />
-                <textarea placeholder="Message *" aria-label="Message" required />
+              {pSubmitted ? (
+                <div
+                  style={{
+                    padding: '48px 32px',
+                    background: 'rgba(0,181,214,0.05)',
+                    borderRadius: 12,
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+                  <h3 style={{ fontSize: 20, fontWeight: 600, color: '#000', margin: '0 0 8px' }}>
+                    Thank you!
+                  </h3>
+                  <p style={{ fontSize: 15, color: 'var(--gray-600)', margin: 0 }}>
+                    We&apos;ll be in touch shortly about partnering with Cosentus.
+                  </p>
+                </div>
+              ) : (
+              <form className="partnership-form" onSubmit={handlePartnershipSubmit}>
+                {pError && (
+                  <div
+                    className="form-full"
+                    style={{
+                      padding: '14px 16px',
+                      background: 'rgba(220,38,38,0.06)',
+                      border: '1px solid rgba(220,38,38,0.3)',
+                      borderRadius: 8,
+                      color: '#b91c1c',
+                      fontSize: 14,
+                    }}
+                  >
+                    Something went wrong submitting your request. Please try again, or call us at (877) 806-2286.
+                  </div>
+                )}
+                <input type="text" name="firstName" value={pform.firstName} onChange={handlePartnershipChange} placeholder="First Name *" aria-label="First Name" required />
+                <input type="text" name="lastName" value={pform.lastName} onChange={handlePartnershipChange} placeholder="Last Name *" aria-label="Last Name" required />
+                <input type="text" name="company" value={pform.company} onChange={handlePartnershipChange} placeholder="Company *" aria-label="Company" required />
+                <input type="email" name="email" value={pform.email} onChange={handlePartnershipChange} placeholder="Email *" aria-label="Email" required />
+                <textarea name="message" value={pform.message} onChange={handlePartnershipChange} placeholder="Message *" aria-label="Message" required />
                 <div className="form-full">
-                  <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                    I Would Like to Know More
+                  <button type="submit" disabled={pSubmitting} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                    {pSubmitting ? 'Sending...' : 'I Would Like to Know More'}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                   </button>
                 </div>
               </form>
+              )}
             </RevealOnScroll>
           </div>
         </div>
