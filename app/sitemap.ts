@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { LOCATIONS } from './(site)/contact/_data/locations'
 import { ANESTHESIA_LOCATIONS } from './(site)/specialties/anesthesia/_data/locations'
 import { RCM_LOCATIONS } from './(site)/services/rcm/_data/locations'
+import { BEHAVIORAL_HEALTH_LOCATIONS } from './(site)/specialties/behavioral-health/_data/locations'
 
 /**
  * XML sitemap surfaced at /sitemap.xml.
@@ -81,10 +82,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
+  // Behavioral-health local-SEO landing pages at
+  // /specialties/behavioral-health/<city>. Same orphan pattern as the
+  // anesthesia city pages — no internal links, discoverable via the
+  // sitemap. Derived from the data file so adding a city auto-adds its URL.
+  const bhLocationRoutes: MetadataRoute.Sitemap = BEHAVIORAL_HEALTH_LOCATIONS.map(
+    (loc) => ({
+      url: `${SITE}/specialties/behavioral-health/${loc.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }),
+  )
+
   return [
     ...staticRoutes,
     ...locationRoutes,
     ...anesthesiaLocationRoutes,
     ...rcmLocationRoutes,
+    ...bhLocationRoutes,
   ]
 }
