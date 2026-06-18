@@ -74,11 +74,14 @@ export default function PartnershipContent() {
     e.preventDefault()
     setPSubmitting(true)
     setPError(false)
+    const controller = new AbortController()
+    const timeoutId = window.setTimeout(() => controller.abort(), 15000)
     try {
       const notes = ['Partnership inquiry', pform.message].filter(Boolean).join(' | ')
       const res = await fetch('/api/crm/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           first_name: pform.firstName || 'Unknown',
           last_name: pform.lastName || 'Unknown',
@@ -94,8 +97,10 @@ export default function PartnershipContent() {
       setPSubmitted(true)
     } catch {
       setPError(true)
+    } finally {
+      window.clearTimeout(timeoutId)
+      setPSubmitting(false)
     }
-    setPSubmitting(false)
   }
 
   return (
@@ -621,6 +626,8 @@ export default function PartnershipContent() {
                 {pError && (
                   <div
                     className="form-full"
+                    role="alert"
+                    aria-live="assertive"
                     style={{
                       padding: '14px 16px',
                       background: 'rgba(220,38,38,0.06)',
