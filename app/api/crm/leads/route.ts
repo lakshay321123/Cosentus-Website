@@ -43,6 +43,102 @@ function calculateTemperature(score: number): string {
   return 'cold'
 }
 
+const HUBSPOT_TIMEOUT_MS = 2000
+
+// fetch with a hard timeout so a slow HubSpot response can never delay or
+// fail the /api/crm/leads request. Aborts after HUBSPOT_TIMEOUT_MS.
+async function fetchWithTimeout(input: string, init: RequestInit): Promise<Response> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), HUBSPOT_TIMEOUT_MS)
+  try {
+    return await fetch(input, { ...init, signal: controller.signal })
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
+/**
+ * Mirror a lead into HubSpot as a Contact. Best-effort and bounded:
+ * any failure (including timeout) is logged and swallowed so it never
+ * affects the Supabase write or the API response. Supabase remains the
+ * system of record.
+ *
+ * Uses HubSpot's email-based upsert (idProperty=email) so repeat
+ * submissions update the existing contact instead of creating duplicates.
+ * No-ops cleanly when HUBSPOT_TOKEN is not configured.
+ *
+ * Logging is PII-safe: only status codes and error messages are logged,
+ * never response bodies or raw error objects (which can contain
+ * user-submitted email/phone/notes).
+ */
+async function syncToHubSpot(lead: {
+  first_name?: string
+  last_name?: string
+  email?: string
+  phone?: string
+  practice_name?: string
+  specialty?: string
+  source?: string
+  notes?: string
+}): Promise<void> {
+  const token = process.env.HUBSPOT_TOKEN
+  if (!token) return // feature off until token is configured
+  if (!lead.email) return // HubSpot upsert key is email; skip if absent
+
+  const extraParts = [
+    lead.specialty ? `Specialty: ${lead.specialty}` : '',
+    lead.source ? `Source: ${lead.source}` : '',
+    lead.notes || '',
+  ].filter(Boolean)
+
+  const properties: Record<string, string> = {
+    email: lead.email,
+  }
+  if (lead.first_name) properties.firstname = lead.first_name
+  if (lead.last_name) properties.lastname = lead.last_name
+  if (lead.phone) properties.phone = lead.phone
+  if (lead.practice_name) properties.company = lead.practice_name
+  if (extraParts.length) properties.message = extraParts.join(' | ')
+
+  try {
+    const res = await fetchWithTimeout(
+      `https://api.hubapi.com/crm/v3/objects/contacts/${encodeURIComponent(lead.email)}?idProperty=email`,
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ properties }),
+      },
+    )
+
+    // 404 means the contact does not exist yet — create it.
+    if (res.status === 404) {
+      const createRes = await fetchWithTimeout('https://api.hubapi.com/crm/v3/objects/contacts', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ properties }),
+      })
+      if (!createRes.ok) {
+        console.error('[HubSpot] contact create failed', { status: createRes.status })
+      }
+      return
+    }
+
+    if (!res.ok) {
+      console.error('[HubSpot] contact upsert failed', { status: res.status })
+    }
+  } catch (err) {
+    console.error('[HubSpot] sync error', {
+      message: err instanceof Error ? err.message : 'unknown',
+    })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -74,6 +170,7 @@ export async function POST(req: NextRequest) {
         type: source === 'voice_agent' ? 'call' : 'chat',
         description: `Returning lead, new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
       })
+      await syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes })
       return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }
 
@@ -123,6 +220,9 @@ export async function POST(req: NextRequest) {
     // Create notification
     const { error: notifError } = await supabase.from('notifications').insert({ type: 'new_lead', title: 'New lead captured', body: `${first_name} ${last_name} from ${practice_name || 'unknown practice'} (${specialty || 'other'})`, lead_id: data.id, link: `/crm/leads/${data.id}`, read: false })
     if (notifError) console.error('Notification insert failed:', notifError.message)
+
+    // Mirror to HubSpot (non-blocking, best-effort)
+    await syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes })
 
     return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
