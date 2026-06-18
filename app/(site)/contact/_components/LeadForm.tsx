@@ -50,6 +50,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
   })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(false)
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -62,6 +63,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
+    setError(false)
     try {
       const nameParts = formData.contactName.trim().split(' ')
       const selectedSpecialty = formData.specialty || 'other'
@@ -84,7 +86,7 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
         .filter(Boolean)
         .join(' | ')
 
-      await fetch('/api/crm/leads', {
+      const res = await fetch('/api/crm/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -94,13 +96,16 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
           phone: formData.phone,
           practice_name: formData.practiceName,
           specialty: isDbEnum ? selectedSpecialty : 'other',
-          source: locationSlug ? `contact_${locationSlug}` : 'contact_form',
+          // Must match the leads.source CHECK constraint in the DB schema.
+          // Originating location is preserved in `notes` (Location: <slug>).
+          source: 'contact_form',
           notes,
         }),
       })
+      if (!res.ok) throw new Error(`Lead submit failed: ${res.status}`)
       setSubmitted(true)
     } catch {
-      setSubmitted(true)
+      setError(true)
     }
     setSubmitting(false)
   }
@@ -135,6 +140,21 @@ export default function LeadForm({ locationSlug, locationName }: Props) {
       onSubmit={handleSubmit}
       style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 20 }}
     >
+      {error && (
+        <div
+          style={{
+            padding: '14px 16px',
+            background: 'rgba(220,38,38,0.06)',
+            border: '1px solid rgba(220,38,38,0.3)',
+            borderRadius: 8,
+            color: '#b91c1c',
+            fontSize: 14,
+          }}
+        >
+          Something went wrong submitting your request. Please try again, or call
+          us at (877) 806-2286.
+        </div>
+      )}
       {[
         { name: 'practiceName', label: 'Practice Name', type: 'text' },
         { name: 'contactName', label: 'Contact Name', type: 'text' },
