@@ -149,6 +149,81 @@ async function syncToHubSpot(lead: {
   }
 }
 
+/**
+ * Register the lead as a submission of the HubSpot "Contact Form 2026"
+ * form via the Forms Submissions API. This is what causes the contact to
+ * count as a real form submission in HubSpot, so it enters form-based
+ * marketing lists (e.g. "Marketing Qualified Leads"). Runs ALONGSIDE
+ * syncToHubSpot (which owns the contact upsert + New Lead status); this
+ * call only generates the form-submission event.
+ *
+ * Best-effort and bounded: any failure is logged and swallowed so it can
+ * never affect the Supabase write or the API response. No-ops cleanly
+ * when HUBSPOT_FORM_GUID is not configured (acts as an on/off switch with
+ * no deploy required).
+ *
+ * Only fields that exist on the HubSpot form are sent. Per HubSpot's Forms
+ * API validation, submitting fields not present on the form (e.g. specialty,
+ * source) causes rejection, so those are folded into `message` instead.
+ * The form's required "what service" dropdown uses a service taxonomy that
+ * does not map cleanly from our specialty values, so it is intentionally
+ * omitted (the field was made optional on the form) rather than guessed.
+ *
+ * Logging is PII-safe: only status codes / error messages, never bodies.
+ */
+async function submitHubSpotForm(lead: {
+  first_name?: string
+  last_name?: string
+  email?: string
+  phone?: string
+  practice_name?: string
+  specialty?: string
+  source?: string
+  notes?: string
+}): Promise<void> {
+  const formGuid = process.env.HUBSPOT_FORM_GUID
+  if (!formGuid) return // feature off until form GUID is configured
+  if (!lead.email) return // a form submission without email cannot resolve a contact
+
+  const portalId = process.env.HUBSPOT_PORTAL_ID
+  if (!portalId) return // explicit; never default to a hardcoded tenant
+
+  const extraParts = [
+    lead.specialty ? `Specialty: ${lead.specialty}` : '',
+    lead.source ? `Source: ${lead.source}` : '',
+    lead.notes || '',
+  ].filter(Boolean)
+
+  // name/value pairs using HubSpot internal field names ONLY.
+  const fields: { name: string; value: string }[] = [{ name: 'email', value: lead.email }]
+  if (lead.first_name) fields.push({ name: 'firstname', value: lead.first_name })
+  if (lead.last_name) fields.push({ name: 'lastname', value: lead.last_name })
+  if (lead.phone) fields.push({ name: 'phone', value: lead.phone })
+  if (lead.practice_name) fields.push({ name: 'company', value: lead.practice_name })
+  if (extraParts.length) fields.push({ name: 'message', value: extraParts.join(' | ') })
+
+  try {
+    const res = await fetchWithTimeout(
+      `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields,
+          context: { pageName: 'Cosentus Website Lead', pageUri: 'https://cosentus.com/contact' },
+        }),
+      },
+    )
+    if (!res.ok) {
+      console.error('[HubSpot] form submission failed', { status: res.status })
+    }
+  } catch (err) {
+    console.error('[HubSpot] form submission error', {
+      message: err instanceof Error ? err.message : 'unknown',
+    })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -180,7 +255,10 @@ export async function POST(req: NextRequest) {
         type: source === 'voice_agent' ? 'call' : 'chat',
         description: `Returning lead, new ${source?.replace('_', ' ')} interaction${notes ? ': ' + notes : ''}`,
       })
-      await syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes })
+      await Promise.allSettled([
+        syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+        submitHubSpotForm({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+      ])
       return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }
 
@@ -231,8 +309,11 @@ export async function POST(req: NextRequest) {
     const { error: notifError } = await supabase.from('notifications').insert({ type: 'new_lead', title: 'New lead captured', body: `${first_name} ${last_name} from ${practice_name || 'unknown practice'} (${specialty || 'other'})`, lead_id: data.id, link: `/crm/leads/${data.id}`, read: false })
     if (notifError) console.error('Notification insert failed:', notifError.message)
 
-    // Mirror to HubSpot (non-blocking, best-effort)
-    await syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes })
+    // Mirror to HubSpot (non-blocking, best-effort, run concurrently)
+    await Promise.allSettled([
+      syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+      submitHubSpotForm({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+    ])
 
     return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
   } catch (err) {
