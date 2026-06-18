@@ -100,6 +100,16 @@ async function syncToHubSpot(lead: {
   if (lead.practice_name) properties.company = lead.practice_name
   if (extraParts.length) properties.message = extraParts.join(' | ')
 
+  // On CREATE only, classify the contact as a New Lead so it surfaces as
+  // actionable in HubSpot. NOT applied on update: re-submissions from an
+  // existing contact (who may already be a customer / further in the
+  // pipeline) must not be downgraded back to 'lead'/'NEW'.
+  const createProperties: Record<string, string> = {
+    ...properties,
+    lifecyclestage: 'lead',
+    hs_lead_status: 'NEW',
+  }
+
   try {
     const res = await fetchWithTimeout(
       `https://api.hubapi.com/crm/v3/objects/contacts/${encodeURIComponent(lead.email)}?idProperty=email`,
@@ -113,7 +123,7 @@ async function syncToHubSpot(lead: {
       },
     )
 
-    // 404 means the contact does not exist yet — create it.
+    // 404 means the contact does not exist yet — create it as a New Lead.
     if (res.status === 404) {
       const createRes = await fetchWithTimeout('https://api.hubapi.com/crm/v3/objects/contacts', {
         method: 'POST',
@@ -121,7 +131,7 @@ async function syncToHubSpot(lead: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ properties }),
+        body: JSON.stringify({ properties: createProperties }),
       })
       if (!createRes.ok) {
         console.error('[HubSpot] contact create failed', { status: createRes.status })
