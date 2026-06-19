@@ -18,7 +18,7 @@
  * Mapping rationale:
  *   Elly   (Eligibility)   → Harper  (Credentialing — pre-service domain)
  *   Paige  (Authorization) → Olivia  (closest unused agent)
- *   Priya  (Pre-Pay)       → Cindy   (patient payment domain — REUSED with Cindy)
+ *   Priya  (Pre-Pay)       → Priya   (dedicated Retell agent, no longer reusing Cindy)
  *   April  (Scheduling)    → Allison (Intake — exact role match)
  *   Curtis (Support)       → Michael (Operations)
  *   Chris  (Claims)        → Chris   (EXACT name match)
@@ -73,7 +73,7 @@ export const AGENTS: VoiceAgentData[] = [
     name: 'Priya', shortRole: 'Payments', role: 'Payments',
     img: 'priya.png',
     popupImage: 'priya-popup.png',
-    agentId: 'agent_4510e7416ee31ca808b8546ed7',  // Cindy (patient payment, reused)
+    agentId: 'agent_2bee7d69491f54281cf556b3e1',  // Priya (dedicated agent, no longer reusing Cindy)
     greeting: "Hi, I'm Priya, I reach patients three to seven days pre-procedure with verified estimates so collection rates stay 30-40% higher.",
   },
   {
