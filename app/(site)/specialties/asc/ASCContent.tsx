@@ -11,20 +11,20 @@ import SpecialtyMarquee, { type SpecialtySolution } from '@/components/sections/
 const advantages = [
   {
     // Two-arrows icon — "we manage both fee streams"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>,
+    icon: <img src="/icons/specialty/asc-1.svg" alt="" aria-hidden="true" />,
     t: 'We Manage Both Fee Streams',
     d: 'Most billing companies handle facility OR professional billing. We manage both. Coordinated under one team, one dashboard, one process.',
   },
   {
     // Shield-with-checkmark — "prevent denials" (same icon as
     // Anesthesia/Orthopedics/Pain card 2 for consistency)
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>,
+    icon: <img src="/icons/specialty/asc-2.svg" alt="" aria-hidden="true" />,
     t: 'We Don\u2019t Just Recover Denials. We Prevent Them',
     d: 'High case volume creates high denial volume. Unless you fix the root cause. We analyze every denial across facility and professional streams to stop repeat issues.',
   },
   {
     // Chart-bar icon — "ASC economics"
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>,
+    icon: <img src="/icons/specialty/asc-3.svg" alt="" aria-hidden="true" />,
     t: 'We Know ASC Economics',
     d: 'Case costing, implant pass-throughs, block time utilization, payer mix. Our team understands the business side of running a surgery center, not just the billing side.',
   },

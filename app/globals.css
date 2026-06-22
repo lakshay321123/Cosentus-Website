@@ -2296,6 +2296,27 @@ body:has(main.home-immersive) .footer-top {
 
 .advantage-icon svg { width: 26px; height: 26px; }
 
+/* New specialty "What Sets Apart" icons (image-based). Scoped via :has(img)
+   so only these cards change; all inline-SVG advantage icons elsewhere
+   (services pages, homepage, other specialties) are unaffected.
+   No box behind the icon — the pale-teal square, radius and hover-fill are
+   removed for these cards. The icon stands alone at 104px. The art is baked
+   brand blue (#00B5D6) in the SVG fills, so no color treatment is needed. */
+.advantage-icon:has(img) {
+  width: auto;
+  height: auto;
+  background: none;
+  border-radius: 0;
+}
+.advantage-icon:has(img) img {
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+}
+.advantage-card:hover .advantage-icon:has(img) {
+  background: none;
+}
+
 .advantage-card h4 {
   font-family: var(--font-display);
   font-size: 17px;
