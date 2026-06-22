@@ -2296,25 +2296,92 @@ body:has(main.home-immersive) .footer-top {
 
 .advantage-icon svg { width: 26px; height: 26px; }
 
-/* New specialty "What Sets Apart" icons (image-based). Scoped via :has(img)
-   so only these cards change; all inline-SVG advantage icons elsewhere
-   (services pages, homepage, other specialties) are unaffected.
-   No box behind the icon — the pale-teal square, radius and hover-fill are
-   removed for these cards. The icon stands alone at 104px. The art is baked
-   brand blue (#00B5D6) in the SVG fills, so no color treatment is needed. */
-.advantage-icon:has(img) {
+/* New specialty "What Sets Apart" icons, now inlined as <svg class="apart-svg">
+   so parts can be animated. Scoped via .apart-svg so only these cards change;
+   all other advantage icons (services, homepage, other specialties) keep the
+   26px inline-SVG sizing above and are untouched.
+   No box behind the icon. Icon stands alone at 104px. Art is baked brand
+   blue (#00B5D6), so no color treatment needed.
+   The .advantage-icon:has() container neutralizes the pale-teal box/hover. */
+.advantage-icon:has(.apart-svg) {
   width: auto;
   height: auto;
   background: none;
   border-radius: 0;
 }
-.advantage-icon:has(img) img {
+.advantage-card:hover .advantage-icon:has(.apart-svg) {
+  background: none;
+}
+/* Override the generic .advantage-icon svg {26px} rule (class+class wins). */
+.advantage-icon .apart-svg {
   width: 104px;
   height: 104px;
-  object-fit: contain;
 }
-.advantage-card:hover .advantage-icon:has(img) {
-  background: none;
+
+/* Scroll-triggered entrance. The card is wrapped in RevealOnScroll
+   direction="scale", which adds .visible when the card enters the viewport
+   (once — it unobserves after). We hang the icon's part animation off that
+   same .visible class: no extra observer, fires once, in sync with the card.
+
+   Animatable parts start hidden; on .visible they pop in with a slight
+   overshoot. Single-shape icons (.apart-svg with no inner part class) get a
+   one-shot whole-icon pop. The two multi-part icons sequence their groups:
+   ASC notes (.note-1 then .note-2), Behavioral faces (.face-1 then .face-2). */
+.reveal-scale .apart-svg,
+.reveal-scale .apart-svg .note,
+.reveal-scale .apart-svg .face {
+  opacity: 0;
+  transform: scale(0.4);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Whole-icon pop: only when the svg has NO inner animatable groups. */
+.reveal-scale.visible .apart-svg:not(:has(.note)):not(:has(.face)) {
+  animation: apartPop 0.5s cubic-bezier(0.34, 1.4, 0.5, 1) 0.1s forwards;
+}
+/* The svg wrapper of a grouped icon must stay visible so its groups show. */
+.reveal-scale.visible .apart-svg:is(:has(.note), :has(.face)) {
+  opacity: 1;
+  transform: none;
+}
+/* ASC: top note, then bottom note. */
+.reveal-scale.visible .apart-svg .note-1 {
+  animation: apartPop 0.5s cubic-bezier(0.34, 1.4, 0.5, 1) 0.1s forwards;
+}
+.reveal-scale.visible .apart-svg .note-2 {
+  animation: apartPop 0.5s cubic-bezier(0.34, 1.4, 0.5, 1) 0.45s forwards;
+}
+/* Behavioral: front face, then back face. */
+.reveal-scale.visible .apart-svg .face-1 {
+  animation: apartPop 0.5s cubic-bezier(0.34, 1.4, 0.5, 1) 0.1s forwards;
+}
+.reveal-scale.visible .apart-svg .face-2 {
+  animation: apartPop 0.5s cubic-bezier(0.34, 1.4, 0.5, 1) 0.5s forwards;
+}
+@keyframes apartPop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* Accessibility + mobile carousel (not wrapped in RevealOnScroll): show
+   everything statically, no motion. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-scale .apart-svg,
+  .reveal-scale .apart-svg .note,
+  .reveal-scale .apart-svg .face {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+.advantages-mobile .apart-svg,
+.advantages-mobile .apart-svg .note,
+.advantages-mobile .apart-svg .face {
+  opacity: 1;
+  transform: none;
+}
+.advantages-mobile .apart-svg {
+  width: 104px;
+  height: 104px;
 }
 
 .advantage-card h4 {
