@@ -84,6 +84,27 @@ function CindyInner() {
   const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const conversationIdRef = useRef<string | null>(null)
   const connectTimeRef = useRef<number>(0)
+  // Reconnect with context (user instruction Jun 2026):
+  // - transcriptRef accumulates messages from onMessage so we can replay
+  //   them on reconnect via the {{prior_context}} dynamic variable.
+  // - userDismissedRef is set synchronously in dismissCindy so the
+  //   onDisconnect handler can distinguish user-initiated end from a
+  //   network error even before React state catches up.
+  // - reconnectAttemptsRef caps retries (we don't loop forever).
+  // - reconnectTimerRef holds the 4-second pre-retry timer for cleanup.
+  // - isReconnecting drives the 'Reconnecting...' label so the strip
+  //   doesn't visually collapse during the gap between disconnect and
+  //   the next startSession call.
+  const transcriptRef = useRef<{ role: string; text: string }[]>([])
+  const userDismissedRef = useRef<boolean>(false)
+  const reconnectAttemptsRef = useRef<number>(0)
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Forward ref so the onDisconnect callback (defined inside
+  // useConversation, BEFORE startConversation in the function body) can
+  // call startConversation without a TDZ / circular-dependency error.
+  // Populated by a useEffect just after startConversation is declared.
+  const startConversationRef = useRef<((opts?: { isReconnect?: boolean }) => Promise<void>) | null>(null)
+  const [isReconnecting, setIsReconnecting] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -91,9 +112,14 @@ function CindyInner() {
     onConnect: ({ conversationId }: { conversationId: string }) => {
       setActionLabel(''); conversationIdRef.current = conversationId; connectTimeRef.current = Date.now()
       setIsStarting(false) // mobile strip: clear the 'connecting' state once the WS handshake lands
+      // Successful (re)connection — clear any pending reconnect state so
+      // a future disconnect starts fresh with attempts=0.
+      setIsReconnecting(false)
+      reconnectAttemptsRef.current = 0
+      if (reconnectTimerRef.current) { clearTimeout(reconnectTimerRef.current); reconnectTimerRef.current = null }
       try { window.sessionStorage.setItem('cindy-conversation-id', conversationId) } catch {}
     },
-    onDisconnect: () => {
+    onDisconnect: (details: { reason: 'user' | 'agent' | 'error'; message?: string }) => {
       setActionLabel('Conversation ended'); setTimeout(() => setActionLabel(''), 2000)
       setIsStarting(false) // mobile strip: cover the edge case where we disconnect before fully connecting
       try { window.sessionStorage.removeItem('cindy-conversation-id') } catch {}
@@ -111,9 +137,50 @@ function CindyInner() {
         }).catch(() => {})
       }
       conversationIdRef.current = null
+
+      // Auto-reconnect with context (user instruction Jun 2026).
+      // Conditions for attempting a reconnect:
+      // (a) reason === 'error' (network/transient; 'user' and 'agent'
+      //     disconnects are intentional and should NOT auto-reconnect)
+      // (b) user hasn't tapped X (userDismissedRef set synchronously by
+      //     dismissCindy — checking the dismissed React state would race)
+      // (c) we have something in the transcript (no point resuming if
+      //     nothing was said yet — Grace would just have an empty
+      //     prior_context to resume from)
+      // (d) retry attempts under cap (max 2 attempts before giving up)
+      const shouldReconnect =
+        details?.reason === 'error' &&
+        !userDismissedRef.current &&
+        transcriptRef.current.length > 0 &&
+        reconnectAttemptsRef.current < 2
+      if (shouldReconnect) {
+        setIsReconnecting(true)
+        // 4-second wait per user spec ('few seconds, let's say 4 or 5').
+        // During this window the strip stays visible showing
+        // 'Reconnecting...' so the user knows we're working on it.
+        reconnectTimerRef.current = setTimeout(() => {
+          reconnectAttemptsRef.current += 1
+          reconnectTimerRef.current = null
+          startConversationRef.current?.({ isReconnect: true })
+        }, 4000)
+      } else if (details?.reason !== 'error') {
+        // Clean end (user or agent) — clear transcript so the next
+        // conversation starts fresh, not resuming an old one.
+        transcriptRef.current = []
+        reconnectAttemptsRef.current = 0
+      }
     },
     onError: (error: string) => { console.error('Cindy error:', error); setActionLabel(''); setIsStarting(false) },
-    onMessage: () => {},
+    onMessage: (msg: { role?: string; message?: string } | unknown) => {
+      // Accumulate transcript for reconnect context. Per ElevenLabs SDK
+      // source (BaseConversation.handleAgentResponse / handleUserTranscript),
+      // each onMessage payload has { source, role, message, event_id }.
+      // We only need role + message for the prior_context replay.
+      const m = msg as { role?: string; message?: string }
+      if (m && typeof m.message === 'string' && m.message.length > 0) {
+        transcriptRef.current.push({ role: m.role || 'unknown', text: m.message })
+      }
+    },
     clientTools: {
       navigate: async (params: { path: string; section?: string }) => {
         setActionLabel('Navigating...')
@@ -694,7 +761,7 @@ function CindyInner() {
   // list. Cleanup fires the 'ended' event so the chat FAB returns
   // even if this component unmounts mid-conversation or mid-idle
   // (e.g. navigation away with the strip on screen).
-  const stripVisible = (isMobile && !dismissed) || isStarting || isConnected
+  const stripVisible = (isMobile && !dismissed) || isStarting || isConnected || isReconnecting
   useEffect(() => {
     try {
       window.dispatchEvent(new Event(stripVisible ? 'grace-voice-started' : 'grace-voice-ended'))
@@ -708,11 +775,98 @@ function CindyInner() {
 
   const [startError, setStartError] = useState<string | null>(null)
 
-  const startConversation = useCallback(async () => {
+  // Build the prior_context dynamic variable payload that gets injected
+  // into the ElevenLabs system prompt at the {{prior_context}} placeholder
+  // (added at the bottom of the dashboard COSE prompt). Only called when
+  // we're reconnecting after an unexpected disconnect — fresh sessions
+  // pass an empty string so the placeholder renders as nothing.
+  //
+  // The framing is explicit because the COSE prompt has a strict rule
+  // 'Your opening line is ALWAYS exactly this... Hey! What can I help
+  // you with?' — without instructions to the contrary, Grace would
+  // re-greet on every reconnect and reset the conversation. The
+  // [RESUMING] block tells her this is a continuation, not a new call.
+  const buildPriorContext = useCallback(() => {
+    if (transcriptRef.current.length === 0) return ''
+    const transcript = transcriptRef.current
+      .map(t => `${t.role === 'agent' || t.role === 'ai' ? 'Grace' : 'User'}: ${t.text}`)
+      .join('\n')
+    return `[CONNECTION RESUMED] The conversation was briefly interrupted by a network issue. Below is what was said before the interruption:
+
+${transcript}
+
+[INSTRUCTIONS FOR RESUMING — IMPORTANT]
+- DO NOT use your standard "Hey! What can I help you with?" greeting. The conversation is already in progress.
+- If you understood the user's last message and were mid-answer, briefly acknowledge the interruption ("Sorry, we got cut off for a moment — as I was saying...") and continue.
+- If you're not sure what the user said last, briefly apologize and ask them to repeat ("Sorry, I think we got cut off — what was the last thing you asked?").
+- Keep the interruption acknowledgment to ONE short phrase. Don't dwell on it. Then continue naturally.`
+  }, [])
+
+  // Build the first-message override that gets passed to ElevenLabs on
+  // reconnect (via overrides.agent.firstMessage). This replaces the
+  // hardcoded dashboard 'First message' field (the full "Hi, I'm Grace,
+  // Cosentus's RCM AI Representative..." intro) for the duration of the
+  // reconnect session, so the user hears a contextual resumption phrase
+  // instead of the cold-start greeting.
+  //
+  // Per user feedback Jun 2026: when Grace reconnected she was replaying
+  // the entire intro greeting, which was disorienting mid-conversation.
+  // The fix is two-layered: (a) the {{prior_context}} system-prompt
+  // injection (buildPriorContext above) gives the LLM the conversation
+  // history, but the LLM doesn't speak until AFTER the firstMessage TTS
+  // playback; (b) this firstMessage override replaces the cold-start
+  // intro with a topic-aware "sorry we got cut off" line.
+  //
+  // Topic detection: scan the last several transcript turns for keyword
+  // matches against known specialties + key page topics. Most specific
+  // matches first. Falls back to a generic phrase if no topic matches.
+  // Keep the list aligned with what's actually in the COSE dashboard
+  // prompt — adding topics here that Grace doesn't know about would
+  // sound off.
+  const buildResumptionMessage = useCallback(() => {
+    const recentText = transcriptRef.current
+      .slice(-8)
+      .map(t => t.text.toLowerCase())
+      .join(' ')
+
+    const TOPIC_KEYWORDS: Array<{ keywords: string[]; phrase: string }> = [
+      { keywords: ['anesthesia', 'accreda'], phrase: 'anesthesia' },
+      { keywords: ['orthopedic', 'orthopaedic', 'ortho '], phrase: 'orthopedics' },
+      { keywords: ['pain management', 'pain mgmt', 'epidural', 'injection'], phrase: 'pain management' },
+      { keywords: ['behavioral health', 'mental health', 'psychiatry', 'simed'], phrase: 'behavioral health' },
+      { keywords: ['surgery center', 'ambulatory', 'asc'], phrase: 'ambulatory surgery centers' },
+      { keywords: ['urgent care'], phrase: 'urgent care' },
+      { keywords: ['multi-specialty', 'multispecialty'], phrase: 'multi-specialty' },
+      { keywords: ['zeus', 'cosentus ai', 'cosentus dot ai'], phrase: 'Zeus AI' },
+      { keywords: ['contact', 'office', 'irvine', 'napa', 'dallas', 'olathe', 'salt lake'], phrase: 'getting in touch with the team' },
+      { keywords: ['career', 'hiring', 'apply', 'job opening'], phrase: 'careers' },
+      { keywords: ['leadership', 'about cosentus', 'gs bhalla', 'bhalla', 'jr thompson'], phrase: 'the team' },
+      { keywords: ['denial', 'denials'], phrase: 'denials' },
+      { keywords: ['coding', 'cpt code', 'icd'], phrase: 'coding' },
+      { keywords: ['accounts receivable', 'collection'], phrase: 'collections' },
+      { keywords: ['eligibility', 'prior auth', 'authorization'], phrase: 'eligibility and prior auth' },
+    ]
+
+    for (const { keywords, phrase } of TOPIC_KEYWORDS) {
+      if (keywords.some(kw => recentText.includes(kw))) {
+        return `Sorry, looks like we just got cut off. We were talking about ${phrase} — want me to keep going?`
+      }
+    }
+    return 'Sorry, looks like we just got cut off. Want me to pick up from where we left off?'
+  }, [])
+
+  const startConversation = useCallback(async (opts?: { isReconnect?: boolean }) => {
     setStartError(null)
     setIsStarting(true) // mobile strip: show the strip immediately so the tap on the FAB has visible feedback
     // Drop any stale queued pathname from a prior session.
     pendingPathRef.current = null
+    // Fresh start (not a reconnect) — clear any old transcript and
+    // reconnect counters so we start with a clean slate.
+    if (!opts?.isReconnect) {
+      transcriptRef.current = []
+      reconnectAttemptsRef.current = 0
+      userDismissedRef.current = false
+    }
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       lastSentPath.current = pathname || '/'
@@ -720,15 +874,42 @@ function CindyInner() {
         agentId: AGENT_ID,
         connectionType: 'websocket',
         // current_page is the URL; current_page_summary is what's on it.
-        // Both are passed to ElevenLabs as dynamic variables and can be
+        // prior_context is filled only on reconnect — see buildPriorContext.
+        // All three are passed to ElevenLabs as dynamic variables and can be
         // referenced from the system prompt or knowledge base.
         dynamicVariables: {
           current_page: pathname || '/',
           current_page_summary: pageContext(pathname || '/'),
+          prior_context: opts?.isReconnect ? buildPriorContext() : '',
         },
+        // On reconnect, override the dashboard's hardcoded First message
+        // ("Hi, I'm Grace — Cosentus's RCM AI Representative...") with a
+        // topic-aware resumption phrase ("Sorry, looks like we just got
+        // cut off. We were talking about anesthesia — want me to keep
+        // going?"). Without this, ElevenLabs plays the cold-start intro
+        // on every new session including reconnects, which is jarring
+        // mid-conversation. Per user feedback Jun 2026.
+        //
+        // REQUIRES: 'First message override' must be enabled in the
+        // ElevenLabs agent's Security tab BEFORE deploying this code.
+        // Per ElevenLabs docs (verified against
+        // elevenlabs.io/docs/eleven-agents/customization/personalization/overrides):
+        // "An error will be thrown if an override is provided for a
+        // field that does not have overrides enabled." If the toggle is
+        // disabled, this reconnect will fail at startSession and the
+        // user will see the generic 'Couldn't start the conversation'
+        // error from the catch block below. Make sure the toggle is on.
+        ...(opts?.isReconnect && {
+          overrides: {
+            agent: {
+              firstMessage: buildResumptionMessage(),
+            },
+          },
+        }),
       })
     } catch (e) {
       setIsStarting(false) // bail out of the 'connecting' UI on mic-permission / device errors
+      setIsReconnecting(false) // also bail out of the reconnecting state if this was a retry attempt
       console.error('Failed to start conversation:', e)
       // Map common errors to user-facing messages
       const name = (e as { name?: string })?.name || ''
@@ -740,11 +921,44 @@ function CindyInner() {
         setStartError('Couldn\'t start the conversation. Please try again.')
       }
     }
-  }, [conversation, pathname])
+  }, [conversation, pathname, buildPriorContext, buildResumptionMessage])
+
+  // Sync startConversationRef so the onDisconnect callback (defined
+  // earlier inside useConversation) can call the latest startConversation
+  // without a TDZ / circular-dependency error.
+  useEffect(() => {
+    startConversationRef.current = startConversation
+  }, [startConversation])
+
+  // Cleanup: cancel any pending reconnect timer on unmount so we don't
+  // call setState on an unmounted component if the user navigates away
+  // during the 4-second reconnect wait.
+  useEffect(() => {
+    return () => {
+      if (reconnectTimerRef.current) {
+        clearTimeout(reconnectTimerRef.current)
+        reconnectTimerRef.current = null
+      }
+    }
+  }, [])
 
   const endConversation = useCallback(() => { conversation.endSession() }, [conversation])
 
   const dismissCindy = () => {
+    // Mark this as a user-initiated dismiss BEFORE calling endSession,
+    // so the onDisconnect handler triggered by endSession sees the flag
+    // synchronously and doesn't try to auto-reconnect.
+    userDismissedRef.current = true
+    // Cancel any pending reconnect timer that may be mid-wait.
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current)
+      reconnectTimerRef.current = null
+    }
+    setIsReconnecting(false)
+    // Clear transcript + counters so the next conversation starts fresh
+    // (no stale prior_context if the user re-summons Grace later).
+    transcriptRef.current = []
+    reconnectAttemptsRef.current = 0
     // End the session if any is in progress (active call OR mid-handshake)
     // so the X always cleanly stops Grace regardless of state.
     if (isConnected || isStarting) conversation.endSession()
@@ -770,6 +984,10 @@ function CindyInner() {
   // If we're in the dismissed state, un-dismiss first so the FAB doesn't keep
   // hiding itself between conversations.
   const handleMobileFABTap = useCallback(() => {
+    // Reset the user-dismissed flag so future network disconnects in this
+    // conversation can trigger auto-reconnect again (a prior X tap would
+    // otherwise permanently disable reconnect for the rest of the session).
+    userDismissedRef.current = false
     if (dismissed) {
       setDismissed(false)
       setShowPopup(true)
@@ -833,7 +1051,7 @@ function CindyInner() {
                   </p>
                 )}
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={startConversation} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
+                  <button onClick={() => startConversation()} style={{ flex: 1, background: '#00B5D6', color: 'white', border: 'none', borderRadius: 10, padding: '12px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>Start Conversation</button>
                   <button onClick={dismissCindy} style={{ padding: '12px 16px', background: '#f0f0f0', color: '#666', border: 'none', borderRadius: 10, fontSize: 14, cursor: 'pointer' }}>Later</button>
                 </div>
               </>
@@ -862,14 +1080,20 @@ function CindyInner() {
           while it's connected. Layout: [X close on left] [wave fills rest].
           The wave amplitude is driven from ElevenLabs' getInputVolume /
           getOutputVolume so it reacts to the actual speaking voice. */}
-      {((isMobile && !dismissed) || isStarting || isConnected) && (
+      {((isMobile && !dismissed) || isStarting || isConnected || isReconnecting) && (() => {
+        // Tap-to-start is enabled only in the true idle state — no
+        // active call, no handshake, no in-flight reconnect. During
+        // reconnect we don't want the user accidentally interrupting
+        // the recovery attempt by tapping the pill.
+        const isIdle = !isStarting && !isConnected && !isReconnecting
+        return (
         <div
           className="cindy-strip"
-          role={!isStarting && !isConnected ? 'button' : 'dialog'}
-          aria-label={!isStarting && !isConnected ? 'Tap to talk to Grace' : 'Grace voice conversation'}
-          tabIndex={!isStarting && !isConnected ? 0 : -1}
-          onClick={!isStarting && !isConnected ? () => startConversation() : undefined}
-          onKeyDown={!isStarting && !isConnected
+          role={isIdle ? 'button' : 'dialog'}
+          aria-label={isIdle ? 'Tap to talk to Grace' : 'Grace voice conversation'}
+          tabIndex={isIdle ? 0 : -1}
+          onClick={isIdle ? () => startConversation() : undefined}
+          onKeyDown={isIdle
             ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startConversation() } }
             : undefined
           }
@@ -894,7 +1118,7 @@ function CindyInner() {
           // Cursor is pointer in idle state because the whole pill is the
           // tap target; default cursor in active states so the X and mute
           // buttons stand out as the real controls.
-          cursor: !isStarting && !isConnected ? 'pointer' : 'default',
+          cursor: isIdle ? 'pointer' : 'default',
           // Desktop keyframe composes translateX(-50%) into both keyframe
           // states so the centering transform survives the animation —
           // otherwise the animation's transform: translateY(...) replaces
@@ -967,7 +1191,7 @@ function CindyInner() {
               taps fall through to the parent strip's onClick handler
               (which calls startConversation) — that way the entire pill
               is one tap target except the X. */}
-          {isMobile && !isStarting && !isConnected && (
+          {isMobile && !isStarting && !isConnected && !isReconnecting && (
             <>
               <div style={{
                 position: 'absolute',
@@ -1003,16 +1227,14 @@ function CindyInner() {
             </>
           )}
 
-          {/* Connecting indicator — shown only during the handshake
-              window (isStarting && !isConnected, ~1-3s on mobile due
-              to the getUserMedia + WebSocket cost). Once isConnected
-              flips true the wave (whose RAF loop is gated on
-              isConnected) takes over as the visual indicator and this
-              label unmounts. Without this label the strip is a blank
-              dark pill during the wait, which felt to the user like
-              Grace was unresponsive even though the connection was
-              progressing normally. Per user instruction Jun 2026. */}
-          {isStarting && !isConnected && (
+          {/* Connecting indicator — shown during the handshake window
+              (isStarting && !isConnected, ~1-3s on mobile due to
+              getUserMedia + WebSocket cost) AND during the 4s reconnect
+              gap (isReconnecting). The label text adapts: 'Reconnecting...'
+              when recovering from a network disconnect, 'Connecting with
+              Grace...' on a normal fresh start. Once isConnected flips
+              true the wave takes over and this label unmounts. */}
+          {((isStarting && !isConnected) || isReconnecting) && (
             <div aria-live="polite" style={{
               position: 'absolute',
               left: 60, right: 60, top: 0, bottom: 0,
@@ -1023,7 +1245,7 @@ function CindyInner() {
               pointerEvents: 'none',
               animation: 'cindyConnectingPulse 1.4s ease-in-out infinite',
             }}>
-              Connecting with Grace...
+              {isReconnecting ? 'Reconnecting...' : 'Connecting with Grace...'}
             </div>
           )}
 
@@ -1093,7 +1315,8 @@ function CindyInner() {
             </div>
           )}
         </div>
-      )}
+        )
+      })()}
 
       <style>{`
         @keyframes cindySlideUp { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
