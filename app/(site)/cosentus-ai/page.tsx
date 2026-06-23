@@ -13,6 +13,7 @@ export default function CosentusAIPage() {
     <main>
       <PageHero
         label="Zeus"
+        videoSrc="/videos/zeus-hero.mp4"
         title={<>The ultimate RCM engine is <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>here.</span></>}
         subtitle="Built around Ai from day one, Cosentus RCM 360 connects eligibility, coding, claims, denials, A/R, and payments. So every signal improves the next action."
         ctaText="Get Your Financial MRI"
