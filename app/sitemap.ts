@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { SITE_URL as SITE } from '@/lib/site-url'
 import { LOCATIONS } from './(site)/contact/_data/locations'
 import { ANESTHESIA_LOCATIONS } from './(site)/specialties/anesthesia/_data/locations'
 import { RCM_LOCATIONS } from './(site)/services/rcm/_data/locations'
@@ -20,7 +21,6 @@ import { RCM_LOCATIONS } from './(site)/services/rcm/_data/locations'
  *     not in this sitemap. They can be added in a follow-up by fetching
  *     slugs from Sanity at build time.
  */
-const SITE = 'https://cosentus-website.vercel.app'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
