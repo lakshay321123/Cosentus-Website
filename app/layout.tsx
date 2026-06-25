@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { GoogleTagManager } from '@next/third-parties/google'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -7,8 +8,10 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   return (
     <html lang="en">
+      {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
       <body>{children}</body>
     </html>
   )
