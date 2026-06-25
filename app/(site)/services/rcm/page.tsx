@@ -4,6 +4,7 @@ import CTASection from '@/components/sections/CTASection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import RCMContent from './RCMContent'
 import RCMFAQ from './RCMFAQ'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'End-to-End Revenue Cycle Management | Every Step. Every Dollar. | Cosentus',
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
 export default function RCMPage() {
   return (
     <main>
+      <ServiceJsonLd path="/services/rcm" />
       <PageHero
         label="END-TO-END RCM"
         title="End-to-End Revenue Cycle Management. Every Step. Every Dollar."

@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
 import BehavioralHealthContent from './BehavioralHealthContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Behavioral Health Billing & RCM | Psychiatry, Therapy, IOP/PHP & Telehealth | Cosentus',
@@ -39,6 +40,7 @@ const behavioralHealthFaqs: SpecialtyFAQItem[] = [
 export default function BehavioralHealthPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/behavioral-health" />
       <PageHero videoSrc="/videos/specialty-behavioral-health.mp4" specialty
         label="SIMED BY COSENTUS, PURPOSE BUILT FOR BEHAVIORAL HEALTH"
         title={<>Behavioral Health.<br />Complex Billing. Clear Results.</>}
