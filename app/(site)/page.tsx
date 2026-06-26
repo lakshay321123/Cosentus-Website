@@ -11,6 +11,9 @@ import TestimonialsShuffleSection from '@/components/sections/TestimonialsShuffl
 import FAQSection from '@/components/sections/FAQSection'
 import CTASection from '@/components/sections/CTASection'
 import OrganizationJsonLd from '@/components/ui/OrganizationJsonLd'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = { alternates: { canonical: '/' } }
 
 export default function Home() {
   return (

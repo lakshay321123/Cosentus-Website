@@ -6,6 +6,7 @@ import BehavioralHealthContent from './BehavioralHealthContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/behavioral-health' },
   title: 'Behavioral Health Billing & RCM | Psychiatry, Therapy, IOP/PHP & Telehealth | Cosentus',
   description: 'Psychiatry, therapy, IOP/PHP, medication management, and telehealth each carry distinct billing rules. Our team knows every one.',
 }

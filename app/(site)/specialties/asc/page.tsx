@@ -6,6 +6,7 @@ import ASCContent from './ASCContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/asc' },
   title: 'ASC Billing & RCM | Facility + Professional Fee Expertise | Cosentus',
   description: 'Coordinated facility and professional billing. Implant accuracy. Case costing. Contract management. All under one roof.',
 }

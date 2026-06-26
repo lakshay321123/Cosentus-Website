@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/sections/PageHero'
 
-export const metadata: Metadata = { title: 'Terms & Conditions | Cosentus' }
+export const metadata: Metadata = { title: 'Terms & Conditions | Cosentus', alternates: { canonical: '/terms' } }
 
 const h3Style = { fontSize: 20, fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
 const strongStyle = { color: 'var(--gray-900)' }

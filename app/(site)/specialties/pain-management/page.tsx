@@ -6,6 +6,7 @@ import PainManagementContent from './PainManagementContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/pain-management' },
   title: 'Pain Management Billing & RCM | Interventional Expertise | Cosentus',
   description: 'Injections, SCS, ablations, and medication management. Coded right, authorized ahead of time, and defended when payers push back.',
 }

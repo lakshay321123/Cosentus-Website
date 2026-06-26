@@ -6,6 +6,7 @@ import OrthopedicsContent from './OrthopedicsContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/orthopedics' },
   title: 'Orthopedic Billing & RCM | Surgeon-Grade Precision | Cosentus',
   description: 'Joint replacements, arthroscopy, spinal surgery, and implant cases demand accuracy at every billing step. Cosentus delivers it.',
 }

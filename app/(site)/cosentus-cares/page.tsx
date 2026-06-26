@@ -6,6 +6,7 @@ import WeCareOrganisations from './WeCareOrganisations'
 import { galleries } from './galleries'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/cosentus-cares' },
   title: 'Cosentus Cares | Community & Charitable Initiatives | Cosentus',
   description: 'Cosentus is committed to community, employee wellbeing, and the practices we serve. Meet our Impact Ambassadors and the incredible work they do.',
 }

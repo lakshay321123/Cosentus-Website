@@ -8,6 +8,7 @@ import { newsArticles } from '@/data/newsArticles'
 import { eventsData } from '@/data/eventsData'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/insights' },
   title: 'Resources | Cosentus',
   description: 'Case studies, blog posts, news, and events from Cosentus. One place for everything we publish.',
 }

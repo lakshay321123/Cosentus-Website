@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: `${gallery.title} | Cosentus Cares | Cosentus`,
     description: `Photos from ${gallery.title} — part of our Cosentus Cares community initiatives.`,
+    alternates: { canonical: `/cosentus-cares/${slug}` },
   }
 }
 

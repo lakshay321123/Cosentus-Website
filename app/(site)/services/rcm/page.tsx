@@ -7,6 +7,7 @@ import RCMFAQ from './RCMFAQ'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/services/rcm' },
   title: 'End-to-End Revenue Cycle Management | Every Step. Every Dollar. | Cosentus',
   description: 'We manage your entire revenue cycle, patient registration to final payment, with specialty-trained teams and Real + Artificial Intelligence.',
 }

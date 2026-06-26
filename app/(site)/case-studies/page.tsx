@@ -6,6 +6,7 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import RevealText from '@/components/ui/RevealText'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/case-studies' },
   title: 'Client Results: Real Practices, Real Revenue Growth | Cosentus',
   description: 'Every practice we partner with has a unique revenue story. Outcome-first client success stories demonstrating the concrete impact of our R+A model.',
 }

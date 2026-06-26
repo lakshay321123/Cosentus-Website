@@ -4,6 +4,7 @@ import CTASection from '@/components/sections/CTASection'
 import AboutContent from './AboutContent'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/about' },
   title: '25 Years of Expert-Led Revenue Cycle Management | Cosentus',
   description: 'Cosentus is a full-service practice growth partner and global healthcare revenue cycle management (RCM) company with 25+ years of experience.',
 }
