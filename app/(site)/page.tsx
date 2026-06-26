@@ -10,10 +10,12 @@ import InsightsTabsSection from '@/components/sections/InsightsTabsSection'
 import TestimonialsShuffleSection from '@/components/sections/TestimonialsShuffleSection'
 import FAQSection from '@/components/sections/FAQSection'
 import CTASection from '@/components/sections/CTASection'
+import OrganizationJsonLd from '@/components/ui/OrganizationJsonLd'
 
 export default function Home() {
   return (
     <main className="home-immersive">
+      <OrganizationJsonLd />
       {/* Page-wide fixed video background; behind all sections at
           z-index: -1. Renders on BOTH desktop and mobile (mobile uses
           a portrait 9:16 cut of the same content, ~1.9MB). The loop
