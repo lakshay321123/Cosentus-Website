@@ -3,6 +3,9 @@ import { SITE_URL as SITE } from '@/lib/site-url'
 import { LOCATIONS } from './(site)/contact/_data/locations'
 import { ANESTHESIA_LOCATIONS } from './(site)/specialties/anesthesia/_data/locations'
 import { RCM_LOCATIONS } from './(site)/services/rcm/_data/locations'
+import { getAllBlogSlugs } from '@/data/blogPosts'
+import { newsArticles } from '@/data/newsArticles'
+import { galleries } from './(site)/cosentus-cares/galleries'
 
 /**
  * XML sitemap surfaced at /sitemap.xml.
@@ -17,9 +20,10 @@ import { RCM_LOCATIONS } from './(site)/services/rcm/_data/locations'
  *   - Per-location contact URLs are derived from LOCATIONS so adding a
  *     new office anywhere in the codebase automatically gets a sitemap
  *     entry — no manual sync required.
- *   - Blog/news/case-studies are dynamic (Sanity-backed) and currently
- *     not in this sitemap. They can be added in a follow-up by fetching
- *     slugs from Sanity at build time.
+ *   - Blog, news, and cosentus-cares detail pages are derived from their
+ *     static data modules (blogPosts, newsArticles, galleries), so every
+ *     published item is included automatically. case-studies has no
+ *     per-item route (only the index), so there is nothing per-item to add.
  */
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -81,10 +85,47 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
+  // Blog, news, and cosentus-cares detail pages, derived from their static
+  // data modules. Slugs are de-duplicated with a plain filter (no Set spread —
+  // the tsconfig target predates downlevel Set iteration) so a repeated slug
+  // can't emit a duplicate <loc>.
+  const dedupe = (slugs: string[]): string[] =>
+    slugs.filter((slug, i) => slugs.indexOf(slug) === i)
+
+  const blogRoutes: MetadataRoute.Sitemap = dedupe(getAllBlogSlugs()).map(
+    (slug) => ({
+      url: `${SITE}/blog/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }),
+  )
+
+  const newsRoutes: MetadataRoute.Sitemap = dedupe(
+    newsArticles.map((a) => a.slug),
+  ).map((slug) => ({
+    url: `${SITE}/news/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }))
+
+  const caresRoutes: MetadataRoute.Sitemap = dedupe(
+    galleries.map((g) => g.slug),
+  ).map((slug) => ({
+    url: `${SITE}/cosentus-cares/${slug}`,
+    lastModified: now,
+    changeFrequency: 'yearly' as const,
+    priority: 0.4,
+  }))
+
   return [
     ...staticRoutes,
     ...locationRoutes,
     ...anesthesiaLocationRoutes,
     ...rcmLocationRoutes,
+    ...blogRoutes,
+    ...newsRoutes,
+    ...caresRoutes,
   ]
 }
