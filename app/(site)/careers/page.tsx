@@ -4,6 +4,7 @@ import PageHero from '@/components/sections/PageHero'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/careers' },
   title: 'Careers | Join the Cosentus Team | Irvine, California',
   description:
     'Join the Cosentus team. Independently owned, Great Place to Work certified three years running, and home to teams that change healthcare.',

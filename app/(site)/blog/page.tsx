@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import BlogContent from './BlogContent'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog' },
   title: 'Blog | Healthcare Billing & RCM Insights | Cosentus',
   description: 'Explore the Cosentus blog for the latest trends, tips, and insights in healthcare billing, revenue cycle management, and practice growth.',
 }

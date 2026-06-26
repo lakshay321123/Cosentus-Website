@@ -4,6 +4,7 @@ import CTASection from '@/components/sections/CTASection'
 import NewsListContent from './NewsListContent'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/news' },
   title: 'Cosentus News, Healthcare RCM, Ai & Medical Billing Updates',
   description: 'Stay informed with the latest healthcare RCM news, policy updates, Ai innovations, and industry insights curated by Cosentus.',
 }

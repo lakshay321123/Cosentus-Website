@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: NewsRouteProps): Promise<Meta
   return {
     title: `${article.title} | Cosentus News`,
     description: article.body.slice(0, 160).replace(/[#*]/g, ''),
+    alternates: { canonical: `/news/${params.slug}` },
   }
 }
 

@@ -4,6 +4,7 @@ import CTASection from '@/components/sections/CTASection'
 import RAPageContent from './RAPageContent'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/cosentus-ai' },
   title: 'Real People + Ai | Cosentus Revenue Cycle Management',
   description: 'Nine voice agents and twenty-three modules handle the volume. Specialty-trained billing teams handle the judgment. End-to-end revenue cycle management for specialty practices.',
 }

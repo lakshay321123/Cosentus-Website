@@ -6,6 +6,7 @@ import AnesthesiaContent from './AnesthesiaContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/anesthesia' },
   title: 'Purpose Built for Anesthesia | Accreda by Cosentus',
   description: 'Accreda by Cosentus. 23+ years of anesthesia-specific RCM, backed by Real + Artificial Intelligence.',
 }

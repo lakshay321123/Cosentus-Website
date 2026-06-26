@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import PageHero from '@/components/sections/PageHero'
 
-export const metadata: Metadata = { title: 'Privacy Policy | Cosentus' }
+export const metadata: Metadata = { title: 'Privacy Policy | Cosentus', alternates: { canonical: '/privacy' } }
 
 const h3Style = { fontSize: 20, fontWeight: 500 as const, color: 'var(--gray-900)', marginTop: 40, marginBottom: 12 }
 const strongStyle = { color: 'var(--gray-900)' }

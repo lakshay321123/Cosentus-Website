@@ -3,6 +3,7 @@ import EHRContent from './EHRContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/services/ehr-technology' },
   title: 'EHR Agnostic Technology & Integration | Works With Your Existing Systems | Cosentus',
   description: 'Works with your existing EHR, Epic, Athenahealth, eClinicalWorks, and more. Or add Medcloud, our purpose-built PM solution. Seamlessly integrated with Real + Artificial Intelligence.',
 }

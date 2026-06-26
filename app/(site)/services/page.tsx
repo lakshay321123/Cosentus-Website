@@ -5,6 +5,7 @@ import ResultsSection from '@/components/sections/ResultsSection'
 import CTASection from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/services' },
   title: 'Services | End-to-End RCM and EHR & Technology | Cosentus',
   description: 'Two integrated services built for specialty healthcare, powered by Real + Artificial Intelligence.',
 }

@@ -6,6 +6,7 @@ import MultiSpecialtyContent from './MultiSpecialtyContent'
 import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/specialties/multi-specialty' },
   title: 'Multi-Specialty Billing & RCM | One Team. Every Department. | Cosentus',
   description: 'Multi-specialty practices face different codes, different payers, and different rules across every department. One RCM partner that manages it all without dropping the ball.',
 }

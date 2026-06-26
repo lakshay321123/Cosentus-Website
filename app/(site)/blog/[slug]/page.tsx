@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | Cosentus Blog`,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${params.slug}` },
   }
 }
 
