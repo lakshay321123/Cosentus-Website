@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
 import MultiSpecialtyContent from './MultiSpecialtyContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Multi-Specialty Billing & RCM | One Team. Every Department. | Cosentus',
@@ -41,6 +42,7 @@ const multiSpecialtyFaqs: SpecialtyFAQItem[] = [
 export default function MultiSpecialtyPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/multi-specialty" />
       <PageHero videoSrc="/videos/specialty-multi-specialty.mp4" specialty
         label="MULTI-SPECIALTY BY COSENTUS"
         title={<>Multi-Specialty.<br />One Team. Every Department.</>}

@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
 import ASCContent from './ASCContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'ASC Billing & RCM | Facility + Professional Fee Expertise | Cosentus',
@@ -39,6 +40,7 @@ const ascFaqs: SpecialtyFAQItem[] = [
 export default function ASCPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/asc" />
       <PageHero videoSrc="/videos/specialty-asc.mp4" specialty
         label="ASC BY COSENTUS, PURPOSE BUILT"
         title={<>Ambulatory Services.<br />Three Specialties. One Expert Team.</>}
