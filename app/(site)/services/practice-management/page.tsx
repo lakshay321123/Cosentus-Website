@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import PracticeManagementContent from './PracticeManagementContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Complete Practice Management Services | Cosentus',
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function PracticeManagementPage() {
   return (
     <main>
+      <ServiceJsonLd path="/services/practice-management" />
       <PracticeManagementContent />
     </main>
   )

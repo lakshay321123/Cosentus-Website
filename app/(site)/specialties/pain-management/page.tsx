@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
 import PainManagementContent from './PainManagementContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Pain Management Billing & RCM | Interventional Expertise | Cosentus',
@@ -39,6 +40,7 @@ const painManagementFaqs: SpecialtyFAQItem[] = [
 export default function PainManagementPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/pain-management" />
       <PageHero videoSrc="/videos/specialty-pain-management.mp4" specialty
         label="PAIN MANAGEMENT BY COSENTUS, PURPOSE BUILT"
         title={<>Pain Management.<br />Every Procedure. Every Dollar.</>}

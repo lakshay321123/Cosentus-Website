@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ from '@/components/sections/SpecialtyFAQ'
 import AnesthesiaContent from './AnesthesiaContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Purpose Built for Anesthesia | Accreda by Cosentus',
@@ -45,6 +46,7 @@ const anesthesiaFaqs = [
 export default function AnesthesiaPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/anesthesia" />
       <PageHero videoSrc="/videos/specialty-anesthesia.mp4" specialty
         label="ACCREDA BY COSENTUS, PURPOSE BUILT FOR ANESTHESIA"
         title="Purpose Built for Anesthesia."

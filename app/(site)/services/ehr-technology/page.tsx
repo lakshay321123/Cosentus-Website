@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import EHRContent from './EHRContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'EHR Agnostic Technology & Integration | Works With Your Existing Systems | Cosentus',
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function EHRTechnologyPage() {
   return (
     <main>
+      <ServiceJsonLd path="/services/ehr-technology" />
       <EHRContent />
     </main>
   )

@@ -3,6 +3,7 @@ import PageHero from '@/components/sections/PageHero'
 import CTASection from '@/components/sections/CTASection'
 import SpecialtyFAQ, { type SpecialtyFAQItem } from '@/components/sections/SpecialtyFAQ'
 import OrthopedicsContent from './OrthopedicsContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Orthopedic Billing & RCM | Surgeon-Grade Precision | Cosentus',
@@ -39,6 +40,7 @@ const orthopedicsFaqs: SpecialtyFAQItem[] = [
 export default function OrthopedicsPage() {
   return (
     <main>
+      <ServiceJsonLd path="/specialties/orthopedics" />
       <PageHero videoSrc="/videos/specialty-orthopedics.mp4" specialty
         label="ORTHOPEDICS BY COSENTUS, PURPOSE BUILT"
         title={<>Orthopedic Billing.<br />Surgeon-Grade Precision.</>}

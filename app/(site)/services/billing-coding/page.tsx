@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import BillingCodingContent from './BillingCodingContent'
+import ServiceJsonLd from '@/components/ui/ServiceJsonLd'
 
 export const metadata: Metadata = {
   title: 'Medical Billing & Coding Services | Expert-Led, Ai-Powered | Cosentus',
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function BillingCodingPage() {
   return (
     <main>
+      <ServiceJsonLd path="/services/billing-coding" />
       <BillingCodingContent />
     </main>
   )
