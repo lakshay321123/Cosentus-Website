@@ -51,7 +51,7 @@ export default function PlatformSection() {
 
         <RevealOnScroll delay={0.5}>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Link href="/cosentus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 13 }}>
+            <Link href="/zeus-ai" className="btn-primary" style={{ textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: 13 }}>
               Explore Zeus
             </Link>
           </div>

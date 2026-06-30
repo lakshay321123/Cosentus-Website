@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${SITE}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE}/cosentus-ai`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE}/zeus-ai`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE}/services/billing-coding`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/services/practice-management`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/services/rcm`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },

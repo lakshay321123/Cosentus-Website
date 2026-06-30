@@ -29,7 +29,7 @@ const footerNav = [
     title: 'Services',
     links: [
       { label: 'RCM 360', href: '/services/rcm' },
-      { label: 'ZeusAi', href: '/cosentus-ai' },
+      { label: 'ZeusAi', href: '/zeus-ai' },
     ],
   },
   {

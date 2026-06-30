@@ -481,7 +481,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee', mobileCaro
                   {s.agent ? (
                     <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                       <Link
-                        href="/cosentus-ai"
+                        href="/zeus-ai"
                         className="spec-card-agent-popup-link"
                         aria-label={`Meet ${s.agent.name}, our AI agent`}
                       >
@@ -543,7 +543,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee', mobileCaro
                   {s.agent ? (
                     <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                       <Link
-                        href="/cosentus-ai"
+                        href="/zeus-ai"
                         className="spec-card-agent-popup-link"
                         aria-label={`Meet ${s.agent.name}, our AI agent`}
                       >
@@ -589,7 +589,7 @@ export default function SpecialtyMarquee({ items, layout = 'marquee', mobileCaro
             {s.agent ? (
               <div className="spec-card-agent-footer spec-card-agent-footer-popup">
                 <Link
-                  href="/cosentus-ai"
+                  href="/zeus-ai"
                   className="spec-card-agent-popup-link"
                   aria-label={`Meet ${s.agent.name}, our AI agent`}
                   onPointerDown={(e) => e.stopPropagation()}

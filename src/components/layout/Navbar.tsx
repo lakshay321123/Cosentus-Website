@@ -53,7 +53,7 @@ const navItems = [
     href: '/services/rcm',
     children: [
       { label: 'RCM 360', href: '/services/rcm' },
-      { label: 'Zeus Ai', href: '/cosentus-ai' },
+      { label: 'Zeus Ai', href: '/zeus-ai' },
     ],
   },
   {
