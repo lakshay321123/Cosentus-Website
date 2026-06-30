@@ -45,6 +45,15 @@ const nextConfig = {
         destination: '/partnerships',
         permanent: true,
       },
+      // Zeus Ai URL rename (Jun 2026): /cosentus-ai -> /zeus-ai.
+      // 308 permanent so the old path keeps working and SEO equity
+      // transfers. Old path was in the sitemap (priority 0.9) and
+      // likely indexed.
+      {
+        source: '/cosentus-ai',
+        destination: '/zeus-ai',
+        permanent: true,
+      },
     ]
   },
 }

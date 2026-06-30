@@ -29,7 +29,7 @@ export function pageMeta(pathname: string): string {
     '/about':
       'About Us. Stats row: 25+ Years RCM Expertise, Real People + Ai, 99% Customer Retention, Up to 30% Revenue Growth. Six-stage process (Exploration → Discovery → Commitment → Stabilization → Standardization → Optimization). Nine-person leadership grid — every card is clickable to open a full bio popup. Offices list at the bottom.',
 
-    '/cosentus-ai':
+    '/zeus-ai':
       'Zeus Ai page. Hero reads: "RCM that thinks." Stats: 23 modules, 15 Ai features, 45+ specialties, 18+ EHRs, 4 native protocols (HL7 v2, FHIR R4, X12, REST API), under 5 minutes to first sync. Clickable 5-step process. Multi-EHR diagram with Zeus center surrounded by 6 EHRs (Epic, Oracle, Athena, eCW, NextGen, Meditech). Nine voice agent cards.',
 
     '/services/rcm':
