@@ -13,9 +13,9 @@ export default function CosentusAIPage() {
     <main>
       <PageHero
         label="Zeus"
-        title={<>Ai-native RCM platform that integrates with <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>any EHR.</span></>}
+        title={<>ZEUS<br />Ai-native RCM platform<br />that integrates with <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>any EHR.</span></>}
         subtitle="Run by real specialty experts."
-        ctaText="Get Your Financial MRI"
+        ctaText="Request Demo"
         ctaHref="/contact"
         videoSrc="/videos/zeus-hero.mp4"
       />
