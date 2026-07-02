@@ -33,9 +33,9 @@ const steps = [
 const zeusTeam = [
   { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus Ai',  photo: '/images/ALLEN RANJAN.jpg' },
   { name: 'Ajay Kumar',            title: 'Ai Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
-  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research',         photo: '/images/Alex-Kashkarian.jpg' },
-  { name: 'Lakshay Mehra',         title: 'Ai Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
+  { name: 'Lakshay Mehra',         title: 'Ai Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
+  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research',         photo: '/images/Alex-Kashkarian.jpg' },
   { name: 'Shaleen Chordia',       title: 'Ai Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
 ]
 
