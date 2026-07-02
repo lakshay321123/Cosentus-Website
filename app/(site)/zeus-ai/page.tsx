@@ -13,10 +13,11 @@ export default function CosentusAIPage() {
     <main>
       <PageHero
         label="Zeus"
-        title={<>The ultimate RCM engine is <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>here.</span></>}
-        subtitle="Built around Ai from day one, Cosentus RCM 360 connects eligibility, coding, claims, denials, A/R, and payments. So every signal improves the next action."
-        ctaText="Get Your Financial MRI"
+        title={<>ZEUS<br />Ai-native RCM platform<br />that integrates with <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>any EHR.</span></>}
+        subtitle="Run by real specialty experts."
+        ctaText="Request Demo"
         ctaHref="/contact"
+        videoSrc="/videos/zeus-hero.mp4"
       />
       <RAPageContent />
       <CTASection />
