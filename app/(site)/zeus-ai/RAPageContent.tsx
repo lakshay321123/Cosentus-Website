@@ -23,8 +23,7 @@ const steps = [
  *
  * Photos: Allen, Ajay, Steven, and Lakshay have headshots; we re-use
  * Allen + Ajay's from /about and Steven's from Behavioral Health.
- * Alex has no photo yet — TeamCircleGrid falls back to teal initials
- * in an empty circle until a headshot is supplied.
+ * Alex's headshot added Jul 2026 (/images/Alex-Kashkarian.jpg).
  * Casey Kaczmarowski removed per user (Jun 2026).
  *
  * No `bio` field is provided yet, so the cards render non-interactive
@@ -34,7 +33,7 @@ const steps = [
 const zeusTeam = [
   { name: 'Allen Ranjan',          title: 'Strategic Advisor, Zeus Ai',  photo: '/images/ALLEN RANJAN.jpg' },
   { name: 'Ajay Kumar',            title: 'Ai Security & Compliance',    photo: '/images/AJAY KUMAR.jpg' },
-  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research' },
+  { name: 'Alexander Kashkarian',  title: 'Ai Voice & Research',         photo: '/images/Alex-Kashkarian.jpg' },
   { name: 'Lakshay Mehra',         title: 'Ai Architect & Engineering Lead', photo: '/images/Lakshay-Mehra.jpg' },
   { name: 'Steven Sundrud',        title: 'DevOps & Release Engineering', photo: '/images/Steven-Symed.webp' },
   { name: 'Shaleen Chordia',       title: 'Ai Development & Research',    photo: '/images/Shaleen-Chordia.jpg' },
