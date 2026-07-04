@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <main>
-      <PageHero title="Partnerships" compact />
+      <PageHero title="Partnerships" compact videoSrc="/videos/partnerships-hero.mp4" />
 
       <PartnershipContent />
     </main>
