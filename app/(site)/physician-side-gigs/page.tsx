@@ -57,7 +57,13 @@ export default function PhysicianSideGigsPage() {
     <main>
       <PageHero
         label="PARTNER OFFER"
-        title="Special Offer for the Physician Side Gigs Community"
+        title={
+          <>
+            Special Offer for the Physician Side Gigs
+            <br />
+            Community
+          </>
+        }
         compact
       />
 
