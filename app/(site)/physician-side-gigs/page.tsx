@@ -59,9 +59,9 @@ export default function PhysicianSideGigsPage() {
         label="PARTNER OFFER"
         title={
           <>
-            Special Offer for the Physician Side Gigs
+            Special Offer for the
             <br />
-            Community
+            Physician Side Gigs Community
           </>
         }
         compact
