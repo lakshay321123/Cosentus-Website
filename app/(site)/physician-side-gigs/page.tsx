@@ -210,12 +210,12 @@ export default function PhysicianSideGigsPage() {
                   boxShadow: 'var(--shadow-md)',
                 }}
               >
-                <div
+                <h3
                   className="section-title"
                   style={{ fontSize: 26, marginBottom: 24 }}
                 >
                   Schedule Your Free Review
-                </div>
+                </h3>
                 <PSGLeadForm />
               </div>
             </RevealOnScroll>

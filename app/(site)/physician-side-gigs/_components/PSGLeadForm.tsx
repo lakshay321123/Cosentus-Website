@@ -16,18 +16,15 @@ import { useState } from 'react'
  *   - PSG attribution, referral code, and state are preserved in `notes`
  * Same fail-soft behavior as LeadForm: errors surface a retry message
  * with the site-wide phone number.
+ *
+ * All payload fields are trimmed before POSTing so the exact-match
+ * duplicate detection in /api/crm/leads (email / phone /
+ * practice_name+last_name) isn't defeated by stray whitespace.
  */
 
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '12px 16px',
-  border: '1px solid var(--gray-200)',
-  borderRadius: 'var(--radius-sm)',
-  fontSize: 15,
-  fontFamily: 'var(--font-body)',
-  outline: 'none',
-  transition: 'border-color var(--transition-fast)',
-}
+// Abort the lead POST if the API hangs, so `submitting` can never stay
+// stuck true and permanently disable the CTA.
+const SUBMIT_TIMEOUT_MS = 10000
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
@@ -36,6 +33,16 @@ const labelStyle: React.CSSProperties = {
   color: 'var(--gray-700)',
   marginBottom: 6,
 }
+
+const FIELDS = [
+  { name: 'firstName', label: 'First Name', type: 'text', required: true, autoComplete: 'given-name' },
+  { name: 'lastName', label: 'Last Name', type: 'text', required: true, autoComplete: 'family-name' },
+  { name: 'email', label: 'Email', type: 'email', required: true, autoComplete: 'email' },
+  { name: 'phone', label: 'Phone', type: 'tel', required: true, autoComplete: 'tel' },
+  { name: 'referralCode', label: 'Referral Code', type: 'text', required: false, autoComplete: 'off', placeholder: 'PSG5OFF' },
+  { name: 'companyName', label: 'Company Name', type: 'text', required: true, autoComplete: 'organization' },
+  { name: 'state', label: 'State', type: 'text', required: true, autoComplete: 'address-level1' },
+] as const
 
 export default function PSGLeadForm() {
   const [formData, setFormData] = useState({
@@ -50,6 +57,10 @@ export default function PSGLeadForm() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
+  // Name of the field currently holding keyboard focus. Drives the
+  // visible focus indicator (teal border) since inputs use
+  // outline: 'none' — required for keyboard accessibility.
+  const [focusedField, setFocusedField] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -59,11 +70,15 @@ export default function PSGLeadForm() {
     e.preventDefault()
     setSubmitting(true)
     setError(false)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS)
     try {
+      const referralCode = formData.referralCode.trim()
+      const state = formData.state.trim()
       const notes = [
         'Physician Side Gigs landing page',
-        formData.referralCode ? `Referral Code: ${formData.referralCode}` : '',
-        formData.state ? `State: ${formData.state}` : '',
+        referralCode ? `Referral Code: ${referralCode}` : '',
+        state ? `State: ${state}` : '',
       ]
         .filter(Boolean)
         .join(' | ')
@@ -71,12 +86,13 @@ export default function PSGLeadForm() {
       const res = await fetch('/api/crm/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           first_name: formData.firstName.trim() || 'Unknown',
           last_name: formData.lastName.trim() || 'Unknown',
-          email: formData.email,
-          phone: formData.phone,
-          practice_name: formData.companyName,
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          practice_name: formData.companyName.trim(),
           specialty: 'other',
           // Must match the leads.source CHECK constraint in the DB schema.
           // PSG attribution is preserved in `notes`.
@@ -88,8 +104,10 @@ export default function PSGLeadForm() {
       setSubmitted(true)
     } catch {
       setError(true)
+    } finally {
+      clearTimeout(timeout)
+      setSubmitting(false)
     }
-    setSubmitting(false)
   }
 
   if (submitted) {
@@ -135,25 +153,34 @@ export default function PSGLeadForm() {
           us at (877) 806-2286.
         </div>
       )}
-      {[
-        { name: 'firstName', label: 'First Name', type: 'text', required: true },
-        { name: 'lastName', label: 'Last Name', type: 'text', required: true },
-        { name: 'email', label: 'Email', type: 'email', required: true },
-        { name: 'phone', label: 'Phone', type: 'tel', required: true },
-        { name: 'referralCode', label: 'Referral Code', type: 'text', required: false, placeholder: 'PSG5OFF' },
-        { name: 'companyName', label: 'Company Name', type: 'text', required: true },
-        { name: 'state', label: 'State', type: 'text', required: true },
-      ].map((field) => (
+      {FIELDS.map((field) => (
         <div key={field.name}>
-          <label style={labelStyle}>{field.label}</label>
+          <label htmlFor={`psg-${field.name}`} style={labelStyle}>
+            {field.label}
+          </label>
           <input
+            id={`psg-${field.name}`}
             type={field.type}
             name={field.name}
-            value={formData[field.name as keyof typeof formData]}
+            value={formData[field.name]}
             onChange={handleChange}
+            onFocus={() => setFocusedField(field.name)}
+            onBlur={() => setFocusedField(null)}
             required={field.required}
-            placeholder={field.placeholder}
-            style={inputStyle}
+            autoComplete={field.autoComplete}
+            placeholder={'placeholder' in field ? field.placeholder : undefined}
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              border: `1px solid ${
+                focusedField === field.name ? 'var(--primary)' : 'var(--gray-200)'
+              }`,
+              borderRadius: 'var(--radius-sm)',
+              fontSize: 15,
+              fontFamily: 'var(--font-body)',
+              outline: 'none',
+              transition: 'border-color var(--transition-fast)',
+            }}
           />
         </div>
       ))}
