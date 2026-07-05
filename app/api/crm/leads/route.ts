@@ -224,6 +224,83 @@ async function submitHubSpotForm(lead: {
   }
 }
 
+/**
+ * Email the lead details to the sales inbox via Resend.
+ *
+ * Best-effort and bounded, exactly like the HubSpot mirrors: runs inside
+ * Promise.allSettled with the shared fetchWithTimeout, so a slow or failed
+ * Resend call can never delay or fail the lead capture. Supabase remains
+ * the system of record; this is a notification only.
+ *
+ * No-ops cleanly when no Resend key is configured (acts as an on/off
+ * switch with no deploy required). Reads `Resend_Email` (the name the
+ * Vercel env var was created under) with `RESEND_API_KEY` as fallback.
+ *
+ * The From address only requires the cosentus.com domain to be verified
+ * in Resend; the mailbox itself does not need to exist. Reply-To is set
+ * to the lead's email so sales can reply directly from the notification.
+ *
+ * Logging is PII-safe: only status codes and error messages are logged.
+ */
+async function sendLeadEmail(
+  lead: {
+    first_name?: string
+    last_name?: string
+    email?: string
+    phone?: string
+    practice_name?: string
+    specialty?: string
+    source?: string
+    notes?: string
+  },
+  isDuplicate: boolean,
+): Promise<void> {
+  const apiKey = process.env.Resend_Email || process.env.RESEND_API_KEY
+  if (!apiKey) return // feature off until a Resend key is configured
+
+  const name = [lead.first_name, lead.last_name].filter(Boolean).join(' ') || 'Unknown'
+  const subject = `${isDuplicate ? 'Returning lead' : 'New lead'}: ${name}${
+    lead.practice_name ? ` — ${lead.practice_name}` : ''
+  }`
+
+  const lines = [
+    `Name: ${name}`,
+    `Email: ${lead.email || 'not provided'}`,
+    `Phone: ${lead.phone || 'not provided'}`,
+    `Company / Practice: ${lead.practice_name || 'not provided'}`,
+    `Specialty: ${lead.specialty || 'not provided'}`,
+    `Source: ${lead.source || 'unknown'}`,
+    `Notes: ${lead.notes || 'none'}`,
+    isDuplicate
+      ? 'This contact already existed in the CRM; their record was updated with this new interaction.'
+      : 'This is a brand-new lead in the CRM.',
+  ]
+
+  try {
+    const res = await fetchWithTimeout('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Cosentus Website <website@cosentus.com>',
+        to: ['sales@cosentus.com'],
+        reply_to: lead.email || undefined,
+        subject,
+        text: lines.join('\n'),
+      }),
+    })
+    if (!res.ok) {
+      console.error('[Resend] lead email failed', { status: res.status })
+    }
+  } catch (err) {
+    console.error('[Resend] lead email error', {
+      message: err instanceof Error ? err.message : 'unknown',
+    })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -258,6 +335,7 @@ export async function POST(req: NextRequest) {
       await Promise.allSettled([
         syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
         submitHubSpotForm({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+        sendLeadEmail({ first_name, last_name, email, phone, practice_name, specialty, source, notes }, true),
       ])
       return NextResponse.json({ success: true, lead_id: existingId, duplicate: true })
     }
@@ -313,6 +391,7 @@ export async function POST(req: NextRequest) {
     await Promise.allSettled([
       syncToHubSpot({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
       submitHubSpotForm({ first_name, last_name, email, phone, practice_name, specialty, source, notes }),
+      sendLeadEmail({ first_name, last_name, email, phone, practice_name, specialty, source, notes }, false),
     ])
 
     return NextResponse.json({ success: true, lead_id: data.id, ai_score, temperature, assigned_to: assignee, duplicate: false })
