@@ -767,11 +767,6 @@ function CindyInner() {
     }
   }
 
-  const restoreCindy = () => {
-    setDismissed(false); setShowPopup(true)
-    try { window.localStorage.removeItem(DISMISS_KEY) } catch {}
-  }
-
   const stateLabel = actionLabel || (!isConnected ? 'Grace — Ai RCM Representative' : isSpeaking ? 'Speaking...' : 'Listening...')
 
   // Mobile FAB tap = auto-start the conversation (per user feedback Jun 2026).
@@ -788,15 +783,11 @@ function CindyInner() {
 
   return (
     <>
-      {/* Desktop only: existing dismissed-state restore FAB. Tap brings the
-          welcome card back so the user can read the intro again before
-          starting. Mobile uses handleMobileFABTap below instead. */}
-      {!isMobile && dismissed && (
-        <button onClick={restoreCindy} aria-label="Talk to Grace" className="cindy-avatar" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </button>
-      )}
+      {/* Desktop restore FAB removed (Jul 2026): it rendered on
+          !isMobile && dismissed — which the conversation strip's X sets —
+          so it reappeared over the GraceIntroWidget circle after every
+          dismissed voice call, and tapping it restored the retired
+          welcome card. GraceIntroWidget owns the desktop corner now. */}
 
       {/* Mobile only: small Grace FAB. Visible whenever Grace is summonable
           (initial 5s timer fired OR user previously dismissed) and we're not
