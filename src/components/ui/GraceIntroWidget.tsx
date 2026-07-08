@@ -92,8 +92,18 @@ export default function GraceIntroWidget() {
   const toggleSound = useCallback(() => {
     const v = videoRef.current
     if (!v) return
-    v.muted = !v.muted
-    setMuted(v.muted)
+    if (v.muted) {
+      // Unmuting mid-pitch would drop the viewer into the middle of the
+      // message — restart from the top with sound (user instruction Jul 2026).
+      v.muted = false
+      v.currentTime = 0
+      setProgress(0)
+      v.play().catch(() => {})
+      setMuted(false)
+    } else {
+      v.muted = true
+      setMuted(true)
+    }
   }, [])
 
   const openVoice = useCallback(() => {
