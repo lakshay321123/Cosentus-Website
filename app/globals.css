@@ -5322,16 +5322,26 @@ body:has(main.home-immersive) .footer-top {
 .grace-intro {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  /* Align the circle's right edge with the site container's content edge
+     (the Cosentus logo): container is max-width 1280px centered with
+     40px side padding, so on wide screens the offset is the leftover
+     half plus the padding; below 1280px the padding alone applies. */
+  right: max(40px, calc((100vw - var(--container)) / 2 + 40px));
   width: 300px;
   height: 300px;
   z-index: 9996;
   perspective: 1200px;
 }
+@media (max-width: 768px) {
+  .grace-intro {
+    right: 16px; /* container padding drops to 16px at this breakpoint */
+  }
+}
 .grace-intro-skip {
   position: absolute;
   top: -34px;
-  right: 2px;
+  left: 50%;
+  transform: translateX(-50%);
   background: none;
   border: none;
   padding: 4px;
