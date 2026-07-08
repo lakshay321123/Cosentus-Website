@@ -5460,12 +5460,12 @@ body:has(main.home-immersive) .footer-top {
   }
 }
 .grace-intro-hide {
-  /* Sits on the circle's rim at the top-right diagonal. Lives on the
-     container (not the clipped face) so it isn't cut by overflow:hidden. */
+  /* Inside the circle at the top-right diagonal. Center at ~127px from
+     the circle center (45°), so the 28px chip sits fully within the
+     145px inner radius (150 minus the 5px ring). */
   position: absolute;
-  top: 30px;
-  right: 30px;
-  transform: translate(50%, -50%);
+  top: 46px;
+  right: 46px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
