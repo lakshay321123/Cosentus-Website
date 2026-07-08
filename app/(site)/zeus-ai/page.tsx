@@ -13,7 +13,15 @@ export default function CosentusAIPage() {
     <main>
       <PageHero
         label="Zeus"
-        title={<>ZEUS<br />Ai-native RCM platform<br />that integrates with <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>any EHR.</span></>}
+        titleLogo={
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src="/images/zeus-hlth-white.png"
+            alt="ZEUS HLTH"
+            style={{ height: 'clamp(30px, 3.4vw, 46px)', width: 'auto', display: 'block' }}
+          />
+        }
+        title={<>Ai-native RCM platform<br />that integrates with <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>any EHR.</span></>}
         subtitle="Run by real specialty experts."
         ctaText="Request Demo"
         ctaHref="/contact"

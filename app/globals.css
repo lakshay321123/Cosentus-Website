@@ -5299,3 +5299,19 @@ body:has(main.home-immersive) .footer-top {
   font-size: clamp(32px, 4vw, 48px) !important;
   line-height: 1.1 !important;
 }
+
+/* Hero title logo slot (PageHero titleLogo prop) — sits above the
+   animated title. Fades in on the same beat as the first title words. */
+.hero-title-logo {
+  margin-bottom: 18px;
+  animation: heroTitleLogoIn 0.7s ease 0.05s both;
+}
+@keyframes heroTitleLogoIn {
+  from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-logo {
+    animation: none;
+  }
+}

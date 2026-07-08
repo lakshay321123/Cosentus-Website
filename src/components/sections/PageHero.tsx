@@ -4,6 +4,13 @@ import RevealText from '@/components/ui/RevealText'
 
 interface PageHeroProps {
   label?: string
+  /**
+   * Optional logo/wordmark rendered directly above the title, outside
+   * RevealText. Needed because RevealText's word-splitter only emits
+   * text units — an <img> placed inside `title` gets silently dropped.
+   * Pass a ready <img>/<Image> element; sizing is the caller's job.
+   */
+  titleLogo?: React.ReactNode
   title: React.ReactNode
   subtitle?: React.ReactNode
   /** Optional max-width for the subtitle <p>. Defaults to 680px (the
@@ -53,7 +60,7 @@ interface PageHeroProps {
   specialty?: boolean
 }
 
-export default function PageHero({ label, title, subtitle, subtitleMaxWidth, ctaText, ctaHref, videoSrc, compact, band, specialty }: PageHeroProps) {
+export default function PageHero({ label, titleLogo, title, subtitle, subtitleMaxWidth, ctaText, ctaHref, videoSrc, compact, band, specialty }: PageHeroProps) {
   // The /images/specialties-hero.mp4 (DNA helix) is significantly lighter than
   // the default hero video, so titles and CTAs read poorly. When that source
   // is in use, dim the video itself and strengthen the gradient overlay.
@@ -141,6 +148,12 @@ export default function PageHero({ label, title, subtitle, subtitleMaxWidth, cta
             : { paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 2 }
         }
       >
+        {titleLogo && (
+          <div className="hero-title-logo">
+            {titleLogo}
+          </div>
+        )}
+
         <RevealText as="h1" style={titleStyles} baseDelay={0.05} perWordDelay={0.07}>
           {title}
         </RevealText>
