@@ -5315,3 +5315,137 @@ body:has(main.home-immersive) .footer-top {
     animation: none;
   }
 }
+
+/* ===== GraceIntroWidget — circular intro video → Start a Conversation ===== */
+/* Styles live here (server-rendered CSS) rather than a client-injected
+   <style> block, to avoid the CindyVoiceAgent SSR hydration mismatch. */
+.grace-intro {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 300px;
+  height: 300px;
+  z-index: 9996;
+  perspective: 1200px;
+}
+.grace-intro-skip {
+  position: absolute;
+  top: -34px;
+  right: 2px;
+  background: none;
+  border: none;
+  padding: 4px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+.grace-intro-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.grace-intro-flip.is-flipped {
+  transform: rotateY(180deg);
+}
+.grace-intro-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.grace-intro-front {
+  background: #0b2733;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.grace-intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.grace-intro-sound {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.grace-intro-sound:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+.grace-intro-progress {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+.grace-intro-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #ffffff;
+}
+.grace-intro-back {
+  transform: rotateY(180deg);
+  background: rgba(96, 110, 122, 0.92);
+  border: 5px solid #36C2DE;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(54, 194, 222, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+.grace-intro-menu-title {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+}
+.grace-intro-menu-icons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.grace-intro-icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+  opacity: 0.95;
+}
+.grace-intro-icon-btn:hover {
+  transform: scale(1.12);
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grace-intro-flip {
+    transition: none;
+  }
+}

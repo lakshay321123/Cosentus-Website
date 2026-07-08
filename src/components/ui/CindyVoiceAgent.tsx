@@ -70,14 +70,13 @@ function CindyInner() {
     if (typeof window === 'undefined') return
     const isMobileViewport = window.matchMedia('(max-width: 480px)').matches
     if (isMobileViewport) return // mobile: skip cooldown, idle pill always shows
-    let dismissedUntil = 0
-    try {
-      const raw = window.localStorage.getItem(DISMISS_KEY)
-      if (raw) dismissedUntil = parseInt(raw, 10) || 0
-    } catch { /* localStorage blocked — fall through to default behavior */ }
-    if (dismissedUntil > Date.now()) { setDismissed(true); return }
-    const timer = setTimeout(() => setShowPopup(true), 5000)
-    return () => clearTimeout(timer)
+    // Desktop welcome card retired (Jul 2026) — GraceIntroWidget (the
+    // circular intro video → Start a Conversation widget) now owns the
+    // bottom-right corner on desktop and is the entry point for voice
+    // (via the 'grace-open-voice' event) and text chat. showPopup and
+    // dismissed stay false on desktop, so the welcome card, its 24h
+    // dismiss cooldown, and the restore FAB no longer render. Mobile
+    // behavior above is unchanged.
   }, [])
   const [blinking, setBlinking] = useState(false)
   const [actionLabel, setActionLabel] = useState('')
@@ -743,6 +742,15 @@ function CindyInner() {
   }, [conversation, pathname])
 
   const endConversation = useCallback(() => { conversation.endSession() }, [conversation])
+
+  // GraceIntroWidget dispatches 'grace-open-voice' when its mic icon is
+  // clicked. Same decoupled window-event pattern as 'grace-chat-opened'.
+  // Guarded so a stray event can't double-start a session.
+  useEffect(() => {
+    const handler = () => { if (!isConnected && !isStarting) startConversation() }
+    window.addEventListener('grace-open-voice', handler)
+    return () => window.removeEventListener('grace-open-voice', handler)
+  }, [isConnected, isStarting, startConversation])
 
   const dismissCindy = () => {
     // End the session if any is in progress (active call OR mid-handshake)
