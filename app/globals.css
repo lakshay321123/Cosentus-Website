@@ -5459,3 +5459,61 @@ body:has(main.home-immersive) .footer-top {
     transition: none;
   }
 }
+.grace-intro-hide {
+  /* Sits on the circle's rim at the top-right diagonal. Lives on the
+     container (not the clipped face) so it isn't cut by overflow:hidden. */
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transform: translate(50%, -50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s ease;
+}
+.grace-intro-hide:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+.grace-intro-restore {
+  /* Collapsed state: the original small Grace circle, stacked above the
+     chat FAB (which returns via the grace-intro-hidden event). Same spot
+     as the retired CindyVoiceAgent restore FAB: bottom 110 / right 28. */
+  position: fixed;
+  bottom: 110px;
+  right: 28px;
+  z-index: 9998;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #00B5D6;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #ffffff;
+  animation: graceIntroPulse 2s ease-in-out infinite;
+}
+.grace-intro-restore img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@keyframes graceIntroPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(0, 181, 214, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(0, 181, 214, 0.6), 0 0 0 6px rgba(0, 181, 214, 0.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grace-intro-restore {
+    animation: none;
+  }
+}

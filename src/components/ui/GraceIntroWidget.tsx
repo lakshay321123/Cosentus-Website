@@ -35,6 +35,10 @@ export default function GraceIntroWidget() {
   const [muted, setMuted] = useState(true)
   const [progress, setProgress] = useState(0) // 0..1
   const [videoFailed, setVideoFailed] = useState(false)
+  // User-hidden via the circle's ✕ — collapses to the small avatar FAB
+  // (the pre-widget bottom-right stack: small Grace circle + chat FAB).
+  // Resets on every page load, consistent with the widget itself.
+  const [hidden, setHidden] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const { isOpen, setIsOpen } = useChat()
 
@@ -61,7 +65,10 @@ export default function GraceIntroWidget() {
     }
   }, [])
 
-  const visible = mounted && !isMobile && !voiceActive && !isOpen
+  const visible = mounted && !isMobile && !voiceActive && !isOpen && !hidden
+  // The small restore avatar shows in the same idle window, but only
+  // when the user has collapsed the big circle.
+  const showRestoreFab = mounted && !isMobile && !voiceActive && !isOpen && hidden
 
   // Tell ChatWidget when we occupy the corner so it hides its chat FAB
   // (the deck's mockup has no separate chat bubble — the keyboard icon
@@ -116,6 +123,23 @@ export default function GraceIntroWidget() {
     setIsOpen(true)
   }, [setIsOpen])
 
+  const hideWidget = useCallback(() => {
+    try { videoRef.current?.pause() } catch {}
+    setFace('menu') // come back on the menu face after any restore
+    setHidden(true)
+  }, [])
+
+  const restoreWidget = useCallback(() => setHidden(false), [])
+
+  if (showRestoreFab) {
+    return (
+      <button className="grace-intro-restore" onClick={restoreWidget} aria-label="Open Grace — Ai RCM Representative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/grace-avatar.png" alt="Grace" />
+      </button>
+    )
+  }
+
   if (!visible) return null
 
   const showVideo = face === 'video' && !videoFailed
@@ -125,6 +149,11 @@ export default function GraceIntroWidget() {
       {showVideo && (
         <button className="grace-intro-skip" onClick={skip} aria-label="Skip intro video">
           SKIP
+        </button>
+      )}
+      {!showVideo && (
+        <button className="grace-intro-hide" onClick={hideWidget} aria-label="Hide Grace widget">
+          ✕
         </button>
       )}
       <div className={`grace-intro-flip${showVideo ? '' : ' is-flipped'}`}>
