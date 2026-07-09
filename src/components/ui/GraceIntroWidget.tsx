@@ -129,6 +129,28 @@ export default function GraceIntroWidget() {
     setHidden(true)
   }, [])
 
+  // Auto-collapse on scroll: the big circle belongs to the hero. The first
+  // time the user scrolls past ~80% of a viewport height, collapse to the
+  // small-circles state. Fires at most ONCE per page load (autoCollapsed
+  // ref) — otherwise restoring via the small avatar while still scrolled
+  // down would instantly re-collapse. Scrolling back up never reopens it;
+  // the restore avatar does. Initial check handles loads that start
+  // mid-page (browser back / anchor links).
+  const autoCollapsedRef = useRef(false)
+  useEffect(() => {
+    if (!mounted || isMobile || hidden || autoCollapsedRef.current) return
+    const onScroll = () => {
+      if (autoCollapsedRef.current) return
+      if (window.scrollY > window.innerHeight * 0.8) {
+        autoCollapsedRef.current = true
+        hideWidget()
+      }
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [mounted, isMobile, hidden, hideWidget])
+
   const restoreWidget = useCallback(() => setHidden(false), [])
 
   if (showRestoreFab) {
