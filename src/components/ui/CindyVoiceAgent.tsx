@@ -693,7 +693,25 @@ function CindyInner() {
   // list. Cleanup fires the 'ended' event so the chat FAB returns
   // even if this component unmounts mid-conversation or mid-idle
   // (e.g. navigation away with the strip on screen).
-  const stripVisible = (isMobile && !dismissed) || isStarting || isConnected
+  // GraceIntroWidget claims the bottom corner via 'grace-intro-shown' /
+  // 'grace-intro-hidden' (same pattern ChatWidget uses for its FAB).
+  // While it owns the corner, the mobile idle pill and the mobile Grace
+  // FAB stay hidden — the circle's mic is the voice entry point. Real
+  // calls (isStarting/isConnected) are unaffected: those stripVisible
+  // terms don't check introVisible, so the conversation UI always wins.
+  const [introVisible, setIntroVisible] = useState(false)
+  useEffect(() => {
+    const onShow = () => setIntroVisible(true)
+    const onHide = () => setIntroVisible(false)
+    window.addEventListener('grace-intro-shown', onShow)
+    window.addEventListener('grace-intro-hidden', onHide)
+    return () => {
+      window.removeEventListener('grace-intro-shown', onShow)
+      window.removeEventListener('grace-intro-hidden', onHide)
+    }
+  }, [])
+
+  const stripVisible = (isMobile && !dismissed && !introVisible) || isStarting || isConnected
   useEffect(() => {
     try {
       window.dispatchEvent(new Event(stripVisible ? 'grace-voice-started' : 'grace-voice-ended'))
@@ -798,7 +816,7 @@ function CindyInner() {
           above it. The previous right:16/bottom:80 placement put this FAB
           in a different column AND vertically overlapped the chat FAB by
           8px (chat FAB top edge sits at 88px from bottom). */}
-      {isMobile && dismissed && !isStarting && !isConnected && (
+      {isMobile && dismissed && !introVisible && !isStarting && !isConnected && (
         <button onClick={handleMobileFABTap} aria-label="Talk to Grace" className="cindy-mobile-fab" style={{ position: 'fixed', bottom: 110, right: 28, zIndex: 9998, width: 56, height: 56, borderRadius: '50%', border: '3px solid #00B5D6', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'white', boxShadow: '0 4px 20px rgba(0,181,214,0.3)', animation: 'cindyPulse 2s ease-in-out infinite' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/grace-avatar.png" alt="Grace" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -861,7 +879,7 @@ function CindyInner() {
           while it's connected. Layout: [X close on left] [wave fills rest].
           The wave amplitude is driven from ElevenLabs' getInputVolume /
           getOutputVolume so it reacts to the actual speaking voice. */}
-      {((isMobile && !dismissed) || isStarting || isConnected) && (
+      {stripVisible && (
         <div
           className="cindy-strip"
           role={!isStarting && !isConnected ? 'button' : 'dialog'}

@@ -5517,3 +5517,45 @@ body:has(main.home-immersive) .footer-top {
     animation: none;
   }
 }
+
+/* GraceIntroWidget — mobile sizes (Option B, Jul 2026). 200px circle,
+   16px gutter (mobile container padding). ✕ and mute stay 32px for
+   touch; positions recomputed for the 200px geometry (inner radius 95:
+   ✕ center at 45° ≈ 56px from box corner keeps its edge inside). */
+@media (max-width: 480px) {
+  .grace-intro {
+    width: 200px;
+    height: 200px;
+    bottom: 20px;
+  }
+  .grace-intro-skip {
+    top: -30px;
+    font-size: 15px;
+  }
+  .grace-intro-hide {
+    top: 32px;
+    right: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .grace-intro-sound {
+    bottom: 26px;
+  }
+  .grace-intro-progress {
+    bottom: 16px;
+  }
+  .grace-intro-back {
+    gap: 16px;
+    border-width: 4px;
+  }
+  .grace-intro-menu-title {
+    font-size: 19px;
+  }
+  .grace-intro-menu-icons {
+    gap: 20px;
+  }
+  .grace-intro-menu-icons svg {
+    transform: scale(0.8);
+  }
+}

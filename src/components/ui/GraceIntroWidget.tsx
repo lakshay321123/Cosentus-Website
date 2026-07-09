@@ -65,31 +65,45 @@ export default function GraceIntroWidget() {
     }
   }, [])
 
-  const visible = mounted && !isMobile && !voiceActive && !isOpen && !hidden
-  // The small restore avatar shows in the same idle window, but only
-  // when the user has collapsed the big circle.
+  // Corner-ownership intent vs render visibility, and why they differ:
+  // CindyVoiceAgent's mobile idle pill dispatches 'grace-voice-started'
+  // whenever it is on screen (its stripVisible effect), not only during
+  // real calls. If our shown/hidden events depended on voiceActive, the
+  // pill and the circle would deadlock on mobile (pill suppresses circle,
+  // circle never claims the corner, pill stays). So:
+  //   intent  — we own the bottom-right corner (drives the events that
+  //             hide the idle pill, the mobile Grace FAB, and the chat
+  //             FAB). Ignores voiceActive.
+  //   visible — actually rendered right now (hides during real calls
+  //             and while the chat panel is open).
+  const intent = mounted && !hidden && !isOpen
+  const visible = intent && !voiceActive
+  // Desktop-only: collapsed state shows our small restore avatar. On
+  // mobile (Option B, Jul 2026) collapsing returns to the original
+  // mobile UX — idle pill + chat FAB — so we render nothing there.
   const showRestoreFab = mounted && !isMobile && !voiceActive && !isOpen && hidden
 
-  // Tell ChatWidget when we occupy the corner so it hides its chat FAB
-  // (the deck's mockup has no separate chat bubble — the keyboard icon
-  // is the text-chat entry point while this widget is on screen).
+  // Claim/release the corner. CindyVoiceAgent (idle pill + mobile FAB)
+  // and ChatWidget (chat FAB) both listen for these.
   useEffect(() => {
+    if (!mounted) return
     try {
-      window.dispatchEvent(new Event(visible ? 'grace-intro-shown' : 'grace-intro-hidden'))
+      window.dispatchEvent(new Event(intent ? 'grace-intro-shown' : 'grace-intro-hidden'))
     } catch {}
     return () => {
-      if (visible) {
+      if (intent) {
         try { window.dispatchEvent(new Event('grace-intro-hidden')) } catch {}
       }
     }
-  }, [visible])
+  }, [mounted, intent])
 
-  // If voice or chat takes over mid-video, don't resume the pitch
-  // afterwards — come back on the menu face. Guarded on mounted so the
-  // initial pre-measurement render (visible=false) doesn't skip the video.
+  // If the chat panel takes over mid-video, don't resume the pitch
+  // afterwards — come back on the menu face. voiceActive is deliberately
+  // NOT part of this: the mobile idle pill's transient 'grace-voice-started'
+  // at bootstrap would skip the video before it ever played.
   useEffect(() => {
-    if (mounted && (voiceActive || isOpen) && face === 'video') setFace('menu')
-  }, [mounted, voiceActive, isOpen, face])
+    if (mounted && isOpen && face === 'video') setFace('menu')
+  }, [mounted, isOpen, face])
 
   const skip = useCallback(() => {
     try { videoRef.current?.pause() } catch {}
@@ -138,7 +152,7 @@ export default function GraceIntroWidget() {
   // mid-page (browser back / anchor links).
   const autoCollapsedRef = useRef(false)
   useEffect(() => {
-    if (!mounted || isMobile || hidden || autoCollapsedRef.current) return
+    if (!mounted || hidden || autoCollapsedRef.current) return
     const onScroll = () => {
       if (autoCollapsedRef.current) return
       if (window.scrollY > window.innerHeight * 0.8) {
@@ -149,7 +163,7 @@ export default function GraceIntroWidget() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [mounted, isMobile, hidden, hideWidget])
+  }, [mounted, hidden, hideWidget])
 
   const restoreWidget = useCallback(() => setHidden(false), [])
 
@@ -184,7 +198,7 @@ export default function GraceIntroWidget() {
           <video
             ref={videoRef}
             className="grace-intro-video"
-            src="/videos/grace-intro.mp4"
+            src={isMobile ? '/videos/grace-intro-mobile.mp4' : '/videos/grace-intro.mp4'}
             autoPlay
             muted
             playsInline
