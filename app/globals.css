@@ -5536,7 +5536,25 @@ body:has(main.home-immersive) .footer-top {
     position: relative;
     bottom: auto;
     right: auto;
-    margin: 52px auto 8px;
+    margin: 36px auto 20px;
+  }
+  /* Push the circle down into the hero's spare space (Jul 9 feedback:
+     "video can be shifted down"). HeroSection's own <style> forces
+     .hero to display:block (its comment explains why) and wins by
+     source order, so stretching from the hero is a dead end — give
+     the layout grid the viewport min-height directly instead. It is
+     already a flex column on mobile, so hero-left stretches and the
+     slot's margin-top:auto anchors the circle toward the bottom of
+     the first screen. Scoped to ≤480px — the slot only exists there. */
+  .home-immersive .hero .hero-layout-grid {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  .home-immersive .hero .hero-left {
+    flex: 1 1 auto;
+  }
+  .home-immersive .grace-intro-inline-slot {
+    margin-top: auto;
   }
   .grace-intro {
     width: 200px;
