@@ -5536,7 +5536,7 @@ body:has(main.home-immersive) .footer-top {
     position: relative;
     bottom: auto;
     right: auto;
-    margin: 40px auto 8px;
+    margin: 52px auto 8px;
   }
   .grace-intro {
     width: 200px;
@@ -5571,5 +5571,17 @@ body:has(main.home-immersive) .footer-top {
   }
   .grace-intro-menu-icons svg {
     transform: scale(0.8);
+  }
+}
+
+/* Mobile home hero fills the first viewport (Jul 2026). The desktop-only
+   min-height:100vh rule (min-width:769px block above) left the mobile
+   hero at content height, so the Results section's heading peeked into
+   the first screen under the intro circle. svh avoids the mobile URL-bar
+   overflow that plain vh causes; vh kept as fallback. */
+@media (max-width: 768px) {
+  .home-immersive .hero {
+    min-height: 100vh;
+    min-height: 100svh;
   }
 }
