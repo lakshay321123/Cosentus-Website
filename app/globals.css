@@ -5315,3 +5315,295 @@ body:has(main.home-immersive) .footer-top {
     animation: none;
   }
 }
+
+/* ===== GraceIntroWidget — circular intro video → Start a Conversation ===== */
+/* Styles live here (server-rendered CSS) rather than a client-injected
+   <style> block, to avoid the CindyVoiceAgent SSR hydration mismatch. */
+.grace-intro {
+  position: fixed;
+  bottom: 24px;
+  /* Align the circle's right edge with the site container's content edge
+     (the Cosentus logo): container is max-width 1280px centered with
+     40px side padding, so on wide screens the offset is the leftover
+     half plus the padding; below 1280px the padding alone applies. */
+  right: max(40px, calc((100vw - var(--container)) / 2 + 40px));
+  width: 300px;
+  height: 300px;
+  z-index: 9996;
+  perspective: 1200px;
+}
+@media (max-width: 768px) {
+  .grace-intro {
+    right: 16px; /* container padding drops to 16px at this breakpoint */
+  }
+}
+.grace-intro-skip {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+.grace-intro-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.grace-intro-flip.is-flipped {
+  transform: rotateY(180deg);
+}
+.grace-intro-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.grace-intro-front {
+  background: #0b2733;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.grace-intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.grace-intro-sound {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.grace-intro-sound:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+.grace-intro-progress {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+.grace-intro-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #ffffff;
+}
+.grace-intro-back {
+  transform: rotateY(180deg);
+  background: rgba(96, 110, 122, 0.92);
+  border: 5px solid #36C2DE;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(54, 194, 222, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+.grace-intro-menu-title {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+}
+.grace-intro-menu-icons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.grace-intro-icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+  opacity: 0.95;
+}
+.grace-intro-icon-btn:hover {
+  transform: scale(1.12);
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grace-intro-flip {
+    transition: none;
+  }
+}
+.grace-intro-hide {
+  /* Inside the circle at the top-right diagonal. Center at ~127px from
+     the circle center (45°), so the 28px chip sits fully within the
+     145px inner radius (150 minus the 5px ring). */
+  position: absolute;
+  top: 46px;
+  right: 46px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s ease;
+}
+.grace-intro-hide:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+.grace-intro-restore {
+  /* Collapsed state: the original small Grace circle, stacked above the
+     chat FAB (which returns via the grace-intro-hidden event). Same spot
+     as the retired CindyVoiceAgent restore FAB: bottom 110 / right 28. */
+  position: fixed;
+  bottom: 110px;
+  right: 28px;
+  z-index: 9998;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #00B5D6;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: #ffffff;
+  animation: graceIntroPulse 2s ease-in-out infinite;
+}
+.grace-intro-restore img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@keyframes graceIntroPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(0, 181, 214, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(0, 181, 214, 0.6), 0 0 0 6px rgba(0, 181, 214, 0.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grace-intro-restore {
+    animation: none;
+  }
+}
+
+/* GraceIntroWidget — mobile (rework Jul 2026): the circle is IN THE HERO
+   FLOW via #grace-intro-inline-slot (portal target), centered under the
+   CTA buttons, scrolling naturally with the page. Not a fixed overlay —
+   short mobile viewports put the next section under a fixed corner
+   widget and they collide. Slot is display:none above 480px. */
+.grace-intro-inline-slot {
+  display: none;
+}
+@media (max-width: 480px) {
+  .grace-intro-inline-slot {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .grace-intro--inline {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin: 36px auto 20px;
+    /* The fixed desktop widget needs z-index 9996; in-flow on mobile it
+       must NOT ride over the sticky nav (z-index 1000) while scrolling. */
+    z-index: 1;
+  }
+  /* Push the circle down into the hero's spare space (Jul 9 feedback:
+     "video can be shifted down"). HeroSection's own <style> forces
+     .hero to display:block (its comment explains why) and wins by
+     source order, so stretching from the hero is a dead end — give
+     the layout grid the viewport min-height directly instead. It is
+     already a flex column on mobile, so hero-left stretches and the
+     slot's margin-top:auto anchors the circle toward the bottom of
+     the first screen. Scoped to ≤480px — the slot only exists there. */
+  .home-immersive .hero .hero-layout-grid {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  .home-immersive .hero .hero-left {
+    flex: 1 1 auto;
+  }
+  .home-immersive .grace-intro-inline-slot {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .grace-intro {
+    width: 200px;
+    height: 200px;
+  }
+  .grace-intro-skip {
+    top: -30px;
+    font-size: 15px;
+  }
+  .grace-intro-hide {
+    top: 32px;
+    right: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .grace-intro-sound {
+    bottom: 26px;
+  }
+  .grace-intro-progress {
+    bottom: 16px;
+  }
+  .grace-intro-back {
+    gap: 16px;
+    border-width: 4px;
+  }
+  .grace-intro-menu-title {
+    font-size: 19px;
+  }
+  .grace-intro-menu-icons {
+    gap: 20px;
+  }
+  .grace-intro-menu-icons svg {
+    transform: scale(0.8);
+  }
+}
+
+/* Mobile home hero fills the first viewport (Jul 2026). The desktop-only
+   min-height:100vh rule (min-width:769px block above) left the mobile
+   hero at content height, so the Results section's heading peeked into
+   the first screen under the intro circle. svh avoids the mobile URL-bar
+   overflow that plain vh causes; vh kept as fallback. */
+@media (max-width: 768px) {
+  .home-immersive .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+}

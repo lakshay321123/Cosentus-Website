@@ -44,6 +44,23 @@ export default function ChatWidget() {
     }
   }, [])
 
+  // Intro-widget gate. GraceIntroWidget dispatches 'grace-intro-shown' /
+  // 'grace-intro-hidden' while its circle occupies the bottom-right
+  // corner (desktop). Its keyboard icon is the text-chat entry point
+  // during that window, so we hide this FAB to match the approved
+  // mockup (no separate chat bubble) and avoid the circle covering it.
+  const [introVisible, setIntroVisible] = useState(false)
+  useEffect(() => {
+    const onShow = () => setIntroVisible(true)
+    const onHide = () => setIntroVisible(false)
+    window.addEventListener('grace-intro-shown', onShow)
+    window.addEventListener('grace-intro-hidden', onHide)
+    return () => {
+      window.removeEventListener('grace-intro-shown', onShow)
+      window.removeEventListener('grace-intro-hidden', onHide)
+    }
+  }, [])
+
   // Auto-scroll to bottom on every chunk arrival. We key on cumulative char
   // count across all messages so each SSE chunk that grows the last message's
   // text triggers a scroll, not just message count changes.
@@ -101,7 +118,7 @@ export default function ChatWidget() {
   return (
     <>
       {/* Floating bubble — closed state */}
-      {!isOpen && !voiceActive && (
+      {!isOpen && !voiceActive && !introVisible && (
         <button
           onClick={() => {
             // Notify CindyVoiceAgent so an active Grace voice session is

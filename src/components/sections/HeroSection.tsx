@@ -123,6 +123,14 @@ export default function HeroSection() {
               />
             </Link>
           </div>
+
+          {/* Mobile-only (≤480px): GraceIntroWidget portals its intro
+              circle here so it sits IN THE HERO FLOW — headline, sub,
+              buttons, then the centered video circle — instead of
+              floating fixed over whatever section lands bottom-right
+              on a short mobile viewport. Empty and display:none on
+              desktop (see .grace-intro-inline-slot in globals.css). */}
+          <div id="grace-intro-inline-slot" className="grace-intro-inline-slot" />
         </div>
       </div>
 
