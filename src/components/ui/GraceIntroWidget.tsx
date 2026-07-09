@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
+import { usePathname } from 'next/navigation'
 import { useChat } from './ChatContext'
 
 // GraceIntroWidget — circular intro video (bottom-right, desktop only).
@@ -42,6 +44,39 @@ export default function GraceIntroWidget() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const { isOpen, setIsOpen } = useChat()
 
+  // Mobile placement (rework Jul 2026 after fixed-corner feedback):
+  // on ≤480px the circle is NOT a fixed overlay — short viewports put
+  // whatever section follows the hero under it and it collides with
+  // content. Instead it portals into #grace-intro-inline-slot inside
+  // the home hero (headline → sub → buttons → centered circle) and
+  // scrolls away naturally. Pages without the slot get no circle on
+  // mobile — the idle pill stays their voice entry.
+  const pathname = usePathname()
+  const [slotEl, setSlotEl] = useState<HTMLElement | null>(null)
+  useEffect(() => {
+    // Re-query per navigation: the slot lives in page content, which
+    // remounts on route change while this widget (site layout) persists.
+    setSlotEl(document.getElementById('grace-intro-inline-slot'))
+  }, [pathname, mounted])
+
+  // Is the inline circle actually in view? Drives mobile corner
+  // ownership: circle visible → pill hidden; scrolled past → pill back.
+  // Two-way by design (unlike desktop's one-way collapse) because the
+  // in-flow circle naturally re-enters the viewport when scrolling up.
+  const inlineWrapRef = useRef<HTMLDivElement>(null)
+  const [inlineInView, setInlineInView] = useState(false)
+  useEffect(() => {
+    if (!isMobile || !slotEl || hidden) { setInlineInView(false); return }
+    const el = inlineWrapRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => setInlineInView(entries[0].isIntersecting),
+      { threshold: 0.35 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [isMobile, slotEl, hidden, isOpen])
+
   useEffect(() => {
     setMounted(true)
     const mq = window.matchMedia('(max-width: 480px)')
@@ -65,22 +100,20 @@ export default function GraceIntroWidget() {
     }
   }, [])
 
-  // Corner-ownership intent vs render visibility, and why they differ:
-  // CindyVoiceAgent's mobile idle pill dispatches 'grace-voice-started'
-  // whenever it is on screen (its stripVisible effect), not only during
-  // real calls. If our shown/hidden events depended on voiceActive, the
-  // pill and the circle would deadlock on mobile (pill suppresses circle,
-  // circle never claims the corner, pill stays). So:
-  //   intent  — we own the bottom-right corner (drives the events that
-  //             hide the idle pill, the mobile Grace FAB, and the chat
-  //             FAB). Ignores voiceActive.
-  //   visible — actually rendered right now (hides during real calls
-  //             and while the chat panel is open).
-  const intent = mounted && !hidden && !isOpen
+  // Corner-ownership intent vs render visibility:
+  //   Desktop — intent = mounted && !hidden && !isOpen (fixed circle
+  //     owns the corner until collapsed; one-way scroll collapse below).
+  //   Mobile — intent = the inline hero circle is meaningfully in view.
+  //     Two-way: scroll past → pill + chat FAB come back; scroll up →
+  //     circle re-enters, pill hides again. Ignores voiceActive in both
+  //     cases: CindyVoiceAgent's idle pill dispatches
+  //     'grace-voice-started' whenever the pill itself is on screen, so
+  //     keying intent on voiceActive would deadlock pill vs circle.
+  const intent = mounted && !hidden && !isOpen && (isMobile ? inlineInView : true)
   const visible = intent && !voiceActive
   // Desktop-only: collapsed state shows our small restore avatar. On
-  // mobile (Option B, Jul 2026) collapsing returns to the original
-  // mobile UX — idle pill + chat FAB — so we render nothing there.
+  // mobile, collapsing/scrolling away returns to the original mobile
+  // UX — idle pill + chat FAB.
   const showRestoreFab = mounted && !isMobile && !voiceActive && !isOpen && hidden
 
   // Claim/release the corner. CindyVoiceAgent (idle pill + mobile FAB)
@@ -152,7 +185,7 @@ export default function GraceIntroWidget() {
   // mid-page (browser back / anchor links).
   const autoCollapsedRef = useRef(false)
   useEffect(() => {
-    if (!mounted || hidden || autoCollapsedRef.current) return
+    if (!mounted || isMobile || hidden || autoCollapsedRef.current) return
     const onScroll = () => {
       if (autoCollapsedRef.current) return
       if (window.scrollY > window.innerHeight * 0.8) {
@@ -163,25 +196,21 @@ export default function GraceIntroWidget() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [mounted, hidden, hideWidget])
+  }, [mounted, isMobile, hidden, hideWidget])
 
   const restoreWidget = useCallback(() => setHidden(false), [])
 
-  if (showRestoreFab) {
-    return (
-      <button className="grace-intro-restore" onClick={restoreWidget} aria-label="Open Grace — Ai RCM Representative">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/grace-avatar.png" alt="Grace" />
-      </button>
-    )
-  }
-
-  if (!visible) return null
-
   const showVideo = face === 'video' && !videoFailed
 
-  return (
-    <div className="grace-intro" role="complementary" aria-label="Grace — Ai RCM Representative">
+  // Shared circle markup. variant 'fixed' = desktop bottom-right overlay;
+  // 'inline' = mobile in-flow hero circle (centered, scrolls with content).
+  const circle = (variant: 'fixed' | 'inline') => (
+    <div
+      ref={variant === 'inline' ? inlineWrapRef : undefined}
+      className={`grace-intro${variant === 'inline' ? ' grace-intro--inline' : ''}`}
+      role="complementary"
+      aria-label="Grace — Ai RCM Representative"
+    >
       {showVideo && (
         <button className="grace-intro-skip" onClick={skip} aria-label="Skip intro video">
           SKIP
@@ -274,4 +303,26 @@ export default function GraceIntroWidget() {
       </div>
     </div>
   )
+
+  // ── Mobile (≤480px): in-flow circle inside the home hero slot ──
+  // Rendered whenever the slot exists and the user hasn't ✕'d it or
+  // opened chat — NOT gated on inlineInView, because the circle must
+  // stay mounted for the IntersectionObserver to see it re-enter the
+  // viewport. Pages without the slot render nothing (pill UX).
+  if (isMobile) {
+    if (!mounted || !slotEl || hidden || isOpen) return null
+    return createPortal(circle('inline'), slotEl)
+  }
+
+  // ── Desktop: unchanged fixed-corner behavior ──
+  if (showRestoreFab) {
+    return (
+      <button className="grace-intro-restore" onClick={restoreWidget} aria-label="Open Grace — Ai RCM Representative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/grace-avatar.png" alt="Grace" />
+      </button>
+    )
+  }
+  if (!visible) return null
+  return circle('fixed')
 }

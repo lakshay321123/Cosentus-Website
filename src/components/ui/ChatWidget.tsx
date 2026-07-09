@@ -36,6 +36,12 @@ export default function ChatWidget() {
   useEffect(() => {
     const onStart = () => setVoiceActive(true)
     const onEnd = () => setVoiceActive(false)
+    window.addEventListener('grace-voice-started', onStart)
+    window.addEventListener('grace-voice-ended', onEnd)
+    return () => {
+      window.removeEventListener('grace-voice-started', onStart)
+      window.removeEventListener('grace-voice-ended', onEnd)
+    }
   }, [])
 
   // Intro-widget gate. GraceIntroWidget dispatches 'grace-intro-shown' /

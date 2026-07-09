@@ -5518,15 +5518,29 @@ body:has(main.home-immersive) .footer-top {
   }
 }
 
-/* GraceIntroWidget — mobile sizes (Option B, Jul 2026). 200px circle,
-   16px gutter (mobile container padding). ✕ and mute stay 32px for
-   touch; positions recomputed for the 200px geometry (inner radius 95:
-   ✕ center at 45° ≈ 56px from box corner keeps its edge inside). */
+/* GraceIntroWidget — mobile (rework Jul 2026): the circle is IN THE HERO
+   FLOW via #grace-intro-inline-slot (portal target), centered under the
+   CTA buttons, scrolling naturally with the page. Not a fixed overlay —
+   short mobile viewports put the next section under a fixed corner
+   widget and they collide. Slot is display:none above 480px. */
+.grace-intro-inline-slot {
+  display: none;
+}
 @media (max-width: 480px) {
+  .grace-intro-inline-slot {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .grace-intro--inline {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin: 40px auto 8px;
+  }
   .grace-intro {
     width: 200px;
     height: 200px;
-    bottom: 20px;
   }
   .grace-intro-skip {
     top: -30px;
