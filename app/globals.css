@@ -5537,6 +5537,9 @@ body:has(main.home-immersive) .footer-top {
     bottom: auto;
     right: auto;
     margin: 36px auto 20px;
+    /* The fixed desktop widget needs z-index 9996; in-flow on mobile it
+       must NOT ride over the sticky nav (z-index 1000) while scrolling. */
+    z-index: 1;
   }
   /* Push the circle down into the hero's spare space (Jul 9 feedback:
      "video can be shifted down"). HeroSection's own <style> forces
