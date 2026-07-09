@@ -5555,6 +5555,7 @@ body:has(main.home-immersive) .footer-top {
   }
   .home-immersive .grace-intro-inline-slot {
     margin-top: auto;
+    margin-bottom: auto;
   }
   .grace-intro {
     width: 200px;
