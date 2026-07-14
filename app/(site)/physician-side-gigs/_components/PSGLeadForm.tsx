@@ -150,7 +150,7 @@ export default function PSGLeadForm() {
           }}
         >
           Something went wrong submitting your request. Please try again, or call
-          us at (877) 806-2286.
+          us at +1 (877) 266 9040.
         </div>
       )}
       {FIELDS.map((field) => (

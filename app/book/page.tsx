@@ -202,7 +202,7 @@ export default function BookingPage() {
         )}
 
         <div style={{ textAlign: 'center', marginTop: 40, fontSize: 12, color: '#000000' }}>
-          Cosentus · (877) 806-2286 · cosentus.com
+          Cosentus · +1 (877) 266 9040 · cosentus.com
         </div>
       </div>
     </div>

@@ -637,7 +637,7 @@ export default function PartnershipContent() {
                       fontSize: 14,
                     }}
                   >
-                    Something went wrong submitting your request. Please try again, or call us at (877) 806-2286.
+                    Something went wrong submitting your request. Please try again, or call us at +1 (877) 266 9040.
                   </div>
                 )}
                 <input type="text" name="firstName" value={pform.firstName} onChange={handlePartnershipChange} placeholder="First Name *" aria-label="First Name" required />

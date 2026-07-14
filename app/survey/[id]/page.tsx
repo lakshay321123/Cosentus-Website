@@ -87,7 +87,7 @@ export default function SurveyResponsePage({ params }: { params: Promise<{ id: s
           cursor: score !== null ? 'pointer' : 'not-allowed', fontFamily: "'Reddit Sans', sans-serif",
         }}>Submit Feedback</button>
 
-        <div style={{ textAlign: 'center', marginTop: 32, fontSize: 12, color: '#CCCCCC' }}>Cosentus · (877) 806-2286 · cosentus.com</div>
+        <div style={{ textAlign: 'center', marginTop: 32, fontSize: 12, color: '#CCCCCC' }}>Cosentus · +1 (877) 266 9040 · cosentus.com</div>
       </div>
     </div>
   )

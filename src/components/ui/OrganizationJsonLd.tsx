@@ -16,7 +16,7 @@ import { SITE_URL } from '@/lib/site-url'
  *     endpoint, so a SearchAction would point nowhere and is omitted.
  *
  * Data sources: SITE_URL (src/lib/site-url), HQ address from the Irvine entry
- * in app/(site)/contact/_data/locations.ts, toll-free line (877) 806-2286.
+ * in app/(site)/contact/_data/locations.ts, toll-free line +1 (877) 266 9040.
  */
 export default function OrganizationJsonLd() {
   const json = {
@@ -32,7 +32,7 @@ export default function OrganizationJsonLd() {
           'Cosentus is a specialty RCM partner with 25+ years of expertise, amplified by Real + Artificial Intelligence.',
         contactPoint: {
           '@type': 'ContactPoint',
-          telephone: '+1-877-806-2286',
+          telephone: '+1-877-266-9040',
           contactType: 'customer service',
           areaServed: 'US',
           availableLanguage: 'English',

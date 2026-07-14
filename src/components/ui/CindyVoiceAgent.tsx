@@ -265,7 +265,7 @@ function CindyInner() {
           setActionLabel('')
           // Truthful failure — form didn't load. Give agent a workable path
           // instead of falsely claiming success. Phone matches site-wide CTA.
-          return 'I couldn\'t reach the contact form — you can call the team directly at (877) 806-2286 or I can try again.'
+          return 'I couldn\'t reach the contact form — you can call the team directly at +1 (877) 266 9040 or I can try again.'
         }
 
         // Scroll to form BEFORE filling so the user watches it populate.
