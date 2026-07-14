@@ -150,7 +150,7 @@ Full service practice growth partner. 25+ years in healthcare revenue cycle mana
 CO SENT US means "Together we Conquer."
 
 HQ: Irvine, California. Offices in Phoenix, Mission TX, Napa, Dallas, Utah, Olathe KS.
-Phone: (877) 806-2286. Email: sales@cosentus.com
+Phone: +1 (877) 266 9040. Email: sales@cosentus.com
 Careers: hr@cosentus.com
 
 REAL + ARTIFICIAL INTELLIGENCE (R+A):
@@ -257,7 +257,7 @@ PARTNERSHIP:
 Preferred partner for billing companies. 1,000+ RCM experts. 19 successful acquisitions integrated. Inc 5000 four years running. Great Place to Work three consecutive years.
 
 FOR PATIENTS:
-If someone has a billing question, be empathetic and helpful. Direct them to (877) 806-2286 or sales@cosentus.com. Don't try to resolve billing disputes yourself.
+If someone has a billing question, be empathetic and helpful. Direct them to +1 (877) 266 9040 or sales@cosentus.com. Don't try to resolve billing disputes yourself.
 
 FOR JOB SEEKERS:
 Be enthusiastic. "We're independently owned, Great Place to Work certified three years running, and 80% of our founding team is still here. That says something." Direct to careers page or hr@cosentus.com.
@@ -313,11 +313,11 @@ ABOUT US (/about):
 - Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
 - Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
   * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
-  * Phoenix, AZ — (877) 806-2286
-  * Mission, TX — (877) 806-2286
-  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 806-2286
+  * Phoenix, AZ — +1 (877) 266 9040
+  * Mission, TX — +1 (877) 266 9040
+  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — +1 (877) 266 9040
   * Dallas, TX — (888) 521-0055
-  * Salt Lake City, UT — (877) 806-2286
+  * Salt Lake City, UT — +1 (877) 266 9040
   * Olathe, KS — (913) 262-2323
   Each office card links to Google Maps when clicked. Hover turns them blue.
 
@@ -341,7 +341,7 @@ RESOURCES (/resources):
 - 3 white papers (coming soon)
 - Click any case study to view the PDF inside the website
 
-CONTACT (/contact) — Phone: (877) 806-2286, Email: sales@cosentus.com
+CONTACT (/contact) — Phone: +1 (877) 266 9040, Email: sales@cosentus.com
 CAREERS (/careers) — Job listings, Join Our Team button (mailto hr@cosentus.com)
 
 When someone asks about offices, addresses, locations, or "where are you located", tell them the specific addresses and offer to show the offices section. When they ask about a team member, tell them the name and title and offer to show the leadership section.`
@@ -392,11 +392,11 @@ ABOUT US (/about):
 - Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
 - Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
   * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
-  * Phoenix, AZ — (877) 806-2286
-  * Mission, TX — (877) 806-2286
-  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — (877) 806-2286
+  * Phoenix, AZ — +1 (877) 266 9040
+  * Mission, TX — +1 (877) 266 9040
+  * Napa, CA: 550 Gateway Dr #100, Napa, CA 94558 — +1 (877) 266 9040
   * Dallas, TX — (888) 521-0055
-  * Salt Lake City, UT — (877) 806-2286
+  * Salt Lake City, UT — +1 (877) 266 9040
   * Olathe, KS — (913) 262-2323
   Each office card links to Google Maps when clicked. Hover turns them blue.
 
@@ -420,7 +420,7 @@ RESOURCES (/resources):
 - 3 white papers (coming soon)
 - Click any case study to view the PDF inside the website
 
-CONTACT (/contact) — Phone: (877) 806-2286, Email: sales@cosentus.com
+CONTACT (/contact) — Phone: +1 (877) 266 9040, Email: sales@cosentus.com
 CAREERS (/careers) — Job listings, Join Our Team button (mailto hr@cosentus.com)
 
 When someone asks about offices, addresses, locations, or "where are you located", tell them the specific addresses and offer to show the offices section. When they ask about a team member, tell them the name and title and offer to show the leadership section.\n\n`
@@ -481,7 +481,7 @@ When someone asks about offices, addresses, locations, or "where are you located
       async start(controller) {
         const reader = response.body?.getReader()
         if (!reader) {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', text: "Having a moment here. Call us at (877) 806-2286!" })}\n\n`))
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', text: "Having a moment here. Call us at +1 (877) 266 9040!" })}\n\n`))
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', navigate: null })}\n\n`))
           controller.close()
           return

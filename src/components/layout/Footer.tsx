@@ -63,7 +63,7 @@ export default function Footer() {
                 style={{ height: 32, width: 'auto', filter: 'brightness(0) invert(1)', display: 'block' }}
               />
               <p style={{ marginTop: 12, fontSize: 14, color: 'var(--white)' }}>
-                (877) 806-2286 &nbsp;|&nbsp;{' '}
+                +1 (877) 266 9040 &nbsp;|&nbsp;{' '}
                 <a href="mailto:sales@cosentus.com">sales@cosentus.com</a>
               </p>
             </div>

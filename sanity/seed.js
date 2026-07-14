@@ -16,7 +16,7 @@ async function seed() {
     _id: 'siteSettings',
     _type: 'siteSettings',
     siteName: 'Cosentus',
-    phone: '(877) 806-2286',
+    phone: '+1 (877) 266 9040',
     email: 'wecare@cosentus.com',
     address: '300 Spectrum Center Drive, Suite 1450, Irvine CA 92618',
     ctaText: 'Get Your Free Revenue Analysis',

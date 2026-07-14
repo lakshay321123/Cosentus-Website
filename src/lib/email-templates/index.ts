@@ -28,7 +28,7 @@ const BRAND = {
   border: '#E6E6E6',
   white: '#ffffff',
   logoUrl: 'https://cosentus.com/images/cosentus-logo.png',
-  phone: '(877) 806-2286',
+  phone: '+1 (877) 266 9040',
   email: 'sales@cosentus.com',
   website: 'https://cosentus.com',
   bookingUrl: 'https://cosentus.com/book',
