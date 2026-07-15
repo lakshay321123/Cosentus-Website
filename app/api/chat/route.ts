@@ -310,7 +310,7 @@ ABOUT US (/about):
 - Company description, beliefs (customers first, transparency, accountability, specialty focus)
 - Company numbers: 25+ years, 99% retention, up to 30% revenue growth
 - Why independent matters section
-- Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
+- Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Rajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
 - Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
   * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
   * Phoenix, AZ — +1 (877) 266 9040
@@ -389,7 +389,7 @@ ABOUT US (/about):
 - Company description, beliefs (customers first, transparency, accountability, specialty focus)
 - Company numbers: 25+ years, 99% retention, up to 30% revenue growth
 - Why independent matters section
-- Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Pajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
+- Executive Leadership (#leadership) — 13 team members with photos and bios: GS Bhalla (CEO), JR Thompson (COO), Manisha Bhalla (CPO), Viktor Alvarado (CFO), Stephen Williamson (Chief Growth Officer), Allen Ranjan (CCO), Andrew Clougherty (Sr. Director Client Services), David Langsam (Board Advisor), Raja Inder Bhalla (Managing Director), Ashwin Rajpal (Global Brand Director), Wayne Wertz (Sr. Director HR), Ajay Kumar (COO RCM), Aman Bhasin (Sr. VP Global Ops)
 - Our Offices — 7 offices with CLICKABLE cards linking to Google Maps:
   * Irvine, CA (HQ): 300 Spectrum Center Dr, Suite 1450, Irvine, CA 92618 — Phone: (949) 216-4280
   * Phoenix, AZ — +1 (877) 266 9040
