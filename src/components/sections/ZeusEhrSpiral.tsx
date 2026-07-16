@@ -462,7 +462,8 @@ export default function ZeusEhrSpiral() {
           position: 'absolute',
           left: '50%',
           top: '50%',
-          width: '26%', // smaller per user (Jun 2026); was 36%
+          width: '44%', // ZEUS+HLTH wordmark is very wide (10.3:1); 44% keeps
+          // its visual weight close to the old stacked logo at 26%.
           transform: `translate(-50%, -50%) translateY(${logoVisible ? 0 : 16}px)`,
           opacity: logoVisible ? 1 : 0,
           transition: reduceMotion ? 'none' : 'opacity 1.5s ease-out, transform 1.5s ease-out',
@@ -471,17 +472,15 @@ export default function ZeusEhrSpiral() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/zeus/zeus-logo-v.png"
+          src="/images/zeus/zeus-hlth-white.png"
           alt="Zeus"
           style={{
             width: '100%',
             height: 'auto',
             display: 'block',
-            // No white logo asset exists; the source PNG is teal on
-            // transparent. brightness(0) invert(1) maps every opaque
-            // pixel to pure white, transparency preserved. Then the
-            // white glow. Per user (Jun 2026): "zeus logo also white".
-            filter: 'brightness(0) invert(1) drop-shadow(0 0 22px rgba(255,255,255,0.30))',
+            // Asset is already white on transparent (ZEUS+HLTH wordmark,
+            // Jul 2026), so no brightness/invert needed — just the glow.
+            filter: 'drop-shadow(0 0 22px rgba(255,255,255,0.30))',
             animation: logoVisible && !reduceMotion ? 'zeusLogoPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
           }}
         />
