@@ -219,7 +219,7 @@ export default function RAPageContent() {
           <div style={{ marginTop: 48 }}>
             <RevealOnScroll>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 300, color: 'var(--gray-900)', textAlign: 'center', marginBottom: 8 }}>
-                Voice Ai: Agents that call. Agents that <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>listen.</span>
+                Voice Ai: Agents that notify, collect, verify, estimate, schedule, follow up, and <span style={{ color: '#00B5D6', fontStyle: 'italic' }}>get it done.</span>
               </h2>
               <p style={{ textAlign: 'center', color: 'var(--gray-500)', fontSize: 16, marginBottom: 40, fontStyle: 'italic' }}>
                 Click any agent to start a conversation
