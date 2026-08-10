@@ -54,6 +54,17 @@ const nextConfig = {
         destination: '/zeus-ai',
         permanent: true,
       },
+      // /aiagents -> Zeus Health AI agents page (Aug 2026). External
+      // cross-domain destination; Next.js accepts absolute URLs here.
+      // 308 permanent, consistent with the rest of this file.
+      // Points at the www host on purpose: zeushealth.ai/ai-agents
+      // itself 301s to www, so targeting www avoids an extra hop.
+      // /aiagents currently 404s, so no existing route is shadowed.
+      {
+        source: '/aiagents',
+        destination: 'https://www.zeushealth.ai/ai-agents',
+        permanent: true,
+      },
     ]
   },
 }
