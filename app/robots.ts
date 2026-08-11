@@ -9,7 +9,7 @@ import { SITE_URL } from '@/lib/site-url'
  *
  * Non-production (Vercel preview deployments / *.vercel.app): disallow
  * everything, so preview builds are never indexed and never compete with the
- * canonical www.cosentus.com. VERCEL_ENV is "production" only on the production
+ * canonical cosentus.com. VERCEL_ENV is "production" only on the production
  * deployment; "preview" on branch/PR deploys; undefined locally.
  */
 export default function robots(): MetadataRoute.Robots {
