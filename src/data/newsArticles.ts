@@ -12,6 +12,16 @@ export interface NewsArticle {
 
 export const newsArticles: NewsArticle[] = [
   {
+    "slug": "cosentus-inc-5000-fifth-consecutive-year",
+    "title": "Cosentus Named to the Inc. 5000 for the Fifth Consecutive Year",
+    "date": "August 18, 2026",
+    "featuredIn": "Inc.",
+    "featuredDate": "August 18, 2026",
+    "tag": "Company News",
+    "sourceUrl": "https://www.inc.com/profile/cosentus-holdings",
+    "body": "IRVINE, Calif. \u2014 August 18, 2026 \u2014 Cosentus, a leading AI-driven Physician Revenue Cycle Management company powered by a people-first approach, has again been named to the **Inc. 5000**, Inc.'s annual list of the fastest-growing private companies in America. It is the fifth year in a row Cosentus has made the list.\n\nA repeat like that is uncommon. Most companies that reach the Inc. 5000 do not return the following year, and far fewer return five years running. Cosentus has done so while billing has grown harder for providers and payers have tightened their rules. Across the three-year period measured by this year's list, 2022 through 2025, the company grew revenue by more than 240 percent.\n\nThe Inc. 5000 is not the only recognition Cosentus has held onto. The company has also earned **Great Place To Work** certification five years in a row, a result based on what its own employees say about working there.\n\n## What the Streak Reflects\n\nCosentus works with physician practices, surgery centers, and provider groups across a range of specialties. It pairs specialty-trained billing teams with its own technology, including Zeus HLTH, Medcloud, and CMP, to help clients collect more of what they are owed and keep a clear view of their revenue.\n\n## Recognition for Clients and the Team\n\n\"We are proud to be back on the Inc. 5000. Growing fast enough to make the list once is hard. Doing it five years running says something more. It means our clients keep choosing us, and the people who work here keep giving them a reason to.\"\n\n**\u2014 GS Bhalla, Chairman and Chief Executive Officer, Cosentus**\n\n\"This one belongs to our clients and our team. Our clients trust us with work that affects how their practices run, and our people treat that as their own. Being named a Great Place To Work five years running tells me the culture behind the growth is real.\"\n\nCosentus pointed to its clients and its employees as the reason for the streak, and said it plans to keep investing in both as it grows.\n\n## About Cosentus\n\nCosentus is a leading AI-driven Physician Revenue Cycle Management company powered by a people-first approach, helping healthcare providers get paid faster and run smoother billing operations. Founded in 1999, it has become one of the fastest-growing companies in its field, pairing specialty-trained teams with its own technology suite, including Zeus HLTH, Medcloud, and CMP. Cosentus has been certified as a Great Place To Work for five consecutive years.\n\n## Talk to Cosentus\n\nTo learn how Cosentus helps practices strengthen their revenue, talk to our team at cosentus.com/contact or call +1 (877) 266-9040."
+  },
+  {
     "slug": "declining-physician-fees-are-nearing-a-crisis-point-a-leading-neurosurgery-chair-warns",
     "title": "Declining Physician Fees Are Nearing a 'Crisis Point,' a Leading Neurosurgery Chair Warns",
     "date": "August 14, 2026",
