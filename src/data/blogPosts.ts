@@ -7,6 +7,406 @@ export interface BlogPost { slug: string; title: string; tag: string; excerpt: s
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'anesthesia-billing-guidelines',
+    coverImage: '/images/blog/anesthesia-billing-guidelines.jpg',
+    title: 'Anesthesia Billing Guidelines: A Practical Guide for Practices',
+    tag: 'Anesthesia',
+    excerpt: 'How anesthesia billing really works: base units, time units, modifiers, medical direction rules, and the 2026 changes every group needs to know to protect reimbursement.',
+    intro: [
+      'Anesthesia billing does not work like the rest of medicine. Instead of a flat fee per procedure, payment is built from a formula that combines the complexity of the case, how long it lasts, and who delivered the care. Get any part of that formula wrong and the claim either underpays or denies.',
+      'This guide breaks down how anesthesia reimbursement is actually calculated, the modifiers that decide whether you are paid in full, and the 2026 Medicare changes that are quietly reshaping what groups collect. Whether you bill in house or work with anesthesia billing specialists like Cosentus, the fundamentals below are what separate a clean claim from a costly one.',
+    ],
+    sections: [
+      {
+        id: 'how-anesthesia-payment-is-calculated',
+        heading: 'How Anesthesia Payment Is Calculated',
+        level: 2,
+        content: [
+          'Anesthesia payment follows one core formula: (Base Units + Time Units + Modifying Units) multiplied by a Conversion Factor. Each piece answers a different question. Base units capture how complex and risky the procedure is. Time units capture how long you cared for the patient. Modifying units capture added risk factors. The conversion factor turns those units into dollars.',
+          'Because time is part of the equation, anesthesia is one of the few specialties where minutes translate directly into revenue. That also means sloppy documentation of start and stop times is one of the fastest ways to lose money on an otherwise perfect case.',
+        ],
+      },
+      {
+        id: 'base-units-time-units-and-modifying-units-explained',
+        heading: 'Base Units, Time Units, and Modifying Units Explained',
+        level: 2,
+        content: [
+          'Base units come from the American Society of Anesthesiologists Relative Value Guide, which assigns a fixed value to each anesthesia CPT code based on the difficulty of the service. You do not choose these. They are set by the code you report.',
+          'Time units are calculated from the actual anesthesia time, generally one unit for every 15 minutes, though some payers use different increments. Anesthesia time starts when you begin preparing the patient for induction and ends when the patient is safely handed off to post-anesthesia care.',
+          'Modifying units are added for qualifying circumstances and physical status. Qualifying circumstances codes such as 99100, 99116, 99135, and 99140 recognize added complexity like extreme age or emergency conditions. Physical status modifiers P1 through P6 describe how sick the patient is, and P3 through P5 can add units with many payers.',
+          'Key point: Medicare does not pay separately for physical status or qualifying circumstances, but many commercial payers do. Billing them consistently by payer is where a lot of legitimate revenue is either captured or left behind.',
+        ],
+      },
+      {
+        id: 'medical-direction-vs-medical-supervision-the-modifiers-that-decide-your-rate',
+        heading: 'Medical Direction vs Medical Supervision: The Modifiers That Decide Your Rate',
+        level: 2,
+        content: [
+          'Nothing affects an anesthesia payment more than the care team modifier. These tell the payer who performed the service and under what supervision arrangement, and they directly change the percentage of the fee you receive.',
+          'AA: anesthesia personally performed by the anesthesiologist. • QK: medical direction of two, three, or four concurrent cases by an anesthesiologist. • QX: CRNA service with medical direction by a physician. • QZ: CRNA service without medical direction. • QY: medical direction of one CRNA by an anesthesiologist. • AD: medical supervision, more than four concurrent procedures.',
+          'Medical direction requires the anesthesiologist to satisfy the seven steps of the TEFRA rules, including performing the pre-anesthetic exam, prescribing the plan, being present at induction and emergence, and remaining available. Miss a step and the case may only qualify for medical supervision, which pays far less. Documenting all seven elements is not busywork. It is the evidence that protects a full split-billed payment.',
+        ],
+      },
+      {
+        id: 'what-changed-for-anesthesia-in-2026',
+        heading: 'What Changed for Anesthesia in 2026',
+        level: 2,
+        content: [
+          'The CY 2026 Medicare Physician Fee Schedule set the national anesthesia conversion factor at 20.4976 dollars, about a 0.88 percent increase over 2025, with a separate rate of 20.5998 dollars for clinicians in Advanced Alternative Payment Models. On paper that looks like a raise.',
+          'In practice, many groups will see a slight net decrease. CMS applied an efficiency adjustment that reduces work RVUs for certain non-time-based services, and it rebalanced practice expense in a way that reduces facility-based payments while increasing non-facility payments. For hospital-based anesthesia groups, that combination can offset the conversion factor bump.',
+          'The takeaway is not to memorize the numbers. It is to recognize that reimbursement pressure is structural, not occasional. Groups that track their own payment trends by payer and case type are the ones that catch these shifts early instead of discovering them at year end. Analytics platforms like Zeus AI from Cosentus make that kind of monitoring far easier than spreadsheets ever could.',
+        ],
+      },
+      {
+        id: 'where-anesthesia-groups-lose-money',
+        heading: 'Where Anesthesia Groups Lose Money',
+        level: 2,
+        content: [
+          'Most anesthesia revenue leakage is not dramatic. It hides in small, repeatable errors. The most common culprits are incomplete start and stop times, missing or incorrect care team modifiers, unbilled qualifying circumstances, and slow claim submission that runs past payer timely filing windows.',
+          'Denials add another layer. Payers increasingly scrutinize concurrency, medical direction documentation, and units billed. When appeals are slow or inconsistent, earned revenue simply expires. A disciplined revenue cycle, whether internal or supported by a partner running RCM 360 from Cosentus, turns those recurring leaks into recovered dollars.',
+        ],
+      },
+      {
+        id: 'faqs',
+        heading: 'FAQs',
+        level: 2,
+        content: [
+          'How are anesthesia time units calculated? Time units are based on total anesthesia time, most commonly one unit per 15 minutes. Anesthesia time begins when the provider starts preparing the patient for induction and ends when the patient is transferred to post-anesthesia care. Accurate, contemporaneous start and stop times are essential because they directly drive payment.',
+          'What is the difference between medical direction and medical supervision? Medical direction means an anesthesiologist oversees up to four concurrent cases and meets all seven TEFRA requirements, which supports higher payment. Medical supervision applies when the physician oversees more than four cases or does not meet every direction requirement, and it pays less. The modifier you report must match what the documentation supports.',
+          'Does Medicare pay for physical status and qualifying circumstances? Medicare does not separately reimburse physical status modifiers or qualifying circumstances codes. Many commercial payers do. Practices should build payer-specific rules so these units are captured wherever they are payable and not reported where they will trigger a denial.',
+          'What is the 2026 Medicare anesthesia conversion factor? The CY 2026 national anesthesia conversion factor is 20.4976 dollars, with a higher rate of 20.5998 dollars for qualifying Advanced Alternative Payment Model participants. Despite the increase, other 2026 adjustments can leave some facility-based groups with a small net decline.',
+        ],
+      },
+      {
+        id: 'the-bottom-line',
+        heading: 'The Bottom Line',
+        level: 2,
+        content: [
+          'Anesthesia is a clinical service, but reimbursement is a business discipline. The groups that protect their margins are the ones that treat the formula, the modifiers, and the documentation with the same rigor they bring to patient care.',
+          'If you are not certain your anesthesia claims are capturing every legitimate unit, that is worth confirming with data rather than assumption. Schedule a no-cost financial review with Cosentus and get a clear picture of your collections, denials, and recovery opportunities.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'pain-management-billing-and-coding-guidelines',
+    coverImage: '/images/blog/pain-management-billing-and-coding-guidelines.jpg',
+    title: 'Pain Management Billing and Coding Guidelines',
+    tag: 'Pain Management',
+    excerpt: 'A practical guide to pain management coding: injection codes, imaging guidance rules, frequency limits, medical necessity, and the denials that cost interventional practices the most.',
+    intro: [
+      'Few specialties draw as much payer scrutiny as interventional pain management. The procedures are frequent, the imaging guidance rules are strict, and coverage policies change often. That combination makes accurate coding the difference between steady cash flow and a denial pile that grows every week.',
+      'This guide covers the core codes, the documentation payers actually look for, and the frequency and medical necessity rules that quietly drive most pain management denials. For a deeper walkthrough, the Cosentus guide to pain management medical billing expands on several of these areas.',
+    ],
+    sections: [
+      {
+        id: 'why-pain-management-billing-is-uniquely-complex',
+        heading: 'Why Pain Management Billing Is Uniquely Complex',
+        level: 2,
+        content: [
+          'Pain management sits at the intersection of surgery, radiology, and evaluation and management coding. A single visit might include an office evaluation, an image-guided injection, and the fluoroscopy that guided it. Each element has its own rules about when it is separately billable and when it is bundled.',
+          'On top of that, most interventional procedures are governed by Local Coverage Determinations that dictate how often they can be performed, what must be documented first, and which diagnoses support them. Coding the procedure correctly is only half the job. Proving it was medically necessary is the other half.',
+        ],
+      },
+      {
+        id: 'the-core-interventional-codes',
+        heading: 'The Core Interventional Codes',
+        level: 2,
+        content: [
+          'A large share of pain management revenue flows through a relatively small set of codes. Knowing them well prevents most upfront errors.',
+          'Epidural steroid injections: 62320 to 62323, split by spinal region and by whether imaging guidance was used. • Transforaminal epidural injections: 64479 to 64484, reported by level and region. • Facet joint injections: 64490 to 64495, by region and number of levels. • Radiofrequency ablation: 64633 to 64636 for facet joint nerve destruction, again by region and level. • Spinal cord stimulator: 63650 for trial lead placement and 63685 for the permanent generator. • Major joint injections: 20610 and 20611, with 20611 requiring ultrasound guidance and permanent image documentation.',
+          'The recurring theme is region and level specificity. Reporting the wrong number of levels, or failing to append the correct anatomical detail, is a leading cause of both underpayment and post-payment recoupment.',
+        ],
+      },
+      {
+        id: 'imaging-guidance-the-rules-that-trip-up-practices',
+        heading: 'Imaging Guidance: The Rules That Trip Up Practices',
+        level: 2,
+        content: [
+          'Image guidance is where a lot of pain claims fall apart. Fluoroscopy is reported with 77003 for spinal and paraspinous procedures, but it is bundled into many injection codes and cannot be billed separately when the code already includes it. Ultrasound guidance uses 76942 and requires a permanently recorded image and a written report.',
+          'The mistakes are predictable. Billing fluoroscopy separately when it is already included, reporting guidance without the required saved image, or using imaging codes that do not match the procedure will all generate denials or refund demands. When guidance is genuinely separate and documented, it should be captured. When it is bundled, it should not be reported at all.',
+        ],
+      },
+      {
+        id: 'frequency-limits-and-medical-necessity',
+        heading: 'Frequency Limits and Medical Necessity',
+        level: 2,
+        content: [
+          'This is the heart of pain management compliance. Medicare and commercial payers limit how many injections and ablations they will cover in a given period, and they require a specific clinical pathway before certain procedures are approved.',
+          'Facet joint policy is the clearest example. Payers generally require diagnostic medial branch blocks with a defined level of pain relief before they will cover radiofrequency ablation, and they cap the number of diagnostic and therapeutic sessions per year. Skipping the diagnostic step, or exceeding the frequency limit, leads to denials that are difficult to appeal because the policy language is explicit.',
+          'The practical defense is to know the governing coverage policy for each procedure and each payer, and to document the failed conservative care, the diagnostic results, and the level of relief that justifies the next step. That documentation is what converts a medically appropriate procedure into a paid claim.',
+        ],
+      },
+      {
+        id: 'top-denial-drivers-and-how-to-prevent-them',
+        heading: 'Top Denial Drivers and How to Prevent Them',
+        level: 2,
+        content: [
+          'Most pain management denials trace back to a short list of issues: exceeding frequency limits, missing prior authorization for interventional procedures, weak medical necessity documentation, bundling errors between the procedure and its guidance, and incorrect level or laterality coding.',
+          'None of these require exotic fixes. They require a front end that verifies authorization and frequency before the procedure, coders who understand the region and level rules, and a denial management process that appeals with the right policy citations. A partner delivering pain management billing solutions, like Cosentus, can put that structure in place so clinicians can focus on care rather than payer rules.',
+        ],
+      },
+      {
+        id: 'faqs',
+        heading: 'FAQs',
+        level: 2,
+        content: [
+          'Why do pain management claims get denied so often? The most common reasons are exceeding payer frequency limits, missing prior authorization, insufficient medical necessity documentation, and bundling errors between a procedure and its imaging guidance. Because interventional pain is heavily governed by coverage policies, small documentation gaps produce denials that are hard to overturn later.',
+          'When can fluoroscopy be billed separately? Fluoroscopy reported with 77003 can only be billed separately when it is not already bundled into the injection code being reported. Many epidural and transforaminal codes include guidance, so reporting it again causes denials or recoupments. Always confirm whether the primary procedure code includes imaging before billing it separately.',
+          'Do you need diagnostic blocks before radiofrequency ablation? Yes. Most payers require diagnostic medial branch blocks that produce a defined level of pain relief before they will cover facet radiofrequency ablation, and they limit the number of sessions per year. Documenting the diagnostic results and the percentage of relief is essential to support the ablation claim.',
+          'What documentation supports medical necessity for pain injections? Payers look for evidence of failed conservative treatment, a clear diagnosis that matches the covered indications, the clinical findings that justify the procedure, and, for repeat procedures, the response to prior treatment. This record is what turns a covered service into a paid one.',
+        ],
+      },
+      {
+        id: 'the-bottom-line',
+        heading: 'The Bottom Line',
+        level: 2,
+        content: [
+          'Interventional pain practices do not usually lose revenue on the operating side. They lose it on the coverage side, one frequency limit and one missing authorization at a time. Coding accuracy matters, but pairing it with disciplined medical necessity documentation is what actually protects the bottom line.',
+          'Denials eating into your pain management revenue? Schedule a no-cost financial review with Cosentus and see exactly where clean-claim gaps are costing you.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'orthopedic-billing-and-coding-guidelines',
+    coverImage: '/images/blog/orthopedic-billing-and-coding-guidelines.jpg',
+    title: 'Orthopedic Billing and Coding Guidelines',
+    tag: 'Orthopedics',
+    excerpt: 'Master orthopedic billing: global surgical periods, Modifier 25 and 59, fracture care, arthroscopy, joint injections, and the bundling rules that decide what gets paid.',
+    intro: [
+      'Orthopedic practices carry one of the most varied billing loads in medicine. A single provider might see a post-op follow-up, inject a knee, read imaging, treat a fracture, and take a workers compensation case all in one day. Each of those has different coding and payment rules, and mixing them up is where revenue quietly disappears.',
+      'This guide walks through the orthopedic billing fundamentals that matter most: global periods, the two modifiers that cause the most trouble, procedural coding for common services, and the bundling decisions that determine whether a service is paid or written off.',
+    ],
+    sections: [
+      {
+        id: 'what-makes-orthopedic-billing-different',
+        heading: 'What Makes Orthopedic Billing Different',
+        level: 2,
+        content: [
+          'Orthopedics blends surgical billing, high-volume evaluation and management visits, in-office procedures, imaging, durable medical equipment, and often workers compensation and med-legal work. Few specialties touch that many payment systems at once.',
+          'That breadth is exactly why orthopedic practices need tight coding discipline. The same knee visit can be coded and paid very differently depending on whether it falls inside a global surgical period, whether a separate evaluation was truly performed, and whether a brace was dispensed. Small judgment calls, repeated thousands of times a year, add up to real money.',
+        ],
+      },
+      {
+        id: 'global-surgical-periods-and-what-they-include',
+        heading: 'Global Surgical Periods and What They Include',
+        level: 2,
+        content: [
+          'Every surgical procedure carries a global period of 0, 10, or 90 days, and understanding it is fundamental to orthopedic billing. The global package bundles the procedure itself, the related pre-operative visit, and routine post-operative care into a single payment.',
+          'Minor procedures typically carry a 0 or 10 day global, while major surgeries carry 90 days. During that window, routine follow-up visits are not separately billable because they are already paid inside the surgical fee. Billing them anyway triggers denials and, on audit, refund demands.',
+          'The nuance is knowing what falls outside the package. Unrelated visits, complications requiring a return to the operating room, and staged procedures can be billed separately when the correct modifier is appended. Treating the global period as a hard wall, rather than a flexible one with defined exceptions, is what keeps these claims clean.',
+        ],
+      },
+      {
+        id: 'modifier-25-and-modifier-59-done-right',
+        heading: 'Modifier 25 and Modifier 59 Done Right',
+        level: 2,
+        content: [
+          'Two modifiers cause more orthopedic denials and audits than any others, and both come down to proving a service was genuinely separate.',
+          'Modifier 25 is used when a significant, separately identifiable evaluation and management service is performed on the same day as a procedure. If a patient comes in for a scheduled injection and nothing else, the visit is not separately billable. If the provider evaluates a new or worsening problem and documents that distinct work, Modifier 25 supports billing both. The documentation must stand on its own as a separate service.',
+          'Modifier 59 identifies procedures that are distinct from one another when they would normally be bundled, such as different sites or separate sessions. It is heavily scrutinized because it is often misused to bypass edits. Use it only when the services are truly independent, and consider the more specific X modifiers where payers require them.',
+        ],
+      },
+      {
+        id: 'fracture-care-arthroscopy-and-joint-injections',
+        heading: 'Fracture Care, Arthroscopy, and Joint Injections',
+        level: 2,
+        content: [
+          'Fracture care can be billed two ways, and choosing correctly matters. Restorative or definitive fracture care codes carry a 90 day global and pay for the full episode, while an evaluation and management approach may be more appropriate when the practice is not managing the entire course of care. Billing definitive care and then also billing the follow-ups separately is a common and costly error.',
+          'Arthroscopic procedures require close attention to bundling. When multiple procedures are performed in the same compartment, many are bundled, while procedures in separate compartments may be separately reportable. Knowing the specific edits for the joint being treated prevents both lost revenue and overbilling.',
+          'Joint and bursa injections use 20610 and 20611, with 20611 requiring ultrasound guidance and a permanently recorded image. The drug or biologic injected is reported separately with its own HCPCS code and units. Forgetting to bill the drug, or billing the wrong units, is a frequent source of underpayment.',
+        ],
+      },
+      {
+        id: 'bundled-vs-separately-billable-and-where-revenue-leaks',
+        heading: 'Bundled vs Separately Billable, and Where Revenue Leaks',
+        level: 2,
+        content: [
+          'The central orthopedic question is almost always the same: is this service already paid inside another one, or is it separately billable? The answer depends on global periods, National Correct Coding Initiative edits, and payer-specific rules.',
+          'Revenue leaks show up in predictable places. Unbilled drugs and supplies, missed durable medical equipment charges, follow-ups incorrectly billed inside a global period, injections billed without the substance, and workers compensation claims that stall for lack of documentation all drain collections. A structured revenue cycle built around orthopedic medical billing services from Cosentus catches these patterns before they become write-offs.',
+        ],
+      },
+      {
+        id: 'faqs',
+        heading: 'FAQs',
+        level: 2,
+        content: [
+          'What is a global surgical period in orthopedic billing? A global surgical period is the window of 0, 10, or 90 days during which the payment for a procedure also covers the related pre-operative visit and routine post-operative care. Major surgeries carry a 90 day global. Routine follow-ups within that window are not separately billable unless a valid exception applies and the correct modifier is used.',
+          'When should Modifier 25 be used? Modifier 25 is appropriate when a significant, separately identifiable evaluation and management service is performed on the same day as a minor procedure. The extra work must be clearly documented as distinct from the procedure. A routine, pre-scheduled procedure with no separate evaluation does not support Modifier 25.',
+          'How are joint injections coded in orthopedics? Major joint injections use 20610, or 20611 when ultrasound guidance with a recorded image is performed. The injected drug or biologic is billed separately with the appropriate HCPCS code and correct units. Omitting the drug charge or reporting incorrect units is a common cause of underpayment.',
+          'Why do orthopedic workers compensation claims get delayed? Workers compensation claims often stall because of missing authorization, incomplete documentation of causation and treatment, and state-specific billing requirements. Because these claims follow different rules than commercial or Medicare claims, a dedicated workflow and diligent follow-up are needed to keep them moving.',
+        ],
+      },
+      {
+        id: 'the-bottom-line',
+        heading: 'The Bottom Line',
+        level: 2,
+        content: [
+          'Orthopedic billing rewards precision. The clinical work may be complex, but the revenue outcome usually hinges on a handful of decisions: what the global period covers, whether a modifier is truly justified, and whether every billable drug, device, and service was actually captured.',
+          'Not sure your orthopedic charges are fully captured? Schedule a no-cost financial review with Cosentus and find the revenue your current process is leaving behind.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'asc-billing-guidelines',
+    coverImage: '/images/blog/asc-billing-guidelines.jpg',
+    title: 'ASC Billing Guidelines: What Surgery Centers Need to Know',
+    tag: 'ASC',
+    excerpt: 'A clear guide to ambulatory surgery center billing: facility vs professional claims, the ASC payment system, device-intensive procedures, implants, multiple-procedure discounting, and clean-claim rules.',
+    intro: [
+      'Ambulatory surgery centers operate on thin margins and high volume, which makes billing accuracy less of a back-office detail and more of a survival skill. A surgery center that codes cleanly and captures every payable device and procedure runs a very different business than one that leaks revenue on each case.',
+      'This guide explains how ASC billing differs from physician billing, how the ASC payment system works, and where the biggest opportunities and risks live. Whether you handle billing internally or lean on a specialized ASC billing team like Cosentus, these are the fundamentals that protect your net collection rate.',
+    ],
+    sections: [
+      {
+        id: 'facility-billing-vs-professional-billing',
+        heading: 'Facility Billing vs Professional Billing',
+        level: 2,
+        content: [
+          'The first thing to understand about an ASC is that two separate claims usually come out of a single case. The facility claim covers the surgery center for the use of the room, staff, supplies, and equipment. The professional claim covers the surgeon and anesthesia provider for their personal services. These are billed on different claim forms and paid under different fee schedules.',
+          'Confusing the two is a frequent and expensive mistake. The facility is reimbursed under the ASC payment system for the encounter, while the physician is paid under the Physician Fee Schedule. Each has its own coding conventions, modifiers, and covered procedure lists, and each must be handled on its own terms.',
+        ],
+      },
+      {
+        id: 'how-the-asc-payment-system-works',
+        heading: 'How the ASC Payment System Works',
+        level: 2,
+        content: [
+          'Medicare pays ASCs only for procedures on its ASC covered procedures list, and each covered code carries a payment indicator that tells you how it is reimbursed. Some procedures are paid at a standard ASC rate, some are packaged, and some are device-intensive with special handling.',
+          'Commercial payers often follow a similar structure but negotiate their own rates and covered lists. The practical consequence is that a procedure profitable at one facility under one contract may be a loss at another. Surgery centers that model expected reimbursement by procedure and payer before scheduling avoid taking on cases that cost more to perform than they collect.',
+        ],
+      },
+      {
+        id: 'device-intensive-procedures-and-implant-billing',
+        heading: 'Device-Intensive Procedures and Implant Billing',
+        level: 2,
+        content: [
+          'Device-intensive procedures are where ASC billing gets both lucrative and error-prone. These are procedures where the cost of an implanted device makes up a large share of the total, so the payment is structured to account for the device separately.',
+          'Implants and high-cost devices are typically reported with HCPCS Level II codes, often the C-codes used in the outpatient and ASC setting, and they must be documented with invoices and correct units. The most common failures are not reporting the device at all, reporting the wrong code, or missing the documentation a payer requires to reimburse it. On a device-intensive case, a single missed implant charge can wipe out the margin on the entire procedure.',
+        ],
+      },
+      {
+        id: 'multiple-procedure-discounting-and-modifiers',
+        heading: 'Multiple-Procedure Discounting and Modifiers',
+        level: 2,
+        content: [
+          'When more than one procedure is performed in the same session, ASC payment applies multiple-procedure discounting. The highest-weighted procedure is generally paid at the full rate, and additional procedures are paid at a reduced rate, commonly 50 percent. This is expected and correct, but it means the order and coding of procedures affects total payment.',
+          'Modifiers do a lot of work on ASC claims. Modifier 50 reports bilateral procedures, modifier 59 and the X modifiers identify distinct procedures, and RT and LT indicate laterality. Historically the SG modifier identified ASC facility services, though its use has changed over time and by payer. Applying the right modifiers ensures each payable procedure is recognized rather than bundled away.',
+        ],
+      },
+      {
+        id: 'clean-claims-prior-authorization-and-net-collection',
+        heading: 'Clean Claims, Prior Authorization, and Net Collection',
+        level: 2,
+        content: [
+          'The healthiest surgery centers treat the front end as seriously as the operating room. Verifying benefits, securing prior authorization, and confirming that a procedure is covered and payable before the day of surgery prevents the denials that are hardest to fix afterward.',
+          'On the back end, clean claims, accurate device capture, correct modifiers, and disciplined denial follow-up drive the net collection rate. Small, consistent improvements across these areas compound quickly at ASC volumes. A partner running RCM 360 with surgery-center expertise, supported by analytics like Zeus AI, turns those gains into a measurable difference in monthly collections.',
+        ],
+      },
+      {
+        id: 'faqs',
+        heading: 'FAQs',
+        level: 2,
+        content: [
+          'What is the difference between ASC facility and professional billing? ASC facility billing covers the surgery center for the room, staff, supplies, and equipment, while professional billing covers the surgeon and anesthesia provider for their personal services. They are submitted on separate claims and paid under different fee schedules, so each must be coded and managed independently.',
+          'How does multiple-procedure discounting work in an ASC? When several procedures are performed in one session, the highest-weighted procedure is generally paid in full and additional procedures are paid at a reduced rate, often 50 percent. This is standard payer policy, so correct sequencing and coding of procedures is important to capture the maximum allowable payment.',
+          'How are implants billed in an ambulatory surgery center? Implants and high-cost devices are usually reported with HCPCS Level II codes, frequently the C-codes used in outpatient and ASC settings, supported by invoices and correct units. Failing to report the device, using the wrong code, or missing required documentation can eliminate the margin on a device-intensive case.',
+          'Why do ASC claims get denied? Common ASC denial causes include missing prior authorization, performing a procedure not on the payer covered list, incorrect modifiers, unreported or mis-reported implants, and medical necessity gaps. Strong benefit verification and authorization before surgery prevents most of these.',
+        ],
+      },
+      {
+        id: 'the-bottom-line',
+        heading: 'The Bottom Line',
+        level: 2,
+        content: [
+          'ASC profitability is won on the margins, and billing is where many of those margins are decided. Getting the facility claim, the device capture, and the modifiers right on every case is not glamorous work, but it is what keeps a surgery center financially healthy.',
+          'Want to protect your surgery center margins? Schedule a no-cost financial review with Cosentus and see how your ASC collections compare to what they should be.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'behavioral-health-billing-guidelines',
+    coverImage: '/images/blog/behavioral-health-billing-guidelines.jpg',
+    title: 'Behavioral Health Billing Guidelines',
+    tag: 'Behavioral Health',
+    excerpt: 'A practical behavioral health billing guide: core psychotherapy CPT codes, time-based documentation, 2026 telehealth rules, IOP and PHP basics, authorization, and the denials that cost practices most.',
+    intro: [
+      'Behavioral health billing looks simple from a distance and turns out to be anything but. Time-based codes, strict documentation rules, shifting telehealth policies, and demanding authorization requirements make it one of the easiest specialties to lose revenue in without realizing it.',
+      'This guide covers the core code set, the documentation payers now require, the 2026 telehealth rules, and the authorization and credentialing issues that drive most denials. Whether you run a solo practice or a large group, working with an experienced behavioral health billing team like Cosentus or applying these fundamentals in house will protect the collections your clinical work earns.',
+    ],
+    sections: [
+      {
+        id: 'the-core-behavioral-health-cpt-codes',
+        heading: 'The Core Behavioral Health CPT Codes',
+        level: 2,
+        content: [
+          'Most behavioral health revenue runs through a compact set of codes, and using them correctly prevents the majority of front-end errors.',
+          'Diagnostic evaluations: 90791 for a psychiatric diagnostic evaluation and 90792 when medical services are included. • Individual psychotherapy: 90832 for about 30 minutes, 90834 for about 45 minutes, and 90837 for 53 minutes or more. • Psychotherapy add-on with E/M: 90833, 90836, and 90838, reported alongside an evaluation and management code by prescribers. • Family and group therapy: 90846 and 90847 for family sessions and 90853 for group psychotherapy. • Crisis psychotherapy: 90839 for the first 60 minutes and 90840 for each additional 30 minutes.',
+          'The most common coding error is mismatching the code to the session length. Because 90832, 90834, and 90837 are defined by time, the note has to support the code billed, not the other way around.',
+        ],
+      },
+      {
+        id: 'time-based-coding-and-documentation',
+        heading: 'Time-Based Coding and Documentation',
+        level: 2,
+        content: [
+          'Behavioral health leans heavily on time, and payers have made documentation of time non-negotiable. For the time-based psychotherapy codes, the clinical note must record the actual session start and end times, not just the total. What used to be a best practice is now enforced, and claims without documented times are increasingly denied.',
+          'Beyond time, notes should support medical necessity with a valid diagnosis, the treatment plan, and progress toward goals. Payers reviewing behavioral health claims look for evidence that each session was a distinct, necessary service. Thin or templated notes are a frequent trigger for both denials and post-payment audits.',
+        ],
+      },
+      {
+        id: 'telehealth-billing-in-2026',
+        heading: 'Telehealth Billing in 2026',
+        level: 2,
+        content: [
+          'Telehealth remains central to behavioral health, and the 2026 rules reward practices that follow them precisely. Place of service coding is critical. POS 10 is used when the patient is at home and POS 02 when the patient is at another telehealth location, and using the correct one affects payment. Reporting an in-office place of service for a virtual session is a common and avoidable denial.',
+          'Modifiers matter just as much. Commercial payers most often expect modifier 95 for synchronous audio-video telehealth, while Medicare uses modifiers such as 93 or FQ for audio-only services when video is unavailable, and GT in certain contexts. The safest approach is a payer-specific telehealth rule set so each claim carries the right place of service and modifier combination.',
+        ],
+      },
+      {
+        id: 'iop-and-php-billing-basics',
+        heading: 'IOP and PHP Billing Basics',
+        level: 2,
+        content: [
+          'Intensive outpatient programs and partial hospitalization programs follow a different billing model than routine outpatient therapy. These are structured, higher-intensity programs, and they are generally billed on a facility claim using revenue codes and program-specific HCPCS codes rather than individual session codes.',
+          'Payment usually depends on meeting minimum service hours and documenting the intensity and medical necessity of the program. Because IOP and PHP claims are high dollar and closely reviewed, precise documentation of attendance, hours, and the clinical justification for that level of care is essential. Errors here are not small, so these programs benefit most from experienced billing support.',
+        ],
+      },
+      {
+        id: 'authorization-credentialing-and-top-denials',
+        heading: 'Authorization, Credentialing, and Top Denials',
+        level: 2,
+        content: [
+          'Two administrative issues cause a large share of behavioral health denials: authorization and credentialing. Many behavioral health services require prior authorization, and ongoing care often needs concurrent authorization to continue. Letting an authorization lapse mid-treatment is a preventable way to lose payment for services already delivered.',
+          'Credentialing is the other quiet threat. Payers enforce CAQH re-attestation windows strictly, and a lapsed attestation can lead to auto-termination and denied claims until it is corrected. Add in common issues like missing session times, wrong place of service, incorrect telehealth modifiers, and provider identifier mismatches, and the denial picture becomes clear. A disciplined revenue cycle, whether internal or supported by RCM 360 from Cosentus, keeps these avoidable problems from draining collections.',
+        ],
+      },
+      {
+        id: 'faqs',
+        heading: 'FAQs',
+        level: 2,
+        content: [
+          'What are the main psychotherapy CPT codes? The core individual psychotherapy codes are 90832 for roughly 30 minutes, 90834 for roughly 45 minutes, and 90837 for 53 minutes or more. Diagnostic evaluations use 90791 and 90792, family therapy uses 90846 and 90847, and group therapy uses 90853. The code must match the documented session length.',
+          'Do behavioral health notes have to include session times? Yes. For time-based psychotherapy codes, payers now require the clinical note to document the actual start and end times of the session. Claims without documented times are increasingly denied, so recording exact times is essential for time-based codes.',
+          'How do you bill behavioral health telehealth in 2026? Use place of service 10 when the patient is at home and 02 when at another telehealth location, and apply the correct modifier for the payer. Commercial payers usually expect modifier 95 for audio-video sessions, while Medicare uses modifiers such as 93 or FQ for audio-only care. A payer-specific rule set prevents most telehealth denials.',
+          'How is IOP or PHP billing different from regular therapy? Intensive outpatient and partial hospitalization programs are typically billed on a facility claim using revenue codes and program-specific HCPCS codes rather than individual session codes. Payment depends on meeting minimum service hours and documenting the intensity and medical necessity of the program.',
+        ],
+      },
+      {
+        id: 'the-bottom-line',
+        heading: 'The Bottom Line',
+        level: 2,
+        content: [
+          'Behavioral health practices deliver essential care, but the reimbursement rules are unforgiving of small mistakes. Matching codes to session length, documenting time, billing telehealth correctly, and staying ahead of authorization and credentialing are what keep a practice financially stable.',
+          'Losing revenue to behavioral health denials? Schedule a no-cost financial review with Cosentus and get a clear view of where your collections are slipping.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'technology-and-policy-shifts-are-reshaping-anesthesia-revenue',
     coverImage: '/images/blog/Technology-and-Policy-Shifts-Reshaping-Anesthesia-Revenue.webp',
     title: 'Technology and Policy Shifts Are Reshaping Anesthesia Revenue',
