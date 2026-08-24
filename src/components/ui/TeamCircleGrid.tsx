@@ -65,7 +65,7 @@ export default function TeamCircleGrid({
   baseDelay = 0,
   desktopColumns = 5,
 }: Props) {
-  const interactive = !!onPersonClick
+  const hasClickHandler = !!onPersonClick
 
   // Pick a desktop circle size that fits well in the chosen column count.
   // 3-col layouts (e.g. About) get the largest portraits; 4 and 5-col
@@ -106,6 +106,11 @@ export default function TeamCircleGrid({
         }
       >
         {people.map((person, i) => {
+          // Per-person, not per-grid: a card is only clickable when the parent
+          // wired a handler AND this person actually has a bio to show.
+          // Without the bio check a bio-less person opens an empty modal.
+          // This matches what this file and RAPageContent already document.
+          const interactive = hasClickHandler && !!person.bio
           const initials = person.name.split(' ').map(n => n[0]).join('')
           const cardCommonStyle: React.CSSProperties = {
             display: 'flex',
