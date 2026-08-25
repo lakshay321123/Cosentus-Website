@@ -88,8 +88,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     images: [
-      { url: '/images/blog-inline/anesthesia-payment-formula.png', alt: 'Diagram of the anesthesia payment formula: base units plus time units plus modifying units, multiplied by the conversion factor, equals payment', afterSection: 0 },
-      { url: '/images/blog-inline/anesthesia-care-team-modifiers.png', alt: 'Reference table of anesthesia care team modifiers AA, QY, QK, QX, QZ and AD, with the supervision arrangement each one reports', afterSection: 2 },
+      { url: '/images/blog-inline/pexels-6291291.jpg', alt: 'Anesthesia mask and equipment in the foreground while the surgical team works on a patient in the operating room', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-7108261.jpg', alt: 'Two clinicians working together as an anesthesia care team, administering anesthesia to a patient before a procedure', afterSection: 2 },
     ],
   },
   {
