@@ -87,6 +87,10 @@ export const blogPosts: BlogPost[] = [
         ],
       },
     ],
+    images: [
+      { url: '/images/blog-inline/pexels-6291291.jpg', alt: 'Anesthesia mask and equipment in the foreground while the surgical team works on a patient in the operating room', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-7108261.jpg', alt: 'Two clinicians working together as an anesthesia care team, administering anesthesia to a patient before a procedure', afterSection: 2 },
+    ],
   },
   {
     slug: 'pain-management-billing-and-coding-guidelines',
