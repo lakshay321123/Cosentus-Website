@@ -87,6 +87,10 @@ export const blogPosts: BlogPost[] = [
         ],
       },
     ],
+    images: [
+      { url: '/images/blog-inline/anesthesia-payment-formula.png', alt: 'Diagram of the anesthesia payment formula: base units plus time units plus modifying units, multiplied by the conversion factor, equals payment', afterSection: 0 },
+      { url: '/images/blog-inline/anesthesia-care-team-modifiers.png', alt: 'Reference table of anesthesia care team modifiers AA, QY, QK, QX, QZ and AD, with the supervision arrangement each one reports', afterSection: 2 },
+    ],
   },
   {
     slug: 'pain-management-billing-and-coding-guidelines',
