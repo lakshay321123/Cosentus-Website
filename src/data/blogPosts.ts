@@ -171,6 +171,10 @@ export const blogPosts: BlogPost[] = [
         ],
       },
     ],
+    images: [
+      { url: '/images/blog-inline/pexels-13538710.jpg', alt: 'Clinician assessing a patient\'s knee and leg during a pain management consultation in a clinic', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-4226138.jpg', alt: 'Physician reviewing a spinal X-ray, the kind of imaging that guides interventional pain procedures', afterSection: 2 },
+    ],
   },
   {
     slug: 'orthopedic-billing-and-coding-guidelines',
@@ -252,6 +256,10 @@ export const blogPosts: BlogPost[] = [
         ],
       },
     ],
+    images: [
+      { url: '/images/blog-inline/pexels-7446985.jpg', alt: 'Orthopedic physician examining a knee X-ray while evaluating a patient', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-4506074.jpg', alt: 'Clinician performing a shoulder and spine mobility evaluation on a patient in an exam room', afterSection: 2 },
+    ],
   },
   {
     slug: 'asc-billing-guidelines',
@@ -329,6 +337,10 @@ export const blogPosts: BlogPost[] = [
           'Want to protect your surgery center margins? Schedule a no-cost financial review with Cosentus and see how your ASC collections compare to what they should be.',
         ],
       },
+    ],
+    images: [
+      { url: '/images/blog-inline/pexels-13697927.jpg', alt: 'Surgical team working in an ambulatory operating room, the facility side of an ASC case', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-24022933.jpg', alt: 'Surgical implants, screws and instruments laid out on a sterile tray before a procedure', afterSection: 2 },
     ],
   },
   {
@@ -408,6 +420,10 @@ export const blogPosts: BlogPost[] = [
           'Losing revenue to behavioral health denials? Schedule a no-cost financial review with Cosentus and get a clear view of where your collections are slipping.',
         ],
       },
+    ],
+    images: [
+      { url: '/images/blog-inline/pexels-9065249.jpg', alt: 'Therapist and client during an individual psychotherapy session in a bright office', afterSection: 0 },
+      { url: '/images/blog-inline/pexels-7195424.jpg', alt: 'Clinician in scrubs conducting a telehealth appointment with a patient by laptop and headset', afterSection: 2 },
     ],
   },
   {
