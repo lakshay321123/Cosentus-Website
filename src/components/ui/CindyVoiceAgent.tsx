@@ -178,6 +178,19 @@ function CindyInner() {
           else if (dn.startsWith(searchText)) consider(el, 80)
           else if (dn.includes(searchText)) consider(el, 60)
         }
+        // Pass 1.5 — aria-label (semantic identifier for icon-only buttons).
+        // Without this pass, Close (×), Mute, Pause, Cancel, etc. are
+        // unreachable because their visible text is empty — the icon is
+        // CSS-rendered or a child SVG. aria-label is what screen readers see
+        // and what humans MEAN when they say "click close." Ranked just below
+        // data-name because data-name is our explicit hook.
+        for (const el of Array.from(document.querySelectorAll<HTMLElement>('[aria-label]'))) {
+          const al = (el.getAttribute('aria-label') || '').toLowerCase().trim()
+          if (!al) continue
+          if (al === searchText) consider(el, 95)
+          else if (al.startsWith(searchText)) consider(el, 75)
+          else if (al.includes(searchText)) consider(el, 55)
+        }
         // Pass 2 — interactive elements by visible text
         for (const el of Array.from(document.querySelectorAll<HTMLElement>('button, a, [role="button"], [onclick]'))) {
           const text = (el.textContent || '').toLowerCase().trim()
