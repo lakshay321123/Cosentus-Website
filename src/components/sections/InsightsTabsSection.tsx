@@ -48,8 +48,20 @@ const blogItems: InsightCardData[] = blogPosts.slice(0, 3).map(p => ({
   tag: p.tag,
 }))
 
-const newsItems: InsightCardData[] = [...newsArticles]
-  .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0))
+// Data file is already in strict reverse-chronological order
+// (newest first — April 2026 → March 2026 → ... → 2025). The
+// previous `.sort((a, b) => (new Date(b.date).getTime() || 0) - ...)`
+// parsed non-ISO date strings ('April 7, 2026' style) which is
+// implementation-defined per ECMA-262. The Vercel build server (UTC)
+// and the visitor's browser (local TZ) produced different
+// `.getTime()` numbers for the same string. Even though the
+// resulting sort ORDER usually matched (dates are days apart),
+// it's a known hydration-mismatch antipattern that contributed to
+// the React #418/#423/#425 errors reported May 2026. Removed.
+// If the data file ever becomes unsorted, restore deterministic
+// sorting by adding an ISO `sortDate` field (like eventsData has)
+// and using `b.sortDate.localeCompare(a.sortDate)`.
+const newsItems: InsightCardData[] = newsArticles
   .slice(0, 3)
   .map(a => ({
     href: `/news/${encodeURIComponent(a.slug)}`,
